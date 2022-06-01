@@ -6,7 +6,8 @@ categories: markdown
 tags: [markdown]
 ---
 
-튜토리얼을 참고하려면 [markdown](https://www.markdowntutorial.com/kr/)에 방문하세요.
+전체 튜토리얼을 참고하려면 [markdown](https://www.markdowntutorial.com/kr/)에 방문하세요.
+
 
 ## 1. Header
 header는 # (H1) ~ ###### (H6) 까지 사용할 수 있다.  
