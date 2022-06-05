@@ -103,7 +103,7 @@ node index.js
 다시 `index.js`를 삭제해보자.
 
 그리고 위에서 설치한 `ts-node`를 사용해보자.
-```
+```shell
 ts-node index.ts
 ```
 `Hello TypeScript`가 바로 출력된다. 그리고 디렉토리를 확인해보면 `index.js`가 생성된 것을 확인할 수 있다.
