@@ -51,7 +51,7 @@ const server = http.createServer(app).listen(80);
 
 ### 3. npm init & tsc init
 ```shell
-npm init -y
+npm init
 ```
 package name, version, description, git repo, author, license를 지정한다.  
 git repo는 나중에 추가해도 된다.
@@ -62,7 +62,7 @@ tsc init
 
 `WebStrom` 기준으로 `Run/Debug Configurations`에서 Node.js 환경 설정에 다음을 추가한다.
 
-![webstorm typescript configuration](/assets/images/posts/2022-06-05-typescript-hellow-world/webstorm-typescript-configuration.png)
+![webstorm typescript configuration](/assets/images/posts/2022-06-05-typescript-hello-world/webstorm-typescript-configuration.png)
 
 
 ## 3. TypeScript 테스트
@@ -108,6 +108,6 @@ ts-node index.ts
 ```
 `Hello TypeScript`가 바로 출력된다. 그리고 디렉토리를 확인해보면 `index.js`가 생성된 것을 확인할 수 있다.
 
-![web storm run and debug buttons](/assets/images/posts/2022-06-05-typescript-hellow-world/webstorm-run-debug-buttons.png)
+![web storm run and debug buttons](/assets/images/posts/2022-06-05-typescript-hello-world/webstorm-run-debug-buttons.png)
 
 ### 그렇다면 다시 `index.ts`를 삭제하고 `WebStor`m의 `Run`, `Debug`를 통해 실행해보자. 여기까지 잘 작동된다면 기본 설정은 마친 것이다.
