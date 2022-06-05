@@ -64,7 +64,9 @@ qbittorrent pdfpenpro busycal busycontacts imazing onyx knockknock --force
 `&`은 백그라운드, `&&`은 논리 연산자 `AND`다. 헷갈리지 말 것❗️
 
 <br>
-| 이 외에도 아래 reference 페이지를 방문하면 redirect나 combination 명령을 추가로 확인할 수 있다. 
+
+> 이 외에도 아래 reference 페이지를 방문하면 redirect나 combination 명령을 추가로 확인할 수 있다. 
+
 <br><br>
 
 ---
