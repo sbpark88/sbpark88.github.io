@@ -25,18 +25,18 @@ tags: [xcode, certificate]
 
 1. `Manage Certificates...` 버튼을 누른다.
 
-![xcode certificate error1](../assets/images/posts/2022-06-25-xcode-certificate-expired/certificate_error_1.png)
+![xcode certificate error1](/assets/images/posts/2022-06-25-xcode-certificate-expired/certificate_error_1.png)
 
 2. 좌측 하단의 `+` 버튼을 누른다.
 
-![xcode certificate error2](../assets/images/posts/2022-06-25-xcode-certificate-expired/certificate_error_2.png)
+![xcode certificate error2](/assets/images/posts/2022-06-25-xcode-certificate-expired/certificate_error_2.png)
 
 해당 버튼을 누르면 애플 서버와 동기화를 하는 것으로 추정된다.
 현재는 문제가 해결되었기 때문에 하나의 계정만 보인다. 하지만 이전에는 2개가 보였으며, 현재 내 맥북의 인증서는 빨간색으로 `expired`라고 표기되어 있었다.
 
 3. 우측 버튼을 클릭해 만료된 인증서를 삭제해준다.
 
-![xcode certificate error3](../assets/images/posts/2022-06-25-xcode-certificate-expired/certificate_error_3.png)
+![xcode certificate error3](/assets/images/posts/2022-06-25-xcode-certificate-expired/certificate_error_3.png)
 
 현재는 유효한 인증서가 저거 하나라 삭제가 활성화 되지 않는 것 같다. 기존에는 `expired` 상태의 인증서도 삭제가 되지 않았으나 위 2번 과정을 거친 후에는 정상적으로 삭제가 되었으니 참고하길 바란다.
 
