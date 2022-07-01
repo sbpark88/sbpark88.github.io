@@ -80,7 +80,7 @@ Apple Silicon일 경우 `/opt/homebrew/bin/swiftlint`로 경로를 바꿔주거�
 Question(question: "The total surface area of two human lungs is approximately 70 square metres.", answer: "True"),
 ```
 
-SwiftLint의 기본 규칙 외에 더 많은 규칙을 등록/수정하고 싶다면 [SwiftLint Rules](https://realm.github.io/SwiftLint/rule-directory.html)를 방문하도록한다.
+SwiftLint의 기본 규칙 외에 더 많은 규칙을 등록/수정하고 싶다면 [SwiftLint Rules](https://realm.github.io/SwiftLint/rule-directory.html)를 방문하도록한다. 
 
 
 <br><br>
