@@ -107,6 +107,26 @@ priceOfTwoCookies()     // The store is not specified.
 ```
 > `if`를 이용한 `Optional binding`의 특징은 `price["cookie"]`에서 볼 수 있듯이 `else block`이 필수가 아니다.
 
+물론, if를 사용해도 if block 내부가 아닌 if가 존재하는 block scope로 만들 수 있다.  
+하지만 다음과 같은 복잡한 코드가 탄생할 것이다.
+```swift
+func priceOfTwoCookies() -> Void {
+    var name: String = ""
+    if let storeName = storeName {
+        name = storeName    
+    } else {
+        print("The store is not specified.")
+        return
+    }
+    var price: Int = 0
+    if let bindedPrice = price["cookie"] {
+        price = bindedPrice
+    } else {
+        return
+    }
+    print("\(name) sells two cookies for \(price * 2) won.")
+}
+```
 
 #### Optional binding using `guard`
 ```swift
@@ -127,9 +147,11 @@ priceOfTwoCookies()     // The store is not specified.
 ```
 > `guard`를 이용한 `Optional binding`의 특징은 `else block`이 필수다. 그리고 `binding한 값의 block scope`가 `guard가 속한 code block scope`와 같다.
 
+
 단일 `if`에 비즈니스 로직이 짧으면 어떤걸 쓰든 비슷하다. 하지만 위 예제처럼 `Optional binding`을 여러 번 하거나 비즈니스 로직이 길어지면 코드 가독성이 떨어지게된다. 🥵🥵🥵
 
-하지만 `guard`는 `binding한 값의 scope`가 guard block 내부가 아닌 `guard가 존재하는 block scope`이므로 코드를 순차적으로 작성하면 된다. 🤩🤩🤩
+하지만 `guard`는 `Optional binding & error handling`과 `Business logic`의 코드가 섞이지 않고 완전히 라인 분리가 가능하다.
+따라서 `guard`를 사용하면 `binding한 값의 scope`가 guard block 내부가 아닌 `guard가 존재하는 block scope`이므로 코드를 순차적으로 작성하면 된다. 🤩🤩🤩
 
 JavsScript(TypeScript)에서 똑같이 Promise object를 이용하지만 `Promise callback hell`을 `async`, `await`를 이용해 개선할 수 있는 것처럼, `guard` 역시 똑같이 `조건절`과 `Optional binding`을 수행할 수 있지만 `if`의 가독성 문제를 해결한다.
 

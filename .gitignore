@@ -255,3 +255,7 @@ Temporary Items
 # https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,visualstudiocode,intellij,webstorm
+.idea/.gitignore
+.idea/modules.xml
+.idea/sbpark88.github.io.iml
+.idea/vcs.xml
