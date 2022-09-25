@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Swift 기본 연산자
-subtitle: 
+subtitle: Basic Operators
 categories: swift
 tags: [swift docs, swift operators, swift 연산자]
 ---
