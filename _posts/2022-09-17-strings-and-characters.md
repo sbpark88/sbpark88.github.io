@@ -131,11 +131,11 @@ let sparklingHeart = "\u{1F496}" // 💖, Unicode scalar U+1F496
 Line 1\nLine 2
 ```
 
-앞뒤에 동일한 개수의 `#`을 입력하므로써 `Escaped special characers` `\n`가 작동을 하지 않고 그대로 출력되었다.
+앞뒤에 동일한 개수의 `#`을 입력함으로써 `Escaped special characers` `\n`가 작동을 하지 않고 그대로 출력되었다.
 
 위에서 여러 줄 문자열 리터럴에서 개행을 일부러 하지 않기 위해 `\`를 넣었던 것처럼, `Extended String Delimiters`로 감싸진 문자열에서 일부러 작동하도록 하려면 어떻게 해야할까?
 
-그 답은 `\` 뒤에 `동일한 개수의 #`을 넣으므로써 가능하다.
+그 답은 `\` 뒤에 `동일한 개수의 #`을 넣음으로써 가능하다.
 
 ```swift
 #"Line 1\#nLine 2"#
@@ -181,6 +181,53 @@ print(constantString)
 `let`으로 선언한 상수는 수정이 불가능하다.
 
 ---
+
+### <span style="color: orange">3. Strings Are Value Types (값 타입 문자열) 👩‍💻</span>
+`Swift`에서 문자열은 `Value Types(값 타입)`이다.
+
+무슨 말일까? 🤔
+
+> 스위프트에서 새 문자열 값을 생성하면, 함수나 메소드에 전달되거나, 상수나 변수에 할당될 때 그 문자열 값이 복사되고, 복사본이 전달된다.
+
+그렇다면 메모리 사용이 과도해 성능에 문제가 있지 않을까?
+
+> 하지만 실제로는 코드 뒤에서 컴파일러가 실제 복사가 정말 필요한 경우에만 발생하도록 문자열 최적화를 하기 대문에 항상 높은 성능을 유지할 수 있고, 우리는 성능은 신경쓸 필요 없이 스위프트의 문자열이 `Reference type`이 아니라 `Value type`이라는 것에만 집중하면 된다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">1. Working with Characters</span>
+우리는 `for-in loop`를 통해 문자열을 반복함으로써 `String`의 개별 문자 `Character`에 접근할 수 있다.
+
+```swift
+for character in "Dog!🐶" {
+    print(character)
+}
+// D
+// o
+// g
+// !
+// 🐶
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Working from Characters</span>
+`String`을 개별 문자 `Character`에 접근하는 것을 반대로 접근하면 다음과 같다.  
+👉 `Character`를 개별로 생성하고 배열을 구성해, `String`으로 만들 수 있다.
+
+- 단일 `Character` 생성
+
+```swift
+let cCharacter: Character = "C"
+print(cCharacter)   // Prints "C"
+```
+
+- `Character` 배열을 `String` 생성자에 `arguments`로 전닳 `String`을 생성할 수 있다
+
+```swift
+let catCharacters: [Character] = ["C", "a", "t", "!", "🐱"]
+let catString = String(catCharacters)
+print(catString)    // Prints "Cat!🐱"
+```
+
+---
+
 
 
 <br><br>
