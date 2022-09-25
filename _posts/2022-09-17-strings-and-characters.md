@@ -152,6 +152,36 @@ Line 2
 
 ---
 
+### <span style="color: orange">2. Initializing an Empty String (빈 문자열 초기화) 👩‍💻</span>
+문자열 초기화는 다음과 같은 두 가지 방식이 있으며, 결과는 동일하다.
+
+```swift
+var emptyString = ""
+var initializerSyntax = String()
+```
+
+- String Mutability
+
+단지 우리는 변수를 할당할 때 `var`, `let`을 구분해 할당하여 변수와 상수를 구별할 수 있다.
+
+```swift
+var variableString = "Horse"
+variableString += " and carriage"
+print(variableString)   // Horse and carriage
+```
+
+`var`로 선언한 변수는 수정이 가능하다.
+
+```swift
+let constantString = "Highlander"
+constantString += " and another Highlander" // left side of mutating operator isn't mutable:
+print(constantString)
+```
+
+`let`으로 선언한 상수는 수정이 불가능하다.
+
+---
+
 
 <br><br>
 
