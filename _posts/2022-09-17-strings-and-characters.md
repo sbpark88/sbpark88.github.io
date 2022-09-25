@@ -4,6 +4,7 @@ title: Swift 문자열
 subtitle: Strings and Characters
 categories: swift
 tags: [swift docs, swift string, swift character]
+published: false
 ---
 
 Swift의 `String` 타입은 `Foundation`의 `NSString` 클래스와 연결되고, 이를 확장해 `String`에서 `NSString` 메서드를 사용할 수 있게 해준다. 따라서, `import Foundation`을 하면 `String`을 캐스팅 하지 않고 `NSString` 메서드를 사용할 수 있다.
@@ -228,6 +229,105 @@ print(catString)    // Prints "Cat!🐱"
 
 ---
 
+### <span style="color: orange">4. Concatenating Strings and Characters (문자열과 문자의 결합) 👩‍💻</span>
+#### <span style="color: rgba(166, 42, 254, 1)">1. String + String, String + Character</span>
+- `String` + `String`은 `+` 연산자를 이용한다.
+
+```swift
+var string1 = "hello"
+var string2 = " there"
+print(string1 + string2)    // hello there
+```
+
+- `String` + `Character`는 `String`의 `append()` 메서드를 이용한다.
+
+```swift
+var string1 = "hello"
+let exclamationMark: Character = "!"
+string1.append(exclamationMark)
+print("string1.append(exclamationMark) = \(string1)")   // hello!
+```
+
+> 🙃`Character` + `String`은 불가능하다. `Character`는 `Single Character`만 가질 수 있기 때문이다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Concatenating of The Multiline String Literals</span>
+여러 줄의 문자열을 합칠 때는 문자열의 개행이 포함되는 때를 이해해야한다.
+
+```swift
+let badStart = """
+one
+two
+"""
+
+let end = """
+three
+"""
+
+print(badStart + end)
+```
+
+```console
+one
+twothree
+```
+
+`two` 다음에는 개행이 포함되지 않는다. 따라서 다음 문자열 three가 새로운 행에서 시작하도록 하려면 다음과 같아야한다.
+
+```swift
+let goodStart = """
+one
+two
+
+"""
+
+let end = """
+three
+"""
+
+print(goodStart + end)
+```
+
+```console
+one
+two
+three
+```
+---
+
+### <span style="color: orange">5. String Interpolation (문자열 삽입) 👩‍💻</span>
+#### <span style="color: rgba(166, 42, 254, 1)"></span>
+
+---
+
+### <span style="color: orange">6. Unicode (유니코드) 👩‍💻</span>
+#### <span style="color: rgba(166, 42, 254, 1)"></span>
+
+---
+
+### <span style="color: orange">7. Counting Characters (문자 세기) 👩‍💻</span>
+#### <span style="color: rgba(166, 42, 254, 1)"></span>
+
+---
+
+### <span style="color: orange">8. Accessing and Modifying a String (문자열 접근과 수정) 👩‍💻</span>
+#### <span style="color: rgba(166, 42, 254, 1)"></span>
+
+---
+
+### <span style="color: orange">9. Substrings (부분 문자열) 👩‍💻</span>
+#### <span style="color: rgba(166, 42, 254, 1)"></span>
+
+---
+
+### <span style="color: orange">10. Comparing Strings (문자열 비교) 👩‍💻</span>
+#### <span style="color: rgba(166, 42, 254, 1)"></span>
+
+---
+
+### <span style="color: orange">11. Unicode Representations of Strings (문자열의 유니코드 표현) 👩‍💻</span>
+#### <span style="color: rgba(166, 42, 254, 1)"></span>
+
+---
 
 
 <br><br>
