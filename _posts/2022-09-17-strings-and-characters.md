@@ -161,9 +161,11 @@ var emptyString = ""
 var initializerSyntax = String()
 ```
 
-- String Mutability
+#### <span style="color: rgba(166, 42, 254, 1)">String Mutability</span>
 
 단지 우리는 변수를 할당할 때 `var`, `let`을 구분해 할당하여 변수와 상수를 구별할 수 있다.
+
+- `var`로 선언한 변수는 수정이 가능하다.
 
 ```swift
 var variableString = "Horse"
@@ -171,15 +173,13 @@ variableString += " and carriage"
 print(variableString)   // Horse and carriage
 ```
 
-`var`로 선언한 변수는 수정이 가능하다.
+- `let`으로 선언한 상수는 수정이 불가능하다.
 
 ```swift
 let constantString = "Highlander"
 constantString += " and another Highlander" // left side of mutating operator isn't mutable:
 print(constantString)
 ```
-
-`let`으로 선언한 상수는 수정이 불가능하다.
 
 ---
 
@@ -295,7 +295,47 @@ three
 ---
 
 ### <span style="color: orange">5. String Interpolation (문자열 삽입) 👩‍💻</span>
-#### <span style="color: rgba(166, 42, 254, 1)"></span>
+`String Interpolation`은 `String Literal` 안에 `constants`, `variables`, `literals`, 그리고 `expressions`를 포함해 `새 문자열`을 만드는 방법이다.
+
+```swift
+let three = 3
+print("\(three) times 2.5 is \(Double(three) * 2.5)")   // 3 times 2.5 is 7.5
+```
+
+`Multiline String`에서 역시 사용할 수 있다.
+
+```swift
+let three = 3
+let multilineString = """
+
+     \(three)
+x    2.5
+---------
+     \(Double(three) * 2.5)
+
+"""
+print(multilineString)
+```
+
+```console
+     3
+x    2.5
+---------
+     7.5
+```
+
+- `String Interpolation` 역시`Extended String Delimiters`의 규칙을 우선하여 따른다.
+
+```swift
+let ignored = #"\(three) times 2.5 is \(Double(three) * 2.5)"#
+print(ignored)  // \(three) times 2.5 is \(Double(three) * 2.5)
+
+let worksWell = #"\#(three) times 2.5 is \#(Double(three) * 2.5)"#
+print(worksWell) = 3 times 2.5 is 7.5
+```
+
+
+
 
 ---
 
