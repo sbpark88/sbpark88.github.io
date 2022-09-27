@@ -4,7 +4,6 @@ title: Swift 문자열
 subtitle: Strings and Characters
 categories: swift
 tags: [swift docs, swift string, swift character]
-published: false
 ---
 
 Swift의 `String` 타입은 `Foundation`의 `NSString` 클래스와 연결되고, 이를 확장해 `String`에서 `NSString` 메서드를 사용할 수 있게 해준다. 따라서, `import Foundation`을 하면 `String`을 캐스팅 하지 않고 `NSString` 메서드를 사용할 수 있다.
@@ -334,13 +333,67 @@ let worksWell = #"\#(three) times 2.5 is \#(Double(three) * 2.5)"#
 print(worksWell) = 3 times 2.5 is 7.5
 ```
 
-
-
-
 ---
 
 ### <span style="color: orange">6. Unicode (유니코드) 👩‍💻</span>
-#### <span style="color: rgba(166, 42, 254, 1)"></span>
+유니코드는 서로 다른 시스템에서 문자를 인코딩, 표현, 처리하기 위한 국제 표준이다.  
+`Swift`의 `String`과 `Character`는 완벽히 유니코드와 호환된다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">1. Ubicode Scalar Values (유니코드 스칼라 값)</span>
+`Swift`의 기본 `String` 타입은 `Unicode Scalar Values`로부터 빌드된다.  
+`Unicode Scalar Value`는 `character` 또는 `modifier`를 표현하기 위한 `unique`한 21-bit 숫자다.
+
+Syntax는 다음과 같다. `\u{Unicode Number}`
+
+```swift
+// U+0061 is LATIN SMALL LETTER A("a")
+print("\u{0061}")   // a
+print("\u{61}")     // a
+
+// U+1F425 is FRONT-FACING BABY CHICK("🐥")
+print("\u{1F425}")  // 🐥
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Extended Grapheme Clusters (자모 그룹의 확장)</span>
+`Swift`의 모든 `Character` 타입 인스턴스는 `single extended grapheme cluster`로 표현된다. 이것은 하나 또는 그 이상의 `Unicode Scalar Values`로 구성되며 여러 개의 `Unicode Scalar Values`로 구성되는 경우 결합되어 사람이 읽을 수 있는 단일 문자로 표현된다.
+
+- 이 클러스터는 하나의 `scalar`로 구성되었다.
+
+```swift
+// U+00E9 is e acute
+print("\u{E9}")         // é
+```
+
+- 위 클러스터는 다음과 같이 두 개의 `scalar` 결합으로 구성될 수 있다.
+
+```swift
+// U+0065 is "e"
+print("\u{65}")         // e
+
+// U+0301 is " ́"
+print("\u{301}")        //  ́
+
+// Combine U+0065 with U+0301 is e aucte
+print("\u{65}\u{301}")  // é
+```
+
+다음 예제를 더 살펴보자
+
+```swift
+print("\u{D55C}")                   // 한
+print("\u{1112}\u{1161}\u{11AB}")   // 한 = ㅎ + ㅏ + ㄴ
+```
+
+```swift
+// U+1F1FA is REGIONAL INDICATOR SYMBOL LETTER U("🇺")
+print("\u{1F1FA}")              // 🇺
+
+// U+1F1F8 is REGIONAL INDICATOR SYMBOL LETTER S("🇸")
+print("\u{1F1F8}")              // 🇸
+
+// Combine U+1F1FA with U+1F1F8 is 🇺🇸
+print("\u{1F1FA}\u{1F1F8}")     // 🇺🇸
+```
 
 ---
 
