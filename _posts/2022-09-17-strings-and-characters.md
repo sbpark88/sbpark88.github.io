@@ -398,7 +398,30 @@ print("\u{1F1FA}\u{1F1F8}")     // 🇺🇸
 ---
 
 ### <span style="color: orange">7. Counting Characters (문자 세기) 👩‍💻</span>
-#### <span style="color: rgba(166, 42, 254, 1)"></span>
+
+`String` 타입은 다양한 기본 메서드를 포함하고있다. 그 중 `count`메서드를 이용해 `String`의 길이를 구할 수 있다.
+
+```swift
+let unusualMenagerie = "Koala 🐨, Snail 🐌, Penguin 🐧, Dromedary 🐪"
+print(unusualMenagerie.count)   // 40
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">Counting Characters in Extended Grapheme Clusters</span>
+
+```swift
+var word = "cafe"
+print("\(word), \(word.count)") // cafe, 4
+
+// Combine with U+0301(" ́")
+word += "\u{301}"
+print("\(word), \(word.count)") // café, 4
+```
+> `Extended Grapheme Clusters`는 여러 `Unicode Scalars`로 구성될 수 있다.
+> 즉, 동일 문자를 여러 다른 방법으로 표현할 수 있고, 이는 저장하는데 필요한 메모리 공간의 크기 역시 달라짐을 의미한다.
+> 
+> 따라서 긴 `String`의 길이를 계산(count)하는 경우, `Extended Grapheme Clusters`의 경계를 구하기 위해 전체 `String`의 `Unicode Scalars`를 반복해야한다.
+> 
+> 또한 `Extended Grapheme Clusters`로 인해 동일한 문자를 표현하더라도 `String`이 반환하는 `count`의 값과 `NSString`이 반환하는 `count`의 값은 다를 수 있습니다. `NSString`은 `UTF-16`의 `16-bit` 코드 단위를 이용하기 때문이다.
 
 ---
 
