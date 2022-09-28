@@ -426,7 +426,111 @@ print("\(word), \(word.count)") // café, 4
 ---
 
 ### <span style="color: orange">8. Accessing and Modifying a String (문자열 접근과 수정) 👩‍💻</span>
-#### <span style="color: rgba(166, 42, 254, 1)"></span>
+`String`의 접근과 수정은 `String`의 메서드를 이용하거나 `Subscript Syntax`를 이용한다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">1. String Indices</span>
+
+```swift
+let greeting = "Guten Tag!"
+
+print(greeting.startIndex)                          // Index(_rawBits: 1),      G
+print(greeting.index(after: greeting.startIndex))   // Index(_rawBits: 65793),  u
+print(greeting.index(before: greeting.endIndex))    // Index(_rawBits: 590081), !
+print(greeting.endIndex)                            // Index(_rawBits: 655367), Fatal error: String index is out of bounds
+```
+
+- `startIndex`는 시작 문자를 가리킨다
+- `endIndex`는 마지막 유효 문자 다음을 가리킨다
+
+따라서 실제로 subscript argument에 첫 문자와 마지막 문자를 찾으려면 다음과 같이 접근해야한다.
+
+- 첫 문자: greeting[`greeting.startIndex`]
+- 마지막 문자: greeting[`greeting.index(before: greeting.endIndex)`]
+
+또 다른 접근 방법으로는 `offsetBy`를 이용하는 것이다.
+
+```swift
+let greeting = "Guten Tag!"
+
+greeting.index(greeting.startIndex, offsetBy: 0)    // Index of "G",  Index(_rawBits: 1)
+greeting.index(greeting.startIndex, offsetBy: 1)    // Index of "u",  Index(_rawBits: 65793)
+greeting.index(greeting.startIndex, offsetBy: 2)    // Index of "t",  Index(_rawBits: 131329)
+greeting.index(greeting.startIndex, offsetBy: 3)    // Index of "e",  Index(_rawBits: 196865)
+greeting.index(greeting.startIndex, offsetBy: 4)    // Index of "n",  Index(_rawBits: 262401)
+greeting.index(greeting.startIndex, offsetBy: 5)    // Index of " ",  Index(_rawBits: 327937)
+greeting.index(greeting.startIndex, offsetBy: 6)    // Index of "T",  Index(_rawBits: 393473)
+greeting.index(greeting.startIndex, offsetBy: 7)    // Index of "a",  Index(_rawBits: 459009)
+greeting.index(greeting.startIndex, offsetBy: 8)    // Index of "g",  Index(_rawBits: 524545)
+greeting.index(greeting.startIndex, offsetBy: 9)    // Index of "!",  Index(_rawBits: 590081)
+greeting.index(greeting.startIndex, offsetBy: 10)   // Out of bounds, Index(_rawBits: 655361)
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Iterating Over `for-in` loop with `indices` method</span>
+또 다른 접근 방법으로는 `String` 전체를 접근해야 하는 경우 `for-in` 반복문을 사용할 수 있다.
+
+```swift
+let greeting = "Guten Tag!"
+
+for index in greeting.indices {
+    print("\(greeting[index]) ", terminator: "")    // G u t e n   T a g !
+}
+```
+
+`indices`를 이용한 `for-in` 반복문은 유효한 범위만 순환하기 때문에 위에서 `endIndex` 또는 `index(greeting.startIndex, offsetBy: 10)`에 해당하는 `Out of bounds`가 발생하지 않는 안전한 방법이다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">3. Closed Range / Half-Open Range / One-Sided Ranges</span>
+또 다른 방법으로는 `Closed Range`, `Half-Open Range`, `One-Sided Ranges`를 이용해 `Subscript Syntax`로 접근하는 것이다.
+
+```swift
+let greeting = "Guten Tag!"
+
+let characterG = greeting.startIndex
+let characterN = greeting.index(greeting.startIndex, offsetBy: 4)
+
+print(greeting[characterG...characterN])    // Guten
+```
+
+```swift
+let greeting = "Guten Tag!"
+
+print(greeting[..<greeting.endIndex])       // Guten Tag!
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">4. Inserting and Removing (문자열 삽입과 삭제)</span>
+
+- insert
+
+다음과 같은 방법으로 단일 문자 또는 여러 개의 문자열을 삽입할 수 있다.
+
+```swift
+var welcome = "hello"
+
+// insert a single character
+welcome.insert("!", at: welcome.endIndex)
+print(welcome)  // hello
+
+// insert the contents of anoter string
+welcome.insert(contentsOf: " there", at: welcome.index(before: welcome.endIndex))
+print(welcome)  // hello there!
+```
+
+- remove / removeSubrange
+
+문자열 삭제의 경우 단일 문자 삭제와 여러 개의 문자열 삭제가 조금 다른 방법으로 이루어진다. 예제를 살펴보자.
+
+```swift
+var welcome = "hello there!"
+
+// remove a single character
+welcome.remove(at: welcome.index(before: welcome.endIndex))
+print(welcome)  // hello there
+
+// remove a substring at a specified range
+let characterWhiteSpace = welcome.index(welcome.endIndex, offsetBy: -6)
+let characterLastE = welcome.endIndex
+welcome.removeSubrange(characterWhiteSpace..<characterLastE)
+print(welcome)  // hello
+```
 
 ---
 
@@ -452,3 +556,5 @@ print("\(word), \(word.count)") // café, 4
 Reference
 
 1. "Strings and Characters", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Sep. 17 2022, [Swift Docs Chapter 2 - Strings and Characters](https://docs.swift.org/swift-book/LanguageGuide/StringsAndCharacters.html)
+2. "endIndex", Apple Developer Documentation, last modified latest(Unknown), accessed Sep. 17 2022, [Apple Devloper Documentation - Swift/String/endIndex](https://developer.apple.com/documentation/swift/string/endindex)
+3. "How does String.Index work in Swift", stackoverflow, last modified Apr. 28 2021, accessed Sep. 17 2022, [Stackoverflow Question and Answer](https://stackoverflow.com/questions/39676939/how-does-string-index-work-in-swift)
