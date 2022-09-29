@@ -568,6 +568,8 @@ __Disadvantage of `Substring` - Paradox of advantage__
 let newString = String(beginning)
 ```
 
+![Relationship image between String and Substring](/assets//images//posts//2022-09-17-strings-and-characters/stringSubstring_2x.png)
+
 정리하면 다음과 같다.
 > 1. `String`과 `Substring`은 `StringProtocol`을 따른다. 따라서 유사하게 메소드 사용이 가능하다.
 > 2. `String` instance는 자기 자신이 저장하는 character들의 실제 메모리 공간을 갖는다.
