@@ -535,7 +535,97 @@ print(welcome)  // hello
 ---
 
 ### <span style="color: orange">9. Substrings (부분 문자열) 👩‍💻</span>
-#### <span style="color: rgba(166, 42, 254, 1)"></span>
+
+#### <span style="color: rgba(166, 42, 254, 1)">1. String과 Substring의 관계</span>
+
+- String
+
+```swift
+let greeting = "Hello, world!"
+print(type(of: greeting))   // String
+```
+
+- Substring
+
+```swift
+let greeting = "Hello, world!"
+var index = greeting.firstIndex(of: ",") ?? greeting.endIndex
+let beginning = greeting[..<index]
+print(beginning)            // Hello
+print(type(of: beginning))  // Substring
+```
+
+위 코드에서 `greeting`은 `String` 인스턴스고, `beginning`은 `greeting`의 `Substring` 인스턴스다.
+
+__Advantage of `Substring` - Optimization__  
+`Substring`은 자기 자신의 메모리 공간을 갖지 않고 원본 `String`의 메모리 공간을 재사용하기 때문에, `String` 또는 `Substring`을 수정하기 전까지 아무리 많은 `Substring`을 만들어도 `performance cost of copying memory`을 소비하지 않는다.
+
+__Disadvantage of `Substring` - Paradox of advantage__  
+위 이점으로 인해 `Substring`이 사용되는동안 원본 `String`은 전체 데이터를 메모리에 저장해야한다. 따라서 `Substring`의 장기 저장시 오히려 메모리 낭비가 되는 상황이 생기게 된다. 그러므로 장기 저장시 `String` instance로 변경해야한다.
+
+```swift
+// The 'Substring' has to be converted to an instance of 'String' for long time storing.
+let newString = String(beginning)
+```
+
+정리하면 다음과 같다.
+> 1. `String`과 `Substring`은 `StringProtocol`을 따른다. 따라서 유사하게 메소드 사용이 가능하다.
+> 2. `String` instance는 자기 자신이 저장하는 character들의 실제 메모리 공간을 갖는다.
+> 3. `Substring` instance는 자기 자신이 저장하는 character들의 실제 메모리 공간을 갖지 않는다. 대신 원본 `String`의 character들의 공간을 재사용한다.
+> 4. `Substring`은 장기 저장에 적합하지 않다. 장기 저장되어야 하는 경우 수정이 끝난 `Substring`은 `String` instance로 변환되어야한다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Substring Handling</span>
+
+- Beginning of a string
+
+`Substring literals`를 사용하거나 String의 `prefix(upTo:)` 또는 `prefix(_ maxLength:)` 메서드를 사용해 만들 수 있다.
+
+```swift
+let str = "Hello, playground"
+let index = str.index(str.startIndex, offsetBy: 5)  // Index of the "o"
+
+print(str[..<index])            // Hello
+print(str.prefix(upTo: index))  // Hello
+print(str.prefix(5))            // Hello
+```
+<br>
+- End of a string
+
+`Substring literals`를 사용하거나 String의 `prefix(from:)` 또는 `prefix(_ maxLength:)` 메서드를 사용해 만들 수 있다.
+
+```swift
+let str = "Hello, playground"
+let index = str.index(str.endIndex, offsetBy: -10)  // Negative Index of the "p"
+
+print(str[index...])            // playground
+print(str.suffix(from: index))  // playground
+print(str.suffix(10))           // playground
+```
+<br>
+- Range in a string
+
+`Substring literals`를 사용해 만들 수 있다.
+
+```swift
+let str = "Hello, playground"
+let start = str.index(str.startIndex, offsetBy: 7)  // Index of the "p"
+let end = str.index(str.endIndex, offsetBy: -6)     // Negative Index of the "y"
+
+print(str[start..<end])     // play
+```
+<br>
+- Converting `Substring` to `String`
+
+`Substring`을 장기 저장할 때 `String`으로 변환해야함을 잊지 말아야한다.
+
+```swift
+let str = "Hello, playground"
+let start = str.index(str.startIndex, offsetBy: 7)  // Index of the "p"
+let end = str.index(str.endIndex, offsetBy: -6)     // Negative Index of the "y"
+
+let mySubstring = str[start..<end]  // play, A Substring instance of the String instance 'str'.
+let myString = String(mySubstring)  // play, A String instance.
+```
 
 ---
 
@@ -558,3 +648,4 @@ Reference
 1. "Strings and Characters", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Sep. 17 2022, [Swift Docs Chapter 2 - Strings and Characters](https://docs.swift.org/swift-book/LanguageGuide/StringsAndCharacters.html)
 2. "endIndex", Apple Developer Documentation, last modified latest(Unknown), accessed Sep. 17 2022, [Apple Devloper Documentation - Swift/String/endIndex](https://developer.apple.com/documentation/swift/string/endindex)
 3. "How does String.Index work in Swift", stackoverflow, last modified Apr. 28 2021, accessed Sep. 17 2022, [Stackoverflow Question and Answer](https://stackoverflow.com/questions/39676939/how-does-string-index-work-in-swift)
+4. "How does String substring work in Swift", stackoverflow, last modified May. 11 2022, accessed Sep. 17 2022, [How to make the Substring](https://stackoverflow.com/questions/39677330/how-does-string-substring-work-in-swift)
