@@ -492,7 +492,6 @@ print(greeting[characterG...characterN])    // Guten
 
 ```swift
 let greeting = "Guten Tag!"
-
 print(greeting[..<greeting.endIndex])       // Guten Tag!
 ```
 
@@ -529,6 +528,7 @@ print(welcome)  // hello there
 let characterWhiteSpace = welcome.index(welcome.endIndex, offsetBy: -6)
 let characterLastE = welcome.endIndex
 welcome.removeSubrange(characterWhiteSpace..<characterLastE)
+
 print(welcome)  // hello
 ```
 
@@ -542,6 +542,7 @@ print(welcome)  // hello
 
 ```swift
 let greeting = "Hello, world!"
+
 print(type(of: greeting))   // String
 ```
 
@@ -551,6 +552,7 @@ print(type(of: greeting))   // String
 let greeting = "Hello, world!"
 var index = greeting.firstIndex(of: ",") ?? greeting.endIndex
 let beginning = greeting[..<index]
+
 print(beginning)            // Hello
 print(type(of: beginning))  // Substring
 ```
@@ -632,7 +634,157 @@ let myString = String(mySubstring)  // play, A String instance.
 ---
 
 ### <span style="color: orange">10. Comparing Strings (문자열 비교) 👩‍💻</span>
-#### <span style="color: rgba(166, 42, 254, 1)"></span>
+
+`Swift`는 다음 3가지 문자열 비교를 제공한다.
+
+- String and Character equality
+- Prefix equality
+- Suffix equality
+
+#### <span style="color: rgba(166, 42, 254, 1)">1. String and Character equality</span>
+`Swift`에서 문자열의 완전 동등 비교는 `==` `!=` 연산자를 사용한다.
+
+```swift
+let quotation = "We're a lot alike, you and I."
+let sameQuotation = "We're a lot alike, you and I."
+
+if quotation == sameQuotation {
+    print("These two strings are considered equal")
+}
+```
+
+```console
+These two strings are considered equal
+```
+
+그리고 이 동등 비교에서 주의해야할 것이 있다.
+
+- `Extended Grapheme Clusters`에 의해 동일하다면 `동등 관계`이다
+
+```swift
+let eAcuteQuestion = "Caf\u{E9}"                // LATIN SMALL LETTER E WITH ACUTE (U+00E9)
+let combinedEAcuteQuestion = "Caf\u{65}\u{301}" // LATIN SMALL LETTER E (U+0065) followed by COMBINING ACUTE ACCENT (U+0301)
+
+print("\neAcuteQuestion: \(eAcuteQuestion), combinedEAcuteQuestion: \(combinedEAcuteQuestion)")
+if eAcuteQuestion == combinedEAcuteQuestion {
+    print("These two strings are considered euqal")
+}
+```
+
+```console
+eAcuteQuestion: Café, combinedEAcuteQuestion: Café
+These two strings are considered euqal
+```
+
+- 반면, 시각적으로 같지만 라틴 대문자 `A`와 러시아 키릴 대문자 `A`는 `다르다`
+
+```swift
+let latinCapitalLetterA: Character = "\u{41}"       // LATIN CAPITAL LETTER A (U+0041, or "A"), as used in English.
+let cyrillicCapitalLetterA: Character = "\u{0410}"  // CYRILLIC CAPITAL LETTER A (U+0410, or "А"), as used in Russian.
+
+print("\nlatinCapitalLetterA: \(latinCapitalLetterA), cyrillicCapitalLetterA: \(cyrillicCapitalLetterA)")
+if latinCapitalLetterA != cyrillicCapitalLetterA {
+    print("These two characters aren't equivalent")
+}
+```
+
+```console
+latinCapitalLetterA: A, cyrillicCapitalLetterA: А
+These two characters aren't equivalent
+```
+
+- `String`과 `Substring`간의 동등 비교는 성립된다
+
+```swfit
+let stringA: String = "A"
+let substringA: Substring = stringA.prefix(1)
+if stringA == substringA {
+    print("String and Substring are considered equal")
+}
+```
+
+```console
+String and Substring are considered equal
+```
+
+- `Character`와 `String`, `Character`와 `Substring`은 비교할 수 없다
+
+```swift
+print(characterA == stringA)
+// Binary operator '==' cannot be applied to operands of type 'Character' and 'String'
+
+print(characterA == substringA)
+// Binary operator '==' cannot be applied to operands of type 'Character' and 'Substring'
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Prefix equality</span>
+문자열을 비교하는 다른 방법으로는 부분 문자열을 비교하는 `Prefix`와 `Subffix`가 있다.  
+`hasPrefix(_:)` 메소드를 이용해 문자열의 시작이 동일한지 부분 일치 여부를 검사할 수 있다.
+
+```swift
+let romeoAndJuliet = [
+    "Act 1 Scene 1: Verona, A public place",
+    "Act 1 Scene 2: Capulet's mansion",
+    "Act 1 Scene 3: A room in Capulet's mansion",
+    "Act 1 Scene 4: A street outside Capulet's mansion",
+    "Act 1 Scene 5: The Great Hall in Capulet's mansion",
+    "Act 2 Scene 1: Outside Capulet's mansion",
+    "Act 2 Scene 2: Capulet's orchard",
+    "Act 2 Scene 3: Outside Friar Lawrence's cell",
+    "Act 2 Scene 4: A street in Verona",
+    "Act 2 Scene 5: Capulet's mansion",
+    "Act 2 Scene 6: Friar Lawrence's cell"
+]
+
+var act1SceneCount = 0
+for scene in romeoAndJuliet {
+    if scene.hasPrefix("Act 1") {
+        act1SceneCount += 1
+    }
+}
+print("There are \(act1SceneCount) scenes in Act 1")
+```
+
+```console
+There are 5 scenes in Act 1
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">3. Suffix equality</span>
+`hasSuffix(_:)` 메소드를 이용해 문자열의 끝이 동일한지 부분 일치 여부를 검사할 수 있다.
+
+```swift
+let romeoAndJuliet = [
+    "Act 1 Scene 1: Verona, A public place",
+    "Act 1 Scene 2: Capulet's mansion",
+    "Act 1 Scene 3: A room in Capulet's mansion",
+    "Act 1 Scene 4: A street outside Capulet's mansion",
+    "Act 1 Scene 5: The Great Hall in Capulet's mansion",
+    "Act 2 Scene 1: Outside Capulet's mansion",
+    "Act 2 Scene 2: Capulet's orchard",
+    "Act 2 Scene 3: Outside Friar Lawrence's cell",
+    "Act 2 Scene 4: A street in Verona",
+    "Act 2 Scene 5: Capulet's mansion",
+    "Act 2 Scene 6: Friar Lawrence's cell"
+]
+
+var mansionCount = 0
+var cellCount = 0
+
+var romeoAndJulietIterator = romeoAndJuliet.makeIterator()
+while let scene = romeoAndJulietIterator.next() {
+    switch true {
+    case scene.hasSuffix("Capulet's mansion"): mansionCount += 1
+    case scene.hasSuffix("Friar Lawrence's cell"): cellCount += 1
+    default: continue
+    }
+}
+
+print("\(mansionCount) mansion scenes; \(cellCount) cell scenes")
+```
+
+```console
+6 mansion scenes; 2 cell scenes
+```
 
 ---
 
