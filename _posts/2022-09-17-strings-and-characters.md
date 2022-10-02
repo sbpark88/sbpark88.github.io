@@ -789,12 +789,83 @@ print("\(mansionCount) mansion scenes; \(cellCount) cell scenes")
 ---
 
 ### <span style="color: orange">11. Unicode Representations of Strings (문자열의 유니코드 표현) 👩‍💻</span>
-#### <span style="color: rgba(166, 42, 254, 1)"></span>
+`Swift`는 다음 3가지 유니코드 표현으로 `String`에 접근할 수 있다.
 
----
+- `UTF-8` 코드 유닛
+- `UTF-16` 코드 유닛
+- 문자열의 UTF-32 인코딩 형식에 해당하는 `21-bit Unicode Scalar Values`(`UnicodeScalars`)
 
+```swift
+let dogString = "Dog‼🐶"
+```
+위 문자열의 16진수와 10진수의 값은 다음과 같다.
 
-<br><br>
+```console
+(hexadecimal) | (decimal) | (etc)
+D:  U+0044    |     68    | 4*16^1 + 4 = 68
+o:  U+006F    |    111    | 6*16^1 + 15 = 111
+g:  U+0067    |    103    | 6*16^1 + 7 = 103
+‼:  U+203C    |   8252    | 2*16^3 + 3*16^1 + 12 = 8252
+🐶: U+1F436   | 128054    | 1*16^4 + 15*16^3 + 4*16^2 + 3*16 + 6 = 128054
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">1. UTF-8 Representation</span>
+![UTF-8 Representation](/assets/images/posts/2022-09-17-strings-and-characters/UTF8_2x.png)
+
+2를 공비로 하는 등비수열의 `8-bit` 최댓값은 `2^8 - 1 = 255`이다.
+
+```swift
+for codeUnit in dogString.utf8 {
+  print(codeUnit, terminator: " ")
+}
+```
+
+```console
+68 111 103 226 128 188 240 159 144 182
+```
+
+`D`, `o`, `g` : `8-bit`로 표현할 수 있는 단일 문자 범위의 값이다.  
+`‼` : `8-bit`로 표현할 수 있는 단일 문자 범위의 값을 넘어선다. 따라서 (266, 128, 188) `3-byte` `UTF-8` 표현으로 나타낸다.  
+`🐶` : 역시 위와 동일한 이유로 (240, 159, 144, 182) `3-byte` `UTF-8` 표현으로 나타낸다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. UTF-16 Representation</span>
+![UTF-16 Representation](/assets/images/posts/2022-09-17-strings-and-characters/UTF16_2x.png)
+
+2를 공비로 하는 등비수열의 `8-bit` 최댓값은 `2^16 - 1 = 65535`이다.
+
+```swift
+for codeUnit in dogString.utf16 {
+  print(codeUnit, terminator: " ")
+}
+```
+
+```console
+68 111 103 8252 55357 56374
+```
+
+`D`, `o`, `g` : `16-bit`는 `utf-8`의 범위는 기본으로 포함한다.  
+`‼` : `utf-8`에서는 한 번에 표현하지 못했던 값이지만 `16-bit`에서는 한 번에 표현이 가능하다.  
+`🐶` : `16-bit`로 표현할 수 있는 단일 문자 범위의 값을 넘어선다. 따라서 (55357, 56374) `UTF-16` 표현으로 나타낸다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">3. Unicode Scalar Representataion</span>
+![Unicode Scalar Representation](/assets/images/posts/2022-09-17-strings-and-characters/UnicodeScalar_2x.png)
+
+마지막으로 `Unicode Scalar`는 모든 값을 `21-bit`로 `unique`하게 표현하므로 모든 표현을 `Extended Grapheme Clusters` 없이 나타낸다. 
+
+```swift
+for scalar in dogString.unicodeScalars {
+  print("\(scalar) :  \(scalar.value)")
+}
+```
+
+```console
+D :  68
+o :  111
+g :  103
+‼ :  8252
+🐶 :  128054
+```
+
 
 ---
 Reference
