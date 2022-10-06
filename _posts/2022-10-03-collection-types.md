@@ -680,6 +680,11 @@ print(houseAnimals.isDisjoint(with: farmAnimals))       // fasle
 ---
 
 ### <span style="color: orange">4. Dictionary (딕셔너리) 👩‍💻</span>
+`Dictionary`는 key-value 쌍을 elements로 저장하는 collection이다.    
+이 때 key는 Set과 마찬가지로 unique하다.
+
+Swift의 `Dictionary` 타입은 `Foundation`의 `NSDictionary` 클래스와 연결되고, 이를 확장해 Dictionary에서 NSDictionary 메서드를 사용할 수 있게 해준다.    
+따라서, `import Foundation`을 하면 Dictionary을 `캐스팅 하지 않고 NSDictionary 메서드를 사용`할 수 있다.
 
 #### <span style="color: rgba(166, 42, 254, 1)"></span>
 #### <span style="color: rgba(166, 42, 254, 1)"></span>
