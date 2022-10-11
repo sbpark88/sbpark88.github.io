@@ -273,8 +273,8 @@ Tangerine  Plum  Persimmon  Pear  Orange  Mango  Cherry  Apple
 
 <br>
 
-__3 ) `index`가 필요하다면 `enumerated()` 메서드를 이용해 `tuple`을 변수로 받아 `index`와 `value` 모두에 접근할 수 있다__
-
+__3 ) `index`가 필요하다면 `enumerated()` 메서드를 이용해 `tuple`을 상수로 받아 `index`와 `value` 모두에 접근할 수 있다__
+수
 ```swift
 let fruits = [
     "Apple",
@@ -533,7 +533,7 @@ Tangerine  Plum  Persimmon  Pear  Orange  Mango  Cherry  Apple
 
 <br>
 
-__3 ) 배열과 마찬가지로 `index`가 필요하다면 `enumerated()` 메서드를 이용해 `tuple`을 변수로 받아 `index`와 `value` 모두에 접근할 수 있다__  
+__3 ) 배열과 마찬가지로 `index`가 필요하다면 `enumerated()` 메서드를 이용해 `tuple`을 상수로 받아 `index`와 `value` 모두에 접근할 수 있다__  
 __단, 배열과 다른 점은 매번 접근 순서가 달라지므로 일정한 순서를 원한다면 정렬과 함께 사용해야한다__
 
 ```swift
@@ -1032,7 +1032,7 @@ for element in fruits {
 (key: "Mango", value: 5100)
 ```
 
-`Dictionary`는 `Iterator`의 각 `element`를 단일 변수로 받으면 위와 같이 `Key: Value` 쌍을 하나의 `element`로 접근하게된다.  
+`Dictionary`는 `Iterator`의 각 `element`를 단일 상수로 받으면 위와 같이 `Key: Value` 쌍을 하나의 `element`로 접근하게된다.  
 
 <br>
 
@@ -1145,7 +1145,7 @@ Tangerine  Plum  Persimmon  Pear  Orange  Mango  Cherry  Apple
 
 <br>
 
-__4 ) `sorted(by:)`에 `closure`를 사용하면 `tuple`로 받는 변수 역시 손쉽게 정렬된 순서로 받을 수 있다__
+__4 ) `sorted(by:)`에 `closure`를 사용하면 `tuple`로 받는 상수 역시 손쉽게 정렬된 순서로 받을 수 있다__
 
 ```swift
 // ascending order by keys
