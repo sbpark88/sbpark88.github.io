@@ -284,15 +284,57 @@ print("The dice are rolled \(rollCount) times.")
 ---
 
 ### <span style="color: orange">3. Conditional Statements - If 👩‍💻</span>
-#### <span style="color: rgba(166, 42, 254, 1)"></span>
-#### <span style="color: rgba(166, 42, 254, 1)"></span>
-#### <span style="color: rgba(166, 42, 254, 1)"></span>
-#### <span style="color: rgba(166, 42, 254, 1)"></span>
-#### <span style="color: rgba(166, 42, 254, 1)"></span>
+`Swift`는 조건에 따라 다른 로직을 수행할 수 있도록 `If`와 `Switch`를 제공한다. 그 중 `If`를 알아본다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">1. Single `if` statement</span>
+`if`는 조건이 만족될 때 실행하는 로직을 정의할 수 있다.
+
+```swift
+let temperatureInCelsius = 32
+if temperatureInCelsius > 28 {
+    print("It's hot. Turn on the air conditioner.")
+}
+
+// Prints It's hot. Turn on the air conditioner.
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. `if` statements with `else` clause</span>
+`else`절을 이용해 `if`문의 조건을 만족하지 않은 경우에 실행하는 대안 로직을 정의할 수 있다.
+
+```swift
+let temperatureInCelsius = 24
+if temperatureInCelsius > 28 {
+    print("It's hot. Turn on the air conditioner.")
+} else {
+    print("It's nice weather. Go out for a walk.")
+}
+
+// Prints It's nice weather. Go out for a walk.
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">3. Chaining multiple `if` statements</span>
+`else if`를 이용해 여러 개의 `if` 조건을 연속적으로 검사할 수 있다. 이 때 만족하는 `if`를 만나면 로직을 수행 후 탈출한다.
+
+```swift
+let temperatureInCelsius = 3
+if temperatureInCelsius > 28 {
+    print("It's hot. Turn on the air conditioner.")
+} else if temperatureInCelsius < 10 {
+    print("It's cole. Turn on the bnoiler.")
+} else {
+    print("It's nice weather. Go out for a walk.")
+}
+
+// Prints It's cole. Turn on the bnoiler.
+```
+
+> `else`절은 언제나 `Optional`이기 때문에 필수가 아니다.
 
 ---
 
 ### <span style="color: orange">4. Conditional Statements - Switch 👩‍💻</span>
+`Swift`는 조건에 따라 다른 로직을 수행할 수 있도록 `If`와 `Switch`를 제공한다. 그 중 `Switch`를 알아본다.
+
 #### <span style="color: rgba(166, 42, 254, 1)">1. Alternative to the if statement for multiple states</span>
 #### <span style="color: rgba(166, 42, 254, 1)">2. No Implicit Fallthrough</span>
 #### <span style="color: rgba(166, 42, 254, 1)">3. Interval Matching</span>
