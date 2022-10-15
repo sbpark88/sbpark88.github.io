@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Swift Control Flow
-subtitle: Control Flow - Fot-IN Loops, While Loops, Conditional Statements
+subtitle: Control Flow - For-IN Loops, While Loops, Conditional Statements
 categories: swift
 tags: [swift docs, swift loop, swift for, swift while, swift if, swift switch, swift condition]
 ---
@@ -295,7 +295,7 @@ if temperatureInCelsius > 28 {
     print("It's hot. Turn on the air conditioner.")
 }
 
-// Prints It's hot. Turn on the air conditioner.
+// It's hot. Turn on the air conditioner.
 ```
 
 #### <span style="color: rgba(166, 42, 254, 1)">2. `if` statements with `else` clause</span>
@@ -309,7 +309,7 @@ if temperatureInCelsius > 28 {
     print("It's nice weather. Go out for a walk.")
 }
 
-// Prints It's nice weather. Go out for a walk.
+// It's nice weather. Go out for a walk.
 ```
 
 #### <span style="color: rgba(166, 42, 254, 1)">3. Chaining multiple `if` statements</span>
@@ -325,10 +325,10 @@ if temperatureInCelsius > 28 {
     print("It's nice weather. Go out for a walk.")
 }
 
-// Prints It's cole. Turn on the bnoiler.
+// It's cole. Turn on the bnoiler.
 ```
 
-> `else`절은 언제나 `Optional`이기 때문에 필수가 아니다.
+> `else`절은 언제나 <span style="color: red">Optional</span>이기 때문에 필수가 아니다.
 
 ---
 
@@ -336,15 +336,490 @@ if temperatureInCelsius > 28 {
 `Swift`는 조건에 따라 다른 로직을 수행할 수 있도록 `If`와 `Switch`를 제공한다. 그 중 `Switch`를 알아본다.
 
 #### <span style="color: rgba(166, 42, 254, 1)">1. Alternative to the if statement for multiple states</span>
-#### <span style="color: rgba(166, 42, 254, 1)">2. No Implicit Fallthrough</span>
-#### <span style="color: rgba(166, 42, 254, 1)">3. Interval Matching</span>
-#### <span style="color: rgba(166, 42, 254, 1)">4. Tuples</span>
-#### <span style="color: rgba(166, 42, 254, 1)">5. Value Bindings</span>
-#### <span style="color: rgba(166, 42, 254, 1)">6. Where</span>
-#### <span style="color: rgba(166, 42, 254, 1)">7. Compound Cases</span>
-#### <span style="color: rgba(166, 42, 254, 1)">8. Switch(true)</span>
+여러 개의 `condition`이 주어지는 경우 `if ~ else if ~ else if ... else`는 __`switch`문으로 대체__할 수 있다.
 
----
+__Syntax__
+
+```swift
+switch some value to consider {
+case value 1:
+    respond to value 1
+case value 2,
+    value 3:
+    respond to value 2 or 3
+default:
+    otherwise, do something else
+}
+```
+
+<br>
+
+```swift
+let someCharacter: Character = "z"
+switch someCharacter {
+case "a":
+    print("The first letter of the alphabet")
+case "z":
+    print("The last letter of the alphabet")
+default:
+    print("Some other character")
+}
+
+// The last letter of the alphabet
+```
+
+<br>
+
+`if`문에서 `else`는 언제나 <span style="color: red">Optional</span>이지만 `switch`문에서 `default`는 <span style="color: red">필수</span>다.  
+따라서 `switch`문에서 `else`를 구현하지 않는 경우와 같은 로직을 만들고 싶다면 `default`에 `break`만 넣어주면 된다.
+
+```swift
+let someCharacter: Character = "u"
+switch someCharacter {
+case "a":
+    print("The first letter of the alphabet")
+case "z":
+    print("The last letter of the alphabet")
+default:
+    break
+}
+
+// Nothing
+```
+
+> `TypeScript(JavaScript)`와 같은 다른 언어에서는 `default`가 `Optional`인 경우가 있으나 `Swift`에서는 필수로 구현해야한다.
+
+> `TypeScript`는 `default`가 `Optional`이라 구현하지 않아도 된다.
+> ```typescript
+> const anotherCharacter: String = "u"
+> switch (anotherCharacter) {
+>     case "a":
+>         console.log("The first letter of the alphabet")
+>         break
+>     case "z":
+>         console.log("The last letter of the alphabet")
+>         break
+> }
+> 
+> // Nothing
+> ```
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. No Implicit Fallthrough</span>
+
+`Objective-C`를 포함한 대부분의 언어의 `switch`의 동작은 처음 일치하는 `case`를 실행한 후 아래 `case`의 로직을 
+계속 실행해 내려간다(fall through the bottom of each case).
+
+```typescript
+const anotherCharacter: String = "z"
+switch (anotherCharacter) {
+    case "a":
+    case "A":
+        console.log("The first letter of the alphabet")
+        break
+    case "z":
+    case "Z":
+        console.log("The last letter of the alphabet")
+        break
+}
+
+// The last letter of the alphabet
+```
+
+<br>
+
+`Swift`의 `switch`문은 <span style="color: red">처음 일치하는 `case`를 실행한 후 `즉시 종료`</span>된다. 따라서 `Swift`에서 아래와 같은 로직은 컴파일 에러가 발생된다.
+
+```swift
+let anotherCharacter: Character = "z"
+switch anotherCharacter {
+case "a":   // 'case' label in a 'switch' must have at least one executable statement
+case "A":
+    print("The first letter of the alphabet")
+case "z":   // 'case' label in a 'switch' must have at least one executable statement
+case "Z":
+    print("The last letter of the alphabet")
+default:
+    print("Some other character")
+}
+```
+
+<br>
+
+따라서 `Swift`의 `switch`문은 <span style="color: red">'_**break**_'를 명시하지 않아도 된다</span>.  
+반대로 의도적으로 `fallthrough` 시키길 원하면 `fallthrough`를 명시해야한다.
+
+```swift
+let anotherCharacter: Character = "z"
+switch anotherCharacter {
+case "a": fallthrough
+case "A":
+    print("The first letter of the alphabet")
+case "z": fallthrough
+case "Z":
+    print("The last letter of the alphabet")
+default:
+    print("Some other character")
+}
+
+// The last letter of the alphabet
+```
+
+<br>
+
+하지만 위와 같은 방식은 권장되지 않는다. `Swift`에서는 대부분의 경우 개발자가 `switch`문에서 `break`를 빠뜨려 
+발생하는 에러를 일치하는 `case`를 실행 후 즉시 종료하는 것 뿐 아니라 다른 언어에서 `case`가 `single case match`만 
+매칭할 수 있는 것과 달리 `multiple case match`를 지원한다. 이를 `Compound Cases`라 하며 아래 `8. Compound Cases`에서 다시 다룬다.
+
+```swift
+let anotherCharacter: Character = "z"
+switch anotherCharacter {
+case "a", "A":
+    print("The first letter of the alphabet")
+case "z", "Z":
+    print("The last letter of the alphabet")
+default:
+    print("Some other character")
+}
+
+// The last letter of the alphabet
+```
+
+> 가독성을 위해 `multiple case`를 줄바꿈 해 매칭할 수 있다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">3. Switch-True</span>
+
+여기 조금 특별한 방식의 `Switch`문이 있다.
+
+__1 ) Interval Matching__  
+일반적으로 `Switch`문은 `equal`로 매칭되기 때문에 `single case match`를 기본으로 한다. 따라서 범위 매칭시 아래와 같이 작성한다.
+
+```typescript
+const approximateCount: Number = 62
+const countedThings: String = "moons orbiting Saturn"
+let naturalCount: String
+switch (true) {
+    case approximateCount === 0:
+        naturalCount = "no"
+        break
+    case (approximateCount >= 1) && (approximateCount < 5):
+        naturalCount = "a few"
+        break
+    case (approximateCount >= 5) && (approximateCount < 12):
+        naturalCount = "several"
+        break
+    case (approximateCount >= 12) && (approximateCount < 100):
+        naturalCount = "dozens of"
+        break
+    case (approximateCount >= 100) && (approximateCount < 1000):
+        naturalCount = "hundreds of"
+        break
+    default:
+        naturalCount = "many"
+}
+console.log(`There are ${naturalCount} ${countedThings}.`)
+```
+```console
+There are dozens of moons orbiting Saturn.
+```
+
+<br>
+마찬가지로 `Swift`에서도 다음과 같이 범위 매칭을 할 수 있다.
+
+```swift
+let approximateCount: Int = 62
+let countedThings: String = "moons orbiting Saturn"
+let naturalCount: String
+switch true {
+case approximateCount == 0:
+    naturalCount = "no"
+case (approximateCount >= 1) && (approximateCount < 5):
+    naturalCount = "a few"
+case (approximateCount >= 5) && (approximateCount < 12):
+    naturalCount = "several"
+case (approximateCount >= 12) && (approximateCount < 100):
+    naturalCount = "dozens of"
+case (approximateCount >= 100) && (approximateCount < 1000):
+    naturalCount = "hundreds of"
+default:
+    naturalCount = "many"
+}
+print("There are \(naturalCount) \(countedThings).")
+```
+
+```console
+There are dozens of moons orbiting Saturn.
+```
+
+<br>
+
+__2 ) Validation Check__  
+`Switch-True`의 용법 중 다른 하나는 `if ~ else if ~ else if ~ ... else` 구문보다 더욱 간결하게 `Validation Check`를 할 수 있다는 것이다.
+
+```swift
+struct User {
+    var name: String?
+    var age: Int?
+    var phone: String?
+    var height: Double?
+    var weight: Double?
+}
+
+func validateUser(of user: User?) -> Bool {
+    guard let user = user else { return false }
+    
+    switch true {
+    case user.age == nil: print("age is nil"); return false
+    case (user.age! < 0) || (user.age! > 130): print("invalid age"); return false
+    case user.name == nil: print("name is nil"); return false
+    case user.phone == nil: print("phone is nil"); return false
+    case user.height == nil: print("height is nil"); return false
+    case user.weight == nil: print("weight is nil"); return false
+    default: return true
+    }
+}
+```
+
+<br>
+
+```swift
+var myUser = User(name: "홍길동", age: 132, phone: "010-4434-3556", height: 183.2, weight: 74)
+
+let result: Bool? = validateUser(of: myUser)
+print("Validation check result of myUser is \(result!).")
+```
+```console
+invalid age
+Validation check result of myUser is false.
+```
+
+<br>
+
+```swift
+var myUser = User(name: "장보고", age: 42, phone: "010-2342-1234", height: 175.2, weight: nil)
+
+let result: Bool? = validateUser(of: myUser)
+print("Validation check result of myUser is \(result!).")
+```
+```console
+weight is nil
+Validation check result of myUser is false.
+```
+
+<br>
+
+```swift
+var myUser = User(name: "이순신", age: 30, phone: "010-7423-3464", height: 169.6, weight: 52)
+
+let result: Bool? = validateUser(of: myUser)
+print("Validation check result of myUser is \(result!).")
+```
+```console
+Validation check result of myUser is true.
+```
+
+> 정규표현식을 이용하거나, `Bool` 결과 대신 `Exception`을 `throw`하도록 할 수도 있다.
+
+
+
+#### <span style="color: rgba(166, 42, 254, 1)">4. Interval Matching</span>
+
+`Swift`의 `switch`문은 `multiple case match`를 지원하기 때문에 `Switch-True` 대신 `range operator`를 이용해 
+더욱 간결한 코드로 범위 매칭을 할 수 있다.
+
+```swift
+let approximateCount: Int = 62
+let countedThings: String = "moons orbiting Saturn"
+let naturalCount: String
+switch approximateCount {
+case 0:
+    naturalCount = "no"
+case 1..<5:
+    naturalCount = "a few"
+case 5..<12:
+    naturalCount = "several"
+case 12..<100:
+    naturalCount = "dozens of"
+case 100..<1000:
+    naturalCount = "hundreds of"
+default:
+    naturalCount = "many"
+}
+print("There are \(naturalCount) \(countedThings).")
+```
+
+```console
+There are dozens of moons orbiting Saturn.
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">5. Tuples</span>
+
+`_`는 `whildcard pattern`으로 사용되어 어떤 값이든 매칭할 수 있다.
+
+```swift
+func whereIs(_ point: (Int, Int)) {
+    switch point {
+    case (0, 0):
+        print("\(point) is at the origin")
+    case (_, 0):
+        print("\(point) is on the x-axis")
+    case (0, _):
+        print("\(point) is on the y-axis")
+    case (-2...2, -2...2):
+        print("\(point) is inside the box")
+    default:
+        print("\(point) is outside of the box")
+    }
+}
+```
+
+![switch with tuple](/assets/images/posts/2022-10-11-control-flow/coordinateGraphSimple_2x.png)
+
+<br>
+
+```swift
+whereIs((0, 0))     // (0, 0) is at the origin
+whereIs((3, 0))     // (3, 0) is on the x-axis
+whereIs((1, 2))     // (1, 2) is inside the box
+whereIs((3, 2))     // (3, 2) is outside of the box
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">6. Value Bindings</span>
+
+`Swift`는 `switch`구문에서도 `Value Bindings`를 사용할 수 있다.
+
+```swift
+func anotherPoint(_ point: (Int, Int)) {
+    switch point {
+    case (let x, 0):
+        print("on the x-axis with an x value of \(x)")
+    case (0, let y):
+        print("on the y-axis with a y value of \(y)")
+    case let (x, y):
+        print("somewhere else at (\(x), \(y))")
+    }
+}
+```
+
+```swift
+anotherPoint((4, 0))    // on the x-axis with an x value of 4
+anotherPoint((0, 2))    // on the y-axis with a y value of 2
+anotherPoint((2, 6))    // somewhere else at (2, 6)
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">7. Where</span>
+
+`where`를 이용하면 `Value Bindings`에 추가 조건을 걸 수 있다.
+
+```swift
+func yetAnotherPoint(_ point: (Int, Int)) {
+    switch point {
+    case let (x, y) where x == y:
+        print("(\(x), \(y)) is on the line x == y")
+    case let (x, y) where x == -y:
+        print("(\(x), \(y)) is on the line x == -y")
+    case let (x, y):
+        print("(\(x), \(y)) is just some arbitrary point")
+    }
+}
+```
+
+위 함수를 풀어쓰면 다음과 같다.
+
+```swift
+func yetAnotherPoint(_ point: (Int, Int)) {
+    let (x, y) = point
+    switch true {
+    case x == y:
+        print("(\(x), \(y)) is on the line x == y")
+    case x == -y:
+        print("(\(x), \(y)) is on the line x == -y")
+    default:
+        print("(\(x), \(y)) is just some arbitrary point")
+    }
+}
+```
+
+![Switch case value bindings with where](/assets/images/posts/2022-10-11-control-flow/switchValueBindingsWithWhere.png)
+
+<br>
+
+```swift
+yetAnotherPoint((4, 4))     // (4, 4) is on the line x == y
+yetAnotherPoint((3, -3))    // (3, -3) is on the line x == -y
+yetAnotherPoint((3, 7))     // (3, 7) is just some arbitrary point
+```
+
+> 단, `where`는 단독으로 사용될 수 없고 `case scope`에 `Value Bindings`가 된 상수나 변수가 있어야한다. 
+
+#### <span style="color: rgba(166, 42, 254, 1)">8. Compound Cases</span>
+
+위 `1. No Implicit Fallthrough`에서 본 것처럼 `Swift`의 `switch`는 `multiple case match`를 지원하므로 여러 케이스를 혼합해서 사용할 수 있다.
+
+```swift
+let someCharacter: Character = "e"
+switch someCharacter {
+case "a", "e", "i", "o", "u":
+    print("\(someCharacter) is a vowel")
+case "b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
+     "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z":
+    print("\(someCharacter) is a consonant")
+default:
+    print("\(someCharacter) is not a vowel or a consonant")
+}
+
+// e is a vowel
+```
+
+<br>
+
+위와 같은 `Compound Cases`는 `Value Bindings`과 함께 사용하는 것 역시 가능하다.
+
+```swift
+func stillAnotherPoint(_ point: (Int, Int)) {
+    switch point {
+    case (let distance, 0), (0, let distance):
+        print("On an axis, \(distance) from the origin")
+    default:
+        print("Not on an axis")
+    }
+}
+
+// On an axis, 9 from the origin
+```
+
+<br>
+
+마찬가지로 위 `Switch-True`에서 `Validation Check`를 다시 쓰면 다음과 같이 사용할 수도 있다.
+
+```swift
+struct User {
+    var name: String?
+    var age: Int?
+    var phone: String?
+    var height: Double?
+    var weight: Double?
+}
+
+func validateUserWithCompoundCases(of user: User?) -> Bool {
+    guard let user = user else { return false }
+    
+    switch true {
+    case user.age == nil, user.name == nil,
+        user.phone == nil, user.height == nil,
+        user.weight == nil
+        : print("Something is nil"); return false
+    case (user.age! < 0) || (user.age! > 130): print("invalid age"); return false
+    default: return true
+    }
+}
+
+print("Validation check result is \(anotherResult!).")
+```
+
+```console
+invalid age
+Validation check result is false.
+```
 
 ### <span style="color: orange">5. Control Transfer Statements 👩‍💻</span>
 `Swift`에는 5가지 `Control Transfer Statements`가 있다.
