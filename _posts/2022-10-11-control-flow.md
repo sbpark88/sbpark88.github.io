@@ -822,7 +822,7 @@ Validation check result is false.
 ```
 
 ### <span style="color: orange">5. Control Transfer Statements 👩‍💻</span>
-`Swift`에는 5가지 `Control Transfer Statements`가 있다.
+`Swift`에는 코드의 흐름을 제어하는 5가지 `Control Transfer Statements`가 있다.
 
 - continue
 - break
@@ -831,12 +831,236 @@ Validation check result is false.
 - throw
 
 #### <span style="color: rgba(166, 42, 254, 1)">1. continue</span>
+
+`iteration`의 현재 `loop`를 중단하고 다음 `loop`로 건너 뛴다.
+
+```swift
+let puzzleInput = "great minds think alike"
+var puzzleOutput = ""
+let charactersToRemove: [Character] = ["a", "e", "i", "o", "u", " "]
+for character in puzzleInput {
+    if charactersToRemove.contains(character) {
+        continue
+    }
+    puzzleOutput.append(character)
+}
+print(puzzleOutput)     // grtmndsthnklk
+```
+
+`continue`에 의해 모음이나 공백을 만나면 건너뛰고 자음만 출력된다.
+
 #### <span style="color: rgba(166, 42, 254, 1)">2. break</span>
+
+`iteration loop` 또는 `switch`의 전체 구문을 즉시 중단하고 탈출한다.
+
+- Iteration
+
+```swift
+let puzzleInput = "great minds think alike"
+var puzzleOutput = ""
+let charactersToRemove: [Character] = ["a", "e", "i", "o", "u", " "]
+for character in puzzleInput {
+    if charactersToRemove.contains(character) {
+        break
+    }
+    puzzleOutput.append(character)
+}
+print(puzzleOutput)     // gr
+```
+
+- Switch
+
+```swift
+let someLetter = "B"
+
+switch someLetter {
+case "A": print("This character is 'A'.")
+case "B": break
+case "C": print("This character is 'C'.")
+default: break
+}
+```
+
+> `Swift`의 `Switch`문은 기본적으로 `No Implicit Fallthrough`이므로 `break`는 생략해도 된다.
+
 #### <span style="color: rgba(166, 42, 254, 1)">3. fallthrough</span>
+
+`switch`를 의도적으로 매칭되는 `case`의 다음 `case`를 실행하도록 한다.
+
+```swift
+let integerToDescribe = 5
+var description = "The number \(integerToDescribe) is"
+switch integerToDescribe {
+case 2, 3, 5, 7, 11, 13, 17, 19:
+    description += " a prime number, and also"
+    fallthrough
+default:
+    description += " an integer."
+}
+print(description)  // The number 5 is a prime number, and also an integer.
+```
+
+> `Swift`의 `Switch`문은 `case` 매칭시 `break`가 기본 동작 순서이므로 다른 언어와 달리 `fallthrough`가 필요할 경우는 명시해야한다.
+
 #### <span style="color: rgba(166, 42, 254, 1)">4. return</span>
+
+`break`가 `iteration loop` 또는 `switch`의 전체 구문을 즉시 중단하고 탈출하는 것처럼
+`return`은 `function` 내부에서 사용되어 전체 구문을 즉시 중단하고 `값을 반환`한다.
+
+따라서 `return`이 실행되면 `function` 내부의 `iteration loop` 또는 `switch` 구문은 
+더 상위 `scope`인 `function` 전체 구문이 중단되므로 별도의 `break` 없이도 중단된다.
+
+단, `return type`은 해당 `function`이 정의한 `type`과 일치해야한다.
+
 #### <span style="color: rgba(166, 42, 254, 1)">5. throw</span>
+
+`throw`는 `return`과 마찬가지로 `function` 내부에서 사용되어 전체 구문을 즉시 중단하고, 
+`Error` 또는 `fatalError`를 반환한다.
+
+이것은 `function`이 정의한 `return type`과 무관하게 `Error` 또는 `fatalError`를 반환한다.
+
 #### <span style="color: rgba(166, 42, 254, 1)">6. Labeled Statements</span>
+
+`iteration loop`나 `switch`와 같은 구문을 중복해 사용할 수 있다. 이 때 로직의 흐름을 정확히 제어하기 위해서는 `label`이 필요하고, 이를 `labeld statements`라 한다.
+
+__Syntax__
+
+```swift
+label name: while condition {
+    statements
+}
+```
+
+<br>
+
+`주사위 1`이 `주사위 2`보다 값이 크면 게임을 종료하는 `loop`를 만든다.
+
+```swift
+func rollDice() -> Int {
+    Int.random(in: 1...6)
+}
+```
+
+```swift
+for _ in 1...10 {
+    let dice1: Int = rollDice()
+    let dice2: Int = rollDice()
+    
+    print("Whitout label >> dice1: \(dice1), dice2: \(dice2), therefore dice1 > dice2 is \(dice1 > dice2)")
+    
+    switch true {
+    case dice1 > dice2: break
+    default: continue
+    }
+}
+```
+```console
+Whitout label >> dice1: 1, dice2: 4, therefore dice1 > dice2 is false
+Whitout label >> dice1: 2, dice2: 4, therefore dice1 > dice2 is false
+Whitout label >> dice1: 3, dice2: 3, therefore dice1 > dice2 is false
+Whitout label >> dice1: 1, dice2: 1, therefore dice1 > dice2 is false
+Whitout label >> dice1: 3, dice2: 4, therefore dice1 > dice2 is false
+Whitout label >> dice1: 4, dice2: 6, therefore dice1 > dice2 is false
+Whitout label >> dice1: 6, dice2: 2, therefore dice1 > dice2 is true
+Whitout label >> dice1: 3, dice2: 1, therefore dice1 > dice2 is true
+Whitout label >> dice1: 6, dice2: 6, therefore dice1 > dice2 is false
+Whitout label >> dice1: 3, dice2: 4, therefore dice1 > dice2 is false
+```
+
+`break`에 의해 `For-In Loops`를 종료할 것 같지만 `Switch` 구문 안에서 발생한 `break`이기 때문에 `switch` 구문만 종료한다.
+
+<br>
+
+```swift
+gameLoop: while true {
+    let dice1: Int = rollDice()
+    let dice2: Int = rollDice()
+    
+    print("With label >> dice1: \(dice1), dice2: \(dice2), therefore dice1 > dice2 is \(dice1 > dice2)")
+    
+    switch true {
+    case dice1 > dice2: break gameLoop
+    default: continue
+    }
+}
+```
+```console
+With label >> dice1: 2, dice2: 5, therefore dice1 > dice2 is false
+With label >> dice1: 4, dice2: 1, therefore dice1 > dice2 is true
+```
+
+> `label`을 이용하면 제어 명령을 정확히 컨트롤 할 수 있다.
+
 #### <span style="color: rgba(166, 42, 254, 1)">7. Early Exit</span>
+
+`guard`문은 `if`문과 비슷ㅎ게 `Boolean` 값에 따라 문을 실행한다. 하지만 `if`와의 가장 큰 차이점은 항상 `else`
+절이 뒤따르며, `else`절은 반드시 `code block`을 종료하기 위해 반드시 `return`, `break`, `continue`, `throw`와
+같은 `Control Transfer Statements`를 수행하거나 `fatalError(_:file:line:)`과 같이 `return`이 없는 
+함수나 메서드를 호출해야한다.
+
+<br>
+
+위 `Switch-True`의 `Validation Checek`를 다음과 같이 바꿀 수 있다.
+
+```swift
+struct User {
+    var name: String?
+    var age: Int?
+    var phone: String?
+    var height: Double?
+    var weight: Double?
+}
+
+func validateUser(of user: User?) -> Bool {
+    guard let user = user else { return false }
+    
+    guard let age = user.age else { print("age is nil"); return false }
+    if (age < 0) || (age > 130) { print("invalid age"); return false }
+    guard let _ = user.name else { print("name is nil"); return false }
+    guard let _ = user.phone else { print("phone is nil"); return false }
+    guard let _ = user.height else { print("height is nil"); return false }
+    guard let _ = user.weight else { print("weight is nil"); return false }
+    return true
+}
+```
+
+<br>
+
+```swift
+var myUser = User(name: "홍길동", age: 132, phone: "010-4434-3556", height: 183.2, weight: 74)
+
+let result: Bool? = validateUser(of: myUser)
+print("Validation check result of myUser is \(result!).")
+```
+```console
+invalid age
+Validation check result of myUser is false.
+```
+
+<br>
+
+```swift
+var myUser = User(name: "장보고", age: 42, phone: "010-2342-1234", height: 175.2, weight: nil)
+
+let result: Bool? = validateUser(of: myUser)
+print("Validation check result of myUser is \(result!).")
+```
+```console
+weight is nil
+Validation check result of myUser is false.
+```
+
+<br>
+
+```swift
+var myUser = User(name: "이순신", age: 30, phone: "010-7423-3464", height: 169.6, weight: 52)
+
+let result: Bool? = validateUser(of: myUser)
+print("Validation check result of myUser is \(result!).")
+```
+```console
+Validation check result of myUser is true.
+```
 
 <br><br>
 
