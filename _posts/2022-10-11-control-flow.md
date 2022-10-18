@@ -1067,5 +1067,4 @@ Validation check result of myUser is true.
 ---
 Reference
 
-1. "Control Flow", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Oct. 3 2022, [Swift Docs Chapter 4 - Control Flow](https://docs.swift.org/swift-book/LanguageGuide/ControlFlow.html#)
-
+1. "Control Flow", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Oct. 11 2022, [Swift Docs Chapter 4 - Control Flow](https://docs.swift.org/swift-book/LanguageGuide/ControlFlow.html#)
