@@ -570,7 +570,7 @@ __Disadvantage of `Substring` - Paradox of advantage__
 let newString = String(beginning)
 ```
 
-![Relationship image between String and Substring](/assets//images//posts//2022-09-17-strings-and-characters/stringSubstring_2x.png)
+![Relationship image between String and Substring](/assets/images/posts/2022-09-17-strings-and-characters/stringSubstring_2x.png)
 
 정리하면 다음과 같다.
 > 1. `String`과 `Substring`은 `StringProtocol`을 따른다. 따라서 유사하게 메소드 사용이 가능하다.
@@ -870,7 +870,7 @@ g :  103
 ---
 Reference
 
-1. "Strings and Characters", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Sep. 17 2022, [Swift Docs Chapter 2 - Strings and Characters](https://docs.swift.org/swift-book/LanguageGuide/StringsAndCharacters.html)
-2. "endIndex", Apple Developer Documentation, last modified latest(Unknown), accessed Sep. 17 2022, [Apple Devloper Documentation - Swift/String/endIndex](https://developer.apple.com/documentation/swift/string/endindex)
-3. "How does String.Index work in Swift", stackoverflow, last modified Apr. 28 2021, accessed Sep. 17 2022, [Stackoverflow Question and Answer](https://stackoverflow.com/questions/39676939/how-does-string-index-work-in-swift)
-4. "How does String substring work in Swift", stackoverflow, last modified May. 11 2022, accessed Sep. 17 2022, [How to make the Substring](https://stackoverflow.com/questions/39677330/how-does-string-substring-work-in-swift)
+1. "Strings and Characters", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Sep. 17, 2022, [Swift Docs Chapter 2 - Strings and Characters](https://docs.swift.org/swift-book/LanguageGuide/StringsAndCharacters.html)
+2. "endIndex", Apple Developer Documentation, last modified latest(Unknown), accessed Sep. 17, 2022, [Apple Devloper Documentation - Swift/String/endIndex](https://developer.apple.com/documentation/swift/string/endindex)
+3. "How does String.Index work in Swift", stackoverflow, last modified Apr. 28 2021, accessed Sep. 17, 2022, [Stackoverflow Question and Answer](https://stackoverflow.com/questions/39676939/how-does-string-index-work-in-swift)
+4. "How does String substring work in Swift", stackoverflow, last modified May. 11 2022, accessed Sep. 17, 2022, [How to make the Substring](https://stackoverflow.com/questions/39677330/how-does-string-substring-work-in-swift)

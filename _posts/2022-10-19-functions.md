@@ -123,5 +123,5 @@ __Syntax__
 Reference
 
 1. "Functions", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Oct. 17, 2022, [Swift Docs Chapter 5 - Functions](https://docs.swift.org/swift-book/LanguageGuide/Functions.html#)
-2. "First-class function", Wikipedia, last modified July 14, 2022, accessed Oct. 19 2022, [Wikipeida - First Class Function](https://en.wikipedia.org/wiki/First-class_function)
-3. "Higher-order function", Wikipedia, last modified Sep. 8, 2022, accessed Oct. 19 2022, [Wikipeida - Higher Order Function](https://en.wikipedia.org/wiki/Higher-order_function)
+2. "First-class function", Wikipedia, last modified July 14, 2022, accessed Oct. 19, 2022, [Wikipeida - First Class Function](https://en.wikipedia.org/wiki/First-class_function)
+3. "Higher-order function", Wikipedia, last modified Sep. 8, 2022, accessed Oct. 19, 2022, [Wikipeida - Higher Order Function](https://en.wikipedia.org/wiki/Higher-order_function)
