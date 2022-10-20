@@ -291,26 +291,64 @@ print(add(6, 8))    // 14
 
 ### <span style="color: orange">3. Function Argument Labels and Parameter Names 👩‍💻</span>
 
-
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
+`Swift` 함수는 `argument label`과 `parameter name`을 갖는다. `argument label`은 함수를 호출할 때 
+사용되고, `parameter name`은 함수가 실행될 때 내부에서 사용된다.  
 
 __Syntax__
 
 ```swift
+func someFunction(argumentLabel parameterName: Int) {
+    // In the function body, parameterName refers to the argument value
+    // for that parameter.
+}
 ```
 
+만약, `argument label`을 생략하면 기본적으로 `paramter name`을 `argument label`로 사용하게 된다.
 
+| __argument label__                       | __parameter name__               |
+|------------------------------------------|----------------------------------|
+| Optional                                 | Essential                        |
+| Used to call a function                  | Used when a function is executed |
+| Non-Unique(Duplicate labels are allowed) | Unique                           |
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
+> `argument label`은 `non-unique`이므로 동일한 이름을 사용할 수 있으나 코드를 읽기 쉽도록 적절한 이름을 사용하는 것이 좋다. 
+
+#### <span style="color: rgba(166, 42, 254, 1)">1. Specifying Argument Labels</span>
+
+`argument`를 `default`값인 `parameter name`과 동일하게 사용하지 않고 다른 이름을 사용하려면 `parameter name` 앞에 
+`argument label`을 작성한다.
+
+```swift
+func greet(person: String, from hometown: String) -> String {
+    return "Hello \(person)!  Glad you could visit from \(hometown)."
+}
+
+print(greet(person: "Bill", from: "Cupertino"))
+```
+
+```console
+Hello Bill!  Glad you could visit from Cupertino.
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Omitting Argument Labels</span>
+
+`argument label` 굳이 필요 없어 생략하길 원한다면 `arguemnt label`에 `_`을 사용한다. 
+
+```swift
+func someFunction(_ firstParameterName: Int, secondParameterName: Int) {
+    // In the function body, firstParameterName and secondParameterName
+    // refer to the argument values for the first and second parameters.
+}
+
+someFunction(1, secondParameterName: 2)
+```
 
 ---
-
-
 
 ### <span style="color: orange">4. Special Function Parameters 👩‍💻</span>
 
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
+#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
 
 __Syntax__
 
@@ -319,7 +357,7 @@ __Syntax__
 
 
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
+#### <span style="color: rgba(166, 42, 254, 1)">3. </span>
 
 ---
 
