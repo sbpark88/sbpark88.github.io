@@ -391,7 +391,7 @@ default:
 
 > `TypeScript`는 `default`가 `Optional`이라 구현하지 않아도 된다.
 > ```typescript
-> const anotherCharacter: String = "u"
+> const anotherCharacter: string = "u"
 > switch (anotherCharacter) {
 >     case "a":
 >         console.log("The first letter of the alphabet")
@@ -410,7 +410,7 @@ default:
 계속 실행해 내려간다(fall through the bottom of each case).
 
 ```typescript
-const anotherCharacter: String = "z"
+const anotherCharacter: string = "z"
 switch (anotherCharacter) {
     case "a":
     case "A":
@@ -494,9 +494,9 @@ __1 ) Interval Matching__
 일반적으로 `Switch`문은 `equal`로 매칭되기 때문에 `single case match`를 기본으로 한다. 따라서 범위 매칭시 아래와 같이 작성한다.
 
 ```typescript
-const approximateCount: Number = 62
-const countedThings: String = "moons orbiting Saturn"
-let naturalCount: String
+const approximateCount: number = 62
+const countedThings: string = "moons orbiting Saturn"
+let naturalCount: string
 switch (true) {
     case approximateCount === 0:
         naturalCount = "no"
