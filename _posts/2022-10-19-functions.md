@@ -347,17 +347,180 @@ someFunction(1, secondParameterName: 2)
 
 ### <span style="color: orange">4. Special Function Parameters 👩‍💻</span>
 
+#### <span style="color: rgba(166, 42, 254, 1)">1. Default Parameter Values</span>
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
+`parameter`의 `default value`를 설정하면 호출할 때 생략할 수 있다. 우선 `TypeScript`의 동작을 보자.
 
-__Syntax__
+```typescript
+const add = (num1: number, num2: number = 10): number => +num1 + +num2
 
-```swift
+console.log(add(5, 20))         // 25
+console.log(add(5))             // 15
+console.log(add(5, undefined))  // 15
+console.log(add(5, NaN))        // NaN
 ```
 
+<br>
+
+`Swift`에서의 동작은 다음과 같다.
+
+```swift
+func add(a num1: Int, b num2: Int = 10) -> Int {
+    num1 + num2
+}
+
+print(add(a: 5, b: 20))     // 25
+print(add(a: 5))            // 15
+```
+
+<br>
+
+하지만 nil을 받을 수 없기 때문에 위 함수는 아예 호출될 때 num2 `argument` 없이 호출된 경우에 대해서만 
+`default value`가 작동할 뿐 다음과 같은 경우는 에러가 발생된다.
+
+```swift
+print(add(a: 5, b: nil))    // 'nil' is not compatible with expected argument type 'Int'
+```
+
+<br>
+
+즉, 위 `TypeScript`에서 `undefined`가 넘어 오는 경우까지 고려하려면 `parameter`가 `Optional`을 허용하게 
+해준 다음 `nil`의 경우 `default parameter value`가 작동하지 않기 때문에 내부에서 다시 한 번 
+`if` 또는 `guard`를 이용해 `default value`를 `handling` 해줘야 한다.
+
+```swift
+func add(a num1: Int, b num2: Int? = 10) -> Int {
+    guard let num2 = num2 else { return num1 + 10 } // 'default parameter value'가 작동하지 않는 것에 대한 보정
+    return num1 + num2
+}
+
+print(add(a: 5, b: 20))     // 25
+print(add(a: 5))            // 15
+
+print(add(a: 5, b: nil))    // 15
+```
+
+<br>
+
+> <span style="color: red;">또한, `default parameter value`를 사용할 때 주의할 것은 
+> `Polymorphism`(다형성)에 의해 우선순위 상 `default parameter value`는 무시될 수 있다는 것이다.</span>
+
+```swift
+func add(a num1: Int) -> Int {
+    num1 + 100
+}
+
+func add(a num1: Int, b num2: Int = 10) -> Int {
+    num1 + num2
+}
+
+print(add(a: 5, b: 20))     // 25
+print(add(a: 5))            // 105
+```
+
+`Polymorphism`(다형성)에 의해 `func add(a num1: Int) -> Int`의 호출이 우선시 되기 때문에 
+`func add(a num1: Int, b num2: Int = 10) -> Int`의 `default value`를 이용한 호출은 작동하지 않는다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">2.Variadic Parameters</span>
 
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. </span>
+- Variadic Parameters
+
+```swift
+func arithmeticMean(_ numbers: Double...) -> Double {
+    var total: Double = 0
+    for number in numbers {
+        total += number
+    }
+    return total / Double(numbers.count)
+}
+
+print(arithmeticMean(2))                    // 2.0
+print(arithmeticMean(1, 2, 3, 4, 5))        // 3.0
+print(arithmeticMean(3, 8.25, 18.75))       // 10.0
+```
+
+<br>
+ 
+- Array Parameter
+
+```swift
+func arithmeticMean(_ numbers: [Double]) -> Double {
+    var total: Double = 0
+    for number in numbers {
+        total += number
+    }
+    return total / Double(numbers.count)
+}
+
+print(arithmeticMean([2]))                  // 2.0
+print(arithmeticMean([1, 2, 3, 4, 5]))      // 3.0
+print(arithmeticMean([3, 8.25, 18.75]))     // 10.0
+```
+
+> `Variadic Parameters`와 `Array Parameter`의 내부 동작은 `[Double]`로 같지만,  
+> `Variadic Parameters`는 `Double` n개를 `arguments`로 받고,  
+> `Array Parameter`는 `[Double]` 1개를 `argument`로 받는다는 것이 다르다.
+
+<br>
+
+`Swift`에서 `Variadic Parameters`는 `TypeScript`에서 `Spread Operator`를 이용해 다음과 같이 구현되는 것과 같다.
+
+```typescript
+const arithmeticMean = (...numbers: number[]): number => {
+    let total: number = 0
+    for (const num of numbers) {
+        // @ts-ignore
+        total += Number(num)    // total = Number(+total + +num)
+    }
+    return Number(total) / numbers.length
+}
+
+console.log(arithmeticMean(2))                  // 2
+console.log(arithmeticMean(1, 2, 3, 4, 5))      // 3
+console.log(arithmeticMean(3, 8.25, 18.75))     // 10
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">3. In-Out Parameters</span>
+
+함수의 `parameters`는 기본적으로 `constants`(상수)이므로 수정할 수 없다.
+
+만약, `parameters`를 수정하고, 함수가 종료된 후에도, 즉, 함수 `scope` 밖에서도 이 값을 유지하고 싶다면 
+`parameter type` 앞에 `inout` 키워드를 사용해 `In-Out Parameters`로 만들 수 있다.
+
+`In-Out Parameters`는 `variables`(변수)만 `arguments`로 받을 수 있다. `constants`나 `literals`는 
+수정이 불가하므로 입력 받을 수 없다.
+
+```swift
+func swapTwoInts(_ a: inout Int, _ b: inout Int) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+```
+
+```swift
+var someInt = 3
+var anotherInt = 107
+swapTwoInts(&someInt, &anotherInt)
+
+print("someInt is now \(someInt), and anotherInt is now \(anotherInt)")
+```
+
+```console
+someInt is now 107, and anotherInt is now 3
+```
+
+<br>
+
+> `In-Out Parameters`를 정리하면 다음과 같다.
+> - `In-Out Parameters`는 `parameter type` 앞에 `inout` 키워드를 사용해 만든다.
+> - `In-Out Parameters`를 사용한 함수를 호출할 때 `arguments` 앞에 `&` 키워드를 붙여 호출한다.
+> 
+> 작동 순서는 다음과 같다.
+> 1. 함수가 호출될 때 `arguments`의 값이 복사된다.
+> 2. 함수의 `body`에서 값이 수정된다.
+> 3. 함수가 종료될 때 위 값이 함수 `scope` 밖의 `original arguments`에 할당된다.
 
 ---
 
