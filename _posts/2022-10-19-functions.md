@@ -673,19 +673,19 @@ func stepBackward(_ input: Int) -> Int {
 ```
 
 ```swift
-func chooseStepFunction(backword: Bool) -> (Int) -> Int {
-    backword ? stepBackward(_:) : stepForward(_:)
+func chooseStepFunction(backward: Bool) -> (Int) -> Int {
+    backward ? stepBackward(_:) : stepForward(_:)
 }
 ```
 
-`chooseStepFunction(backword:)` 함수는 `(Int) -> Int` 함수를 `return`한다.
+`chooseStepFunction(backward:)` 함수는 `(Int) -> Int` 함수를 `return`한다.
 
 <br>
 
 ```swift
 func movingStart(initialValue: Int) {
     var currentValue = initialValue
-    let moveNearToZero = chooseStepFunction(backword: currentValue > 0)
+    let moveNearToZero = chooseStepFunction(backward: currentValue > 0)
 
     print("Conting to zero:")
     while currentValue != 0 {
@@ -765,22 +765,113 @@ zero!
 
 ### <span style="color: orange">6. Nested Functions 👩‍💻</span>
 
+위에서 작성된 함수는 모두 `Global Scope`의 접근성을 갖는 `Global Functions`다.  
+하지만 함수의 `body` 내부에 다른 함수를 정의할 수 있는데 이를 `Nested Functions`라 한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
+<br>
 
-__Syntax__
+위 `3. Function Types as Return Types`를 `Nested Functions`로 바꿔본다.
 
 ```swift
+func chooseStepFunction(backward: Bool) -> (Int) -> Int {
+    func stepForward(_ input: Int) -> Int {
+        print(#function)
+        return input + 1
+    }
+    func stepBackward(_ input: Int) -> Int {
+        print(#function)
+        return input - 1
+    }
+    
+    return backward ? stepBackward(_:) : stepForward(_:)
+}
+```
+
+`chooseStepFunction(backward:)` 함수를 위해 사용되는 `stepForward(_:)`, `stepBackward(_:)` 함수를
+`chooseStepFunction(backward:)` 함수의 `body`에 중첩해 접근을 제한하고 가독성읖 높였다.
+
+```swift
+func movingStart(initialValue: Int) {
+    var currentValue = initialValue
+    let moveNearToZero = chooseStepFunction(backward: currentValue > 0)
+    
+    print("Conting to zero:")
+    while currentValue != 0 {
+        print("\(currentValue)... Call ", terminator: "")
+        currentValue = moveNearToZero(currentValue)
+    }
+    print("zero!\n")
+}
+
+movingStart(initialValue: 4)
+movingStart(initialValue: -3)
+```
+
+```console
+Conting to zero:
+4... Call stepBackward(_:)
+3... Call stepBackward(_:)
+2... Call stepBackward(_:)
+1... Call stepBackward(_:)
+zero!
+
+Conting to zero:
+-3... Call stepForward(_:)
+-2... Call stepForward(_:)
+-1... Call stepForward(_:)
+zero!
+```
+
+<br>
+
+위 코드 역시 `TypeScript`와 비교해보자
+
+```typescript
+const chooseStepFunction = (backward: boolean): (input: number) => number => {
+    const stepForward = (input: number): number => input + 1
+    const stepBackward = (input: number): number => input - 1
+
+    return backward ? stepBackward : stepForward
+}
+```
+
+```typescript
+const movingStart = (initialValue: number) => {
+    let currentValue = initialValue
+    const moveNearToZero = chooseStepFunction(initialValue > 0)
+
+    console.log("Counting to zero:")
+    while (currentValue !== 0) {
+        console.log(`${currentValue}... Call ${moveNearToZero.name}`)
+        currentValue = moveNearToZero(currentValue)
+    }
+    console.log("zero!\n")
+}
+
+movingStart(4)
+movingStart(-3)
+```
+
+```console
+Counting to zero:
+4... Call stepBackward
+3... Call stepBackward
+2... Call stepBackward
+1... Call stepBackward
+zero!
+
+Counting to zero:
+-3... Call stepForward
+-2... Call stepForward
+-1... Call stepForward
+zero!
 ```
 
 
-
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
-
----
-
-
-
+> `Nested Functions`를 활용하면 전역에서 접근할 필요가 없는 함수의 `scope`를 제한해 코드를 
+> 더욱 안전하고 가독성 높게 만들 수 있다.  
+> 단, `Swift`에서는 위 `TypeScript`에서와 달리 중첩된 함수를 `let` 또는 `var`로 정의할 수 없다. 
+> 반드시 `func` 키워드를 이용해 정의해야한다.
 
 
 <br><br>
