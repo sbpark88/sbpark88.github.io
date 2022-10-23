@@ -464,7 +464,7 @@ print(arithmeticMean([3, 8.25, 18.75]))     // 10.0
 
 <br>
 
-`Swift`에서 `Variadic Parameters`는 `TypeScript`에서 `Spread Operator`를 이용해 다음과 같이 구현되는 것과 같다.
+`Swift`에서 `Variadic Parameters`는 `TypeScript`에서 `Rest Parameters`를 이용해 다음과 같이 구현되는 것과 같다.
 
 ```typescript
 const arithmeticMean = (...numbers: number[]): number => {
@@ -524,25 +524,244 @@ someInt is now 107, and anotherInt is now 3
 
 ---
 
-
-
 ### <span style="color: orange">5. Function Types 👩‍💻</span>
 
-
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
-
-__Syntax__
-
 ```swift
+func addTwoInts(_ a: Int, _ b: Int) -> Int {
+    return a + b
+}
+func multiplyTwoInts(_ a: Int, _ b: Int) -> Int {
+    return a * b
+}
 ```
 
+위 두 함수의 `Function Types`는 다음과 같다. `(Int, Int) -> Int`
 
+<br>
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
+```swift
+func printHelloWorld() {
+    print("hello, world")
+}
+```
+
+위 함수의 `Function Types`는 다음과 같다. `() -> Void`
+
+#### <span style="color: rgba(166, 42, 254, 1)">1. Using Function Types</span>
+
+`Swift`에서는 `Function Types` 역시 다른 `Types`와 같이 사용할 수 있다.
+
+```swift
+func addTwoInts(_ a: Int, _ b: Int) -> Int {
+    a + b
+}
+func multiplyTwoInts(_ a: Int, _ b: Int) -> Int {
+    return a * b
+}
+```
+
+```swift
+var mathFunction: (Int, Int) -> Int = addTwoInts(_:_:)
+print(mathFunction(5, 7))   // 12
+
+mathFunction = multiplyTwoInts(_:_:)
+print(mathFunction(5, 7))   // 35
+```
+
+<br>
+
+또한 `Function Types`을 지정함과 동시에 함수를 정의해 할당할 수도 있다.
+
+```swift
+// With Function Types
+let addTwoInts: (Int, Int) -> Int = { (_ a: Int, _ b: Int) in
+    a + b
+}
+
+// Without Function Types
+let multiplyTwoInts = { (_ a: Int, _ b: Int) in
+    a * b
+}
+```
+
+```swift
+print(addTwoInts(5, 7))         // 12
+print(multiplyTwoInts(5, 7))    // 35
+```
+
+<br>
+
+위 코드 역시 `TypeScript`와 비교해보자
+
+```typescript
+// With Function Types
+const addTwoInts: (num1: number, num2: number) => number
+    = (a, b) => a + b
+
+// Without Function Types
+const multiplyTwoInts = (a: number, b: number): number => a * b
+```
+
+```typescript
+console.log(addTwoInts(5, 7))           // 12
+console.log((multiplyTwoInts(5, 7)))    // 35
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Function Types as Parameter Types</span>
+
+`Swift`의 함수는 `First-Class Citizen`이므로 `parameters`가 될 수 있다. 
+
+```swift
+let addTwoInts: (Int, Int) -> Int = { (_ a: Int, _ b: Int) in
+    a + b
+}
+
+let multiplyTwoInts = { (_ a: Int, _ b: Int) in
+    a * b
+}
+```
+
+```swift
+func printMathResult(mathFunction function: (Int, Int) -> Int, _ a: Int, _ b: Int) {
+    print("Result: \(function(a, b))")
+}
+
+printMathResult(mathFunction: addTwoInts, 5, 7)       // Result: 12
+printMathResult(mathFunction: multiplyTwoInts, 5, 7)  // Result: 35
+```
+
+`printMathResult(mathFunction:_:_:)`의 첫 번째 `parameter`는 `(Int, Int) -> Int` 타입의 
+`Function`을 `argument`로 받는다. 
+
+<br>
+
+위 코드 역시 `TypeScript`와 비교해보자
+
+```typescript
+const addTwoInts: (num1: number, num2: number) => number
+    = (a, b) => a + b
+
+const multiplyTwoInts = (a: number, b: number) => a * b
+```
+
+```typescript
+// const printMathResult = (mathFunction: Function, a: number, b: number) => console.log(`Result: ${mathFunction(a, b)}`)
+const printMathResult = (mathFunction: (num1: number, num2:number) => number, a: number, b: number) => {
+    console.log(`Result: ${mathFunction(a, b)}`)
+}
+
+printMathResult(addTwoInts, 5, 7)       // Result: 12
+printMathResult(multiplyTwoInts, 5, 7)  // Result: 35
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">3. Function Types as Return Types</span>
+
+마찬가지로 `Swift`의 함수는 `First-Class Citizen`이므로 `return type`이 될 수 있다.
+
+0보다 크면 `stepBackward(_:)` 함수를 실행하고, 0보다 작으면 `stepForward(_:)` 함수를 실행해 0에 도달하는 
+로직을 출력해보자.
+
+```swift
+func stepForward(_ input: Int) -> Int {
+    print(#function)
+    return input + 1
+}
+func stepBackward(_ input: Int) -> Int {
+    print(#function)
+    return input - 1
+}
+```
+
+```swift
+func chooseStepFunction(backword: Bool) -> (Int) -> Int {
+    backword ? stepBackward(_:) : stepForward(_:)
+}
+```
+
+`chooseStepFunction(backword:)` 함수는 `(Int) -> Int` 함수를 `return`한다.
+
+<br>
+
+```swift
+func movingStart(initialValue: Int) {
+    var currentValue = initialValue
+    let moveNearToZero = chooseStepFunction(backword: currentValue > 0)
+
+    print("Conting to zero:")
+    while currentValue != 0 {
+        print("\(currentValue)... Call ", terminator: "")
+        currentValue = moveNearToZero(currentValue)
+    }
+    print("zero!\n")
+}
+
+movingStart(initialValue: 4)
+movingStart(initialValue: -3)
+```
+
+```console
+Conting to zero:
+4... Call stepBackward(_:)
+3... Call stepBackward(_:)
+2... Call stepBackward(_:)
+1... Call stepBackward(_:)
+zero!
+
+Conting to zero:
+-3... Call stepForward(_:)
+-2... Call stepForward(_:)
+-1... Call stepForward(_:)
+zero!
+```
+
+<br>
+
+위 코드 역시 `TypeScript`와 비교해보자
+
+```typescript
+const stepForward = (input: number): number => input + 1
+const stepBackward = (input: number): number => input - 1
+```
+
+```typescript
+const chooseStepFunction = (backward: boolean): (input: number) => number => {
+    return backward ? stepBackward : stepForward
+}
+```
+
+```typescript
+const movingStart = (initialValue: number) => {
+    let currentValue = initialValue
+    const moveNearToZero = chooseStepFunction(initialValue > 0)
+
+    console.log("Counting to zero:")
+    while (currentValue !== 0) {
+        console.log(`${currentValue}... Call ${moveNearToZero.name}`)
+        currentValue = moveNearToZero(currentValue)
+    }
+    console.log("zero!\n")
+}
+
+movingStart(4)
+movingStart(-3)
+```
+
+```console
+Counting to zero:
+4... Call stepBackward
+3... Call stepBackward
+2... Call stepBackward
+1... Call stepBackward
+zero!
+
+Counting to zero:
+-3... Call stepForward
+-2... Call stepForward
+-1... Call stepForward
+zero!
+```
 
 ---
-
-
 
 ### <span style="color: orange">6. Nested Functions 👩‍💻</span>
 
@@ -570,5 +789,7 @@ __Syntax__
 Reference
 
 1. "Functions", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Oct. 17, 2022, [Swift Docs Chapter 5 - Functions](https://docs.swift.org/swift-book/LanguageGuide/Functions.html#)
-2. "First-class function", Wikipedia, last modified July 14, 2022, accessed Oct. 19, 2022, [Wikipeida - First Class Function](https://en.wikipedia.org/wiki/First-class_function)
-3. "Higher-order function", Wikipedia, last modified Sep. 8, 2022, accessed Oct. 19, 2022, [Wikipeida - Higher Order Function](https://en.wikipedia.org/wiki/Higher-order_function)
+2. "First-class citizen", Wikipedia, last modified Oct. 15, 2022, accessed Oct. 19, 2022, [Wikipedia - First class Citizen](https://en.wikipedia.org/wiki/First-class_citizen)
+3. "First-class function", Wikipedia, last modified July 14, 2022, accessed Oct. 19, 2022, [Wikipeida - First Class Function](https://en.wikipedia.org/wiki/First-class_function)
+4. "Spread syntax", MDN Web Docs, last modified Sep. 19, 2022, accessed Oct. 23, 2022, [MDN - Spread Syntax(...)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
+5. "Rest parameters", MDN Web Docs, last modified Sep. 19, 2022, accessed Oct. 23, 2022, [MDN - Rest Parameters(...args)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
