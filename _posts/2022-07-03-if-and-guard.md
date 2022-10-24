@@ -12,46 +12,127 @@ tags: [if, guard, if let, guard let, optional, optional binding, unwrap]
 
 ### <span style="color: orange">1. 조건문(conditional statements)</span>
 
-다른 언어에서도 마찬가지겠지만 if문은 기본적으로 조건문이다. 🙃
-
+if문은 기본적으로 조건문이다. 🙃  
 즉, 다음과 같이 조건을 검사하고, 일치할 경우 실행할 로직을 정의할 수 있다.
+
+- if
 
 ```swift
 func largerThanThree(num: Int) -> Void {
     if num > 3 {
         print("\(num) is larger than 3.")
+    } else {
+        print("\(num) is not larger than 3.")
     }
 }
 
-largerThanThree(num: 5)
-
+largerThanThree(num: 5) // 5 is larger than 3.
+largerThanThree(num: 3) // 3 is not larger than 3.
 ```
 
-그런데 `Swift`에는 `if` 말고도 `guard`라는 것이 있다.  
-따라서 위 `if`문은 다음과 같이 바꿔 적을 수 있다.
+그런데 `Swift`에는 `if` 말고도 `guard`라는 것이 있다. 따라서 위 `if`문은 다음과 같이 바꿔 적을 수 있다.
+
+- guard
+
 ```swift
 func largerThanThree(num: Int) -> Void {
-    guard num > 3 else { return }
+    guard num > 3 else {
+        print("\(num) is not larger than 3.")
+        return
+    }
     print("\(num) is larger than 3.")
 }
+
+largerThanThree(num: 5) // 5 is larger than 3.
+largerThanThree(num: 3) // 3 is not larger than 3.
 ```
+
+<br>
+
+조건 검사에 많이 사용하는 `Array empty check`를 보자.
+
+- if
+
+```swift
+var someArray: [Int] = []
+
+func printArray(_ anyArray: [Any]) {
+    if anyArray.isEmpty {
+        print("Passed array is empty.")
+        return
+    }
+    
+    for element in anyArray {
+        print(element)
+    }
+}
+
+printArray(someArray)
+
+someArray = [1, 5, 3]
+printArray(someArray)
+```
+
+```console
+Passed array is empty.
+1
+5
+3
+```
+
+- guard
+
+```swift
+var someArray: [Int] = []
+
+func printArray(_ anyArray: [Any]) {
+    guard !anyArray.isEmpty else {
+        print("Passed array is empty.")
+        return
+    }
+    
+    for element in anyArray {
+        print(element)
+    }
+}
+
+printArray(someArray)
+
+someArray = [1, 5, 3]
+printArray(someArray)
+```
+
+```console
+Passed array is empty.
+1
+5
+3
+```
+
+> `num > 3`에서는 `if`와 `guard`에 동일한 `condition`을 사용했지만 `anyArray.isEmpty`에서는
+> `if`와 달리 `guard`에서는 `!anyArray.isEmpty`를 `condition`으로 사용했다.  
+> 만약 둘의 코드를 바꿀 경우 `Optional binding`과 `Bool condition`의 판단에 따라
+> 조건을 달리 해야하는 상황이 생길 수 있으니 주의하도록 한다.
+
+<br>
 
 `if`가 할 수 있는 것은 `guard`도 할 수 있고, `guard`가 할 수 있는 것은 `if`도 할 수 있다. 그렇다면 무엇이 같고 다를까? 👀
 
-먼저 공통점은 다음과 같다.
+> - 공통점은 다음과 같다.
+> 
+> 1. 조건문(conditional statements)으로 사용할 수 있다.
+> 2. Optional binding(unwrap)으로 사용할 수 있다.
+> 3. 조건(condition)은 `Bool`타입이거나 `bridged to Bool`타입이어야한다. 
+> 
+> - 그렇다면 다른점은 무엇일까?
+> 
+> 1. `guard`는 `else`가 필수다. 반면, `if`는 `else`가 필수가 아니다.
+> 2. `guard의 else block`에는 `Functions that Never Return` 또는 `Control Transfer Statements(return, break, continue, throw)` 중 하나를 사용해 block 밖으로 제어를 전송해야한다.
+> 3. `if`는 `condition`이 `true`일 때 <span style="color: green;">if block</span>으로 들어가고 `nil` 또는 `false`일 때 <span style="color: red;">else block</span>으로 들어간다.
+> 4. `guard`는 `condition`이 `nil`이거나 `false`일 때 <span style="color: red;">else block</span>으로, `true`일 때 <span style="color: green;">guard 다음 라인</span>으로 넘어간다.
+> 5. `Optional binding`으로 사용할 경우, `if`에 의해 binding 된 변수의 `scope는 if block`이다. 하지만 `guard`에 의해 binding 된 변수의 `scope는 guard가 속해 있는 block`이다. 
 
-1. 조건문(conditional statements)으로 사용할 수 있다.
-2. Optional binding(unwrap)으로 사용할 수 있다.
-3. 조건(condition)은 `Bool`타입이거나 `bridged to Bool`타입이어야한다. 
-
-그렇다면 다른점은 무엇일까?
-
-1. `guard`는 `else`가 필수다. 반면, `if`는 `else`가 필수가 아니다.
-2. `guard의 else block`에는 `Functions that Never Return` 또는 `Control Transfer Statements(return, break, continue, throw)` 중 하나를 사용해 block 밖으로 제어를 전송해야한다.
-3. `if`는 true condidtion일 때의 로직을 if block 안에 작성해야하지만 `guard`는 else block 이 종료된 다음에 작성한다.
-4. `Optional binding`으로 사용할 경우, `if`에 의해 binding 된 변수의 `scope는 if block`이다. 하지만 `guard`에 의해 binding 된 변수의 `scope는 guard가 속해 있는 block`이다. 
-
-
+---
 
 ### <span style="color: orange">2. Optional binding(unwrap)</span>
 
@@ -155,7 +236,7 @@ priceOfTwoCookies()     // The store is not specified.
 
 JavsScript(TypeScript)에서 똑같이 Promise object를 이용하지만 `Promise callback hell`을 `async`, `await`를 이용해 개선할 수 있는 것처럼, `guard` 역시 똑같이 `조건절`과 `Optional binding`을 수행할 수 있지만 `if`의 가독성 문제를 해결한다.
 
-
+---
 
 ### <span style="color: orange">3. Summary</span>
 
