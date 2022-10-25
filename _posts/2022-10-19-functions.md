@@ -421,7 +421,7 @@ print(add(a: 5))            // 105
 `Polymorphism`(다형성)에 의해 `func add(a num1: Int) -> Int`의 호출이 우선시 되기 때문에 
 `func add(a num1: Int, b num2: Int = 10) -> Int`의 `default value`를 이용한 호출은 작동하지 않는다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2.Variadic Parameters</span>
+#### <span style="color: rgba(166, 42, 254, 1)">2. Variadic Parameters</span>
 
 
 - Variadic Parameters
