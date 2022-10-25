@@ -315,7 +315,7 @@ Swift의 `Set` 타입은 `Foundation`의 `NSSet` 클래스와 연결되고, 이�
 `Set` 타입은 `Hashable` 프로토콜을 준수해야한다.  
 또한 `Hash Value`는 `Int` 값으로 두 `object`가 완전히 동일하면 `Hash Value` 역시 동일하며 `a == b`가 성립된다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Set Type syntax</span>
+#### <span style="color: rgba(166, 42, 254, 1)">2. Set Type Syntax</span>
 다음 두 가지 형태의 `initializer syntax`를 사용할 수 있다.
 
 ```swift
