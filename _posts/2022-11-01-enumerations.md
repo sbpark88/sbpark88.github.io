@@ -10,7 +10,76 @@ tags: [swift docs, swift enumerations]
 
 #### <span style="color: rgba(166, 42, 254, 1)">1. Enumerations in Swift</span>
 
+`Enumeration`은 연관된 값들을 공통 타입으로 그룹화해 `Type-Safe`한 코드를 작성하도록 돕는다.  
+`Swift`에서 `Enumeration`은 주어진 값이 `String`, `Character`, `Interger`, `Float` 어떤 것이든
+저장할 수 있다. 다른 언어에서 `unions` 또는 `variants`가 작동하는 것과 같다.
 
+`Swift`에서 `Enumeration`은 그 자체로 `First-Class Types`로 전통적으로 `Class`에서만 제공되는 많은 기능을 채택한다.
+
+- Initializers
+- Computed Properties
+- Instance methods
+- Extend their original implementation
+- Confirm to protocols
+
+<br>
+
+__Syntax__
+
+```swift
+enum SomeEnumeration {
+    // enumeration definition goes here
+}
+```
+> 1. `Enumeration`은 새 `Type`을 만들어 낸다. 따라서 `Swift`의 다른 `Types`와 마찬가지로 이름은 `대문자로 시작`한다.
+> 2. `Enumeration`은 `Singleton`을 기반으로 하므로 이름 역시 자명하게 읽히도록 복수형(plural)이 아닌
+     `단수형(singular)을 사용`한다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Enumeration Examples</span>
+
+```swift
+enum CompassPoint {
+    case north
+    case south
+    case east
+    case west
+}
+```
+
+> `Swift`의 `Enumeration`은 다른 언어와 달리 암시적으로 integer value(0, 1, 2, ...)를 할당하지 않는다.
+> `case`는 `온전히 자기 자신을 값`으로 갖는다.
+
+<br>
+각 `case`는 다음과 같이 `,`를 이용해 한 줄로 적을 수 있다.
+
+```swift
+enum Planet {
+    case mercury, venus, earth, mars, jupiter, saturn, uranus, neptune
+}
+```
+
+위에서 정의한 `CompassPoint`, `Planet`은 각각 하나의 `Type`을 만들어냈으며, 둘은 서로 다른 `Type`이다.
+
+```swift
+var directionToHead = CompassPoint.west
+print("Type of directionToHead is '\(type(of: directionToHead))'")
+```
+
+<br>
+
+이미 `Type`이 정해진 경우, `Dot Syntax`(`.`)를 이용할 수 있다.
+
+```swift
+var directionToHead = CompassPoint.west
+print("directionToHead is '\(directionToHead)'")  // directionToHead is west
+
+directionToHead = .east
+print("directionToHead is '\(directionToHead)'")  // directionToHead is east
+
+var anotherDirectionToHead: CompassPoint
+anotherDirectionToHead = .south
+print("anotherDirectionToHead is '\(anotherDirectionToHead)'")    // anotherDirectionToHead is south
+```
 
 ---
 
