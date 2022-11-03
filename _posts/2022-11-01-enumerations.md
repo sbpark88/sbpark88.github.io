@@ -155,9 +155,39 @@ default:
 
 ### <span style="color: orange">3. Iterating over Enumeration Cases 👩‍💻</span>
 
+`Enumeration`에 `CaseIterable` 프로토콜을 채택하므로써 해당 `Enum Type`의 모든 `cases`를
+갖는 `Collection`을 생성한다.
+
 __Syntax__
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
+```swift
+enum SomeEnumeration: CaseIterable {
+    case one, two, three
+}
+```
+
+<br>
+
+```swift
+enum Beverage: CaseIterable {
+    case coffee, tea, juice
+}
+let numberOfChoices = Beverage.allCases.count
+
+print("\(numberOfChoices) beverages available\n")
+
+for beverage in Beverage.allCases {
+    print(beverage)
+}
+```
+
+```console
+3 beverages available
+
+coffee
+tea
+juice
+```
 
 ---
 
