@@ -197,6 +197,16 @@ juice
 유용할 때가 있다. 이를 `Associated Value`라고 하며, 이는 다른 프로그래밍 언어에서 
 `unions`, `tagged unions`, `variants`로 알려진 것들과 유사하다.
 
+__Syntax__
+
+```swift
+enum SomeEnumeration {
+    case one(Int)
+    case two(Int, Int)
+    case three(String)
+}
+```
+
 #### <span style="color: rgba(166, 42, 254, 1)">1. Barcode Systems for Examples</span>
 
 1D barcodes in `UPC` format, 2D barcodes in `QR code` format 를 이용해 설명한다.
@@ -322,14 +332,239 @@ func printBarcode (_ productBarcode: Barcode) {
 }
 ```
 
+<br><br>
+
+__Summary of Associated Values__
+
+> `Associated Values`는 `Enumeration`의 `cases`가 온전히 자기 자신을 값으로 갖는 대 다른 타입의 값을 갖게 한다.  
+> 이 때 `Enumeration`의 `cases` 값은 가질 수 있는 `Associated Values`를 정의한다.  
+> `Associated Values`를 이용하면 서로 다른 타입의 값을 하나의 `Enumeration`에 저장할 수 있다.  
+> 단, 서로 다른 타입을 동시에 저장하는 것은 아니다.
+
 ---
 
 ### <span style="color: orange">5. Raw Values 👩‍💻</span>
 
+앞에서 `Associated Values`는 `cases`가 자기 자신의 값 외에 다른 값을 갖는 것은 물론, 서로 `다른 타입의 값`을 
+저장하기 위해 어떻게 정의해야하는지를 보여주었다.
+
+이번에는 `Associated Values`의 대안 중 하나로, `cases`가 자기 자신의 값 외에 다른 값을 가질 수 있는 방법으로 
+`Raw Values`를 소개한다. `Associated Values`와 마찬가지로 자기 자신의 값 외에 다른 값을 갖도록 하는 것은 
+동일하지만, `Associated Values`와 달리 `동일 타입의 값`만 `cases`로 저장할 수 있다.
+
+`Raw Values`를 정의하는 방법은 `enum`을 정의함과 동시에 `default values`를 정의하는 것이다.
+
 __Syntax__
 
+```swift
+enum ASCIIControlCharacter: Character {
+    case tab = "\t"
+    case lineFeed = "\n"
+    case carriageReturn = "\r"
+}
+```
+
+```swift
+enum SomeEnumeration: Int {
+    case one = 1
+    case two = 2
+    case three = 3
+}
+
+print(SomeEnumeration.one)          // One
+print(SomeEnumeration.one.rawValue) // 1
+```
+
+```swift
+enum SomeEnumeration: String {
+    case one = "하나"
+    case two = "둘"
+    case three = "셋"
+}
+
+print(SomeEnumeration.one)          // One
+print(SomeEnumeration.one.rawValue) // 하나
+```
+
+> `Raw Values`는 `String`, `Character`, `Integer`, `Floating-Point Number` 타입이 가능하다.  
+> `Raw Values`는 `unique`해야한다.
+
 #### <span style="color: rgba(166, 42, 254, 1)">1. Implicitly Assigned Raw Values</span>
+
+`Enumerations`가 `Integer` 또는 `String` `Raw Values`를 저장할 경우 모든 `case`에 명시적(explicit)으로 
+값을 지정하지 않아도 `Swift`는 암시적(implicit)으로 값을 할당한다.
+
+- Integer Raw Value
+
+`Integer`이 `Raw Values`로 사용된 경우, 값을 지정한 `case`의 다음 순서부터 1씩 증가시킨다. 시작 값을 
+지정하지 않을 경우 `default`로 0을 할당한다.
+
+```swift
+enum Planet: Int {
+    case mercury, venus, earth, mars, jupiter, saturn, uranus, neptune
+}
+
+print(Planet.mercury.rawValue)  // 0
+print(Planet.venus.rawValue)    // 1
+print(Planet.neptune.rawValue)  // 7
+```
+
+```swift
+enum Planet: Int {
+    case mercury = 1, venus, earth, mars, jupiter, saturn, uranus, neptune
+}
+
+print(Planet.mercury.rawValue)  // 1
+print(Planet.venus.rawValue)    // 2
+print(Planet.neptune.rawValue)  // 8
+```
+
+<br>
+
+아래와 같은 경우 `10, 20, 30, 40, ...` 이 아닌 `10, 20, 21, 22, ...` 이므로 주의한다. 
+
+```swift
+enum Planet: Int {
+    case mercury = 10, venus = 20, earth, mars, jupiter, saturn, uranus, neptune
+}
+
+print(Planet.mercury.rawValue)  // 10
+print(Planet.venus.rawValue)    // 20
+print(Planet.neptune.rawValue)  // 26
+```
+
+<br>
+
+마찬가지로 아래의 경우도 `2, 3, 4, 5, 6, ..., 9`가 아니라 `0, 1, 2, 5, 6, ..., 9`이므로 주의한다.
+
+```swift
+enum Planet: Int {
+    case mercury, venus, earth, mars = 5, jupiter, saturn, uranus, neptune
+}
+
+print(Planet.mercury.rawValue)  // 0
+print(Planet.venus.rawValue)    // 5
+print(Planet.neptune.rawValue)  // 9
+```
+
+<br>
+
+- String Raw Value
+
+`String`이 `Raw Values`로 사용된 경우, 암시적으로 각 `cases`의 이름이 `String`으로 할당된다.
+
+```swift
+enum CompassPoint: String {
+    case east, west, south, north
+}
+
+print(CompassPoint.east)            // east
+print(CompassPoint.east.rawValue)   // east
+```
+
+```swift
+print(type(of: CompassPoint.east))          // CompassPoint
+print(type(of: CompassPoint.east.rawValue)) // String
+```
+
 #### <span style="color: rgba(166, 42, 254, 1)">2. Initializing from a Raw Value</span>
+
+`Enumeration`을 `Raw Value`를 이용해 정의하면, `Raw Value`를 받아 일치하는 `Enumeration`의 `Instance` 
+또는 `nil`을 반환하는 `initializer`를 이용할 수 있다.
+
+- Creating `instance of the enumeration` using `cases of the enumeration`
+
+```swift
+let possiblePlanet = Planet.uranus
+print(possiblePlanet)   // uranus
+```
+
+> 명확하게 `case`를 지정하므로, 언제나 해당하는 `case`의 `Enumeration`을 `Instance`로 생성한다.
+
+<br>
+
+- Creating `iinstance of the enumeration` or using `raw values`
+
+```swift
+let possiblePlanet = Planet(rawValue: 7)
+print(type(of: possiblePlanet))     // Optional<Planet>
+print(possiblePlanet as Any)        // Optional(__lldb_expr_41.Planet.uranus)
+print(possiblePlanet!)              // uranus
+
+let impossiblePlanet = Planet(rawValue: 9)
+print(type(of: impossiblePlanet))   // Optional<Planet>
+print(impossiblePlanet as Any)      // nil
+```
+
+> `Raw Value`를 이용하는 것은 명시적으로 `case`를 지정하는 것이 아니므로 언제나 `Enumeration`의 `Instance`를 
+> `Optional` 타입으로 생성한다.
+
+<br>
+
+따라서 다음과 같이 `Optional Binding`을 이용해 안전하게 처리하는 것이 좋다.
+
+```swift
+var positionToFind = 3
+if let somePlanet = Planet(rawValue: positionToFind) {
+    switch somePlanet {
+    case .earth: print("Mostly harmless")
+    default: print("Not a safe place for humans")
+    }
+} else {
+    print("There isn't a planet at position \(positionToFind)")
+}
+```
+
+```console
+Mostly harmless
+```
+
+<br>
+
+```swift
+var positionToFind = 11
+if let somePlanet = Planet(rawValue: positionToFind) {
+    switch somePlanet {
+    case .earth: print("Mostly harmless")
+    default: print("Not a safe place for humans")
+    }
+} else {
+    print("There isn't a planet at position \(positionToFind)")
+}
+```
+
+```console
+There isn't a planet at position 11
+```
+
+<br>
+
+```swift
+var positionToFind = 11
+let isThisSafePlanet = { (planetNumber: Int) -> Bool in
+    guard let somePlanet = Planet(rawValue: planetNumber) else {
+        print("There isn't a planet at position \(planetNumber)")
+        return false
+    }
+    switch somePlanet {
+    case .earth:
+        print("Mostly harmless")
+        return true
+    default:
+        print("Not a safe place for humans")
+        return false
+    }
+    
+}
+
+let safe = isThisSafePlanet(positionToFind)
+print("safe: \(safe)")
+```
+
+```console
+There isn't a planet at position 11
+safe: false
+```
 
 ---
 
