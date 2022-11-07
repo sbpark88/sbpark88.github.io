@@ -570,11 +570,90 @@ safe: false
 
 ### <span style="color: orange">6. Recursive Enumerations 👩‍💻</span>
 
-__Syntax__
+`Enumeration`의 `case`가 다시 자기 자신을 `Associated Values`로 가질 때 이를 `Recursive`라 하며, 
+반드시 `indirect` 키워드를 명시해야한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
+<br>
 
+```swift
+enum ArithmeticExpression { // Recursive enum 'ArithmeticExpression' is not marked 'indirect'
+    case number(Int)
+    case addition(ArithmeticExpression, ArithmeticExpression)
+    case multiplication(ArithmeticExpression, ArithmeticExpression)
+}
+```
+
+`indirect` 키워드 없이 선언하면 `Swift-compiler`에 의해 에러가 발생된다.
+
+<br>
+
+```swift
+enum ArithmeticExpression {
+    case number(Int)
+    indirect case addition(ArithmeticExpression, ArithmeticExpression)
+    indirect case multiplication(ArithmeticExpression, ArithmeticExpression)
+}
+```
+
+반드시 `Recursive-case` 앞에 `indirect` 키워드를 붙여줘야한다.  
+만약, `enum` 키워드 앞에 `indirect` 키워드를 선언하면 모든 `cases`에 `indirect`를 선언할 수 있다.
+
+
+```swift
+indirect enum ArithmeticExpression {
+    case number(Int)
+    case addition(ArithmeticExpression, ArithmeticExpression)
+    case multiplication(ArithmeticExpression, ArithmeticExpression)
+}
+```
+
+위 `Enumeration` `ArithmeticExpression.Type`은 다음 3 가지의 `arithmetic expressions`(산술 표현식)을 
+저장할 수 있다.
+
+- a plain number
+- the addition of two expressions
+- the multiplication of two expressions
+
+이 중 `addition`과 `multiplication` `cases`는 다시 `arithmetic expressions`를 `Associated Values`로 
+가지므로 표현식의 중첩을 허용해 `Recursive` 상태를 만든다.
+
+<br>
+
+`(5 + 4) * 2`를 `ArithmeticExpression.Type`를 이용해 선언해보자. 데이터가 중첩(nested)되므로, `Enumeration` 역시 중첩(nested)이 가능해야한다.
+
+```swift
+let five = ArithmeticExpression.number(5)
+let four = ArithmeticExpression.number(4)
+let sum = ArithmeticExpression.addition(five, four)
+let product = ArithmeticExpression.multiplication(sum, ArithmeticExpression.number(2))
+```
+
+<br>
+
+`Recursive Structure`를 가진 데이터를 다루는 가장 직관적인 방법은 `Recursive Function` 을 이용하는 것이다.
+
+```swift
+func evaluate(_ expression: ArithmeticExpression) -> Int {
+    switch expression {
+    case let .number(value): return value
+    case let .addition(left, right): return evaluate(left) + evaluate(right)
+    case let .multiplication(left, right): return evaluate(left) * evaluate(right)
+    }
+}
+```
+
+`evaluate(_:)`의 첫 번째 `case`는 `Optional Binding` 하듯 `ArithmeticExpression.Type`으로부터
+`Int`를 반환한다.  
+`evaluate(_:)`의 두 번째와 세 번째 `case`는 첫 번째 `case`를 취하도록 `Recursive Function`으로 작성되었다.
+
+`ArithmeticExpression`와 `evaluate(_:)`의 구조가 모두 `Recursive`인 것을 확인할 수 있다.
+
+```swift
+print(evaluate(five))       // 5
+print(evaluate(four))       // 4
+print(evaluate(sum))        // 9
+print(evaluate(product))    // 18
+```
 
 <br><br>
 
