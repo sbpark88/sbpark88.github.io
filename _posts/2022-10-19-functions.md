@@ -551,17 +551,21 @@ func printHelloWorld() {
 
 `Swift`에서는 `Function Types` 역시 다른 `Types`와 같이 사용할 수 있다.
 
+__1 ) Function Declarations__
+
 ```swift
 func addTwoInts(_ a: Int, _ b: Int) -> Int {
     a + b
 }
 func multiplyTwoInts(_ a: Int, _ b: Int) -> Int {
-    return a * b
+    a * b
 }
 ```
 
 ```swift
-var mathFunction: (Int, Int) -> Int = addTwoInts(_:_:)
+var mathFunction: (Int, Int) -> Int
+
+mathFunction = addTwoInts(_:_:)
 print(mathFunction(5, 7))   // 12
 
 mathFunction = multiplyTwoInts(_:_:)
@@ -570,16 +574,18 @@ print(mathFunction(5, 7))   // 35
 
 <br>
 
-또한 `Function Types`을 지정함과 동시에 함수를 정의해 할당할 수도 있다.
+__2 ) Function Expressions__
+
+또한 `Closures`를 와 함께 `Function Types`을 지정함과 동시에 함수를 정의해 할당할 수도 있다.
 
 ```swift
 // With Function Types
-let addTwoInts: (Int, Int) -> Int = { (_ a: Int, _ b: Int) in
+let addTwoInts: (Int, Int) -> Int = { (a: Int, b: Int) in
     a + b
 }
 
 // Without Function Types
-let multiplyTwoInts = { (_ a: Int, _ b: Int) in
+let multiplyTwoInts = { (a: Int, b: Int) in
     a * b
 }
 ```
@@ -607,16 +613,68 @@ console.log(addTwoInts(5, 7))           // 12
 console.log((multiplyTwoInts(5, 7)))    // 35
 ```
 
+<br>
+
+__3 ) Define Function Types from Typealias__
+
+`protocol`을 통해 코드의 `skeleton`을 제공하듯 `Function Type` 역시 `Type`을 강제할 수 있다.
+
+```swift
+typealias arithmeticCalc = (Int, Int) -> Int
+
+let addTwoInts: arithmeticCalc = { $0 + $1 }
+let multiplyTwoInts: arithmeticCalc = { $0 * $1 }
+```
+
+```swift
+print(addTwoInts(5, 7))         // 12
+print(multiplyTwoInts(5, 7))    // 35
+```
+
+<br>
+
+위 코드 역시 `TypeScript`와 비교해보자
+
+```typescript
+type GenericFunc = <Number>(a: number, b: number) => number
+
+const addTwoInts: GenericFunc = (a, b) => a + b
+const multiplyTwoInts: GenericFunc = (a, b) => a * b
+```
+
+또는
+
+```typescript
+type GenericType<Number> = (a: number, b: number) => number
+
+const addTwoInts: GenericType<Number> = (a, b) => a + b
+const multiplyTwoInts: GenericType<Number> = (a, b) => a * b
+```
+
+물론 생략도 가능하다.
+
+```typescript
+type GenericFunc = (a: number, b: number) => number
+
+const addTwoInts: GenericFunc = (a, b) => a + b
+const multiplyTwoInts: GenericFunc = (a, b) => a * b
+```
+
+```typescript
+console.log(addTwoInts(5, 7))           // 12
+console.log((multiplyTwoInts(5, 7)))    // 35
+```
+
 #### <span style="color: rgba(166, 42, 254, 1)">2. Function Types as Parameter Types</span>
 
 `Swift`의 함수는 `First-Class Citizen`이므로 `parameters`가 될 수 있다. 
 
 ```swift
-let addTwoInts: (Int, Int) -> Int = { (_ a: Int, _ b: Int) in
+let addTwoInts: (Int, Int) -> Int = { (a: Int, b: Int) in
     a + b
 }
 
-let multiplyTwoInts = { (_ a: Int, _ b: Int) in
+let multiplyTwoInts = { (a: Int, b: Int) in
     a * b
 }
 ```
