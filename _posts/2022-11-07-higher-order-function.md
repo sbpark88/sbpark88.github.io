@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Swift Higher-Order Functions
+title: Swift Higher-order Functions
 subtitle: map, reduce, filter, flatMap, compactMap, forEach, contains, removeAll, sorted, split
 categories: swift
 tags: [higher order function, first class citizen, functional programming, lambda calculus, map, reduce, filter, flatMap, compactMap]
@@ -33,7 +33,7 @@ tags: [higher order function, first class citizen, functional programming, lambd
 다루듯 함수 역시 `Function` 타입의 일반 변수처럼 취급된다.
 
 <br>
-`First-Class Function`는 `Functional Programming`의 필수요소이며, `Higher-order Functions`는
+`First-Class Function`은 `Functional Programming`의 필수요소이며, `Higher-order Functions`는
 `Functional programming`의 표준과도 같다.  
 `Higher-order Functions`의 예로 `Map` 함수를 살펴보자. `Map` 함수는 `Function`과 `list`를 `arguments`로
 취하며, `list`의 각 `member`에 함수를 적용한 `list`를 반환한다.
@@ -66,21 +66,153 @@ print(doubleIntArray)   // [2, 4, 8, 10, 16, 22, 30]
 
 ---
 
-### <span style="color: orange">2. 👩‍💻</span>
+### <span style="color: orange">2. Higher-order Function Examples 👩‍💻</span>
 
-__Syntax__
+#### <span style="color: rgba(166, 42, 254, 1)">1. TypeScript</span>
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
+`twice`와 `plusThree`라는 함수가 있다.
+
+```typescript
+const twice = (f: Function) => {
+  return (x: number) => f(f(x))
+}
+const plusThree = (i: number) => i + 3
+```
+
+<br>
+`twice` 함수는 아래와 같이 `body`와 `return` 키워드를 생략할 수 있다.
+
+```typescript
+const twice = (f: Function) => (x: number) => f(f(x))
+const plusThree = (i: number) => i + 3
+```
+
+- plusThree: `number` 타입의 `argument`를 받아 3을 더해 `number` 타입을 반환한다.
+- twice: `Function` 타입의 `argument`를 받아 `(x: number) => f(f(x))` 함수를 반환한다.
+- `f(f(x))`는 `<Number>(x: number) => number` 타입의 함수이며, `parameter`와 `return type`이 동일하므로
+  재귀가 가능하다. 따라서 `f(f(x))`는 `argument`로 입력된 함수를 재귀를 통해 2번 실행하는 함수다.
+
+<br>
+두 함수를 `chaining`해 `someFunction`이라는 함수를 만들고, 이를 실행해보면 다음과 같다.
+
+```typescript
+const someFunction = twice(plusThree)
+
+console.log(someFunction(7))   // 13   (7 + 3) + 3
+console.log(someFunction(9))   // 15   (9 + 3) + 3
+console.log(someFunction(12))  // 18   (12 + 3) + 3
+```
+
+<br>
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Swift</span>
+
+__1 ) Function `Declarations`__
+
+```swift
+func twice(_ f: @escaping (Int) -> Int) -> (Int) -> Int {
+    { f(f($0)) }
+}
+func plusThree(_ i: Int) -> Int {
+    i + 3
+}
+```
+
+<br>
+위 `twice`의 `parameter type`과 `return type`이 보기 힘들다면 `typealias`를 사용한 아래 코드를 보도록 하자.
+
+```swift
+typealias intToInt = (Int) -> Int
+
+func twice(_ f: @escaping intToInt) -> intToInt {
+  { f(f($0)) }
+}
+func plusThree(_ i: Int) -> Int {
+    i + 3
+}
+```
+
+<br>
+두 함수를 `chaining`해 `someFunction`이라는 함수를 만들고, 이를 실행해보면 다음과 같다.
+
+```swift
+let someFunction = twice(plusThree(_:))
+
+print(someFunction(7))  // 13   (7 + 3) + 3
+print(someFunction(9))  // 15   (9 + 3) + 3
+print(someFunction(12)) // 18   (12 + 3) + 3
+```
+
+<br>
+
+__2 ) Function `Expressions`__
+
+위 1과 동일한 로직을 `Expressions` 방식으로 작성해보자.
+
+```swift
+let twice = { (f: @escaping (Int) -> Int) in
+  { f(f($0)) }
+}
+```
+
+<br>
+상수나 변수의 타입을 미리 지정해 `twice`를 다음과 같이 작성하는 것도 가능하다.
+
+```swift
+let twice: (@escaping (Int) -> Int) -> (Int) -> Int = { f in
+    { f(f($0)) }
+}
+```
+
+
+<br>
+마찬가지로 `typealias`를 사용해 다음과 같이 작성할 수 있다.
+
+```swift
+typealias intToInt = (Int) -> Int
+
+let twice = { (f: @escaping intToInt) in
+    { f(f($0)) }
+}
+```
+
+```swift
+typealias intToInt = (Int) -> Int
+
+let twice: (@escaping intToInt) -> intToInt = { f in
+  { f(f($0)) }
+}
+```
+
+<br>
+
+이제 `plusThree`를 포함해 전체 로직을 완성해보자.
+
+
+```swift
+let twice: (@escaping (Int) -> Int) -> (Int) -> Int = { f in
+  { f(f($0)) }
+}
+let plusThree: (Int) -> Int = { $0 + 3 }
+```
+```swift
+let someFunction = twice(plusThree)
+
+print(someFunction(7))  // 13   (7 + 3) + 3
+print(someFunction(9))  // 15   (9 + 3) + 3
+print(someFunction(12)) // 18   (12 + 3) + 3
+```
 
 ---
 
-### <span style="color: orange">3. 👩‍💻</span>
+### <span style="color: orange">3. Higher-order Functions 👩‍💻</span>
 
-__Syntax__
-
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
+#### <span style="color: rgba(166, 42, 254, 1)">1. Map</span>
 #### <span style="color: rgba(166, 42, 254, 1)">2. </span>
+#### <span style="color: rgba(166, 42, 254, 1)">3. </span>
+#### <span style="color: rgba(166, 42, 254, 1)">4. </span>
+#### <span style="color: rgba(166, 42, 254, 1)">5. </span>
+#### <span style="color: rgba(166, 42, 254, 1)">6. </span>
 
 ---
 
@@ -114,6 +246,6 @@ Reference
 1. "First-class citizen", Wikipedia, last modified Oct. 15, 2022, accessed Nov. 07, 2022, [Wikipedia - First Class Citizen](https://en.wikipedia.org/wiki/First-class_citizen)
 2. "First-class function", Wikipedia, last modified Jul. 14, 2022, accessed Nov. 07, 2022, [Wikipedia - First Class Function](https://en.wikipedia.org/wiki/First-class_function)
 3. "Higher-order function", Wikipedia, last modified Sep. 8, 2022, accessed Nov. 07, 2022, [Wikipedia - Higher-Order Function](https://en.wikipedia.org/wiki/Higher-order_function)
-4. "Non-local variable", Wikipedia, last modified May. 12, 2022, accessed Nov. 07, 2022, 
+4. "Non-local variable", Wikipedia, last modified May. 12, 2022, accessed Nov. 07, 2022, [Wikipedia - Non-local Variable](https://en.wikipedia.org/wiki/Non-local_variable)
 5. "Higher-Order Functions in Swift", Medium, last modified Jun. 9, 2020, accessed Nov. 07, 2022, [Higher-Order Functions in Swift](https://betterprogramming.pub/higher-order-functions-in-swift-13c31a769c0c)
 6. "Understanding Higher Order Functions in Swift", APPCODA, Feb. 26, 2020, accessed Nov. 07, 2022, [Understanding Higher Order Functions in Swift](https://www.appcoda.com/higher-order-functions-swift/)
