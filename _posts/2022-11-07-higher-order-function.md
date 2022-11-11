@@ -87,13 +87,33 @@ const twice = (f: Function) => (x: number) => f(f(x))
 const plusThree = (i: number) => i + 3
 ```
 
-- plusThree: `number` 타입의 `argument`를 받아 3을 더해 `number` 타입을 반환한다.
-- twice: `Function` 타입의 `argument`를 받아 `(x: number) => f(f(x))` 함수를 반환한다.
-- `f(f(x))`는 `<Number>(x: number) => number` 타입의 함수이며, `parameter`와 `return type`이 동일하므로
-  재귀가 가능하다. 따라서 `f(f(x))`는 `argument`로 입력된 함수를 재귀를 통해 2번 실행하는 함수다.
+> - plusThree: `number` 타입의 `argument`를 받아 3을 더해 `number` 타입을 반환한다.
+> - twice: `Function` 타입의 `argument`를 받아 `(x: number) => f(f(x))` 함수를 반환한다.
+> - `f(f(x))`는 `<Number>(x: number) => number` 타입의 함수이며, `parameter`와 `return type`이 동일하므로
+>   재귀가 가능하다. 따라서 `f(f(x))`는 `argument`로 입력된 함수를 재귀를 통해 2번 실행하는 함수다.
+
+<br>
+참고로 `TypeScript`는 함수의 타입을 명시할 때 다음 두 가지 방식의 `typealias`를 사용할 수 있다.
+
+- GenericFunc
+```typescript
+type GenericFunc = <Number>(x: number) => number
+const twice = (f: GenericFunc) => (x: number) => f(f(x))
+```
+
+- GenericType
+```typescript
+type GenericType<Number> = (x: number) => number
+const twice = (f: GenericType<number>) => (x: number) => f(f(x))
+```
 
 <br>
 두 함수를 `chaining`해 `someFunction`이라는 함수를 만들고, 이를 실행해보면 다음과 같다.
+
+```typescript
+const twice = (f: Function) => (x: number) => f(f(x))
+const plusThree = (i: number) => i + 3
+```
 
 ```typescript
 const someFunction = twice(plusThree)
@@ -113,9 +133,6 @@ __1 ) Function `Declarations`__
 func twice(_ f: @escaping (Int) -> Int) -> (Int) -> Int {
     { f(f($0)) }
 }
-func plusThree(_ i: Int) -> Int {
-    i + 3
-}
 ```
 
 <br>
@@ -127,13 +144,20 @@ typealias intToInt = (Int) -> Int
 func twice(_ f: @escaping intToInt) -> intToInt {
   { f(f($0)) }
 }
+```
+
+<br>
+이제 `plusThree`를 포함해 두 함수를 `chaining` 시켜 전체 로직을 완성해보자.
+
+```swift
+func twice(_ f: @escaping (Int) -> Int) -> (Int) -> Int {
+  { f(f($0)) }
+}
+
 func plusThree(_ i: Int) -> Int {
     i + 3
 }
 ```
-
-<br>
-두 함수를 `chaining`해 `someFunction`이라는 함수를 만들고, 이를 실행해보면 다음과 같다.
 
 ```swift
 let someFunction = twice(plusThree(_:))
@@ -185,14 +209,14 @@ let twice: (@escaping intToInt) -> intToInt = { f in
 ```
 
 <br>
-
-이제 `plusThree`를 포함해 전체 로직을 완성해보자.
+이제 `plusThree`를 포함해 두 함수를 `chaining` 시켜 전체 로직을 완성해보자.
 
 
 ```swift
 let twice: (@escaping (Int) -> Int) -> (Int) -> Int = { f in
   { f(f($0)) }
 }
+
 let plusThree: (Int) -> Int = { $0 + 3 }
 ```
 ```swift
@@ -208,6 +232,9 @@ print(someFunction(12)) // 18   (12 + 3) + 3
 ### <span style="color: orange">3. Higher-order Functions 👩‍💻</span>
 
 #### <span style="color: rgba(166, 42, 254, 1)">1. Map</span>
+
+
+
 #### <span style="color: rgba(166, 42, 254, 1)">2. </span>
 #### <span style="color: rgba(166, 42, 254, 1)">3. </span>
 #### <span style="color: rgba(166, 42, 254, 1)">4. </span>
