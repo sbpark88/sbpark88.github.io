@@ -80,7 +80,7 @@ const plusThree = (i: number) => i + 3
 ```
 
 <br>
-`twice` 함수는 아래와 같이 `body`와 `return` 키워드를 생략할 수 있다.
+`twice` 함수는 아래와 같이 Body를 감싸는 `{ }`와 `return` 키워드를 생략할 수 있다.
 
 ```typescript
 const twice = (f: Function) => (x: number) => f(f(x))
@@ -128,6 +128,18 @@ console.log(someFunction(12))  // 18   (12 + 3) + 3
 #### <span style="color: rgba(166, 42, 254, 1)">2. Swift</span>
 
 __1 ) Function `Declarations`__
+
+```swift
+func twice(_ f: @escaping (Int) -> Int) -> (Int) -> Int {
+    return { (x: Int) in
+        f(f(x))
+    }
+}
+```
+
+<br>
+`twice(_:)` 함수는 아래와 같이 `arguments`와 `return` 키워드를 생략할 수 있다.  
+(`TypeScript`와 달리 Body를 감싸는 `{ }`는 생략할 수 없다.)
 
 ```swift
 func twice(_ f: @escaping (Int) -> Int) -> (Int) -> Int {
@@ -356,11 +368,223 @@ The double of 14 is 28
 > 현재 호출된 `closure`를 종료하는 것일 뿐 `forEach` 순환 자체를 종료하지 않는다. `forEach`에서 `return`은 
 > `For-In Loops`의 `continue`와 같은 역할을 한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">3. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">4. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">5. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">6. </span>
+#### <span style="color: rgba(166, 42, 254, 1)">2. map</span>
+
+__1 ) Array.map(_:)__
+
+다음은 `Swift documentation > Array > Instance Method map(_:)`의 설명이다.
+
+```swift
+func map<T>(_ transform: (Self.Element) throws -> T) rethrows -> [T]
+```
+
+Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/array/map(_:)-87c4d)
+
+`map` 함수는 가장 유명한 `Higher-order Function`으로 `Collection`의 모든 `elements`에 로직을 수행 후
+`new Collection`을 반환한다.
+
+<br>
+
+다음은 가장 기본적인 `map` 함수의 동작이다. `Original Collection`의 모든 `elements`에 2를 곱한 다음
+`new Collection`을 반환한다.
+
+```swift
+let numbers: [Int] = [2, 5, 3, 9, 11, 14]
+
+var doubled: [Int] = [Int]()
+doubled = numbers.map { $0 * 2 }
+print(doubled)          // [4, 10, 6, 18, 22, 28]
+```
+
+<br>
+`new Collection`을 반환하는 것이므로, `Original Collection`과 `Data Type`이 같을 필요가 없다.
+
+```swift
+let degrees = [20, 45, 180, 360, 185]
+
+let rads = degrees.map { Double($0) * Double.pi / 180.0 }
+let tenThousand: Double = pow(10, 4)
+
+rads.forEach { print("\(round($0 * tenThousand) / tenThousand) radian") }
+```
+
+```console
+0.3491 radian
+0.7854 radian
+3.1416 radian
+6.2832 radian
+3.2289 radian
+```
+
+<br>
+
+__2 ) Set.map(_:)__
+
+`Set`의 `map`은 `Array`의 `map`과 같다.
+
+```swift
+let people: Set<String> = ["Thomasin McKenzie", "Anya Taylor-Joy", "Matt Smith", "Diana Rigg", "Rita Tushingham"]
+let firstName = people.map { $0.split(separator: " ")[0] }
+let lastName = people.map { $0.split(separator: " ")[1] }
+
+print(firstName)    // ["Anya", "Rita", "Thomasin", "Matt", "Diana"]
+print(lastName)     // ["Taylor-Joy", "Tushingham", "McKenzie", "Smith", "Rigg"]
+```
+
+<br>
+
+__3 ) Dictionary.map(_:)__
+
+`Dictionay`는 `Key: Value` 구조이기 때문에 `Array`나 `Set`과는 조금 다른 모습을 보인다.
+
+```swift
+let info: [String: String] = ["name": "andrew",
+                              "city": "berlin",
+                              "job": "developer",
+                              "hobby": "computer games"]
+
+let keys = info.map { $0.key }
+let values = info.map { $0.value }
+
+print(keys)     // ["city", "name", "hobby", "job"]
+print(values)   // ["berlin", "andrew", "computer games", "developer"]
+```
+
+<br>
+만약, `map`에서 `key`와 `value`를 구분하지 않고 접근하면, `tuple`로 접근하게된다.
+
+```swift
+let tupleData = info.map { $0 }
+print(type(of: tupleData))              // Array<(key: String, value: String)>
+print(type(of: tupleData[0]))           // (key: String, value: String)
+print(type(of: tupleData[0].key))       // String
+print(type(of: tupleData[0].value))     // String
+
+tupleData.forEach {
+    print($0)
+}
+```
+
+```console
+(key: "job", value: "developer")
+(key: "name", value: "andrew")
+(key: "hobby", value: "computer games")
+(key: "city", value: "berlin")
+```
+
+위에서 볼 수 있듯이 `info.map { $0 }`의 `Return Type`은 `(key: String, value: String)`타입의 
+`tuple`을 저장하는 배열이다.
+
+<br>
+
+```swift
+let updatedKeysAndValues = info.map { ($0.uppercased(), $1.capitalized) }
+print(type(of: updatedKeysAndValues))       // Array<(String, String)>
+print(type(of: updatedKeysAndValues[0]))    // (String, String)
+
+updatedKeysAndValues.forEach {
+    print($0)
+}
+```
+
+```console
+("CITY", "Berlin")
+("NAME", "Andrew")
+("JOB", "Developer")
+("HOBBY", "Computer Games")
+```
+
+<br>
+
+```swift
+let anotherKeysAndValues = info.map { (list: $0.uppercased(), userInfo: $1.capitalized) }
+print(type(of: anotherKeysAndValues))       // Array<(list: String, userInfo: String)>
+print(type(of: anotherKeysAndValues[0]))    // (list: String, userInfo: String)
+
+anotherKeysAndValues.forEach {
+    print($0)
+}
+```
+
+```console
+(list: "CITY", userInfo: "Berlin")
+(list: "JOB", userInfo: "Developer")
+(list: "NAME", userInfo: "Andrew")
+(list: "HOBBY", userInfo: "Computer Games")
+```
+
+<br>
+이제 위 `tuple`을 이용해 다시 `Dictionary`를 만들어보자
+
+```swift
+let capitalizedInfo = Dictionary(uniqueKeysWithValues: anotherKeysAndValues)
+print(type(of: capitalizedInfo))    // Dictionary<String, String>
+print(capitalizedInfo)  // ["NAME": "Andrew", "HOBBY": "Computer Games", "CITY": "Berlin", "JOB": "Developer"]
+```
+
+<br>
+또는 아래서 배울 `reduce`를 이용하면 `map`이 배열을 반환한 이후 `Dictionary`의 `initializer`를 이용할 
+필요 없이 `Higher-order Functions`의 `chaining`을 이용해 다음과 같이 작성하는 것이 가능하다.
+
+```swift
+let capitalizedInfo = info.lazy
+    .map { ($0.uppercased(), $1.capitalized) }
+    .reduce(into: [String: String]()) { $0[$1.0] = $1.1 }
+```
+
+<br>
+위 `reduce`가 어떻게 작동하는 것인지 아직은 이해하기가 어려울 것이다. `reduce`의 마지막 `argument`의
+`trailing closure`의 내부에서 `$0`, `$1.0`, `$1.1`을 출력해보면 다음과 같다.
+
+```swift
+let capitalizedInfo = info.lazy
+    .map { ($0.uppercased(), $1.capitalized) }
+    .reduce(into: [String: String]()) {
+        let str = """
+                $0: \($0)
+                $1.0: \($1.0),  $1.1: \($1.1)
+                
+                """
+        print(str)
+        return $0[$1.0] = $1.1
+    }
+```
+
+```console
+$0: [:]
+$1.0: HOBBY,  $1.1: Computer Games
+
+$0: ["HOBBY": "Computer Games"]
+$1.0: NAME,  $1.1: Andrew
+
+$0: ["HOBBY": "Computer Games", "NAME": "Andrew"]
+$1.0: JOB,  $1.1: Developer
+
+$0: ["HOBBY": "Computer Games", "NAME": "Andrew", "JOB": "Developer"]
+$1.0: CITY,  $1.1: Berlin
+```
+
+> $0은 `reduce`의 첫 번째 `argument`인 `accumulator`고, $1은 두 번째 `argument`인 `currentvalue`다.  
+> 즉, $1.0은 `array`가 저장하고 있는 `tuple`의 `key`, $1.1은 `tuple`의 `value`가 되는 것이다.
+
+<br>
+
+__4 ) Dictionary.mapValues(_:)__
+
+일반적으로 `Dictionayr`를 사용할 때 `Key`는 변경하지 않는다. 이럴 때 유용한 함수가 `mapValues`다.
+
+```swift
+let updatedValues = info.mapValues { $0.capitalized }
+print(updatedValues)    // ["hobby": "Computer Games", "job": "Developer", "city": "Berlin", "name": "Andrew"]
+```
+
+> `Dictionay`에 `map` 함수를 적용할 때 유용한 각각의 case 를 정리하면 다음과 같다.
+> 
+> - someDictionary.map: (최종 결과물이 `Dictionary`) & (`Key`의 변경이 필요할 때)
+> - someDictionary.mapValues: (최종 결과물이 `Dictionary`) & (`Key`의 변경은 필요 없고 `Value`의 변경만 필요할 때)
+> 
+> - someDictionary.keys.map: (최종 결과물이 `Array`) & (`Key`만 필요할 때)
+> - someDictionary.values.map: (최종 결과물이 `Array`) & (`Value`만 필요할 때)
 
 ---
 
