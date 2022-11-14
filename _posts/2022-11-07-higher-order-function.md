@@ -231,9 +231,130 @@ print(someFunction(12)) // 18   (12 + 3) + 3
 
 ### <span style="color: orange">3. Higher-order Functions 👩‍💻</span>
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Map</span>
+#### <span style="color: rgba(166, 42, 254, 1)">1. forEach</span>
 
+- `Collection`의 모든 `elements`를 순환할 뿐 `Return Value`가 없다.
+- `continue`, `break` 같은 `Control Transfer Statements`를 사용할 수 없다. 오직 `return`만 사용 가능하다.
 
+`Collection`을 순환하는 고전적인 방법으로 `For-In Loops`가 있다. 
+
+```swift
+let numbers: [Int] = [2, 5, 3, 9, 11, 14]
+
+for number in numbers {
+    number.isMultiple(of: 2) ? print("\(number) is even") : print("\(number) is odd")
+}
+```
+
+`forEach`는 `For-In Loops`와 동일한 로직을 수행할 수 있다. 
+
+```swift
+numbers.forEach { $0.isMultiple(of: 2) ? print("\($0) is even") : print("\($0) is odd") }
+```
+
+```console
+2 is even
+5 is odd
+3 is odd
+9 is odd
+11 is odd
+14 is even
+```
+
+<br>
+
+__`forEach`와 `For-In Loops`의 차이점__
+
+- `For-In Loops`는 `body` 내에서 `continue`, `break`와 같은 `Control Transfer Statements`를 
+사용할 수 있다.
+
+```swift
+let anotherNumbers: [Int?] = [2, 5, nil, 9, 11, nil, 6, nil, 14]
+
+for number in anotherNumbers {
+    guard let number = number else {
+        print("Found nil")
+        continue
+    }
+    print("The double of \(number) is \(number * 2)")
+}
+```
+
+```console
+The double of 2 is 4
+The double of 5 is 10
+Found nil
+The double of 9 is 18
+The double of 11 is 22
+Found nil
+The double of 6 is 12
+Found nil
+The double of 14 is 28
+```
+<br>
+
+```swift
+let anotherNumbers: [Int?] = [2, 5, nil, 9, 11, nil, 6, nil, 14]
+
+for number in anotherNumbers {
+    guard let number = number else {
+        print("Found nil")
+        break
+    }
+    print("The double of \(number) is \(number * 2)")
+}
+```
+
+```console
+The double of 2 is 4
+The double of 5 is 10
+Found nil
+```
+
+<br>
+
+- 반면 `forEach`는 `return`만 사용 가능하다.
+
+```swift
+anotherNumbers.forEach { number in
+    guard let number = number else {
+        print("Found nil")
+        continue    // 'continue' is only allowed inside a loop
+    }
+    print("The double of \(number) is \(number * 2)")
+}
+```
+
+```swift
+anotherNumbers.forEach { number in
+    guard let number = number else {
+        print("Found nil")
+        return
+    }
+    print("The double of \(number) is \(number * 2)")
+}
+```
+
+```console
+The double of 2 is 4
+The double of 5 is 10
+Found nil
+The double of 9 is 18
+The double of 11 is 22
+Found nil
+The double of 6 is 12
+Found nil
+The double of 14 is 28
+```
+
+> `For-In Loops`와 `forEach` 모두 함수의 `Return Value`가 없다.  
+> `For-In Loops`와 `forEach`는 비슷하지만, `forEach`는 `loops`가 아니므로 `continue`나 `break`과 같은
+> `Control Transfer Statements`를 사용할 수 없다.
+> 실제로 `forEach`는 `Collection`을 순환하지만 `forEach`의 `argument`로 전달되는 `trailing closure`의 
+> 입장에서는 여러 번 호출될 뿐 `loops`가 아니기 때문이다.  
+> 따라서, 현재 호출된 `closure`를 종료하기 위한 `return` 키워드만 허용된다. 또한 여기서 사용되는 `return` 키워드는 
+> 현재 호출된 `closure`를 종료하는 것일 뿐 `forEach` 순환 자체를 종료하지 않는다. `forEach`에서 `return`은 
+> `For-In Loops`의 `continue`와 같은 역할을 한다.
 
 #### <span style="color: rgba(166, 42, 254, 1)">2. </span>
 #### <span style="color: rgba(166, 42, 254, 1)">3. </span>
@@ -252,17 +373,6 @@ __Syntax__
 
 ---
 
-### <span style="color: orange">5. 👩‍💻</span>
-
-__Syntax__
-
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
-
----
-
-
-
 
 
 <br><br>
@@ -276,3 +386,5 @@ Reference
 4. "Non-local variable", Wikipedia, last modified May. 12, 2022, accessed Nov. 07, 2022, [Wikipedia - Non-local Variable](https://en.wikipedia.org/wiki/Non-local_variable)
 5. "Higher-Order Functions in Swift", Medium, last modified Jun. 9, 2020, accessed Nov. 07, 2022, [Higher-Order Functions in Swift](https://betterprogramming.pub/higher-order-functions-in-swift-13c31a769c0c)
 6. "Understanding Higher Order Functions in Swift", APPCODA, Feb. 26, 2020, accessed Nov. 07, 2022, [Understanding Higher Order Functions in Swift](https://www.appcoda.com/higher-order-functions-swift/)
+7. "Higher Order Functions in Swift", Level Up COding, Aug. 12, 2020, accessed Nov. 14, 2022, [Level Up Coding - Higher Order Functions in Swift](https://levelup.gitconnected.com/higher-order-functions-in-swift-35861620ad1)
+   
