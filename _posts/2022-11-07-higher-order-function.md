@@ -586,6 +586,104 @@ print(updatedValues)    // ["hobby": "Computer Games", "job": "Developer", "city
 > - someDictionary.keys.map: (최종 결과물이 `Array`) & (`Key`만 필요할 때)
 > - someDictionary.values.map: (최종 결과물이 `Array`) & (`Value`만 필요할 때)
 
+#### <span style="color: rgba(166, 42, 254, 1)">3. compactMap</span>
+
+`Collection`이 `nil`을 포함하고 있는 경우 유용하게 사용할 수 있는, `map`과 매우 유사한 `compactMap`이 있다.
+
+__1 ) Optional Collection with `map`__
+
+```swift
+let numbersWithNil: [Int?] = [5, 15, nil, 3, 9, 12, nil, nil, 17, nil]
+```
+
+<br>
+위 `nil`이 포함된 `Collection`에 `map` 함수를 사용해보자.
+
+```swift
+let doubledNums = numbersWithNil.map { $0 * 2 } // error: value of optional type 'Int?' must be unwrapped to a value of type 'Int'
+```
+
+`numbersWithNil`이 저장하는 데이터 타입은 `Int?`이므로 `unwrapping`을 하지 않으면 산술 연산을 할 수 없어서 에러가 발생한다.
+
+```swift
+let doubledNums = numbersWithNil.map { $0! * 2 } // Fatal error: Unexpectedly found nil while unwrapping an Optional value
+```
+
+`unwrapping`을 했지만 또 다른 에러가 발생한다. 바로 `Collection`의 `element`가 `nil`인 순간 `nil! * 2` 연산을 
+시도해 `Runtime Error`가 발생한다.
+
+<br>
+
+따라서 다음과 같이 `Type-Safe`한 코드를 위해 `nil check`를 해줘야한다.
+
+```swift
+let doubledNums = numbersWithNil.map { (number) -> Int? in
+    guard let number = number else { return nil }
+    return number * 2
+}
+```
+
+위 로직을 `Ternary Operator`를 이용해 최적화 하면 다음과 같다.
+
+```swift
+let doubledNums = numbersWithNil.map { $0 != nil ? $0! * 2 : nil }
+print(type(of: doubledNums))    // Array<Optional<Int>>
+print(doubledNums)              // [Optional(10), Optional(30), nil, Optional(6), Optional(18), Optional(24), nil, nil, Optional(34), nil]
+```
+
+<br>
+
+__2 ) Optional Collection with `compactMap`__
+
+```swift
+let doubledNumsWithoutNil = numbersWithNil.compactMap { $0 != nil ? $0! * 2 : nil }
+print(type(of: doubledNumsWithoutNil))  // Array<Int>
+print(doubledNumsWithoutNil)            // [10, 30, 6, 18, 24, 34]
+```
+
+`compactMap`을 사용하더라도 `Type-Safe`한 코드를 위해 `nil check`는 반드시 해줘야한다.
+
+하지만 `Original Collection`의 `nil`을 그대로 포함하는 `map`과 달리 `compactMap`은 `Optional elements`를 
+제거하고, `unwrapping`된 `Collection`을 반환한다. 따라서, `nil`의 숫자만큼 `Collection`의 길이 역시 줄어든다.
+
+즉, `compactMap`은 다음 코드를 압축한 것이다.
+
+```swift
+let doubledNumsWithoutNil = numbersWithNil
+    .filter { $0 != nil }
+    .map { $0! * 2 }
+
+print(type(of: doubledNumsWithoutNil))  // Array<Int>
+print(doubledNumsWithoutNil)            // [10, 30, 6, 18, 24, 34]
+```
+
+<br>
+
+__3 ) Optional Collection with `default value`__
+
+`Optional Collection`이라고 무조건 `compactMap`을 사용해서는 안 된다. `nil`을 제거하지 않고 남겨두거나, 
+`default value` 처리를 해야할 수도 있다. 이때는 `compactMap`을 사용할 수 없다.
+
+```swift
+let withDefaultValue = numbersWithNil.map { $0 != nil ? $0! * 2 : -1 }
+print(type(of: withDefaultValue))   // Array<Int>
+print(withDefaultValue)             // [10, 30, -1, 6, 18, 24, -1, -1, 34, -1]
+```
+
+단, 이 경우 주의해야 할 것은 주어진 `default value`가 전체 앱 또는 구현 중인 로직에 `side effect`를 
+일으키지 않는 값을 선택해야한다.
+
+<br>
+
+> `compactMap`은 `.filter { $0 != nil } .map { (YOUR_CODE) }`를 압축한 것이다. 
+> 따라서, `Collection`에서 `nil`을 제거하고 `non-nil`만 얻고자 할 때 유용하다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">4. </span>
+#### <span style="color: rgba(166, 42, 254, 1)">5. </span>
+#### <span style="color: rgba(166, 42, 254, 1)">6. </span>
+
+
+
 ---
 
 ### <span style="color: orange">4. 👩‍💻</span>
