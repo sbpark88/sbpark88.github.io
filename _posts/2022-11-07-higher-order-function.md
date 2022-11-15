@@ -598,6 +598,8 @@ func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOf
 
 Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/compactmap(_:))
 
+<br>
+
 __1 ) Optional Collection with `map`__
 
 ```swift
@@ -714,11 +716,219 @@ print(validCoins)   // [1, 5, 10, 6]
 
 #### <span style="color: rgba(166, 42, 254, 1)">4. flatMap</span>
 
+다음은 `Swift documentation의 Instance Method flatMap(_:)`의 설명이다.
+
+```swift
+func flatMap<SegmentOfResult>(_ transform: (Self.Element) throws -> SegmentOfResult) rethrows -> [SegmentOfResult.Element] where SegmentOfResult : Sequence
+```
+
+Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/flatmap(_:)-jo2y)
+
+`flatMap`은 `2D Array`를 `1D Array`로 바꾼다. 즉, `Collection` 안에 `Collection`이 있을 때 유용하다.
+
+<br>
+
+__1 ) `2D Array` to `1D Array`__
+
+```swift
+let marks = [[3, 4, 5], [2, 5, 3], [1, 2, 2], [5, 5, 4], [3, 5, 3]]
+```
+
+- For-In Loops
+
+```swift
+var allMarks: [Int] = []
+for marksArray in marks {
+    allMarks += marksArray
+}
+print(allMarks) // [3, 4, 5, 2, 5, 3, 1, 2, 2, 5, 5, 4, 3, 5, 3]
+```
+
+- flatMap
+
+```swift
+let allMarks = marks.flatMap { $0 }
+print(allMarks) // [3, 4, 5, 2, 5, 3, 1, 2, 2, 5, 5, 4, 3, 5, 3]
+```
+
+<br>
+
+__2 ) Application of flatMap__
+
+이번에는 위 `2D Array`의 모든 `elements`의 합을 구해보자. 일반적으로 이러한 구조에서는 이중 `For-In Loops`를 
+사용하게된다.
+
+- For-In Loops
+
+```swift
+var sum: Int = 0
+for marksArray in marks {
+    for element in marksArray {
+        sum += element
+    }
+}
+print(sum)  // 52
+```
+
+<br>
+
+- flatMap
+
+```swift
+let sum = marks
+        .flatMap { $0 }
+        .reduce(0) { $0 + $1 }
+
+print(sum)  // 52
+```
+
+<br>
+
+__3 ) Composite case__
+
+- For-In Loops
+
+```swift
+let marksWithNil = [[3, nil, 5], [2, 5, nil], [1, 2, 2], [5, 5, 4], [nil, 5, 3]]
+```
+
+이번에는 2D Collection에 `nil`이 포함된 경우를 생각해보자. 일반적으로 `For-In Loops`를 이용하면 다음 방법 
+중 하나를 사용할 것이다.
+
+```swift
+var anotherSum: Int = 0
+for marksArray in marksWithNil {
+    for element in marksArray where element != nil {
+        anotherSum += element!
+    }
+}
+print(anotherSum)   // 42
+```
+
+```swift
+for marksArray in marksWithNil {
+    for element in marksArray {
+        guard let element = element else { continue }
+        anotherSum += element
+    }
+}
+print(anotherSum)   // 42
+```
+
+```swift
+for marksArray in marksWithNil {
+    for element in marksArray {
+        anotherSum += element ?? 0
+    }
+}
+print(anotherSum)   // 42
+```
+
+<br>
+
+- flatMap
+
+`flatMap`를 다른 `Higher-order Functions`와 함께 `chaining` 하면 매우 간단하고 깔끔한 코드로 구현할 수 있다.
+
+```swift
+let anotherSum = marksWithNil
+    .flatMap { $0 }
+    .filter { $0 != nil }
+    .reduce(0) { $0 + $1! }
+
+print(anotherSum)   // 42
+```
+
+```swift
+let anotherSum = marksWithNil
+    .flatMap { $0 }
+    .reduce(0) { $0 + ($1 ?? 0) }
+
+print(anotherSum)   // 42
+```
 
 
 
-#### <span style="color: rgba(166, 42, 254, 1)">5. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">6. </span>
+
+
+
+
+
+
+#### <span style="color: rgba(166, 42, 254, 1)">5. filter</span>
+
+다음은 `Swift documentation의 Instance Method compactMap(_:)`의 설명이다.
+
+```swift
+func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
+```
+
+Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/compactmap(_:))
+
+
+
+
+#### <span style="color: rgba(166, 42, 254, 1)">6. reduce</span>
+
+다음은 `Swift documentation의 Instance Method compactMap(_:)`의 설명이다.
+
+```swift
+func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
+```
+
+Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/compactmap(_:))
+
+
+
+
+#### <span style="color: rgba(166, 42, 254, 1)">7. contains</span>
+
+다음은 `Swift documentation의 Instance Method compactMap(_:)`의 설명이다.
+
+```swift
+func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
+```
+
+Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/compactmap(_:))
+
+
+
+#### <span style="color: rgba(166, 42, 254, 1)">8. removeAll</span>
+
+다음은 `Swift documentation의 Instance Method compactMap(_:)`의 설명이다.
+
+```swift
+func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
+```
+
+Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/compactmap(_:))
+
+
+
+
+#### <span style="color: rgba(166, 42, 254, 1)">9. sort, sorted</span>
+
+다음은 `Swift documentation의 Instance Method compactMap(_:)`의 설명이다.
+
+```swift
+func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
+```
+
+Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/compactmap(_:))
+
+
+
+
+#### <span style="color: rgba(166, 42, 254, 1)">10. split</span>
+
+다음은 `Swift documentation의 Instance Method compactMap(_:)`의 설명이다.
+
+```swift
+func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
+```
+
+Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/compactmap(_:))
+
 
 
 
