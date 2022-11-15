@@ -372,13 +372,13 @@ The double of 14 is 28
 
 __1 ) Array.map(_:)__
 
-다음은 `Swift documentation > Array > Instance Method map(_:)`의 설명이다.
+다음은 `Swift documentation의 Instance Method map(_:)`의 설명이다.
 
 ```swift
 func map<T>(_ transform: (Self.Element) throws -> T) rethrows -> [T]
 ```
 
-Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/array/map(_:)-87c4d)
+Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/map(_:))
 
 `map` 함수는 가장 유명한 `Higher-order Function`으로 `Collection`의 모든 `elements`에 로직을 수행 후
 `new Collection`을 반환한다.
@@ -590,6 +590,14 @@ print(updatedValues)    // ["hobby": "Computer Games", "job": "Developer", "city
 
 `Collection`이 `nil`을 포함하고 있는 경우 유용하게 사용할 수 있는, `map`과 매우 유사한 `compactMap`이 있다.
 
+다음은 `Swift documentation의 Instance Method compactMap(_:)`의 설명이다.
+
+```swift
+func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
+```
+
+Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/compactmap(_:))
+
 __1 ) Optional Collection with `map`__
 
 ```swift
@@ -675,10 +683,40 @@ print(withDefaultValue)             // [10, 30, -1, 6, 18, 24, -1, -1, 34, -1]
 
 <br>
 
+__4 ) Application of compactMap__
+
+`compactMap`의 가장 유용한 점은 다음과 같은 코드를 매우 간략하게 표현할 수 있다는 것이다.
+
+```swift
+let coins = ["1", "5", "$", "10", "6"]
+
+var validCoins: [Int] = []
+for coin in coins {
+    guard let coin = Int(coin) else { continue }
+    validCoins.append(coin)
+}
+
+print(validCoins)   // [1, 5, 10, 6]
+```
+
+```swift
+let validCoins = coins.compactMap { Int($0) }
+print(validCoins)   // [1, 5, 10, 6]
+```
+
+이게 전부다! `filter` 외에도 위와 같은 `Type-Safe`한 코드를 위해 사용되는 `guard let`, `if let`을 
+활용한 여러 줄의 코드를 `compactMap`은 매우 간단하게 처리한다.
+
+<br>
+
 > `compactMap`은 `.filter { $0 != nil } .map { (YOUR_CODE) }`를 압축한 것이다. 
 > 따라서, `Collection`에서 `nil`을 제거하고 `non-nil`만 얻고자 할 때 유용하다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">4. </span>
+#### <span style="color: rgba(166, 42, 254, 1)">4. flatMap</span>
+
+
+
+
 #### <span style="color: rgba(166, 42, 254, 1)">5. </span>
 #### <span style="color: rgba(166, 42, 254, 1)">6. </span>
 
