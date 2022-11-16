@@ -372,7 +372,7 @@ The double of 14 is 28
 
 __1 ) Array.map(_:)__
 
-다음은 `Swift documentation의 Instance Method map(_:)`의 설명이다.
+다음은 `Swift documentation`의 Instance Method `map(_:)`의 설명이다.
 
 ```swift
 func map<T>(_ transform: (Self.Element) throws -> T) rethrows -> [T]
@@ -590,7 +590,7 @@ print(updatedValues)    // ["hobby": "Computer Games", "job": "Developer", "city
 
 `Collection`이 `nil`을 포함하고 있는 경우 유용하게 사용할 수 있는, `map`과 매우 유사한 `compactMap`이 있다.
 
-다음은 `Swift documentation의 Instance Method compactMap(_:)`의 설명이다.
+다음은 `Swift documentation`의 Instance Method `compactMap(_:)`의 설명이다.
 
 ```swift
 func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
@@ -672,7 +672,15 @@ print(doubledNumsWithoutNil)            // [10, 30, 6, 18, 24, 34]
 __3 ) Optional Collection with `default value`__
 
 `Optional Collection`이라고 무조건 `compactMap`을 사용해서는 안 된다. `nil`을 제거하지 않고 남겨두거나, 
-`default value` 처리를 해야할 수도 있다. 이때는 `compactMap`을 사용할 수 없다.
+`default value` 처리를 해야할 수도 있다. 이때는 `nil`을 `default value`로 처리하므로 `compactMap`과 
+`map`은 동일하게 작동한다. 따라서 이 경우 굳이 `compactMap`을 쓸 필요가 없다. `nil`이 제거된 `new Collection`을 
+반환하므로, `Swift`는 이를 추론해 `unwrapping`된 `Collection`을 반환한다.
+
+```swift
+let withDefaultValue = numbersWithNil.compactMap { $0 != nil ? $0! * 2 : -1 }
+print(type(of: withDefaultValue))   // Array<Int>
+print(withDefaultValue)             // [10, 30, -1, 6, 18, 24, -1, -1, 34, -1]
+```
 
 ```swift
 let withDefaultValue = numbersWithNil.map { $0 != nil ? $0! * 2 : -1 }
@@ -680,8 +688,10 @@ print(type(of: withDefaultValue))   // Array<Int>
 print(withDefaultValue)             // [10, 30, -1, 6, 18, 24, -1, -1, 34, -1]
 ```
 
-단, 이 경우 주의해야 할 것은 주어진 `default value`가 전체 앱 또는 구현 중인 로직에 `side effect`를 
-일으키지 않는 값을 선택해야한다.
+> `map`을 사용했지만 `nil`을 `default value`로 처리했기 때문에 `Swift`는 이를 추론해 `unwrapping`된 
+> `new Collection`을 반환한다.  
+> 단, `default value`를 사용할 때 주의해야 할 것은 주어진 `default value`가 전체 앱 또는 구현 중인 로직에 
+> `side effect`를 일으키지 않는 값을 선택해야한다.
 
 <br>
 
@@ -716,7 +726,7 @@ print(validCoins)   // [1, 5, 10, 6]
 
 #### <span style="color: rgba(166, 42, 254, 1)">4. flatMap</span>
 
-다음은 `Swift documentation의 Instance Method flatMap(_:)`의 설명이다.
+다음은 `Swift documentation`의 Instance Method `flatMap(_:)`의 설명이다.
 
 ```swift
 func flatMap<SegmentOfResult>(_ transform: (Self.Element) throws -> SegmentOfResult) rethrows -> [SegmentOfResult.Element] where SegmentOfResult : Sequence
@@ -786,20 +796,20 @@ print(sum)  // 52
 
 __3 ) Composite case__
 
-- For-In Loops
+이번에는 2D Collection에 `nil`이 포함된 경우를 생각해보자.
 
 ```swift
 let marksWithNil = [[3, nil, 5], [2, 5, nil], [1, 2, 2], [5, 5, 4], [nil, 5, 3]]
 ```
 
-이번에는 2D Collection에 `nil`이 포함된 경우를 생각해보자. 일반적으로 `For-In Loops`를 이용하면 다음 방법 
-중 하나를 사용할 것이다.
+- For-In Loops
+
+일반적으로 `For-In Loops`를 이용하면 다음 방법 중 하나를 사용할 것이다.
 
 ```swift
-var anotherSum: Int = 0
 for marksArray in marksWithNil {
-    for element in marksArray where element != nil {
-        anotherSum += element!
+    for element in marksArray {
+        anotherSum += element ?? 0
     }
 }
 print(anotherSum)   // 42
@@ -816,9 +826,10 @@ print(anotherSum)   // 42
 ```
 
 ```swift
+var anotherSum: Int = 0
 for marksArray in marksWithNil {
-    for element in marksArray {
-        anotherSum += element ?? 0
+    for element in marksArray where element != nil {
+        anotherSum += element!
     }
 }
 print(anotherSum)   // 42
@@ -828,16 +839,7 @@ print(anotherSum)   // 42
 
 - flatMap
 
-`flatMap`를 다른 `Higher-order Functions`와 함께 `chaining` 하면 매우 간단하고 깔끔한 코드로 구현할 수 있다.
-
-```swift
-let anotherSum = marksWithNil
-    .flatMap { $0 }
-    .filter { $0 != nil }
-    .reduce(0) { $0 + $1! }
-
-print(anotherSum)   // 42
-```
+`flatMap`을 다른 `Higher-order Functions`와 함께 `chaining` 하면 매우 간단하고 깔끔한 코드로 구현할 수 있다.
 
 ```swift
 let anotherSum = marksWithNil
@@ -847,30 +849,184 @@ let anotherSum = marksWithNil
 print(anotherSum)   // 42
 ```
 
+```swift
+let anotherSum = marksWithNil.lazy
+        .flatMap { $0 }
+        .filter { $0 != nil }
+        .reduce(0) { $0 + $1! }
 
+print(anotherSum)   // 42
+```
 
+```swift
+let anotherSum = marksWithNil.lazy
+    .flatMap { $0 }
+    .compactMap { $0 != nil ? $0 : nil }
+    .reduce(0) { $0 + $1 }
 
-
-
-
-
+print(anotherSum)   // 42
+```
 
 #### <span style="color: rgba(166, 42, 254, 1)">5. filter</span>
 
-다음은 `Swift documentation의 Instance Method compactMap(_:)`의 설명이다.
+다음은 `Swift documentation`의 Instance Method `filter(_:)`의 설명이다.
 
 ```swift
-func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
+func filter(_ isIncluded: (Self.Element) throws -> Bool) rethrows -> [Self.Element]
 ```
 
-Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/compactmap(_:))
+Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/filter(_:))
+
+`filter` 함수는 `Higher-order Function` 중 `map`과 함께 가장 많이 사용되는 함수다.  
+`filter`는 `Collection`의 모든 `elements`에 로직을 수행 후 `Bool` condition 이 `true`인 값에 대해 
+`new Collection`을 반환한다.
+
+<br>
+
+__1 ) Filter some condition__
+
+아래 배열 `words`에서 문자 `o`를 포함하는 `elements`만 갖는 새 배열을 만들어보자.
+
+```swift
+let words: [String] = ["room", "home", "train", "green", "heroe"]
+```
+
+<br>
+
+- For-In Loops
+
+`Collection`을 순환하며 결과를 계산해 담을 변수를 생성하고, `For-In Loops`를 이용한다.
+
+```swift
+var wordsWithO: [String] = []
+for word in words {
+    if word.contains("o") {
+        wordsWithO.append(word)
+    }
+}
+```
+
+<br>
+
+만약 결과를 변수가 아닌 상수에 담고 싶다면 어떻게 해야할까? 위에서 만든 `wordsWithO` 변수를 `temp`라는 변수를 
+만들어 저장한다. 그리고 계산이 끝난 후 이 값을 상수에 할당하면 된다.
+
+```swift
+var temp: [String] = []
+for word in words {
+    if word.contains("o") {
+        temp.append(word)
+    }
+}
+
+let wordsWithO: [String] = temp
+```
+
+<br>
+
+하지만 위 방식은 좋아 보이지 않는다. 우리는 이 문제를 `closure`를 이용해 해결할 수 있다.
+
+```swift
+let closure = {
+    var wordsWithO: [String] = []
+    for word in words {
+        if word.contains("o") {
+            wordsWithO.append(word)
+        }
+    }
+    return wordsWithO
+}
+
+let wordsWithO: [String] = closure()
+```
+
+만약 `closure`가 일회성으로 사용 후 소멸될거라면 다음과 같이 `anonymous`로 만들 수 있다.
+
+```swift
+let wordsWithO: [String] = {
+    var wordsWithO: [String] = []
+    for word in words {
+        if word.contains("o") {
+            wordsWithO.append(word)
+        }
+    }
+    return wordsWithO
+}()
+```
+
+<br>
+
+- filter
+
+`filter`를 이용하면 `filter`의 `argument`에 `single-expression closures`, 
+`shorthand arguemnt names`, `trailing closure syntax`를 모두 적용해 다음과 같이 간단한 코드로 처리가 
+가능하다.
+
+```swift
+let wordsWithO: [String] = words.filter { $0.contains("o") }
+
+print(wordsWithO)   // ["room", "home", "heroe"]
+```
+
+<br>
+
+__2 ) Filter nil__
+
+`nil` 값을 필터링 할 때는 다음과 같은 차이가 있으니 주의해야한다.
+
+아래 배열 `numbersWithNil`에서 `nil`이 아닌 값의 합을 구해보자. 
+
+```swift
+let numbersWithNil = [1, 2, nil, 5, nil, 32, 7]
+```
+
+<br>
+
+우선 `numbersWithNil`을 각각 `filter`, `compactMap`, `map`을 이용해 `nil`을 제거해보자.
+
+```swift
+print(numbersWithNil.filter { $0 != nil })                   // [Optional(1), Optional(2), Optional(5), Optional(32), Optional(7)]
+print(numbersWithNil.compactMap { $0 != nil ? $0 : nil })    // [1, 2, 5, 32, 7]
+print(numbersWithNil.map { $0 != nil ? $0! : 0 })            // [1, 2, 0, 5, 0, 32, 7]
+```
+
+> - `filter`는 `nil`을 제거하지만 `Optioanl`을 `unwrapping` 하지는 못 한다.
+> - `compactMap`은 `nil`을 제거하고, `Optioanl`을 `unwrapping`한다.
+> - `map`을 적절한 `default value`와 함께 사용하면, `nil`을 제거하지는 못 하지만 `Optional`을 
+>   `unwrapping` 할 수 있다(이 때 `default value`는 `side effect`를 일으키지 않아야한다).
+
+사실 의도적으로 `nil`을 특정한 `default value`로 바꾸려는 것이 아니라면 `map` case 는 좋지 못 한 방법이다. 
+위 값을 더하기 위해 `0`이라는 값을 `default value`로 주었지만 만약 곱하기로 변경된다면? `default value`를 
+다시 `1`로 변경해줘야한다.  
+이런 코드는 유연성(재사용성)이 떨어질 뿐 아니라 불필요한 값을 계속 가지고 다니므로 성능도 좋지 못 하다. 또한 코드가 
+길어지거나 코드를 작성한 이후 유지보수 할 때 `human error`를 발생시키는 요인이 될 가능성도 높다.
+
+```swift
+let sumWithFilter = numbersWithNil.lazy
+        .filter { $0 != nil }
+        .reduce(0) { $0 + $1! }
+
+let sumWithCompactMap = numbersWithNil.lazy
+        .compactMap { $0 != nil ? $0 : nil }
+        .reduce(0) { $0 + $1 }
+
+let sumWithReduce = numbersWithNil.reduce(0) { $0 + ($1 ?? 0) }
 
 
+print("sumWithFilter:       \(sumWithFilter)")
+print("sumWithCompactMap:   \(sumWithCompactMap)")
+print("sumWithReduce:       \(sumWithReduce)")
+```
 
+```console
+sumWithFilter:       47
+sumWithCompactMap:   47
+sumWithReduce:       47
+```
 
 #### <span style="color: rgba(166, 42, 254, 1)">6. reduce</span>
 
-다음은 `Swift documentation의 Instance Method compactMap(_:)`의 설명이다.
+다음은 `Swift documentation`의 Instance Method `compactMap(_:)`의 설명이다.
 
 ```swift
 func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
@@ -883,7 +1039,7 @@ Link: [Apple Developer Documentation](https://developer.apple.com/documentation/
 
 #### <span style="color: rgba(166, 42, 254, 1)">7. contains</span>
 
-다음은 `Swift documentation의 Instance Method compactMap(_:)`의 설명이다.
+다음은 `Swift documentation`의 Instance Method `compactMap(_:)`의 설명이다.
 
 ```swift
 func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
@@ -895,7 +1051,7 @@ Link: [Apple Developer Documentation](https://developer.apple.com/documentation/
 
 #### <span style="color: rgba(166, 42, 254, 1)">8. removeAll</span>
 
-다음은 `Swift documentation의 Instance Method compactMap(_:)`의 설명이다.
+다음은 `Swift documentation`의 Instance Method `compactMap(_:)`의 설명이다.
 
 ```swift
 func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
@@ -908,7 +1064,7 @@ Link: [Apple Developer Documentation](https://developer.apple.com/documentation/
 
 #### <span style="color: rgba(166, 42, 254, 1)">9. sort, sorted</span>
 
-다음은 `Swift documentation의 Instance Method compactMap(_:)`의 설명이다.
+다음은 `Swift documentation`의 Instance Method `compactMap(_:)`의 설명이다.
 
 ```swift
 func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
@@ -921,7 +1077,7 @@ Link: [Apple Developer Documentation](https://developer.apple.com/documentation/
 
 #### <span style="color: rgba(166, 42, 254, 1)">10. split</span>
 
-다음은 `Swift documentation의 Instance Method compactMap(_:)`의 설명이다.
+다음은 `Swift documentation`의 Instance Method `compactMap(_:)`의 설명이다.
 
 ```swift
 func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
