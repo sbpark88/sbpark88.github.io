@@ -877,7 +877,7 @@ func filter(_ isIncluded: (Self.Element) throws -> Bool) rethrows -> [Self.Eleme
 
 Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/filter(_:))
 
-`filter` 함수는 `Higher-order Function` 중 `map`과 함께 가장 많이 사용되는 함수다.  
+`filter` 함수는 `Higher-order Functions` 중 `map`과 함께 가장 많이 사용되는 함수다.  
 `filter`는 `Collection`의 모든 `elements`에 로직을 수행 후 `Bool` condition 이 `true`인 값에 대해 
 `new Collection`을 반환한다.
 
@@ -1012,7 +1012,6 @@ let sumWithCompactMap = numbersWithNil.lazy
 
 let sumWithReduce = numbersWithNil.reduce(0) { $0 + ($1 ?? 0) }
 
-
 print("sumWithFilter:       \(sumWithFilter)")
 print("sumWithCompactMap:   \(sumWithCompactMap)")
 print("sumWithReduce:       \(sumWithReduce)")
@@ -1023,6 +1022,63 @@ sumWithFilter:       47
 sumWithCompactMap:   47
 sumWithReduce:       47
 ```
+
+<br>
+
+__3 ) Compare with TypeScript__
+
+`TypeScript`에는 `compactMap` 함수가 없다. 따라서 이런 경우는 `filter`를 다른 `Higher-order Functions`와 
+결합해 다음과 같이 구현한다.
+
+```typescript
+const numbersWithNil: (number | null | undefined)[] = [1, 2, null, 5, undefined, 32, 7]
+```
+
+```typescript
+console.log(numbersWithNil.filter(value => value !== null && value !== undefined))  // [ 1, 2, 5, 32, 7 ]
+console.log(numbersWithNil.filter(value => !!value))                                // [ 1, 2, 5, 32, 7 ]
+```
+
+```typescript
+const sumWithFilter = numbersWithNil.filter(value => !!value)
+    .reduce((prev, curr) => prev! + curr!, 0)
+
+const sumWithReduce = numbersWithNil.reduce((prev, curr) => prev! + (curr ?? 0), 0)
+
+console.log(`sumWithFilter:     ${sumWithFilter}`)
+console.log(`sumWithReduce:     ${sumWithReduce}`)
+```
+
+```console
+sumWithFilter:     47
+sumWithReduce:     47
+```
+
+<br>
+
+또는 'lodash'와 같은 `Array`를 다루기 쉽게 도와주는 library를 사용한다.
+
+```typescript
+import {compact} from 'lodash';
+
+console.log(compact(numbersWithNil))    // [ 1, 2, 5, 32, 7 ]
+```
+
+```typescript
+const sumWithCompact = compact(numbersWithNil)
+    .reduce((prev, curr) => prev + curr)
+
+console.log(`sumWithCompact:  ${sumWithCompact}`)
+```
+
+```console
+sumWithCompact:    47
+```
+
+<br>
+
+> 따라서 필터링 하려는 값이 `nil`이고, 이 `nil`을 버릴거라면 `Swift`는 `compactMap`을 사용하는 것이 더 적합한
+> 경우가 많으니 각 case 에 따라 유리한 것을 활용하도록 한다.
 
 #### <span style="color: rgba(166, 42, 254, 1)">6. reduce</span>
 
