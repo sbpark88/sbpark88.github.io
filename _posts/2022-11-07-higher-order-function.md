@@ -245,8 +245,22 @@ print(someFunction(12)) // 18   (12 + 3) + 3
 
 #### <span style="color: rgba(166, 42, 254, 1)">1. forEach</span>
 
+다음은 `Swift documentation`의 Instance Method `forEach(_:)`의 설명이다.
+
+```swift
+func forEach(_ body: (Self.Element) throws -> Void) rethrows
+```
+
+Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/foreach(_:))
+
+<br>
+
+그리고 `forEach`의 특징은 다음과 같다.
+
 - `Collection`의 모든 `elements`를 순환할 뿐 `Return Value`가 없다.
 - `continue`, `break` 같은 `Control Transfer Statements`를 사용할 수 없다. 오직 `return`만 사용 가능하다.
+
+<br>
 
 `Collection`을 순환하는 고전적인 방법으로 `For-In Loops`가 있다. 
 
@@ -1080,18 +1094,121 @@ sumWithCompact:    47
 > 따라서 필터링 하려는 값이 `nil`이고, 이 `nil`을 버릴거라면 `Swift`는 `compactMap`을 사용하는 것이 더 적합한
 > 경우가 많으니 각 case 에 따라 유리한 것을 활용하도록 한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">6. reduce</span>
 
-다음은 `Swift documentation`의 Instance Method `compactMap(_:)`의 설명이다.
+<br>
+
+__4 ) Application of filter__
+
+`filter`는 Primitive Types 를 저장하는 Collection 뿐 아니라 `Class`, `Structure`를 저장하는 
+Collection에도 사용이 가능하다.
 
 ```swift
-func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
+struct Tester {
+    var name: String
+    var age: Int
+}
+
+let testers: [Tester] = [Tester(name: "John", age: 23),
+                         Tester(name: "Lucy", age: 25),
+                         Tester(name: "Tom", age: 32),
+                         Tester(name: "Mike", age: 29),
+                         Tester(name: "Hellen", age: 19),
+                         Tester(name: "Jim", age: 35),
+                         Tester(name: "Jamie", age: 30)]
+```
+
+<br>
+
+이름이 `J`로 시작하면서 나이가 30살 이상인 직원을 찾는 예를 보자.
+
+```swift
+let result: [Tester] = testers.filter { $0.name.prefix(1) == "J" && $0.age >= 30 }
+
+result.forEach { print("\($0.name), \($0.age)") }
+```
+
+```console
+Jim, 35
+Jamie, 30
+```
+
+
+
+
+
+
+#### <span style="color: rgba(166, 42, 254, 1)">6. reduce</span>
+
+다음은 `Swift documentation`의 Instance Method `reduce(_:_:)`의 설명이다.
+
+```swift
+func reduce<Result>(
+        _ initialResult: Result,
+        _ nextPartialResult: (Result, Self.Element) throws -> Result
+) rethrows -> Result
 ```
 
 Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/compactmap(_:))
 
+`forEach`나 `map`이 `new Collection`을 반환하는 것과 달리 `reduce`는 모든 `elements`를 순환하며 
+각 `elements`를 결합하는 로직을 통해 `one result`를 반환한다.
 
+언어나 사이트에 따라 `Higher-order Functions`의 `reduce` 설명을 보면
+- (initialResult, Closure[Result, Element])  
+- (initialValue, Function[previousValue, currentValue])  
+- (initialValue, Function[accumulator, currentValue])
 
+이런식으로 `parameters`의 이름은 다르지만 모두 동일한 `reuduce`를 구현한다.
+
+<br>
+
+아래 배열의 합과 곱을 구해보자.
+
+```swift
+let numbers: [Int] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+```
+
+<br>
+
+- For-In Loops
+
+```swift
+let sum: Int = {
+    var sum: Int = 0        // initialValue is '0'
+    for number in numbers {
+        sum += number
+    }
+    return sum
+}()
+
+let product: Int = {
+    var product: Int = 1    // initialValue is '1'
+    for number in numbers {
+        product *= number
+    }
+    return product
+}()
+
+print("sum: \(sum)   product: \(product)")  // sum: 55   product: 3628800
+```
+
+<br>
+
+- reduce
+
+`reduce`를 이용하면 다음과 같이 매우 짧고 간단할 뿐 아니라 가독성 또한 좋다.
+
+```swift
+let sum: Int = numbers.reduce(0, { (prev, curr) -> Int in prev + curr })    // initialValue is '0'
+let product: Int = numbers.reduce(1, {(prev, curr) -> Int in prev * curr }) // initialValue is '1'
+```
+
+```swift
+let sum: Int = numbers.reduce(0, { $0 + $1 })
+let product: Int = numbers.reduce(1) { $0 * $1 }
+
+print("sum: \(sum)   product: \(product)")  // sum: 55   product: 3628800
+```
 
 #### <span style="color: rgba(166, 42, 254, 1)">7. contains</span>
 
