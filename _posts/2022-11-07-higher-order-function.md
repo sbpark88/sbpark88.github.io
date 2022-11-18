@@ -902,7 +902,7 @@ __1 ) Filter some condition__
 아래 배열 `words`에서 문자 `o`를 포함하는 `elements`만 갖는 새 배열을 만들어보자.
 
 ```swift
-let words: [String] = ["room", "home", "train", "green", "heroe"]
+let words: [String] = ["room", "home", "train", "green", "hero"]
 ```
 
 <br>
@@ -979,7 +979,7 @@ let wordsWithO: [String] = {
 ```swift
 let wordsWithO: [String] = words.filter { $0.contains("o") }
 
-print(wordsWithO)   // ["room", "home", "heroe"]
+print(wordsWithO)   // ["room", "home", "hero"]
 ```
 
 <br>
@@ -1132,11 +1132,6 @@ Jim, 35
 Jamie, 30
 ```
 
-
-
-
-
-
 #### <span style="color: rgba(166, 42, 254, 1)">6. reduce</span>
 
 다음은 `Swift documentation`의 Instance Method `reduce(_:_:)`의 설명이다.
@@ -1212,15 +1207,216 @@ print("sum: \(sum)   product: \(product)")  // sum: 55   product: 3628800
 
 #### <span style="color: rgba(166, 42, 254, 1)">7. contains</span>
 
-다음은 `Swift documentation`의 Instance Method `compactMap(_:)`의 설명이다.
+다음은 `Swift documentation`의 Instance Method `contains(_:)`와 `contains(where:)`의 설명이다.
 
 ```swift
-func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
+func contains(_ element: Self.Element) -> Bool
+
+func contains(where predicate: (Self.Element) throws -> Bool) rethrows -> Bool
 ```
 
-Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/compactmap(_:))
+Link: [Apple Developer Documentation `contains(_:)`](https://developer.apple.com/documentation/swift/sequence/contains(_:))  
+Link: [Apple Developer Documentation `contains(where:)`](https://developer.apple.com/documentation/swift/sequence/contains(where:))
 
+> - `contains`는 주어진 조건에 대해 `Bool` 자체를 반환한다.  
+>   이것은 `Collection`의 모든 `elements`를 _Logical OR Operator(`||`)_ 로 연결한 것과 같다.  
+>   element1 || element2 || element3 || ...  
+>   따라서 하나라도 `true`가 되면 바로 종료 후 `true`를 반환하고, 마지막까지 `false`일 경우 `false`를 반환한다.
 
+> - `filter`는 주어진 조건에 대해 `true`인 `elements`를 `new Collection`으로 반환한다.
+
+<br>
+
+__1 ) contains(_:)__
+
+`contains(_:)`는 별도의 조건을 갖는 것은 불가능하고 `Switch`와 같이 `Equal to(==)`를 기준으로 주어진 조건과 
+일치하는지 여부만 확인한다.
+
+아래 배열이 `train`을 포함하고 있는지 확인해보자.
+
+```swift
+let words: [String] = ["room", "home", "train", "green", "hero"]
+```
+
+<br>
+
+- For-In Loops
+
+```swift
+let isIncluded: Bool = {
+    var isIncluded = false
+    for word in words {
+        if word == "train" {
+            isIncluded = true
+            break
+        }
+    }
+    return isIncluded
+}()
+
+print(isIncluded)   // true
+```
+
+<br>
+
+- OR Operator(`||`)
+
+```swift
+let isIncluded: Bool = words[0] == "train" ||
+                       words[1] == "train" ||
+                       words[2] == "train" ||
+                       words[3] == "train" ||
+                       words[4] == "train"
+
+print(isIncluded)   // true
+```
+
+<br>
+
+- Switch
+
+```swift
+let isIncluded: Bool = {
+    switch true {
+    case words[0] == "train": return true
+    case words[1] == "train": return true
+    case words[2] == "train": return true
+    case words[3] == "train": return true
+    case words[4] == "train": return true
+    default: return false
+    }
+}()
+
+print(isIncluded)   // true
+```
+
+```swift
+let isIncluded: Bool = {
+    switch "train" {
+    case words[0], words[1], words[2], words[3], words[4]: return true
+    default: return false
+    }
+}()
+print(isIncluded)   // true
+```
+
+<br>
+
+- contains
+
+위에서 `For-In Loops`를 제외한 다른 방법들은 코드의 유연성이 떨어진다. 그나마 가장 좋은 방법인 `For-In Loops` 역시 코드가 길고 가독성이 좋지 못하다.  
+그렇다면 `contains`는 이를 얼마나 간단하게 구현할 수 있을까?
+
+```swift
+let isIncluded: Bool = words.contains { $0 == "train" }
+print(isIncluded)   // true
+```
+
+정말 이게 전부다!!
+
+만약 이를 굳이 `filter`로 구현한다면 어떻게 해야할까?
+
+```swift
+let isIncluded: Bool = words.filter { $0 == "train" }.count > 0 ? true : false
+print(isIncluded)   // true
+```
+
+코드 가독성도 썩 좋지 못할 뿐 아니라 `Collection`의 모든 `elements`를 다 돌아서 `new Collection`을 생성한 
+후 크기를 판단해야하므로 성능 또한 떨어진다.
+
+<br>
+
+__2 ) contains(where:)__
+
+`contains(where:)`는 `contains(_:)`와 달리 `if-statements`나 `Switch-True`처럼 `Bool`을 판단할 
+조건을 제시할 수 있다.
+
+이번에는 위 배열의 `elements` 중 문자 `e`를 포함하면서, `길이가 5 이상`인 문자를 포함하고 있는지 확인해보자.  
+
+```swift
+let isIncluded: Bool = words.contains { $0.contains("e") && $0.count >= 5 }
+print(isIncluded)   // true
+```
+
+<br>
+
+만약, 단지 포함되어 있는지 여부만 확인하는 것이 아니라 그 `element`가 무엇인지를 알고싶다면 어떻게 해야할까?  
+우리는 `filter`와 `contains`를 상호 보완적으로 함께 사용함으로써 이를 멋지게 처리할 수 있다.
+
+```swift
+let wordsWithO = words.filter { $0.contains("o") }
+print(wordsWithO)   // ["room", "home", "hero"]
+```
+
+```swift
+let wordsWithO = words.filter { $0.contains("o") && $0.count >= 5 }
+print(wordsWithO)   // ["hero"]
+```
+
+<br>
+
+__3 ) With Dictionaroies__
+
+```swift
+let temperatures = ["London": 7, "Athens": 14, "New York": 15, "Cairo": 19, "Sydney": 28]
+
+let hasHighTemperatures = temperatures.contains { $0.value > 25 }
+print(hasHighTemperatures)  // true
+```
+
+<br>
+
+__4 ) With Classes or Structures__
+
+```swift
+class Staff {
+    enum Gender {
+        case male, female
+    }
+    
+    var name: String
+    var gender: Gender
+    var age: Int
+    
+    init(name: String, gender: Gender, age: Int) {
+        self.name = name
+        self.gender = gender
+        self.age = age
+    }
+}
+```
+
+```swift
+struct Staff {
+    enum Gender {
+        case male, female
+    }
+    
+    var name: String
+    var gender: Gender
+    var age: Int
+}
+```
+
+<br>
+
+```swift
+let staff = [Staff(name: "Nick", gender: .male, age: 37),
+             Staff(name: "Julia", gender: .female, age: 29),
+             Staff(name: "Tom", gender: .male, age: 41),
+             Staff(name: "Tony", gender: .male, age: 45),
+             Staff(name: "Emily", gender: .female, age: 42),
+             Staff(name: "Irene", gender: .female, age: 30)]
+
+let hasSaffOver40 = staff.contains { $0.age > 40 }
+print("hasSaffOver40", hasSaffOver40)
+
+let hasMalesOver50 = staff.contains { $0.age > 50 && $0.gender == .male }
+print("hasMalesOver50", hasMalesOver50)
+
+let hasFemalesUnder30 = staff.contains { $0.age < 30 && $0.gender == .female }
+print("hasFemalesUnder30", hasFemalesUnder30)
+```
 
 #### <span style="color: rgba(166, 42, 254, 1)">8. removeAll</span>
 
