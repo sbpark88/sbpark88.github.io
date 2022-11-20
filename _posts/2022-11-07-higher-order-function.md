@@ -1677,10 +1677,66 @@ func split(
 Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/array/split(separator:maxsplits:omittingemptysubsequences:)-3dgmv)  
 Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/array/split(maxsplits:omittingemptysubsequences:whereseparator:))
 
+> `split`은 주어진 조건에 따라 나눠 자기 자신의 `SubSequence` 타입의 `new Collection`을 반환한다.
+> 
+> 예를 들어 `String`을 `split`하면 `String.SubSequence`인 `Substring` 타입의 `new Collection`  
+> 즉, `Array<Substring>` (= `[Substring]`)을 반환한다.
 
+`Substring`은 다음 링크를 참고한다. [About Substrings][sbpark-substrings]
 
+[sbpark-substrings]: https://sbpark88.github.io/swift/2022/09/17/strings-and-characters.html#h-9-substrings-부분-문자열-
 
+<br>
 
+- split(separator:maxSplits:omittingEmptySubsequences:)
+
+```swift
+let line = "BLANCHE:   I don't want realism. I want magic!"
+```
+
+<br>
+`split`에 의해 `" "`를 기준으로 나뉘어 생긴 `Substring`이 `Collection Array`에 담겼다.
+
+```swift
+print(type(of: line))       // String
+
+let splited = line.split(separator: " ")
+print(splited)          // ["BLANCHE:", "I", "don\'t", "want", "realism.", "I", "want", "magic!"]
+print(type(of: splited))    // Array<Substring>
+```
+
+<br>
+`maxSplits`를 통해 몇 번 `split`을 할 것인지 정할 수 있다.
+
+```swift
+let splitedMaxOne = line.split(separator: " ", maxSplits: 1)
+print(splitedMaxOne)    // ["BLANCHE:", "  I don\'t want realism. I want magic!"]
+```
+
+<br>
+`split`은 `Default Parameter Values`로 `White-Space`를 무시한다. 따라서 이를 무시하지 않으려면 
+`omittingEmptySubsequences`의 `argument`로 `false`로 전달한다.
+
+```swift
+let splitedOmitFalse = line.split(separator: " ", omittingEmptySubsequences: false) // default true
+print(splitedOmitFalse) // ["BLANCHE:", "", "", "I", "don\'t", "want", "realism.", "I", "want", "magic!"]
+```
+
+<br>
+
+- split(maxSplits:omittingEmptySubsequences:whereSeparator:)
+
+위 `split`과 동일한 역할을 하는 `split`이다. 다만, 위 `split`은 나누는 기준을 지정하는 `separator`가 
+첫 번째 `argument`였으나 이 `split` 함수는 마지막 `whereSeparator`가 마지막 `argument`로 온다.
+
+즉, `separator`를 `Trailing Closure`로 작성하기 위해 제공되는 다른 형태의 동일한 `split` 함수다.
+
+```swift
+let line = "BLANCHE:   I don't want realism. I want magic!"
+let splited = line.split { $0 == " " }
+print(splited)          // ["BLANCHE:", "I", "don\'t", "want", "realism.", "I", "want", "magic!"]
+print(type(of: splited))    // Array<Substring>
+```
 
 <br><br>
 
