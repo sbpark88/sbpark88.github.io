@@ -1542,8 +1542,117 @@ func sorted(by areInIncreasingOrder: (Self.Element, Self.Element) throws -> Bool
 Link: [Apple Developer Documentation `sort(by:)`](https://developer.apple.com/documentation/swift/array/sort(by:))  
 Link: [Apple Developer Documentation `sorted(by:)`](https://developer.apple.com/documentation/swift/array/sorted(by:))
 
+`Higher-order Functions`의 정렬에는 2가지가 있다.
 
+- sort: `Closure`의 조건에 따라 `original Collection`을 정렬한다.
+- sorted: `Closure`의 조건에 따라 정렬 후 `new Collection`은 반환한다.
 
+<br>
+
+__1 ) Ascending Order__
+
+아래 배열을 오름차순으로 정렬해보자. 
+
+```swift
+var numbers: [Int] = [5, 87, 2, 6, 15, 24, 8, 42, 74, 9, 32]
+```
+
+<br>
+
+- For-In Loops
+
+```swift
+var swap: Bool = false
+
+repeat {
+    swap = false
+    
+    for i in 0..<numbers.count - 1 {
+        if numbers[i] > numbers[i + 1] {
+            let temp = numbers[i + 1]
+            numbers[i + 1] = numbers[i]
+            numbers[i] = temp
+            swap = true
+        }
+    }
+    
+} while swap
+
+print(numbers)  // [2, 5, 6, 8, 9, 15, 24, 32, 42, 74, 87]
+```
+
+<br>
+
+- sort
+
+`sort`를 이용하면 다음과 같이 쉽게 정렬이 가능하다.
+
+```swift
+var numbers: [Int] = [5, 87, 2, 6, 15, 24, 8, 42, 74, 9, 32]
+numbers.sort { $0 < $1 }
+```
+
+대부분의 경우는 `Trailing Closures`를 사용하는 것이 더 깔끔한 코드를 제공하지만 정렬 함수는 `Shorthand Argument Names` 
+마저도 생략 가능하기 때문에 다음과 같이 작성하면 코드를 더 줄일 수 있다.
+
+```swift
+numbers.sort(by: <)
+```
+
+마지막으로 `sort(by:)`의 기본 동작은 `Ascending Order`이기 때문에 이 마저도 생략 가능하다.
+
+```swift
+numbers.sort()
+print(numbers)  // [2, 5, 6, 8, 9, 15, 24, 32, 42, 74, 87]
+```
+
+<br>
+
+- sorted
+
+때로는 원본 배열을 수정하지 않고 정렬된 새 배열이 필요할 수 있다. `sort(by:)`는 `mutating`이기 때문에 이를 위해서 
+`sort(by:)`를 하기 전 배열을 미리 복사해야한다. 또는 원본 배열이 `let`으로 선언되어 변경할 수 없을 수도 있다. 
+이 때 사용하면 좋은 함수가 `sorted(by:)`다.
+
+```swift
+var numbers: [Int] = [5, 87, 2, 6, 15, 24, 8, 42, 74, 9, 32]
+let ascendingOrdered = numbers.sorted { $0 < $1 }
+print(ascendingOrdered) // [2, 5, 6, 8, 9, 15, 24, 32, 42, 74, 87]
+print(numbers)          // [5, 87, 2, 6, 15, 24, 8, 42, 74, 9, 32]
+```
+
+`sorted(by:)` 역시 `Trailing Closures`를 사용하지 않는 것이 더 깔끔한 코드 작성이 가능하다.
+
+```swift
+let ascendingOrdered = numbers.sorted(by: <)
+```
+
+마찬가지로 `by: <` 마저도 생략 가능하다.
+
+```swift
+let ascendingOrdered = numbers.sorted()
+print(ascendingOrdered) // [2, 5, 6, 8, 9, 15, 24, 32, 42, 74, 87]
+```
+
+<br>
+
+__2 ) Descending Order__
+
+- sort
+
+```swift
+var numbers: [Int] = [5, 87, 2, 6, 15, 24, 8, 42, 74, 9, 32]
+numbers.sort(by: >)
+print(numbers)  // [87, 74, 42, 32, 24, 15, 9, 8, 6, 5, 2]
+```
+
+- sorted
+
+```swift
+var numbers: [Int] = [5, 87, 2, 6, 15, 24, 8, 42, 74, 9, 32]
+let descendingOrdered = numbers.sorted(by: >)
+print(descendingOrdered)    // [87, 74, 42, 32, 24, 15, 9, 8, 6, 5, 2]
+```
 
 #### <span style="color: rgba(166, 42, 254, 1)">10. split</span>
 
