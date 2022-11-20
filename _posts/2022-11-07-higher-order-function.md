@@ -902,7 +902,7 @@ __1 ) Filter some condition__
 아래 배열 `words`에서 문자 `o`를 포함하는 `elements`만 갖는 새 배열을 만들어보자.
 
 ```swift
-let words: [String] = ["room", "home", "train", "green", "hero"]
+let words: [String] = ["room", "home", "train", "green", "heroe"]
 ```
 
 <br>
@@ -979,7 +979,7 @@ let wordsWithO: [String] = {
 ```swift
 let wordsWithO: [String] = words.filter { $0.contains("o") }
 
-print(wordsWithO)   // ["room", "home", "hero"]
+print(wordsWithO)   // ["room", "home", "heroe"]
 ```
 
 <br>
@@ -1235,7 +1235,7 @@ __1 ) contains(_:)__
 아래 배열이 `train`을 포함하고 있는지 확인해보자.
 
 ```swift
-let words: [String] = ["room", "home", "train", "green", "hero"]
+let words: [String] = ["room", "home", "train", "green", "heroe"]
 ```
 
 <br>
@@ -1345,17 +1345,17 @@ print(isIncluded)   // true
 
 ```swift
 let wordsWithO = words.filter { $0.contains("o") }
-print(wordsWithO)   // ["room", "home", "hero"]
+print(wordsWithO)   // ["room", "home", "heroe"]
 ```
 
 ```swift
 let wordsWithO = words.filter { $0.contains("o") && $0.count >= 5 }
-print(wordsWithO)   // ["hero"]
+print(wordsWithO)   // ["heroe"]
 ```
 
 <br>
 
-__3 ) With Dictionaroies__
+__3 ) With Dictionaries__
 
 ```swift
 let temperatures = ["London": 7, "Athens": 14, "New York": 15, "Cairo": 19, "Sydney": 28]
@@ -1420,26 +1420,127 @@ print("hasFemalesUnder30", hasFemalesUnder30)
 
 #### <span style="color: rgba(166, 42, 254, 1)">8. removeAll</span>
 
-다음은 `Swift documentation`의 Instance Method `compactMap(_:)`의 설명이다.
+다음은 `Swift documentation`의 Instance Method `removeAll(_:)`의 설명이다.
 
 ```swift
-func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
+mutating func removeAll(where shouldBeRemoved: (Self.Element) throws -> Bool) rethrows
 ```
 
-Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/compactmap(_:))
+Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/array/removeall(where:)-5k61r)
 
+함수의를 보면 `mutating`이 붙어있다. 즉, `remoeveAll(_:)` 메서드는 `new Collection`을 반환하는 것이 아니라 
+`original Collection`을 수정한다.
 
+<br>
 
+__1 ) Compare with `filter`__
+
+가장 간단한 형태를 통해 `filter`와 `removeAll`의 차이를 알아본다.
+
+- filter
+
+```swift
+let scores: [Int] = [100, 75, 80, 66, 93, 52, 96, 87, 72]
+let graterThanOrEqualNinety: [Int] = scores.filter { $0 >= 90 }
+print(graterThanOrEqualNinety)  // [100, 93, 96]
+```
+
+<br>
+
+- removeAll
+
+```swift
+scores.removeAll { $0 >= 90 }   // Cannot use mutating member on immutable value: 'scores' is a 'let' constant
+print(scores)
+```
+
+<br>
+`removeAll`이 `mutating`이기 때문에 배열을 `var`로 선언해야한다.
+
+```swift
+var scores: [Int] = [100, 75, 80, 66, 93, 52, 96, 87, 72]
+scores.removeAll { $0 >= 90 }
+print(scores)   // [75, 80, 66, 52, 87, 72]
+```
+
+<br>
+위 `filter`와 동일한 결과를 만들려면 조건식에 `!`을 취해 `Bool` 결과를 뒤집어주면 된다. 
+
+```swift
+scores.removeAll { $0 < 90 }
+print(scores)   // [100, 93, 96]
+```
+
+```swift
+let graterThanOrEqualNinety = scores.removeAll { $0 < 90 }
+print(graterThanOrEqualNinety)  // ()
+```
+
+> `Closure`의 조건식이 동일하다면 `removeAll`은 `filter`의 반대의 결과를 갖는다. 또한 `original Collection`은
+> 그대로 두고 `new Collection`을 반환하는 `filter`와 달리 `removeAll`은 `original Collection`을 변경한다.
+> 
+> `removeAll`의 `Return Type`은 `Void`라는 타입의 특수한 값을 반환한다. 이 값은 `()`로 쓰여진 `Empty Tuple`이다.
+
+<br>
+
+__2 ) Compare with `filter(_:)` & `contains(_:)`__
+
+```swift
+var words: [String] = ["room", "home", "train", "green", "heroe"]
+```
+
+<br>
+
+- filter
+
+```swift
+let wordsWithO: [String] = words.filter { $0.contains("o") }
+print(wordsWithO)   // ["room", "home", "heroe"]
+```
+
+- removeAll
+
+```swift
+words.removeAll { $0.contains("o") }
+print(words)        // ["train", "green"]
+```
+
+<br>
+
+__3 ) Compare with `filter(_:)` & `contains(where:)`__
+
+```swift
+var words: [String] = ["room", "home", "train", "green", "heroe"]
+```
+
+<br>
+
+- filter
+
+```swift
+let wordsWithO = words.filter { $0.contains("o") && $0.count >= 5 }
+print(wordsWithO)   // ["heroe"]
+```
+
+- removeAll
+
+```swift
+words.removeAll { $0.contains("o") && $0.count >= 5 }
+print(words)        // ["room", "home", "train", "green"]
+```
 
 #### <span style="color: rgba(166, 42, 254, 1)">9. sort, sorted</span>
 
-다음은 `Swift documentation`의 Instance Method `compactMap(_:)`의 설명이다.
+다음은 `Swift documentation`의 Instance Method `sort(by:)`와 `sorted(by:)`의 설명이다.
 
 ```swift
-func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
+mutating func sort(by areInIncreasingOrder: (Self.Element, Self.Element) throws -> Bool) rethrows
+
+func sorted(by areInIncreasingOrder: (Self.Element, Self.Element) throws -> Bool) rethrows -> [Self.Element]
 ```
 
-Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/compactmap(_:))
+Link: [Apple Developer Documentation `sort(by:)`](https://developer.apple.com/documentation/swift/array/sort(by:))  
+Link: [Apple Developer Documentation `sorted(by:)`](https://developer.apple.com/documentation/swift/array/sorted(by:))
 
 
 
@@ -1449,24 +1550,26 @@ Link: [Apple Developer Documentation](https://developer.apple.com/documentation/
 다음은 `Swift documentation`의 Instance Method `compactMap(_:)`의 설명이다.
 
 ```swift
-func compactMap<ElementOfResult>(_ transform: (Self.Element) throws -> ElementOfResult?) rethrows -> [ElementOfResult]
+func split(
+    separator: Self.Element,
+    maxSplits: Int = Int.max,
+    omittingEmptySubsequences: Bool = true
+) -> [Self.SubSequence]
 ```
 
-Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/sequence/compactmap(_:))
+```swift
+func split(
+    maxSplits: Int = Int.max,
+    omittingEmptySubsequences: Bool = true,
+    whereSeparator isSeparator: (Self.Element) throws -> Bool
+) rethrows -> [Self.SubSequence]
+```
+
+Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/array/split(separator:maxsplits:omittingemptysubsequences:)-3dgmv)  
+Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/array/split(maxsplits:omittingemptysubsequences:whereseparator:))
 
 
 
-
----
-
-### <span style="color: orange">4. 👩‍💻</span>
-
-__Syntax__
-
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
-
----
 
 
 
