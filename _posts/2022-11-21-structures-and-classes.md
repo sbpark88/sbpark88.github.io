@@ -84,14 +84,127 @@ __4 ) 공유 `implementation(구현체)`를 적용하기 위해 `Structure`와 `
 `Protocol`은 `Class` 뿐 아니라 `Structure`, `Protocol`까지 모두에게  상속을 허용하기 때문에
 모델링이 훨씬 더 유연해진다.
 
-
 ---
 
-### <span style="color: orange">2. 👩‍💻</span>
+### <span style="color: orange">2. Definition of Structures and Classes 👩‍💻</span>
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
+#### <span style="color: rgba(166, 42, 254, 1)">1. Definition Syntax</span>
 
+```swift
+struct SomeStructure {
+    // structure definition goes here
+}
+class SomeClass {
+    // class definition goes here
+}
+```
+
+- `Structure`는 앞에 `struct` 키워드를 붙여 정의한다.
+- `Class`는 앞에 `class` 키워드를 붙여 정의한다.
+
+새 `Structure`나 `Class`를 정의할 때마다 새 `Swift Type`를 정의하는 것이다. `Enumeration`과 마찬가지로
+`Swift`의 다른 `Types`와 마찬가지로 이름은 `대문자로 시작`한다.
+
+반면 `Properties`와 `Methods`는 `Type Names`와 구분을 위해 `소문자로 시작`한다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Structure and Class Instances</span>
+
+`Swift`에 `Resolution`과 `VideoMode`라는 새 `Types`를 만들어낸다.
+
+```swift
+struct Resolution {
+    var width = 0
+    var height = 0
+}
+class VideoMode {
+    var resolution = Resolution()
+    var interlaced = false
+    var frameRate = 0.0
+    var name: String?
+}
+```
+
+<br>
+
+__Syntax for Creating instance__
+
+```swift
+let someResolution = Resolution()
+let someVideoMode = VideoMode()
+```
+
+`Structure`와 `Class` 둘 다 `new instnace`를 생성하기 위해 `initializer`를 사용하며 `Syntax`는 유사하다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">3. Accessing Properties</span>
+
+__1 ) Get Properties__
+
+`instance`의 `properties`에 접근하는 가장 쉬운 방법은 `dot Syntax`를 사용하는 것이다.
+`instance` 이름 뒤에 `.`을 붙이고, 그 뒤에 `property` 이름을 적는다.
+
+```swift
+print("The width of someResolution is \(someResolution.width)")
+// Prints "The width of someResolution is 0"
+```
+
+<br>
+`dot Syntax`를 이용해 `subproperties`로 `drill down`해 내려가는 것도 가능하다.
+다음은 `VideoMode instance`의 `resolution property`에 접근해 `subproperty` `width property`로
+`drill down`해 내려간다.
+
+```swift
+// drill down into subproperties
+print("The width of someVideoMode is \(someVideoMode.resolution.width)")
+// Prints "The width of someVideoMode is 0"
+```
+
+<br>
+
+__2 ) Set Properties__
+
+`dot Sytax`를 이용해 `properties`에 접근하는 것은 물론, `variable property`의 값을 할당할 수 있다.
+
+```swift
+someVideoMode.resolution.width = 1280
+print("The width of someVideoMode is now \(someVideoMode.resolution.width)")
+// Prints "The width of someVideoMode is now 1280"
+```
+
+<br>
+
+```swift
+someResolution.width = 1600 // Cannot assign to property: 'someResolution' is a 'let' constant
+```
+
+하지만 `Structure`의 경우 `Properties`를 `var`로 선언했음에도 값을 할당하려 할 때 에러가 발생한다.
+
+> 이는, `Class`는 `Reference Type`으로 `instance`를 `let`으로 선언했다 하더라도 변경하려는 실제 `Value`에
+> 해당하는 `Properties`는 `var`로 선언되어 `mutable`한 반면, `Structure`는 `Value Type`으로 그 자체가
+> `immutable`하기 때문이다.
+
+따라서 `Structure`의 경우 `Properties`를 수정하려면 `instance` 역시 `var`로 선언해야한다.
+
+```swift
+var anotherResolution = Resolution()
+anotherResolution.width = 1600
+print("The width of anotherResolution is now \(anotherResolution.width)")
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">4. Memberwise Initializers for Structure Types</span>
+
+```swift
+let resolutionTypeA = Resolution(width: 5120, height: 2880)
+print(resolutionTypeA)  // Resolution(width: 5120, height: 2880)
+
+let resolutionTypeB = Resolution(width: 2560)
+print(resolutionTypeB)  // Resolution(width: 2560, height: 0)
+
+let resolutionTypeC = Resolution(height: 1440)
+print(resolutionTypeC)  // Resolution(width: 0, height: 1440)
+
+```
+
+`Structure`는 `Class`와 달리 별도의 구현 없이도 `member propeties`의 모든 case 에 대한 `initializers`를 갖는다.
 
 ---
 
