@@ -208,18 +208,114 @@ print(resolutionTypeC)  // Resolution(width: 0, height: 1440)
 
 ---
 
-### <span style="color: orange">3. 👩‍💻</span>
+### <span style="color: orange">3. Structures and Enumerations Are Value Types 👩‍💻</span>
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
+#### <span style="color: rgba(166, 42, 254, 1)">1. Characteristics of Value Types</span>
 
+> `Value Type`은 `Variable` 또는 `Constant`에 할당될 때, 그리고 함수에 전달될 때 전체가 `copy`된다.
+> 
+> `Swift`의 모든 기본 타입들, `integers`, `floating-point Numbers`, `Booleans`, `strings`,
+> `arrays`, `dictionaries`는 모두 `Value Types`으로 `Structures`로 구현되어있다.
+
+> `Standard Library`에 의해 정의된 `arrays`, `dictionaries` 그리고
+> `strings`와 같은 `Collections` 역시 `Structures`로 구현되어 있으므로 `Value Types`다.
+>
+> 하지만 다른 `Value Types`와 다르게 `performance cost of copying`을 줄이기 위해 `optimiaztion`을 사용한다.
+> 따라서, `Value Types`가 즉시 `copy`를 하는 것과 다르게 `copy`가 발생되기 전에는 `Reference Types`처럼
+> `original instance`와 `copies`가 메모리를 공유한다.
+>
+> 이후 `copies` 중 하나에 수정이 발생하면, 수정이 되기 직전에 `copy`가 이루어진다.
+> 즉, `copy` 발생 이전에는 `Reference Types`처럼 작동하고, `copy` 발생 진적에 `Value Types`처럼 작동하는데
+> 이런 행위로 인해 코드상으로는 항상 즉시 `copy`가 이뤄지는 것처럼 보인다.
+
+[Standard Library - Array][Standard Library - Array]
+
+[Standard Library - Array]:[https://developer.apple.com/documentation/swift/array]
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Structures</span>
+
+```swift
+let hd = Resolution(width: 1920, height: 1080)
+var cinema = hd
+```
+
+상수 `hd` structure를 만들고, 이를 `cinema` 변수에 복사했다.
+
+<br>
+
+```swift
+cinema.width = 2048
+```
+
+이제 `cinema`의 `width`는 '2048'이다.
+
+<br>
+
+```swift
+print("cinema is now \(cinema.width) pixel wide")
+// Prints "cinema is now 2048 pixels wide"
+
+print("hd is still \(hd.width) pixel wide")
+// Prints "hd is still 1920 pixels wide"
+```
+
+`cinema`의 `width`는 '2048'로 변경되었으나, `hd`의 `width`는 여전히 '1920'이다.
+
+![sharedStateStruct](/assets/images/posts/2022-11-21-structures-and-classes/sharedStateStruct_2x.png)
+
+#### <span style="color: rgba(166, 42, 254, 1)">3. Enumerations</span>
+
+```swift
+enum CompassPoint {
+    case north, south, east, west
+    mutating func turnNorth() {
+        self = .north
+    }
+}
+
+var currentDirection = CompassPoint.west
+let rememberedDirection = currentDirection
+```
+
+변수 `currentDirection` enumeration을 만들고, 이를 `rememberedDirection` 변수에 복사했다.
+
+<br>
+
+```swift
+//currentDirection = .north
+currentDirection.turnNorth()
+```
+
+이제 `currentDirection`는 'north'다.
+
+<br>
+
+```swift
+print("The current direction is \(currentDirection)")
+// Prints "The current direction is north"
+
+print("The remembered direction is \(rememberedDirection)")
+// Prints "The remembered direction is west"
+```
+
+`currentDirection`는 'north'로 변경되었으나, `rememberedDirection`는 여전히 'west'다.
 
 ---
 
-### <span style="color: orange">4. 👩‍💻</span>
+### <span style="color: orange">4. Classes Are Reference Types 👩‍💻</span>
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
+#### <span style="color: rgba(166, 42, 254, 1)">1. Characteristics of Reference Types</span>
+
+> `Reference Type`은 `Variable` 또는 `Constant`에 할당될 때, 그리고 함수에 전달될 `copy`되지 않는다.
+> 
+> `copy` 대신 
+> `Swift`의 모든 기본 타입들, `integers`, `floating-point Numbers`, `Booleans`, `strings`,
+> `arrays`, `dictionaries`는 모두 `Value Types`으로 `Structures`로 구현되어있다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Classes</span>
+
+
+
 
 
 ---
