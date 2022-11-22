@@ -188,6 +188,7 @@ someResolution.width = 1600 // Cannot assign to property: 'someResolution' is a 
 var anotherResolution = Resolution()
 anotherResolution.width = 1600
 print("The width of anotherResolution is now \(anotherResolution.width)")
+// Prints "The width of anotherResolution is now 1600"
 ```
 
 #### <span style="color: rgba(166, 42, 254, 1)">4. Memberwise Initializers for Structure Types</span>
@@ -201,7 +202,6 @@ print(resolutionTypeB)  // Resolution(width: 2560, height: 0)
 
 let resolutionTypeC = Resolution(height: 1440)
 print(resolutionTypeC)  // Resolution(width: 0, height: 1440)
-
 ```
 
 `Structure`는 `Class`와 달리 별도의 구현 없이도 `member propeties`의 모든 case 에 대한 `initializers`를 갖는다.
@@ -217,8 +217,8 @@ print(resolutionTypeC)  // Resolution(width: 0, height: 1440)
 > `Swift`의 모든 기본 타입들, `integers`, `floating-point Numbers`, `Booleans`, `strings`,
 > `arrays`, `dictionaries`는 모두 `Value Types`으로 `Structures`로 구현되어있다.
 
-> `Standard Library`에 의해 정의된 `arrays`, `dictionaries` 그리고
-> `strings`와 같은 `Collections` 역시 `Structures`로 구현되어 있으므로 `Value Types`다.
+> `Standard Library`에 의해 정의된 `Array`, `Dictionary` 그리고 `String`과 같은 `Collections` 역시 
+> `Structures`로 구현되어 있으므로 `Value Types`다.
 >
 > 하지만 다른 `Value Types`와 다르게 `performance cost of copying`을 줄이기 위해 `optimiaztion`을 사용한다.
 > 따라서, `Value Types`가 즉시 `copy`를 하는 것과 다르게 `copy`가 발생되기 전에는 `Reference Types`처럼
@@ -230,7 +230,16 @@ print(resolutionTypeC)  // Resolution(width: 0, height: 1440)
 
 [Standard Library - Array][Standard Library - Array]
 
-[Standard Library - Array]:[https://developer.apple.com/documentation/swift/array]
+[Standard Library - Array]:https://developer.apple.com/documentation/swift/array
+
+> 반면, `Foundation`에 의해 정의된 `NSArray`, `NSDictionary` 그리고 `NSString`과 같은 
+> `Classes Bridged to Swift Standard Library Value Types`는 `Classes`로 구현되어 있으므로 
+> `Reference Types`다.
+
+[Foundation - NSArray][Foundation - NSArray], [Classes Bridged to Swift Standard Library Value Types][Classes Bridged to Swift Standard Library Value Types]
+
+[Foundation - NSArray]:https://developer.apple.com/documentation/foundation/nsarray
+[Classes Bridged to Swift Standard Library Value Types]:https://developer.apple.com/documentation/foundation/object_runtime/classes_bridged_to_swift_standard_library_value_types
 
 #### <span style="color: rgba(166, 42, 254, 1)">2. Structures</span>
 
@@ -306,21 +315,122 @@ print("The remembered direction is \(rememberedDirection)")
 
 #### <span style="color: rgba(166, 42, 254, 1)">1. Characteristics of Reference Types</span>
 
-> `Reference Type`은 `Variable` 또는 `Constant`에 할당될 때, 그리고 함수에 전달될 `copy`되지 않는다.
-> 
-> `copy` 대신 
-> `Swift`의 모든 기본 타입들, `integers`, `floating-point Numbers`, `Booleans`, `strings`,
-> `arrays`, `dictionaries`는 모두 `Value Types`으로 `Structures`로 구현되어있다.
+> `Reference Type`은 `Variable` 또는 `Constant`에 할당될 때, 그리고 함수에 전달될 `copy`되지 않는다.  
+> `copy` 대신 동일 `instance`를 `참조(reference)`한다. 
 
 #### <span style="color: rgba(166, 42, 254, 1)">2. Classes</span>
 
+```swift
+let tenEighty = VideoMode()
+tenEighty.resolution = hd
+tenEighty.interlaced = true
+tenEighty.name = "1080i"
+tenEighty.frameRate = 25.0
+```
 
+위 과정을 설명하면 다음과 같은 같다.
 
+1. `let tenEighty`를 통해 `tenEighty`라는 새 `constant`를 선언한다.
+2. `tenEighty = VideoMode()`를 통해 `tenEighty`에 `VideoMode Class`의 새 `instance`를 참조시킨다.
+3. `tenEighty`의 `members`에 각각 값을 할당한다. 
 
+<br>
 
----
+```swift
+let alsoTenEighty = tenEighty
+```
 
+새 `constnat` `alsoTenEighty`에 `alsoTenEighty`를 할당했다.
 
+<br>
+
+```swift
+alsoTenEighty.frameRate = 30.0
+```
+
+`alsoTenEighty`의 `frameRate`를 '30.0'으로 수정했다.
+
+<br>
+
+```swift
+print("The frameRate property of alsoTenEighty is now \(alsoTenEighty.frameRate)")
+print("The frameRate property of tenEighty is now \(tenEighty.frameRate)")
+```
+
+```console
+The frameRate property of alsoTenEighty is now 30.0
+The frameRate property of tenEighty is now 30.0
+```
+
+`alsoTenEighty`를 수정했는데 `tenEighty`도 같이 바뀐 값을 출력한다!  
+`Classes`는 `Reference Types`이기 때문이다.
+
+![sharedStateClass](/assets/images/posts/2022-11-21-structures-and-classes/sharedStateClass_2x.png)
+
+<br>
+
+따라서, `tenEighty`, `alsoTenEighty`를 직접 출력해보면 `class`의 `members`의 `values`를 출력하는 것이 
+아니라 다음과 같이 참조하는 대상을 출력한다.
+> `tenEighty`, `alsoTenEighty`를 `let`으로 선언했는데도 수정이 가능한 이유 역시, `tenEighty`, 
+> `alsoTenEighty`가 `constnat`인 것일 뿐, 이것이 참조하는 `instance`가 갖고 있는 `memebr frameRate`는 
+> `var`로 변수로 선언되었기 때문이다. 
+
+```swift
+print(tenEighty)        // __lldb_expr_11.VideoMode
+print(alsoTenEighty)    // __lldb_expr_11.VideoMode
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">3. Identity Operators</span>
+
+기존에 알고 있던 `equal to`, `not equal to` Operators는 다음과 같다.
+
+```swift
+// Equal to(==)
+print(5 == 5)       // true
+print(5 == 7)       // false
+
+// Not equal to(!=)
+print(5 != 7)       // true
+```
+
+<br>
+
+`Reference Types`를 위한 `Identity Operators`는 `==`, `!=`가 아닌 `===`, `!==`를 사용한다.
+
+```swift
+print(tenEighty === alsoTenEighty)  // true
+print(tenEighty !== alsoTenEighty)  // false
+
+if tenEighty === alsoTenEighty {
+  print("tenEighty and alsoTenEighty refer to the same VideoMode instance.")
+}
+// Prints "tenEighty and alsoTenEighty refer to the same VideoMode instance."
+```
+
+`tenEighty`와 `alsoTenEighty`는 `VideoMode Class`의 동일한 `instance`를 참조하고 있음을 알 수 있다. 
+
+<br>
+
+```swift
+let numA = 5
+let numB = numA
+print(numA === numB)  // error: argument type 'Int' is not a reference types
+```
+
+`===` 또는 `!==` operators는 `Reference Types`를 위한 `Identity Operators`로, `Value Types`를 
+비교하려고 하면 에러가 발생한다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">4. Pointers</span>
+
+`C`, `C++`, `Objective-C` 같은 언어는 메모리 주소를 참조하기 위해 `pointer`를 사용한다.  
+이것은 `Swift`에서 `Reference Types`의 `instance`를 참조하기 위해 `constant` 또는 `variable`이 참조하는 방식과 
+같다. 다만, `C` 언어에서의 `pointer`와 달리 메모리 주소를 가리키는 `direct pointer`가 아니며, `reference`를 
+만들기 위해 `asterisk(*)`를 필요로 하지 않는다.
+
+`Swift`에서 `references`는 다른 `constants` 또는 `variables`를 정의하듯 사용하면 된다.
+
+만약, `pointer`를 직접적으로 다뤄야 하는 경우를 위해 `Standard Library`는 `pointer types`와 `buffer types`를 
+제공한다. [Manual Memory Management](https://developer.apple.com/documentation/swift/manual-memory-management)
 
 
 <br><br>
