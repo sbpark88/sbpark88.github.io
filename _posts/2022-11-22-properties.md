@@ -298,13 +298,224 @@ print(manager.importer.filename)
 
 ### <span style="color: orange">2. Computed Properties 👩‍💻</span>
 
-`Structure`, `Enumeration`의 `instance` 일부로써 값을 저장하는 대신 계산한다. `Stored Properties`와 다르게 
-`Enumeration`에서는 사용할 수 없다.
+#### <span style="color: rgba(166, 42, 254, 1)">1. Computed Properties</span>
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
+__1 ) Syntax__
 
+`Class`, `Structure`, `Enumeration`의 일부로써 `값을 저장하는 대신 계산`하며, `getter`와 
+`optional setter`를 제공한다. `Lazy Stored Properties`와 마찬가지로 반드시 `var` 키워드와 함께 사용해야하며, 
+`Lazy Stored Properties`와 다르게 데이터 타입을 반드시 명시(`explicit type`)해야한다.
 
+또한, 값을 할당(저장)하는 것이 아니므로, `=`를 사용하지 않고, `explicit type` 다음 바로 `getter`와 `setter`를 
+갖는 `Closure`를 작성한다. 또한 `setter`의 `parameter`는 반드시 `SomeType`이어야하므로, 별도의 `type`을 
+명시할 수 없다.
+
+<br>
+
+__Syntax__
+
+```swift
+struct SomStructure {
+    var someProperty: SomeType {
+        get {
+            return // property definition for getter goes here
+        }
+        set (parameterName) {
+            // property definition for setter goes here
+        }
+    }
+}
+```
+
+<br>
+
+__2 ) Stored Property Examples__
+
+- Case 1
+
+첫 번째 예재로 위 `Lazy Stored Properties`에서 직면했던 영어 강의 학생 수를 확인할 때 겪었던 문제를 해결해보자.
+
+```swift
+struct Classroom {
+    let subject: Subject
+    let maxStudents: Int
+    var applicant: Int = 0
+    
+    var students: Int {
+        get {
+            applicant > maxStudents ? maxStudents : applicant
+        }
+    }
+    
+    enum Subject {
+        case Korean, English, Math, History, Science
+    }
+}
+
+var englishClass = Classroom(subject: .English, maxStudents: 50)
+```
+
+<br>
+위와 동일하게 영어 강의를 오픈하고 수강 신청이 진행되는 도중 여러 차례 학생 수를 확인했다.
+
+```swift
+Array(1...10).forEach { i in englishClass.applicant += 1 }
+print("\(englishClass.students) students in math class")    // 10 students in math class
+
+Array(1...35).forEach { i in englishClass.applicant += 1 }
+print("\(englishClass.students) students in math class")    // 45 students in math class
+
+Array(1...10).forEach { i in englishClass.applicant += 1 }
+print("\(englishClass.students) students in math class")    // 50 students in math class
+```
+
+위 `Lazy Stored Properties`에서 겪었던 문제와 달리 매번 최신 값을 얻을 수 있다! 이것은 `Computed Properties`가 
+실제로 값을 저장하는 것이 아닌 `계산` 하기 때문이다.
+
+```swift
+print(englishClass)
+```
+
+```console
+Classroom(subject: main.Classroom.Subject.English, 
+          maxStudents: 50, a
+          pplicant: 55)
+```
+
+> `Lazy Stored Properties`와 다르게 `instnace`를 조회할 때 조회가 되지 않는다. 저장되는 값이 아니기 때문이다.   
+> 즉, `Properties`지만 행동은 `Methods`에 가깝다.
+
+<br>
+
+- Case 2
+
+이번에는 `setter`까지 사용해보자.
+
+```swift
+struct Point {
+    var x = 0.0, y = 0.0
+}
+struct Size {
+    var width = 0.0, height = 0.0
+}
+
+struct Rect {
+    var origin = Point()
+    var size = Size()
+    var center: Point {
+        get {
+            let centerX = origin.x + (size.width / 2)
+            let centerY = origin.y + (size.height / 2)
+            return Point(x: centerX, y: centerY)
+        }
+        set (newCenter) {
+            origin.x = newCenter.x - (size.width / 2)
+            origin.y = newCenter.y - (size.height / 2)
+        }
+    }
+}
+```
+
+- Point: Cartesian Coordinates System 위에 있는 점의 위치를 `encapsulates(캡슐화)`한다.
+- Size: 사각형의 너비와 폭을 `encapsulates(캡슐화)`한다.
+- Rect: 사각형을 정의한다. 이를 위해 `Point`와 `Size`의 `instances`를 각각 `origin`과 `size`라는
+        `Stored Properties`로 갖고, 정의된 사각형의 중심점을 구하기 위한 `getter`와, 중심점이 이동되었을 때 
+        새 중심점에 따라 기준점 `origin`을 재정의하는 `setter`를 갖는 `center`라는 이름의 
+        `Computed Property`를 갖고 있다.
+
+<br>
+
+```swift
+var square = Rect(origin: Point(),
+                  size: Size(width: 10, height: 10))
+
+print(square.center)    // Point(x: 5.0, y: 5.0)
+```
+
+`square` instance를 만들었고, 생성된 instance로부터 `getter`를 이용해 사각형의 중심점을 구했다.  
+이번에는 `setter`를 이용해 새 기준점을 저장하고, 변경된 기준점과 그때의 중심점을 구해보자.
+
+```swift
+square.center = Point(x: 17.5, y: 17.5)
+print("""
+square.origin: \(square.origin)
+square.center: \(square.center)
+""")
+```
+
+```console
+square.origin: Point(x: 12.5, y: 12.5)
+square.center: Point(x: 17.5, y: 17.5)
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Shorthand Setter/Getter Declaration</span>
+
+- Shorthand Setter Declaration
+
+`Trailing Closures`가 `Parameters`를 생략하면 `$0, $1, $2, ...`를 사용하는 것처럼 `setter`의 
+`Parameters`를 생략하면 기본값으로 `newValue`를 사용한다.
+
+```swift
+struct Rect {
+    var origin = Point()
+    var size = Size()
+    var center: Point {
+        get {
+            let centerX = origin.x + (size.width / 2)
+            let centerY = origin.y + (size.height / 2)
+            return Point(x: centerX, y: centerY)
+        }
+        set {
+            origin.x = newValue.x - (size.width / 2)
+            origin.y = newValue.y - (size.height / 2)
+        }
+    }
+}
+```
+
+<br>
+
+- Shorthand Getter Declaration
+
+다른 `Closures`와 마찬가지로 `single expression`으로 작성되면 `return` 키워드를 생략할 수 있다.
+
+```swift
+struct Rect {
+    var origin = Point()
+    var size = Size()
+    var center: Point {
+        get {
+            Point(x: origin.x + (size.width / 2),
+                  y: origin.y + (size.height / 2))
+        }
+        set {
+            origin.x = newValue.x - (size.width / 2)
+            origin.y = newValue.y - (size.height / 2)
+        }
+    }
+}
+```
+
+#### <span style="color: rgba(166, 42, 254, 1)">3. Read-Only Computed Properties</span>
+
+위 2.1의 `Case 1` 영어 강의 예제를 다시 보자. `setter`가 필요 없고 `getter`만 필요한 경우 이를 
+`Read-Only Computed Properties`라고 하며, `get` 키워드와 중괄호를 생략할 수 있다.
+
+```swift
+struct Classroom {
+    let subject: Subject
+    let maxStudents: Int
+    var applicant: Int = 0
+    
+    var students: Int {
+        applicant > maxStudents ? maxStudents : applicant
+    }
+    
+    enum Subject {
+        case Korean, English, Math, History, Science
+    }
+}
+```
 
 ---
 
