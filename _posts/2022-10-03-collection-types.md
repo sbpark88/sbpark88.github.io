@@ -1191,5 +1191,5 @@ Tangerine's price is 2800won.
 Reference
 
 1. "Collection Types", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Oct. 3, 2022, [Swift Docs Chapter 3 - Collection Types](https://docs.swift.org/swift-book/LanguageGuide/CollectionTypes.html)
-2. "RandomAccessCollection", Apple Developer Documentation, last modified latest(Unknown), accessed Oct. 3, 2022, [Apple Devloper Documentation - Swift/Swift Standard Library/Collections](https://developer.apple.com/documentation/swift/randomaccesscollection)
-3. "RandomAccessCollection Implementations", Apple Developer Documentation, last modified latest(Unknown), accessed Oct. 3, 2022, [Apple Devloper Documentation - Swift/Array/RandomAccessCollection Implementations](https://developer.apple.com/documentation/swift/array/randomaccesscollection-implementations)
+2. "RandomAccessCollection", Apple Developer Documentation, last modified latest(Unknown), accessed Oct. 3, 2022, [Apple Developer Documentation - Swift/Swift Standard Library/Collections](https://developer.apple.com/documentation/swift/randomaccesscollection)
+3. "RandomAccessCollection Implementations", Apple Developer Documentation, last modified latest(Unknown), accessed Oct. 3, 2022, [Apple Developer Documentation - Swift/Array/RandomAccessCollection Implementations](https://developer.apple.com/documentation/swift/array/randomaccesscollection-implementations)

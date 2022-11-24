@@ -448,7 +448,7 @@ square.origin: Point(x: 12.5, y: 12.5)
 square.center: Point(x: 17.5, y: 17.5)
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Shorthand Setter/Getter Declaration</span>
+#### <span style="color: rgba(166, 42, 254, 1)">2. Shorthand Getter/Setter Declaration</span>
 
 - Shorthand Setter Declaration
 
@@ -521,19 +521,615 @@ struct Classroom {
 
 ### <span style="color: orange">3. Property Observers 👩‍💻</span>
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
+#### <span style="color: rgba(166, 42, 254, 1)">1. Definition of Property Observers</span>
+
+`Property Observers`는 `Property`의 값에 `set`이 발생하는지 관찰하고 응답한다. 새 값이 기존의 값과 같더라도 
+`set`이 발생하면 매번 호출된다.
+
+<br>
+
+__1 ) Attach Observers__
+
+`Property`에 `Observers`를 붙일 수 있는 곳은 다음과 같다.
+
+- `Stored Properties`
+- 상속한 `Stored Properties`
+- 상속한 `Computed Properties`
+
+> `Computed Properties`는 `Property Observers`를 사용하는 대신 `setter`를 이용해 관찰하고 응답한다.
+
+<br>
+
+__2 ) willSet & didSet__
+
+`Computed Properties`는 `setter`와 `getter`라는 2가지 옵션이 존재했다.  
+`Property Observers`는 `willSet`과 `didSet`이라는 2가지 옵션이 존재한다.
+
+- `willSet` : 값이 저장되기 직전에 호출되며, `Parameters`를 생략하면 기본값으로 `newValue`를 사용한다.
+- `didSet` : 값이 저장된 직후에 호출되며, `Parameters`를 생략하면 기본값으로 `oldValue`를 사용한다.
+
+<br>
+
+__Syntax__
+
+```swift
+class SomeClass {
+    var someProperty: Type = defaultValue {
+        willSet {
+            // observer definition for willSet goes here
+        }
+        didSet {
+            // observer definition for didSet goes here
+        }
+    }
+}
+```
+
+> 상속한 `Properties`는 `Subclass`에서 `Properties`를 `overriding`해 `Property Observers`를 붙인다.  
+> `Lazy Stored Properties` 또는 `Computed Properties`와 마찬가지로 반드시 `var` 키워드와 함께 사용해야하며,
+> 값을 저장하므로 `=`를 사용한다. 그리고 `Lazy Stored Properties`와 달리 타입은 추론이 가능한 반면 초기값이 반드시 
+> 정의해야한다. 마지막으로 `Observers` 동작을 `Closures`에 작성한다.
+
+<br>
+
+__3 ) Initializer of subclass__
+
+> `initializer`는 호출되기 전 `Properties`의 속성을 설정한다.  
+> `Superclass`에 정의된 `willSet`, `didSet` `Observers`는 상속으로 인한 충돌을 피하기 위해 `Superclass`가
+> 초기화 될 때는 설정을 보류하게된다.
+> 즉, 다음과 같은 과정을 거치게 된다.
+> 1. `Superclass`의 `Properties`의 속성을 설정한다(`willSet`, `didSet` 같은 `Observers`는 보류한다).
+> 2. `Superclass`의 `initializer`를 호출한다.
+> 3. `Subclass`의 `Properties`의 속성을 설정한다(1에서 보류한 속성을 포함한다).
+> 4. `Subclass`의 `initializer`를 호출한다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Property Observer Examples</span>
+
+아래 걸음수 데이터를 저장하는 `StepCounter`가 있다.
+
+```swift
+class StepCounter {
+    var totalSteps: Int = 0 {
+        willSet {
+            if newValue > totalSteps {
+                print("About to set totalSteps to \(newValue)")
+            } else {
+                print("Please check your step data")
+                return
+            }
+            
+        }
+        didSet {
+            if totalSteps > oldValue  {
+                print("Added \(totalSteps - oldValue) steps, totalStep is now \(totalSteps)")
+            }
+        }
+    }
+}
+```
+
+```swift
+let stepCounter = StepCounter()
+stepCounter.totalSteps = 200
+```
+
+```console
+About to set totalSteps to 200
+Added 200 steps, totalStep is now 200
+```
+200보를 저장했다. 초기값은 0이므로 200이 저장되고, 현재 총 걸음수는 200보가 된다.
+
+<br>
+
+```swift
+stepCounter.totalSteps = 100
+```
+
+```console
+Please check your step data
+```
+
+앞에서 저장한 전체 걸음수가 200보였는데 전체 걸음수를 100보 저장하려고 한다.
+`willSet`이 이를 거절하고 메시지를 남겼으며, `didSet`은 일치하는 조건이 없어 종료되었다.
+
+<br>
+
+```swift
+stepCounter.totalSteps = 360
+```
+
+```console
+stepCounter.totalSteps = 360
+```
+
+다시 360보를 저장하니 정상적으로 저장이 되었다. 하지만 처음 200보에서 160보가 추가될거라 예상했으나 
+100보에서 260보가 추가되었다!!
+
+> `willSet`은 값을 저장하기 직전의 행동을 정의할 수 있을 뿐 <span style="color: red;">값을 저장하는 행위를 제어하지는 못한다!!</span> 
+
+<br>
+
+위 `Class`를 고쳐 `Validation Check`가 가능하도록 해보자.
+
+```swift
+class StepCounter {
+    var totalSteps: Int = 0 {
+        willSet {
+            if newValue > totalSteps {
+                print("About to set totalSteps to \(newValue)")
+            }
+        }
+        didSet {
+            if totalSteps > oldValue  {
+                print("Added \(totalSteps - oldValue) steps, totalStep is now \(totalSteps)")
+            } else {
+                print("Please check your step data")
+                totalSteps = oldValue
+            }
+        }
+    }
+}
+```
+
+```swift
+let stepCounter = StepCounter()
+stepCounter.totalSteps = 200
+print("--------------------------------------")
+stepCounter.totalSteps = 100
+print("--------------------------------------")
+stepCounter.totalSteps = 360
+
+```
+
+```console
+About to set totalSteps to 200
+Added 200 steps, totalStep is now 200
+--------------------------------------
+Please check your step data
+--------------------------------------
+About to set totalSteps to 360
+Added 160 steps, totalStep is now 360
+```
+
+이번에는 360보를 저장할 때 기존의 200보에서 160보가 추가되었다. 하지만 이것은 `Validation Check`는 아니고, 
+값을 저장하는 행위 자체를 제어할 수 없으니 저장한 후 기존 값으로 롤백한 것이다. 즉, 임시 값을 복사하고, 값을 2번 
+저장하는 행위로써 `Validation Check`가 이루어 진 것과 같은 효과를 낸 것 뿐이다.
+
+> `Validation Check`가 필요하다면 `Observers`는 적합하지 않다. `Computed Properties`의 `setter`를 
+> 이용하거나, 저장하려는 `Properties`의 `setter` 메서드를 별도로 정의하는 것이 좋다.
 
 
+<br>
+
+마지막으로 `Property Observers`를 사용할 때는 다음 경우를 조심해야한다.
+
+> `Observers`가 붙은 `Properties`를 함수의 `In-Out Parameters`로 전달하면, `willSet`과 `didSet`은 
+> 항상 호출된다. 이는 `In-Out Parameters`가 `Copy-in Copy-out Memory Model`에 의해 함수가 종료될 때 
+> 항상 값을 다시 저장하기 때문이다.
+>  
+> `In-Out Parameters`에 대해서는 다음을 참고한다. [In-Out Parameters][In-Out Parameters]  
+
+[In-Out Parameters]:https://docs.swift.org/swift-book/ReferenceManual/Declarations.html#ID545
 
 ---
 
 ### <span style="color: orange">4. Property Wrappers 👩‍💻</span>
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
+#### <span style="color: rgba(166, 42, 254, 1)">1. Property Wrappers</span>
 
+__1 ) Syntax__
 
+`Property Wrappers`는 `Properties`를 정의하는 코드와 저장되는 방법을 관리하는 코드 사이에 분리된 `layer(계층)`을 
+추가한다.
+
+예를 들어 `Thread-Safe` 검사를 제공하는 `Properties`, 또는 기본 데이터를 `database`에 저장하는 `Properties`가 
+있는 경우 해당 코드를 모든 `Properties`에 작해야한다. 이때 `Property Wrappers`를 사용해 코드를 한 번만 작성하고 
+재사용 할 수 있다.
+
+<br>
+
+__Syntax__
+
+```swift
+@propertyWrapper
+struct SomeStructure {
+    private var someProperty: SomeType
+    var wrappedValue: SomeType {
+        get { someProperty }
+        set { someProperty = newValue }
+    }
+}
+```
+
+> - `Class`, `Structure`, `Enumeration`를 이용해 정의하며 3가지 부분으로 나뉜다
+>
+> - `@propertyWrapper` Annotation 을 선언
+> - `private var` 변수 선언
+> - `wrappedValue` 라는 이름을 갖는 [Computed Property](./properties.html#h-1-computed-properties)를 정의
+
+<br>
+
+- Without `@propertyWrapper` Annotation
+
+1 ~ 9 까지의 두 수를 받아 구구단을 계산해보자. 1보다 작은 수는 1로, 9보다 큰 수는 9로 변경하도록 한다.  
+기존의 방식대로 `@propertyWrapper` 없이 `explicit wrapping`을 하는 방법부터 알아보자.
+
+```swift
+struct OneToNine {
+    private var number = 1
+    var wrappedValue: Int {
+        get { number }
+        set { number = max(min(newValue, 9), 1) }
+    }
+}
+```
+
+```swift
+// Explicit Wrapping
+struct MultiplicationTable {
+    private var _left = OneToNine()
+    private var _right = OneToNine()
+    var left: Int {
+        get { _left.wrappedValue }
+        set { _left.wrappedValue = newValue }
+    }
+    var right: Int {
+        get { _right.wrappedValue }
+        set { _right.wrappedValue = newValue }
+    }
+}
+```
+
+<br>
+
+- Property Wrappers
+
+`@propertyWrapper` 없이 `wrapping`을 하면 모든 변수마다 명시적으로 코드를 작성해야한다. 즉, 유지보수가 
+어렵다는 뜻이다.  
+우리는 이 문제를 `@propertyWrapper`를 통해 아래와 같이 해결할 수 있다.
+
+```swift
+@propertyWrapper
+struct OneToNine {
+    private var number = 1
+    var wrappedValue: Int {
+        get { number }
+        set { number = max(min(newValue, 9), 1) }
+    }
+}
+```
+
+```swift
+struct MultiplicationTable {
+    @OneToNine var left: Int
+    @OneToNine var right: Int
+}
+```
+
+<br>
+
+```swift
+var multiplication = MultiplicationTable()
+
+multiplication.left = 7
+multiplication.right = 8
+print("\(multiplication.left) x \(multiplication.right) = \(multiplication.left * multiplication.right)")
+// Prints "7 x 8 = 56"
+
+multiplication.left = 10
+multiplication.right = 5
+print("\(multiplication.left) x \(multiplication.right) = \(multiplication.left * multiplication.right)")
+// Prints "9 x 5 = 45"
+```
+
+<br>
+
+참고로 `Observers`와 `Wrappers`는 동시에 사용하지 못하는 것으로 보인다.
+
+[Can I implement a property observer in a property wrapper structure?](https://developer.apple.com/forums/thread/653894)
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Setting Initial Values for Wrapped Properties</span>
+
+위 코드는 `Property Wrapppers`가 초기값을 하드코딩해 저장하고있다. 따라서 다른 초기값을 지정할 수 없어 유연성이 떨어진다.  
+우리는 이 문제를 `Initializer`를 이용해 해결할 수 있다.
+
+사각형의 변의 길이를 정의하는 `LengthOfSide`가 다음과 같이 정의되어있다.
+
+```swift
+@propertyWrapper
+struct LengthOfSide {
+    private var maximum: Int
+    private var length: Int
+
+    var wrappedValue: Int {
+        get { length }
+        set { length = min(newValue, maximum) }
+    }
+
+    init() {
+        maximum = 10
+        length = 0
+    }
+
+    init(wrappedValue: Int) {
+        maximum = 10
+        length = min(wrappedValue, maximum)
+    }
+
+    init(wrappedValue: Int, maximum: Int) {
+        self.maximum = maximum
+        length = min(wrappedValue, maximum)
+    }
+}
+```
+
+- init() : arguments가 없이 초기화 하면 기본값으로 최고 길이는 10, 변의 길이의 초기값은 0으로 `Structure`를 초기화한다.
+- init(wrappedValue:) : arguments를 하나만 받아 `wrappedValue`를 변의 길이의 초기값으로 하고 최고 길이는 
+  10으로 `Structure`를 초기화한다.
+- init(wrappedValue:maximum:) : 변의 최고 길이와 초기값을 모두 받아 `Structure`를 초기화한다.
+
+<br>
+
+- init()
+
+```swift
+struct Rectangle {
+    @LengthOfSide var height: Int
+    @LengthOfSide var width: Int
+}
+```
+
+```swift
+var rectangle = Rectangle()
+print(rectangle)
+//Rectangle(_height: __lldb_expr_53.LengthOfSide(maximum: 10, length: 0),
+//           _width: __lldb_expr_53.LengthOfSide(maximum: 10, length: 0))
+```
+
+`init()`을 이용해 초기화되어 사각형의 최대값은 10, 초기값은 0으로 설정되었다.
+
+```swift
+print("height: \(rectangle.height), width: \(rectangle.width)") // height: 0, width: 0
+
+rectangle.height = 12
+rectangle.width = 5
+print("height: \(rectangle.height), width: \(rectangle.width)") // height: 10, width: 5
+```
+
+사각형의 높이와 너비는 초기값에 의해 0이었고, 높이를 12, 너비를 5로 설정했다. 하지만 `Property Wrappers`에 의해 
+높이는 10으로 최대값을 넘지 않게 수정되었다.
+
+<br>
+
+- init(wrappedValue:maximum:)
+
+```swift
+struct NarrowRectangle {
+    @LengthOfSide(wrappedValue: 15, maximum: 20) var height: Int
+    @LengthOfSide(wrappedValue: 3, maximum: 5) var width: Int
+}
+```
+
+```swift
+var narrowRectangle = NarrowRectangle()
+print(narrowRectangle)
+//NarrowRectangle(_height: __lldb_expr_69.LengthOfSide(maximum: 20, length: 15),
+//                 _width: __lldb_expr_69.LengthOfSide(maximum: 5, length: 3))
+
+print("height: \(narrowRectangle.height), width: \(narrowRectangle.width)") // height: 10, width: 5
+```
+
+`init(wrappedValue:maximum:)`을 이용해 초기화되어 사각형은 위와 같은 속성과 초기값을 갖는 형태로 `Structure`와 
+`Instance`가 생성되었다.
+
+<br>
+
+- Using Initial Values
+
+또 다른 방법으로, `Properties`가 `Wrapper Arguments`를 포함하고 있을 경우, 이것을 `Initializer`에서 분리해 
+`Initial Values`를 이용해 초기화 할 수도 있다.
+
+```swift
+struct HugeRectangle {
+    @LengthOfSide(maximum: 20) var height: Int = 20
+    @LengthOfSide(maximum: 20) var width: Int = 25
+}
+```
+
+```swift
+var hugeRectangle = HugeRectangle()
+print(hugeRectangle)
+//HugeRectangle(_height: __lldb_expr_74.LengthOfSide(maximum: 20, length: 20),
+//               _width: __lldb_expr_74.LengthOfSide(maximum: 20, length: 20))
+
+print("height: \(hugeRectangle.height), width: \(hugeRectangle.width)") // height: 20, width: 20
+```
+
+`init(maximim:)`이라는 `Initializer`가 없음에도 불구하고, `init(wrappedValue:maximum:)`과 동일하게 
+작동함을 알 수 있다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">3. Projecting a Value From a Property Wrapper</span>
+
+우선 `Projection Mapping`이라는 용어를 알아보자.
+
+> 프로젝션 매핑(Projection Mapping)은 대상물의 표면에 빛으로 이루어진 영상을 투사하여 변화를 줌으로써, 
+> 현실에 존재하는 대상이 다른 성격을 가진 것처럼 보이도록 하는 기술이다.
+> 
+> [Wikipedia - 프로젝션 매핑](https://ko.wikipedia.org/wiki/프로젝션_매핑)
+
+즉, `Projecting a Value From a Property Wrapper`는 `Property Wrapper`를 이용해 현재의 `Instance`에 
+존재하지 않는 값을 존재하는 대상인 것처럼 보이도록 하는 것이란 것을 유추할 수 있다.
+
+<br>
+
+그리고 `Apple Developer Documentation`에 `projectedValue`로 검색을 하면 다양한 곳에서 사용되는 것을 
+볼 수 있는데, 다음 두 링크([Link 1][Link 1], [Link 2][Link 2])로부터 유추해보면
+
+- `getter`, `setter`를 이용해 작동한다
+- `super` 쪽 `value`를 `sub`쪽에 노출시킨다. 즉, 기본으로 노출되지 않는 상위 `hierarchy`의 정보를 접근하게 한다
+
+로 요약할 수 있을 것 같다.
+
+[Link 1]:https://developer.apple.com/documentation/swift/tasklocal/projectedvalue
+[Link 2]:https://developer.apple.com/documentation/swiftui/binding/projectedvalue
+
+<br>
+
+다시 `Swift.org`로 돌아와보자. `Property Wrappers`는 `wrappedValue` 외에도 `projectedValue` 정의를 
+이용해 추가적인 기능을 노출할 수 있다고 설명하는 부분을 어느정도 이해할 수 있다.
+
+<br>
+
+`Apple Developer Documentation`에 `projectedValue`를 정의하는 방법을 보면 어떤 Swift Library 그룹에 
+속해있는지에 따라 코딩 형태가 다른 것으로 보인. 우선 `Swift.org`의 예제를 기준으로 설명하면 `Syntax`는 아래와 같다. 
+
+<br>
+
+__Syntax__
+
+```swift
+@propertyWrapper
+struct SomeStructure {
+    private var someProperty: SomeType
+    private(set) var projectedValue: Bool
+    var wrappedValue: SomeType {
+        get { someProperty }
+        set { someProperty = newValue }
+    }
+}
+```
+
+> - `Class`, `Structure`, `Enumeration`를 이용해 정의하며 3가지 부분으로 나뉜다
+>
+> - `@propertyWrapper` Annotation 을 선언
+> - `private(set) var` 변수 선언
+> - `wrappedValue` 라는 이름을 갖는 [Computed Property](./properties.html#h-1-computed-properties)를 정의
+
+<br>
+
+위에서 정의한 `LengthOfSide`에 `projectedValue`를 추가해 다시 정의해보자.
+
+```swift
+@propertyWrapper
+struct LengthOfSide {
+    private var maximum: Int
+    private var length: Int
+    private(set) var projectedValue: Bool = false
+    
+    var wrappedValue: Int {
+        get { length }
+        set {
+            if newValue > maximum {
+                length = maximum
+                projectedValue = true
+            } else {
+                length = newValue
+                projectedValue = false
+            }
+        }
+    }
+    
+    init() {
+        maximum = 10
+        length = 0
+    }
+    
+    init(wrappedValue: Int) {
+        maximum = 10
+        length = min(wrappedValue, maximum)
+    }
+    
+    init(wrappedValue: Int, maximum: Int) {
+        self.maximum = maximum
+        length = min(wrappedValue, maximum)
+    }
+}
+```
+
+```swift
+struct HugeRectangle {
+    @LengthOfSide(wrappedValue: 20, maximum: 20) var height: Int
+    @LengthOfSide(maximum: 20) var width: Int = 25
+}
+```
+
+```swift
+var hugeRectangle = HugeRectangle()
+print(hugeRectangle)
+//HugeRectangle(_height: __lldb_expr_74.LengthOfSide(maximum: 20, length: 20),
+//               _width: __lldb_expr_74.LengthOfSide(maximum: 20, length: 20))
+
+print("height: \(hugeRectangle.height), width: \(hugeRectangle.width)") // height: 20, width: 20
+```
+
+`HugeRectangle Structure`로부터 생성한 `hugeRectangle Instance`를 출력해보았으나 
+기존의 `LengthOfSide`와 다를게 없어 보인다.
+
+<br>
+
+```swift
+print(hugeRectangle.height)     // 20
+print(hugeRectangle.$height)    // false
+print(hugeRectangle.width)      // 20
+print(hugeRectangle.$width)     // false
+```
+
+하지만 앞에 `$` 사인을 붙여주자 `Instance`를 정의할 때에도 없고, 출력할 때에도 없는 값이 나타난다.   
+이 값은 `HugeRectangle`의 `Properties`가 아닌 `LengthOfSide`의 `Properties`다!
+
+하지만 마치 `hugeRectangle Instance`의 `Properties`인 것 처럼 투영되어 보여진다!!
+
+그리고 `hugeRectangle Instance` 생성 부분을 다시 한 번 보자. 초기화 될 때 `width`를 25로 초기화 했고, 
+`init(wrappedValue:maximum:)`의 `min` 함수에 의해 보정되었기 때문에 `projectedValue`는 `default`로 
+주어진 초기값 `false`를 저장하고있다.
+
+이제 `wrappedValue`를 이용해 값을 초과하도록 저장해보자.
+
+```swift
+hugeRectangle.width = 30
+print(hugeRectangle.width)      // 20
+print(hugeRectangle.$width)     // true
+```
+
+값이 초과되었고, `setter`에 정의한대로 `width`는 `maximum` 값으로 보정해 저장되었다. 그리고 `projectedValue`는
+`true`로 변경되었다.
+
+<br>
+
+`projectedValue`는 다음과 같이 `Property Wrappers`를 이용해 정의하는 `Class`, `Structure`, `Enumeration` 
+내부 `context`에서도 사용할 수 있다.
+
+```swift
+enum Size {
+    case small, large
+}
+
+struct SizedRectangle {
+    @LengthOfSide var height: Int
+    @LengthOfSide var width: Int
+
+    mutating func resize(to size: Size) -> Bool {
+        switch size {
+        case .small:
+            height = 10
+            width = 20
+        case .large:
+            height = 100
+            width = 100
+        }
+        return $height || $width
+    }
+}
+```
+
+```swift
+var rectangle = SizedRectangle()
+var resizeWasCalibrated = rectangle.resize(to: .small)
+
+print(rectangle.height, rectangle.$height)  // 10 false
+print(rectangle.width, rectangle.$width)    // 10 true
+print(resizeWasCalibrated)                  // true
+```
 
 ---
 
@@ -559,3 +1155,6 @@ struct Classroom {
 Reference
 
 1. "Properties", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Nov. 21, 2022, [Swift Docs Chapter 9 - Properties](https://docs.swift.org/swift-book/LanguageGuide/Properties.html)
+2. "Projected Value", Apple Developer Documentation, last modified latest(Unknown), accessed Nov. 25, 2022, [Apple Developer Documentation - Swift/Swift Standard Library/../projectedValue](https://developer.apple.com/documentation/swift/tasklocal/projectedvalue)
+3. "Projected Value", Apple Developer Documentation, last modified latest(Unknown), accessed Nov. 25, 2022, [Apple Developer Documentation - Swift/Swift UI/../projectedValue](https://developer.apple.com/documentation/swiftui/binding/projectedvalue)
+4. "프로젝션 매핑", Wikipedia, last modified Mar. 6, 2022, accessed Nov. 25, 2022, [프로젝션 매핑](https://ko.wikipedia.org/wiki/프로젝션_매핑)
