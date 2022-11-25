@@ -85,7 +85,7 @@ rangeOfFiveVolumes(firstValue: 1, volume: 5)
 __1 ) Syntax__
 
 `Lazy Stored Properties`는 사용되기 전까지 초기값이 계산되지 않는 `Stored Property`다. `Property` 선언 
-앞에 `lazy` `modifier` 붙여 만들며, 반드시 `var` 키워드와 함께 사용해야한다. `constnat`는 `initialization`이 
+앞에 `lazy` modifier 붙여 만들며, 반드시 `var` 키워드와 함께 사용해야한다. `constnat`는 `initialization`이 
 종료되기 전에 반드시 값을 가져야 하기 때문이다(= 선언과 동시에 값을 저장해야한다).
 
 `Lazy Stored Properties`는 다음 경우 유용하다
@@ -1135,17 +1135,56 @@ print(resizeWasCalibrated)                  // true
 
 ### <span style="color: orange">5. Global and Local Variables 👩‍💻</span>
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
+- Global Variables: `Functions`, `Methods`, ` Closures`, `Type` Context 외부에 정의된 변수를 의미
+- Local Variables: `Functions`, `Methods`, `Closures` Context 내부에 정의되 변수를 의미
 
+#### <span style="color: rgba(166, 42, 254, 1)">1. Stored Variables</span>
 
+`Stored Variables`는 `Stored Properties` 처럼 값을 저장하고 검색하는 것을 제공한다.
+
+> `Global Constants`와 `Global Varianles`는 항상 `lazily`하게 계산된다. 이는 `Lazy Stored Properties`와
+> 유사하다. 단, `Lazy Stored Properties`와 다른 점은 `lazy` modifier를 붙일 필요가 없다.
+>
+> 반면에 `Local Constnats`와 `Local Variables`는 절대 `lazily`하게 계산되지 않는다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Computed Variables</span>
+
+`Global Variables`와 `Local Variables` 모두 `Computed`를 사용할 수 있다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">3. Variable Observers</span>
+
+`Global Variables`와 `Local Variables` 모두 `Observer`를 사용할 수 있다.
+
+#### <span style="color: rgba(166, 42, 254, 1)">4. Variable Wrappers</span>
+
+`Property Wrappers`는 `Local Stored Variables`에만 적용 가능하다.  
+`Global Variables` 또는 `Computed Variables`에는 적용할 수 없다.
+
+```swift
+func someFunction() {
+    @LengthOfSide var length: Int
+    print(length)   // 0
+    
+    length = 5
+    print(length)   // 5
+    
+    length = 12
+    print(length)   // 10
+}
+
+someFunction()
+```
 
 ---
 
 ### <span style="color: orange">6. Type Properties 👩‍💻</span>
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. </span>
-#### <span style="color: rgba(166, 42, 254, 1)">2. </span>
+
+
+#### <span style="color: rgba(166, 42, 254, 1)">1. Type Property Syntax</span>
+
+
+#### <span style="color: rgba(166, 42, 254, 1)">2. Querying and Setting Type Properties</span>
 
 
 
