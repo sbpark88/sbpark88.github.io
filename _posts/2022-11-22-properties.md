@@ -1179,14 +1179,172 @@ someFunction()
 
 ### 6. Type Properties 👩‍💻
 
+`C`나 `Objective-C`에서 `static constants`, `static variables`를 정의하기 위해 `Global Static Variables` 
+를 사용했다.
 
+하지만 `Swift`는 불필요하게 전역으로 생성되는 `Global Static Variables`의 전역 변수 오염 문제를 해결하기 위한 
+`Type Properties`를 제공한다. `Type Properties`는 `Swift Types`가 정의되는 `{ }` 내부 `context` 범위 
+내에 정의되며, `Scope`가 해당 `Types`의 범위로 명확해진다. 
 
 #### 1. Type Property Syntax
 
+`Global Static Variables`와 마찬가지로 `Properties` 앞에 `static` 키워드를 사용한다.  
+그리고 `Superclass`의 `Computed Properties`를 `Subclass`에서 `override` 할 때는 `static` 키워드 대신 
+`class` 키워드를 사용한다.
+
+> `Type Properties`는 정의할 때 반드시 `Initiate Value`를 함께 정의해야한다.
+
+<br>
+
+- Structures
+
+```swift
+struct SomeStructure {
+    static var someTypeProperty = "Initiate Value"
+    static var computedTypeProoperty: Int {
+        return 1
+    }
+}
+```
+
+<br>
+
+- Enumerations
+
+```swift
+enum SomeEnumeration {
+    static var someTypeProperty = "Initiate Value"
+    static var computedTypeProoperty: Int {
+        return 6
+    }
+}
+```
+
+<br>
+
+- Classes
+
+```swift
+class SomeClass {
+    static var someTypeProperty = "Initiate Value"
+    static var computedTypeProperty: Int {
+        return 27
+    }
+    class var overrideableComputedTypeProperty: Int {
+        return 107
+    }
+}
+```
 
 #### 2. Querying and Setting Type Properties
 
+__1 ) Difference between `Type Properties` and `Properties`__
 
+아래와 같이 `AnotherStructure`를 정의했다.
+
+```swift
+struct AnotherStructure {
+    static var storedTypeProperty = "Apple"
+    var storedProperty = "Pear"
+
+    static var computedTypeProperty: Int { 1 }
+    var computedProperty: Int { 10 }
+}
+```
+
+<br>
+
+- Type Properties
+
+```
+print(AnotherStructure.storedTypeProperty)   // Apple
+print(AnotherStructure.computedTypeProperty) // 1
+
+AnotherStructure.storedTypeProperty = "Melon"
+print(AnotherStructure.storedTypeProperty)   // Melon
+```
+
+`Type Properties`는 `Instance Properties`와 동일하게 `dot Syntax`를 이용해 값에 접근하고 값을 저장한다.
+
+<br>
+
+- Instance Properties
+
+```swift
+var anotherStructure = AnotherStructure()
+print(anotherStructure.storedProperty)       // Pear
+print(anotherStructure.computedProperty)     // 10
+
+anotherStructure.storedProperty = "Watermelon"
+print(anotherStructure.storedProperty)       // Watermelon
+```
+
+`Instance Properties`는 `Instance` 생성 전에는 접근할 수 없다.
+
+<br>
+
+```swift
+var theOtherStructure = AnotherStructure()
+print(theOtherStructure.storedProperty)      // Pear
+
+print(AnotherStructure.storedTypeProperty)   // Melon
+```
+
+위에서 `anotherStructure`가 `Instance Properties`를 수정한 것은 `theOtherStructure`에 영향을 
+미치지 않는다. 하지만 `AnotherStructure`의 `Type Properties`를 수정한 것은 `Type` 자체가 수정되었기 
+때문에 `Apple`이 아닌 `Melon`을 출력한다.
+
+<br>
+
+__2 ) Audio Channel Examples__
+
+```swift
+struct AudioChannel {
+    static let thresholdLevel = 10
+    static var maxInputLevelForAllChannels = 0
+    var currentLevel: Int = 0 {
+        didSet {
+            if currentLevel > AudioChannel.thresholdLevel {
+                currentLevel = AudioChannel.thresholdLevel
+            }
+            if currentLevel > AudioChannel.maxInputLevelForAllChannels {
+                AudioChannel.maxInputLevelForAllChannels = currentLevel
+            }
+        }
+    }
+}
+```
+
+- thresholdLevel : 오디오가 가질 수 있는 볼륨 최대값을 정의 (상수 10)
+- maxInputLevelForAllChannels : `AudioChannel Instance`가 받은 최대 입력값을 추적(0에서 시작)
+- currentLevel : 현재의 오디오 볼륨을 계산을 통해 정의
+
+<br>
+
+```swift
+var leftChannel = AudioChannel()
+var rightChannel = AudioChannel()
+```
+
+좌우 채널을 각각 `Instnace`로 생성한다.
+
+```swift
+leftChannel.currentLevel = 7
+print(leftChannel.currentLevel)     // 7
+print(AudioChannel.maxInputLevelForAllChannels) // 7
+```
+
+왼쪽 볼륨을 7로 올리자 왼쪽 채널의 볼륨이 7로, `Type Property` `maxInputLevelForAllChannels` 역시 
+7로 저장되었다.
+
+```swift
+rightChannel.currentLevel = 11
+print(rightChannel.currentLevel)    // 10
+print(AudioChannel.maxInputLevelForAllChannels) // 10
+```
+
+이번엔 오른쪽 볼륨을 11로 올리자 최대 레벨 제한에 의해 10으로 저장되고, 이에 따라 그 다음 `if`문에서
+`maxInputLevelForAllChannels`가 10으로 저장되었다.
 
 <br><br>
 
