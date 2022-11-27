@@ -110,4 +110,5 @@ ts-node index.ts
 
 ![web storm run and debug buttons](/assets/images/posts/2022-06-05-typescript-hello-world/webstorm-run-debug-buttons.png)
 
-#### 그렇다면 다시 `index.ts`를 삭제하고 `WebStor`m의 `Run`, `Debug`를 통해 실행해보자. 여기까지 잘 작동된다면 기본 설정은 마친 것이다.
+> 그렇다면 다시 `index.ts`를 삭제하고 `WebStor`m의 `Run`, `Debug`를 통해 실행해보자.  
+> 여기까지 잘 작동된다면 기본 설정은 마친 것이다.
