@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "4be25bbf3797a141",
+        "id": "c49afb79eb0af1dd",
         "type": "tabs",
         "children": [
           {
-            "id": "59f2599a3c7d6f98",
+            "id": "0d30f0dfb4ae8056",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -128,7 +128,7 @@
     "direction": "horizontal",
     "width": 300
   },
-  "active": "59f2599a3c7d6f98",
+  "active": "0d30f0dfb4ae8056",
   "lastOpenFiles": [
     "_posts/2022-11-22-properties.md",
     "_posts/2022-11-21-structures-and-classes.md",
