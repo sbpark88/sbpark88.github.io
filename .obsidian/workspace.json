@@ -1,0 +1,139 @@
+{
+  "main": {
+    "id": "53235893f3d43501",
+    "type": "split",
+    "children": [
+      {
+        "id": "4be25bbf3797a141",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "59f2599a3c7d6f98",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "879a70875fa7b0ae",
+    "type": "split",
+    "children": [
+      {
+        "id": "354f71302f483701",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5a6efa60c29c2c8a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "7cdac7b4de303b08",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "8001385b2c46a792",
+            "type": "leaf",
+            "state": {
+              "type": "starred",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "5c59e568160a5aec",
+    "type": "split",
+    "children": [
+      {
+        "id": "dcab0551c363f7b9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3529fbedf57325d4",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": true,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "24ff7424df1680b1",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "1a244148f61747cf",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "1cfae5035c299cee",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {}
+            }
+          }
+        ],
+        "currentTab": 3
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "active": "59f2599a3c7d6f98",
+  "lastOpenFiles": [
+    "_posts/2022-11-22-properties.md",
+    "_posts/2022-11-21-structures-and-classes.md",
+    "2022-11-27.md",
+    "_posts/2022-11-07-higher-order-function.md",
+    "_posts/2022-05-31-how-to-write-markdown.md"
+  ]
+}
