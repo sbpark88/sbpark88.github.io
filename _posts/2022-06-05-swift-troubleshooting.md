@@ -6,9 +6,9 @@ categories: swift
 tags: [swift, error]
 ---
 
-## View
+### View
 
-### No Assistant Results
+#### No Assistant Results
 - 스토리보드를 열었을 때 `Assistant` 연동이 안 되어 `Controller`의 코드를 볼 수가 없는 현상.
 - 가끔 늦게 뜨는 경우 있으니 잠시 기다려보기.
 - 기다려도 안 뜨면 캐시 삭제.
@@ -16,7 +16,7 @@ tags: [swift, error]
 rm -rf ~/Library/Developer/Xcode/DerivedData
 ```
 
-### 화면 상하단 여백 생김
+#### 화면 상하단 여백 생김
 - `No Assistant Results`를 해결하는 과정에서 발생.
 - `ImageView` 사이즈를 화면 크기에 맞추고, Scale To Fill을 해줘도 상하단에 채울 수 없는 얇은 여백 라인이 생성.
 - 시뮬레이터, 실제 아이폰 모두에서 발생.

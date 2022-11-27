@@ -6,7 +6,7 @@ categories: swift
 tags: [swift]
 ---
 
-## IBOutlet and IBAction
+### IBOutlet and IBAction
 
 ![IBOutlet and IBAction](/assets/images/posts/2022-06-07-swift-basic-concept/iboutlet-ibaction-flow.png)
 
@@ -15,7 +15,7 @@ tags: [swift]
 
 ---
 
-## Naming Conventions
+### Naming Conventions
 
 * __camelCase__
 * __PascalCase__
@@ -26,7 +26,7 @@ tags: [swift]
 
 ---
 
-## Commenting
+### Commenting
 * __Single line comment__
 ```swift
 // This line is commented
@@ -42,9 +42,9 @@ commented
 
 ---
 
-## String
+### String
 
-### String Interpolation
+#### String Interpolation
 JavaScript의 Template literals와 같다. 다만 표현 방식이 다르다.
 
 * __JavaScript__
@@ -56,7 +56,7 @@ JavaScript의 Template literals와 같다. 다만 표현 방식이 다르다.
 "3 + 5 = \(3 + 5)"
 ```
 
-### String Concatenation
+#### String Concatenation
 문자열을 연결한다.
 
 ```swift
@@ -67,7 +67,7 @@ print(concatenatedString)   // "I like swift."
 
 ---
 
-## Range Operator
+### Range Operator
 
 ```swift
 lower ... upper

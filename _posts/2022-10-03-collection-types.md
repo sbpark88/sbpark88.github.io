@@ -16,20 +16,20 @@ tags: [swift docs, swift collection, swift array, swift set, swift dictionary]
 
 `Collections`는 data type이 명확히 정의되어 있으므로 실수로 다른 type의 데이터를 넣을 수 없다.
 
-### <span style="color: orange">1. Mutability of Collections (콜렉션의 변경) 👩‍💻</span>
+### 1. Mutability of Collections (콜렉션의 변경) 👩‍💻
 만약 `Collections`를 var(variable)할당한다면, 해당 collections는 변경할 수 있다(mutable).  
 하지만 let(constant)에 할당한다면, 해당 collections는 크기와 내용물 모두 불변이다(immutable).
 
 ---
 
-### <span style="color: orange">2. Arrays (배열) 👩‍💻</span>
+### 2. Arrays (배열) 👩‍💻
 `Array`는 순서가 지정된 random-access collection이다.  
 (RandomAccessCollection protocol을 따르는, 즉, random-access를 지원하는 collection이다).
 
 Swift의 `Array` 타입은 `Foundation`의 `NSArray` 클래스와 연결되고, 이를 확장해 Array에서 NSArray 메서드를 사용할 수 있게 해준다.  
 따라서, `import Foundation`을 하면 Array를 `캐스팅 하지 않고 NSArray 메서드를 사용`할 수 있다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Array Type Syntax</span>
+#### 1. Array Type Syntax
 다음 두 가지 형태의 `initializer syntax`를 사용할 수 있다.
 
 ```swift
@@ -38,7 +38,7 @@ Swift의 `Array` 타입은 `Foundation`의 `NSArray` 클래스와 연결되고, 
  var someArray: [Element] = []      // Array Type Shorthand Syntax (배열의 축약형 문법)
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Creating an Empty Array</span>
+#### 2. Creating an Empty Array
 
 ```swift
 var someArray: [Int] = []
@@ -67,14 +67,14 @@ print(someArray)    // []
 
 Empty Array Literal(`[]`)를 이용해 someArray를 다시 `Empty Array`로 만들더라도 `[Int]` 타입은 변하지 않는다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Creating an Array with a Default Value</span>
+#### 3. Creating an Array with a Default Value
 
 ```swift
 var threeDoubles = Array(repeating: 0.0, count: 3)
 print(threeDoubles)     // [0.0, 0.0, 0.0]
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">4. Creating an Array by Adding Two Arrays Together</span>
+#### 4. Creating an Array by Adding Two Arrays Together
 두 개의 배열을 `+` 연산자를 이용해 더해 새 배열을 생성할 수 있다.
 
 ```swift
@@ -85,7 +85,7 @@ var sixDoubles = threeDoubles + anotherThreeDoubles
 print(sixDoubles)   // [0.0, 0.0, 0.0, 2.5, 2.5, 2.5]
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">5. Creating an Array with an Array Literal</span>
+#### 5. Creating an Array with an Array Literal
 
 ```swift
 var shoppingList: [String] = ["Eggs", "Milk"]
@@ -109,7 +109,7 @@ var anyArray: [Any] = ["Eggs", 5]
 print(anyArray)     // ["Eggs", 5]
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">6. Accessing and Modifying an Array</span>
+#### 6. Accessing and Modifying an Array
 
 __1 ) `append(_:)` 메서드는 배열의 마지막에 새 `element`를 추가한다__
 
@@ -201,7 +201,7 @@ shoppingList = []
 print(shoppingList)     // []
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">7. Iterating Over an Array</span>
+#### 7. Iterating Over an Array
 
 ```swift
 let fruits = [
@@ -305,17 +305,17 @@ Item 8: Cherry
 
 ---
 
-### <span style="color: orange">3. Sets (셋) 👩‍💻</span>
+### 3. Sets (셋) 👩‍💻
 `Set`은 unique한 elements를 저장하는 collection이다.  
 
 Swift의 `Set` 타입은 `Foundation`의 `NSSet` 클래스와 연결되고, 이를 확장해 Set에서 NSSet 메서드를 사용할 수 있게 해준다.  
 따라서, `import Foundation`을 하면 Set을 `캐스팅 하지 않고 NSSet 메서드를 사용`할 수 있다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Hash Values for Set Types</span>
+#### 1. Hash Values for Set Types
 `Set` 타입은 `Hashable` 프로토콜을 준수해야한다.  
 또한 `Hash Value`는 `Int` 값으로 두 `object`가 완전히 동일하면 `Hash Value` 역시 동일하며 `a == b`가 성립된다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Set Type Syntax</span>
+#### 2. Set Type Syntax
 다음 두 가지 형태의 `initializer syntax`를 사용할 수 있다.
 
 ```swift
@@ -324,7 +324,7 @@ var newSet: Set<Element> = [elements...]  // Do not use to create Empty Set.
 ```
 > 아래서 다시 설명하겠지만 `Set`은 `Shorthand Syntax`의 사용이 불가능하다. 
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Creating an Empty Set</span>
+#### 3. Creating an Empty Set
 
 ```swift
 var letters = Set<Character>()
@@ -345,7 +345,7 @@ letters = []
 
 이후 Empty Array Literal(`[]`)를 이용해 비우더라도 `Set<Character>` 타입은 변하지 않는다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">4. Creating a Set with an Array Literal</span>
+#### 4. Creating a Set with an Array Literal
 `Shorthand Syntax`는 사용할 수 없지만 `Array Literal`을 이용해 `Set`을 생성할 수 있다.
 
 ```swift
@@ -369,7 +369,7 @@ var favoriteGenres: Set = ["Rock", "Classical", "Hip hop"]
 var anySet: Set<Any> = ["ABC", 5, "DEF"]  // type 'Any' does not conform to protocol 'Hashable'
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">5. Accessing and Modifying a Set</span>
+#### 5. Accessing and Modifying a Set
 
 __1 ) `insert(_:)` 메서드는 Set에 새 `element`를 중복 없이 추가한다__
 
@@ -417,7 +417,7 @@ favoriteGenres = []
 print(favoriteGenres)   // []
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">6. Iterating Over a Set</span>
+#### 6. Iterating Over a Set
 
 ```swift
 let fruits = [
@@ -564,7 +564,7 @@ Item 7: Plum
 Item 8: Tangerine
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">7. Performimg Set Operations</span>
+#### 7. Performimg Set Operations
 두 `Set` 컬렉션 사이에 다음과 같은 수학적 연산을 수행할 수 있다.
 
 ![Set Venn Diagram](/assets/images/posts/2022-10-03-collection-types/setVennDiagram_2x.png)
@@ -623,7 +623,7 @@ let differenceOfSets = oddDigits.subtracting(singleDigitPrimeNumbers).sorted()
 print(differenceOfSets)     // [1, 9]
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">8. Set Membership and Equality</span>
+#### 8. Set Membership and Equality
 두 `Set`간의 관계를 표현할 수 있다.
 
 - Set a is a superset of Set b (Set a는 Set b의 상위집합이다)
@@ -718,18 +718,18 @@ print(houseAnimals.isDisjoint(with: farmAnimals))       // fasle
 
 ---
 
-### <span style="color: orange">4. Dictionary (딕셔너리) 👩‍💻</span>
+### 4. Dictionary (딕셔너리) 👩‍💻
 `Dictionary`는 `Key: Value` 쌍을 elements로 저장하는 collection이다.    
 이 때 key는 Set과 마찬가지로 unique하다.
 
 Swift의 `Dictionary` 타입은 `Foundation`의 `NSDictionary` 클래스와 연결되고, 이를 확장해 Dictionary에서 NSDictionary 메서드를 사용할 수 있게 해준다.    
 따라서, `import Foundation`을 하면 Dictionary을 `캐스팅 하지 않고 NSDictionary 메서드를 사용`할 수 있다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Hash Values for Dictionary Keys</span>
+#### 1. Hash Values for Dictionary Keys
 `Dictionary` 타입의 `Key`는 `Set` 타입의 `Value`처럼 `Hashable` 프로토콜을 준수해야한다.    
 따라서, `Dictionary`는 동일한 `Value`는 가질 수 있지만 동일한 `Key`는 가질 수 없다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Dictionary Type Syntax</span>
+#### 2. Dictionary Type Syntax
 다음 두 가지 형태의 `initializer syntax`를 사용할 수 있다.
 
 ```swift
@@ -738,7 +738,7 @@ var someDictionary = [Key: Value]()         // Dictionary Type Shorthand Syntax 
 var someDictionary: [Key: Value] = [:]      // Dictionary Type Shorthand Syntax (딕셔너리의 축약형 문법)
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Creating an Empty Dictionary</span>
+#### 3. Creating an Empty Dictionary
 
 ```swift
 var someDictionary: [Int: Strint] = [:]
@@ -768,7 +768,7 @@ print(type(of: someDictionary))     // Dictionary<Int, String>
 
 Empty Dictionary Literal(`[:]`)를 이용해 someDictionary를 다시 `Empty Dictionary`로 만들더라도 `[Int: String]` 타입은 변하지 않는다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">4. Creating a Dictionary with a Dictionary Literal</span>
+#### 4. Creating a Dictionary with a Dictionary Literal
 
 ```swift
 var airports: [String: String] = ["YYZ": "Toronto Pearson", "DUB": "Dublin"]
@@ -808,7 +808,7 @@ var airports: [String: Any] = ["YYZ": "Toronto Pearson", "ZIP-CODE": 6301]
 print(airports)     // ["ZIP-CODE": 6301, "YYZ": "Toronto Pearson"]
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">5. Accessing and Modifying a Dictionary</span>
+#### 5. Accessing and Modifying a Dictionary
 
 __1 ) `Subscript Syntax`를 이용해 딕셔너리의 값에 접근하거나 추가, 수정, 삭제할 수 있다__
 
@@ -995,7 +995,7 @@ shoppingList = [:]
 print(shoppingList)     // [:]
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">6. Iterating Over a Dictionary</span>
+#### 6. Iterating Over a Dictionary
 
 ```swift
 let fruits = [

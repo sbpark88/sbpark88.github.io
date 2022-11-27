@@ -6,7 +6,7 @@ categories: swift
 tags: [swift, struct, structure, enumerations, enum, immutability, mutating, self]
 ---
 
-### <span style="color: orange">Swift에서 struct, enum은 "value type"이다.</span>
+### Swift에서 struct, enum은 "value type"이다.
 
 이게 무슨 말일까?
 

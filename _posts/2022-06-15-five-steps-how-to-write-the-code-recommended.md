@@ -6,7 +6,7 @@ categories: swift
 tags: [stackoverflow, api, documents, docs]
 ---
 
-## <span style="color: orange">모든 언어나 프레임워크에는 공식 문서가 존재한다.</span>
+### 모든 언어나 프레임워크에는 공식 문서가 존재한다.
 
 ![api docs1](/assets/images/posts/2022-06-15-five-steps-how-to-write-the-code-recommended/api-docs1.png)
 
@@ -16,7 +16,7 @@ tags: [stackoverflow, api, documents, docs]
 
 하지만 처음부터 `API Docs`를 보고 이해하기는 어렵다. 더군다나 저 방대한 `API Docs`에서 내가 원하는 것을 정확히 찾기는 더더욱 어렵고, 같은 프로그래밍을 하더라도 여러 방법의 구현이 가능하다.
 
-## <span style="color: orange">그렇다면 어떻게 하는 것이 좋을까?</span> 🤔
+### 그렇다면 어떻게 하는 것이 좋을까? 🤔
 
 ![five steps to coding](/assets/images/posts/2022-06-15-five-steps-how-to-write-the-code-recommended/five-steps-to-coding.png)
 
@@ -26,7 +26,7 @@ tags: [stackoverflow, api, documents, docs]
 4. 문서에서 코드가 의미하는 바를 찾기
 5. 필요에 따라 코드를 커스터마이징하기
 
-### <span style="color: purple">1. Google 검색하기</span>
+#### 1. Google 검색하기
 
 ![how to search on google](/assets/images/posts/2022-06-15-five-steps-how-to-write-the-code-recommended/how-to-search-on-google.png)
 
@@ -36,7 +36,7 @@ tags: [stackoverflow, api, documents, docs]
 
 Play sound Swift StackOverflow
 
-### <span style="color: purple">2. StackOverflow에서 답변 구하기</span>
+#### 2. StackOverflow에서 답변 구하기
 
 1. 글 작성자의 질문이 내 질문과 일치하는가
 2. 답변이 내가 찾고자 하는 답변이 맞는가
@@ -44,11 +44,11 @@ Play sound Swift StackOverflow
 - 상위 하나의 답변만 확인하지 말고, 상위 답변 3개를 같이 확인한다.
 - 얼마나 최신 답변인지, 내 버전에서도 작동 하는가에 따라 우선 순위를 둘 수 있다.
 
-### <span style="color: purple">3. 코드 구현하기</span>
+#### 3. 코드 구현하기
 
 StackOverflow 코드를 복사해와 프로젝트에 붙여넣고, 변수명 등을 고쳐 작동시켜본다.
 
-### <span style="color: purple">4. 문서에서 코드가 의비하는 바를 찾기</span>
+#### 4. 문서에서 코드가 의비하는 바를 찾기
 
 ![apple docs](/assets/images/posts/2022-06-15-five-steps-how-to-write-the-code-recommended/apple-docs.png)
 
@@ -56,7 +56,7 @@ StackOverflow 코드를 복사해와 프로젝트에 붙여넣고, 변수명 등
 
 문서를 보고 코드가 의미하는 것, 어떻게 작동하는지를 파악한다.
 
-### <span style="color: purple">5. 필요에 따라 코드를 커스터마이징하기</span>
+#### 5. 필요에 따라 코드를 커스터마이징하기
 
 이제 문서를 통해 코드를 좀 더 깊게 이해했다면, 내 앱의 필요에 맞게 코드를 커스터마이징한다.
 

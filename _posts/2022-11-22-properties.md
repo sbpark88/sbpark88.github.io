@@ -6,12 +6,12 @@ categories: swift
 tags: [swift docs, swift property, sotred property, computed property, property observer, property wrapper, type property]
 ---
 
-### <span style="color: orange">1. Stored Properties 👩‍💻</span>
+### 1. Stored Properties 👩‍💻
 
 `Class`, `Structure`, `Enumeration`의 `instance` 일부로써 `constant values` 또는 `variable values`를 
 저장한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Stored Properties</span>
+#### 1. Stored Properties
 
 `FixedLengthRange` `instance`는 1개의 variable `firstValue` 와 1개의 constant `length` 를 가지고 있다.
 
@@ -40,7 +40,7 @@ rangeOfThreeItems.length = 4    // Cannot assign to property: 'length' is a 'let
 
 `length`는 `let`으로 선언했기 때문에 수정이 불가능해 에러가 발생된다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Stored Properties of Constant Structure Instances</span>
+#### 2. Stored Properties of Constant Structure Instances
 
 만약 `Structure`의 `instance`를 생성해 `let` 키워드에 할당하면, `instance` 자체가 `constant`가 되므로 
 `properties`가 `variable`이더라도 수정이 불가능하다.
@@ -80,7 +80,7 @@ rangeOfFiveVolumes(firstValue: 0, volume: 5)
 rangeOfFiveVolumes(firstValue: 1, volume: 5)
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Lazy Stored Properties</span>
+#### 3. Lazy Stored Properties
 
 __1 ) Syntax__
 
@@ -285,7 +285,7 @@ print(manager.importer.filename)
 > `Lazy Stored Properties`를 멀티 스레드에서 동시에 access할 때 아직 `properties`가 초기화
 > 되지 않았다면, 한 번만 초기화된다는 보장이 없다. 즉, `Thread-UnSafe`하므로 이를 제어할 필요가 있다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">4. Stored Properties and Instnace Variables</span>
+#### 4. Stored Properties and Instnace Variables
 
 `Objective-C`는 `Class instance`의 `Properties`로 `Values`와 `References`를 저장하는 두 가지
 방법을 제공했다. 또한 `Properties`를 `Backing Store(백업 저장소)`로 사용할 수 있었다.
@@ -296,9 +296,9 @@ print(manager.importer.filename)
 
 ---
 
-### <span style="color: orange">2. Computed Properties 👩‍💻</span>
+### 2. Computed Properties 👩‍💻
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Computed Properties</span>
+#### 1. Computed Properties
 
 __1 ) Syntax__
 
@@ -448,7 +448,7 @@ square.origin: Point(x: 12.5, y: 12.5)
 square.center: Point(x: 17.5, y: 17.5)
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Shorthand Getter/Setter Declaration</span>
+#### 2. Shorthand Getter/Setter Declaration
 
 - Shorthand Setter Declaration
 
@@ -496,7 +496,7 @@ struct Rect {
 }
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Read-Only Computed Properties</span>
+#### 3. Read-Only Computed Properties
 
 위 2.1의 `Case 1` 영어 강의 예제를 다시 보자. `setter`가 필요 없고 `getter`만 필요한 경우 이를 
 `Read-Only Computed Properties`라고 하며, `get` 키워드와 중괄호를 생략할 수 있다.
@@ -519,9 +519,9 @@ struct Classroom {
 
 ---
 
-### <span style="color: orange">3. Property Observers 👩‍💻</span>
+### 3. Property Observers 👩‍💻
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Definition of Property Observers</span>
+#### 1. Definition of Property Observers
 
 `Property Observers`는 `Property`의 값에 `set`이 발생하는지 관찰하고 응답한다. 새 값이 기존의 값과 같더라도 
 `set`이 발생하면 매번 호출된다.
@@ -583,7 +583,7 @@ __3 ) Initializer of subclass__
 > 3. `Subclass`의 `Properties`의 속성을 설정한다(1에서 보류한 속성을 포함한다).
 > 4. `Subclass`의 `initializer`를 호출한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Property Observer Examples</span>
+#### 2. Property Observer Examples
 
 아래 걸음수 데이터를 저장하는 `StepCounter`가 있다.
 
@@ -713,9 +713,9 @@ Added 160 steps, totalStep is now 360
 
 ---
 
-### <span style="color: orange">4. Property Wrappers 👩‍💻</span>
+### 4. Property Wrappers 👩‍💻
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Property Wrappers</span>
+#### 1. Property Wrappers
 
 __1 ) Syntax__
 
@@ -828,7 +828,7 @@ print("\(multiplication.left) x \(multiplication.right) = \(multiplication.left 
 
 [Can I implement a property observer in a property wrapper structure?](https://developer.apple.com/forums/thread/653894)
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Setting Initial Values for Wrapped Properties</span>
+#### 2. Setting Initial Values for Wrapped Properties
 
 위 코드는 `Property Wrapppers`가 초기값을 하드코딩해 저장하고있다. 따라서 다른 초기값을 지정할 수 없어 유연성이 떨어진다.  
 우리는 이 문제를 `Initializer`를 이용해 해결할 수 있다.
@@ -948,7 +948,7 @@ print("height: \(hugeRectangle.height), width: \(hugeRectangle.width)") // heigh
 `init(maximim:)`이라는 `Initializer`가 없음에도 불구하고, `init(wrappedValue:maximum:)`과 동일하게 
 작동함을 알 수 있다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Projecting a Value From a Property Wrapper</span>
+#### 3. Projecting a Value From a Property Wrapper
 
 우선 `Projection Mapping`이라는 용어를 알아보자.
 
@@ -1133,12 +1133,12 @@ print(resizeWasCalibrated)                  // true
 
 ---
 
-### <span style="color: orange">5. Global and Local Variables 👩‍💻</span>
+### 5. Global and Local Variables 👩‍💻
 
 - Global Variables: `Functions`, `Methods`, ` Closures`, `Type` Context 외부에 정의된 변수를 의미
 - Local Variables: `Functions`, `Methods`, `Closures` Context 내부에 정의되 변수를 의미
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Stored Variables</span>
+#### 1. Stored Variables
 
 `Stored Variables`는 `Stored Properties` 처럼 값을 저장하고 검색하는 것을 제공한다.
 
@@ -1147,15 +1147,15 @@ print(resizeWasCalibrated)                  // true
 >
 > 반면에 `Local Constnats`와 `Local Variables`는 절대 `lazily`하게 계산되지 않는다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Computed Variables</span>
+#### 2. Computed Variables
 
 `Global Variables`와 `Local Variables` 모두 `Computed`를 사용할 수 있다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Variable Observers</span>
+#### 3. Variable Observers
 
 `Global Variables`와 `Local Variables` 모두 `Observer`를 사용할 수 있다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">4. Variable Wrappers</span>
+#### 4. Variable Wrappers
 
 `Property Wrappers`는 `Local Stored Variables`에만 적용 가능하다.  
 `Global Variables` 또는 `Computed Variables`에는 적용할 수 없다.
@@ -1177,14 +1177,14 @@ someFunction()
 
 ---
 
-### <span style="color: orange">6. Type Properties 👩‍💻</span>
+### 6. Type Properties 👩‍💻
 
 
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Type Property Syntax</span>
+#### 1. Type Property Syntax
 
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Querying and Setting Type Properties</span>
+#### 2. Querying and Setting Type Properties
 
 
 

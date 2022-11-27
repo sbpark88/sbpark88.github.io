@@ -10,7 +10,7 @@ tags: [if, guard, if let, guard let, optional, optional binding, unwrap]
 
 뭔가 비슷하게 사용되는 것 같으면서도 내가 아는 사용법이 아닌 것도 존재하고... 🤔🤔🤔
 
-### <span style="color: orange">1. 조건문(conditional statements)</span>
+### 1. 조건문(conditional statements)
 
 if문은 기본적으로 조건문이다. 🙃  
 즉, 다음과 같이 조건을 검사하고, 일치할 경우 실행할 로직을 정의할 수 있다.
@@ -134,7 +134,7 @@ Passed array is empty.
 
 ---
 
-### <span style="color: orange">2. Optional binding(unwrap)</span>
+### 2. Optional binding(unwrap)
 
 `Swift` 언어의 `특징` 중 하나로, `nil`(다른 언어에서의 null)에 대한 에러 처리를 쉽게 해줌으로써 문법적 `Safety`를 보장한다.  
 즉, 문법적 안정성을 위해 `Optional을 이용해 wrapping 되어있는 값`을 사용하기 위해서는 `unwrap`을 해야하는데, 이를 `Optional binding`이라 한다.
@@ -238,7 +238,7 @@ JavsScript(TypeScript)에서 똑같이 Promise object를 이용하지만 `Promis
 
 ---
 
-### <span style="color: orange">3. Summary</span>
+### 3. Summary
 
 #### 조건문으로 사용될 때는 Bool condition이 온다.
 

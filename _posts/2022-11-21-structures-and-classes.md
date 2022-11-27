@@ -6,7 +6,7 @@ categories: swift
 tags: [swift docs, swift structure, swift class]
 ---
 
-### <span style="color: orange">1. Comparing Structures and Classes 👩‍💻</span>
+### 1. Comparing Structures and Classes 👩‍💻
 
 일반적으로 프로그래밍 언어에서 `Class` 하나에 파일 하나가 필요하다. 하지만 `Swift`는 파일 하나에 여러 개의 `Class`와
 `Structure`를 정의할 수 있으며, 외부 인터페이스는 다른 `Class`나 `Structure`가 사용할 수 있도록 자동으로 제공된다.
@@ -14,7 +14,7 @@ tags: [swift docs, swift structure, swift class]
 이는 전통적으로 프로그래밍 언어에서 `Class`의 `instance`는 `Object`인 반면, `Swift`의 `Structures`와
 `Classes`는 다른 언어와 비교해 `Functionality`에 가깝다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Structure와 Class의 공통점</span>
+#### 1. Structure와 Class의 공통점
 
 - Define `properties` : 값을 저장
 - Define `methods` : 기능을 제공
@@ -23,7 +23,7 @@ tags: [swift docs, swift structure, swift class]
 - Be `extended` : 기본 구현 이상으로 확장
 - Conform to `protocols` : 특정 종류의 표준 기능을 제공
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Class만 갖고 있는 추가적인 기능</span>
+#### 2. Class만 갖고 있는 추가적인 기능
 
 - `inheritance` : 다른 `Class`의 특성을 상속
   (`Structure`와 `Protocol`은 다른 `Protocol`을 `adopt` 하는 것만 가능하다.)
@@ -37,7 +37,7 @@ tags: [swift docs, swift structure, swift class]
 > 일반적으로 추론하기 쉬운 `Structure`를 선호해야한다고 말한다. 이는 우리가 만드는 대부분의 `Custom Data Types`는
 > `Structure`나 `Enumeration`이 되어야 함을 의미한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Structure와 Class 무엇을 선택할까?</span>
+#### 3. Structure와 Class 무엇을 선택할까?
 
 이에 대해 애플은 아래 글을 통해 다음과 같이 이야기한다.
 
@@ -86,9 +86,9 @@ __4 ) 공유 `implementation(구현체)`를 적용하기 위해 `Structure`와 `
 
 ---
 
-### <span style="color: orange">2. Definition of Structures and Classes 👩‍💻</span>
+### 2. Definition of Structures and Classes 👩‍💻
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Definition Syntax</span>
+#### 1. Definition Syntax
 
 ```swift
 struct SomeStructure {
@@ -107,7 +107,7 @@ class SomeClass {
 
 반면 `Properties`와 `Methods`는 `Type Names`와 구분을 위해 `소문자로 시작`한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Structure and Class Instances</span>
+#### 2. Structure and Class Instances
 
 `Swift`에 `Resolution`과 `VideoMode`라는 새 `Types`를 만들어낸다.
 
@@ -135,7 +135,7 @@ let someVideoMode = VideoMode()
 
 `Structure`와 `Class` 둘 다 `new instnace`를 생성하기 위해 `initializer`를 사용하며 `Syntax`는 유사하다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Accessing Properties</span>
+#### 3. Accessing Properties
 
 __1 ) Get Properties__
 
@@ -191,7 +191,7 @@ print("The width of anotherResolution is now \(anotherResolution.width)")
 // Prints "The width of anotherResolution is now 1600"
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">4. Memberwise Initializers for Structure Types</span>
+#### 4. Memberwise Initializers for Structure Types
 
 ```swift
 let resolutionTypeA = Resolution(width: 5120, height: 2880)
@@ -208,9 +208,9 @@ print(resolutionTypeC)  // Resolution(width: 0, height: 1440)
 
 ---
 
-### <span style="color: orange">3. Structures and Enumerations Are Value Types 👩‍💻</span>
+### 3. Structures and Enumerations Are Value Types 👩‍💻
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Characteristics of Value Types</span>
+#### 1. Characteristics of Value Types
 
 > `Value Type`은 `Variable` 또는 `Constant`에 할당될 때, 그리고 함수에 전달될 때 전체가 `copy`된다.
 > 
@@ -241,7 +241,7 @@ print(resolutionTypeC)  // Resolution(width: 0, height: 1440)
 [Foundation - NSArray]:https://developer.apple.com/documentation/foundation/nsarray
 [Classes Bridged to Swift Standard Library Value Types]:https://developer.apple.com/documentation/foundation/object_runtime/classes_bridged_to_swift_standard_library_value_types
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Structures</span>
+#### 2. Structures
 
 ```swift
 let hd = Resolution(width: 1920, height: 1080)
@@ -272,7 +272,7 @@ print("hd is still \(hd.width) pixel wide")
 
 ![sharedStateStruct](/assets/images/posts/2022-11-21-structures-and-classes/sharedStateStruct_2x.png)
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Enumerations</span>
+#### 3. Enumerations
 
 ```swift
 enum CompassPoint {
@@ -311,14 +311,14 @@ print("The remembered direction is \(rememberedDirection)")
 
 ---
 
-### <span style="color: orange">4. Classes Are Reference Types 👩‍💻</span>
+### 4. Classes Are Reference Types 👩‍💻
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Characteristics of Reference Types</span>
+#### 1. Characteristics of Reference Types
 
 > `Reference Type`은 `Variable` 또는 `Constant`에 할당될 때, 그리고 함수에 전달될 `copy`되지 않는다.  
 > `copy` 대신 동일 `instance`를 `참조(reference)`한다. 
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Classes</span>
+#### 2. Classes
 
 ```swift
 let tenEighty = VideoMode()
@@ -380,7 +380,7 @@ print(tenEighty)        // __lldb_expr_11.VideoMode
 print(alsoTenEighty)    // __lldb_expr_11.VideoMode
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Identity Operators</span>
+#### 3. Identity Operators
 
 기존에 알고 있던 `equal to`, `not equal to` Operators는 다음과 같다.
 
@@ -420,7 +420,7 @@ print(numA === numB)  // error: argument type 'Int' is not a reference types
 `===` 또는 `!==` operators는 `Reference Types`를 위한 `Identity Operators`로, `Value Types`를 
 비교하려고 하면 에러가 발생한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">4. Pointers</span>
+#### 4. Pointers
 
 `C`, `C++`, `Objective-C` 같은 언어는 메모리 주소를 참조하기 위해 `pointer`를 사용한다.  
 이것은 `Swift`에서 `Reference Types`의 `instance`를 참조하기 위해 `constant` 또는 `variable`이 참조하는 방식과 

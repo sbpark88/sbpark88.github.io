@@ -6,11 +6,11 @@ categories: swift
 tags: [xcode, appcode, swiftlint, sonarlint]
 ---
 
-### <span style="color: orange">SonarLint는 Swift를 지원하지 않지만 우리에겐 SwiftLint가 있다!! 👩‍💻</span>
+### SonarLint는 Swift를 지원하지 않지만 우리에겐 SwiftLint가 있다!! 👩‍💻
 
 [SwiftLint GitHub](https://github.com/realm/SwiftLint)를 방문해보면 `XCode`뿐 아니라 `AppCode`, `Atom` 그리고 `Visual Studio Code`를 지원함은 물론이고, 배포 자동화를 돕는 [fastlane](https://fastlane.tools)([fastlane docs](https://docs.fastlane.tools))에서도 사용이 가능하다.
 
-### <span style="color: orange">1. 설치하기 👩‍💻</span>
+### 1. 설치하기 👩‍💻
 설치 방법은 깃허브에서 직접 `pkg`를 내려 받아 설치하는 것과, CLI Package manager를 사용하는 방법이 있다.
 지원하는 Package manager는 다음과 같다.
 
@@ -28,7 +28,7 @@ brew install swiftlint
 **That's all!!**
 정말로 이게 끝이다. 🤣🤣
 
-### <span style="color: orange">2. IDE 적용하기 👩‍💻</span>
+### 2. IDE 적용하기 👩‍💻
 
 #### 1. XCode
 애플이 만든 공식 IDE인 `XCode`부터 알아보자.

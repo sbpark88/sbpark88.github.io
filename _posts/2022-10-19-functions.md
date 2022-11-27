@@ -6,7 +6,7 @@ categories: swift
 tags: [swift docs, swift function, swift nested function, swift first class citizen]
 ---
 
-### <span style="color: orange">1. Defining and Calling Functions 👩‍💻</span>
+### 1. Defining and Calling Functions 👩‍💻
 
 __Syntax__
 
@@ -43,9 +43,9 @@ print(greet(person: "Anna"))    // Hello, Anna!
 
 ---
 
-### <span style="color: orange">2. Function Parameters and Return Values 👩‍💻</span>
+### 2. Function Parameters and Return Values 👩‍💻
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Functions Without Parameters</span>
+#### 1. Functions Without Parameters
 
 ```swift
 func sayHelloWorld() -> String {
@@ -55,7 +55,7 @@ func sayHelloWorld() -> String {
 print(sayHelloWorld())  // hello, world
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Functions With Multiple Parameters</span>
+#### 2. Functions With Multiple Parameters
 
 ```swift
 func greet(person: String) -> String {
@@ -86,7 +86,7 @@ print(greet(person: "Tim", alreadyGreeted: true))   // Hello again, Tim!
 > 함수 `name`이 같더라도 `parameters`가 다르면, 다른 함수로 구분된다. 이를 `Polymorphism`(다형성)이라고 한다.  
 > 단, 이러한 구분에 `return type`은 영향을 주지 않는다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Functions Without Return Values</span>
+#### 3. Functions Without Return Values
 
 `Return Type`이 없을 때는 `Void`를 `Return Type`으로 정의한다.
 
@@ -136,7 +136,7 @@ hello, world
 
 하지만 Docs의 설명과 달리 `let _ =`로 받지 않고 생략해도 에러가 발생하지 않았다. 이는 좀 더 확인해야 할 것 같다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">4. Functions with Multiple Return Values</span>
+#### 4. Functions with Multiple Return Values
 
 `Swift`에서 `tuple`을 이용해 하나의 `compound`로 여러 변수에 값을 할당할 수 있다.
 
@@ -228,7 +228,7 @@ print("min is \(bounds.min) and max is \(bounds.max)")
 min is 1 and max is 88
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">5. Optional Tuple Return Types</span>
+#### 5. Optional Tuple Return Types
 
 함수가 반환하는 전체 `Tuple`이 `nil`일 가능성이 있다면, `(Int, Int)?` 또는 `(String, Int, Bool)?`과 같이 
 `?`를 붙여 `Optiional`을 반환하도록 할 수 있다.
@@ -275,7 +275,7 @@ input array is empty.
 min is 1 and max is 88
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">6. Function With an Implicit Return</span>
+#### 6. Function With an Implicit Return
 
 함수의 전체 본문이 단일 표현식인 경우 함수는 암시적으로 해당 표현식을 반환한다.
 
@@ -289,7 +289,7 @@ print(add(6, 8))    // 14
 
 ---
 
-### <span style="color: orange">3. Function Argument Labels and Parameter Names 👩‍💻</span>
+### 3. Function Argument Labels and Parameter Names 👩‍💻
 
 `Swift` 함수는 `argument label`과 `parameter name`을 갖는다. `argument label`은 함수를 호출할 때 
 사용되고, `parameter name`은 함수가 실행될 때 내부에서 사용된다.  
@@ -313,7 +313,7 @@ func someFunction(argumentLabel parameterName: Int) {
 
 > `argument label`은 `non-unique`이므로 동일한 이름을 사용할 수 있으나 코드를 읽기 쉽도록 적절한 이름을 사용하는 것이 좋다. 
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Specifying Argument Labels</span>
+#### 1. Specifying Argument Labels
 
 `argument`를 `default`값인 `parameter name`과 동일하게 사용하지 않고 다른 이름을 사용하려면 `parameter name` 앞에 
 `argument label`을 작성한다.
@@ -330,7 +330,7 @@ print(greet(person: "Bill", from: "Cupertino"))
 Hello Bill!  Glad you could visit from Cupertino.
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Omitting Argument Labels</span>
+#### 2. Omitting Argument Labels
 
 `argument label` 굳이 필요 없어 생략하길 원한다면 `arguemnt label`에 `_`을 사용한다. 
 
@@ -345,9 +345,9 @@ someFunction(1, secondParameterName: 2)
 
 ---
 
-### <span style="color: orange">4. Special Function Parameters 👩‍💻</span>
+### 4. Special Function Parameters 👩‍💻
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Default Parameter Values</span>
+#### 1. Default Parameter Values
 
 `parameter`의 `default value`를 설정하면 호출할 때 생략할 수 있다. 우선 `TypeScript`의 동작을 보자.
 
@@ -421,7 +421,7 @@ print(add(a: 5))            // 105
 `Polymorphism`(다형성)에 의해 `func add(a num1: Int) -> Int`의 호출이 우선시 되기 때문에 
 `func add(a num1: Int, b num2: Int = 10) -> Int`의 `default value`를 이용한 호출은 작동하지 않는다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Variadic Parameters</span>
+#### 2. Variadic Parameters
 
 
 - Variadic Parameters
@@ -481,7 +481,7 @@ console.log(arithmeticMean(1, 2, 3, 4, 5))      // 3
 console.log(arithmeticMean(3, 8.25, 18.75))     // 10
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. In-Out Parameters</span>
+#### 3. In-Out Parameters
 
 함수의 `parameters`는 기본적으로 `constants`(상수)이므로 수정할 수 없다.
 
@@ -524,7 +524,7 @@ someInt is now 107, and anotherInt is now 3
 
 ---
 
-### <span style="color: orange">5. Function Types 👩‍💻</span>
+### 5. Function Types 👩‍💻
 
 ```swift
 func addTwoInts(_ a: Int, _ b: Int) -> Int {
@@ -547,7 +547,7 @@ func printHelloWorld() {
 
 위 함수의 `Function Types`는 다음과 같다. `() -> Void`
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Using Function Types</span>
+#### 1. Using Function Types
 
 `Swift`에서는 `Function Types` 역시 다른 `Types`와 같이 사용할 수 있다.
 
@@ -665,7 +665,7 @@ console.log(addTwoInts(5, 7))           // 12
 console.log((multiplyTwoInts(5, 7)))    // 35
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Function Types as Parameter Types</span>
+#### 2. Function Types as Parameter Types
 
 `Swift`의 함수는 `First-Class Citizen`이므로 `parameters`가 될 수 있다. 
 
@@ -712,7 +712,7 @@ printMathResult(addTwoInts, 5, 7)       // Result: 12
 printMathResult(multiplyTwoInts, 5, 7)  // Result: 35
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Function Types as Return Types</span>
+#### 3. Function Types as Return Types
 
 마찬가지로 `Swift`의 함수는 `First-Class Citizen`이므로 `return type`이 될 수 있다.
 
@@ -821,7 +821,7 @@ zero!
 
 ---
 
-### <span style="color: orange">6. Nested Functions 👩‍💻</span>
+### 6. Nested Functions 👩‍💻
 
 위에서 작성된 함수는 모두 `Global Scope`의 접근성을 갖는 `Global Functions`다.  
 하지만 함수의 `body` 내부에 다른 함수를 정의할 수 있는데 이를 `Nested Functions`라 한다.

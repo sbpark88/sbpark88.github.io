@@ -6,9 +6,9 @@ categories: swift
 tags: [higher order function, first class citizen, functional programming, lambda calculus, map, reduce, filter, flatMap, compactMap]
 ---
 
-### <span style="color: orange">1. First-Class 👩‍💻</span>
+### 1. First-Class 👩‍💻
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. First-Class Citizen</span>
+#### 1. First-Class Citizen
 
 프로그래밍 언어 디자인에서 `First-Class Citizen`(`type`, `object`, `entity`, `value`)은 다른 `entity`에서
 사용할 수 있는 모든 작업을 지원하는 `entity`로 다음과 같은 특징을 갖는다.
@@ -18,7 +18,7 @@ tags: [higher order function, first class citizen, functional programming, lambd
 - 모든 아이템은 `상수 또는 변수에 할당`될 수 있다
 - 모든 아이템은 `tested for equality`가 가능하다
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. First-Class Function</span>
+#### 2. First-Class Function
 
 `Computer Science`에서 프로그래밍 언어가 함수를 `First-Class Citizen`으로 다루면,
 `First-Class Function`을 가지고 있다고 한다. 이것은 다음을 의미한다.
@@ -66,9 +66,9 @@ print(doubleIntArray)   // [2, 4, 8, 10, 16, 22, 30]
 
 ---
 
-### <span style="color: orange">2. Higher-order Function Examples 👩‍💻</span>
+### 2. Higher-order Function Examples 👩‍💻
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. TypeScript</span>
+#### 1. TypeScript
 
 `twice`와 `plusThree`라는 함수가 있다.
 
@@ -125,7 +125,7 @@ console.log(someFunction(12))  // 18   (12 + 3) + 3
 
 <br>
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Swift</span>
+#### 2. Swift
 
 __1 ) Function `Declarations`__
 
@@ -241,9 +241,9 @@ print(someFunction(12)) // 18   (12 + 3) + 3
 
 ---
 
-### <span style="color: orange">3. Higher-order Functions 👩‍💻</span>
+### 3. Higher-order Functions 👩‍💻
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. forEach</span>
+#### 1. forEach
 
 다음은 `Swift documentation`의 Instance Method `forEach(_:)`의 설명이다.
 
@@ -382,7 +382,7 @@ The double of 14 is 28
 > 현재 호출된 `closure`를 종료하는 것일 뿐 `forEach` 순환 자체를 종료하지 않는다. `forEach`에서 `return`은 
 > `For-In Loops`의 `continue`와 같은 역할을 한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. map</span>
+#### 2. map
 
 __1 ) Array.map(_:)__
 
@@ -600,7 +600,7 @@ print(updatedValues)    // ["hobby": "Computer Games", "job": "Developer", "city
 > - someDictionary.keys.map: (최종 결과물이 `Array`) & (`Key`만 필요할 때)
 > - someDictionary.values.map: (최종 결과물이 `Array`) & (`Value`만 필요할 때)
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. compactMap</span>
+#### 3. compactMap
 
 `Collection`이 `nil`을 포함하고 있는 경우 유용하게 사용할 수 있는, `map`과 매우 유사한 `compactMap`이 있다.
 
@@ -738,7 +738,7 @@ print(validCoins)   // [1, 5, 10, 6]
 > `compactMap`은 `.filter { $0 != nil } .map { (YOUR_CODE) }`를 압축한 것이다. 
 > 따라서, `Collection`에서 `nil`을 제거하고 `non-nil`만 얻고자 할 때 유용하다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">4. flatMap</span>
+#### 4. flatMap
 
 다음은 `Swift documentation`의 Instance Method `flatMap(_:)`의 설명이다.
 
@@ -881,7 +881,7 @@ let anotherSum = marksWithNil.lazy
 print(anotherSum)   // 42
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">5. filter</span>
+#### 5. filter
 
 다음은 `Swift documentation`의 Instance Method `filter(_:)`의 설명이다.
 
@@ -1132,7 +1132,7 @@ Jim, 35
 Jamie, 30
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">6. reduce</span>
+#### 6. reduce
 
 다음은 `Swift documentation`의 Instance Method `reduce(_:_:)`의 설명이다.
 
@@ -1205,7 +1205,7 @@ let product: Int = numbers.reduce(1) { $0 * $1 }
 print("sum: \(sum)   product: \(product)")  // sum: 55   product: 3628800
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">7. contains</span>
+#### 7. contains
 
 다음은 `Swift documentation`의 Instance Method `contains(_:)`와 `contains(where:)`의 설명이다.
 
@@ -1418,7 +1418,7 @@ let hasFemalesUnder30 = staff.contains { $0.age < 30 && $0.gender == .female }
 print("hasFemalesUnder30", hasFemalesUnder30)
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">8. removeAll</span>
+#### 8. removeAll
 
 다음은 `Swift documentation`의 Instance Method `removeAll(_:)`의 설명이다.
 
@@ -1529,7 +1529,7 @@ words.removeAll { $0.contains("o") && $0.count >= 5 }
 print(words)        // ["room", "home", "train", "green"]
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">9. sort, sorted</span>
+#### 9. sort, sorted
 
 다음은 `Swift documentation`의 Instance Method `sort(by:)`와 `sorted(by:)`의 설명이다.
 
@@ -1654,7 +1654,7 @@ let descendingOrdered = numbers.sorted(by: >)
 print(descendingOrdered)    // [87, 74, 42, 32, 24, 15, 9, 8, 6, 5, 2]
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">10. split</span>
+#### 10. split
 
 다음은 `Swift documentation`의 Instance Method `compactMap(_:)`의 설명이다.
 

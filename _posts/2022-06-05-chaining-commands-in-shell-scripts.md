@@ -6,7 +6,7 @@ categories: shell
 tags: [shell]
 ---
 
-## 1. 서로 다른 명령 조합하기
+### 1. 서로 다른 명령 조합하기
 
 | Operators | Function | i.e. | Result |
 | --------- | -------- | ---- | ------ |
@@ -14,7 +14,7 @@ tags: [shell]
 | && | 선행 명령이 성공한 경우 후행 명령을 수행한다 | 1 && 2 && 3 | 1이 성공하면 2를 수행, 2가 성공하면 3을 수행 |
 | ⎮⎮ | 선행 명령이 실패한 경우 후행 명령을 수행한다 | 1 ⎮⎮ 2 ⎮⎮ 3 | 1이 실패하면 2를 수행, 2가 실패하면 3을 수행 |
 
-## 2. 선행 명령에 추가적인 명령 수행하기
+### 2. 선행 명령에 추가적인 명령 수행하기
 
 | Operators | Function | i.e. | Result |
 | --------- | -------- | ---- | ------ |
@@ -25,7 +25,7 @@ brew list | grep env
 ```
 이렇게 주로 검색과 관련되어 많이 사용한다.
 
-## 3. 긴 명령 개행 무시하기
+### 3. 긴 명령 개행 무시하기
 
 명령이 길어질 경우 개행을 통해 가독성은 높이고, 개생은 하지 않은 것처럼 하나의 명령으로 연결하고 싶다면 `\`을 이용한다.
 ```shell
@@ -38,11 +38,11 @@ keka google-drive dropbox forklift ridibooks notion adguard tunnelblick displayc
 qbittorrent pdfpenpro busycal busycontacts imazing onyx knockknock --force
 ```
 
-## 4. 명령 결과 부정하기
+### 4. 명령 결과 부정하기
 
 간단히 `!` 을 붙여주면 된다.
 
-## 5. 명령 그룹으로 묶기
+### 5. 명령 그룹으로 묶기
 
 | Operators | Function | i.e. | Result |
 | --------- | -------- | ---- | ------ |
@@ -53,7 +53,7 @@ qbittorrent pdfpenpro busycal busycontacts imazing onyx knockknock --force
 ```
 즉, 괄호를 이용해 위 쉘 명령과 다른 명령 로직을 수행할 수 있다.
 
-## 6. 백그라운드로 명령 수행하기
+### 6. 백그라운드로 명령 수행하기
 
 | Operators | Function | i.e. | Result |
 | --------- | -------- | ---- | ------ |

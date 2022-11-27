@@ -6,7 +6,7 @@ categories: swift
 tags: [foreach, iboutlet, instance member, property initializer]
 ---
 
-### <span style="color: orange">1. IBOutlet을 forEach를 이용해 반복문을 돌려보자 🥸</span>
+### 1. IBOutlet을 forEach를 이용해 반복문을 돌려보자 🥸
 
 `High order functions`을 주로 JavaScript, TypeScript를 통해 다뤄봤던 내가 처음 생각했던 방법은 다음과 같았다.
 
@@ -110,7 +110,7 @@ class ViewController: UIViewController {
 
 만세~~ 🥰🥰🥰
 
-### <span style="color: orange">2. 하지만 위 경우는 IBOutlet이 2개인데, 저런 식의 변수가 10개, 20개가 된다면!?</span>
+### 2. 하지만 위 경우는 IBOutlet이 2개인데, 저런 식의 변수가 10개, 20개가 된다면!?
 
 ```javascript
 const buttons = [...document.getElementsByClassName('btn-choice')]
@@ -146,7 +146,7 @@ class ViewController: UIViewController {
 }
 ```
 
-### <span style="color: orange">3. Index와 Elements를 모두 사용할 수는 없을까? 🧐</span>
+### 3. Index와 Elements를 모두 사용할 수는 없을까? 🧐
 개인적으로 `forEach`를 사용할 때, `elements` 뿐 아니라 가끔 `index`가 필요할 때 유용하게 사용하곤 했다. 물론, 반드시 index가 필요할 경우 `for i`를 이용한 반복문을 돌려도 되지만, forEach를 사용하는 것이 코드가 더 깔끔하고, `method chaining`을 사용할 수 있는 등 장점이 많았기 때문이다.
 
 `Swift`에서도 가능하다!!

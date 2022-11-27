@@ -6,10 +6,10 @@ categories: swift
 tags: [swift docs, swift loop, swift for, swift while, swift if, swift switch, swift condition]
 ---
 
-### <span style="color: orange">1. For-In Loops 👩‍💻</span>
+### 1. For-In Loops 👩‍💻
 `For-In` 반복문은 `Array`가 저장한 `items`, `String`이 저장한 `characters`와 같은 `sequence`를 반복할 수 있다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Iterate over with numeric ranges</span>
+#### 1. Iterate over with numeric ranges
 
 ```swift
 for index in 1...5 {
@@ -56,7 +56,7 @@ for tickMark in stride(from: 0, to: 60, by: 5) {
 
 <br>
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Iterate over the items in an array</span>
+#### 2. Iterate over the items in an array
 
 ```swift
 let names = ["Anna", "Alex", "Brian", "Jack"]
@@ -74,7 +74,7 @@ Hello, Jack!
 
 <br>
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Iterate over a dictionary to access its key-value paris</span>
+#### 3. Iterate over a dictionary to access its key-value paris
 
 우리는 [**Iterating over a dictionary**][Iterating over a dictionary]에서 살펴본 것 처럼 `Dictionary`는 한 쌍의 `Kye: Value` `tuple`로 접근해 반복할 수 있다.  
 아래는 `tuple`이 `animalName`이라는 `Key constant`와 `legCount`라는 `Value constant`로 분해되는 예제다.
@@ -96,7 +96,7 @@ ants have 6 legs
 
 ---
 
-### <span style="color: orange">2. While Loops 👩‍💻</span>
+### 2. While Loops 👩‍💻
 
 우선 아래 `while`을 설명하면서 사용할 주사위 함수는 다음과 같다.
 
@@ -106,7 +106,7 @@ func rollDice() -> Int {
 }
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. While</span>
+#### 1. While
 `while` 반복문은 조건이 `false`가 될 때까지 반복을 계속한다. 이것은 `loop`가 시작될 때 정확한 반복 횟수를 알 수 없는 경우 유용하게 사용될 수 있다.
 
 __Syntax__
@@ -143,7 +143,7 @@ The dice are rolled 3 times.
 ```
 
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Repeat-While</span>
+#### 2. Repeat-While
 `repeat-while`문이 `while`문과 다른 점은 반복할 로직을 먼저 실행 후 조건을 검사한다. 그렇기 때문에 `repeat-while`은 최소한 1번의 로직은 수행한다.
 
 __Syntax__
@@ -198,7 +198,7 @@ The dice are rolled 5 times.
 초깃값이 20 이상이지만 최초 1회 실행을 한다. 그리고 이때 계산된 result는 condition을 만족하는 작은 값으로 바뀔 경우 `repeat`을 반복하게된다.
 따라서 `Repeat-While`은 최소 1번은 실행하므로 1 ~ n번의 반복을 하게 된다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. While-True</span>
+#### 3. While-True
 여기 조금 특별한 방식의 `While`문이 있다.  
 `While` 또는 `Repeat-While`의 `condition`은 `true`일 때 반복하므로 `false`가 될 때 중단된다.  
 반면 `While-True`는 위 `if`를 사용해 반복할 조건을 검사하므로 `condition`과 반대가 되어야한다. 
@@ -283,10 +283,10 @@ print("The dice are rolled \(rollCount) times.")
 
 ---
 
-### <span style="color: orange">3. Conditional Statements - If 👩‍💻</span>
+### 3. Conditional Statements - If 👩‍💻
 `Swift`는 조건에 따라 다른 로직을 수행할 수 있도록 `If`와 `Switch`를 제공한다. 그 중 `If`를 알아본다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Single `if` statement</span>
+#### 1. Single `if` statement
 `if`는 조건이 만족될 때 실행하는 로직을 정의할 수 있다.
 
 ```swift
@@ -298,7 +298,7 @@ if temperatureInCelsius > 28 {
 // It's hot. Turn on the air conditioner.
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. `if` statements with `else` clause</span>
+#### 2. `if` statements with `else` clause
 `else`절을 이용해 `if`문의 조건을 만족하지 않은 경우에 실행하는 대안 로직을 정의할 수 있다.
 
 ```swift
@@ -312,7 +312,7 @@ if temperatureInCelsius > 28 {
 // It's nice weather. Go out for a walk.
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Chaining multiple `if` statements</span>
+#### 3. Chaining multiple `if` statements
 `else if`를 이용해 여러 개의 `if` 조건을 연속적으로 검사할 수 있다. 이 때 만족하는 `if`를 만나면 로직을 수행 후 탈출한다.
 
 ```swift
@@ -332,10 +332,10 @@ if temperatureInCelsius > 28 {
 
 ---
 
-### <span style="color: orange">4. Conditional Statements - Switch 👩‍💻</span>
+### 4. Conditional Statements - Switch 👩‍💻
 `Swift`는 조건에 따라 다른 로직을 수행할 수 있도록 `If`와 `Switch`를 제공한다. 그 중 `Switch`를 알아본다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Alternative to the if statement for multiple states</span>
+#### 1. Alternative to the if statement for multiple states
 여러 개의 `condition`이 주어지는 경우 `if ~ else if ~ else if ... else`는 __`switch`문으로 대체__할 수 있다.
 
 __Syntax__
@@ -404,7 +404,7 @@ default:
 > // Nothing
 > ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. No Implicit Fallthrough</span>
+#### 2. No Implicit Fallthrough
 
 `Objective-C`를 포함한 대부분의 언어의 `switch`의 동작은 처음 일치하는 `case`를 실행한 후 아래 `case`의 로직을 
 계속 실행해 내려간다(fall through the bottom of each case).
@@ -486,7 +486,7 @@ default:
 
 > 가독성을 위해 `multiple case`를 줄바꿈 해 매칭할 수 있다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Switch-True</span>
+#### 3. Switch-True
 
 여기 조금 특별한 방식의 `Switch`문이 있다.
 
@@ -621,7 +621,7 @@ Validation check result of myUser is true.
 
 
 
-#### <span style="color: rgba(166, 42, 254, 1)">4. Interval Matching</span>
+#### 4. Interval Matching
 
 `Swift`의 `switch`문은 `multiple case match`를 지원하기 때문에 `Switch-True` 대신 `range operator`를 이용해 
 더욱 간결한 코드로 범위 매칭을 할 수 있다.
@@ -651,7 +651,7 @@ print("There are \(naturalCount) \(countedThings).")
 There are dozens of moons orbiting Saturn.
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">5. Tuples</span>
+#### 5. Tuples
 
 `_`는 `whildcard pattern`으로 사용되어 어떤 값이든 매칭할 수 있다.
 
@@ -683,7 +683,7 @@ whereIs((1, 2))     // (1, 2) is inside the box
 whereIs((3, 2))     // (3, 2) is outside of the box
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">6. Value Bindings</span>
+#### 6. Value Bindings
 
 `Swift`는 `switch`구문에서도 `Value Bindings`를 사용할 수 있다.
 
@@ -706,7 +706,7 @@ anotherPoint((0, 2))    // on the y-axis with a y value of 2
 anotherPoint((2, 6))    // somewhere else at (2, 6)
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">7. Where</span>
+#### 7. Where
 
 `where`를 이용하면 `Value Bindings`에 추가 조건을 걸 수 있다.
 
@@ -751,7 +751,7 @@ yetAnotherPoint((3, 7))     // (3, 7) is just some arbitrary point
 
 > 단, `where`는 단독으로 사용될 수 없고 `case scope`에 `Value Bindings`가 된 상수나 변수가 있어야한다. 
 
-#### <span style="color: rgba(166, 42, 254, 1)">8. Compound Cases</span>
+#### 8. Compound Cases
 
 위 `1. No Implicit Fallthrough`에서 본 것처럼 `Swift`의 `switch`는 `multiple case match`를 지원하므로 여러 케이스를 혼합해서 사용할 수 있다.
 
@@ -821,7 +821,7 @@ invalid age
 Validation check result is false.
 ```
 
-### <span style="color: orange">5. Control Transfer Statements 👩‍💻</span>
+### 5. Control Transfer Statements 👩‍💻
 `Swift`에는 코드의 흐름을 제어하는 5가지 `Control Transfer Statements`가 있다.
 
 - continue
@@ -830,7 +830,7 @@ Validation check result is false.
 - return
 - throw
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. continue</span>
+#### 1. continue
 
 `iteration`의 현재 `loop`를 중단하고 다음 `loop`로 건너 뛴다.
 
@@ -849,7 +849,7 @@ print(puzzleOutput)     // grtmndsthnklk
 
 `continue`에 의해 모음이나 공백을 만나면 건너뛰고 자음만 출력된다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. break</span>
+#### 2. break
 
 `iteration loop` 또는 `switch`의 전체 구문을 즉시 중단하고 탈출한다.
 
@@ -883,7 +883,7 @@ default: break
 
 > `Swift`의 `Switch`문은 기본적으로 `No Implicit Fallthrough`이므로 `break`는 생략해도 된다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. fallthrough</span>
+#### 3. fallthrough
 
 `switch`를 의도적으로 매칭되는 `case`의 다음 `case`를 실행하도록 한다.
 
@@ -902,7 +902,7 @@ print(description)  // The number 5 is a prime number, and also an integer.
 
 > `Swift`의 `Switch`문은 `case` 매칭시 `break`가 기본 동작 순서이므로 다른 언어와 달리 `fallthrough`가 필요할 경우는 명시해야한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">4. return</span>
+#### 4. return
 
 `break`가 `iteration loop` 또는 `switch`의 전체 구문을 즉시 중단하고 탈출하는 것처럼
 `return`은 `function` 내부에서 사용되어 전체 구문을 즉시 중단하고 `값을 반환`한다.
@@ -912,14 +912,14 @@ print(description)  // The number 5 is a prime number, and also an integer.
 
 단, `return type`은 해당 `function`이 정의한 `type`과 일치해야한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">5. throw</span>
+#### 5. throw
 
 `throw`는 `return`과 마찬가지로 `function` 내부에서 사용되어 전체 구문을 즉시 중단하고, 
 `Error` 또는 `fatalError`를 반환한다.
 
 이것은 `function`이 정의한 `return type`과 무관하게 `Error` 또는 `fatalError`를 반환한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">6. Labeled Statements</span>
+#### 6. Labeled Statements
 
 `iteration loop`나 `switch`와 같은 구문을 중복해 사용할 수 있다. 이 때 로직의 흐름을 정확히 제어하기 위해서는 `label`이 필요하고, 이를 `labeld statements`라 한다.
 
@@ -991,7 +991,7 @@ With label >> dice1: 4, dice2: 1, therefore dice1 > dice2 is true
 
 > `label`을 이용하면 제어 명령을 정확히 컨트롤 할 수 있다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">7. Early Exit</span>
+#### 7. Early Exit
 
 `guard`문은 `if`문과 비슷ㅎ게 `Boolean` 값에 따라 문을 실행한다. 하지만 `if`와의 가장 큰 차이점은 항상 `else`
 절이 뒤따르며, `else`절은 반드시 `code block`을 종료하기 위해 반드시 `return`, `break`, `continue`, `throw`와

@@ -6,7 +6,7 @@ categories: javascript
 tags: [javascript null check, null coalescing operator]
 ---
 
-### <span style="color: orange">JavaScript에는 유독 null 체크 방법이 다양하고, 예상 외의 동작이 존재한다 👩‍💻</span>
+### JavaScript에는 유독 null 체크 방법이 다양하고, 예상 외의 동작이 존재한다 👩‍💻
 
 색상 표를 위해 스크린샷과 첨부 파일로 대체한다. 😯😯
 편의상 default value는 `'default'`라는 string으로 통일합니다. TypeScript에서는 동일 타입으로 지정해줘야한다.
@@ -17,7 +17,7 @@ tags: [javascript null check, null coalescing operator]
 
 ---
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. `==`를 이용한 null check</span>
+#### 1. `==`를 이용한 null check
 ![double-equal-simple](/assets/images/posts/2022-07-27-javascript-null-check/double-equal-simple.png)
 ![double-equal-everything](/assets/images/posts/2022-07-27-javascript-null-check/double-equal-everything.png)
 > <span style="color: red">Uncaught SyntaxError: Unexpected token '=='</span>
@@ -26,7 +26,7 @@ tags: [javascript null check, null coalescing operator]
 얼핏 보면 0과 '0', 1과 '1'을 구분하지 않고 받고 싶을때 유용해 보일 수도 있지만 2와 '2'는 다르다, 또한 0과 false, 1과 true를 구분하지 못 하고 모두 동등 비교가 성립되므로 **<span style="color: red">`JavaScript`에서 동등 비교시 `==`는 사용하지 말아야한다</span>**.
 
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. `===`를 이용한 null check</span>
+#### 2. `===`를 이용한 null check
 ![triple-equal-simple](/assets/images/posts/2022-07-27-javascript-null-check/triple-equal-simple.png)
 ![triple-equal-everything](/assets/images/posts/2022-07-27-javascript-null-check/triple-equal-everything.png)
 > <span style="color: red">Uncaught SyntaxError: Unexpected token '==='</span>
@@ -66,7 +66,7 @@ _**`&&` 앞위 순서는 바뀌어도 결과에 영향을 미치지는 않지만
 
 ---
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Logical NOT Operator(`!`)</span>
+#### 3. Logical NOT Operator(`!`)
 ![logical-not](/assets/images/posts/2022-07-27-javascript-null-check/logical-not.png)
 개인적으로 null, not null check시 유용하게 사용하고 있다!! 👏👏👏
 위 1, 2와 달리 동등비교는 아니고 null, not null 체크 시에 활용하기 좋은 방법이다.
@@ -96,7 +96,7 @@ const runWhenNotEmpty = input => {
 하지만 굳이 저런식으로 조건을 복잡하게 나열할 할 필요 없이 `!`, `!!`만 체크한 후 `try-catch`를 이용해 로직을 보호해주는 방법이 더 깔끔하고 안전한 코딩이 가능하다.
 
 
-#### <span style="color: rgba(166, 42, 254, 1)">4. Nullish Coalescing Operator(`??`)</span>
+#### 4. Nullish Coalescing Operator(`??`)
 ![nullish-coalescing](/assets/images/posts/2022-07-27-javascript-null-check/nullish-coalescing.png)
 <span style="color: red">
 > <span style="color: red">1. {} : Uncaught SyntaxError: Unexpected token '??'</span>  
@@ -106,7 +106,7 @@ const runWhenNotEmpty = input => {
 `{}` 또는 `function(){}`일 때 에러가 발생하긴 하지만 `value`의 `default`를 처리하기 위한 용도로 사용되기 때문에 거의 완벽하게 사용이 가능하다.
 `undefined`와 `null`일 때만 `default value`를 반환한다는 것을 기억하자. 
 
-#### <span style="color: rgba(166, 42, 254, 1)">5. Default function parameter(편의상 JavaScript를 기준으로 합니다 👻👻👻)</span>
+#### 5. Default function parameter(편의상 JavaScript를 기준으로 합니다 👻👻👻)
 ```javascript
 const nullCheck = (input = 'default') => console.log(input);
 ```
@@ -115,7 +115,7 @@ const nullCheck = (input = 'default') => console.log(input);
 함수 block scope에 들어가기도 전에 에러를 발생하지 않는 유연함은 있지만 비슷해 보이는 `??`와 달리 `undefined`일 때만 `default value`를 반환한다는 것에 유의하자. 👀
 
 
-#### <span style="color: rgba(166, 42, 254, 1)">6. OR Operator(`||`)</span>
+#### 6. OR Operator(`||`)
 ![or-operator](/assets/images/posts/2022-07-27-javascript-null-check/or-operator.png)
 
 `??` 보다는 `!`를 사용하는 것과 비슷하다. `!`와 `Ternary Operator`를 결합해 사용하면 다음과 같다.
@@ -124,7 +124,7 @@ let value;
 !value ? 'default' : value;
 ```
 
-### <span style="color: rgba(166, 42, 254, 1)">Summary</span>
+### Summary
 ![triple-equal-simple](/assets/images/posts/2022-07-27-javascript-null-check/triple-equal-simple.png)
 ![summary](/assets/images/posts/2022-07-27-javascript-null-check/summary.png)
 모든 것을 다 기억하긴 어려우니 이것만 기억하자. 🤓🤓

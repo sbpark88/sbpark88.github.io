@@ -6,7 +6,7 @@ categories: swift
 tags: [storyboard]
 ---
 
-### <span style="color: orange">스토리보드에서 View가 Controller와 연결 되지 못하는 문제 해결하기 👩‍💻</span>
+### 스토리보드에서 View가 Controller와 연결 되지 못하는 문제 해결하기 👩‍💻
 
 #### 1. 스토리보드에서 연결하려는 View를 선택한다.
 

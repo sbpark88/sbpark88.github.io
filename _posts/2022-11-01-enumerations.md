@@ -6,9 +6,9 @@ categories: swift
 tags: [swift docs, swift enumerations]
 ---
 
-### <span style="color: orange">1. Enumeration Syntax 👩‍💻</span>
+### 1. Enumeration Syntax 👩‍💻
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Enumerations in Swift</span>
+#### 1. Enumerations in Swift
 
 `Enumeration`은 연관된 값들을 공통 타입으로 그룹화해 `Type-Safe`한 코드를 작성하도록 돕는다.  
 `Swift`에서 `Enumeration`은 주어진 값이 `String`, `Character`, `Interger`, `Float` 어떤 것이든
@@ -44,7 +44,7 @@ enum SomeEnumeration {
 > 2. `Enumeration`은 `Singleton`을 기반으로 하므로 이름 역시 자명하게 읽히도록 복수형(plural)이 아닌
      `단수형(singular)을 사용`한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Enumeration Examples</span>
+#### 2. Enumeration Examples
 
 ```swift
 enum CompassPoint {
@@ -92,9 +92,9 @@ print("anotherDirectionToHead is '\(anotherDirectionToHead)'")    // anotherDire
 
 ---
 
-### <span style="color: orange">2. Matching Enumeration Values with Switch 👩‍💻</span>
+### 2. Matching Enumeration Values with Switch 👩‍💻
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Matching with Switch</span>
+#### 1. Matching with Switch
 `Enumeration`은 `Switch`를 이용해 다음과 같이 매칭시킬 수 있다.
 
 ```swift
@@ -124,7 +124,7 @@ case .west:
 Watch out for penguins
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Switch must be exhaustive</span>
+#### 2. Switch must be exhaustive
 
 ```swift
 directionToHead = .south
@@ -153,7 +153,7 @@ default:
 
 ---
 
-### <span style="color: orange">3. Iterating over Enumeration Cases 👩‍💻</span>
+### 3. Iterating over Enumeration Cases 👩‍💻
 
 `Enumeration`에 `CaseIterable` 프로토콜을 채택하므로써 해당 `Enum Type`의 모든 `cases`를
 갖는 `Collection`을 생성한다.
@@ -191,7 +191,7 @@ juice
 
 ---
 
-### <span style="color: orange">4. Associated Values 👩‍💻</span>
+### 4. Associated Values 👩‍💻
 
 때로는 `Enumeration`의 `cases`가 자기 자신의 값 외에 다른 타입의 값을 함께 저장하는 것이 
 유용할 때가 있다. 이를 `Associated Value`라고 하며, 이는 다른 프로그래밍 언어에서 
@@ -207,7 +207,7 @@ enum SomeEnumeration {
 }
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Barcode Systems for Examples</span>
+#### 1. Barcode Systems for Examples
 
 1D barcodes in `UPC` format, 2D barcodes in `QR code` format 를 이용해 설명한다.
 
@@ -225,7 +225,7 @@ enum SomeEnumeration {
 이뤄진 4개의 `Int` 그룹으로 구성되어진다.  
 다음으로 `QR code`는 2D 바코드로 2,953자 이내의 어떠한 `ISO 8859-1` 문자든 저장할 수 있다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Adopt to Associated Values</span>
+#### 2. Adopt to Associated Values
 
 ```swift
 enum Barcode {
@@ -286,7 +286,7 @@ print("productBarcode is '\(productBarcode)' now")  // productBarcode is 'qrCode
 > 또한 `Beverage` 타입의 상수 또는 변수가 값으로 `coffee`와 `tea`를 동시에 가질 수 없는 것과 마찬가지로, 
 > `Beverage` 타입의 상수 또는 변수 역시 `upc`나 `qrCode` 두 가지의 값을 모두 저장할 수는 있지만 동시에 가질 수는 없다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Switch Statements with Associated Values</span>
+#### 3. Switch Statements with Associated Values
 
 위에서 살펴본 `Enumeration`을 `Switch`에 매칭하는 것은 동일하다. 단, 이 경우 실질적인 값은 `Associated Values`인데 
 이 값을 `case` 내에서 사용하기 위해서는 `let` 또는 `var`에 할당해야한다.
@@ -343,7 +343,7 @@ __Summary of Associated Values__
 
 ---
 
-### <span style="color: orange">5. Raw Values 👩‍💻</span>
+### 5. Raw Values 👩‍💻
 
 앞에서 `Associated Values`는 `cases`가 자기 자신의 값 외에 다른 값을 갖는 것은 물론, 서로 `다른 타입의 값`을 
 저장하기 위해 어떻게 정의해야하는지를 보여주었다.
@@ -389,7 +389,7 @@ print(SomeEnumeration.one.rawValue) // 하나
 > `Raw Values`는 `String`, `Character`, `Integer`, `Floating-Point Number` 타입이 가능하다.  
 > `Raw Values`는 `unique`해야한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Implicitly Assigned Raw Values</span>
+#### 1. Implicitly Assigned Raw Values
 
 `Enumerations`가 `Integer` 또는 `String` `Raw Values`를 저장할 경우 모든 `case`에 명시적(explicit)으로 
 값을 지정하지 않아도 `Swift`는 암시적(implicit)으로 값을 할당한다.
@@ -467,7 +467,7 @@ print(type(of: CompassPoint.east))          // CompassPoint
 print(type(of: CompassPoint.east.rawValue)) // String
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Initializing from a Raw Value</span>
+#### 2. Initializing from a Raw Value
 
 `Enumeration`을 `Raw Value`를 이용해 정의하면, `Raw Value`를 받아 일치하는 `Enumeration`의 `Instance` 
 또는 `nil`을 반환하는 `initializer`를 이용할 수 있다.
@@ -568,7 +568,7 @@ safe: false
 
 ---
 
-### <span style="color: orange">6. Recursive Enumerations 👩‍💻</span>
+### 6. Recursive Enumerations 👩‍💻
 
 `Enumeration`의 `case`가 다시 자기 자신을 `Associated Values`로 가질 때 이를 `Recursive`라 하며, 
 반드시 `indirect` 키워드를 명시해야한다.

@@ -8,8 +8,8 @@ tags: [swift docs, swift string, swift character]
 
 Swift의 `String` 타입은 `Foundation`의 `NSString` 클래스와 연결되고, 이를 확장해 `String`에서 `NSString` 메서드를 사용할 수 있게 해준다. 따라서, `import Foundation`을 하면 `String`을 캐스팅 하지 않고 `NSString` 메서드를 사용할 수 있다.
 
-### <span style="color: orange">1. String Literals (문자열 리터럴) 👩‍💻</span>
-#### <span style="color: rgba(166, 42, 254, 1)">1. Multiline String Literals (여러줄 문자열 리터럴)</span>
+### 1. String Literals (문자열 리터럴) 👩‍💻
+#### 1. Multiline String Literals (여러줄 문자열 리터럴)
 Swift에서 문자열은 다음과 같이 `"` 사이에 원하는 텍스트를 입력하고, 코드가 필요할 경우 `\()` 안에 넣어 삽입하는 방식으로 사용이 가능하다.
 
 ```swift
@@ -62,7 +62,7 @@ The White Rabbit put on his spectacles.  "Where shall I begin, please your Majes
 "Begin at the beginning," the King said gravely, "and go on till you come to the end; then stop.
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. String Indent (문자열 들여쓰기)</span>
+#### 2. String Indent (문자열 들여쓰기)
 
 ![multiline string indent](/assets/images/posts/2022-09-17-strings-and-characters/multilineStringWhitespace_2x.png)
 
@@ -86,7 +86,7 @@ The White Rabbit put on his spectacles.
 "Begin at the beginning," the King said gravely, "and go on till you come to the end; then stop."
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Special Characters in String Literals (문자열 리터럴의 특수 문자)</span>
+#### 3. Special Characters in String Literals (문자열 리터럴의 특수 문자)
 - Escaped special characters  
 `\0` (null character), `\\` (backslash),  
 `\t` (horizontal tab), `\n` (line feed), `\r` (carriage return),  
@@ -152,7 +152,7 @@ Line 2
 
 ---
 
-### <span style="color: orange">2. Initializing an Empty String (빈 문자열 초기화) 👩‍💻</span>
+### 2. Initializing an Empty String (빈 문자열 초기화) 👩‍💻
 문자열 초기화는 다음과 같은 두 가지 방식이 있으며, 결과는 동일하다.
 
 ```swift
@@ -160,7 +160,7 @@ var emptyString = ""
 var initializerSyntax = String()
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">String Mutability</span>
+#### String Mutability
 
 단지 우리는 변수를 할당할 때 `var`, `let`을 구분해 할당하여 변수와 상수를 구별할 수 있다.
 
@@ -182,7 +182,7 @@ print(constantString)
 
 ---
 
-### <span style="color: orange">3. Strings Are Value Types (값 타입 문자열) 👩‍💻</span>
+### 3. Strings Are Value Types (값 타입 문자열) 👩‍💻
 `Swift`에서 문자열은 `Value Types(값 타입)`이다.
 
 무슨 말일까? 🤔
@@ -193,7 +193,7 @@ print(constantString)
 
 > 하지만 실제로는 코드 뒤에서 컴파일러가 실제 복사가 정말 필요한 경우에만 발생하도록 문자열 최적화를 하기 대문에 항상 높은 성능을 유지할 수 있고, 우리는 성능은 신경쓸 필요 없이 스위프트의 문자열이 `Reference type`이 아니라 `Value type`이라는 것에만 집중하면 된다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Working with Characters</span>
+#### 1. Working with Characters
 우리는 `for-in loop`를 통해 문자열을 반복함으로써 `String`의 개별 문자 `Character`에 접근할 수 있다.
 
 ```swift
@@ -207,7 +207,7 @@ for character in "Dog!🐶" {
 // 🐶
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Working from Characters</span>
+#### 2. Working from Characters
 `String`을 개별 문자 `Character`에 접근하는 것을 반대로 접근하면 다음과 같다.  
 👉 `Character`를 개별로 생성하고 배열을 구성해, `String`으로 만들 수 있다.
 
@@ -228,8 +228,8 @@ print(catString)    // Prints "Cat!🐱"
 
 ---
 
-### <span style="color: orange">4. Concatenating Strings and Characters (문자열과 문자의 결합) 👩‍💻</span>
-#### <span style="color: rgba(166, 42, 254, 1)">1. String + String, String + Character</span>
+### 4. Concatenating Strings and Characters (문자열과 문자의 결합) 👩‍💻
+#### 1. String + String, String + Character
 - `String` + `String`은 `+` 연산자를 이용한다.
 
 ```swift
@@ -249,7 +249,7 @@ print("string1.append(exclamationMark) = \(string1)")   // hello!
 
 > 🙃`Character` + `String`은 불가능하다. `Character`는 `Single Character`만 가질 수 있기 때문이다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Concatenating of The Multiline String Literals</span>
+#### 2. Concatenating of The Multiline String Literals
 여러 줄의 문자열을 합칠 때는 문자열의 개행이 포함되는 때를 이해해야한다.
 
 ```swift
@@ -293,7 +293,7 @@ three
 ```
 ---
 
-### <span style="color: orange">5. String Interpolation (문자열 삽입) 👩‍💻</span>
+### 5. String Interpolation (문자열 삽입) 👩‍💻
 `String Interpolation`은 `String Literal` 안에 `constants`, `variables`, `literals`, 그리고 `expressions`를 포함해 `새 문자열`을 만드는 방법이다.
 
 ```swift
@@ -335,11 +335,11 @@ print(worksWell) = 3 times 2.5 is 7.5
 
 ---
 
-### <span style="color: orange">6. Unicode (유니코드) 👩‍💻</span>
+### 6. Unicode (유니코드) 👩‍💻
 유니코드는 서로 다른 시스템에서 문자를 인코딩, 표현, 처리하기 위한 국제 표준이다.  
 `Swift`의 `String`과 `Character`는 완벽히 유니코드와 호환된다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. Ubicode Scalar Values (유니코드 스칼라 값)</span>
+#### 1. Ubicode Scalar Values (유니코드 스칼라 값)
 `Swift`의 기본 `String` 타입은 `Unicode Scalar Values`로부터 빌드된다.  
 `Unicode Scalar Value`는 `character` 또는 `modifier`를 표현하기 위한 `unique`한 21-bit 숫자다.
 
@@ -354,7 +354,7 @@ print("\u{61}")     // a
 print("\u{1F425}")  // 🐥
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Extended Grapheme Clusters (자모 그룹의 확장)</span>
+#### 2. Extended Grapheme Clusters (자모 그룹의 확장)
 `Swift`의 모든 `Character` 타입 인스턴스는 `single extended grapheme cluster`로 표현된다. 이것은 하나 또는 그 이상의 `Unicode Scalar Values`로 구성되며 여러 개의 `Unicode Scalar Values`로 구성되는 경우 결합되어 사람이 읽을 수 있는 단일 문자로 표현된다.
 
 - 이 클러스터는 하나의 `scalar`로 구성되었다.
@@ -397,7 +397,7 @@ print("\u{1F1FA}\u{1F1F8}")     // 🇺🇸
 
 ---
 
-### <span style="color: orange">7. Counting Characters (문자 세기) 👩‍💻</span>
+### 7. Counting Characters (문자 세기) 👩‍💻
 
 `String` 타입은 다양한 기본 메서드를 포함하고있다. 그 중 `count`메서드를 이용해 `String`의 길이를 구할 수 있다.
 
@@ -406,7 +406,7 @@ let unusualMenagerie = "Koala 🐨, Snail 🐌, Penguin 🐧, Dromedary 🐪"
 print(unusualMenagerie.count)   // 40
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">Counting Characters in Extended Grapheme Clusters</span>
+#### Counting Characters in Extended Grapheme Clusters
 
 ```swift
 var word = "cafe"
@@ -425,10 +425,10 @@ print("\(word), \(word.count)") // café, 4
 
 ---
 
-### <span style="color: orange">8. Accessing and Modifying a String (문자열 접근과 수정) 👩‍💻</span>
+### 8. Accessing and Modifying a String (문자열 접근과 수정) 👩‍💻
 `String`의 접근과 수정은 `String`의 메서드를 이용하거나 `Subscript Syntax`를 이용한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. String Indices</span>
+#### 1. String Indices
 
 ```swift
 let greeting = "Guten Tag!"
@@ -465,7 +465,7 @@ greeting.index(greeting.startIndex, offsetBy: 9)    // Index of "!",  Index(_raw
 greeting.index(greeting.startIndex, offsetBy: 10)   // Out of bounds, Index(_rawBits: 655361)
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Iterating Over `for-in` loop with `indices` method</span>
+#### 2. Iterating Over `for-in` loop with `indices` method
 또 다른 접근 방법으로는 `String` 전체를 접근해야 하는 경우 `for-in` 반복문을 사용할 수 있다.
 
 ```swift
@@ -478,7 +478,7 @@ for index in greeting.indices {
 
 `indices`를 이용한 `for-in` 반복문은 유효한 범위만 순환하기 때문에 위에서 `endIndex` 또는 `index(greeting.startIndex, offsetBy: 10)`에 해당하는 `Out of bounds`가 발생하지 않는 안전한 방법이다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Closed Range / Half-Open Range / One-Sided Ranges</span>
+#### 3. Closed Range / Half-Open Range / One-Sided Ranges
 또 다른 방법으로는 `Closed Range`, `Half-Open Range`, `One-Sided Ranges`를 이용해 `Subscript Syntax`로 접근하는 것이다.
 
 ```swift
@@ -495,7 +495,7 @@ let greeting = "Guten Tag!"
 print(greeting[..<greeting.endIndex])       // Guten Tag!
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">4. Inserting and Removing (문자열 삽입과 삭제)</span>
+#### 4. Inserting and Removing (문자열 삽입과 삭제)
 
 - insert
 
@@ -534,9 +534,9 @@ print(welcome)  // hello
 
 ---
 
-### <span style="color: orange">9. Substrings (부분 문자열) 👩‍💻</span>
+### 9. Substrings (부분 문자열) 👩‍💻
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. String과 Substring의 관계</span>
+#### 1. String과 Substring의 관계
 
 - String
 
@@ -578,7 +578,7 @@ let newString = String(beginning)
 > 3. `Substring` instance는 자기 자신이 저장하는 character들의 실제 메모리 공간을 갖지 않는다. 대신 원본 `String`의 character들의 공간을 재사용한다.
 > 4. `Substring`은 장기 저장에 적합하지 않다. 장기 저장되어야 하는 경우 수정이 끝난 `Substring`은 `String` instance로 변환되어야한다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Substring Handling</span>
+#### 2. Substring Handling
 
 - Beginning of a string
 
@@ -633,7 +633,7 @@ let myString = String(mySubstring)  // play, A String instance.
 
 ---
 
-### <span style="color: orange">10. Comparing Strings (문자열 비교) 👩‍💻</span>
+### 10. Comparing Strings (문자열 비교) 👩‍💻
 
 `Swift`는 다음 3가지 문자열 비교를 제공한다.
 
@@ -641,7 +641,7 @@ let myString = String(mySubstring)  // play, A String instance.
 - Prefix equality
 - Suffix equality
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. String and Character equality</span>
+#### 1. String and Character equality
 `Swift`에서 문자열의 완전 동등 비교는 `==` `!=` 연산자를 사용한다.
 
 ```swift
@@ -717,7 +717,7 @@ print(characterA == substringA)
 // Binary operator '==' cannot be applied to operands of type 'Character' and 'Substring'
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. Prefix equality</span>
+#### 2. Prefix equality
 문자열을 비교하는 다른 방법으로는 부분 문자열을 비교하는 `Prefix`와 `Subffix`가 있다.  
 `hasPrefix(_:)` 메소드를 이용해 문자열의 시작이 동일한지 부분 일치 여부를 검사할 수 있다.
 
@@ -749,7 +749,7 @@ print("There are \(act1SceneCount) scenes in Act 1")
 There are 5 scenes in Act 1
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Suffix equality</span>
+#### 3. Suffix equality
 `hasSuffix(_:)` 메소드를 이용해 문자열의 끝이 동일한지 부분 일치 여부를 검사할 수 있다.
 
 ```swift
@@ -788,7 +788,7 @@ print("\(mansionCount) mansion scenes; \(cellCount) cell scenes")
 
 ---
 
-### <span style="color: orange">11. Unicode Representations of Strings (문자열의 유니코드 표현) 👩‍💻</span>
+### 11. Unicode Representations of Strings (문자열의 유니코드 표현) 👩‍💻
 `Swift`는 다음 3가지 유니코드 표현으로 `String`에 접근할 수 있다.
 
 - `UTF-8` 코드 유닛
@@ -809,7 +809,7 @@ g:  U+0067    |    103    | 6*16^1 + 7 = 103
 🐶: U+1F436   | 128054    | 1*16^4 + 15*16^3 + 4*16^2 + 3*16 + 6 = 128054
 ```
 
-#### <span style="color: rgba(166, 42, 254, 1)">1. UTF-8 Representation</span>
+#### 1. UTF-8 Representation
 ![UTF-8 Representation](/assets/images/posts/2022-09-17-strings-and-characters/UTF8_2x.png)
 
 2를 공비로 하는 등비수열의 `8-bit` 최댓값은 `2^8 - 1 = 255`이다.
@@ -828,7 +828,7 @@ for codeUnit in dogString.utf8 {
 `‼` : `8-bit`로 표현할 수 있는 단일 문자 범위의 값을 넘어선다. 따라서 (266, 128, 188) `3-byte` `UTF-8` 표현으로 나타낸다.  
 `🐶` : 역시 위와 동일한 이유로 (240, 159, 144, 182) `3-byte` `UTF-8` 표현으로 나타낸다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">2. UTF-16 Representation</span>
+#### 2. UTF-16 Representation
 ![UTF-16 Representation](/assets/images/posts/2022-09-17-strings-and-characters/UTF16_2x.png)
 
 2를 공비로 하는 등비수열의 `8-bit` 최댓값은 `2^16 - 1 = 65535`이다.
@@ -847,7 +847,7 @@ for codeUnit in dogString.utf16 {
 `‼` : `utf-8`에서는 한 번에 표현하지 못했던 값이지만 `16-bit`에서는 한 번에 표현이 가능하다.  
 `🐶` : `16-bit`로 표현할 수 있는 단일 문자 범위의 값을 넘어선다. 따라서 (55357, 56374) `UTF-16` 표현으로 나타낸다.
 
-#### <span style="color: rgba(166, 42, 254, 1)">3. Unicode Scalar Representataion</span>
+#### 3. Unicode Scalar Representataion
 ![Unicode Scalar Representation](/assets/images/posts/2022-09-17-strings-and-characters/UnicodeScalar_2x.png)
 
 마지막으로 `Unicode Scalar`는 모든 값을 `21-bit`로 `unique`하게 표현하므로 모든 표현을 `Extended Grapheme Clusters` 없이 나타낸다. 

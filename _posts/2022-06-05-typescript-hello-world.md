@@ -6,7 +6,7 @@ categories: javascript
 tags: [javascript, typescript]
 ---
 
-## 1. node 설치하기
+### 1. node 설치하기
 
 ```shell
 brew install node
@@ -15,15 +15,15 @@ node -v
 npm -v
 ```
 
-## 2. node 환경 구성하기
+### 2. node 환경 구성하기
 
-### 1. 디렉토리 생성하기
+#### 1. 디렉토리 생성하기
 node 디렉토리로 사용할 경로를 만들어야한다.  
 이 때 주의할 점은 `url friendly`하게 경로를 생성한다.
 
 >  `non-case-sensitive`, `non-space` 를 의미한다. 즉, 카멜 케이스 같은 것은 사용하지 말 것.
 
-### 2. 필요 모듈 설치하기
+#### 2. 필요 모듈 설치하기
 ```shell
 npm install typescript ts-node @types/node
 ```
@@ -49,7 +49,7 @@ const server = http.createServer(app).listen(80);
 >
 > 참고로 npm list를 사용할 때는 --depth=0, 1, ...옵션을 주어 내려가는 깊이를 조절할 수 있다. i.e. npm list -g --depth=0
 
-### 3. npm init & tsc init
+#### 3. npm init & tsc init
 ```shell
 npm init
 ```
@@ -65,7 +65,7 @@ tsc init
 ![webstorm typescript configuration](/assets/images/posts/2022-06-05-typescript-hello-world/webstorm-typescript-configuration.png)
 
 
-## 3. TypeScript 테스트
+### 3. TypeScript 테스트
 
 TypeScript 코드가 JavaScript 코드로 transpile 되는지 확인하자.
 
@@ -110,4 +110,4 @@ ts-node index.ts
 
 ![web storm run and debug buttons](/assets/images/posts/2022-06-05-typescript-hello-world/webstorm-run-debug-buttons.png)
 
-### 그렇다면 다시 `index.ts`를 삭제하고 `WebStor`m의 `Run`, `Debug`를 통해 실행해보자. 여기까지 잘 작동된다면 기본 설정은 마친 것이다.
+#### 그렇다면 다시 `index.ts`를 삭제하고 `WebStor`m의 `Run`, `Debug`를 통해 실행해보자. 여기까지 잘 작동된다면 기본 설정은 마친 것이다.
