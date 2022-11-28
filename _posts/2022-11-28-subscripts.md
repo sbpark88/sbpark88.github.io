@@ -161,12 +161,42 @@ matrix[2, 0] = 3.2  // __lldb_expr_13/1. Subscripts.xcplaygroundpage:45: Asserti
 print(matrix[1, 0]) // 3.2
 ```
 
-
-
 ---
 
 ### 2. Type Subscripts
 
+`Subscripts` 역시 `Properties`, `Methods`와 마찬가지로 `Instance` 뿐만 아니라 `Type` 자체의 
+`Subscripts`를 정의할 수 있다.
+
+```swift
+enum Planet: Int {
+    case mercury = 1, venus, earth, mars, jupiter, saturn, uranus, neptune
+    static subscript(n: Int) -> Planet {
+        Planet(rawValue: n)!
+    }
+}
+```
+
+```swift
+let earth = Planet(rawValue: 3)!
+print(earth)    // earth
+
+let mars = Planet[4]
+print(mars)     // mars
+```
+
+- `Initializers`를 이용해 `new Instance` 'earth'를 생성했다.  
+- `Subscripts`를 이용해 `getter`가 `new Instance` 'mars'를 생성했다.
+
+<br>
+
+```swift
+print(type(of: earth))  // Planet
+print(type(of: mars))   // Planet
+```
+
+결과물은 동일하지만, `Subscripts`를 이용하면 매번 `Initializers`를 사용할 필요 없이 `Arrays`에 접근하듯 
+`Planet Type`의 `new Instance`를 생성할 수 있다.
 
 <br><br>
 
