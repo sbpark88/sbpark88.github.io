@@ -1135,7 +1135,7 @@ print(resizeWasCalibrated)                  // true
 
 ### 5. Global and Local Variables 👩‍💻
 
-- Global Variables: `Functions`, `Methods`, ` Closures`, `Type` Context 외부에 정의된 변수를 의미
+- Global Variables: `Functions`, `Methods`, `Closures`, `Type` Context 외부에 정의된 변수를 의미
 - Local Variables: `Functions`, `Methods`, `Closures` Context 내부에 정의되 변수를 의미
 
 #### 1. Stored Variables
