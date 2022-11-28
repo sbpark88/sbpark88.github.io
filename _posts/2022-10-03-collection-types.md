@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Swift Collection
-subtitle: Collection Types
+title: Swift Collection Types
+subtitle: Collections - Arrays, Sets, Dictionaries
 categories: swift
-tags: [swift docs, swift collection, swift array, swift set, swift dictionary]
+tags: [swift docs, collection, array, set, dictionary]
 ---
 
 ![swift collection types](/assets/images/posts/2022-10-03-collection-types/CollectionTypes_intro_2x.png)

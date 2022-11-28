@@ -3,7 +3,7 @@ layout: post
 title: Swift Structures and Classes
 subtitle: Choosing Between Structures and Classes
 categories: swift
-tags: [swift docs, swift structure, swift class]
+tags: [swift docs, structure, class, value type, reference type]
 ---
 
 ### 1. Comparing Structures and Classes 👩‍💻

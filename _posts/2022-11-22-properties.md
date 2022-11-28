@@ -1,9 +1,9 @@
 ---
 layout: post
 title: Swift Property
-subtitle: Property
+subtitle: Properties - Stored Properties, Computed Properties, Property Observers, Property Wrappers, Type Properties
 categories: swift
-tags: [swift docs, swift property, sotred property, computed property, property observer, property wrapper, type property]
+tags: [swift docs, property, stored property, computed property, property observer, property wrapper, type property]
 ---
 
 ### 1. Stored Properties 👩‍💻

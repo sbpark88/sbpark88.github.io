@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Swift 문자열
-subtitle: Strings and Characters
+title: Swift Strings and Characters
+subtitle: Strings, Characters
 categories: swift
-tags: [swift docs, swift string, swift character]
+tags: [swift docs, string, character]
 ---
 
 Swift의 `String` 타입은 `Foundation`의 `NSString` 클래스와 연결되고, 이를 확장해 `String`에서 `NSString` 메서드를 사용할 수 있게 해준다. 따라서, `import Foundation`을 하면 `String`을 캐스팅 하지 않고 `NSString` 메서드를 사용할 수 있다.

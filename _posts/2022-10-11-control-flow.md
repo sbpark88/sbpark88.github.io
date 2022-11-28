@@ -3,7 +3,7 @@ layout: post
 title: Swift Control Flow
 subtitle: Control Flow - For-IN Loops, While Loops, Conditional Statements
 categories: swift
-tags: [swift docs, swift loop, swift for, swift while, swift if, swift switch, swift condition]
+tags: [swift docs, control flow, loop, for, while, if, switch, condition]
 ---
 
 ### 1. For-In Loops 👩‍💻

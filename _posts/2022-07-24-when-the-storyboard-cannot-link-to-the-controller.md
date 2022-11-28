@@ -1,7 +1,7 @@
 ---
 layout: post
-title: 스토리보드가 Assistant로 Controller를 연결하지 못할 때
-subtitle: Assign the exact controller manualy.
+title: 스토리보드가 Assistant 로 Controller 를 연결하지 못할 때
+subtitle: Assign the exact controller manually.
 categories: swift
 tags: [storyboard]
 ---

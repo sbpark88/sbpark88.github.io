@@ -1,9 +1,9 @@
 ---
 layout: post
 title: Swift Subscripts
-subtitle: Subscripts
+subtitle: Subscripts, Type Subscripts
 categories: swift
-tags: [swift docs, swift subscript, type subscript]
+tags: [swift docs, subscript, type subscript]
 ---
 
 ### 1. Subscripts 👩‍💻

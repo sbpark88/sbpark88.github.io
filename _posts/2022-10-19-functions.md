@@ -3,7 +3,7 @@ layout: post
 title: Swift Functions
 subtitle: Functions, Nested Functions, First-Class Citizens
 categories: swift
-tags: [swift docs, swift function, swift nested function, swift first class citizen]
+tags: [swift docs, function, nested function, first class citizen]
 ---
 
 ### 1. Defining and Calling Functions 👩‍💻

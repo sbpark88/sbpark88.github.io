@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Xcode 인증서 충돌로 인한 만료 해결
-subtitle: StackOverflow와 공식 API Documentation를 어떻게 활용할 것인가?
+subtitle: Xcode certificate errors
 categories: swift
 tags: [xcode, certificate]
 ---

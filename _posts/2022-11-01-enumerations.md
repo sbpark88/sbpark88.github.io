@@ -1,9 +1,9 @@
 ---
 layout: post
 title: Swift Enumerations
-subtitle: Enumerations
+subtitle: Enumerations - Associated Values, Raw Values
 categories: swift
-tags: [swift docs, swift enumerations]
+tags: [swift docs, enumeration, associated value, raw value]
 ---
 
 ### 1. Enumeration Syntax 👩‍💻
