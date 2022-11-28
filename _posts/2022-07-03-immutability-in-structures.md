@@ -1,12 +1,12 @@
 ---
 layout: post
 title: Immutability and mutating methods in structures and enumerations
-subtitle: 왜 struct, enum에서는 mutating 키워드가 필요한가?
+subtitle: 왜 struct, enum 에서는 mutating 키워드가 필요한가?
 categories: swift
 tags: [swift, struct, structure, enumerations, enum, immutability, mutating, self]
 ---
 
-### Swift에서 struct, enum은 "value type"이다.
+### Swift 에서 struct, enum 은 "value type"이다.
 
 이게 무슨 말일까?
 
@@ -36,7 +36,7 @@ print(hogwarts.resources)   // ["Galleon": 100]
 
 ```
 
-`Town` structure를 이용해 `hogwarts`를 생성했다.
+`Town` structure 를 이용해 `hogwarts`를 생성했다.
 `init` 메소드에 의해 hogwarts 초기 인스턴스의 갈레온은 `80`을 갖고 있다.
 
 그리고 외부에서 해당 인스턴스의 갈레온 자원을 100으로 설정했고, 이후 출력해보니 `100`이 출력된다.
@@ -97,7 +97,7 @@ print("s1 address: \(address(of: &s1)), s2 address: \(address(of: &s2))")
 
 하지만 변경을 하고 싶다면 어떻게 해야할까? 내부에서 `Properties`의 변경을 위해 다음과 같은 규칙을 따라야한다.
 
-1. 인스턴스를 `let`이 아닌 `var`로 선언한다( let hogwarts = Town()로 선언하면 immutable instance가 된다 ).
+1. 인스턴스를 `let`이 아닌 `var`로 선언한다( let hogwarts = Town()로 선언하면 immutable instance 가 된다 ).
 2. 인스턴스 메서드에 `mutating` 키워드를 붙여준다.
 
 ```swift
@@ -128,7 +128,7 @@ hogwarts.earn()
 print(hogwarts.resources)   // ["Galleon": 100]
 
 ```
-`mutating` 키워드를 붙여줌으로써 immutable한 properties의 변경을 허용하게된다.
+`mutating` 키워드를 붙여줌으로써 immutable 한 properties 의 변경을 허용하게된다.
 
 `mutating`을 허용하게되면 메서드가 종료될 때 해당 `Properties`를 변경한다. 또한 이 메서드는 `implicit self 
 property`에 완전히 `new Instance`를 할당할 수도 있으며, `new Instance`는 메서드가 종료될 때 `original Instance`를 

@@ -28,11 +28,11 @@ node 디렉토리로 사용할 경로를 만들어야한다.
 npm install typescript ts-node @types/node
 ```
 
-typescript : 웹 브라우저는 TypeScript를 직접 읽을 수 없다. 따라서 TypeScript를 JavaScript로 transpile을 해줘야한다.  
+typescript : 웹 브라우저는 TypeScript 를 직접 읽을 수 없다. 따라서 TypeScript 를 JavaScript 로 transpile 을 해줘야한다.  
 
 ts-node : tsc & node 명령을 한 번에 수행한다.  
 
-@types/node : Node.js를 위한 type definitions을 포함하는 library다. 만약 설치하지 않을 경우 TypeScript `require`라는 함수가 없다며 에러로 인식하기 때문에 다음과 같이 코드를 작성해야한다.
+@types/node : Node.js를 위한 type definitions 를 포함하는 library 다. 만약 설치하지 않을 경우 TypeScript `require`라는 함수가 없다며 에러로 인식하기 때문에 다음과 같이 코드를 작성해야한다.
 ```typescript
 // @ts-ignore
 const express = require('express');
@@ -43,18 +43,18 @@ const server = http.createServer(app).listen(80);
 ```
 하지만 `@types/node`를 설치하면 이런 수고를 덜게 해준다.
 
-> npm은 -g 옵션을 주고 글로벌로 설치하는 것과, 해당 디렉토리에 로컬 설치하는 것을 따로 관리한다.
+> npm 은 -g 옵션을 주고 글로벌로 설치하는 것과, 해당 디렉토리에 로컬 설치하는 것을 따로 관리한다.
 >
 > 즉, npm install -g로 설치한 것은 npm list -g로 확인할 수 있고, npm uninstall -g로 지워야한다.
 >
-> 참고로 npm list를 사용할 때는 --depth=0, 1, ...옵션을 주어 내려가는 깊이를 조절할 수 있다. i.e. npm list -g --depth=0
+> 참고로 npm list 를 사용할 때는 --depth=0, 1, ...옵션을 주어 내려가는 깊이를 조절할 수 있다. i.e. npm list -g --depth=0
 
 #### 3. npm init & tsc init
 ```shell
 npm init
 ```
-package name, version, description, git repo, author, license를 지정한다.  
-git repo는 나중에 추가해도 된다.
+package name, version, description, git repo, author, license 를 지정한다.  
+git repo 는 나중에 추가해도 된다.
 
 ```shell
 tsc init
@@ -83,7 +83,7 @@ node index.ts
 ```
 TypeScript 문법을 인식하지 못 해 오류가 발생한다.
 
-아까 설치한 transpiler를 이용해 JavaScript로 바꿔보자.
+아까 설치한 transpiler 를 이용해 JavaScript 로 바꿔보자.
 ```shell
 tsc index.ts
 ```

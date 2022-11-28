@@ -6,18 +6,18 @@ categories: swift
 tags: [swift docs, string, character]
 ---
 
-Swift의 `String` 타입은 `Foundation`의 `NSString` 클래스와 연결되고, 이를 확장해 `String`에서 `NSString` 메서드를 사용할 수 있게 해준다. 따라서, `import Foundation`을 하면 `String`을 캐스팅 하지 않고 `NSString` 메서드를 사용할 수 있다.
+Swift 의 `String` 타입은 `Foundation`의 `NSString` 클래스와 연결되고, 이를 확장해 `String`에서 `NSString` 메서드를 사용할 수 있게 해준다. 따라서, `import Foundation`을 하면 `String`을 캐스팅 하지 않고 `NSString` 메서드를 사용할 수 있다.
 
 ### 1. String Literals (문자열 리터럴) 👩‍💻
 #### 1. Multiline String Literals (여러줄 문자열 리터럴)
-Swift에서 문자열은 다음과 같이 `"` 사이에 원하는 텍스트를 입력하고, 코드가 필요할 경우 `\()` 안에 넣어 삽입하는 방식으로 사용이 가능하다.
+Swift 에서 문자열은 다음과 같이 `"` 사이에 원하는 텍스트를 입력하고, 코드가 필요할 경우 `\()` 안에 넣어 삽입하는 방식으로 사용이 가능하다.
 
 ```swift
 let someString = "Some string literal value"
 print("someString: \(someString)")  // someString: Some string literal value
 ```
 
-또한 Swift에서 `Multiline` 문자열이 필요한 경우 `"""` 3개를 연속으로 사용하고, 그 사이에 텍스트를 넣는다.
+또한 Swift 에서 `Multiline` 문자열이 필요한 경우 `"""` 3개를 연속으로 사용하고, 그 사이에 텍스트를 넣는다.
 
 ```swift
 var quotation = """
@@ -270,7 +270,7 @@ one
 twothree
 ```
 
-`two` 다음에는 개행이 포함되지 않는다. 따라서 다음 문자열 three가 새로운 행에서 시작하도록 하려면 다음과 같아야한다.
+`two` 다음에는 개행이 포함되지 않는다. 따라서 다음 문자열 three 가 새로운 행에서 시작하도록 하려면 다음과 같아야한다.
 
 ```swift
 let goodStart = """
@@ -339,11 +339,11 @@ print(worksWell) = 3 times 2.5 is 7.5
 유니코드는 서로 다른 시스템에서 문자를 인코딩, 표현, 처리하기 위한 국제 표준이다.  
 `Swift`의 `String`과 `Character`는 완벽히 유니코드와 호환된다.
 
-#### 1. Ubicode Scalar Values (유니코드 스칼라 값)
+#### 1. Unicode Scalar Values (유니코드 스칼라 값)
 `Swift`의 기본 `String` 타입은 `Unicode Scalar Values`로부터 빌드된다.  
 `Unicode Scalar Value`는 `character` 또는 `modifier`를 표현하기 위한 `unique`한 21-bit 숫자다.
 
-Syntax는 다음과 같다. `\u{Unicode Number}`
+Syntax 는 다음과 같다. `\u{Unicode Number}`
 
 ```swift
 // U+0061 is LATIN SMALL LETTER A("a")
@@ -373,7 +373,7 @@ print("\u{65}")         // e
 // U+0301 is " ́"
 print("\u{301}")        //  ́
 
-// Combine U+0065 with U+0301 is e aucte
+// Combine U+0065 with U+0301 is e acute
 print("\u{65}\u{301}")  // é
 ```
 
@@ -442,7 +442,7 @@ print(greeting.endIndex)                            // Index(_rawBits: 655367), 
 - `startIndex`는 시작 문자를 가리킨다
 - `endIndex`는 마지막 유효 문자 다음을 가리킨다
 
-따라서 실제로 subscript argument에 첫 문자와 마지막 문자를 찾으려면 다음과 같이 접근해야한다.
+따라서 실제로 subscript argument 에 첫 문자와 마지막 문자를 찾으려면 다음과 같이 접근해야한다.
 
 - 첫 문자: greeting[`greeting.startIndex`]
 - 마지막 문자: greeting[`greeting.index(before: greeting.endIndex)`]
@@ -508,7 +508,7 @@ var welcome = "hello"
 welcome.insert("!", at: welcome.endIndex)
 print(welcome)  // hello
 
-// insert the contents of anoter string
+// insert the contents of another string
 welcome.insert(contentsOf: " there", at: welcome.index(before: welcome.endIndex))
 print(welcome)  // hello there!
 ```
@@ -536,7 +536,7 @@ print(welcome)  // hello
 
 ### 9. Substrings (부분 문자열) 👩‍💻
 
-#### 1. String과 Substring의 관계
+#### 1. String 과 Substring 의 관계
 
 - String
 
@@ -563,7 +563,7 @@ __Advantage of `Substring` - Optimization__
 `Substring`은 자기 자신의 메모리 공간을 갖지 않고 원본 `String`의 메모리 공간을 재사용하기 때문에, `String` 또는 `Substring`을 수정하기 전까지 아무리 많은 `Substring`을 만들어도 `performance cost of copying memory`을 소비하지 않는다.
 
 __Disadvantage of `Substring` - Paradox of advantage__  
-위 이점으로 인해 `Substring`이 사용되는동안 원본 `String`은 전체 데이터를 메모리에 저장해야한다. 따라서 `Substring`의 장기 저장시 오히려 메모리 낭비가 되는 상황이 생기게 된다. 그러므로 장기 저장시 `String` instance로 변경해야한다.
+위 이점으로 인해 `Substring`이 사용되는동안 원본 `String`은 전체 데이터를 메모리에 저장해야한다. 따라서 `Substring`의 장기 저장시 오히려 메모리 낭비가 되는 상황이 생기게 된다. 그러므로 장기 저장시 `String` instance 로 변경해야한다.
 
 ```swift
 // The 'Substring' has to be converted to an instance of 'String' for long time storing.
@@ -574,15 +574,15 @@ let newString = String(beginning)
 
 정리하면 다음과 같다.
 > 1. `String`과 `Substring`은 `StringProtocol`을 따른다. 따라서 유사하게 메소드 사용이 가능하다.
-> 2. `String` instance는 자기 자신이 저장하는 character들의 실제 메모리 공간을 갖는다.
-> 3. `Substring` instance는 자기 자신이 저장하는 character들의 실제 메모리 공간을 갖지 않는다. 대신 원본 `String`의 character들의 공간을 재사용한다.
-> 4. `Substring`은 장기 저장에 적합하지 않다. 장기 저장되어야 하는 경우 수정이 끝난 `Substring`은 `String` instance로 변환되어야한다.
+> 2. `String` instance 는 자기 자신이 저장하는 character 들의 실제 메모리 공간을 갖는다.
+> 3. `Substring` instance 는 자기 자신이 저장하는 character 들의 실제 메모리 공간을 갖지 않는다. 대신 원본 `String`의 character 들의 공간을 재사용한다.
+> 4. `Substring`은 장기 저장에 적합하지 않다. 장기 저장되어야 하는 경우 수정이 끝난 `Substring`은 `String` instance 로 변환되어야한다.
 
 #### 2. Substring Handling
 
 - Beginning of a string
 
-`Substring literals`를 사용하거나 String의 `prefix(upTo:)` 또는 `prefix(_ maxLength:)` 메서드를 사용해 만들 수 있다.
+`Substring literals`를 사용하거나 String 의 `prefix(upTo:)` 또는 `prefix(_ maxLength:)` 메서드를 사용해 만들 수 있다.
 
 ```swift
 let str = "Hello, playground"
@@ -667,7 +667,7 @@ let combinedEAcuteQuestion = "Caf\u{65}\u{301}" // LATIN SMALL LETTER E (U+0065)
 
 print("\neAcuteQuestion: \(eAcuteQuestion), combinedEAcuteQuestion: \(combinedEAcuteQuestion)")
 if eAcuteQuestion == combinedEAcuteQuestion {
-    print("These two strings are considered euqal")
+    print("These two strings are considered equal")
 }
 ```
 
@@ -847,7 +847,7 @@ for codeUnit in dogString.utf16 {
 `‼` : `utf-8`에서는 한 번에 표현하지 못했던 값이지만 `16-bit`에서는 한 번에 표현이 가능하다.  
 `🐶` : `16-bit`로 표현할 수 있는 단일 문자 범위의 값을 넘어선다. 따라서 (55357, 56374) `UTF-16` 표현으로 나타낸다.
 
-#### 3. Unicode Scalar Representataion
+#### 3. Unicode Scalar Representation
 ![Unicode Scalar Representation](/assets/images/posts/2022-09-17-strings-and-characters/UnicodeScalar_2x.png)
 
 마지막으로 `Unicode Scalar`는 모든 값을 `21-bit`로 `unique`하게 표현하므로 모든 표현을 `Extended Grapheme Clusters` 없이 나타낸다. 

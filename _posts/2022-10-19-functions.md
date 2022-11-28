@@ -134,7 +134,7 @@ hello, world
 ()
 ```
 
-하지만 Docs의 설명과 달리 `let _ =`로 받지 않고 생략해도 에러가 발생하지 않았다. 이는 좀 더 확인해야 할 것 같다.
+하지만 Docs 의 설명과 달리 `let _ =`로 받지 않고 생략해도 에러가 발생하지 않았다. 이는 좀 더 확인해야 할 것 같다.
 
 #### 4. Functions with Multiple Return Values
 
@@ -375,7 +375,7 @@ print(add(a: 5))            // 15
 
 <br>
 
-하지만 nil을 받을 수 없기 때문에 위 함수는 아예 호출될 때 num2 `argument` 없이 호출된 경우에 대해서만 
+하지만 nil 을 받을 수 없기 때문에 위 함수는 아예 호출될 때 num2 `argument` 없이 호출된 경우에 대해서만 
 `default value`가 작동할 뿐 다음과 같은 경우는 에러가 발생된다.
 
 ```swift
@@ -390,7 +390,7 @@ print(add(a: 5, b: nil))    // 'nil' is not compatible with expected argument ty
 
 ```swift
 func add(a num1: Int, b num2: Int? = 10) -> Int {
-    guard let num2 = num2 else { return num1 + 10 } // 'default parameter value'가 작동하지 않는 것에 대한 보정
+    guard let num2 = num2 else { return num1 + 10 } // 'default parameter value' 가 작동하지 않는 것에 대한 보정
     return num1 + num2
 }
 
@@ -745,7 +745,7 @@ func movingStart(initialValue: Int) {
     var currentValue = initialValue
     let moveNearToZero = chooseStepFunction(backward: currentValue > 0)
 
-    print("Conting to zero:")
+    print("Counting to zero:")
     while currentValue != 0 {
         print("\(currentValue)... Call ", terminator: "")
         currentValue = moveNearToZero(currentValue)
@@ -758,7 +758,7 @@ movingStart(initialValue: -3)
 ```
 
 ```console
-Conting to zero:
+Counting to zero:
 4... Call stepBackward(_:)
 3... Call stepBackward(_:)
 2... Call stepBackward(_:)
@@ -853,7 +853,7 @@ func movingStart(initialValue: Int) {
     var currentValue = initialValue
     let moveNearToZero = chooseStepFunction(backward: currentValue > 0)
     
-    print("Conting to zero:")
+    print("Counting to zero:")
     while currentValue != 0 {
         print("\(currentValue)... Call ", terminator: "")
         currentValue = moveNearToZero(currentValue)

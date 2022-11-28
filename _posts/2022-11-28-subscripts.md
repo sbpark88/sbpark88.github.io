@@ -185,8 +185,8 @@ let mars = Planet[4]
 print(mars)     // mars
 ```
 
-- `Initializers`를 이용해 `new Instance` 'earth'를 생성했다.  
-- `Subscripts`를 이용해 `getter`가 `new Instance` 'mars'를 생성했다.
+- `Initializers`를 이용해 `new Instance` 'earth' 를 생성했다.  
+- `Subscripts`를 이용해 `getter`가 `new Instance` 'mars' 를 생성했다.
 
 <br>
 

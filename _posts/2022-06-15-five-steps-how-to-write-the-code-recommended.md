@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 추천하는 Code 작성 방법 5단계
-subtitle: StackOverflow와 공식 API Documentation를 어떻게 활용할 것인가?
+subtitle: StackOverflow 와 공식 API Documentation 을 어떻게 활용할 것인가?
 categories: swift
 tags: [stackoverflow, api, documents, docs]
 ---
@@ -21,7 +21,7 @@ tags: [stackoverflow, api, documents, docs]
 ![five steps to coding](/assets/images/posts/2022-06-15-five-steps-how-to-write-the-code-recommended/five-steps-to-coding.png)
 
 1. Google 검색하기
-2. StackOverflow에서 답변 구하기
+2. StackOverflow 에서 답변 구하기
 3. 코드 구현하기
 4. 문서에서 코드가 의미하는 바를 찾기
 5. 필요에 따라 코드를 커스터마이징하기
@@ -36,7 +36,7 @@ tags: [stackoverflow, api, documents, docs]
 
 Play sound Swift StackOverflow
 
-#### 2. StackOverflow에서 답변 구하기
+#### 2. StackOverflow 에서 답변 구하기
 
 1. 글 작성자의 질문이 내 질문과 일치하는가
 2. 답변이 내가 찾고자 하는 답변이 맞는가
@@ -52,7 +52,7 @@ StackOverflow 코드를 복사해와 프로젝트에 붙여넣고, 변수명 등
 
 ![apple docs](/assets/images/posts/2022-06-15-five-steps-how-to-write-the-code-recommended/apple-docs.png)
 
-드디어 API Docs를 활용할 차례다.
+드디어 API Docs 를 활용할 차례다.
 
 문서를 보고 코드가 의미하는 것, 어떻게 작동하는지를 파악한다.
 

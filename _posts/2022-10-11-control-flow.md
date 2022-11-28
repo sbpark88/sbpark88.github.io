@@ -156,7 +156,7 @@ repeat {
 
 <br>
 
-위 주사위 문제에서 result의 초깃값이 20보다 크게 정해져 있다고 가정해보자.
+위 주사위 문제에서 result 의 초깃값이 20보다 크게 정해져 있다고 가정해보자.
 
 ```swift
 var result = 25
@@ -195,7 +195,7 @@ print("The dice are rolled \(rollCount) times.")
 The dice are rolled 5 times.
 ```
 
-초깃값이 20 이상이지만 최초 1회 실행을 한다. 그리고 이때 계산된 result는 condition을 만족하는 작은 값으로 바뀔 경우 `repeat`을 반복하게된다.
+초깃값이 20 이상이지만 최초 1회 실행을 한다. 그리고 이때 계산된 result 는 condition 을 만족하는 작은 값으로 바뀔 경우 `repeat`을 반복하게된다.
 따라서 `Repeat-While`은 최소 1번은 실행하므로 1 ~ n번의 반복을 하게 된다.
 
 #### 3. While-True
@@ -320,12 +320,12 @@ let temperatureInCelsius = 3
 if temperatureInCelsius > 28 {
     print("It's hot. Turn on the air conditioner.")
 } else if temperatureInCelsius < 10 {
-    print("It's cole. Turn on the bnoiler.")
+    print("It's cole. Turn on the boiler.")
 } else {
     print("It's nice weather. Go out for a walk.")
 }
 
-// It's cole. Turn on the bnoiler.
+// It's cole. Turn on the boiler.
 ```
 
 > `else`절은 언제나 <span style="color: red">Optional</span>이기 때문에 필수가 아니다.
@@ -946,7 +946,7 @@ for _ in 1...10 {
     let dice1: Int = rollDice()
     let dice2: Int = rollDice()
     
-    print("Whitout label >> dice1: \(dice1), dice2: \(dice2), therefore dice1 > dice2 is \(dice1 > dice2)")
+    print("Without label >> dice1: \(dice1), dice2: \(dice2), therefore dice1 > dice2 is \(dice1 > dice2)")
     
     switch true {
     case dice1 > dice2: break

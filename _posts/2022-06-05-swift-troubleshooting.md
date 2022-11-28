@@ -18,7 +18,7 @@ rm -rf ~/Library/Developer/Xcode/DerivedData
 
 #### 화면 상하단 여백 생김
 - `No Assistant Results`를 해결하는 과정에서 발생.
-- `ImageView` 사이즈를 화면 크기에 맞추고, Scale To Fill을 해줘도 상하단에 채울 수 없는 얇은 여백 라인이 생성.
+- `ImageView` 사이즈를 화면 크기에 맞추고, Scale To Fill 을 해줘도 상하단에 채울 수 없는 얇은 여백 라인이 생성.
 - 시뮬레이터, 실제 아이폰 모두에서 발생.
 ![go to storyboard](/assets/images/posts/2022-06-05-swift-troubleshooting/view-margine1.png)
 ![check out safe area](/assets/images/posts/2022-06-05-swift-troubleshooting/view-margine2.png)

@@ -60,7 +60,7 @@ print(doubleIntArray)   // [2, 4, 8, 10, 16, 22, 30]
 > `First-Class Function`은 함수에 대한 참조를 `pointer` 대신 `Closures`로 처리한다. 따라서 `Garbage Collection`이
 > 반드시 필요하다.
 
-참고로 C언어와 같이 함수가 `First-Class Citizen`이 아닌 언어는 `function pointers` 또는 `delegates`와 같은 기능을 이용해
+참고로 C 언어와 같이 함수가 `First-Class Citizen`이 아닌 언어는 `function pointers` 또는 `delegates`와 같은 기능을 이용해
 `Higher-order function`을 작성할 수 있도록 한다. 하지만 언어 자체가 `First-Class Function`을 지원하는 것이 
 아니므로 `First-Class Citizen`이 되는 것은 아니다.
 
@@ -80,7 +80,7 @@ const plusThree = (i: number) => i + 3
 ```
 
 <br>
-`twice` 함수는 아래와 같이 Body를 감싸는 `{ }`와 `return` 키워드를 생략할 수 있다.
+`twice` 함수는 아래와 같이 Body 를 감싸는 `{ }`와 `return` 키워드를 생략할 수 있다.
 
 ```typescript
 const twice = (f: Function) => (x: number) => f(f(x))
@@ -139,7 +139,7 @@ func twice(_ f: @escaping (Int) -> Int) -> (Int) -> Int {
 
 <br>
 `twice(_:)` 함수는 아래와 같이 `arguments`와 `return` 키워드를 생략할 수 있다.  
-(`TypeScript`와 달리 Body를 감싸는 `{ }`는 생략할 수 없다.)
+(`TypeScript`와 달리 Body 를 감싸는 `{ }`는 생략할 수 없다.)
 
 ```swift
 func twice(_ f: @escaping (Int) -> Int) -> (Int) -> Int {
@@ -1070,7 +1070,7 @@ sumWithReduce:     47
 
 <br>
 
-또는 'lodash'와 같은 `Array`를 다루기 쉽게 도와주는 library를 사용한다.
+또는 'lodash' 와 같은 `Array`를 다루기 쉽게 도와주는 library 를 사용한다.
 
 ```typescript
 import {compact} from 'lodash';
@@ -1100,7 +1100,7 @@ sumWithCompact:    47
 __4 ) Application of filter__
 
 `filter`는 Primitive Types 를 저장하는 Collection 뿐 아니라 `Class`, `Structure`를 저장하는 
-Collection에도 사용이 가능하다.
+Collection 에도 사용이 가능하다.
 
 ```swift
 struct Tester {
@@ -1408,8 +1408,8 @@ let staff = [Staff(name: "Nick", gender: .male, age: 37),
              Staff(name: "Emily", gender: .female, age: 42),
              Staff(name: "Irene", gender: .female, age: 30)]
 
-let hasSaffOver40 = staff.contains { $0.age > 40 }
-print("hasSaffOver40", hasSaffOver40)
+let hasStaffOver40 = staff.contains { $0.age > 40 }
+print("hasStaffOver40", hasSaffOver40)
 
 let hasMalesOver50 = staff.contains { $0.age > 50 && $0.gender == .male }
 print("hasMalesOver50", hasMalesOver50)
@@ -1749,5 +1749,5 @@ Reference
 4. "Non-local variable", Wikipedia, last modified May. 12, 2022, accessed Nov. 07, 2022, [Wikipedia - Non-local Variable](https://en.wikipedia.org/wiki/Non-local_variable)
 5. "Higher-Order Functions in Swift", Medium, last modified Jun. 9, 2020, accessed Nov. 07, 2022, [Higher-Order Functions in Swift](https://betterprogramming.pub/higher-order-functions-in-swift-13c31a769c0c)
 6. "Understanding Higher Order Functions in Swift", APPCODA, Feb. 26, 2020, accessed Nov. 07, 2022, [Understanding Higher Order Functions in Swift](https://www.appcoda.com/higher-order-functions-swift/)
-7. "Higher Order Functions in Swift", Level Up COding, Aug. 12, 2020, accessed Nov. 14, 2022, [Level Up Coding - Higher Order Functions in Swift](https://levelup.gitconnected.com/higher-order-functions-in-swift-35861620ad1)
+7. "Higher Order Functions in Swift", Level Up Coding, Aug. 12, 2020, accessed Nov. 14, 2022, [Level Up Coding - Higher Order Functions in Swift](https://levelup.gitconnected.com/higher-order-functions-in-swift-35861620ad1)
    

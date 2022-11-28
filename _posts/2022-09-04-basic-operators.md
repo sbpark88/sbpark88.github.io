@@ -118,7 +118,7 @@ print(5 >= 7)       // false
 print(5 <= 7)       // false
 ```
 
-위 연산자 외에도 Swift는 두 객체의 reference가 동일 인스턴스인지 비교를 위해 `===`와 `!==` 연산자를 제공한다.
+위 연산자 외에도 Swift 는 두 객체의 reference 가 동일 인스턴스인지 비교를 위해 `===`와 `!==` 연산자를 제공한다.
 
 #### 2. Tuple Comparison (튜플 비교)
 튜플의 `타입이 동일`하고, `동일한 개수의 값`을 가지고 있을 경우 비교가 가능하다.
@@ -130,8 +130,8 @@ print((3, "apple") < (2, "zebra"))      // false
 ```
 
 위 튜플 비교의 해설은 다음과 같다. 우선 처음 식은
-- 첫 번째 값은 '서로 다르고', '1 < 2'는 true이므로 true, stop!(zebra와 apple은 비교하지 않는다).
-- 두 번째 값은 '서로 다르고', '3 < 2'는 false이므로 false, stop!(zebra와 apple은 비교 하지 않는다).
+- 첫 번째 값은 '서로 다르고', '1 < 2'는 true 이므로 true, stop!(zebra 와 apple 은 비교하지 않는다).
+- 두 번째 값은 '서로 다르고', '3 < 2'는 false 이므로 false, stop!(zebra 와 apple 은 비교 하지 않는다).
 
 ```swift
 print((1, "zebra") < (1, "apple"))      // false
@@ -139,8 +139,8 @@ print((1, "apple") < (1, "zebra"))      // true
 ```
 
 위 튜플의 경우 첫 번째 값이 서로 같아 두 번째 값을 비교해야한다. 해설은 다음과 같다.
-- 첫 번째 값이 같으므로 두 번째 값을 비교한다. 두 번째 값은 '서로 다르고', 'zebra' < 'apple'은 false, stop!
-- 첫 번째 값이 같으므로 두 번째 값을 비교한다. 두 번째 값은 '서로 다르고', 'apple' < 'zebra'는 true, stop!
+- 첫 번째 값이 같으므로 두 번째 값을 비교한다. 두 번째 값은 '서로 다르고', 'zebra' < 'apple' 은 false, stop!
+- 첫 번째 값이 같으므로 두 번째 값을 비교한다. 두 번째 값은 '서로 다르고', 'apple' < 'zebra' 는 true, stop!
 
 ```swift
 print((1, "apple") < (1, "apple"))      // false
@@ -148,8 +148,8 @@ print((1, "apple") <= (1, "apple"))     // true
 ```
 
 마지막 값에 이르렀을 경우에는 더이상 비교할 다음 데이터가 없으므로 같음(equal) 여부까지 정확히 검사해아한다.
-- 첫 번째 값이 같으므로 두 번째 값을 비교한다. 두 번째 값이 같지만 '마지막 값이므로 정확히 비교'한다. 'apple' < 'apple'은 false, stop!
-- 첫 번째 값이 같으므로 두 번째 값을 비교한다. 두 번째 값이 같지만 '마지막 값이므로 정확히 비교'한다. 'apple' <= 'apple'은 true, stop!
+- 첫 번째 값이 같으므로 두 번째 값을 비교한다. 두 번째 값이 같지만 '마지막 값이므로 정확히 비교'한다. 'apple' < 'apple' 은 false, stop!
+- 첫 번째 값이 같으므로 두 번째 값을 비교한다. 두 번째 값이 같지만 '마지막 값이므로 정확히 비교'한다. 'apple' <= 'apple' 은 true, stop!
 
 ---
 
@@ -160,7 +160,7 @@ print((1, "apple") <= (1, "apple"))     // true
 question ? answer1 : answer2
 ```
 
-question이 true일 경우는 answer1을, false일 경우는 answer2를 취한다.
+question 이 true 일 경우는 answer1을, false 일 경우는 answer2를 취한다.
 
 if ~ else 구문 대신 삼항 조건 연산자를 이용해 가독성을 높인 다음 코드를 보자.
 
@@ -201,9 +201,9 @@ print(userDefinedColorName as Any)  // Optional("green")
 print(colorNameToUse)               // green
 ```
 
-위에서 볼 수 있듯이 Nil-Coalescing Operator가 하는 역할은 2가지다.
-- nil일 경우 default value를 반환.
-- unwraping optional.
+위에서 볼 수 있듯이 Nil-Coalescing Operator 가 하는 역할은 2가지다.
+- nil 일 경우 default value 를 반환.
+- unwrapping optional.
 
 ---
 
@@ -243,7 +243,7 @@ for i in 0..<count {
 // Person 4 is called Jack
 ```
 
-> Array의 길이는 4다. 하지만 zero-base index로 인해 0, 1, 2, 3을 순회해야 하므로, `a...(b-1)` 대신 `a..<b`를 사용하면 손쉽게 Array를 순회할 수 있다.
+> Array 의 길이는 4다. 하지만 zero-base index 로 인해 0, 1, 2, 3을 순회해야 하므로, `a...(b-1)` 대신 `a..<b`를 사용하면 손쉽게 Array 를 순회할 수 있다.
 
 #### 3. One-Sided Ranges (단방향 범위)
 범위의 끝을 한 쪽만 지정하고 싶다면 `One-Sided Ranges`를 이용하면 된다.
@@ -278,7 +278,7 @@ Awesome! 👏👏👏
 ---
 
 ### 8. Logical Operators (논리 연산자) 👩‍💻
-Swift에서는 3가지 Logical Operators를 지원한다.
+Swift 에서는 3가지 Logical Operators 를 지원한다.
 - Logical NOT Operator `!a`
 - Logical AND Operator `a && b`
 - Logical OR Operator `a || b`
@@ -364,7 +364,7 @@ case 2: (70% true) || (10% true)
 
 > 수학적 확률상 'case 2'가 더 좋다.
 
-#### 5. nil과 value check 등 다양한 활용
+#### 5. nil 과 value check 등 다양한 활용
 - 단순히 `Boolean` 표현식을 계산하는 것 외에도 비즈니스 로직 상 `nil` 체크, `value` 체크 등을 동시에 하기 위해 사용하기도 한다.
 
 ```swift

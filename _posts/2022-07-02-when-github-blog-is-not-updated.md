@@ -3,15 +3,15 @@ layout: post
 title: 깃허브 블로그 업데이트가 안 될 때
 subtitle: 깃허브 블로그 업데이트 미반영 단계별로 해결하기
 categories: git
-tags: [git, gitblog, blog, timezone, jekyll]
+tags: [git, git blog, blog, timezone, jekyll]
 ---
 
 어제 올린 포스팅이 시간이 지나도 깃허브에 업데이트가 안 되었다.
-깃허브에 push를 하고 방문해보면 노란색 <span style="color: orange;">•</span>이 보이고, 서버가 업데이트를 마치면 녹색 <span style="color: orange;">•</span>으로 바뀐다. 그래도 포스팅이 안 보인다면 다음 순서대로 확인한다. 다음은 `jekyll`을 기준으로한다.
+깃허브에 push 를 하고 방문해보면 노란색 <span style="color: orange;">•</span>이 보이고, 서버가 업데이트를 마치면 녹색 <span style="color: orange;">•</span>으로 바뀐다. 그래도 포스팅이 안 보인다면 다음 순서대로 확인한다. 다음은 `jekyll`을 기준으로한다.
 
 
 ### 1. _posts 하위 디렉토리에 위치하며 파일명은 yyyy-MM-dd-filename.md 형식인가?
-포스트를 작성하는 위치와 파일명의 규칙이다. 가장 첫 번째로 확인해야 한다. 특히, vscode로 작성할 경우 파일을 생성하거나 파일명을 수정할 때 `.md`를 실수로 누락시킬 수 있으니 꼭 확인한다.
+포스트를 작성하는 위치와 파일명의 규칙이다. 가장 첫 번째로 확인해야 한다. 특히, vscode 로 작성할 경우 파일을 생성하거나 파일명을 수정할 때 `.md`를 실수로 누락시킬 수 있으니 꼭 확인한다.
 
 ### 2. 포스팅 head 규칙을 준사하는가?
 ```
@@ -30,10 +30,10 @@ tags: [git, gitblog, blog, timezone, jekyll]
 
 만약, 로컬에서도 포스팅이 업데이트가 안 된다면 1, 2를 다시 한 번 확인하고, 문제가 없다고 판단될 경우 `5`로 이동한다.
 
-### 4. 블로그 깃의 타겟 branch를 확인하자
+### 4. 블로그 깃의 타겟 branch 를 확인하자
 ![github blog settings](/assets/images/posts/2022-07-02-when-github-blog-is-not-updated/gitbub-blog-branch-settings.png)
 
-보통은 블로그에 여러 branch를 사용하지 않겠지만, 내가 올린 push가 깃허브가 블로그 실행 타겟으로 설정한 브랜치인지 확인하자.
+보통은 블로그에 여러 branch 를 사용하지 않겠지만, 내가 올린 push 가 깃허브가 블로그 실행 타겟으로 설정한 브랜치인지 확인하자.
 
 
 ### 5. timezone 차이를 이해하고 해결하자
@@ -46,8 +46,8 @@ tags: [git, gitblog, blog, timezone, jekyll]
 
 그럼 어떻게 해야할까?
 
-1. 미국 시간이 포스팅 날짜가 된 이후 공백을 하나 넣고 다시 push를 올린다.
-내 로컬 서버라면 재기동을 시키면 되는데 깃허브 블로그의 서버는 내가 직접 기동하지 않는다. 따라서, 업데이트를 감지하고, 이를 반여할 수 있도록 공백을 하나 넣고 push를 올려서 미래의 포스팅이 아니니 게시할 수 있도록 한다.
+1. 미국 시간이 포스팅 날짜가 된 이후 공백을 하나 넣고 다시 push 를 올린다.
+내 로컬 서버라면 재기동을 시키면 되는데 깃허브 블로그의 서버는 내가 직접 기동하지 않는다. 따라서, 업데이트를 감지하고, 이를 반여할 수 있도록 공백을 하나 넣고 push 를 올려서 미래의 포스팅이 아니니 게시할 수 있도록 한다.
 
 근본적으로 해당 문제를 해결하고싶다면 아래 2번을 설정하도록 한다.
 

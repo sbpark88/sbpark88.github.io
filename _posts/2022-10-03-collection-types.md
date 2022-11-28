@@ -14,20 +14,20 @@ tags: [swift docs, collection, array, set, dictionary]
 - Set
 - Dictionary
 
-`Collections`는 data type이 명확히 정의되어 있으므로 실수로 다른 type의 데이터를 넣을 수 없다.
+`Collections`는 data type 이 명확히 정의되어 있으므로 실수로 다른 type 의 데이터를 넣을 수 없다.
 
 ### 1. Mutability of Collections (콜렉션의 변경) 👩‍💻
-만약 `Collections`를 var(variable)할당한다면, 해당 collections는 변경할 수 있다(mutable).  
-하지만 let(constant)에 할당한다면, 해당 collections는 크기와 내용물 모두 불변이다(immutable).
+만약 `Collections`를 var(variable)할당한다면, 해당 collections 는 변경할 수 있다(mutable).  
+하지만 let(constant)에 할당한다면, 해당 collections 는 크기와 내용물 모두 불변이다(immutable).
 
 ---
 
 ### 2. Arrays (배열) 👩‍💻
-`Array`는 순서가 지정된 random-access collection이다.  
-(RandomAccessCollection protocol을 따르는, 즉, random-access를 지원하는 collection이다).
+`Array`는 순서가 지정된 random-access collection 이다.  
+(RandomAccessCollection protocol 을 따르는, 즉, random-access 를 지원하는 collection 이다).
 
-Swift의 `Array` 타입은 `Foundation`의 `NSArray` 클래스와 연결되고, 이를 확장해 Array에서 NSArray 메서드를 사용할 수 있게 해준다.  
-따라서, `import Foundation`을 하면 Array를 `캐스팅 하지 않고 NSArray 메서드를 사용`할 수 있다.
+Swift 의 `Array` 타입은 `Foundation`의 `NSArray` 클래스와 연결되고, 이를 확장해 Array 에서 NSArray 메서드를 사용할 수 있게 해준다.  
+따라서, `import Foundation`을 하면 Array 를 `캐스팅 하지 않고 NSArray 메서드를 사용`할 수 있다.
 
 #### 1. Array Type Syntax
 다음 두 가지 형태의 `initializer syntax`를 사용할 수 있다.
@@ -55,7 +55,7 @@ someArray.append(9)
 print(someArray)    // [5, 9]
 ```
 
-이제 someArray는 `5`, `9`를 순서대로 저장하고있다.
+이제 someArray 는 `5`, `9`를 순서대로 저장하고있다.
 
 <br>
 
@@ -65,7 +65,7 @@ someArray = []
 print(someArray)    // []
 ```
 
-Empty Array Literal(`[]`)를 이용해 someArray를 다시 `Empty Array`로 만들더라도 `[Int]` 타입은 변하지 않는다.
+Empty Array Literal(`[]`)를 이용해 someArray 를 다시 `Empty Array`로 만들더라도 `[Int]` 타입은 변하지 않는다.
 
 #### 3. Creating an Array with a Default Value
 
@@ -306,10 +306,10 @@ Item 8: Cherry
 ---
 
 ### 3. Sets (셋) 👩‍💻
-`Set`은 unique한 elements를 저장하는 collection이다.  
+`Set`은 unique 한 elements 를 저장하는 collection 이다.  
 
-Swift의 `Set` 타입은 `Foundation`의 `NSSet` 클래스와 연결되고, 이를 확장해 Set에서 NSSet 메서드를 사용할 수 있게 해준다.  
-따라서, `import Foundation`을 하면 Set을 `캐스팅 하지 않고 NSSet 메서드를 사용`할 수 있다.
+Swift 의 `Set` 타입은 `Foundation`의 `NSSet` 클래스와 연결되고, 이를 확장해 Set 에서 NSSet 메서드를 사용할 수 있게 해준다.  
+따라서, `import Foundation`을 하면 Set 을 `캐스팅 하지 않고 NSSet 메서드를 사용`할 수 있다.
 
 #### 1. Hash Values for Set Types
 `Set` 타입은 `Hashable` 프로토콜을 준수해야한다.  
@@ -330,14 +330,14 @@ var newSet: Set<Element> = [elements...]  // Do not use to create Empty Set.
 var letters = Set<Character>()
 ```
 
-Set은 `Empty Set` 생성시 `Shorthand Syntax`를 사용할 수 없다 (__Array의 Shorthand Syntax와 구분이 불가능하다__)
+Set 은 `Empty Set` 생성시 `Shorthand Syntax`를 사용할 수 없다 (__Array 의 Shorthand Syntax 와 구분이 불가능하다__)
 
 ```swift
 letters.insert("c")
 letters.insert("d")
 ```
 
-이제 letters는 "c", "d"를 순서대로 저장하고있다.
+이제 letters 는 "c", "d"를 순서대로 저장하고있다.
 
 ```swift
 letters = []
@@ -354,8 +354,8 @@ var favoriteGenres: Set<String> = ["Rock", "Classical", "Hip hop"]
 
 <br>
 
-`Set` 역시 Array iteral을 이용해 초기 데이터가 주어지는 경우 `Type Inference`를 사용할 수 있다.  
-단, <span style="color: red; font-weight: 900;">Array와의 구분을 위해 `Set`이라는 것은 명시</span>해야한다.
+`Set` 역시 Array literal 을 이용해 초기 데이터가 주어지는 경우 `Type Inference`를 사용할 수 있다.  
+단, <span style="color: red; font-weight: 900;">Array 와의 구분을 위해 `Set`이라는 것은 명시</span>해야한다.
 
 ```swift
 var favoriteGenres: Set = ["Rock", "Classical", "Hip hop"]
@@ -363,7 +363,7 @@ var favoriteGenres: Set = ["Rock", "Classical", "Hip hop"]
 
 <br>
 
-<span style="color: red; font-weight: 900;">Array와 달리 서로 다른 Type의 데이터는 담을 수 없다.</span>
+<span style="color: red; font-weight: 900;">Array 와 달리 서로 다른 Type 의 데이터는 담을 수 없다.</span>
 
 ```swift
 var anySet: Set<Any> = ["ABC", 5, "DEF"]  // type 'Any' does not conform to protocol 'Hashable'
@@ -371,7 +371,7 @@ var anySet: Set<Any> = ["ABC", 5, "DEF"]  // type 'Any' does not conform to prot
 
 #### 5. Accessing and Modifying a Set
 
-__1 ) `insert(_:)` 메서드는 Set에 새 `element`를 중복 없이 추가한다__
+__1 ) `insert(_:)` 메서드는 Set 에 새 `element`를 중복 없이 추가한다__
 
 ```swift
 var favoriteGenres: Set = ["Rock", "Classical", "Hip hop"]
@@ -382,7 +382,7 @@ favoriteGenres.insert("Jazz")
 print(favoriteGenres)   // ["Hip hop", "Classical", "Rock", "Jazz"]
 ```
 
-위 예제에서 `"Jazz"`를 두 번 추가했지만, `Set`은 `unique`하기 때문에 여전히 4개의 element만 갖는다.
+위 예제에서 `"Jazz"`를 두 번 추가했지만, `Set`은 `unique`하기 때문에 여전히 4개의 element 만 갖는다.
 
 <br>
 
@@ -564,7 +564,7 @@ Item 7: Plum
 Item 8: Tangerine
 ```
 
-#### 7. Performimg Set Operations
+#### 7. Performing Set Operations
 두 `Set` 컬렉션 사이에 다음과 같은 수학적 연산을 수행할 수 있다.
 
 ![Set Venn Diagram](/assets/images/posts/2022-10-03-collection-types/setVennDiagram_2x.png)
@@ -626,9 +626,9 @@ print(differenceOfSets)     // [1, 9]
 #### 8. Set Membership and Equality
 두 `Set`간의 관계를 표현할 수 있다.
 
-- Set a is a superset of Set b (Set a는 Set b의 상위집합이다)
-- Set b is a subset of Set a (Set b는 Set a의 부분집합이다)
-- Set b and Set c are disjoint with one another (Set b와 Set c는 서로소 집합관계다)
+- 'Set a' is a superset of 'Set b' ('Set a'는 'Set b'의 상위집합이다).
+- 'Set b' is a subset of 'Set a' ('Set b'는 'Set a'의 부분집합이다).
+- 'Set b' and 'Set c' are disjoint with one another ('Set b'와 'Set c'는 서로소 집합관계다).
 
 <br>
 
@@ -650,14 +650,14 @@ print(houseAnimals == houseAnimals)   // true
 <br>
 
 __2 ) Superset (상위 집합)__
-Superset은 `isSuperset(of:)` 메서드를 사용한다.
+Superset 은 `isSuperset(of:)` 메서드를 사용한다.
 
 ```swift
 print(farmAnimals.isSuperset(of: houseAnimals))         // true
 print(farmAnimals.isSuperset(of: cityAnimals))          // false
 ```
 
-Superset을 판단하는 또 다른 메서드 `isStrictSuperset(of:)`가 있다.
+Superset 을 판단하는 또 다른 메서드 `isStrictSuperset(of:)`가 있다.
 
 ```swift
 print(farmAnimals.isStrictSuperset(of: houseAnimals))   // true
@@ -680,14 +680,14 @@ print(farmAnimals.isStrictSuperset(of: farmAnimals))    // false
 <br>
 
 __3 ) Subset (부분 집합)__
-Subset은 `isSubset(of:)` 메서드를 사용한다.
+Subset 은 `isSubset(of:)` 메서드를 사용한다.
 
 ```swift
 print(houseAnimals.isSubset(of: farmAnimals))           // true
 print(cityAnimals.isSubset(of: farmAnimals))            // false
 ```
 
-Subset을 판단하는 또 다른 메서드 `isStrictSubset(of:)`가 있다.
+Subset 을 판단하는 또 다른 메서드 `isStrictSubset(of:)`가 있다.
 
 ```swift
 print(houseAnimals.isStrictSubset(of: farmAnimals))     // true
@@ -713,17 +713,17 @@ Disjoint 관계(서로소 집합)은 `isDisjoint(with:)` 메서드를 사용한�
 
 ```swift
 print(houseAnimals.isDisjoint(with: cityAnimals))       // true
-print(houseAnimals.isDisjoint(with: farmAnimals))       // fasle
+print(houseAnimals.isDisjoint(with: farmAnimals))       // false
 ```
 
 ---
 
 ### 4. Dictionary (딕셔너리) 👩‍💻
-`Dictionary`는 `Key: Value` 쌍을 elements로 저장하는 collection이다.    
-이 때 key는 Set과 마찬가지로 unique하다.
+`Dictionary`는 `Key: Value` 쌍을 elements 로 저장하는 collection 이다.    
+이 때 key 는 Set 과 마찬가지로 unique 하다.
 
-Swift의 `Dictionary` 타입은 `Foundation`의 `NSDictionary` 클래스와 연결되고, 이를 확장해 Dictionary에서 NSDictionary 메서드를 사용할 수 있게 해준다.    
-따라서, `import Foundation`을 하면 Dictionary을 `캐스팅 하지 않고 NSDictionary 메서드를 사용`할 수 있다.
+Swift 의 `Dictionary` 타입은 `Foundation`의 `NSDictionary` 클래스와 연결되고, 이를 확장해 Dictionary 에서 NSDictionary 메서드를 사용할 수 있게 해준다.    
+따라서, `import Foundation`을 하면 Dictionary 을 `캐스팅 하지 않고 NSDictionary 메서드를 사용`할 수 있다.
 
 #### 1. Hash Values for Dictionary Keys
 `Dictionary` 타입의 `Key`는 `Set` 타입의 `Value`처럼 `Hashable` 프로토콜을 준수해야한다.    
@@ -744,7 +744,7 @@ var someDictionary: [Key: Value] = [:]      // Dictionary Type Shorthand Syntax 
 var someDictionary: [Int: Strint] = [:]
 ```
 
-`Shorthand Syntax`를 이용해 빈 Dictionary를 생성했다.
+`Shorthand Syntax`를 이용해 빈 Dictionary 를 생성했다.
 
 <br>
 
@@ -755,7 +755,7 @@ someDictionary[2] = "Google"
 print(someDictionary)       // [1: "Apple", 2: "Google"] or [2: "Google", 1: "Apple"] because `Dictionary` is an unordered collection.
 ```
 
-이제 someDictionary는 `1: "Apple"`, `2: "Google"`를 순서 없이 저장하고있다.
+이제 someDictionary 는 `1: "Apple"`, `2: "Google"`를 순서 없이 저장하고있다.
 
 <br>
 
@@ -766,7 +766,7 @@ print(someDictionary)               // [:]
 print(type(of: someDictionary))     // Dictionary<Int, String>
 ```
 
-Empty Dictionary Literal(`[:]`)를 이용해 someDictionary를 다시 `Empty Dictionary`로 만들더라도 `[Int: String]` 타입은 변하지 않는다.
+Empty Dictionary Literal(`[:]`)를 이용해 someDictionary 를 다시 `Empty Dictionary`로 만들더라도 `[Int: String]` 타입은 변하지 않는다.
 
 #### 4. Creating a Dictionary with a Dictionary Literal
 
@@ -948,7 +948,7 @@ print(oldValue as Any)      // nil
 print(shoppingList)         // ["Milk": 3200, "Eggs": 4500, "Flour": 3600]
 ```
 
-> 위 예제를 실행하면 nil이 반환된 것을 확인할 수 있다.
+> 위 예제를 실행하면 nil 이 반환된 것을 확인할 수 있다.
 
 <br>
 

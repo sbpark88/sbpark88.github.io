@@ -14,7 +14,7 @@ tags: [swift docs, structure, class, value type, reference type]
 이는 전통적으로 프로그래밍 언어에서 `Class`의 `instance`는 `Object`인 반면, `Swift`의 `Structures`와
 `Classes`는 다른 언어와 비교해 `Functionality`에 가깝다.
 
-#### 1. Structure와 Class의 공통점
+#### 1. Structure 와 Class 의 공통점
 
 - Define `properties` : 값을 저장
 - Define `methods` : 기능을 제공
@@ -23,11 +23,11 @@ tags: [swift docs, structure, class, value type, reference type]
 - Be `extended` : 기본 구현 이상으로 확장
 - Conform to `protocols` : 특정 종류의 표준 기능을 제공
 
-#### 2. Class만 갖고 있는 추가적인 기능
+#### 2. Class 만 갖고 있는 추가적인 기능
 
 - `inheritance` : 다른 `Class`의 특성을 상속
   (`Structure`와 `Protocol`은 다른 `Protocol`을 `adopt` 하는 것만 가능하다.)
-- `Runtime` 때 `class instance`의 타입을 해석(interpret)하고, type casting이 가능
+- `Runtime` 때 `class instance`의 타입을 해석(interpret)하고, type casting 이 가능
 - `deinitializers` : `class instance`에 할당된 자원을 해제
 - `Reference counting` : `class instance`에 참조를 허용
   (`Structure`는 `Value Types`로 항상 `Copy`되므로, `Reference counting`을 사용하지 않는다.)
@@ -37,7 +37,7 @@ tags: [swift docs, structure, class, value type, reference type]
 > 일반적으로 추론하기 쉬운 `Structure`를 선호해야한다고 말한다. 이는 우리가 만드는 대부분의 `Custom Data Types`는
 > `Structure`나 `Enumeration`이 되어야 함을 의미한다.
 
-#### 3. Structure와 Class 무엇을 선택할까?
+#### 3. Structure 와 Class 무엇을 선택할까?
 
 이에 대해 애플은 아래 글을 통해 다음과 같이 이야기한다.
 
@@ -248,7 +248,7 @@ let hd = Resolution(width: 1920, height: 1080)
 var cinema = hd
 ```
 
-상수 `hd` structure를 만들고, 이를 `cinema` 변수에 복사했다.
+상수 `hd` structure 를 만들고, 이를 `cinema` 변수에 복사했다.
 
 <br>
 
@@ -286,7 +286,7 @@ var currentDirection = CompassPoint.west
 let rememberedDirection = currentDirection
 ```
 
-변수 `currentDirection` enumeration을 만들고, 이를 `rememberedDirection` 변수에 복사했다.
+변수 `currentDirection` enumeration 을 만들고, 이를 `rememberedDirection` 변수에 복사했다.
 
 <br>
 
@@ -295,7 +295,7 @@ let rememberedDirection = currentDirection
 currentDirection.turnNorth()
 ```
 
-이제 `currentDirection`는 'north'다.
+이제 `currentDirection`는 'north' 다.
 
 <br>
 
@@ -307,7 +307,7 @@ print("The remembered direction is \(rememberedDirection)")
 // Prints "The remembered direction is west"
 ```
 
-`currentDirection`는 'north'로 변경되었으나, `rememberedDirection`는 여전히 'west'다.
+`currentDirection`는 'north' 로 변경되었으나, `rememberedDirection`는 여전히 'west' 다.
 
 ---
 
@@ -382,7 +382,7 @@ print(alsoTenEighty)    // __lldb_expr_11.VideoMode
 
 #### 3. Identity Operators
 
-기존에 알고 있던 `equal to`, `not equal to` Operators는 다음과 같다.
+기존에 알고 있던 `equal to`, `not equal to` Operators 는 다음과 같다.
 
 ```swift
 // Equal to(==)
@@ -417,7 +417,7 @@ let numB = numA
 print(numA === numB)  // error: argument type 'Int' is not a reference types
 ```
 
-`===` 또는 `!==` operators는 `Reference Types`를 위한 `Identity Operators`로, `Value Types`를 
+`===` 또는 `!==` operators 는 `Reference Types`를 위한 `Identity Operators`로, `Value Types`를 
 비교하려고 하면 에러가 발생한다.
 
 #### 4. Pointers

@@ -280,12 +280,12 @@ print(manager.importer.filename)
 // Prints "data.txt"
 ```
 
-`DataManager`클래스의 `importor` property에 대한 `DataImportor` instance가 생성되었다!!
+`DataManager`클래스의 `importor` property 에 대한 `DataImportor` instance 가 생성되었다!!
 
-> `Lazy Stored Properties`를 멀티 스레드에서 동시에 access할 때 아직 `properties`가 초기화
+> `Lazy Stored Properties`를 멀티 스레드에서 동시에 access 할 때 아직 `properties`가 초기화
 > 되지 않았다면, 한 번만 초기화된다는 보장이 없다. 즉, `Thread-UnSafe`하므로 이를 제어할 필요가 있다.
 
-#### 4. Stored Properties and Instnace Variables
+#### 4. Stored Properties and Instance Variables
 
 `Objective-C`는 `Class instance`의 `Properties`로 `Values`와 `References`를 저장하는 두 가지
 방법을 제공했다. 또한 `Properties`를 `Backing Store(백업 저장소)`로 사용할 수 있었다.
@@ -432,7 +432,7 @@ var square = Rect(origin: Point(),
 print(square.center)    // Point(x: 5.0, y: 5.0)
 ```
 
-`square` instance를 만들었고, 생성된 instance로부터 `getter`를 이용해 사각형의 중심점을 구했다.  
+`square` instance 를 만들었고, 생성된 instance 로부터 `getter`를 이용해 사각형의 중심점을 구했다.  
 이번에는 `setter`를 이용해 새 기준점을 저장하고, 변경된 기준점과 그때의 중심점을 구해보자.
 
 ```swift
@@ -863,8 +863,8 @@ struct LengthOfSide {
 }
 ```
 
-- init() : arguments가 없이 초기화 하면 기본값으로 최고 길이는 10, 변의 길이의 초기값은 0으로 `Structure`를 초기화한다.
-- init(wrappedValue:) : arguments를 하나만 받아 `wrappedValue`를 변의 길이의 초기값으로 하고 최고 길이는 
+- init() : arguments 가 없이 초기화 하면 기본값으로 최고 길이는 10, 변의 길이의 초기값은 0으로 `Structure`를 초기화한다.
+- init(wrappedValue:) : arguments 를 하나만 받아 `wrappedValue`를 변의 길이의 초기값으로 하고 최고 길이는 
   10으로 `Structure`를 초기화한다.
 - init(wrappedValue:maximum:) : 변의 최고 길이와 초기값을 모두 받아 `Structure`를 초기화한다.
 
@@ -1143,7 +1143,7 @@ print(resizeWasCalibrated)                  // true
 `Stored Variables`는 `Stored Properties` 처럼 값을 저장하고 검색하는 것을 제공한다.
 
 > `Global Constants`와 `Global Varianles`는 항상 `lazily`하게 계산된다. 이는 `Lazy Stored Properties`와
-> 유사하다. 단, `Lazy Stored Properties`와 다른 점은 `lazy` modifier를 붙일 필요가 없다.
+> 유사하다. 단, `Lazy Stored Properties`와 다른 점은 `lazy` modifier 를 붙일 필요가 없다.
 >
 > 반면에 `Local Constnats`와 `Local Variables`는 절대 `lazily`하게 계산되지 않는다.
 
@@ -1201,7 +1201,7 @@ someFunction()
 ```swift
 struct SomeStructure {
     static var someTypeProperty = "Initiate Value"
-    static var computedTypeProoperty: Int {
+    static var computedTypeProperty: Int {
         return 1
     }
 }
@@ -1214,7 +1214,7 @@ struct SomeStructure {
 ```swift
 enum SomeEnumeration {
     static var someTypeProperty = "Initiate Value"
-    static var computedTypeProoperty: Int {
+    static var computedTypeProperty: Int {
         return 6
     }
 }

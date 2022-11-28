@@ -225,7 +225,7 @@ enum SomeEnumeration {
 이뤄진 4개의 `Int` 그룹으로 구성되어진다.  
 다음으로 `QR code`는 2D 바코드로 2,953자 이내의 어떠한 `ISO 8859-1` 문자든 저장할 수 있다.
 
-#### 2. Adopt to Associated Values
+#### 2. Adopt Associated Values
 
 ```swift
 enum Barcode {
@@ -234,7 +234,7 @@ enum Barcode {
 }
 ```
 
-__`Barcode` enum type이 가질 수 있는 값은 다음과 같다.__
+__`Barcode` enum type 이 가질 수 있는 값은 다음과 같다.__
 - `(Int, Int, Int, Int)` `4 Integer Tuple` 타입의 `upc`
 - `String` 타입의 `qrCode`
 
