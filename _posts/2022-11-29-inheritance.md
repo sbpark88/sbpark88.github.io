@@ -89,15 +89,120 @@ print("Tandem: \(tandem.description)")  // Tandem: traveling at 22.0 miles per h
 
 ### 2. Overriding 👩‍💻
 
-#### 1. Overriding Properties
+#### 1. Overriding
 
-#### 2. Overriding Property Getters and Setters
+`Subclass`는 `Superclass`의 `Instance Methods`, `Type Methods`, `Instance Porperties`, 
+`Type Properties`, `Subscripts`를 다시 구현할 수 있다. 이것을 `Overriding`이라 한다.
 
-#### 3. Overriding Property Observers
+`Overriding`을 위해서 앞에 `override` 키워드를 붙여준다.  
+이렇게 하는 것은 재정의를 명확히 하고, 실수로 재정의하는 것을 방지하기 위한 것으로, `override` 키워드 없이 재정의하면 
+`Swift`는 이를 확인하고 `compile error`를 발생시킨다.
+
+> `Overriding` 가능한 `characteristics`는 `mutable`한 것으로 제한된다. 예를 들어 `let` 키워드로 선언된 
+> 경우 `immutable`이기 때문에 `Overriding` 할 수 없다.
+
+#### 2. Accessing Superclass Methods, Properties, and Subscripts
+
+`super` 키워드를 사용하면, `Overriding` 된 `characteristics`에 접근이 가능하다.
+
+다음은 `Overriding` 된 `characteristics`의 케이스별 `super` 접근 예시다.
+
+- someMethod() : super.someMethod() 를 호출한다.
+- someProperty : getter, setter 를 이용해 super.Property 에 접근한다.
+- someIndex: super[someIndex] 로 접근한다.
+
+```swift
+class TimesTable {
+    let multiplier: Int
+    subscript(index: Int) -> Int { multiplier * index }
+    func printMultiplier() {
+        print(multiplier)
+    }
+    init(multiplier: Int) {
+        self.multiplier = multiplier
+    }
+}
+
+class ArithmeticSequenceTable: TimesTable {
+    var superMultiplier: Int { super.multiplier }
+    override func printMultiplier() {
+        super.printMultiplier()
+    }
+    override subscript(index: Int) -> Int { super[index] + 1 }
+}
+```
+
+> `super`를 이용한 접근은 `Subclass` 내에서 접근하는 것이다. `Subclass`의 `Instance`를 통해 접근하는
+> 것이 아니다.
+
+#### 3. Overriding Methods
+
+```swift
+class Train: Vehicle {
+    override func makeNoise() {
+        print("칙칙폭폭")
+    }
+}
+```
+
+```swift
+let train = Train()
+train.makeNoise()   // 칙칙폭폭
+```
+
+#### 4. Overriding Properties
+
+__1 )Overriding Property Getters and Setters__
+
+```swift
+class Car: Vehicle {
+    var gear = 1
+    override var description: String {
+        super.description + " in gear \(gear)"
+    }
+}
+```
+
+```swift
+let car = Car()
+car.currentSpeed = 25.0
+car.gear = 3
+print("Car: \(car.description)") // Car: traveling at 25.0 miles per hour in gear 3
+```
+
+<br>
+
+__2 ) Overriding Property Observers__
+
+```swift
+class AutomaticCar: Car {
+    override var currentSpeed: Double {
+        didSet {
+            gear = Int(currentSpeed / 10.0) + 1
+        }
+    }
+}
+```
+
+```swift
+let automatic = AutomaticCar()
+automatic.currentSpeed = 35.0
+print("AutomaticCar: \(automatic.description)") // AutomaticCar: traveling at 35.0 miles per hour in gear 4
+```
+
+<br>
+
+__3 ) Overriding Stored Properties__
+
+`Stored Properties`를 `Overriding` 하는 것은 다른 `Properties`와는 조금 다르기 때문에 별도 포스팅 
+[Overriding Stored Properties][Overriding Stored Properties]으로 작성한다.
+
+[Overriding Stored Properties]:/swift/2022/11/30/overriding-stored-properties.html
 
 ---
 
 ### 3. Preventing Overrides 👩‍💻
+
 
 <br><br>
 
