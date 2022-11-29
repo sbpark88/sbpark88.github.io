@@ -203,6 +203,29 @@ __3 ) Overriding Stored Properties__
 
 ### 3. Preventing Overrides 👩‍💻
 
+`Overriding`을 막기 위해 `final` 키워드를 앞에 붙이면 `Subclass`에서 재정의하면
+`Swift`는 이를 확인하고 `compile error`를 발생시킨다.
+
+```swift
+class AutomaticCar: Car {
+    override final var currentSpeed: Double {
+        didSet {
+            gear = Int(currentSpeed / 10.0) + 1
+        }
+    }
+}
+```
+
+```swift
+class ElectricMotorCar: AutomaticCar {
+    override var currentSpeed: Double { // error: Property overrides a 'final' property
+        
+    }
+}
+```
+
+`AutomaticCar`의 `currentSpeed`를 `Overriding`하면서 `final` 키워드를 붙여주었기 때문에
+`AutomaticCar`를 상속한 `ElectricMotorCar`는 이것을 재정의 할 수 없다.
 
 <br><br>
 
