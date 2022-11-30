@@ -94,7 +94,7 @@ print(tandem.tag)   // Tandem
 하지만 이 방법은 `Classes` 자체를 `Overriding` 했다기 보다는 `Instance`의 값을 변경하는 것이기 때문에 
 의도한바와 일치하는 `Instance`를 얻을 수는 있지만 매번 수작업해야하는 문제가 따른다.
 
-이러한 로직이 사용되는 곳이 단 한 곳에 불과하다면 이런식으로 작성하는 것도 무방하지만 `Subclass`가 여러번  
+이러한 로직이 사용되는 곳이 단 한 곳에 불과하다면 이런식으로 작성하는 것도 무방하지만 `Subclass`가 여러번 
 `Instance` 생성이 필요하다면 이는 동일한 코드의 중복은 물론이고, `Human error`를 일으키는 주요 원인이 된다.
 
 #### 3. Set property values at initialization - Fail
@@ -163,18 +163,20 @@ class Vehicle {
 
 class Bicycle: Vehicle {
     override init() {
-        tag = "Bicicle" // 'self' used in property access 'tag' before 'super.init' call
+        tag = "Bicycle" // 'self' used in property access 'tag' before 'super.init' call
     }
 }
 ```
 
 하지만 이 방법 역시 `Swift`는 에러를 출력한다. 이 방법으로 불가능한 이유는 다음과 같다.
 
-- 규칙 1. Subclass는 자신만의 initializer를 새로 구현할 수 없다. 이미 Superclass에 initializer가 존재하기 
-  때문에 overriding만 가능하다.
-- 규칙 2. Subclass는 'super.init'이 호출된 이후 'self' 사용이 가능하다. 따라서, Subclass의 메서드는 
-  'self'의 사용이 가능하지만, initializer는 'self' 사용이 불가능하다.
-- 규칙 1과 규칙 2가 서로 상충되기 때문에 Subclass에서 initializer를 이용해 Stored Properties를 Overriding 하는 것은 불가능하다.
+- 규칙 1. Subclass 는 자신만의 initializer 를 새로 구현할 수 없다. 이미 Superclass 에 initializer 가 존재하기 
+  때문에 overriding 만 가능하다.  
+  (물론, Custom initializer 라는 방법도 있지만 이것은 매번 사용자가 이를 처리해야하므로 방법 2와 크게 다르지 않기 
+   때문에 고려하지 않는다.)
+- 규칙 2. Subclass 는 'super.init' 이 호출된 이후 'self' 사용이 가능하다. 따라서, Subclass 의 메서드는 
+  'self' 의 사용이 가능하지만, initializer 는 'self' 사용이 불가능하다.
+- 규칙 1과 규칙 2가 서로 상충되기 때문에 Subclass 에서 initializer 를 이용해 Stored Properties 를 Overriding 하는 것은 불가능하다.
 
 #### 4. Implement computed properties with private stored properties - Success
 
