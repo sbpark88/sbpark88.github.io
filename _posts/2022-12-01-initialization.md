@@ -366,7 +366,95 @@ class SurveyQuestion {
 
 #### 1. Default Initializers for Structures and Classes
 
+`Structures` 또는 `Classes`에 `Default Initializers`(=`Empty Initializers`)가 자동 생성되는 조건은 다음과 같다.
+
+- 모든 `Properties`가 `default value`를 가지고 있다
+- 존재하는 `Initializers`가 하나도 없다
+
+<br>
+
+- `default value`를 모두 가지고 있으나 `Initializer`가 존재하는 경우
+
+```swift
+class ShoppingListItem {
+    var name: String?
+    var quantity = 1
+    var purchased = false
+    
+    init(name: String) {
+        self.name = name
+    }
+}
+var item = ShoppingListItem(name: "Bread")
+```
+
+모든 `Properties`가 `default value`를 가지고 있지만(`Optional Types` 는 자동으로 `nil`을 `deafult value`로 갖는다) 
+`Initializers`가 존재하기 때문에 `Default Initializers`는 생성되지 않는다.
+
+<br>
+
+- `default value`를 모두 가지고 있지 않은 경우
+
+```swift
+class ShoppingListItem {
+    var name: String
+    var quantity = 1
+    var purchased = false
+    
+    init(name: String) {
+        self.name = name
+    }
+}
+var item = ShoppingListItem(name: "Bread")
+```
+
+`default value`를 가지고 있지 않은 `Properties`가 존재할 경우 반드시 해당 `Properties`에 값을 설정할 `Initializers`가 
+필요하므로 `Initializers`가 존재하게되고, 따라서 `Default Initializers`는 생성되지 않는다.
+
+<br>
+
+- `default value`를 모두 가지고 있으며 `Initializer`가 존재하지 않는 경우
+
+```swift
+class ShoppingListItem {
+    var name: String?
+    var quantity = 1
+    var purchased = false
+}
+var item = ShoppingListItem()
+```
+
+`Swift`가 자동으로 `Default Initializers`를 생성한다.
+
 #### 2. Memberwise Initializers for Structure Types
+
+`Structures`는 `Classes`와 달리 별도의 구현 없이도 `member propeties`의 모든 case 에 대한 `Initializers`를 갖는다.  
+이를 `Memebrwise Initializers`라 한다.
+
+```swift
+struct Size {
+    var width: Double, height:Double
+}
+var square = Size(width: 2.0, height: 2.0)
+```
+
+```swift
+struct Size {
+    var width: Double = 5.0, height:Double
+}
+var square = Size(height: 5.0)
+var rectangle = Size(width: 7.0, height: 3.0)
+```
+
+```swift
+struct Size {
+    var width: Double = 5.0, height:Double = 5.0
+}
+var square = Size()
+var rectangle = Size(width: 7.0)
+var anotherRectangle = Size(height: 12.0)
+var hugeSqure = Size(width: 100.0, height: 100.0)
+```
 
 ---
 
