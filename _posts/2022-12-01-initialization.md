@@ -184,22 +184,181 @@ func printColor(_ row: Int, _ column: Int) {
     print("(\(row), \(column)) is \(board.squareIsBlackAt(row: row, column: column) ? "black" : "white") square")
 }
 ```
-
-
-
 ---
 
 ### 2. Customizing Initialization 👩‍💻
 
 #### 1. Initialization Parameters
 
+> 다른 프로그래밍 언어는 일반적으로 `initializer`의 `overload`를 처리하는 방법은 다음과 같다.
+> 
+> - `Parameters`의 개수로 구분
+> - `Parameters`의 개수와 `Parameter Types`를 함께 구분
+> 
+> 즉, `Types`를 함께 구분하더라도 동일한 `Parameters` 개수와 `Types`는 `overload`를 할 수 없다는 말이 된다.
+
+> 하지만 `Swift`는 `Argument Labels`를 생략하지 않는다면 다음과 같이 더 세분화해 `overload`를 처리한다.
+> 
+> - `Parameters`의 개수와 `Parameter Types`에 추가로 `Argument Labels`까지 구분
+
+따라서 `Swift`는 아래 예제와 같이 동일한 `Parameters`의 개수와 `Parameter Types`를 갖더라도 `Argument Labels`를 
+다르게 해 화씨를 섭씨로 바꾸는 `initializer`와 켈빈을 섭씨로 바꾸는 `initializer`를 `overload` 할 수 있다.
+
+```swift
+struct Celsius {
+    var temperatureInCelsius: Double
+    
+    init(fromFahrenheit fahrenheit: Double) {
+        temperatureInCelsius = (fahrenheit - 32.0) / 1.8
+    }
+    init(fromKelvin kelvin: Double) {
+        temperatureInCelsius = kelvin - 273.15
+    }
+}
+```
+
+```swift
+let boilingPointOfWater = Celsius(fromFahrenheit: 212.0)
+// boilingPointOfWater.temperatureInCelsius is 100.0
+
+let freezingPointOfWater = Celsius(fromKelvin: 273.15)
+// freezingPointOfWater.temperatureInCelsius is 0.0
+```
+
 #### 2. Parameter Names and Argument Labels
+
+앞의 예에서 이미 본 것처럼 `initializer`는 함수나 메서드와 마찬가지로 `Parameter Names`와 `Argument Labels`를 모두 
+가질 수 있다.
+
+```swift
+struct Color {
+    let red, green, blue: Double
+    
+    init(red: Double, green: Double, blue: Double) {
+        self.red   = red
+        self.green = green
+        self.blue  = blue
+    }
+    init(white: Double) {
+        red   = white
+        green = white
+        blue  = white
+    }
+}
+```
+
+```swift
+let magenta = Color(red: 1.0, green: 0.0, blue: 1.0)
+let halfGray = Color(white: 0.5)
+```
 
 #### 3. Initializer Parameters Without Argument Labels
 
+`initializer`도 함수나 메서드와 마찬가지로 기본적으로 `Argument Labels`는 생략이 불가능하다. 생략을 위해서는 
+`Argument Labels`에 `_`를 사용해 `override` 함으로써 생략할 수 있다.
+
+```swift
+struct Celsius {
+    var temperatureInCelsius: Double
+    init(fromFahrenheit fahrenheit: Double) {
+        temperatureInCelsius = (fahrenheit - 32.0) / 1.8
+    }
+    init(fromKelvin kelvin: Double) {
+        temperatureInCelsius = kelvin - 273.15
+    }
+    init(_ celsius: Double) {
+        temperatureInCelsius = celsius
+    }
+}
+```
+
+```swift
+let bodyTemperature = Celsius(37.0)
+// bodyTemperature.temperatureInCelsius is 37.0
+```
+
 #### 4. Optional Property Types
 
+다음과 같은 이유로 인해 `Properties`가 `Optional Types`가 되어야하는 경우가 있을 수 있다.
+
+- `Initialization` 하는 동안 값을 설정할 수 없어 `nil`을 허용해야하는 경우
+- 논리적으로 `nil`을 허용해야하는 경우
+
+`nil`을 허용하기 위해 반드시 `Optional Types`로 정의되어야하며, `Properties`는 자동으로 `nil`로 초기화된다.
+
+```swift
+class SurveyQuestion {
+    var text: String
+    var response: String?
+    init(text: String) {
+        self.text = text
+    }
+    func ask() {
+        print(text)
+    }
+}
+```
+
+질문에 대한 응답을 얻기 전까지 `response` 값은 `nil`을 허용해야하므로 `Optional Property Types`로 정의되어야한다.
+
+```swift
+let cheeseQuestion = SurveyQuestion(text: "Do you like cheese?")
+print(cheeseQuestion.response as Any)   // nil
+
+cheeseQuestion.ask()    // Do you like cheese?
+cheeseQuestion.response = "Yes, I do like cheese"
+print(cheeseQuestion.response as Any)   // Optional("Yes, I do like cheese")
+```
+
 #### 5. Assigning Constant Properties During Initialization
+
+`Stored Properties`는 `Instance`가 생성되기 전, 그러니까 `Initialization`이 종료되기 전에 반드시 값을 가져야한다.  
+[All Stored Properties Must be Set][All Stored Properties Must be Set]
+
+[All Stored Properties Must be Set]:/swift/2022/12/01/initialization.html#h-1-all-stored-properties-must-be-set
+
+`Initialization`이 종료되기 전까지 어느 시점에서든 `let` 키워드로 선언한 `Constant Properties`에 값을 할당할 수 있다.
+
+```swift
+class SurveyQuestion {
+    let text: String
+    var response: String?
+    init(text: String) {
+        self.text = text
+    }
+    func ask() {
+        print(text)
+    }
+}
+```
+
+```swift
+let beetsQuestion = SurveyQuestion(text: "How about beets?")
+beetsQuestion.ask()     // How about beets?
+beetsQuestion.response = "I also like beets. (But not with cheese.)"
+print(beetsQuestion.response as Any)    // Optional("I also like beets. (But not with cheese.)")
+```
+
+`let` 키워드로 바꾼 `text property`가 `Initializer`에 의해 할당돼 `How about beets?`를 잘 출력하는 것을 볼 수 있다.
+
+<br>
+
+주의해야 할 것은 이것이 `Initialization`이 종료되기 전까지 여러 번 할당해 수정할 수 있다는 뜻은 아니다.  
+> `Initialization`이 종료되기 전 이라도 한 번 할당된 값은 `immutable` 속성을 갖기 때문에 수정할 수 없다.
+
+```swift
+class SurveyQuestion {
+   let text: String
+   var response: String?
+   init(text: String) {
+      self.text = "Do you like cheese?"
+      self.text = text  // Immutable value 'self.text' may only be initialized once
+   }
+   func ask() {
+      print(text)
+   }
+}
+```
 
 ---
 
