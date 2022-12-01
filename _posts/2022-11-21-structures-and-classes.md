@@ -204,7 +204,8 @@ let resolutionTypeC = Resolution(height: 1440)
 print(resolutionTypeC)  // Resolution(width: 0, height: 1440)
 ```
 
-`Structure`는 `Class`와 달리 별도의 구현 없이도 `member propeties`의 모든 case 에 대한 `initializers`를 갖는다.
+`Structures`는 `Classes`와 달리 별도의 구현 없이도 `member propeties`의 모든 case 에 대한 `Initializers`를 갖는다.  
+이를 `Memebrwise Initializers`라 한다.
 
 ---
 
