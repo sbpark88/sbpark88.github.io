@@ -56,7 +56,7 @@ print("The default temperature is \(c.temperature)° Celsius")
 
 #### 3. Default Property Values
 
-`Propeties`가 항상 동일한 초기값을 갖는다면 `Default Property Values`를 사용하는 것이 
+`Properties`가 항상 동일한 초기값을 갖는다면 `Default Property Values`를 사용하는 것이 
 값을 선언에 더 가깝게 연결하고, 더 짧고 명확한 코드로 작성이 가능하며, 타입 추론을 허용한다.
 
 또한, `Defalut Property Values`를 사용하면, 이후 상속할 때 `Initial Values` 설정하는 
@@ -428,8 +428,19 @@ var item = ShoppingListItem()
 
 #### 2. Memberwise Initializers for Structure Types
 
-`Structures`는 `Classes`와 달리 별도의 구현 없이도 `member propeties`의 모든 case 에 대한 `Initializers`를 갖는다.  
-이를 `Memebrwise Initializers`라 한다.
+`Structures`는 `Classes`와 달리 `Mmeberwise Initializers`를 추가로 가질 수 있으며 자동 생성되는 조건은 다음과 같다.
+
+- 존재하는 `Initializers`가 하나도 없다
+
+`Default Initializers`와 달리 `default value`를 가지고 있어야 할 필요가 없다. 단지 이 `default value`의
+존재 유무에 따라 모든 `Member Properties`를 설정하기 위해 자동 생성되는 `Initializers`의 경우의 수만 달라질 뿐이다.
+
+> `Custom Initializers`가 존재하는 경우, 더이상 `Default Initializers`나 `Memberwise Initializers`에 
+> 접근할 수 없다.
+
+<br>
+
+- Memberwise Initializers
 
 ```swift
 struct Size {
@@ -446,6 +457,8 @@ var square = Size(height: 5.0)
 var rectangle = Size(width: 7.0, height: 3.0)
 ```
 
+- Default Initializers & Memberwise Initializers
+
 ```swift
 struct Size {
     var width: Double = 5.0, height:Double = 5.0
@@ -453,12 +466,65 @@ struct Size {
 var square = Size()
 var rectangle = Size(width: 7.0)
 var anotherRectangle = Size(height: 12.0)
-var hugeSqure = Size(width: 100.0, height: 100.0)
+var hugeSquare = Size(width: 100.0, height: 100.0)
 ```
 
 ---
 
 ### 4. Initializer Delegation for Value Types 👩‍💻
+
+`Initializers`는 `Instance`를 생성할 때 코드가 중복되는 것을 방지하기 위해 다른 
+`Initializers`를 호출할 수 있는데, 이것을 `Initializer Delegation`이라 한다.
+
+`Initializer Delegation`이 동작하는 방식과 `Delegation`을 허용하는 범위는 `Value Types`와 
+`Class Types`가 다르다.
+
+- Value Types: 상속을 허용하지 않으므로 자신의 `context` 내 다른 `Initializers`에만 
+  `Delegation`이 허용된다.
+- Class Types: 상속을 허용하므로, `Classes`는 상속한 모든 `Stored Properties`에 정확한 값이 
+  설정되도록 하기 위한 책임이 필요함을 의미한다.
+
+<br>
+
+```swift
+struct Size {
+    var width = 0.0, height = 0.0
+}
+struct Point {
+    var x = 0.0, y = 0.0
+}
+
+struct Rect {
+    var origin = Point()
+    var size = Size()
+    init() {}
+    init(origin: Point, size: Size) {
+        self.origin = origin
+        self.size = size
+    }
+    init(center: Point, size: Size) {
+        let originX = center.x - (size.width / 2)
+        let originY = center.y - (size.height / 2)
+        self.init(origin: Point(x: originX, y: originY), size: size)
+    }
+}
+```
+
+```swift
+let basicRect = Rect()
+let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
+                      size: Size(width: 3.0, height: 3.0))
+                      
+printRect(basicRect)    // The origin is (0.0, 0.0) and its size is (0.0, 0.0)
+printRect(centerRect)   // The origin is (2.5, 2.5) and its size is (3.0, 3.0)
+
+
+func printRect(_ rect: Rect) {
+    print("The origin is (\(rect.origin.x), \(rect.origin.y)) and its size is (\(rect.size.width), \(rect.size.height))")
+}
+```
+
+
 
 ---
 
