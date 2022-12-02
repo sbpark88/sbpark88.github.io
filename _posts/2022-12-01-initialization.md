@@ -587,6 +587,71 @@ convenience init(parameters) {
 
 #### 4. Two-Phase Initialization
 
+__1 ) Two-Phase Initialization__
+
+`Swift`에서 `Class Initialization`은 2단계 프로세스를 갖는다.
+
+- Phase 1. 각 `Stored Properties`가 그것을 정의한 `Class`에 의해 초기값이 할당된다.
+- Phase 2. `Instance`를 생성하기 전 `Stored Properties`를 추가로 `Customizing` 할 기회가 주어진다.
+
+> `Swift`의 `Two-Phase Initialization` 프로세스는 `Objective-C`의 `Initialization`과 유사하다.   
+> 하지만 `Objective-C`는 Phase 1에서 모든 `Properties`에 `0` 또는 `nil`을 할당하는 반면, `Swift`는 
+> `Custom Initial Values`를 설정할 수 있어 `0` 또는 `nil`이 유효한 기본값이 아닌 경우에 대처할 수 있는 
+> 유연성을 갖는다.
+
+<br>
+
+__2 ) Safety Check__
+
+`Swift`는 에러 없이 `Initialization`이 완료되었는지 보장하기 위해 4가지 `Safety Check`를 수행한다.
+
+- Safety Check 1. `Designated Initializers`는 `Superclass Initializer`에 `delegates up` 하기 전 
+  `context` 내 모든 `Properties`가 초기화 되었음을 확인한다.
+- Safety Check 2. `Designated Initializers`는 상속된 `Properties`에 값을 할당하기 전 반드시 
+  `Superclass Initializer`에 `delegates up` 해야한다(반대 순서가 될 경우 `Superclass Initializer`가 값을 덮어쓴다).
+- Safety Check 3. Check 2와 마찬가지로 `Convenience Initializers`는 `Properties`에 값을 할당하기 전 반드시 
+  다른 `Initializers`에 `delegates` 해야한다.
+- Safety Check 4. `Initializers`는 `Phase 1 Initialization`이 종료되기 전 어떠한 `Instance Methods`나 
+  `Instance Properties`에 접근하거나 `self` 참조를 할 수 없다.
+
+<br>
+
+__3 )Two-Phase Initialization Process__
+
+위 `Safety Check`를 기반으로 `Two-Phase Initialization`이 수행되는 방식은 다음과 같다.
+
+- `Phase 1`: 0, nil, Custom Initial Values 등의 값을 할당해 Instance 의 메모리르 완전히 초기화한다
+
+![Initialization Phase 1](/assets/images/posts/2022-12-01-initialization/twoPhaseInitialization01_2x.png)
+
+> - `Designated Initializers` 또는 `Convenience Initializers`가 `Class`에서 호출된다.
+> - `new Instance`를 위한 메모리가 할당된다(초기화는 하기 전).
+> - `Designated Initializers`가 `context` 내 모든 `Stored Properties`가 값을 가지고 있는지 확인한다
+>   (이때 `Stored Properties`에 대한 메모리가 초기화된다).
+> - `Designated Initializers`는 `Superclass`의 `Initializers`가 `context` 내 모든 `Stored Properties`에 
+>   동일한 일을 수행하도록 내버려둔다.
+> - 위 과정은 `top Class`(최상위 Class)에 도달할 때까지 `Chaining`된다.
+> - `delegates up`이 `top Class`에 도달하고, `final Class`(최하위 Class)가 모든 값을 저장했다고 확인하면, 
+>   `Instance`의 메모리는 완벽히 초기화 되었다고 간주하고, Phase 1이 완료된다.
+
+<br>
+
+- `Phase 2`: `Customizing` 할 기회를 처리한다
+
+![Initialization Phase 2](/assets/images/posts/2022-12-01-initialization/twoPhaseInitialization02_2x.png)
+
+> - Phase 1이 `final Class`에서 `top Class`까지 `delegates up`을 하며 `Chaining` 을 했다면 이번에는
+>   반대로 `top Class`에서 `final Class`까지 `working back down`을 하며 내려간다. Phase 2는 Phase1 이 
+>   `Instance`의 메모리를 초기화 했기 때문에 `self` 참조를 사용하거나 `Instance Methods`를 호출하거나 
+>   `Instance Properties`를 수정하는 것이 가능하다.
+> - `Superclass`의 `Designated Initializers`에게 주어진 `Customizing` 할 기회를 모두 처리하면 
+>   `Convenience Initializers`에게 `Customizing` 할 기회가 주어진다.
+> - `Superclass`의 `Customizing`이 끝나면 `Subclass`의 `Designated Initializers`와 
+>   `Convenience Initializers`에게 `Customizing` 할 기회가 주어진다.
+> - 위 과정은 Phase 1의 `Chaining`의 역순으로 일어나며 마지막으로 원래 호출되었던 `Convenience Initializers`에 
+>   도달한다.
+> - 이 과정을 모두 완료하면 `Initialization`이 종료되고, 의도한 `Instance`를 얻게 된다.
+
 #### 5. Initializer Inheritance and Overriding
 
 #### 6. Automatic Initializer Inheritance
