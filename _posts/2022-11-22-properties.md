@@ -291,7 +291,7 @@ print(manager.importer.filename)
 방법을 제공했다. 또한 `Properties`를 `Backing Store(백업 저장소)`로 사용할 수 있었다.
 
 하지만 `Swift`는 `Backing Store`에 직접 접속할 수 없도록 하고, `Properties`를 저장하는 방식을
-통합했다. 따라서 선언하는 방법에 따른 혼동을 피하고 명확한 문장으로 단순화되었으며, 이는 `Propeties`의
+통합했다. 따라서 선언하는 방법에 따른 혼동을 피하고 명확한 문장으로 단순화되었으며, 이는 `Properties`의
 `이름`, `타입`, `메모리 관리 특성`을 포함하는 모든 정보를 유형을 한 곳에서 정의한다.
 
 ---
