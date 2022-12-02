@@ -512,10 +512,13 @@ struct Rect {
 
 ```swift
 let basicRect = Rect()
+let originRect = Rect(origin: Point(x: 2.0, y: 2.0),
+                      size: Size(width: 5.0, height: 5.0))
 let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
                       size: Size(width: 3.0, height: 3.0))
-                      
+
 printRect(basicRect)    // The origin is (0.0, 0.0) and its size is (0.0, 0.0)
+printRect(originRect)   // The origin is (2.0, 2.0) and its size is (5.0, 5.0)
 printRect(centerRect)   // The origin is (2.5, 2.5) and its size is (3.0, 3.0)
 
 
@@ -524,17 +527,63 @@ func printRect(_ rect: Rect) {
 }
 ```
 
-
-
 ---
 
 ### 5. Class Inheritance and Initialization 👩‍💻
 
+`Swift`는 `Classes`의 모든 `Stored Properties`가 `Initialization`가 진행되는 동안 초기값을 가질 수 있도록 
+`Designated Initializers`와 `Convenience Initializers`라는 두 가지 종류의 `Initializers`를 제공한다.
+
 #### 1. Designated Initializers and Convenience Initializers
+
+`Designated Initializers`는 `Class`의 `Primary Initializers`로, `Class`의 모든 `Properties`를 
+초기화하고, `Superclass`로 올라가며 적절한 `Initializers`를 찾아 `Initialization Chaining`을 한다.
+
+모든 `Classes`는 최소한 하나의 `Designated Initializers`를 가져야하며, 경우에 따라 `Superclass`로부터 하나 또는 
+그 이상의 `Designated Initializers`를 상속받는 것으로 충족된다.
+
+`Convenience Initializers`는 `Optional`로 필요에 따라 작성하면 된다.
 
 #### 2. Syntax for Designated and Convenience Initializers
 
+__Syntax__
+
+- Designated Initializers
+
+```swift
+init(parameters) {
+    statements
+}
+```
+
+- Convenience Initializers
+
+```swift
+convenience init(parameters) {
+    statements
+}
+```
+
 #### 3. Initializer Delegation for Class Types
+
+`Designated Initializers`와 `Convenience Initializers`의 관게를 단순화하기 위해 `Initializer Deligation`에 
+3가지 규칙을 적용한다.
+
+- 규칙 1. `Designated Initializers`는 `Superclass`의 `Designated Initializers`를 호출해야한다.
+- 규칙 2. `Convenience Initializers`는 `context` 내 다른 `Initializers`를 호출해야한다.
+- 규칙 3. `Convenience Initializers`는 궁극적으로 `Designated Initializers`를 호출해야한다.
+
+![Initializer Delegation](/assets/images/posts/2022-12-01-initialization/initializerDelegation01_2x.png)
+
+- `Superclass`는 규칙 2와 규칙3을 만족한다. `Base Class`이므로 규칙 1은 적용되지 않는다.
+- `Subclass`는 규칙 2와 규칙3을 만족하고, 규칙 1 역시 만족한다.
+
+<br>
+
+다음 그림은 좀 더 복잡한 `hierarchy` 구조에서 `Initializer Delegation`이 이루어질 때 
+`Designated Initializers`가 어떻게 `funnel` point 역할을 하는지를 보여준다.
+
+![Designated Initializers Act as Funnel Point](/assets/images/posts/2022-12-01-initialization/initializerDelegation02_2x.png)
 
 #### 4. Two-Phase Initialization
 
