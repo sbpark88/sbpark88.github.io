@@ -10,7 +10,7 @@ tags: [javascript null check, null coalescing operator]
 
 색상 표를 위해 스크린샷과 첨부 파일로 대체한다. 😯😯
 편의상 default value 는 `'default'`라는 string 으로 통일합니다. TypeScript 에서는 동일 타입으로 지정해줘야한다.
-💁‍♀️ 하지만 우리가 TypeScrip t에서 타입을 지정한다 해도 결국 실행 시점에는 JavaScript 로 `transpile`되므로 결국 JavaScript 의 동등 비교 및 체크의 넓은 범위를 모두 이해해야한다.
+💁‍♀️ 하지만 우리가 TypeScript 에서 타입을 지정한다 해도 결국 실행 시점에는 JavaScript 로 `transpile`되므로 결국 JavaScript 의 동등 비교 및 체크의 넓은 범위를 모두 이해해야한다.
 
 **<span style="color: red">빨간색</span>** 칸: 에러 또는 예상과 다른 case 가 출력되는 경우
 **<span style="color: green">초록색</span>** 칸: 의도한 바에 맞는 null, empty value 체크가 가능한 경우
