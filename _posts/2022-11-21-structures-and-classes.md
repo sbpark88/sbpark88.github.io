@@ -204,8 +204,12 @@ let resolutionTypeC = Resolution(height: 1440)
 print(resolutionTypeC)  // Resolution(width: 0, height: 1440)
 ```
 
-`Structures`는 `Classes`와 달리 별도의 구현 없이도 `member propeties`의 모든 case 에 대한 `Initializers`를 갖는다.  
-이를 `Memebrwise Initializers`라 한다.
+`Structures`는 `Classes`와 달리 `Mmeberwise Initializers`를 추가로 가질 수 있으며 자동 생성되는 조건은 다음과 같다.
+
+- 존재하는 `Initializers`가 하나도 없다
+
+`Default Initializers`와 달리 `default value`를 가지고 있어야 할 필요가 없다. 단지 이 `default value`의
+존재 유무에 따라 모든 `Member Properties`를 설정하기 위해 자동 생성되는 `Initializers`의 경우의 수만 달라질 뿐이다.
 
 ---
 
