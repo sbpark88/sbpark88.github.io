@@ -371,6 +371,8 @@ class SurveyQuestion {
 - 모든 `Properties`가 `default value`를 가지고 있다
 - 존재하는 `Initializers`가 하나도 없다
 
+> 참고로 `Classes`의 `Default Initializers`는 항상 `Designated Initializers`가 된다.
+
 <br>
 
 - `default value`를 모두 가지고 있으나 `Initializer`가 존재하는 경우
@@ -566,7 +568,7 @@ convenience init(parameters) {
 
 #### 3. Initializer Delegation for Class Types
 
-`Designated Initializers`와 `Convenience Initializers`의 관게를 단순화하기 위해 `Initializer Deligation`에 
+`Designated Initializers`와 `Convenience Initializers`의 관게를 단순화하기 위해 `Initializer Delegation`에 
 3가지 규칙을 적용한다.
 
 - 규칙 1. `Designated Initializers`는 `Superclass`의 `Designated Initializers`를 호출해야한다.
@@ -628,10 +630,10 @@ __3 )Two-Phase Initialization Process__
 > - `new Instance`를 위한 메모리가 할당된다(초기화는 하기 전).
 > - `Designated Initializers`가 `context` 내 모든 `Stored Properties`가 값을 가지고 있는지 확인한다
 >   (이때 `Stored Properties`에 대한 메모리가 초기화된다).
-> - `Designated Initializers`는 `Superclass`의 `Initializers`가 `context` 내 모든 `Stored Properties`에 
+> - `Designated Initializers`는 `Superclass`의 `Initializers`가 자신의 `Stored Properties`에 
 >   동일한 일을 수행하도록 내버려둔다.
-> - 위 과정은 `top Class`(최상위 Class)에 도달할 때까지 `Chaining`된다.
-> - `delegates up`이 `top Class`에 도달하고, `final Class`(최하위 Class)가 모든 값을 저장했다고 확인하면, 
+> - 위 과정은 `Base Class`(최상위 Class)에 도달할 때까지 `Chaining`된다.
+> - `delegates up`이 `Base Class`에 도달하고, `Final Class`(최하위 Class)가 모든 값을 저장했다고 확인하면, 
 >   `Instance`의 메모리는 완벽히 초기화 되었다고 간주하고, Phase 1이 완료된다.
 
 <br>
@@ -640,23 +642,498 @@ __3 )Two-Phase Initialization Process__
 
 ![Initialization Phase 2](/assets/images/posts/2022-12-01-initialization/twoPhaseInitialization02_2x.png)
 
-> - Phase 1이 `final Class`에서 `top Class`까지 `delegates up`을 하며 `Chaining` 을 했다면 이번에는
->   반대로 `top Class`에서 `final Class`까지 `working back down`을 하며 내려간다. Phase 2는 Phase1 이 
+> - Phase 1이 `Final Class`에서 `Base Class`까지 `delegates up`을 하며 `Chaining` 을 했다면 이번에는
+>   반대로 `Base Class`에서 `Final Class`까지 `working back down`을 하며 내려간다. Phase 2는 Phase1 이 
 >   `Instance`의 메모리를 초기화 했기 때문에 `self` 참조를 사용하거나 `Instance Methods`를 호출하거나 
 >   `Instance Properties`를 수정하는 것이 가능하다.
 > - `Superclass`의 `Designated Initializers`에게 주어진 `Customizing` 할 기회를 모두 처리하면 
->   `Convenience Initializers`에게 `Customizing` 할 기회가 주어진다.
-> - `Superclass`의 `Customizing`이 끝나면 `Subclass`의 `Designated Initializers`와 
->   `Convenience Initializers`에게 `Customizing` 할 기회가 주어진다.
+>   `Subclass`의 `Designated Initializers`에게 `Customizing` 할 기회가 주어진다.
 > - 위 과정은 Phase 1의 `Chaining`의 역순으로 일어나며 마지막으로 원래 호출되었던 `Convenience Initializers`에 
 >   도달한다.
 > - 이 과정을 모두 완료하면 `Initialization`이 종료되고, 의도한 `Instance`를 얻게 된다.
+ 
+> 그림을 보면 알 수 있듯이, `Convenience Initializers`의 `Customizing`이 사용되는 것은, 처음 호출을 시작한 
+> `Convenience Initializers`의 `Chaining` 경로에 있는 경우 뿐이다. `Superclass`가 가지고 있는 
+> `Convenience Initializers`는 `Subclass`에서 직접 호출되거나 `Overriding` 되는 것이 불가능하기 때문이다.
+> 
+> 하지만 `Superclass`의 `Convenience Initializers`가 항상 무시되는 것은 아니다. 특정 조건이 일치될 경우 `Superclass`의 
+> `Convenience Initializers`는 `Subclass`에 자동으로 상속된다. 이것은 아래 
+> [Automatic Initializer Inheritance][Automatic Initializer Inheritance]에서 설명한다.
+
+[Automatic Initializer Inheritance]:/swift/2022/12/01/initialization.html#h-6-automatic-initializer-inheritance
 
 #### 5. Initializer Inheritance and Overriding
 
+__1 ) Difference between `Objective-C` and `Swift`__
+
+- Objective-C : `Subclass`는 `Superclass`의 `Initializers`를 기본으로 상속한다.
+- Swift : `Subclass`는 `Superclass`의 `Initializers`를 기본으로 상속하지 않는다.
+
+이로써 `Swift`는 `Superclass`로부터 상속된 `Initializers`가 완전히 초기화되지 않거나 잘못 초기화된 채로 
+`Subclass`의 `new Instance`를 생성하기 위해 사용되는 상황을 방지한다.
+
+<br>
+
+__2 ) Inherit Superclass's Initializers by Overriding__
+
+`Superclass`의 `Designated Initializers`의 구문과 일치하는 형태의 `Initializers`를 `Subclass`에서 
+구현할 때는 `Properties`, `Methods`와 마찬가지로 반드시 `override` 키워드를 사용해야한다.
+
+> - `Subclass`에서 구현하는 `Initializers`가 `Designated Initializers`든, `Convenience Initializers`든 
+>   상관 없이 `Superclass`의 `Designated Initializers`를 재정의 하는 경우라면 반드시 `override` 키워드를 사용해댜한다.
+> - 반면, `Subclass`에서 구현하는 `Initializers`가 `Superclass`의 `Convenience Initializers`와 일치하는 경우는
+>   `override` 키워드를 사용하지 않는다.  
+>   [3. Initializer Delegation for Class Types][Initializer Delegation] 에서 설명한 규칙에 따라 
+>   `Superclass`의 `Convenience Initializers`는 `Subclass`에 의해 직접 호출되거나 `Overriding` 되는 것이 
+>   불가능하기 때문에 새롭게 구현하는 것이므로 `override` 키워드를 사용하지 않는다.
+
+[Initializer Delegation]:/swift/2022/12/01/initialization.html#h-3-initializer-delegation-for-class-types
+
+<br>
+
+__3 ) Initializer Inheritance Examples__
+
+- Base Class: Vehicle
+
+```swift
+class Vehicle {
+    var numberOfWheels = 0
+    var description: String {
+        "\(numberOfWheels) wheels(s)"
+    }
+}
+```
+
+`Vehicle`은 하나의 `Stored Property`와 하나의 `Computed Porperty`를 갖는다. 그리고 `Stored Property`는 
+`Default Value`를 제공한다.  
+대신 `Custom Initializers`를 제공하지 않는다. 그 결과 자동으로 `Default Initializers`를 생성하고, 이것은 
+`Designated Initializers`가 된다.
+
+```swift
+var vehicle = Vehicle()
+print("Vehicle: \(vehicle.description)")    // Vehicle: 0 wheels(s)
+```
+
+<br>
+
+- Subclass: Bicycle
+
+```swift
+class Bicycle: Vehicle {
+    var hasBasket = false
+    override init() {
+        super.init()
+        numberOfWheels = 2
+    }
+}
+```
+
+`Vehicle`의 `Subclass`인 `Bicycle`은 `init()`이라는 `Custom Initializers`를 생성했고, 이것은 `Superclass`에 존재하는 
+것과 일치하므로, `Overriding`을 해야만한다.
+
+1. `Bicycle`의 `init()`이 호출되면 `new Instance`를 위한 메모리를 할당하고, 자신의 `context` 내에 정의된 `hasBasket`이라는 
+   `Stored Property`의 메모리를 초기화 한 후 `Superclass`의 `Designated Initializers`인 `super.init()`을 호출한다.
+2. 이제 `Vechicle`이 자신의 `Stored Property`인 `numberOfWheels`의 메모리를 초기화한다.
+3. `Vehicle`은 `Base Class`이고, `Final Class`인 `Bicycle`이 모든 `Properties`를 저장했다고 확인하므로써 `new Instance`를 
+   초기화하며 Phase 1이 완료된다.
+4. 이제 `Chain`을 `working back down`하며 수정할 기회를 얻은 `Bicycle`의 `Initializers`가 `numberofWheels`를 수정한다.
+5. 모든 과정이 종료되면 `Initialization`이 종료되며 `Instnace`가 생성된다.
+
+> 좀 더 자세히 설명하면, 아래와 같은 코드는 잘못되었음을 의미한다.
+> 
+> ```swift
+> class Bicycle: Vehicle {
+>     var hasBasket: Bool
+>     override init() {
+>         super.init()
+>         hasBasket = false
+>         numberOfWheels = 2
+>     }
+> }
+> ```
+> 
+> `Superclass`의 `Designated Initializers`를 호출하기 전 자신의 `context` 내에 정의된 `Stored Property`의 메모리를 
+> 초기화 하지 않았다.
+> 
+> 따라서 다음과 같은 코드가 올바른 코드임을 의미한다.
+> 
+> ```swift
+> class Bicycle: Vehicle {
+>     var hasBasket: Bool
+>     override init() {
+>         hasBasket = false
+>         super.init()
+>         numberOfWheels = 2
+>     }
+> }
+> ```
+
+<br>
+
+__4 ) Another Examples having no 'Phase 2'__
+
+`Vehicle`의 또 다른 `Subclass`인 `Hoverboard`를 보자.
+
+```swift
+class Hoverboard: Vehicle {
+    var color: String
+    init(color: String) {
+        self.color = color
+        super.init()
+    }
+    override var description: String {
+        "\(super.description) in a beautiful \(color)"
+    }
+}
+```
+
+`Bicycle`의 `Initializers`와 `Hoverboard`의 `Initializers`를 비교해보자.
+
+<br>
+
+- Subclass: Bicycle
+
+```swift
+override init() {
+    /* Phase 1 */
+    hasBasket = false   // initiate self properties
+    super.init()        // delegates up
+    
+    /* Phase 2 */
+    numberOfWheels = 2  // opportunity to customize
+}
+```
+
+- Subclass: Hoverboard
+
+```swift
+init(color: String) {
+    /* Phase 1 */
+    self.color = color  // initiate self properties
+    super.init()        // delegates up
+    
+    /* Phase 2 */
+    // do anything customize
+}
+```
+
+`Bicycle`은 Phase 2가 존재하지만, `Hoverboard`는 Phase 2가 존재하지 않는다. 따라서 이 경우 `super.init()`은 
+`Initializers`의 마지막에 암시적으로 호출될 수 있기 때문에 생략이 가능하다.
+
+```swift
+class Hoverboard: Vehicle {
+    var color: String
+    init(color: String) {
+        self.color = color
+//        super.init() implicitly called here
+    }
+    override var description: String {
+        "\(super.description) in a beautiful \(color)"
+    }
+}
+```
+
+```swift
+let hoverboard = Hoverboard(color: "silver")
+print("Hoverboard: \(hoverboard.description)")  // Hoverboard: 0 wheels(s) in a beautiful silver
+
+```
+
+> `Subclass`의 `Designated Initializers`가 `Superclass`의 `Designated Initializers` 호출을 생략할 수 있는 조건은 다음과 같다.
+> 
+> 1. `Subclass`의 `Initializers`가 Phase 2의 수정할 기회를 사용하지 않는다.
+> 2. `Superclass`의 `Initializers`가 `Synchronous`다.  
+>    (`Asynchronous`일 경우 반드시 `await` 키워드를 붙여 `await super.init()`과 같이 명시적으로 작성해야 하기 때문에 생략할 수 없다)
+
 #### 6. Automatic Initializer Inheritance
 
+[Initializer Inheritance and Overriding][Initializer Inheritance and Overriding] 에서 설명했던 것처럼 `Swift`의 
+`Subclass`는 `Superclass`의 `Initialiers`를 기본으로 상속하지 않는다. 하지만 자동으로 상속하는 조건이 존재한다. 그 조건은 
+다음과 같다.
+
+[Initializer Inheritance and Overriding]:/swift/2022/12/01/initialization.html#h-5-initializer-inheritance-and-overriding
+
+> - `Designated Initializers`의 자동 상속 : `Subclass`가 아무런 `Designated Initializers`를 정의하지 않았다면, 
+>   자동으로 `Superclass`의 모든 `Designated Initializers`를 상속한다.
+> - `Convenience Initializers`의 자동 상속 : `Subclass`가 위 "`Designated Initializers`의 자동 상속" 규칙에 따라 
+>   생성 하든, 직접 구현을 해 생성 하든, `Superclass`와 매칭되는 모든 `Designated Initializers`를 제공하면, 자동으로 
+>   `Superclass`의 모든 `Convenience Initializers`를 상속한다.
+
+<br>
+
+- Case 1
+
+```swift
+class Vehicle {
+    var numberOfWheels = 0
+    var description: String {
+        "\(numberOfWheels) wheels(s)"
+    }
+}
+```
+
+```swift
+class Hoverboard: Vehicle {
+    var color = "Gray"
+    override var description: String {
+        "\(super.description) in a beautiful \(color)"
+    }
+}
+```
+
+```swift
+let hoverboard = Hoverboard()
+print("Hoverboard: \(hoverboard.description)")  // Hoverboard: 0 wheels(s) in a beautiful silver
+```
+
+`Hoverboard`는 `Vehicle`의 `init()`을 상속했다.
+
+<br>
+
+- Case 2
+
+```swift
+class Vehicle {
+    var numberOfWheels: Int
+    var description: String {
+        "\(numberOfWheels) wheels(s)"
+    }
+    
+    init(numberOfWheels: Int) {
+        self.numberOfWheels = numberOfWheels
+    }
+}
+```
+
+```swift
+class Bicycle: Vehicle {
+    var hasBasket = false
+}
+```
+
+```swift
+let bicycle = Bicycle(numberOfWheels: 2)
+print(bicycle.description)  // 2 wheels(s)
+```
+
+`Bicycle`은 `Vehicle`의 `init(numberOfWheels:)`를 상속했다.
+
+<br>
+
+- Case 3
+
+```swift
+class Vehicle {
+    var numberOfWheels = 1
+    var description: String {
+        "\(numberOfWheels) wheels(s)"
+    }
+    
+    init() {}
+    init(numberOfWheels: Int) {
+        self.numberOfWheels = numberOfWheels
+    }
+}
+```
+
+```swift
+class Bicycle: Vehicle {
+    var hasBasket = false
+}
+```
+
+```swift
+let unicycle = Bicycle()
+print(unicycle.description) // 1 wheels(s)
+
+let bicycle = Bicycle(numberOfWheels: 2)
+print(bicycle.description)  // 2 wheels(2)
+```
+
+`Bicycle`은 `Vehicle`의 `init()`과 `init(numberOfWheels:)`를 상속했다.
+
 #### 7. Designated and Convenience Initializers in Action
+
+`Food`, `RecipeIngredient`, `ShoppingListItem`라는 3개의 `Class` 계층을 통해 위에서 설명한 내용을 설명한다.
+
+<br>
+
+__1 ) Base Class: Food__
+
+```swift
+class Food {
+    var name: String
+
+    init(name: String) {
+        self.name = name
+    }
+    convenience init() {
+        self.init(name: "[Unnamed]")
+    }
+}
+```
+
+![Initializer of the Food](/assets/images/posts/2022-12-01-initialization/initializersExample01_2x.png)
+
+> `Classes`는 `Memberwise Initializers`를 가지고 있지 않기 때문에 `Base Class` `Food`는 `name`을 `arguments`로 갖는 
+> `Designated Initializers`를 구현했다.
+> 
+> 그리고 `Food`는 `arguments`를 갖지 않는 `init()`을 `Convenience Initializers`로 구현했다. 이 `Convenience Initializers`은 
+> `context` 내 다른 `Initializers`를 호출하며, 궁극적으로 `Designated Initializers`를 호출하고있다.
+
+```swift
+let namedMeat = Food(name: "Bacon")
+print(namedMeat.name)   // Bacon
+
+let mysteryMeat = Food()
+print(mysteryMeat.name) // [Unnamed]
+```
+
+<br>
+
+__2 ) Subclass: RecipeIngredient__
+
+```swift
+class RecipeIngredient: Food {
+    var quantity: Int
+    init(name: String, quantity: Int) {
+        self.quantity = quantity
+        super.init(name: name)
+    }
+}
+```
+
+`Custom Initializers`가 존재하지만 `Superclass`의 모든 `Designated Initializers`를 제공하지 않기 때문에 
+`Automatic Initializer Inheritance`는 발생하지 않는다. 따라서 현재 사용 가능한 `Initializers`는 
+
+- `Designated Initializers`: RecipeIngredient(name:quantity:)
+
+하나 뿐이다. 이것을 `Superclass`의 `Designated Initializers`를 모두 제공해, `Superclass`의 
+`Convenience Initializers`도 자동으로 상속되게 만들어보자. 
+
+<br>
+
+- Case 1
+
+```swift
+class RecipeIngredient: Food {
+    var quantity: Int
+    init(name: String, quantity: Int) {
+        self.quantity = quantity
+        super.init(name: name)
+    }
+    override init(name: String) {
+        quantity = 1
+        super.init(name: name)
+    }
+}
+```
+
+`Superclass`의 `Designated Initializers`를 모두 제공하므로써 `Superclass`의 `Convenience Initializers`도 
+자동으로 상속해 사용 가능한 `Initializers`는 3개가 된다.
+
+- `Designated Initializers`: RecipeIngredient(name:quantity:)
+- `Designated Initializers`: RecipeIngredient(name:) (Overriding Superclass's init(name:))
+- `Convenience Initializers`: RecipeIngredient()
+
+<br>
+
+- Case 2
+
+```swift
+class RecipeIngredient: Food {
+    var quantity: Int
+    init(name: String, quantity: Int) {
+        self.quantity = quantity
+        super.init(name: name)
+    }
+    override convenience init(name: String) {
+        self.init(name: name, quantity: 1)
+    }
+}
+```
+
+![Initializer of the RecipeIngredient](/assets/images/posts/2022-12-01-initialization/initializersExample02_2x.png)
+
+이 방법 역시 `Superclass`의 `Designated Initializers`를 모두 제공해, 사용 가능한 `Initializers`는 3개가 된다.
+
+- `Designated Initializers`: RecipeIngredient(name:quantity:)
+- `Convenience Initializers`: RecipeIngredient(name:) (Overriding Superclass's init(name:))
+- `Convenience Initializers`: RecipeIngredient()
+
+> 위 Case 1과 Case 2모두 `Subclass`가 `Superclass`의 `Designated Initializers` `init(name:)`을 `Overriding`
+> 하므로써 `Initializers`가 3개가 되고, 모두 동일한 `Instance` 결과물을 얻는다는 것은 동일하지만 다음과 같은 차이를 갖는다.
+> 
+> - Case 1은 서로 다른 2개의 `Designated Initialziers`(Custom Initializers 와 Overriding Initializers)가
+>   `Superclass`의 `Designated Initialziers`에 독립적으로 `delegates up` 한다.
+> 
+> - Case 2는 `Overriding Initializers`를 `Convenience Initializers`로 만들어, `context` 내 존재하는 
+>   `Designated Initialziers`(Custom Initializers)로 `delegates`하고, 이 `Designated Initialziers`가 다시
+>   `Superclass`의 `Designated Initialziers`에 `delegates up` 하도록 한다.
+
+```swift
+let oneMysteryItem = RecipeIngredient()
+let oneBacon = RecipeIngredient(name: "Bacon")
+let sixEggs = RecipeIngredient(name: "Eggs", quantity: 6)
+
+print("\(oneMysteryItem.name) : \(oneMysteryItem.quantity) ea")
+print("\(oneBacon.name) : \(oneBacon.quantity) ea")
+print("\(sixEggs.name) : \(sixEggs.quantity) ea")
+```
+
+```console
+[Unnamed] : 1 e
+Bacon : 1 ea
+Eggs : 6 ea
+```
+
+<br>
+
+__3 ) Subclass: ShoppingListItem__
+
+```swift
+class ShoppingListItem: RecipeIngredient {
+    var purchased = false
+    var description: String {
+        var output = "\(quantity) x \(name)"
+        output += purchased ? " ✔" : " ✘"
+        return output
+    }
+}
+```
+
+![Initializer of the ShoppingListItem](/assets/images/posts/2022-12-01-initialization/initializersExample03_2x.png)
+
+즉, 사용 가능한 `Initializers`는 3개가 된다.
+
+- `Designated Initializers`: ShoppingListItem()
+- `Convenience Initializers`: ShoppingListItem(name:)
+- `Convenience Initializers`: ShoppingListItem(name:quantity:)
+
+> `RecipeIngredient`의 `Subclass` `ShoppingListItem`는 자신의 `Stored Property`에 `default value`를 정의했고, 
+> `Instance`는 해당 값을 항상 `false`로 시작하므로 `Initial Values`를 위한 `Initializers`가 필요하지 않디.  
+>  따라서 `ShoppingListItem`은 아무런 `Designated Initializers`도 정의하지 않았기 때문에 `Automatic Initializer Inheritance`가 
+> 발생해 `Superclass`의 모든 `Designated Initializers`를 상속하고, 이로서 `Superclass`의 모든 `Designated Initializers`를 
+> 모두 제공해 `Superclass`의 `Convenience Initializers`도 자동으로 상속한다.
+
+```swift
+var breakfastList = [
+    ShoppingListItem(),
+    ShoppingListItem(name: "Bacon"),
+    ShoppingListItem(name: "Eggs", quantity: 6)
+]
+
+breakfastList[0].name = "Orange juice"
+breakfastList[0].purchased = true
+
+breakfastList.forEach { print($0.description) }
+```
+
+```console
+1 x Orange juice ✔
+1 x Bacon ✘
+6 x Eggs ✘
+```
 
 ---
 
