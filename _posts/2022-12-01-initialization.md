@@ -683,7 +683,7 @@ __2 ) Inherit Superclass's Initializers by Overriding__
 >   상관 없이 `Superclass`의 `Designated Initializers`를 재정의 하는 경우라면 반드시 `override` 키워드를 사용해댜한다.
 > - 반면, `Subclass`에서 구현하는 `Initializers`가 `Superclass`의 `Convenience Initializers`와 일치하는 경우는
 >   `override` 키워드를 사용하지 않는다.  
->   [3. Initializer Delegation for Class Types][Initializer Delegation] 에서 설명한 규칙에 따라 
+>   [Initializer Delegation for Class Types][Initializer Delegation] 에서 설명한 규칙에 따라 
 >   `Superclass`의 `Convenience Initializers`는 `Subclass`에 의해 직접 호출되거나 `Overriding` 되는 것이 
 >   불가능하기 때문에 새롭게 구현하는 것이므로 `override` 키워드를 사용하지 않는다.
 
@@ -1141,13 +1141,507 @@ breakfastList.forEach { print($0.description) }
 
 #### 1. Failable Initializer Syntax
 
+`Classes`, `Structures`, `Enumerations`의 `Initialization`이 실패할 수 있는 경우 이에 대한 정의를 해주는 것이 
+유용할 수 있다. `Initialization`이 실패될 수 있는 경우는 다음과 같다.
+
+- 유효하지 않은 초기화 파라미터 값
+- 필수 외보 리소스의 부재
+- 초기화 성공을 방해하는 기타 다른 조건
+
+> `Failable Initializers`는 `init?` 키워드를 사용해 만들며, `Parameters`의 개수와
+> `Parameter Types`, `Argument Labels`가 모두 동일한 경우 `Nonfailable Initializers`와
+> `Failable Initializers`는 공존할 수 없다.
+
+> `Failable Initializers`는 `return nil`을 이용해 `Initialization` 실패를 트리거 할 수 있고, 해당 `Types`의 
+> `Optional`을 생성한다. 즉, `Int Type`의 `Nonfailable Initializers`가 `Int`를 생성한다면, `Failable Initializers`는
+> `Int?`를 생성한다.  
+> (엄밀히 말하면 `Objective-C`와 달리 `Swift`의 `Initializers`는 값을 반환하지 않는다. `Initializers`의 역할은 
+> `self`가 완전하고 정확히 초기화되도록 하는 것으로, `return nil`은 오직 `Failable Initializers`를 트리거 하기 위한 
+> 것으로, `Initialization`이 성공인 경우 `return` 키워드를 사용하지 않는다.)
+
+<br>
+
+__Syntax__
+
+```swift
+struct SomStructure {
+    var someProperty: SomeType
+    init?(someProperty: SomeType) {
+        if someProperty.isEmpty { return nil }
+        self.someProperty = someProperty
+    }
+}
+```
+
+<br>
+
+- Failable Initializer of Int Types
+
+```swift
+let wholeNumber: Double = 12345.0
+let pi = 3.14159
+
+if let valueMaintained = Int(exactly: wholeNumber) {
+    print("\(wholeNumber) conversion to Int maintains value of \(valueMaintained)")
+}
+// 12345.0 conversion to Int maintains value of 12345
+
+let valueChanged = Int(exactly: pi)
+if valueChanged == nil {
+    print("\(pi) conversion to Int doesn't maintain value")
+}
+// 3.14159 conversion to Int doesn't maintain value
+
+print(type(of: valueChanged))   // Optional<Int>
+```
+
+`Int Types`의 `Nonfailable Initializers`는 `Int`를 생성하고, `Failable Initializers`는 `Int?`를 생성한다.
+
+<br>
+
+- Nonfailable Initializer of Custom Types
+
+`Animal Types` 구현을 통해 `Nonfailable Initializers`와 `Failable Initializers`의 차이를 알아보자.
+
+```swift
+struct Animal {
+    let species: String
+}
+```
+
+```swift
+let someCreature = Animal(species: "Giraffe")
+print("An animal was initialized with a species of \(someCreature.species)")
+// An animal was initialized with a species of Giraffe
+print(type(of: someCreature))       // Animal
+
+let anonymousCreature = Animal(species: "")
+print("An animal was initialized with a species of \(anonymousCreature.species)")
+// An animal was initialized with a species of
+print(type(of: anonymousCreature))  // Animal
+```
+
+`Parameter Types`가 불일치하는 경우는 호출을 할 수 없기 때문에 `init(species:)`에 `nil`을 넘기는 것은 불가능하지만, 
+`""`은 논리적으로 문제가 있으나 코드상으론 올바른 형태이기 때문에 위와 같이 아무 의미가 없는 `anonymousCreature`를 
+`Animal Types`의 `new Instance`를 성공적으로 생성한다.
+
+<br>
+
+- Failable Initializer of Custom Types
+
+```swift
+struct Animal {
+    let species: String
+    init?(species: String) {
+        if species.isEmpty { return nil }
+        self.species = species
+    }
+}
+```
+
+```swift
+let someCreature = Animal(species: "Giraffe")
+if let giraffe = someCreature {
+    print("An animal was initialized with a species of \(giraffe.species)")
+}
+// An animal was initialized with a species of Giraffe
+print(type(of: someCreature))       // Optional<Animal>
+
+let anonymousCreature = Animal(species: "")
+if anonymousCreature == nil {
+    print("The anonymous creature couldn't be initialized")
+}
+// The anonymous creature couldn't be initialized
+print(type(of: anonymousCreature))  // Optional<Animal>
+```
+
+`Failable Initializers`이므로 `Animal?`를 생성한다.  
+따라서 `Animal?`을 `unwrapping`하면 유효한 `Parameters`를 갖는 `someCreature`는 `Animal Types`의 
+`new Instance`를 반환하고, `anonymousCreature`는 `nil`을 반환한다.
+
 #### 2. Failable Initializers for Enumerations
+
+```swift
+enum TemperatureUnit {
+    case kelvin, celsius, fahrenheit
+    init?(symbol: Character) {
+        switch symbol {
+        case "K": self = .kelvin
+        case "C": self = .celsius
+        case "F": self = .fahrenheit
+        default: return nil
+        }
+    }
+}
+```
+
+```swift
+let fahrenheitUnit = TemperatureUnit(symbol: "F")
+if fahrenheitUnit != nil {
+    print("This is a defined temperature unit, so initialization succeeded.")
+}
+// This is a defined temperature unit, so initialization succeeded.
+
+let unknownUnit = TemperatureUnit(symbol: "X")
+if unknownUnit == nil {
+    print("This isn't a defined temperature unit, so initialization failed.")
+}
+// This isn't a defined temperature unit, so initialization failed.
+```
 
 #### 3. Failable Initializers for Enumerations with Raw Values
 
+[Initializing from a Raw Value][Initializing from a Raw Value] 를 다시 한 번 떠올려보자. 
+
+[Initializing from a Raw Value]:/swift/2022/11/01/enumerations.html#h-2-initializing-from-a-raw-value
+
+```swift
+enum CompassPoint: String {
+    case east, west, south, north
+}
+```
+
+```swift
+print("\(CompassPoint.east) is type of \(type(of: CompassPoint.east))")
+print("\(CompassPoint.east.rawValue) is type of \(type(of: CompassPoint.east.rawValue))")
+
+let east = CompassPoint(rawValue: "east")
+print("Constant 'east' is type of \(type(of: east))")
+```
+
+```console
+east is type of CompassPoint
+east is type of String
+Constant 'east' is type of Optional<CompassPoint>
+```
+
+> `RawValues`를 갖는 `Enumerations`는 자동으로 `Failable Initializers` `init?(rawValue:)`를 생성한다.
+
+<br>
+
+따라서, 위 `TemperatureUnit Enumerations`는 `Raw Values`가 자동 생성하는 `init?(rawValue:)`를 이용해 다음과 같이 
+바꿀 수 있다.
+
+```swift
+enum TemperatureUnit: Character {
+    case kelvin = "K", celsius = "C", fahrenheit = "F"
+}
+```
+
+```swift
+let fahrenheitUnit = TemperatureUnit(rawValue: "F")
+if fahrenheitUnit != nil {
+    print("This is a defined temperature unit, so initialization succeeded.")
+}
+// This is a defined temperature unit, so initialization succeeded.
+
+let unknownUnit = TemperatureUnit(rawValue: "X")
+if unknownUnit == nil {
+    print("This isn't a defined temperature unit, so initialization failed.")
+}
+// This isn't a defined temperature unit, so initialization failed.
+```
+
 #### 4. Propagation of Initialization Failure
 
+__1 )`Failable Initializers`를 `Failable Initializers`에 `delegates` 하는 경우__
+
+- `Classes`, `Structures`, `Enumerations`의 `Failable Initializers`는 `context` 내 다른 
+  `Failable Initializer`에 `delegates` 될 수 있다.
+- `Subclass`의 `Failable Initializers`는 `Superclass`의 `Failable Initializers`에 
+  `delegates up` 될 수 있다.
+
+> 이 프로세스는 즉시 `Initialization` 실패를 유발하고, 전체 `Initialization` 프로세스를 중단시킨다.
+
+```swift
+class Product {
+    let name: String
+    init?(name: String) {
+        if name.isEmpty { return nil }
+        self.name = name
+    }
+}
+
+class CartItem: Product {
+    let quantity: Int
+    init?(name: String, quantity: Int) {
+        if quantity < 1 { return nil }
+        self.quantity = quantity
+        super.init(name: name)
+    }
+}
+```
+
+```swift
+if let twoSocks = CartItem(name: "sock", quantity: 2) {
+    print("Item: \(twoSocks.name), quantity: \(String(describing: twoSocks.quantity))")
+}
+
+if let zeroShirts = CartItem(name: "shirt", quantity: 0) {
+    print("Item: \(zeroShirts.name), quantity: \(String(describing: zeroShirts.quantity))")
+} else {
+    print("Unable to initialize zero shirts")
+}
+
+if let oneUnnamed = CartItem(name: "", quantity: 1) {
+    print("Item: \(oneUnnamed.name), quantity: \(oneUnnamed.quantity)")
+} else {
+    print("Unable to initialize one unnamed product")
+}
+```
+
+```console
+Item: sock, quantity: 2
+Unable to initialize zero shirts
+Unable to initialize one unnamed product
+```
+
+`zeroShirts`는 `Instance` 생성에 실패했다.  
+`oneUnnamed`는 `Instance` 생성에 실패했다.
+
+<br>
+
+__2 ) `Failable Initializers`를 `Nonfailable Initializers`에 `delegates` 하는 경우__
+
+- `Failable Initializers`를 `Nonfailable Initializers`에 `delegates` 하는 것은  
+  이미 존재하는 `Initialization` 프로세스에 `failure state`를 추가하기 위해 사용된다.
+
+> 이 프로세스는 `Initialization` 프로세스에 `failure state`를 추가할 뿐, `Initialization`은 성공한다.
+
+```swift
+class Product {
+    let name: String
+    init?(name: String) {
+        if name.isEmpty { return nil }
+        self.name = name
+    }
+}
+
+class CartItem: Product {
+    let quantity: Int?
+    init?(name: String, quantity: Int) {
+        if quantity < 1 {
+            self.quantity = nil
+        } else {
+            self.quantity = quantity
+        }
+        super.init(name: name)
+    }
+}
+```
+
+```swift
+if let twoSocks = CartItem(name: "sock", quantity: 2) {
+    print("Item: \(twoSocks.name), quantity: \(String(describing: twoSocks.quantity))")
+}
+
+if let zeroShirts = CartItem(name: "shirt", quantity: 0) {
+    print("Item: \(zeroShirts.name), quantity: \(String(describing: zeroShirts.quantity))")
+} else {
+    print("Unable to initialize zero shirts")
+}
+
+if let oneUnnamed = CartItem(name: "", quantity: 1) {
+    print("Item: \(oneUnnamed.name), quantity: \(oneUnnamed.quantity)")
+} else {
+    print("Unable to initialize one unnamed product")
+}
+```
+
+```console
+Item: sock, quantity: Optional(2)
+Item: shirt, quantity: nil
+Unable to initialize one unnamed product
+```
+
+`Failable Initializers`를 `Nonfailable Initializers`에 `delegates` 했기 때문에 `zeroShirts` 역시 
+`Instance`가 생성되었다. 대신 `quantity`가 `failure state`를 나타내기 위해 사용자 정의 값을 저장하고 있다.
+
+반면, `oneUnnamed`는 `Instance` 생성에 실패했다.
+
+<br>
+
+__3 ) `Nonfailable Initializers`를 `Failable Initializers`에 `delegates` 하는 경우__
+
+일반적으로 `Nonfailable Initializers`를 `Failable Initializers`에 `delegates` 하는 것은 허용되지 않는다.
+
+단, 예외적으로 허용되는 경우가 있는데 `Superclass`의 `Failable Initializers`를 `Subclass`의 `Nonfailable Initializers`가
+`Overriding`하는 경우 `Forced Unwrapping`을 통해 가능케 한다. 해당 케이스는 바로 아래 이어서 설명한다.
+
 #### 5. Overriding a Failable Initializer
+
+`Initializers Overriding`에 `Failable Initializers`를 추가해 정리하면 다음과 같다.
+
+|            | Superclass                    | Subclass                      | Allowed |
+|------------|-------------------------------|-------------------------------|---------|
+| Case 1     | Nonfailable Initializer(init) | Nonfailable Initializer(init) | O       |
+| Case 2     | Failable Initializer(init?)   | Failable Initializer(init?)   | O       |
+| Case 3     | Failable Initializer(init?)   | Nonfailable Initializer(init) | O       |
+| ~~Case 4~~ | Nonfailable Initializer(init) | Failable Initializer(init?)   | X       |
+
+`Failable Initializers`를 `Failable Initializers`로 `Overriding`하는 것은 기존의 `Nonfailable Initializers`를
+`Nonfailable Initializers`로 `Overriding`하는 것과 같다.
+
+주의 깊게 봐야할 것은 위 표에서 Case 3과 Case 4다.
+
+- Case 3 : `Failable Initializers`를 `Nonfailable Initializers`로 `Overriding`하는 방법은 `Superclass`의 
+  `Failable Initializers` 결과를 `Forced Unwrapping` 하는 것이다(일반적으로 `Nonfailable Initializers`를 
+  `Failable Initializers`에 `delegates` 하는 것은 허용되지 않기 때문이다 
+  [Propagation of Initialization Failure][Propagation of Initialization Failure]).
+- Case 4 : `Nonfailable Initializers`를 `Failable Initializers`로 `Overriding`하는 것은 허용되지 않는다.
+
+[Propagation of Initialization Failure]:/swift/2022/12/01/initialization.html#h-4-propagation-of-initialization-failure
+
+<br>
+
+아래 예제의 결과를 확인하기 위해 미리 다음 `Closures`를 정의하고 시작한다.
+
+```swift
+let printTitle = { (variable: String, document: Document?) in
+    guard let document = document else {
+        print("\"\(variable)\" initialization failed")
+        return
+    }
+    if document.name == nil {
+        print("\"\(variable)\" initialization success, name is nil")
+    } else {
+        print("\"\(variable)\" initialization success, name is \"\(document.name!)\"")
+    }
+}
+```
+
+<br>
+
+`Document`는 `name`에 `Non-empty String`과 `nil`은 허용하지만 `Empty String`은 허용하지 않는다.
+
+```swift
+class Document {
+    var name: String?
+    // this initializer creates a document with a nil name value
+    init() {}
+    // this initializer creates a document with a nonempty name value
+    init?(name: String) {
+        if name.isEmpty { return nil }
+        self.name = name
+    }
+}
+```
+
+```swift
+let unnamed = Document()
+let contacts = Document(name: "Contacts")
+let emptyName = Document(name: "")
+
+printTitle("unnamed", unnamed)
+printTitle("contacts", contacts)
+printTitle("emptyName", emptyName)
+```
+
+```console
+"unnamed" initialization success, name is nil
+"contacts" initialization success, name is "Contacts"
+"emptyName" initialization failed
+```
+
+`Non-empty String`과 `nil`은 `Initialization`에 성공했지만, `Empty String`은 실패했다.
+
+<br>
+
+__1 ) Case 3의 `Superclass`의 `Failable Initializers`를 `Subclass`의 `Nonfailable Initializers`로 `Overriding`하는 첫 번째 방법__
+
+`Document`의 `Subclass`인 `AutomaticallyNamedDocument`는 이름이 없거나(init -> nil), 
+`Empty String`(init? -> "")인 케이스에 대해 `"[Untitled]"`라는 이름을 초기값으로 지정해 `Superclass`의 두 
+`Initializers` 모두 `Nonfailable Initializers`로 `Overriding`한다.
+
+```swift
+class AutomaticallyNamedDocument: Document {
+    override init() {
+        super.init()
+        self.name = "[Untitled]"
+    }
+    override init(name: String) {
+        super.init()
+        if name.isEmpty {
+            self.name = "[Untitled]"
+        } else {
+            self.name = name
+        }
+    }
+}
+```
+
+> `init?(name:)`을 `Overriding` 할 때 `super.init(name:)`이 아니라 `super.init()`에 `delegates up` 하는 이유는
+> 일반적으로 `init?` -> `init`은 허용되지만, `init` -> `init?`은 허용되지 않기 때문이다. 
+> [Propagation of Initialization Failure][Propagation of Initialization Failure] 를 참고한다.
+
+```swift
+let unnamed = AutomaticallyNamedDocument()
+let contacts = AutomaticallyNamedDocument(name: "Contacts")
+let emptyName = AutomaticallyNamedDocument(name: "")
+
+printTitle("unnamed", unnamed)
+printTitle("contacts", contacts)
+printTitle("emptyName", emptyName)
+```
+
+```console
+"unnamed" initialization success, name is "[Untitled]"
+"contacts" initialization success, name is "Contacts"
+"emptyName" initialization success, name is "[Untitled]"
+```
+
+`Non-empty String`과 `nil`에 `Empty String`까지 모두 `Initialization`에 성공했다.
+
+> 그런데 위 방법은 `Superclass`의 `Failable Initializers`를 `Subclass`의 `Nonfailable Initializers`로 `Overriding` 
+> 했기 때문에 Case 3에 해당하기는 하지만 일반적으로 `Nonfailable Initializers`를 `Failable Initializers`에 `delegates` 
+> 하는 것은 허용되지 않기 때문에 Case 1에 해당하는 `Nonfailable Initializers`를 `Nonfailable Initializers`로 `delegates` 
+> 하는 방법으로 우회를 한 것이다.
+> 
+> 즉, 이 방법을 사용하기 위해서는 두 가지 조건이 반드시 필요하다.
+> 
+> - `Superclass`에 `Nonfailable Initializers`가 존재할 것
+> - `Phase 2`를 통한 `Customizing` 할 기회를 처리할 수 있도록 `Properties`가 `Constant`가 아닌 `Variable`이어야 한다
+
+<br>
+
+__2 ) Case 3의 `Superclass`의 `Failable Initializers`를 `Subclass`의 `Nonfailable Initializers`로 `Overriding`하는 두 번째 방법__
+
+`Nonfailable Initializers`를 `Failable Initializers`로 `delegates up`한 후 `Superclass`의 
+`Failable Initializers` 결과를 `Forced Unwrapping`한다.
+
+```swift
+class AutomaticallyNamedDocument: Document {
+    override init() {
+        super.init(name: "[Untitled]")!
+    }
+    override init(name: String) {
+        if name.isEmpty {
+            super.init(name: "[Untitled]")!
+        } else {
+            super.init(name: name)!
+        }
+    }
+}
+```
+
+```swift
+let unnamed = AutomaticallyNamedDocument()
+let contacts = AutomaticallyNamedDocument(name: "Contacts")
+let emptyName = AutomaticallyNamedDocument(name: "")
+
+printTitle("unnamed", unnamed)
+printTitle("contacts", contacts)
+printTitle("emptyName", emptyName)
+```
+
+```console
+"unnamed" initialization success, name is "[Untitled]"
+"contacts" initialization success, name is "Contacts"
+"emptyName" initialization success, name is "[Untitled]"
+```
+
+> 물론 이 방법에도 문제점은 존재한다.  
+> 그것은 바로 `Supercalss`의 `Failable Initializers`가 절대로 실패하지 않도록 `delegates up`해야한다.
 
 #### 6. The init! Failable Initializer
 
