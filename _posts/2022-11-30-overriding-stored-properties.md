@@ -57,7 +57,7 @@ class Bicycle: Vehicle {
 }
 ```
 
-다른 `Properties`와 마찬가지로 `override` 키워드를 사용해 동일하게 `Stored Properties`를 재정의하려 했으나 
+다른 `Properties`와 마찬가지로 `override` 수정자를 사용해 동일하게 `Stored Properties`를 재정의하려 했으나 
 `Swift`는 `Overriding` 불가능하다는 에러를 출력한다.
 
 #### 2. Set property value after initialization - Success
