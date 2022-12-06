@@ -1832,7 +1832,103 @@ printTitle("emptyName", emptyName)
 
 ### 7. Required Initializers  👩‍💻
 
+#### 1. Required Initializer Syntax
 
+`Classes`, `Structures`, `Enumerations`에 `Protocols`를 채택(adopt)해 특정 구현을 강요할 수 있듯이 
+`Classes`의 경우 `Superclass`의 특정 `Initializers`를 `Subclass`에서 구현하도록 `required` 수정자를 사용해 
+강요할 수 있다.
+
+단, `Protocols`와 달리 상속된 `Required Initializers`로 조건이 충족된다면, 이를 `Overriding`해 재구현 할 필요 
+없이 만족하는 것이 가능하다.
+
+<br>
+
+__Syntax__
+
+```swift
+class SomeClass {
+    required init() {
+        // initializer implementation goes here
+    }
+}
+```
+
+```swift
+class SomeSubclass: SomeClass {
+    required init() {
+        // subclass implementation of the required initializer goes here
+    }
+}
+```
+
+> - `Subclass`에서 재구현할 때 `override` 수정자는 생략하고 `required` 수정자만 사용한다.
+> - 상속된 `Required Initializers`로 조건이 충족된다면 재구현할 필요 없이 충족될 수 있다.
+
+#### 2. Required Initializer Examples
+
+아래 예제의 결과를 확인하기 위해 미리 다음 `Closures`를 정의하고 시작한다.
+
+```swift
+let printCar = { (car: Car) in
+    print("Car name is \"\(car.name)\" and have \(car.cylinder) cylinders")
+}
+```
+
+<br>
+
+```swift
+class Vehicle {
+    var name: String
+    
+    required init(name: String) {
+        self.name = name
+    }
+}
+```
+
+`Vehicle` 클래스는 `init(name:)`을 강제하도록 `requried` 수정자를 사용한다.
+
+<br>
+
+```swift
+class Car: Vehicle {
+    var cylinder = 1
+//    required init(name: String) {
+//        super.init(name: name)
+//    }
+    convenience init(name: String, cylinder: Int) {
+        self.init(name: name)
+        self.cylinder = cylinder
+    }
+}
+```
+
+`Car`는 `Vehicle`의 `Required Initializers`를 상속하는 것으로 충족된다.
+
+<br>
+
+```swift
+class Truck: Car {
+    required init(name: String) {
+        super.init(name: name)
+        self.cylinder = 8
+    }
+}
+```
+
+`Truck`은 기본 실린더를 8로 저장하기 위해 `Required Initializers` `init(name:)`을 재정의하였다.
+
+<br>
+
+```swift
+let bmw3 = Car(name: "BMW3")
+let bmw5 = Car(name: "BMW5", cylinder: 5)
+let someTruck = Truck(name: "BMW Truck")
+
+printCar(bmw3)      // Car name is "BMW3" and have 1 cylinders
+printCar(bmw5)      // Car name is "BMW5" and have 5 cylinders
+printCar(someTruck) // Car name is "BMW Truck" and have 8 cylinders
+```
 
 <br><br>
 
