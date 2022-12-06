@@ -1403,25 +1403,27 @@ Unable to initialize one unnamed product
 
 __2 ) `Failable Initializers`를 `Nonfailable Initializers`에 `delegates` 하는 경우__
 
-- `Failable Initializers`를 `Nonfailable Initializers`에 `delegates` 하는 것은  
-  이미 존재하는 `Initialization` 프로세스에 `failure state`를 추가하기 위해 사용된다.
+- 달리 실패하지 않는 기존의 `Initialization` 프로세스에 잠재적인 실패 상태를 추가해야하는 경우 `Failable Initializers`를 
+  `Nonfailable Initializers`에 `delegates` 하는 접근법을 사용한다.  
 
-> 이 프로세스는 `Initialization` 프로세스에 `failure state`를 추가할 뿐, `Initialization`은 성공한다.
+> 이 프로세스는 `Initialization` 프로세스에 `failure state`를 추가할 뿐, `Initialization`은 성공한다  
+> (정확히는 `Failable Initializers`의 실패 처리를 하지 않고 `failur state`를 추가한다. 즉, 로직만 보면 
+> `Nonfailable Initializers`를 `Nonfailable Initializers`로 `delegates` 하는 것과 같다. 
+> 이 부분에 대해서는 자세한 설명이 없어 굳이 왜 이런 기법을 사용하는 것인지는 명확하지 않다).
 
 ```swift
 class Product {
     let name: String
-    init?(name: String) {
-        if name.isEmpty { return nil }
+    init(name: String) {
         self.name = name
     }
 }
 
 class CartItem: Product {
-    let quantity: Int?
+    let quantity: Int
     init?(name: String, quantity: Int) {
         if quantity < 1 {
-            self.quantity = nil
+            self.quantity = -1
         } else {
             self.quantity = quantity
         }
@@ -1449,15 +1451,15 @@ if let oneUnnamed = CartItem(name: "", quantity: 1) {
 ```
 
 ```console
-Item: sock, quantity: Optional(2)
-Item: shirt, quantity: nil
-Unable to initialize one unnamed product
+Item: sock, quantity: 2
+Item: shirt, quantity: -1
+Item: , quantity: 1
 ```
 
-`Failable Initializers`를 `Nonfailable Initializers`에 `delegates` 했기 때문에 `zeroShirts` 역시 
-`Instance`가 생성되었다. 대신 `quantity`가 `failure state`를 나타내기 위해 사용자 정의 값을 저장하고 있다.
-
-반면, `oneUnnamed`는 `Instance` 생성에 실패했다.
+결론적으로 `Failable Initializers`는 실패 처리를 하지 않고, `delegates`를 위임 받은 `Initializers`는 
+`Nonfailable Initializers`이기 때문에 모두 `Instnace` 생성에 성공했다.  
+단, 실패했어야 하는 케이스인 `zeroShirt`는 실패 상태를 나타내기 위해 `-1` 이라는 `failur state`를 나타내는 
+`Custom Values`가 들어간다.
 
 <br>
 
@@ -1465,8 +1467,9 @@ __3 ) `Nonfailable Initializers`를 `Failable Initializers`에 `delegates` 하�
 
 일반적으로 `Nonfailable Initializers`를 `Failable Initializers`에 `delegates` 하는 것은 허용되지 않는다.
 
-단, 예외적으로 허용되는 경우가 있는데 `Superclass`의 `Failable Initializers`를 `Subclass`의 `Nonfailable Initializers`가
-`Overriding`하는 경우 `Forced Unwrapping`을 통해 가능케 한다. 해당 케이스는 바로 아래 이어서 설명한다.
+예외적인 허용을 위해서는 `Failable Initializers`의 결과를 `Foreced Unwrapping` 해야하며, 이 때 `delegates` 된
+`Failable Initializers`가 프로세스를 절대로 실패하지 않도록 해야한다. 이것은 `Overriding` 할 때도 적용되는 규칙으로 
+바로 아래 이어서 설명한다.
 
 #### 5. Overriding a Failable Initializer
 
@@ -1476,7 +1479,7 @@ __3 ) `Nonfailable Initializers`를 `Failable Initializers`에 `delegates` 하�
 |------------|-------------------------------|-------------------------------|---------|
 | Case 1     | Nonfailable Initializer(init) | Nonfailable Initializer(init) | O       |
 | Case 2     | Failable Initializer(init?)   | Failable Initializer(init?)   | O       |
-| Case 3     | Failable Initializer(init?)   | Nonfailable Initializer(init) | O       |
+| Case 3     | Failable Initializer(init?)   | Nonfailable Initializer(init) | △       |
 | ~~Case 4~~ | Nonfailable Initializer(init) | Failable Initializer(init?)   | X       |
 
 `Failable Initializers`를 `Failable Initializers`로 `Overriding`하는 것은 기존의 `Nonfailable Initializers`를
@@ -1489,6 +1492,10 @@ __3 ) `Nonfailable Initializers`를 `Failable Initializers`에 `delegates` 하�
   `Failable Initializers`에 `delegates` 하는 것은 허용되지 않기 때문이다 
   [Propagation of Initialization Failure][Propagation of Initialization Failure]).
 - Case 4 : `Nonfailable Initializers`를 `Failable Initializers`로 `Overriding`하는 것은 허용되지 않는다.
+
+> 주의해야할 것이 `Failable Initilizers`를 `Nonfailable Initializers`로 `delegates` 하는 것 `init ← init?`은 허용되지만,  
+> `Nonfailable Initializers`를 `Failable Initilizers`로 `Overriding` 하는 것은 허용되지 않는다.  
+> (케이스만 보면 `delegates up` `init ← init?` 이지만 `Overriding` 자체를 허용하지 않는다)
 
 [Propagation of Initialization Failure]:/swift/2022/12/01/initialization.html#h-4-propagation-of-initialization-failure
 
@@ -1570,8 +1577,9 @@ class AutomaticallyNamedDocument: Document {
 }
 ```
 
-> `init?(name:)`을 `Overriding` 할 때 `super.init(name:)`이 아니라 `super.init()`에 `delegates up` 하는 이유는
-> 일반적으로 `init?` -> `init`은 허용되지만, `init` -> `init?`은 허용되지 않기 때문이다. 
+> `init?(name:)`을 `Overriding` 할 때 `super.init(name:)`이 아니라 `super.init()`에 `delegates up` 하는 이유는  
+> 일반적으로 `init` ← `init?`은 허용되지만(실패 케이스는 버리면 그만이니까),  
+> `init?` ← `init`은 허용되지 않기 때문(성공 케이스인데 `Optional`이 되니까)이다.  
 > [Propagation of Initialization Failure][Propagation of Initialization Failure] 를 참고한다.
 
 ```swift
@@ -1645,9 +1653,185 @@ printTitle("emptyName", emptyName)
 
 #### 6. The init! Failable Initializer
 
+일반적으로 `Failable Initializers`는 `?`를 붙여 만들지만, `!`를 붙여 암시적으로 `unwrapping` 시킬 수도 있다.
+
+`init!`은 `init?`과 거의 동일하며 차이점은 다음과 같다.  
+
+<table style="text-align: center;">
+<thead>
+  <tr>
+    <th></th>
+    <th>Nonfailable Initializers</th>
+    <th colspan="2">Failable Initializers</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Keyword</td>
+    <td>init</td>
+    <td>init?</td>
+    <td>init!</td>
+  </tr>
+  <tr>
+    <td>Created Instance</td>
+    <td>'self' Type</td>
+    <td>'self?' Type</td>
+    <td>'self' Type</td>
+  </tr>
+</tbody>
+</table>
+
+- `init?`은 `delegates`를 위임한 `Initializers`가 `Failable Initializers`의 결과를 `Forced Unwrapping` 한다.
+- `init!`은 `delegates`를 위임 받은 `Initializers`가 `Forced Unwrapping` 후 결과를 반환한다.
+
+따라서 바로 위 Case 3의 두 번째 방법을 `init?`에서 `init!`으로 바꾸면 다음과 같다.
+
+```swift
+class Document {
+    var name: String?
+    // this initializer creates a document with a nil name value
+    init() {}
+    // this initializer creates a document with a nonempty name value
+    init!(name: String) {
+        if name.isEmpty { return nil }
+        self.name = name
+    }
+}
+
+class AutomaticallyNamedDocument: Document {
+    override init() {
+        super.init(name: "[Untitled]")
+    }
+    override init(name: String) {
+        if name.isEmpty {
+            super.init(name: "[Untitled]")
+        } else {
+            super.init(name: name)
+        }
+    }
+}
+```
+
+```swift
+let unnamed = AutomaticallyNamedDocument()
+let contacts = AutomaticallyNamedDocument(name: "Contacts")
+let emptyName = AutomaticallyNamedDocument(name: "")
+
+printTitle("unnamed", unnamed)
+printTitle("contacts", contacts)
+printTitle("emptyName", emptyName)
+```
+
+```console
+"unnamed" initialization success, name is "[Untitled]"
+"contacts" initialization success, name is "Contacts"
+"emptyName" initialization success, name is "[Untitled]"
+```
+
+#### 7. Summary
+
+<table style="text-align: center;">
+<thead>
+  <tr>
+    <th></th>
+    <th>Nonfailable Initializers</th>
+    <th colspan="2">Failable Initializers</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>Keyword</td>
+    <td>init</td>
+    <td>init?</td>
+    <td>init!</td>
+  </tr>
+  <tr>
+    <td>Created Instance</td>
+    <td>'self' Type</td>
+    <td>'self?' Type</td>
+    <td>'self' Type</td>
+  </tr>
+</tbody>
+</table>
+
+<table style="text-align: center;">
+<thead>
+  <tr>
+    <th>Case</th>
+    <th colspan="2" rowspan="2">delegates</th>
+    <th colspan="3">Overriding</th>
+  </tr>
+  <tr>
+    <th>when overriding</th>
+    <th>Superclass</th>
+    <th>Subclass</th>
+    <th>delegates up</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>init? ↔ init?</td>
+    <td colspan="2">O</td>
+    <td>init?</td>
+    <td>init?</td>
+    <td>O</td>
+  </tr>
+  <tr>
+    <td>init! ↔ init!</td>
+    <td colspan="2">O</td>
+    <td>init!</td>
+    <td>init!</td>
+    <td>O</td>
+  </tr>
+  <tr>
+    <td>init? ↔ init!</td>
+    <td colspan="2">O</td>
+    <td>init? or init!</td>
+    <td>init? or init!</td>
+    <td>O</td>
+  </tr>
+  <tr>
+    <td>init ← init?</td>
+    <td colspan="2">O</td>
+    <td>init</td>
+    <td>init?</td>
+    <td style="color: red;">X *</td>
+  </tr>
+  <tr>
+    <td>init ← init!</td>
+    <td colspan="2">O</td>
+    <td>init</td>
+    <td>init!</td>
+    <td style="color: red;">X *</td>
+  </tr>
+  <tr>
+    <td>init? ← init</td>
+    <td colspan="2"><span style="color: red">△ **</span></td>
+    <td>init?</td>
+    <td>init</td>
+    <td><span style="color: red">△ **</span></td>
+  </tr>
+  <tr>
+    <td>init! ← init</td>
+    <td colspan="2"><span style="color: red">△ **</span></td>
+    <td>init!</td>
+    <td>init</td>
+    <td><span style="color: red">△ **</span></td>
+  </tr>
+</tbody>
+</table>
+
+<span style="color: red">*</span> [Overriding a Failable Initializer - Case 4][Overriding a Failable Initializer] : 
+   `Nonfailable Initializers`를 `Failable Initializers`로 `Overriding`하는 것은 허용되지 않는다.  
+<span style="color: red">**</span> [Overriding a Failable Initializer - Case 3][Overriding a Failable Initializer] : 
+   `Failable Initializers`를 `Nonfailable Initializers`로 `Overriding`하는 방법은 `Forced Unwrapping` 하는 것이다.
+
+[Overriding a Failable Initializer]:/swift/2022/12/01/initialization.html#h-5-overriding-a-failable-initializer
+
 ---
 
 ### 7. Required Initializers  👩‍💻
+
 
 
 <br><br>
