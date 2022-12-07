@@ -153,11 +153,124 @@ __Syntax__
 <br>
 
 `HTML tags`는 대소문자 구분이 없다. 단, `XHTML`같이 더 엄격한 `Document Types`같은 경우는 소문자를 요구한다. 
-따라서 `W3Schools`는 소문자를 권장한다.  
+따라서 `W3Schools`는 소문자를 권장한다.
 
 ---
 
-### 3.  👩‍💻
+### 3. HTML Attributes 👩‍💻
+
+#### 1. Attributes
+
+`HTML Attributes`는 `HTML Elements`에 추가적인 정보를 제공한다.
+
+- 모든 `HTML Elements`는 `Attributes`를 가질 수 있다.
+- `Attributes`는 해당 `Elements`에 대한 추가적인 정보를 제공한다.
+- `Attributes`는 항상 시작 태그에 작성한다.
+- `Attributes`는 항상 `Name-Value` 쌍으로 작성한다(i.e. `name="value"`).
+
+<br>
+
+__1 ) href__
+
+```html
+<a href="https://sbpark88.github.io">This link is my blog</a>
+```
+
+`a` 태그는 `hyperlink`를 정의하며, `href` attribute 를 이용해 페이지 경로를 제공한다.
+
+
+<br>
+
+__2 ) src__
+
+`img` 태그는 `HTML` 페이지에 이미지를 `embed`한다. 이 때 `src` attribute 를 사용해 이미지 경로를 제공한다.
+
+- Absolute URL : `https://sbpark88.github.io/assets/images/favicon/greendreamtree.png`
+- Relative URL : `/assets/images/favicon/greendreamtree.png` 와 같은 형태로 같은 도메인 내 이미지는 
+  도메인 경로를 생략할 수 있다.
+
+<br>
+
+__3 ) width and height__
+
+`img` 태그는 이미지 크기를 정의하기 위해 `width`와 `height` attributes 를 사용하며, `pixel` 단위를 사용한다.
+
+```html
+<img src="https://sbpark88.github.io/assets/images/favicon/greendreamtree.png" 
+     alt="greendreamtree's favicon" 
+     width="150" height="150">
+```
+
+<br>
+
+__4 ) alt__
+
+`img` 태그의 `alt` attribute 는 이미지 파일이 없을 경우 대체할 텍스트로, 시각 장애인이 사용하는 `스크린 리더` 
+프로그램은 물론 `SEO`에도 사용되므로 생략하지 않는 것이 좋다.
+
+<br>
+
+__5 ) style__
+
+`style` attribute 는 태그에 `CSS` 스타일을 제공하기 위해 사용하며, 스타일 중 우선순위가 높지만 권장되는 방식은 아니다.
+
+```html
+<p style="color:red;">This is a red paragraph.</p>
+```
+
+<br>
+
+__6 ) lang__
+
+`html` 태그의 `lang` attribute 는 검색 엔진과 브라우저에 언어 정보를 제공하므로 반드시 작성하도록 한다.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<body>
+...
+</body>
+</html>
+```
+
+`en-US`와 같이 `'language code'-'country code'` 형태로 작성할 수도 있다. 이 때 `lang` attribute 는 
+앞의 두 글자 `en`을 인식해 영어로 정의한다.
+
+<br>
+
+__7 ) title__
+
+`title` attribute 는 마우스 오버 시 `tooltip`에 보여지는 것으로, 해당 `element`에 대한 추가적인 정보를 제공한다. 
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="gOKqodG" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/gOKqodG">
+  title Attribute</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 2. Recommendations
+
+__1 ) Always Use Lowercase Attributes__
+
+`Attributes` 역시 대소문자의 구분이 없지만 `XHTML`은 소문자를 요구한다. 따라서 `HTML` 역시 소문자 작성이 권장된다.
+
+<br>
+
+__2 ) Always Quote Attribute Values__
+
+- Good
+
+```html
+<a href="https://sbpark88.github.io">This link is my blog</a>
+```
+
+- Bad
+
+```html
+<a href=https://sbpark88.github.io>This link is my blog</a>
+```
+
+> `HTML`은 `"`를 안 써도 무방하지만, `XHTML`은 `"`가 요구된다. 따라서 `"`를 사용하는 것이 권장된다.
 
 ---
 
