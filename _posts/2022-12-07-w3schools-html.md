@@ -274,7 +274,33 @@ __2 ) Always Quote Attribute Values__
 
 ---
 
-### 4.  👩‍💻
+### 4. HTML Headings 👩‍💻
+
+#### 1. Heading Sizes
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="WNyPXGw" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/WNyPXGw">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+앞에서도 설명했지만 `h1` 태그가 가장 크고, `h6` 태그가 가장 작다.
+
+하지만 `HTML Headings` 태그가 가지고 있는 기본 폰트 크기는 `CSS` 스타일에 의해 변경될 수 있다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="KKeJQgj" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/KKeJQgj">
+  Headings with CSS</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 2. Headings Are Important
+
+`Headings`는 제목을 나타내는 태그이면서 중요도를 표현할 수 있는 중요한 태그로 `<h1>`이 가장 중요하고, 
+`<h6>`가 중요도가 가장 낮다. 이 태그가 중요한 이유는 검색 엔진이 이 태그를 이용해 웹 페이지의 구조와 내용을 인덱싱한다.
+
+> 따라서 절대로 일반 텍스트를 크게 하거나 굵게 표현하기 위해 제목이 아닌 곳에 `Headings` 태그를 사용하지 않도록 한다.
 
 ---
 
