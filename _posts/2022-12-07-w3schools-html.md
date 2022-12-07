@@ -458,7 +458,99 @@ __3 ) Text align__
 
 ### 7. HTML Formatting 👩‍💻
 
+`Formatting` elements 는 `text`에 특별한 타입을 표현한다. 특히 `importnace` 표현은 시각 장애인이 사용하는 
+`스크린 리더` 프로그램에서 강조하여 읽으므로 구분지어 주는 것이 좋다.
 
+#### 1. HTML `b` and `strong` Elements
+
+글씨를 굵게 표현한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="poKGGYj" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/poKGGYj">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+- `<b>` : bold
+- `<strong>` : bold & importance
+
+#### 2. HTML `i` and `em` Elements
+
+글씨를 기울임꼴로 표현한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="wvXOvra" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/wvXOvra">
+  HTML i an em</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+- `<i>` : italic
+- `<em>` : italic & importance
+
+> `<i>` 와 `<em>` 태그는 `음성`이나 `분위기`를 전달하거나 `기술 용어`, `다른 언어의 문구`, `생각`, 
+> `선박 이름`과 같은 것들을 구분해 표현하기 위해 사용된다.
+
+#### 3. HTML `small` Element
+
+글씨를 조금 작게 표현한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="MWXxWro" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/MWXxWro">
+  HTML small</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 4. HTML `mark` Element
+
+글씨를 `형광펜` 마킹처럼 강조해 표현한다. `Markdown`에서 \`markdown\` 로 표현하는 것과 같다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="eYKXYVG" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/eYKXYVG">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 5. HTML `del` Element
+
+삭제된 텍스트를 정의하며, 브라우저는 글씨를 취소선으로 표현한다. `Markdown`에서 \~~markdown\~~ 로 표현하는 것과 같다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="oNyVNdJ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/oNyVNdJ">
+  HTML del</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 6. HTML `ins` Element
+
+삽입된 텍스트를 정의하며, 브라저는 글씨에 밑줄을 삽입한다. `Markdown`에서 \*markdown\* 또는 \_markdown\_ 로 현하는 것과 같다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="dyKryea" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/dyKryea">
+  HTML del</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 7. HTML `sub` Element
+
+글씨를 아래 첨자`subscript`로 표현한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="LYraYXq" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/LYraYXq">
+  HTML ins</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 8. HTML `sup` Element
+
+글씨를 위 첨자`superscript`로 표현한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="gOKEOEp" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/gOKEOEp">
+  HTML sup</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
 
 ---
 
