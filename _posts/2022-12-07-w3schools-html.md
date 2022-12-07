@@ -390,11 +390,111 @@ let formattedString: String = """
 
 ---
 
-### 6.  👩‍💻
+### 6. HTML Styles 👩‍💻
+
+#### 1. HTML Style Attribute
+
+`style` attribute 는 `HTML` 태그의 elements 에 색, 크기, 위치 등의 정보를 제공한다.
+
+<br>
+
+__Syntax__
+
+```html
+<tagname style="property:value;">
+```
+
+`Attributes`는 항상 `Name-Value` 쌍으로 작성했던 것 처럼(i.e. `name="value"`)  
+`style` attribute 의 `CSS` Styles 정보는 항상 `Property-Value` 쌍으로 작성한다(i.e. `property:value;`).
+
+#### 2. Color
+
+배경색은 `background-color` property 를 사용하고, 텍스트와 같은 `elements`의 색은 `color` property 를 사용한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="ZERwVgd" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/ZERwVgd">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+> `text`에 `background-color`를 사용하면 글씨의 배경색이 되고, `color`를 사용하면 글씨 자체의 색이 된다.
+
+#### 3. Texts
+
+__1 ) Font Family__
+
+어떤 폰트를 사용할 것인지를 설정한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="zYaeeKr" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/zYaeeKr">
+  Font Family</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+__2 ) Font Size__
+
+폰트 크기를 설정한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="BaVMMWq" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/BaVMMWq">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+__3 ) Text align__
+
+텍스트의 가로 위치를 설정한다
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="BaVMMZq" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/BaVMMZq">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
 
 ---
 
-### 7.  👩‍💻
+### 7. HTML Formatting 👩‍💻
+
+
+
+---
+
+### 8.  👩‍💻
+
+
+
+---
+
+### 9.  👩‍💻
+
+
+
+---
+
+### 10.  👩‍💻
+
+
+
+---
+
+### 11.  👩‍💻
+
+
+
+---
+
+### 12.  👩‍💻
+
+
+
+---
+
+### 13.  👩‍💻
+
+
 
 <br><br>
 
