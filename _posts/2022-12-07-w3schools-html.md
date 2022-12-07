@@ -14,7 +14,7 @@ tags: [w3school, elements, attributes, styles, tables, lists, classes, id, head,
 
 ```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <body>
 
 <h1>My First Heading</h1>
@@ -99,7 +99,7 @@ __Syntax__
 
 ```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <body>
 
 <h1>My First Heading</h1>
@@ -116,7 +116,7 @@ __Syntax__
 
 ```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <body>
 
 <h1>My First Heading</h1>
@@ -131,7 +131,7 @@ __Syntax__
 
 ```html
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <body>
 
 <h1>My First Heading</h1>
@@ -304,7 +304,89 @@ __2 ) Always Quote Attribute Values__
 
 ---
 
-### 5.  👩‍💻
+### 5. HTML Paragraphs 👩‍💻
+
+#### 1. Paragraphs Make a Block of Text
+
+`Paragraphs` 태그는 `text block`을 생성하므로 항상 `new line`을 만들어낸다.
+
+```html
+<p>This is a paragraph.</p>
+<p>This is another paragraph.</p>
+```
+
+#### 2. HTML Display
+
+`HTML` 내 텍스트는 별도의 태그가 없을 경우 공백과 개행을 브라우저가 처리하기 때문에 작성한 텍스트와 다르게 표현된다.  
+이것은 화면의 크기에 따라 브라우저가 능동적으로 처리하기 때문이다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="wvXNyOL" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/wvXNyOL">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+#### 3. HTML Horizontal Rules
+
+`Horizontal Rules` 태그는 `HTML` 페이지 내 콘텐츠를 분리하거나 변경 사항을 정의하는데 사용된다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="XWYOEJa" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/XWYOEJa">
+  Horizontal Rules</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+> `<hr>` 태그는 `<br>` 태그와 마찬가지로 `Empty Elements`로 종료 태그가 없다.
+
+#### 4. HTML Line Breaks
+
+`<br>` 태그는 `new line`을 만들어낸다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="LYrqdxJ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/LYrqdxJ">
+  Line Breaks</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 5. HTML Preformatted
+
+`<pre>` 태그는 
+
+```typescript
+const formattedString: string = `
+  My Bonnie lies over the ocean.
+
+  My Bonnie lies over the sea.
+
+  My Bonnie lies over the ocean.
+
+  Oh, bring back my Bonnie to me.
+`
+```
+
+또는 
+
+```swift
+let formattedString: String = """
+  My Bonnie lies over the ocean.
+
+  My Bonnie lies over the sea.
+
+  My Bonnie lies over the ocean.
+
+  Oh, bring back my Bonnie to me.
+"""
+```
+
+처럼 포맷을 유지한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="xxzMWPJ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/xxzMWPJ">
+  Preformatted</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
 
 ---
 
