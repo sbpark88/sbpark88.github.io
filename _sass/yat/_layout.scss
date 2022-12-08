@@ -692,6 +692,8 @@ html {
       display: none;
     }
 
+    overflow: auto;
+    max-height: calc(100vh - #{$header-height});
   }
 }
 
