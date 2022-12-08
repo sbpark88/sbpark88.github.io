@@ -524,7 +524,7 @@ __3 ) Text align__
 
 #### 6. HTML `ins` Element
 
-삽입된 텍스트를 정의하며, 브라저는 글씨에 밑줄을 삽입한다. `Markdown`에서 \*markdown\* 또는 \_markdown\_ 로 현하는 것과 같다.
+삽입된 텍스트를 정의하며, 브라우저는 글씨에 밑줄을 삽입한다. `Markdown`에서 \*markdown\* 또는 \_markdown\_ 로 현하는 것과 같다.
 
 <p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="dyKryea" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
   <span>See the Pen <a href="https://codepen.io/sbpark88/pen/dyKryea">
@@ -554,9 +554,73 @@ __3 ) Text align__
 
 ---
 
-### 8.  👩‍💻
+### 8. Quotation and Citation Elements 👩‍💻
 
+#### 1. HTML `q` and `blockquote` Elements
 
+인용구`quotations`를 표현한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="NWzJGRP" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/NWzJGRP">
+  Quotations</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+- `<q>` : 짧은 인용문에 사용하며, 브라우저는 따옴표(quotation marks)로 감싸 표현한다.
+- `<blockquote>` : 외부 소스로부터 하나의 섹션을 인용할 때 사용하며, 브라우저는 들여쓰기를 한다.
+
+#### 2. HTML `abbr` Element
+
+`HTML`, `CSS`, `Mr.`, `Dr`, `ASAP`, `ATM`과 같은 약어`abbreviation` 또는 머리글자`acronym`을 표현한다.  
+`title` attribute 와 함께 사용해 마우스 오버 툴팁에 약어에 대한 설명을 제공한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="JjZzYWv" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/JjZzYWv">
+  Abbreviations</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+> `<abbr>` 태그는 브라우저와 번역 시스템 및 검색 엔진에 유용한 정보를 제공한다.
+
+#### 3. HTML `address` Element
+
+사람, 소유자, 기사 등에 대한 연락처 정보`contact information`를 제공한다. 연락처 정보는 email, URL, 물리 주소, 
+전화번호, 소셜 미디어 등 다양한 것이 될 수 있다. 브라우저는 기울임꼴로 표현한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="eYKXpRR" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/eYKXpRR">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 4. HTML `cite` Element
+
+무언가를 생산하는 `Work Title`을 위해 사용되는 태그로 `book`, `poem`, `song`, `movie`, `painting` 등이 될 수 있다. 
+브라우저는 기울임꼴로 표현한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="XWYGmVV" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/XWYGmVV">
+  Cite</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+> 사람 이름은 `<cite>` 태그의 대상이 아니다.
+
+#### 5. HTML `bdo` Element
+
+`Bi-Directional text Override`의 약자로 글씨의 방향을 지정한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="jOKJbZV" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/jOKJbZV">
+  BDO</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+> `dir` property 와 함께 사용하며, 깂은 `ltr`(left to right)과 `trl`(right to left) 두 가지 옵션이 있다. 
 
 ---
 
