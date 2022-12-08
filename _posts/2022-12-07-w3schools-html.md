@@ -636,10 +636,208 @@ __3 ) Text align__
 
 ---
 
-### 10.  👩‍💻
+### 10. HTML Color 👩‍💻
 
+`미리 정의된 컬러 이름`, `RGB`, `HEX`, `HSL`, `RGBA`, `HSLA` 값을 사용할 수 있다.
 
+#### 1. Color Names
 
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="vYrPLpG" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/vYrPLpG">
+  Color Names</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+[Color Names Supported by All Browsers](https://www.w3schools.com/colors/colors_names.asp) 에 
+모든 브라우저에서 사용 가능한 미리 정의된 컬러 이름이 정리되어있다.
+
+#### 2. RGB and RGBA
+
+__1 ) RGB__
+
+`8 bit RGB` 3원색을 이용한 조합으로 각 색상을 `0 ~ 255`로 표현한다.
+
+__Syntax__
+
+```css
+p {
+    color: rgb(red, green, blue);
+}
+```
+
+> - `rgb(0, 0, 0)`은 검정색, `rgb(255, 255, 255)`는 하얀색이 된다.
+> - `rgb(60, 60, 60)`, `rgb(100, 100, 100)`와 같이 3원색을 값을 동일하게 주면 회색이 된다.
+
+<br>
+
+__2 ) RGBA__
+
+`RGB` 컬러값에 `Alpha channel`이라는 값을 추가해 불투명도`opacity`를 추가적으로 표현한다.
+
+__Syntax__
+
+```css
+p {
+    color: rgba(red, green, blue, alpha);
+}
+```
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="ZERPQoV" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/ZERPQoV">
+  RGBA</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 3. HEX
+
+`RGB`와 동일하나 10진수가 아닌 `16진수`를 사용한다.
+
+__Syntax__
+
+```css
+p {
+    color: #ff7433;
+}
+```
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="MWXxKPZ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/MWXxKPZ">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+> `10: A`, `11: B`, ..., `15: F`이므로  
+> FF = F x 16<sup>1</sup> + F x 16<sup>0</sup>  
+> = 15 x 16<sup>1</sup> + 15 x 16<sup>0</sup> = 255
+> 
+> 따라서, `#000000`은 검정색, `#FFFFFF`는 하얀색이된다.
+
+<br>
+
+그리고 `HEX` 컬러는 각 3원색의 2자리 값이 동일할 때 축약형 표현이 가능하다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="YzvgqLY" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/YzvgqLY">
+  Hex Color Abbreviation</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+만약 `#33bb71`일 경우는 `33`, `bb`는 동일하지만 `71`은 두 자리수 값이 동일하지 않으므로 축약이 불가능하다.
+
+> - `HEX` 컬러는 각 3원색의 2자리 값이 동일할 때 이를 축약할 수 있다.
+> - `HEX` 컬러는 `RGB` 컬러를 대체할 수 있으나 `RGBA`는 대체할 수 없다.
+
+#### 4. HSL and HSLA
+
+__1 ) HSL__
+
+`HSL`은 색깔`hue`, 포화도`saturation`, 명도`lightness`로 표현한다.
+
+__Syntax__
+
+```css
+p {
+    color: hsl(hue, saturation%, lightness%);
+}
+```
+
+- `hue`는 원의 각도로 색을 표현한다.
+
+> - 0 degree : <span style="color: red;">Red</span>
+> - 120 degree : <span style="color: green;">Green</span>
+> - 240 degree : <span style="color: blue;">Blue</span>
+
+- `saturation`은 백분위로 색 포화도를 표현한다.
+
+> - 0% : 회색 음영(컬러 표현이 불가능하다)
+> - 100% : full color
+
+- `lightness`는 백분위로 색 밝기를 표현한다.
+
+> - 0% : 검정색
+> - 100% : 하얀색
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="RwJdaEJ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/RwJdaEJ">
+  HSL Color</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+<br>
+
+__2 ) HSLA__
+
+`RGBA`와 마찬가지로 `HSL`은 `Alpha channel`을 추가해 `HSLA`로 표현할 수 있다.
+
+__Syntax__
+
+```css
+p {
+    color: hsl(hue, saturation%, lightness%, alpha);
+}
+```
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="jOKJVdN" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/jOKJVdN">
+  HSLA Color</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 5. Background Color
+
+`HTML` elements 의 배경색을 설정한다. 대상이 텍스트일 경우 글씨의 배경색이 된다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="GRGeZzY" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/GRGeZzY">
+  Background Color</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 6. Text Color
+
+텍스트 컬러를 설정한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="JjZzXzy" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/JjZzXzy">
+  Text Color</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 7. Border Color
+
+`border`의 색상, 즉, `elements`의 테두리 색상을 설정한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="OJEqNqd" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/OJEqNqd">
+  Border Color</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+> `border`의 `width`는 기본값이 `medium`으로 `3px`이지만, `style`은 기본값이 `none`이므로 표현을 위해서는 
+> 반드시 설정되어야한다.  
+> cf. `thin`: 1px, `medium`: 3px, `thick`: 5px
+
+#### 8. Color Values
+
+- `RGB`, `HEX`, `HSL`은 같은 값을 표현할 수 있다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="vYrPKBz" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/vYrPKBz">
+  RGB and HEX and HSL are equal</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+- `RGBA`, `HSLA`는 같은 값을 표현할 수 있다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="RwJdoxQ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/RwJdoxQ">
+  RGBA and HSLA are equal</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
 
 ---
 
