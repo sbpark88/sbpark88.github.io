@@ -461,6 +461,122 @@ p {
 
 ### 11. HTML CSS 👩‍💻
 
+#### 1. Cascading Style Sheets
+
+`Parent Element`에 적용된 스타일이 `Children Elements`에 적용된다. 즉, `Children`에서 변경하지 않는 한 스타일을 
+상속한다.
+
+스타일은 다음 3가지 방법을 통해 `HTML documents`에 적용된다.
+
+> - Inline : `HTML` elements 에 `style` attribute 를 사용
+> - Internal : `<head>`에 `<style>` element 를 사용
+> - External : `<link>` element 를 사용해 외부 `CSS` 파일을 링크해 사용
+
+<br>
+
+__1 ) Inline CSS__
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="WNymgWz" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/WNymgWz">
+  Inline CSS</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+<br>
+
+__2 ) Internal CSS__
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="dyKrqEM" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/dyKrqEM">
+  Internal CSS</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+<br>
+
+__3 ) External CSS__
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="WNymgBJ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/WNymgBJ">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+- Full URL
+
+```html
+<head>
+  <link rel="stylesheet" href="https://www.w3schools.com/html/styles.css">    
+</head>
+```
+
+- Relative URL(동일 웹 페이지)
+
+```html
+<head>
+  <link rel="stylesheet" href="/html/styles.css">    
+</head>
+```
+
+- Just File Name(동일 디렉토리)
+
+```html
+<head>
+  <link rel="stylesheet" href="styles.css">    
+</head>
+```
+
+#### 2. CSS Colors, Fonts, and Sizes
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="KKeEGPG" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/KKeEGPG">
+  CSS Colors, Fonts and Sizes</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 3. CSS Border
+
+`elements`의 테두리애 대한 스타일을 설정한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="dyKrgyX" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/dyKrgyX">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 4. CSS Padding
+
+[Box Model]:/assets/images/posts/2022-12-08-w3schools-html-part2/html-element-box-model.png
+
+![Box Model][Box Model]
+
+`Padding`은 `element`와 `border` 사이의 간격을 조절한다. 즉, `border` 안쪽 여백을 설정한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="poKYxvQ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/poKYxvQ">
+  CSS Padding</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 5. CSS Margin
+
+`Margin`은 `border`와 다른 `element`의 `border` 사이의 간격을 조절한다. 즉, `border` 바깥쪽 여백을 설정해 
+`elements` 간 간격과 위치를 조절하는데 매우 중요하다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="RwJdepZ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/RwJdepZ">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+<br>
+
+__Margin Collapsing__
+
+![Margin Collapsing](/assets/images/posts/2022-12-08-w3schools-html-part2/margin-collapsing.jpg)
+
+`Margin`은 중복되지 않는다. 겹쳐지며 더 큰 쪽의 값 하나만 적용된다.
 
 <br><br>
 
