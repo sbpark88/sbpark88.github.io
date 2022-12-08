@@ -624,13 +624,20 @@ __3 ) Text align__
 
 ---
 
-### 9.  👩‍💻
+### 9. HTML Comments 👩‍💻
 
+주석은 사용자 웹 화면에 보여주지 않기 때문에 정보를 기록하거나 일시적으로 내용을 감추는 데 사용된다.
 
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="OJEqMjp" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/OJEqMjp">
+  Comments</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
 
 ---
 
 ### 10.  👩‍💻
+
 
 
 
