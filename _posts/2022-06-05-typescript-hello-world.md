@@ -35,11 +35,11 @@ ts-node : tsc & node 명령을 한 번에 수행한다.
 @types/node : Node.js를 위한 type definitions 를 포함하는 library 다. 만약 설치하지 않을 경우 TypeScript `require`라는 함수가 없다며 에러로 인식하기 때문에 다음과 같이 코드를 작성해야한다.
 ```typescript
 // @ts-ignore
-const express = require('express');
-const app = express();
+const express = require('express')
+const app = express()
 // @ts-ignore
-const http = require('http');
-const server = http.createServer(app).listen(80);
+const http = require('http')
+const server = http.createServer(app).listen(80)
 ```
 하지만 `@types/node`를 설치하면 이런 수고를 덜게 해준다.
 
@@ -48,6 +48,32 @@ const server = http.createServer(app).listen(80);
 > 즉, npm install -g로 설치한 것은 npm list -g로 확인할 수 있고, npm uninstall -g로 지워야한다.
 >
 > 참고로 npm list 를 사용할 때는 --depth=0, 1, ...옵션을 주어 내려가는 깊이를 조절할 수 있다. i.e. npm list -g --depth=0
+
+<br>
+
+---
+
+> `Module` import 방식은 `CommonJS`보다 `ES6`를 사용하도록 하자
+> 
+> - CommonJS (require / exports)
+> 
+> ```typescript
+> const express = require('express')
+> const app = express()
+> const router = require('./router/index')
+> const port = 8080
+> const ejs = require('ejs')
+> ```
+> 
+> - ES6 (import / export)
+> 
+> ```typescript
+> import express from 'express'
+> const app = express();
+> import router from './router/index.ts'
+> const port = 8080
+> import ejs from 'ejs'
+> ```
 
 #### 3. npm init & tsc init
 ```shell
@@ -72,9 +98,9 @@ TypeScript 코드가 JavaScript 코드로 transpile 되는지 확인하자.
 우선 `index.ts` 파일을 하나 만들어준다.
 
 ```typescript
-const hello: (name: string) => void = name => console.log(`Hello ${name}`);
+const hello: (name: string) => void = name => console.log(`Hello ${name}`)
 
-hello("TypeScript");
+hello("TypeScript")
 
 ```
 위와 같이 저장 후 터미널에서 바로 실행해보자.
@@ -90,8 +116,8 @@ tsc index.ts
 
 `index.js` 파일이 생기고 다음과 같이 코드가 변경되어 있을 것이다.
 ```javascript
-var hello = function (name) { return console.log("Hello ".concat(name)); };
-hello("TypeScript");
+var hello = function (name) { return console.log("Hello ".concat(name)) }
+hello("TypeScript")
 
 ```
 위 `index.js`를 실행해보자.
