@@ -42,12 +42,12 @@ __2 ) Hyperlinks with An Element__
 
 ```html
 <a href="https://sbpark88.github.io">
-  <img src="/assets/images/banners/home.jpeg" alt="My Blog Main Image" width="300">
+  <img src="/assets/images/banners/home.jpeg" alt="My Blog Main Image" style="width:300px">
 </a>
 ```
 
 <a href="https://sbpark88.github.io">
-  <img src="/assets/images/banners/home.jpeg" alt="My Blog Main Image" width="300">
+  <img src="/assets/images/banners/home.jpeg" alt="My Blog Main Image" style="width:300px">
 </a>
 
 <br>
@@ -64,7 +64,7 @@ __3 ) Link to an Email Address__
 
 <br>
 
-__4 ) Button as a Link__
+<span id="button-as-a-link">__4 ) Button as a Link__</span>
 
 `Button` elements 에 `JavaScript`를 이용해 `Link` elements 의 기능을 구현할 수 있다.
 
@@ -73,7 +73,8 @@ __4 ) Button as a Link__
   Link to an Email Address</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
   on <a href="https://codepen.io">CodePen</a>.</span>
 </p>
-
+<br>
+<a href="#hyperlinks-with-button-style">'CSS' 를 이용한 버튼 모양의 'Links'</a> 와 비교해보자.
 
 #### 2. Link `target` attribute
 
@@ -104,12 +105,12 @@ __4 ) Button as a Link__
 
 ```html
 <a href="https://sbpark88.github.io" title="Go to My Blog Main Page">
-  <img src="/assets/images/banners/home.jpeg" alt="My Blog Main Image" width="300">
+  <img src="/assets/images/banners/home.jpeg" alt="My Blog Main Image" style="width:300px">
 </a>
 ```
 
 <a href="https://sbpark88.github.io" title="Go to My Blog Main Page">
-  <img src="/assets/images/banners/home.jpeg" alt="My Blog Main Image" width="300">
+  <img src="/assets/images/banners/home.jpeg" alt="My Blog Main Image" style="width:300px">
 </a>
 
 #### 4. Link with CSS
@@ -150,7 +151,7 @@ __2 ) Hyperlinks with CSS__
 
 <br>
 
-__3 ) Hyperlinks with Button Style__
+<span id="hyperlinks-with-button-style">__3 ) Hyperlinks with Button Style__</span>
 
 `Button` elements 를 사용하지 않고 `CSS`를 이용해 `Link` elements 를 `Button` elements 처럼 보이게 할 수 있다.  
 사용자가 볼 때는 `Link` elements 로 구현한 버튼과 `Button` elements 로 구현한 버튼에 차이는 없겠지만 `Link` elements 를 
@@ -161,6 +162,8 @@ __3 ) Hyperlinks with Button Style__
   Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
   on <a href="https://codepen.io">CodePen</a>.</span>
 </p>
+<br>
+<a href="#button-as-a-link">'Button' 태그를 이용한 'Hyperlinks' 구현</a> 과 비교해보자.
 
 #### 5. Link Bookmarks
 
@@ -189,6 +192,73 @@ __Syntax__
 ---
 
 ### 13. HTML Images 👩‍💻
+
+#### 1. HTML Images Syntax
+
+- src : 이미지 파일 위치
+- alt : 이미지 파일이 없을 경우 대체할 텍스트로, 시각 장애인이 사용하는 `스크린 리더` 프로그램은 물론 `SEO`에도 사용되므로 생략하지 않는 것이 좋다.
+- width : 이미지 너비(pixel), width 와 height 를 attributes 로 설정하는 방법은 권장되지 않는다. `CSS`를 이용하는 것이 권장된다.
+- height : 이미지 높이(pixel), width 와 height 를 attributes 로 설정하는 방법은 권장되지 않는다. `CSS`를 이용하는 것이 권장된다.
+
+> - `<img>` 태그는 웹 페이지에 이미지를 `embed`하기 위해 사용된다. 하지만 기술적으로는 실제로 이미지를 페이지에 삽입하는 것이 아니라, 
+>   참조된 이미지(referenced image)를 위한 공간을 생성하고 유지한다.
+> - `<img>` 태그는 `<br>` 태그나 `<hr>` 태그와 마찬가지로 `Empty Elements`로 종료 태그가 없다.
+
+```html
+<img src="/assets/images/banners/home.jpeg" alt="My Blog Main Image" style="width:300px">
+```
+
+#### 2. Image Size
+
+이미지의 크기를 지정하는 우선순위는 다음과 같다.
+
+HTML `attributes` < Internal/External `CSS` < `Inline CSS`
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="poKBXvM" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/poKBXvM">
+  Link with Title</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+따라서, HTML attributes 로 크기를 지정하면, Internal/External `CSS` 이 우선순위가 높아 설정값 일부를 덮어쓰게된다.
+
+> 이미지 크기는 항상 지정해주는 것이 권장된다. 이미지를 크기를 미리 지정하지 않으면, 이미지가 로딩됨에 따라 페이지 레이아웃이 고정되지 않아 
+> 페이지가 로드되는 동안 레이아웃이 변경되며 화면이 깜빡일 수 있어 사용성이 떨어진다.
+
+#### 3. Image Floating
+
+`CSS`의 `float` property 를 이용하면 element 를 글씨의 왼쪽 또는 오른쪽에 별도의 레이어로 띄운다.  
+정확한 `CSS Properties`로 이야기하자면, `display: inline-block;` 속성이 된다(즉, `float`을 사용하면 
+`display: absolute;`와 동시에 사용될 수 없다).
+
+<br>
+
+- float: none; (default)
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="xxzNVrx" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/xxzNVrx">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+- float: left;
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="GRGaZxv" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/GRGaZxv">
+  Float left</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+- float: right;
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="WNyBwzK" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/WNyBwzK">
+  Float right</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
 
 ---
 

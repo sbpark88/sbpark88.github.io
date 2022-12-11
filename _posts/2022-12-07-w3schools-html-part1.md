@@ -76,8 +76,10 @@ tags: [w3school, element, attribute, heading, paragraph]
 
 - src : 이미지 파일 위치
 - alt : 이미지 파일이 없을 경우 대체할 텍스트로, 시각 장애인이 사용하는 `스크린 리더` 프로그램은 물론 `SEO`에도 사용되므로 생략하지 않는 것이 좋다. 
-- width : 이미지 너비
-- height : 이미지 높이
+- width : 이미지 너비(pixel), width 와 height 를 attributes 로 설정하는 방법은 권장되지 않는다. `CSS`를 이용하는 것이 권장된다.
+- height : 이미지 높이(pixel), width 와 height 를 attributes 로 설정하는 방법은 권장되지 않는다. `CSS`를 이용하는 것이 권장된다.
+
+> `<img>` 태그에 attributes 를 이용해 `width`와 `height`를 설정할 수 있지만, `CSS`를 이용하는 것이 권장된다. 
 
 ---
 
