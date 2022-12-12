@@ -133,9 +133,9 @@ __2 ) prefetch false__
 
 ```javascript
 module.exports = {
-    chainWebpack: config => {
-        config.plugin.delete('prefetch');
-    }
+  chainWebpack: config => {
+    config.plugin.delete('prefetch');
+  }
 }
 ```
 
@@ -143,19 +143,382 @@ module.exports = {
 
 ```vue
 {
-    path: '/about',
-    name: 'about',
-    component: () => import(/* webpackPrefetch: true */ '../views/AboutView.vue')
-  }
+  path: '/about',
+  name: 'about',
+  component: () => import(/* webpackPrefetch: true */ '../views/AboutView.vue')
+}
 ```
 
 ---
 
-### 4.  👩‍💻
+### 4. Vue Component 👩‍💻
+
+__Component Structures__
+
+```vue
+<template>
+  <div></div>
+</template>
+
+<script>
+export default {
+  name: "",         // 컴포넌트 이름(필수값은 아님)
+  components: {},   // 외부 컴포넌트를 import
+  data() {          // html 과 javascript 에서 사용할 데이터 변수로 `Vue`에 의해 컨트롤
+    return {}
+  },
+  setup() {         // (Lifecycle Hooks) Composition API
+  },
+  created() {       // (Lifecycle Hooks) 컴포넌트 init 후
+  },
+  mounted() {       // (Lifecycle Hooks) 컴포넌트 initial render 후
+  },
+  unmounted() {     // (Lifecycle Hooks) 컴포넌트 언마운트 시
+  },
+  methods: {},      // 컴포넌트 내에서 사용할 메서드
+}
+</script>
+
+<style scoped>
+
+</style>
+```
+
+![Vue Lifecycle Hookds](/assets/images/posts/2022-12-10-vue-starter-part2/lifecycle.png)
 
 ---
 
-### 5.  👩‍💻
+### 5. Data Binding 'v-model' 👩‍💻
+
+`Vue`는 `Anlgular`와 마찬가지로 `Two-way data binding`을 지원한다.
+
+#### 1. Text Data Binding
+
+> <span style="color: red;">\{\{ someData \}\}</span> 로 바인딩 한다.
+
+```vue
+<template>
+  <div>{{ someData }}</div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      someData: `Some Text`
+    }
+  },
+}
+</script>
+```
+
+#### 2. Raw HTML Data Binding
+
+\{\{ someData \}\} 로 작성할 경우 단순 텍스트로 인식되기 때문에 `v-html` directive 를 이용해
+
+> <span style="color: red;"><div v-html="someData"></div></span> 로 바인딩 한다.
+
+```vue
+<template>
+  <div v-html="someData"></div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      someData: `<Some HTML></Some HTML>`
+    }
+  },
+}
+</script>
+```
+
+- `<div v-html="someData"></div>` 또는 `<span v-html="someData"></span>` 와 같이 
+  `children`이 없는 빈 `element`를 생성한다.
+- `<div v-html="someData"></div>`의 `children`이 export 되는 element 로 `override` 된다.
+
+<br>
+
+__Raw HTML Data Binding Examples__
+
+```vue
+<template>
+  <div v-html="someHtml"></div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      someHtml: `<p style="color: red;">This is red.</p>`
+    }
+  },
+}
+</script>
+```
+
+![Raw HTML Data Binding](/assets/images/posts/2022-12-10-vue-starter-part2/raw-html-data-binding.png)
+
+#### 3. Form `input type="text"`
+
+`v-model` directive 를 이용해
+
+> <span style="color: red;">\<input type="text" v-model="someValue"></span> 로 바인딩 한다.
+
+```vue
+<template>
+  <input type="text" v-model="someValue">
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      someValue: `Some Text`
+    }
+  },
+}
+</script>
+```
+
+#### 4. Form `input type="number"`
+
+`v-model.number` directive 를 이용해   
+
+> <span style="color: red;">\<input type="tnumber" v-model="someNumber"></span> 로 바인딩 한다.
+
+```vue
+<template>
+  <input type="number" v-model.number="someNumber">
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      someNumber: 0
+    }
+  },
+}
+</script>
+```
+
+#### 5. Form `textarea`
+
+`<textarea>{{ someText }}</textarea>`일 것 같지만 `JavaScript`가 `.innerText`가 아닌 `.value`로 접근하기 대문에 
+마찬가지로 `v-model` directive 를 이용해
+
+> <span style="color: red;">\<textarea v-model="someValue"></textarea></span> 로 바인딩 한다.
+
+```vue
+<template>
+  <textarea v-model="someValue"></textarea>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      someValue: `Some Text`
+    }
+  },
+}
+</script>
+```
+
+#### 6. Form `select`
+
+`v-model` directive 를 이용해 
+
+> <span style="color: red;">\<select v-model="someValue"></select></span> 로 바인딩 한다.
+
+```vue
+<template>
+  <select v-model="someValue">
+    <option value="value01">Value 01</option>
+    <option value="value02">Value 02</option>
+    <option value="value03">Value 03</option>
+  </select>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      someValue: `value01`
+    }
+  },
+}
+</script>
+```
+
+<br>
+
+또한 사용자 입력값이 아닌 고정값이 지정되는 `select box` 또는 `radio button`의 경우 `value`를 HTML 에 값을 고정하지 
+않고 `v-bind:value` directive 를 이용해 렌더링 할 수 있다.
+
+> <span style="color: red;">\<option v-bind:value="value01"></option></span> 로 바인딩 한다.
+
+```vue
+<template>
+  <select v-model="someValue">
+    <option v-bind:value="value01">Value 01</option>
+    <option v-bind:value="value02">Value 02</option>
+    <option v-bind:value="value03">Value 03</option>
+  </select>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      someValue: `value01`,
+      value01: `value01`,
+      value02: `value02`,
+      value03: `value03`,
+    }
+  },
+}
+</script>
+```
+
+#### 7. Form `input type="checkbox"` 
+
+`JavaScript`가 `.value`가 아닌 `.checked`로 접근하지만 
+`value` 접근으로 취급해 `v-model` directive 를 이용해
+
+> <span style="color: red;">\<input type="checkbox" v-model="someBoolean"></span> 로 바인딩 한다.
+
+```vue
+<template>
+  <input type="checkbox" v-model="someBoolean">
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      someBoolean: true
+    }
+  },
+}
+</script>
+```
+
+#### 8. Form `input type="radio"`
+
+[6. select box](#h-6-form-select) 와 동일하게 `v-model`과 `v-bind:value`를 사용한다.
+
+> 원래 `radio button`은 `name`을 동일하게 해줘야하지만, 별도로 `name`을 설정하지 않아도 `v-model` 바인딩에 의해 하나의 값만 선택된다.
+
+```vue
+<template>
+  <select v-model="someValue">
+    <option value="value01">Value 01</option>
+    <option value="value02">Value 02</option>
+    <option value="value03">Value 03</option>
+  </select>
+  <div>
+    <label for="radio01"><input type="radio" v-bind:value="value01" id="radio01" v-model="someChecked">서울</label>
+    <label for="radio02"><input type="radio" v-bind:value="value02" id="radio02" v-model="someChecked">부산</label>
+    <label for="radio03"><input type="radio" v-bind:value="value03" id="radio03" v-model="someChecked">제주</label>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      someChecked: `value01`
+    }
+  },
+}
+</script>
+```
+
+<br>
+
+```vue
+<template>
+  <select v-model="someValue">
+    <option v-bind:value="value01">Value 01</option>
+    <option v-bind:value="value02">Value 02</option>
+    <option v-bind:value="value03">Value 03</option>
+  </select>
+  <div>
+    <label for="radio01"><input type="radio" v-bind:value="value01" id="radio01" v-model="someChecked">서울</label>
+    <label for="radio02"><input type="radio" v-bind:value="value02" id="radio02" v-model="someChecked">부산</label>
+    <label for="radio03"><input type="radio" v-bind:value="value03" id="radio03" v-model="someChecked">제주</label>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      someChecked: `value01`,
+      value01: `value01`,
+      value02: `value02`,
+      value03: `value03`,
+    }
+  },
+}
+</script>
+```
+
+### 6. Data Binding 'v-bind:x' for Attributes 👩‍💻
+
+HTML 의 attributes 를 바인딩 할 때 `value` 를 제외한 attributes 는 `v-bind:x`를 이용해 바인딩 하며, `v-bind`를 
+생략해 `:x`로 바인딩 할 수 있다.
+
+#### 1. img > src
+
+`v-bind:scr` directive 를 이용한다.
+
+```vue
+<template>
+  <img :src="myBlogFavicon">
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      myBlogFavicon: `https://sbpark88.github.io/assets/images/favicon/greendreamtree.png`
+    }
+  },
+}
+</script>
+```
+#### 2. button > disabled
+
+`v-bind:diabled` directive 를 이용한다.
+
+```vue
+<template>
+  <input type="text" v-model="textValue">
+  <button type="button" :disabled="!textValue">Click</button>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      textValue: ``
+    }
+  },
+}
+</script>
+```
+
+#### 3. class
+
+`.classList.add('someClass')` 또는 `.classList.remove('someClass')`를 할 필요 없이,
+
+반드시 사용할 `class`는 `class` attribute 를 사용하고, `Vue`를 이용해 추가하거나 제거할 변동성 있는 `class`는
+`v-bind:class` directive 를 이용한다.
+
 
 <br><br>
 
