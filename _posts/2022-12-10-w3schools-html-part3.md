@@ -163,7 +163,7 @@ __2 ) Hyperlinks with CSS__
   on <a href="https://codepen.io">CodePen</a>.</span>
 </p>
 <br>
-<a href="#button-as-a-link">'Button' 태그를 이용한 'Hyperlinks' 구현</a> 과 비교해보자.
+<a href="#button-as-a-link">'button' 태그를 이용한 'Hyperlinks' 구현</a> 과 비교해보자.
 
 #### 5. Link Bookmarks
 
@@ -259,6 +259,188 @@ HTML `attributes` < Internal/External `CSS` < `Inline CSS`
   Float right</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
   on <a href="https://codepen.io">CodePen</a>.</span>
 </p>
+
+#### 4. HTML Image Maps
+
+__1 ) Image Maps__
+
+이미지 위에 클릭 가능한 영역을 지도를 표시하듯 정의한다.
+
+```html
+<img src="/assets/images/posts/2022-12-10-w3schools-html-part3/workplace.jpg" alt="Workplace" usemap="#workmap">
+
+<map name="workmap">
+  <area shape="rect" coords="34,44,270,350" alt="Computer" href="https://www.w3schools.com/html/computer.htm">
+  <area shape="rect" coords="290,172,333,250" alt="Phone" href="https://www.w3schools.com/html/phone.htm">
+  <area shape="circle" coords="337,300,44" alt="Coffee" href="https://www.w3schools.com/html/coffee.htm">
+</map>
+```
+
+아래 이미지의 `랩탑`, `스마트폰`, `커피`는 각각 클릭 가능한 영역을 정의하고있다.
+
+<img src="/assets/images/posts/2022-12-10-w3schools-html-part3/workplace.jpg" alt="Workplace" usemap="#workmap">
+
+<map name="workmap">
+  <area shape="rect" coords="34,44,270,350" alt="Computer" href="https://www.w3schools.com/html/computer.htm" target="_blank">
+  <area shape="rect" coords="290,172,333,250" alt="Phone" href="https://www.w3schools.com/html/phone.htm" target="_blank">
+  <area shape="circle" coords="337,300,44" alt="Coffee" href="https://www.w3schools.com/html/coffee.htm" target="_blank">
+</map>
+
+> - img > usemap : `usemap` attribute 는 `#[map-name]`을 이용해 이미지 맵에 연결한다(# 을 붙여서 id 값일 것 같지만 name 이다).
+> - map : `<map>` 태그는 반드시 `name` attribute 를 가져야한다.
+> - area : `<map>` 태그의 `children`으로 1 ~ n 개로 정의하며, 각각의 클릭 가능한 영역을 정의한다. 
+>          `<area>` 태그는 `shape`와 `coords` attributes 를 제외하면, `<a>` 태그와 동일하다.
+
+<br>
+
+__2 ) Shape & Coords Attributes__
+
+클릭 가능한 영역의 모양을 정의하는 `shape`는 다음 4 가지로 분류되며, `shape`에 따라 `coords`는 각각 다른 형태로 정의된다.
+
+> - default : 이미지 전체 영역
+> - rect : 사각형
+> - circle : 원
+> - poly : 다각형
+
+<br>
+
+- Shape="rect"
+
+`shape`의 값이 `rect`일 때, `coords`는 (x, y) 좌표계를 이용해 (x<sub>1</sub>, y<sub>1</sub>) ~
+(x<sub>2</sub>, y<sub>2</sub>) 로 클릭 가능한 영역을 정의한다.
+
+<p class="center">From</p>
+
+<img src="/assets/images/posts/2022-12-10-w3schools-html-part3/rectangular1.png" style="width: 400px;">
+
+<p class="center">To</p>
+
+<img src="/assets/images/posts/2022-12-10-w3schools-html-part3/rectangular2.png" style="width: 400px;">
+
+<p class="center">Rectangular Shape</p>
+
+<img src="/assets/images/posts/2022-12-10-w3schools-html-part3/rectangular3.png" style="width: 400px;">
+
+```html
+<area shape="rect" coords="34,44,270,350" alt="Computer" href="https://www.w3schools.com/html/computer.htm">
+```
+
+<br>
+
+- Shape="circle"
+
+`shape`의 값이 `circle`일 때, `coords`는 (x, y) 좌표계를 이용해 원의 중심과 반지름으로 클릭 가능한 영역을 정의한다.
+
+<p class="center">Center</p>
+
+<img src="/assets/images/posts/2022-12-10-w3schools-html-part3/circular1.png" style="width: 400px;">
+
+<p class="center">Radius</p>
+
+<img src="/assets/images/posts/2022-12-10-w3schools-html-part3/circular2.png" style="width: 400px;">
+
+<p class="center">Circular Shape</p>
+
+<img src="/assets/images/posts/2022-12-10-w3schools-html-part3/circular3.png" style="width: 400px;">
+
+```html
+<area shape="circle" coords="337,300,44" alt="Coffee" href="https://www.w3schools.com/html/coffee.htm">
+```
+
+<br>
+
+- Shape="poly"
+
+포토샵 다각형 도구를 사용하듯 여러 점을 잡아 다각형을 포착한다.
+
+<p class="center">All edges</p>
+
+<img src="/assets/images/posts/2022-12-10-w3schools-html-part3/polygonal1.png" style="width: 400px;">
+
+<p class="center">Polygonal Shape</p>
+
+<img src="/assets/images/posts/2022-12-10-w3schools-html-part3/polygonal2.png" style="width: 400px;">
+
+```html
+<area shape="poly" 
+      coords="140,121,181,116,204,160,204,222,191,270,140,329,85,355,58,352,37,322,40,259,103,161,128,147" 
+      alt="Bread" 
+      href="https://www.w3schools.com/html/croissant.htm">
+```
+
+#### 5. HTML Background Images
+
+__1 ) Background Image on a HTML Element__
+
+`HTML` 의 거의 모든 elements 는 `Background Image`를 가질 수 있으며, `Background Image`는 `style` attribute 의 
+`background-image` property 를 이용해 삽입한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="KKeLJKy" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/KKeLJKy">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+물론, `CSS` 로 빼서 사용하는 것도 가능하다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="PoavVwG" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/PoavVwG">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+<br>
+
+__2 ) Background Image on a Page__
+
+`<body>` element 에 추가하면 웹 페이지의 배경으로 사용할 수 있다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="LYroqVK" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/LYroqVK">
+  Background-Image on a Page</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+<br>
+
+__3 ) Background Repeat__
+
+하지만 사진 크기가 작을 경우 화면이 반복된다. `CSS`의 `background-repeat` property 를 이용해 제어할 수 있다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="eYKaxpL" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/eYKaxpL">
+  Background-Image No-Repeat</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+<br>
+
+__4 ) Background Cover__
+
+반복은 멈췄지만 사진이 화면을 채우지 못 한다. `Background` 관련된 몇 가지 `CSS` properties 를 추가로 정의해주면 이를 제어할 
+수 있다.
+
+
+- 원본 비율 유지
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="bGKyzpR" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/bGKyzpR">
+  Background Cover</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+- 풀커버
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="vYrwbXL" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/vYrwbXL">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+
+#### 6. HTML Picture Element
 
 ---
 
