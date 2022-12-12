@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Vue.js Starter
+title: Vue.js Starter - Part 1
 subtitle: Vue.js 프로젝트 투입 일주일 전
 categories: javascript
-tags: [javascript, vue, vuejs, vue.js]
+tags: [javascript, vue, vue js, vue.js, vue cli, vue/cli]
 ---
 
 <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
@@ -162,21 +162,10 @@ run npm serve -- --port [Port Number]
 > `Vue Project Manager`로 생성하지 않고 `Vue CLI`로만 생성한 프로젝트는 프로젝트 리스트에 보이지 않는다. 
 > `가져오기`를 통해 매니저에 등록 후 확인 가능하다.
 
----
-
-### 3.  👩‍💻
-
----
-
-### 4.  👩‍💻
-
----
-
-### 5.  👩‍💻
-
 <br><br>
 
 ---
 Reference
 
-1. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 1 ~
+1. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 1
+2. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 2
