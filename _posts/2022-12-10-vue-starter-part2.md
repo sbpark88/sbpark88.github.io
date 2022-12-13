@@ -694,6 +694,63 @@ td, th {
 
 ### 8. v-if, v-show
 
+__1 ) v-if__
+
+```vue
+<template>
+  <div>
+    <h1 v-if="type === 'A'">A</h1>
+    <h1 v-else-if="type === 'B'">B</h1>
+    <h1 v-else>Others</h1>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "VueIf",
+  data() {
+    return {
+      type: 'B'
+    }
+  },
+}
+</script>
+```
+
+![v-if examples](/assets/images/posts/2022-12-10-vue-starter-part2/v-if.png)
+
+<br>
+
+__2 ) v-show__
+
+```vue
+<template>
+  <div>
+    <h1 v-show="type === 'A'">A</h1>
+    <h1 v-show="type === 'B'">B</h1>
+    <h1 v-show="!(type === 'A' || type === 'B')">Others</h1>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "VueSHow",
+  data() {
+    return {
+      type: 'B'
+    }
+  }
+}
+</script>
+```
+
+![v-show examples](/assets/images/posts/2022-12-10-vue-starter-part2/v-show.png)
+
+<br>
+
+> `v-if`는 DOM 을 생성/삭제하고, `v-show`는 DOM 을 모두 생성 후 `display=none` 처리만 한다.  
+> 따라서 최초 DOM 생성은 `v-show`가 더 많은 비용이 들지만, 이후 화면에서 생성/삭제가 일어날 때는 감추기만 하므로 
+> 더 적은 비용으로 동작한다. 따라서 해당 변수에 토글이 자주 일어난다면 `v-show`를 사용하는 것이 좋다.
 
 ### 9. v-on
 
