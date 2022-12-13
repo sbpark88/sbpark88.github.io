@@ -3,7 +3,7 @@ layout: post
 title: Vue.js Starter - Part 2
 subtitle: Vue.js 프로젝트 투입 일주일 전
 categories: javascript
-tags: [javascript, vue, vuej s, vue.js, router, vue router, component, vue component]
+tags: [javascript, vue, vuej s, vue.js, router, vue router, component, vue component, v-for, v-if, v-show, v-on, computed, watch]
 ---
 
 <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
@@ -193,9 +193,11 @@ export default {
 `Vue`는 `Anlgular`와 마찬가지로 `Two-way data binding`을 지원한다.
 
 #### 1. Text Data Binding
+{% raw %}
+> <span style="color: red;">{{ someData }}</span> 로 바인딩 한다.
+{% endraw %}
 
-> <span style="color: red;">\{\{ someData \}\}</span> 로 바인딩 한다.
-
+{% raw %}
 ```vue
 <template>
   <div>{{ someData }}</div>
@@ -211,10 +213,12 @@ export default {
 }
 </script>
 ```
+{% endraw %}
 
 #### 2. Raw HTML Data Binding
-
-\{\{ someData \}\} 로 작성할 경우 단순 텍스트로 인식되기 때문에 `v-html` directive 를 이용해
+{% raw %}
+{{ someData }} 로 작성할 경우 단순 텍스트로 인식되기 때문에 `v-html` directive 를 이용해
+{% endraw %}
 
 > <span style="color: red;"><div v-html="someData"></div></span> 로 바인딩 한다.
 
@@ -305,9 +309,10 @@ export default {
 ```
 
 #### 5. Form `textarea`
-
+{% raw %}
 `<textarea>{{ someText }}</textarea>`일 것 같지만 `JavaScript`가 `.innerText`가 아닌 `.value`로 접근하기 대문에 
 마찬가지로 `v-model` directive 를 이용해
+{% endraw %}
 
 > <span style="color: red;">\<textarea v-model="someValue"></textarea></span> 로 바인딩 한다.
 
@@ -623,6 +628,85 @@ export default {
 }
 </script>
 ```
+
+### 7. v-for
+
+`select`의 `option`, `table`의 `tr` 데이터와 같은 리스트를 처리하는 데 주로 사용되며,
+`v-for` directive 를 이용하며, `v-for="(item, index) in items"` 의 형태로 사용한다.
+
+{% raw %}
+```vue
+<template>
+  <table>
+    <thead>
+    <tr>
+      <th>제품명</th>
+      <th>가격</th>
+      <th>카테고리</th>
+      <th>배송료</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr :key="index" v-for="(product, index) in productList">
+      <td>{{ product.product_name }}</td>
+      <td>{{ product.price }}</td>
+      <td>{{ product.category }}</td>
+      <td>{{ product.delivery_price }}</td>
+    </tr>
+    </tbody>
+  </table>
+</template>
+
+<script>
+export default {
+  name: "VueFor",
+  data() {
+    return {
+      productList: [
+        {"product_name": "사과", "price": 4000, "category": "과일", "delivery_price": 3000},
+        {"product_name": "배", "price": 6000, "category": "과일", "delivery_price": 3000},
+        {"product_name": "참치", "price": 30000, "category": "생선", "delivery_price": 10000},
+        {"product_name": "안심", "price": 40000, "category": "육류", "delivery_price": 6000},
+        {"product_name": "와인", "price": 12000, "category": "주류", "delivery_price": 0},
+      ]
+    }
+  }
+}
+</script>
+
+<style scoped>
+table {
+  font-family: Arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 8px;
+}
+</style>
+```
+{% endraw %}
+
+![v-for examples](/assets/images/posts/2022-12-10-vue-starter-part2/v-for.png)
+
+### 8. v-if, v-show
+
+
+### 9. v-on
+
+
+### 10. computed, watch
+
+
+[Swift Computed Properties][Swift Computed Properties]
+
+[Swift Property Observers][Swift Property Observers]
+
+[Swift Computed Properties]:https://sbpark88.github.io/swift/2022/11/22/properties.html#h-2-computed-properties-
+[Swift Property Observers]:https://sbpark88.github.io/swift/2022/11/22/properties.html#h-3-property-observers-
 
 
 
