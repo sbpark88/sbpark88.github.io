@@ -647,7 +647,7 @@ export default {
     </tr>
     </thead>
     <tbody>
-    <tr :key="index" v-for="(product, index) in productList">
+    <tr v-for="(product, index) in productList" :key="index">
       <td>{{ product.product_name }}</td>
       <td>{{ product.price }}</td>
       <td>{{ product.category }}</td>
@@ -694,7 +694,7 @@ td, th {
 
 ### 8. v-if, v-show
 
-__1 ) v-if__
+#### 1. v-if
 
 ```vue
 <template>
@@ -719,9 +719,7 @@ export default {
 
 ![v-if examples](/assets/images/posts/2022-12-10-vue-starter-part2/v-if.png)
 
-<br>
-
-__2 ) v-show__
+#### 2. v-show
 
 ```vue
 <template>
@@ -754,6 +752,199 @@ export default {
 
 ### 9. v-on
 
+`HTML`의 `onclick`, `onchange`, `onkeyup`과 사용법이 동일하다.  
+차이점은 `Vue`에 의해 관리될 수 있도록 `v-on:x` directive 또는 `@x` directive 를 사용해 `Vue`의 `methods`에 
+연결해주는 것만 다르다.
+
+`v-on:click="someMethodName"` 또는 `@click="someMethodName"` 의 형태로 사용한다.
+
+#### 1. v-on:click
+
+- Whitout Arguments
+
+{% raw %}
+```vue
+<template>
+  <button type="button" @click="increaseCounter">Add 1</button>
+  <p>The counter is : {{ counter }}</p>
+</template>
+
+<script>
+export default {
+  name: "VueOnEvents",
+  data() {
+    return {
+      counter: 0
+    }
+  },
+  methods: {
+    increaseCounter() {
+      this.counter++
+    }
+  },
+}
+</script>
+```
+{% endraw %}
+
+- With Arguments
+
+{% raw %}
+```vue
+<template>
+  <button type="button" @click="resetCounter(0)">Reset</button>
+  <p>The counter is : {{ counter }}</p>
+</template>
+
+<script>
+export default {
+  name: "VueOnEvents",
+  data() {
+    return {
+      counter: 0,
+    }
+  },
+  methods: {
+    resetCounter(value) {
+      this.counter = value
+    }
+  },
+}
+</script>
+```
+{% endraw %}
+
+- Pseudo Pipe
+
+{% raw %}
+정확히 `reduce`를 이용한 `Pipe` 함수와는 조금 다르지만, `data`에 변수를 생성해 메서드를 연속해 호출하므로써 
+유사 `Pipe` 구현도 가능하다.
+
+```vue
+<template>
+  <button type="button" @click="first(pipeInitialValue = 5), second(pipeInitialValue)">Multi Call</button>
+</template>
+
+<script>
+export default {
+  name: "VueOnEvents",
+  data() {
+    return {
+      pipeInitialValue: 0
+    }
+  },
+  methods: {
+    first(value) {
+      alert(value)
+      this.pipeInitialValue += 10
+    },
+    second(value) {
+      alert(value)
+    }
+  },
+}
+</script>
+```
+{% endraw %}
+
+```Alert
+5
+15
+```
+
+#### 2. v-on:change
+
+{% raw %}
+```vue
+<template>
+  <select v-model="selectedValue" @change="popSelected">
+    <option v-for="(city, index) in cities" :key="index" :value="city">{{ city }}</option>
+  </select>
+</template>
+
+<script>
+export default {
+  name: "VueOnEvents",
+  data() {
+    return {
+      cities: ["서울", "부산", "제주"],
+      selectedValue: "",
+    }
+  },
+  methods: {
+    popSelected() {
+      alert(this.selectedValue)
+    },
+  },
+}
+</script>
+
+<style scoped>
+
+</style>
+
+```
+{% endraw %}
+
+#### 3. v-on:keyup
+
+`Vue`는 `keyup` 이벤트에 특정 키 조건문을 직접 정하지 않고도 손쉽게 처리할 수 있다. 운영체제에 따라 `key-code`가 
+다른 것에 대해 별도로 처리할 필요가 없다.
+
+- @keyup.enter : enter, return
+- @keyup.tab
+- @keyup.delete : delete, backspace
+- @keyup.esc
+- @keyup.space
+- @keyup.up
+- @keyup.down
+- @keyup.left
+- @keyup.right
+
+또한, 다음과 같이 키 조합에 대한 이벤트 처리도 가능하다.
+
+- @keyup.alt.enter
+- @click.ctrl
+
+```vue
+<template>
+  <h4>Keyup (Win: alt + enter / Mac: option + return)</h4>
+  <input type="text" @keyup.alt.enter="altEnterCalled">
+
+  <div style="display: grid">
+    <div class="btn-style" @click.meta="commandClickCalled">Command Click</div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "VueOnEvents",
+  data() {
+    return { }
+  },
+  methods: {
+    altEnterCalled() {
+      alert(`(alt + enter) or (option + return) called!!`)
+    },
+    commandClickCalled() {
+      alert(`(win + click) or (command + click) called!!`)
+    },
+  },
+}
+</script>
+
+<style scoped>
+.btn-style {
+  justify-self: center;
+  width: 200px;
+  padding: 5px 10px;
+  margin: 10px;
+  background-color: burlywood;
+  border: blanchedalmond solid 3px;
+  border-radius: 10px;
+}
+</style>
+```
 
 ### 10. computed, watch
 
