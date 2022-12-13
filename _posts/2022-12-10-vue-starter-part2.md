@@ -517,7 +517,113 @@ export default {
 `.classList.add('someClass')` 또는 `.classList.remove('someClass')`를 할 필요 없이,
 
 반드시 사용할 `class`는 `class` attribute 를 사용하고, `Vue`를 이용해 추가하거나 제거할 변동성 있는 `class`는
-`v-bind:class` directive 를 이용한다.
+`v-bind:class` directive 를 이용하며, `Object` 타입 매핑과, `Array` 타입 매핑 두 가지 방법이 있다.
+
+__1 ) v-bind:class by Object Mapping__
+
+```vue
+<template>
+  <div class="fixed-class" :class="{ 'some-class-1': class1, 'some-class-2': class2 }"></div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      class1: true,
+      class2: false
+    }
+  },
+}
+</script>
+
+<style scoped>
+.fixed-class { }
+.some-class-1 { }
+.some-class-2 { }
+</style>
+```
+
+> `class-name: boolean` 쌍으로 작성해 적용할 클래스를 <span style="color: red;">On/Off 할 수 있다</span>.
+
+<br>
+
+__2 ) v-bind:class by Array Mapping__
+
+```vue
+<template>
+  <div class="fixed-class" :class="[class1, class2]"></div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      class1: 'some-class-1',
+      class2: 'some-class-2'
+    }
+  },
+}
+</script>
+
+<style scoped>
+.fixed-class { }
+.some-class-1 { }
+.some-class-2 { }
+</style>
+```
+
+> 클래스 이름을 `Array`로 나열할 뿐 적용할 클래스를 <span style="color: red;">On/Off 할 수 없다</span>.  
+> 대신 `Array`를 이용하면 위 케이스를 기준으로 `class1` 변수 하나에 `some-class-1 some-class-2`와 같이 작성할 수 있다.  
+
+#### 4. Inline Style
+
+`v-bind:style` directive 를 이용하며, `Object` 타입 매핑과, `Array` 타입 매핑 두 가지 방법이 있다.  
+단, `v-bind:class`와 달리 `Object Mapping`이 `template` 쪽이 아닌 `data()` 쪽에서 이뤄진다. 즉, `boolean`이 
+아닌 `CSS`의 `Property: Value` 쌍이 매핑된다.
+
+__1 ) v-bind:style by Object Mapping__
+
+```vue
+<template>
+  <div :style="styleObject"></div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      styleObject: {
+        proeprty1: 'value1',
+        proeprty2: 'value2'
+      }
+    }
+  },
+}
+</script>
+```
+
+<br>
+
+__2 ) v-bind:style by Array Mapping__
+
+```vue
+<template>
+  <div :style="[style1, style2]"></div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      style1: 'property1: value1; property2: value2;',
+      style2: 'proeprty3: value3;'
+    }
+  },
+}
+</script>
+```
+
 
 
 <br><br>
