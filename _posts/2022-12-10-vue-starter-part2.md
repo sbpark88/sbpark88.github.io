@@ -946,17 +946,177 @@ export default {
 </style>
 ```
 
-### 10. computed, watch
+### 10. Computed, Watch
 
+#### 1. Computed Properties
 
-[Swift Computed Properties][Swift Computed Properties]
+[Swift Computed Properties][Swift Computed Properties] 와 같다.
 
-[Swift Property Observers][Swift Property Observers]
+[Swift Computed Properties]:/swift/2022/11/22/properties.html#h-2-computed-properties-
 
-[Swift Computed Properties]:https://sbpark88.github.io/swift/2022/11/22/properties.html#h-2-computed-properties-
-[Swift Property Observers]:https://sbpark88.github.io/swift/2022/11/22/properties.html#h-3-property-observers-
+값을 계산해 변수로 사용하며, 값은 캐싱된다.
 
+- Getter/Setter
 
+{% raw %}
+```vue
+<template>
+  <h4>Perform every times</h4>
+  <div>{{ `${firstName} ${lastName}` }}</div>
+
+  <h4>Computed</h4>
+  <div>{{ fullName }}</div>
+
+  <hr>
+
+  <h4>firstName</h4>
+  <input type="text" v-model="firstName">
+
+  <h4>lastName</h4>
+  <input type="text" v-model="lastName">
+
+  <h4>fullName</h4>
+  <input type="text" v-model="fullName">
+</template>
+
+<script>
+export default {
+  name: "VueComputedAndWatch",
+  data() {
+    return {
+      firstName: "Harry",
+      lastName: "Potter"
+    }
+  },
+  methods: {},
+  computed: {
+    fullName: {
+      get: function () {
+        return `${this.firstName} ${this.lastName}`
+      },
+      set: function (newValue) {
+        const names = newValue.split(' ')
+        this.firstName = names[0]
+        this.lastName = names[1]
+      }
+    }
+  }
+}
+</script>
+```
+{% endraw %}
+
+<br>
+
+- Read-Only
+
+{% raw %}
+```vue
+<template>
+  <h4>Perform every times</h4>
+  <div>{{ `${firstName} ${lastName}` }}</div>
+
+  <h4>Computed</h4>
+  <div>{{ fullName }}</div>
+
+  <hr>
+
+  <h4>firstName</h4>
+  <input type="text" v-model="firstName">
+
+  <h4>lastName</h4>
+  <input type="text" v-model="lastName">
+
+  <h4>fullName</h4>
+  <input type="text" v-model="fullName">
+</template>
+
+<script>
+export default {
+  name: "VueComputedAndWatch",
+  data() {
+    return {
+      firstName: "Harry",
+      lastName: "Potter"
+    }
+  },
+  methods: {},
+  computed: {
+    fullName: function() {
+      return `${this.firstName} ${this.lastName}`
+    },
+  }
+}
+</script>
+```
+{% endraw %}
+
+> `Getter/Setter`에 `Arrow Functions`는 사용할 수 없다.
+
+#### 2. Watch(Property Observers)
+
+[Swift Property Observers][Swift Property Observers] 에서 `didSet`만 존재하는 것과 같다.
+
+[Swift Property Observers]:/swift/2022/11/22/properties.html#h-3-property-observers-
+
+{% raw %}
+```vue
+<template>
+  <h4>Perform every times</h4>
+  <div>{{ `${firstName} ${lastName}` }}</div>
+
+  <h4>Computed</h4>
+  <div>{{ fullName }}</div>
+
+  <hr>
+
+  <h4>firstName</h4>
+  <input type="text" v-model="firstName">
+
+  <h4>lastName</h4>
+  <input type="text" v-model="lastName">
+
+  <h4>fullName</h4>
+  <input type="text" v-model="fullName">
+</template>
+
+<script>
+export default {
+  name: "VueComputed",
+  data() {
+    return {
+      firstName: "Harry",
+      lastName: "Potter"
+    }
+  },
+  methods: {},
+  computed: {
+    fullName: {
+      get: function () {
+        return `${this.firstName} ${this.lastName}`
+      },
+      set: function (newValue) {
+        const names = newValue.split(' ')
+        this.firstName = names[0]
+        this.lastName = names[1]
+      }
+    }
+  },
+  watch: {
+    firstName() {
+      const oldValue = this.firstName
+      console.log(oldValue)
+      this.firstName = `${oldValue.substring(0, 1).toUpperCase()}${oldValue.substring(1)}`
+    },
+    lastName() {
+      const oldValue = this.lastName
+      this.lastName = `${oldValue.substring(0, 1).toUpperCase()}${oldValue.substring(1)}`
+    },
+  }
+}
+</script>
+```
+{% endraw %}
 
 <br><br>
 
