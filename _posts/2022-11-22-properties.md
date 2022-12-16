@@ -329,7 +329,7 @@ struct SomStructure {
 
 <br>
 
-__2 ) Stored Property Examples__
+__2 ) Computed Property Examples__
 
 - Case 1
 
@@ -782,7 +782,7 @@ struct MultiplicationTable {
 
 <br>
 
-- Property Wrappers
+- With `@propertyWrapper` Annotation
 
 `@propertyWrapper` 없이 `wrapping`을 하면 모든 변수마다 명시적으로 코드를 작성해야한다. 즉, 유지보수가 
 어렵다는 뜻이다.  
