@@ -391,6 +391,8 @@ func testPerformnace_GetValueFromClosures() throws {
 > 테스트는 실행되지만 `Classes`, `Structures`, `Protocols` 같은 것들을 찾지 못 하는 경우 
 > [5. Add Target Memberships](#h-5-add-target-memberships) 를 확인한다.
 
+---
+
 ### 3. Summary 👩‍💻 
 
 값의 변경이 없어도 매번 계산하는 `Closures`의 경우 `O(N)+`의 복잡도를 갖지만, `Computed Properties`를 사용하는 경우 
