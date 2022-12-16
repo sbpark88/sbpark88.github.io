@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Vue.js Starter
+title: Vue.js Starter - Part 1
 subtitle: Vue.js 프로젝트 투입 일주일 전
 categories: javascript
-tags: [javascript, vue, vuejs, vue.js]
+tags: [javascript, vue, vue js, vue.js, vue cli, vue/cli]
 ---
 
 <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
@@ -14,7 +14,7 @@ tags: [javascript, vue, vuejs, vue.js]
 
 `Model`-`View`-`ViewModel`을 사용한다.
 
-![MVVM](/assets/images/posts/2022-12-09-vue-starter/mvvm.png)
+![MVVM](/assets/images/posts/2022-12-09-vue-starter-part1/mvvm.png)
 
 #### 2. Component
 
@@ -116,11 +116,11 @@ run npm serve -- --port [Port Number]
 
 `vue create [App Name]`을 한 후 `Manually select features`를 선택한다.
 
-![Manually select features](/assets/images/posts/2022-12-09-vue-starter/vue-project-manually01.png)
+![Manually select features](/assets/images/posts/2022-12-09-vue-starter-part1/vue-project-manually01.png)
 
 <br>
 
-![Manually Options](/assets/images/posts/2022-12-09-vue-starter/vue-project-manually02.png)
+![Manually Options](/assets/images/posts/2022-12-09-vue-starter-part1/vue-project-manually02.png)
 
 - Babel: ES5 이하 버전 호환으로 Transpile
 - TypeScript
@@ -145,38 +145,27 @@ run npm serve -- --port [Port Number]
 
 `preset` 이름을 `vue basic`으로 저장한 경우 다음과 같이 `vue create [App Name]`시 확인 가능하다.
 
-![Vue preset](/assets/images/posts/2022-12-09-vue-starter/vue-project-manually03.png)
+![Vue preset](/assets/images/posts/2022-12-09-vue-starter-part1/vue-project-manually03.png)
 
 #### 7. Vue Project Manager
 
 `Vue Project Manager`는 `vue ui` 명령어를 통해 실행한다.
 
-![Vue Project Manager](/assets/images/posts/2022-12-09-vue-starter/vue-ui.png)
+![Vue Project Manager](/assets/images/posts/2022-12-09-vue-starter-part1/vue-ui.png)
 
 <br>
 
 웹 페이지를 통해 프로젝트를 생성하고 관리할 수 있다.
 
-![Create Vue App Using Project Manager](/assets/images/posts/2022-12-09-vue-starter/create-vue-using-project-manager.png)
+![Create Vue App Using Project Manager](/assets/images/posts/2022-12-09-vue-starter-part1/create-vue-using-project-manager.png)
 
 > `Vue Project Manager`로 생성하지 않고 `Vue CLI`로만 생성한 프로젝트는 프로젝트 리스트에 보이지 않는다. 
 > `가져오기`를 통해 매니저에 등록 후 확인 가능하다.
-
----
-
-### 3.  👩‍💻
-
----
-
-### 4.  👩‍💻
-
----
-
-### 5.  👩‍💻
 
 <br><br>
 
 ---
 Reference
 
-1. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 1 ~
+1. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 1
+2. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 2
