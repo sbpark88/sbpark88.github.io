@@ -482,6 +482,28 @@ __2 ) When to use the Picture Element__
 
 ### 14. HTML Favicon 👩‍💻
 
+`favicon`은 브라우저의 탭에 해당 웹 페이지를 나타낼 수 있는 작은 이미지다. 일반적으로 웹 서버의 `root` 또는 별도의 이미지 
+디렉토리를 만들고 이미지 디렉토리의 `root`에 저장하며, 이름은 `favicon.ico`를 사용한다.
+
+![Favicon - My Blog](/assets/images/posts/2022-12-10-w3schools-html-part3/favicon-my-blog.png)
+
+![Favicon - Apple](/assets/images/posts/2022-12-10-w3schools-html-part3/favicon-apple.png)
+
+![Favicon - Google](/assets/images/posts/2022-12-10-w3schools-html-part3/favicon-google.png)
+
+> `favicon`의 위치나 이름, 확장자는 고정된 것이 아니다. 실제로 이 블로그가 사용하는 `favicon`의 위치와 이름은 다음과 같다.  
+> `assets/images/favicon/greendreamtree.png`
+
+브라우저의 `favicon` 포맷 지원 현황
+
+| Browser | 	ICO | 	PNG | 	GIF | 	JPEG | 	SVG |
+|---------|------|------|------|-------|------|
+| Edge    | 	Yes | 	Yes | 	Yes | 	Yes  | 	Yes |
+| Chrome  | 	Yes | 	Yes | 	Yes | 	Yes  | 	Yes |
+| Firefox | 	Yes | 	Yes | 	Yes | 	Yes  | 	Yes |
+| Opera   | 	Yes | 	Yes | 	Yes | 	Yes  | 	Yes |
+| Safari  | 	Yes | 	Yes | 	Yes | 	Yes  | 	Yes |
+
 ---
 
 ### 15. HTML Tables 👩‍💻
