@@ -439,8 +439,44 @@ __4 ) Background Cover__
   on <a href="https://codepen.io">CodePen</a>.</span>
 </p>
 
-
 #### 6. HTML Picture Element
+
+__1 ) HTML Picture Element__
+
+`picture` 태그는 이미지를 하나의 블럭에 조건에 따라 전환시켜준다. 즉, 이미지를 위한 `switch-case`와 같다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="ZEjzXYe" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/ZEjzXYe">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+화면 폭이 650 이상이면 음식 이미지, 화면 폭이 465 이상 ~ 650 미만이면 자동차 이미지, 그 외(source 미지원 또는 465 미만)는 
+소녀의 이미지를 보여준다.
+
+> - `picture`는 하나 또는 그 이상의 `source` 태그를 자식으로 갖는다.
+> - `source` 태그의 조건은 `media` attribute 에 의해 정의되며, 그 때 매칭할 사진은 `srcset` attribute 에 정의한다.
+> - `img` 태그는 반드시 포함되어야하는 태그로, 매칭되는 케이스가 없거나 `source` 를 지원하지 않는 경우에 `default`로 사용된다.
+> 
+> 즉, `picture` 태그 는 `switch`, `source` 태그는 각 `case`, `media` attribute 는 조건, 
+> `srcset` attribute 는 매칭 될 경우의 이미지, `img` 태그는 `default`에 해당한다.
+
+<br>
+
+> `picture` 태그는 이미지를 조건에 따라 다르게 보여주지만 `HTML` 태그에 여러 개를 뿌려 놓고 `display: none;` 또는 
+> `visibility: hidden;` 처리를 하는 것이 아니다. `CSS`태그를 제어하는 것이 아닌 브라우저의 `Web API`에 의해 제어된다. 
+> 따라서 이미지 전환이 `CSS`의 영향으로부터 자유롭다. 
+
+<br>
+
+__2 ) When to use the Picture Element__
+
+- 화면 크기에 따라 구별 : 화면이 작을 경우 굳이 큰 이미지가 필요하지 않다. 따라서 작은 화면에는 작은 이미지를 제공해 대역폭을 
+  절약할 수 있다. 또한, 이미지에 텍스트가 포함된 경우 작은 화면에서 보여주기 어려운 경우 작은 화면에 맞춘 별도의 이미지를 만들어 
+  화면 크기에 맞는 이미지를 제공할 수 있다.
+- 포맷 미지원 문제 해결 : 브라우저에 따라 지원되는 이미지 포맷이 다르다. 보통 `jpeg`, `png` 같은 것들은 문제가 되지 않지만, 
+  일부 브라우저가 지원하지 못 하는 이미지 포맷일 가능성이 있는 경우, `picutre` 태그를 이용해 여러 이미지를 제공하면, 브라우저는
+  인식 가능한 첫 번째 이미지를 사용한다.
 
 ---
 
