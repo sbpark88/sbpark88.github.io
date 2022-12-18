@@ -888,6 +888,112 @@ __Syntax__
 
 ### 17. HTML Block & Inline 👩‍💻
 
+모든 HTML Elements 는 `CSS display` property 의 값으로 `block` 또는 `inline`을 기본으로 갖는다.
+
+#### 1. Block-level Elements
+
+- 가능하다면 항상 라인 하나를 차지한다(new line, full width).
+- 브라우저는 자동으로 앞, 뒤에 `margin`을 일부 추가한다.
+
+대표적으로 `p`, `div` 태그가 해당되며, 리스트는 다음과 같다.
+
+<div style="font-size: 20px; color: darkkhaki;">
+  <div>
+    <span style="color:darkmagenta">&lt;</span>address<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>article<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>aside<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>blockquote<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>canvas<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>dd<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>div<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>dl<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>dt<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>fieldset<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>figcaption<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>figure<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>footer<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>form<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>h6<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>header<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>hr<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>li<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>main<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>nav<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>noscript<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>ol<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>p<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>pre<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>section<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>table<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>tfoot<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>ul<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>video<span style="color:darkmagenta">&gt;</span>
+  </div>
+</div> 
+
+#### 2. Inline Elements
+
+`Inline Elements`는 대표적으로 `span` 태그가 해당되며, `Block-level Elements`와 반대로 `new line`을 생성하지 않으며, 
+`width` 역시 필요한 만큼만 사용한다.
+
+리스트는 다음과 같다.
+
+<div style="font-size: 20px; color: darkkhaki;">
+  <div>
+    <span style="color:darkmagenta">&lt;</span>a<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>abbr<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>acronym<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>b<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>bdo<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>big<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>br<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>button<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>cite<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>code<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>dfn<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>em<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>i<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>img<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>input<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>kbd<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>label<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>map<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>object<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>output<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>q<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>samp<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>script<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>select<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>small<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>span<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>strong<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>sub<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>sup<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>textarea<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>time<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>tt<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>var<span style="color:darkmagenta">&gt;</span>
+  </div>
+</div>
+
 
 <br><br>
 
