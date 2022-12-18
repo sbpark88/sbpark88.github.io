@@ -10,7 +10,7 @@ tags: [swift, struct, structure, enumerations, enum, immutability, mutating, sel
 
 이게 무슨 말일까?
 
-`Swift`에서 `structures` 또는 `enumerations`에서는 인스턴스 메소드가 내부의 값(self properties)를 변경할 수 없다. 이것이 무엇을 의미하는지 알아보자.
+`Swift`에서 `structures` 또는 `enumerations`에서는 인스턴스 메서드가 내부의 값(self properties)를 변경할 수 없다. 이것이 무엇을 의미하는지 알아보자.
 
 ```swift
 struct Town {
@@ -37,12 +37,12 @@ print(hogwarts.resources)   // ["Galleon": 100]
 ```
 
 `Town` structure 를 이용해 `hogwarts`를 생성했다.
-`init` 메소드에 의해 hogwarts 초기 인스턴스의 갈레온은 `80`을 갖고 있다.
+`init` 메서드에 의해 hogwarts 초기 인스턴스의 갈레온은 `80`을 갖고 있다.
 
 그리고 외부에서 해당 인스턴스의 갈레온 자원을 100으로 설정했고, 이후 출력해보니 `100`이 출력된다.
 
 
-_**이번엔 메소드를 통해 변경해보자.**_
+_**이번엔 메서드를 통해 변경해보자.**_
 
 ```swift
 struct Town {
@@ -66,7 +66,7 @@ struct Town {
 }
 ```
 
-메소드를 작성하면 다음과 같은 에러가 뜰 것이다. `Cannot assign through subscript: 'self' is immutable.`
+메서드를 작성하면 다음과 같은 에러가 뜰 것이다. `Cannot assign through subscript: 'self' is immutable.`
 
 `Swift`에서 `Structures`와 `Enumerations`는 `Int`처럼 `Value Types`다.  
 `Objective-C`에서 `Swift`로 넘어오며 `Classes` 기반의 `Reference Type NSString` 대신 

@@ -11,7 +11,7 @@ tags: [swift]
 ![IBOutlet and IBAction](/assets/images/posts/2022-06-07-swift-basic-concept/iboutlet-ibaction-flow.png)
 
 * __IBOutlet__ : Code -> Design 방향으로 흐른다. 즉, View Controller 의 코드가 Storyboard 를 조작한다.
-* __IBAction__ : Design -> Code 방향으로 흐른다. 즉, Storyboard 에서 화면 상 어떠한 조작이 발생할 경우 해당 element 에 연결된 Code block, 즉, 메소드를 호출한다. 이후 해당 메소드는 내부 블럭에 사전에 정의된 비즈니스 로직을 수행하여 또 다른 Code, Design 등에 영향을 줄 수 있다.
+* __IBAction__ : Design -> Code 방향으로 흐른다. 즉, Storyboard 에서 화면 상 어떠한 조작이 발생할 경우 해당 element 에 연결된 Code block, 즉, 메서드를 호출한다. 이후 해당 메서드는 내부 블럭에 사전에 정의된 비즈니스 로직을 수행하여 또 다른 Code, Design 등에 영향을 줄 수 있다.
 
 ---
 

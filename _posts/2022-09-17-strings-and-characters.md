@@ -187,7 +187,7 @@ print(constantString)
 
 무슨 말일까? 🤔
 
-> 스위프트에서 새 문자열 값을 생성하면, 함수나 메소드에 전달되거나, 상수나 변수에 할당될 때 그 문자열 값이 복사되고, 복사본이 전달된다.
+> 스위프트에서 새 문자열 값을 생성하면, 함수나 메서드에 전달되거나, 상수나 변수에 할당될 때 그 문자열 값이 복사되고, 복사본이 전달된다.
 
 그렇다면 메모리 사용이 과도해 성능에 문제가 있지 않을까?
 
@@ -573,7 +573,7 @@ let newString = String(beginning)
 ![Relationship image between String and Substring](/assets/images/posts/2022-09-17-strings-and-characters/stringSubstring_2x.png)
 
 정리하면 다음과 같다.
-> 1. `String`과 `Substring`은 `StringProtocol`을 따른다. 따라서 유사하게 메소드 사용이 가능하다.
+> 1. `String`과 `Substring`은 `StringProtocol`을 따른다. 따라서 유사하게 메서드 사용이 가능하다.
 > 2. `String` instance 는 자기 자신이 저장하는 character 들의 실제 메모리 공간을 갖는다.
 > 3. `Substring` instance 는 자기 자신이 저장하는 character 들의 실제 메모리 공간을 갖지 않는다. 대신 원본 `String`의 character 들의 공간을 재사용한다.
 > 4. `Substring`은 장기 저장에 적합하지 않다. 장기 저장되어야 하는 경우 수정이 끝난 `Substring`은 `String` instance 로 변환되어야한다.
@@ -719,7 +719,7 @@ print(characterA == substringA)
 
 #### 2. Prefix equality
 문자열을 비교하는 다른 방법으로는 부분 문자열을 비교하는 `Prefix`와 `Subffix`가 있다.  
-`hasPrefix(_:)` 메소드를 이용해 문자열의 시작이 동일한지 부분 일치 여부를 검사할 수 있다.
+`hasPrefix(_:)` 메서드를 이용해 문자열의 시작이 동일한지 부분 일치 여부를 검사할 수 있다.
 
 ```swift
 let romeoAndJuliet = [
@@ -750,7 +750,7 @@ There are 5 scenes in Act 1
 ```
 
 #### 3. Suffix equality
-`hasSuffix(_:)` 메소드를 이용해 문자열의 끝이 동일한지 부분 일치 여부를 검사할 수 있다.
+`hasSuffix(_:)` 메서드를 이용해 문자열의 끝이 동일한지 부분 일치 여부를 검사할 수 있다.
 
 ```swift
 let romeoAndJuliet = [
