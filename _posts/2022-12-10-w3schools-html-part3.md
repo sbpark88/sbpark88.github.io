@@ -439,24 +439,560 @@ __4 ) Background Cover__
   on <a href="https://codepen.io">CodePen</a>.</span>
 </p>
 
-
 #### 6. HTML Picture Element
+
+__1 ) HTML Picture Element__
+
+`picture` 태그는 이미지를 하나의 블럭에 조건에 따라 전환시켜준다. 즉, 이미지를 위한 `switch-case`와 같다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="ZEjzXYe" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/ZEjzXYe">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+화면 폭이 650 이상이면 음식 이미지, 화면 폭이 465 이상 ~ 650 미만이면 자동차 이미지, 그 외(source 미지원 또는 465 미만)는 
+소녀의 이미지를 보여준다.
+
+> - `picture`는 하나 또는 그 이상의 `source` 태그를 자식으로 갖는다.
+> - `source` 태그의 조건은 `media` attribute 에 의해 정의되며, 그 때 매칭할 사진은 `srcset` attribute 에 정의한다.
+> - `img` 태그는 반드시 포함되어야하는 태그로, 매칭되는 케이스가 없거나 `source` 를 지원하지 않는 경우에 `default`로 사용된다.
+> 
+> 즉, `picture` 태그 는 `switch`, `source` 태그는 각 `case`, `media` attribute 는 조건, 
+> `srcset` attribute 는 매칭 될 경우의 이미지, `img` 태그는 `default`에 해당한다.
+
+<br>
+
+> `picture` 태그는 이미지를 조건에 따라 다르게 보여주지만 `HTML` 태그에 여러 개를 뿌려 놓고 `display: none;` 또는 
+> `visibility: hidden;` 처리를 하는 것이 아니다. `CSS`태그를 제어하는 것이 아닌 브라우저의 `Web API`에 의해 제어된다. 
+> 따라서 이미지 전환이 `CSS`의 영향으로부터 자유롭다. 
+
+<br>
+
+__2 ) When to use the Picture Element__
+
+- 화면 크기에 따라 구별 : 화면이 작을 경우 굳이 큰 이미지가 필요하지 않다. 따라서 작은 화면에는 작은 이미지를 제공해 대역폭을 
+  절약할 수 있다. 또한, 이미지에 텍스트가 포함된 경우 작은 화면에서 보여주기 어려운 경우 작은 화면에 맞춘 별도의 이미지를 만들어 
+  화면 크기에 맞는 이미지를 제공할 수 있다.
+- 포맷 미지원 문제 해결 : 브라우저에 따라 지원되는 이미지 포맷이 다르다. 보통 `jpeg`, `png` 같은 것들은 문제가 되지 않지만, 
+  일부 브라우저가 지원하지 못 하는 이미지 포맷일 가능성이 있는 경우, `picutre` 태그를 이용해 여러 이미지를 제공하면, 브라우저는
+  인식 가능한 첫 번째 이미지를 사용한다.
 
 ---
 
 ### 14. HTML Favicon 👩‍💻
 
+`favicon`은 브라우저의 탭에 해당 웹 페이지를 나타낼 수 있는 작은 이미지다. 일반적으로 웹 서버의 `root` 또는 별도의 이미지 
+디렉토리를 만들고 이미지 디렉토리의 `root`에 저장하며, 이름은 `favicon.ico`를 사용한다.
+
+![Favicon - My Blog](/assets/images/posts/2022-12-10-w3schools-html-part3/favicon-my-blog.png)
+
+![Favicon - Apple](/assets/images/posts/2022-12-10-w3schools-html-part3/favicon-apple.png)
+
+![Favicon - Google](/assets/images/posts/2022-12-10-w3schools-html-part3/favicon-google.png)
+
+> `favicon`의 위치나 이름, 확장자는 고정된 것이 아니다. 실제로 이 블로그가 사용하는 `favicon`의 위치와 이름은 다음과 같다.  
+> `assets/images/favicon/greendreamtree.png`
+
+브라우저의 `favicon` 포맷 지원 현황
+
+| Browser | 	ICO | 	PNG | 	GIF | 	JPEG | 	SVG |
+|---------|------|------|------|-------|------|
+| Edge    | 	Yes | 	Yes | 	Yes | 	Yes  | 	Yes |
+| Chrome  | 	Yes | 	Yes | 	Yes | 	Yes  | 	Yes |
+| Firefox | 	Yes | 	Yes | 	Yes | 	Yes  | 	Yes |
+| Opera   | 	Yes | 	Yes | 	Yes | 	Yes  | 	Yes |
+| Safari  | 	Yes | 	Yes | 	Yes | 	Yes  | 	Yes |
+
 ---
 
 ### 15. HTML Tables 👩‍💻
+
+#### 1. HTML Tables
+
+[Tables Generator - HTML](https://www.tablesgenerator.com/html_tables) 을 이용하면 좋다.
+
+`table` 태그는 `tr`태그로 이루어지고, `tr`태그는 다시 `th` 태그 또는 `td`태그로 이루어진다.
+
+- table : 테이블 블럭을 정의
+- tr : 테이블 row 를 정의
+- th : 테이블 header cell 을 정의
+- td : 테이블 cell 을 정의
+
+> 즉, 테이블은 row 가 기본 구조이며, th, td 어떤 셀을 어느 위치에 생성하냐에 따라 가로 테이블이 될 수도 있고, 
+> 세로 테이블이 될 수도 있다.
+
+위 4개의 태그가 테이블을 구성하는 가장 기본적인 태그이고, 추가적으로 다음 태그를 사용할 수 있다.
+
+- caption : 테이블 설명을 정의
+- colgroup : 아래 `col` 태그를 children 으로 갖는 태그로 `col` 태그를 하나의 그룹으로 묶는다.
+- col : 테이블의 column 에 특정 스타일을 적용한다.
+- thead : 테이블의 header 콘텐츠를 그룹화 한다.
+- tbody : 테이블의 body 콘텐츠를 그룹화 한다.
+- tfoot : 테이블의 foot 콘텐츠를 그룹화 한다.
+
+<br>
+
+- caption
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="KKBPbaj" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/KKBPbaj">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+
+- thead, tbody, tfoot
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="VwBZqXQ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/VwBZqXQ">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 2. Table Borders
+
+__1 ) Table Borders and Collapsing__
+
+테이블의 `border`는 전체 테이블을 구성하는 `table` 태그와 각 셀을 구성하는 `th`, `td` 태그에 적용한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="jOpNXvO" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/jOpNXvO">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+Margin 은 `Collapsing`이 기본값이지만 ([Margin Collapsing](/2022/12/08/w3schools-html-part2.html#h-5-css-margin)) 
+`Table Borders`는 중복을 피하기 위해 명시적으로 `border-collapse: collpased;` 스타일을 주어 `Collapsing`을 해줘야한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="bGjbOQP" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/bGjbOQP">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+<br>
+
+__2 ) `border-style` property__
+
+`border-style` property 는 주로 사용되는 `solid` 외에도 다양한 값을 가질 수 있다.
+
+<ul>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">dotted</code></span> <span style="xborder:2px solid black;border-style:dotted">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">dashed</code></span> <span style="xborder:2px solid black;border-style:dashed">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">solid</code></span> <span style="xborder:2px solid black;border-style:solid">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">double</code></span> <span style="xborder:2px solid black;border-style:double">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">groove</code></span> <span style="xborder:2px solid black;border-style:groove">&nbsp;&nbsp;&nbsp;&nbsp;</span> </li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">ridge</code></span> <span style="xborder:2px solid black;border-style:ridge">&nbsp;&nbsp;&nbsp;&nbsp;</span> </li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">inset</code></span> <span style="xborder:2px solid black;border-style:inset">&nbsp;&nbsp;&nbsp;&nbsp;</span> </li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">outset</code></span> <span style="xborder:2px solid black;border-style:outset">&nbsp;&nbsp;&nbsp;&nbsp;</span> </li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">none</code></span> <span style="xborder:2px solid black;border-style:none">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">hidden</code></span> <span style="xborder:2px solid black;border-style:hidden">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+</ul>
+
+<br>
+
+__3 ) `border-radius` property__
+
+`border-radius` property 를 이용하면 border 를 둥글게 표현할 수 있다. 
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="jOpNXdE" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/jOpNXdE">
+  Table with Rounded Borders</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 3. Table Sizes
+
+`CSS`의 `width`와 `height` properties 를 이용해 테이블의 전체 크기 및 각 row, column 의 크기를 조절할 수 있다. 
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="xxJKmML" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/xxJKmML">
+  Table width and height</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 4. Table Headers
+
+`th`, `td` 태그는 셀을 생성하는 태그로 horizontal 이든 vertical 이든 `header`로 생성하기를 원하는 셀에 
+`td` 태그 대신 `th`태그를 사용하면 된다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="zYLOeOz" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/zYLOeOz">
+  Table Headers</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+위 시간표의 `Weekday`, `Weekend`, `Mon` ~ `Sun`, `Morning`, `Afternoon`, `Evening`은 `th` 태그에 의해 
+생성된 `header cell`이다.
+
+추가로 위 시간표는 `thead`, `tbody`, `tfoot`으로 나뉘어있다.
+
+#### 5. Padding & Spacing
+
+__1 ) Cell padding__
+
+글씨가 테이블 border 에 딱 달라붙지 않도록 셀에 padding 을 주기를 원한다면, `th`, `td` 태그에 `padding`을 준다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="MWBgRZK" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/MWBgRZK">
+  Table Padding</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+__2 ) Cell margin__
+
+셀에 margin 을 주고 싶을 경우, `th`, `td` 태그에 적용한 `margin`을 주는 것이 아니라 `table` 태그에 
+`border-spacing`을 준다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="WNKeWBN" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/WNKeWBN">
+  Table border-spacing</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 6. Colspan & Rowspan
+
+테이블 셀을 합치고 싶을 경우, `th`, `td` 태그에 `colspan`, `rowspan` attribute 를 사용한다.
+
+- colspan : column 을 합친다.
+- rowspan : row 를 합친다.
+
+예제는 [4. Table Headers](#h-4-table-headers) 를 참고한다.
+
+#### 7. Table Styling
+
+__1 ) Zebra Stripes__
+
+```css
+tr:nth-child(even) {
+  background-color: #D6EEEE;
+}
+```
+![Zebra Stripes](/assets/images/posts/2022-12-10-w3schools-html-part3/zebra-stripes.png)
+<br>
+
+__2 ) Vertical Zebra Stripes__
+
+```css
+td:nth-child(even), th:nth-child(even) {
+  background-color: #D6EEEE;
+}
+```
+
+![Vertical Zebra Stripes](/assets/images/posts/2022-12-10-w3schools-html-part3/vertical-zebra-stripes.png)
+<br>
+
+__3 ) Combine Vertical and Horizontal Zebra Stripes__
+
+```css
+tr:nth-child(even) {
+  background-color: rgba(150, 212, 212, 0.4);
+}
+
+th:nth-child(even),td:nth-child(even) {
+  background-color: rgba(150, 212, 212, 0.4);
+}
+```
+
+![Combine Vertical and Horizontal Zebra Stripes](/assets/images/posts/2022-12-10-w3schools-html-part3/combine-vertical-and-horizontal-zebra-stripes.png)
+<br>
+
+__4 ) Horizontal Dividers__
+
+```css
+tr {
+  border-bottom: 1px solid #ddd;
+}
+```
+
+![Horizontal Dividers](/assets/images/posts/2022-12-10-w3schools-html-part3/horizontal-dividers.png)
+<br>
+
+__5 ) Hoverable Table__
+
+`:hober` 셀렉터를 이용해 마우스 오버시 하이라이트를 줄 수 있다.
+
+```css
+tr:hover {background-color: #D6EEEE;}
+```
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="ExpYzVw" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/ExpYzVw">
+  Hoverable Table</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 8. Table Colgroup
+
+__1 ) Colgroup Syntax__
+
+`colgroup` 태그는 `col` 태그와 함께 테이블의 column 에 특정 스타일을 적용하며, `colgroup`의 위치는 다음과 같다.
+
+```html
+<table>
+    <caption></caption>
+    <colgroup>
+        <col>
+        <col>
+    </colgroup>
+    <thead></thead>
+    <tbod></tbod>
+    <tfoot></tfoot>
+</table>
+```
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="poZzqpo" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/poZzqpo">
+  Table Colgroup and Col</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+__2 ) Prefer CSS to Colgroup__
+
+하지만 `colgroup`과 `col`은 제한된 `CSS`(width, visibility, background, border)만 지원하며, 
+우선순위가 `CSS`에 비해 낮으므로 `CSS`를 사용하는 것이 더 좋다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="dyjbwJZ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/dyjbwJZ">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+> `:nth-col`은 `CSS pseudo-class`로 아직 `experimental`로 지원되는 브라우저가 없으므로 `nth-child`를 사용한다.
 
 ---
 
 ### 16. HTML Lists 👩‍💻
 
+HTML 은 `Unordered Lists`, `Ordered Lists`, `Description Lists` 를 사용할 수 있다.
+
+#### 1. Unordered Lists
+
+__1 ) Unordered Lists Syntax__
+
+```html
+<ul>
+  <li></li>
+  <li></li>
+</ul>
+```
+
+`ul` 태그는 `list-style-type`을 style property 로 갖는다.
+
+- disc : default, bullet `●` 으로 표현된다.
+- circle : 속이 빈 bullet 과 같다. `○` 으로 표현된다.
+- square : `■` 로 표현된다.
+- none : 아무런 표시도 하지 않는다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="eYjYOgR" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/eYjYOgR">
+  Unordered Lists</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+__2 ) Nested Unordered Lists__
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="KKBKPQa" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/KKBKPQa">
+  Nested Unordered Lists</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+__3 ) Horizontal Unordered Lists with CSS__
+
+`CSS`를 이용하면 리스트의 방향을 세로에서 가로로 바꿀 수 있다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="oNMNvEJ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/oNMNvEJ">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 2. Ordered Lists
+
+__1 ) Ordered Lists Syntax__
+
+```html
+<ol>
+  <li></li>
+  <li></li>
+</ol>
+```
+
+`ol` 태그는 `type` attribute 를 갖는다.
+
+- 1 : default, 숫자로 표현된다.
+- A : 알파벳 대문자로 표현된다.
+- a : 알파벨 소문자로 표현된다.
+- I : 대문자 로마 숫자로 표현된다.
+- i : 소문자 로마 숫자로 표현된다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="vYaYBeM" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/vYaYBeM">
+  Ordered Lists</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+__2 ) Control Ordered List Counting__
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="vYaYBRw" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/vYaYBRw">
+  Control Ordered Lists Counting</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+__3 ) Nested Ordered Lists__
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="rNrNBvp" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/rNrNBvp">
+  Nested Ordered Lists</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 3. Description Lists
+
+HTML Lists 는 `ul`과 `ol` 외에도 `dl`을 사용할 수 있다.
+
+__Syntax__
+
+```html
+<dl>
+  <dt></dt>
+  <dd></dd>
+  <dt></dt>
+  <dd></dd>
+</dl>
+```
+
+- dl : description lists 를 정의한다.
+- dt : description term 을 정의한다.
+- dd : description term 을 설명한다(describe).
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="BaPaBPj" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/BaPaBPj">
+  Description Lists</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
 ---
 
 ### 17. HTML Block & Inline 👩‍💻
+
+모든 HTML Elements 는 `CSS display` property 의 값으로 `block` 또는 `inline`을 기본으로 갖는다.
+
+#### 1. Block-level Elements
+
+- 가능하다면 항상 라인 하나를 차지한다(new line, full width).
+- 브라우저는 자동으로 앞, 뒤에 `margin`을 일부 추가한다.
+
+대표적으로 `p`, `div` 태그가 해당되며, 리스트는 다음과 같다.
+
+<div style="font-size: 20px; color: darkkhaki;">
+  <div>
+    <span style="color:darkmagenta">&lt;</span>address<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>article<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>aside<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>blockquote<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>canvas<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>dd<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>div<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>dl<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>dt<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>fieldset<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>figcaption<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>figure<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>footer<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>form<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>h6<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>header<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>hr<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>li<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>main<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>nav<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>noscript<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>ol<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>p<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>pre<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>section<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>table<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>tfoot<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>ul<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>video<span style="color:darkmagenta">&gt;</span>
+  </div>
+</div> 
+
+#### 2. Inline Elements
+
+`Inline Elements`는 대표적으로 `span` 태그가 해당되며, `Block-level Elements`와 반대로 `new line`을 생성하지 않으며, 
+`width` 역시 필요한 만큼만 사용한다.
+
+리스트는 다음과 같다.
+
+<div style="font-size: 20px; color: darkkhaki;">
+  <div>
+    <span style="color:darkmagenta">&lt;</span>a<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>abbr<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>acronym<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>b<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>bdo<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>big<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>br<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>button<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>cite<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>code<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>dfn<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>em<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>i<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>img<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>input<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>kbd<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>label<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>map<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>object<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>output<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>q<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>samp<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>script<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>select<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>small<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>span<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>strong<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>sub<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>sup<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>textarea<span style="color:darkmagenta">&gt;</span>
+  </div>
+  <div>
+    <span style="color:darkmagenta">&lt;</span>time<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>tt<span style="color:darkmagenta">&gt;</span>
+    <span style="color:darkmagenta">&lt;</span>var<span style="color:darkmagenta">&gt;</span>
+  </div>
+</div>
 
 
 <br><br>
