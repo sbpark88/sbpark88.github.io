@@ -508,6 +508,264 @@ __2 ) When to use the Picture Element__
 
 ### 15. HTML Tables 👩‍💻
 
+#### 1. HTML Tables
+
+[Tables Generator - HTML](https://www.tablesgenerator.com/html_tables) 을 이용하면 좋다.
+
+`table` 태그는 `tr`태그로 이루어지고, `tr`태그는 다시 `th` 태그 또는 `td`태그로 이루어진다.
+
+- table : 테이블 블럭을 정의
+- tr : 테이블 row 를 정의
+- th : 테이블 header cell 을 정의
+- td : 테이블 cell 을 정의
+
+> 즉, 테이블은 row 가 기본 구조이며, th, td 어떤 셀을 어느 위치에 생성하냐에 따라 가로 테이블이 될 수도 있고, 
+> 세로 테이블이 될 수도 있다.
+
+위 4개의 태그가 테이블을 구성하는 가장 기본적인 태그이고, 추가적으로 다음 태그를 사용할 수 있다.
+
+- caption : 테이블 설명을 정의
+- colgroup : 아래 `col` 태그를 children 으로 갖는 태그로 `col` 태그를 하나의 그룹으로 묶는다.
+- col : 테이블의 column 에 특정 스타일을 적용한다.
+- thead : 테이블의 header 콘텐츠를 그룹화 한다.
+- tbody : 테이블의 body 콘텐츠를 그룹화 한다.
+- tfoot : 테이블의 foot 콘텐츠를 그룹화 한다.
+
+<br>
+
+- caption
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="KKBPbaj" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/KKBPbaj">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+
+- thead, tbody, tfoot
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="VwBZqXQ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/VwBZqXQ">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 2. Table Borders
+
+__1 ) Table Borders and Collapsing__
+
+테이블의 `border`는 전체 테이블을 구성하는 `table` 태그와 각 셀을 구성하는 `th`, `td` 태그에 적용한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="jOpNXvO" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/jOpNXvO">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+Margin 은 `Collapsing`이 기본값이지만 ([Margin Collapsing](/2022/12/08/w3schools-html-part2.html#h-5-css-margin)) 
+`Table Borders`는 중복을 피하기 위해 명시적으로 `border-collapse: collpased;` 스타일을 주어 `Collapsing`을 해줘야한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="bGjbOQP" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/bGjbOQP">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+<br>
+
+__2 ) `border-style` property__
+
+`border-style` property 는 주로 사용되는 `solid` 외에도 다양한 값을 가질 수 있다.
+
+<ul>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">dotted</code></span> <span style="xborder:2px solid black;border-style:dotted">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">dashed</code></span> <span style="xborder:2px solid black;border-style:dashed">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">solid</code></span> <span style="xborder:2px solid black;border-style:solid">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">double</code></span> <span style="xborder:2px solid black;border-style:double">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">groove</code></span> <span style="xborder:2px solid black;border-style:groove">&nbsp;&nbsp;&nbsp;&nbsp;</span> </li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">ridge</code></span> <span style="xborder:2px solid black;border-style:ridge">&nbsp;&nbsp;&nbsp;&nbsp;</span> </li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">inset</code></span> <span style="xborder:2px solid black;border-style:inset">&nbsp;&nbsp;&nbsp;&nbsp;</span> </li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">outset</code></span> <span style="xborder:2px solid black;border-style:outset">&nbsp;&nbsp;&nbsp;&nbsp;</span> </li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">none</code></span> <span style="xborder:2px solid black;border-style:none">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+<li><span style="display:inline-block;width:70px;"><code class="w3-codespan">hidden</code></span> <span style="xborder:2px solid black;border-style:hidden">&nbsp;&nbsp;&nbsp;&nbsp;</span></li>
+</ul>
+
+<br>
+
+__3 ) `border-radius` property__
+
+`border-radius` property 를 이용하면 border 를 둥글게 표현할 수 있다. 
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="jOpNXdE" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/jOpNXdE">
+  Table with Rounded Borders</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 3. Table Sizes
+
+`CSS`의 `width`와 `height` properties 를 이용해 테이블의 전체 크기 및 각 row, column 의 크기를 조절할 수 있다. 
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="xxJKmML" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/xxJKmML">
+  Table width and height</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 4. Table Headers
+
+`th`, `td` 태그는 셀을 생성하는 태그로 horizontal 이든 vertical 이든 `header`로 생성하기를 원하는 셀에 
+`td` 태그 대신 `th`태그를 사용하면 된다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="zYLOeOz" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/zYLOeOz">
+  Table Headers</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+위 시간표의 `Weekday`, `Weekend`, `Mon` ~ `Sun`, `Morning`, `Afternoon`, `Evening`은 `th` 태그에 의해 
+생성된 `header cell`이다.
+
+추가로 위 시간표는 `thead`, `tbody`, `tfoot`으로 나뉘어있다.
+
+#### 5. Padding & Spacing
+
+__1 ) Cell padding__
+
+글씨가 테이블 border 에 딱 달라붙지 않도록 셀에 padding 을 주기를 원한다면, `th`, `td` 태그에 `padding`을 준다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="MWBgRZK" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/MWBgRZK">
+  Table Padding</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+__2 ) Cell margin__
+
+셀에 margin 을 주고 싶을 경우, `th`, `td` 태그에 적용한 `margin`을 주는 것이 아니라 `table` 태그에 
+`border-spacing`을 준다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="WNKeWBN" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/WNKeWBN">
+  Table border-spacing</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 6. Colspan & Rowspan
+
+테이블 셀을 합치고 싶을 경우, `th`, `td` 태그에 `colspan`, `rowspan` attribute 를 사용한다.
+
+- colspan : column 을 합친다.
+- rowspan : row 를 합친다.
+
+예제는 [4. Table Headers](#h-4-table-headers) 를 참고한다.
+
+#### 7. Table Styling
+
+__1 ) Zebra Stripes__
+
+```css
+tr:nth-child(even) {
+  background-color: #D6EEEE;
+}
+```
+![Zebra Stripes](/assets/images/posts/2022-12-10-w3schools-html-part3/zebra-stripes.png)
+<br>
+
+__2 ) Vertical Zebra Stripes__
+
+```css
+td:nth-child(even), th:nth-child(even) {
+  background-color: #D6EEEE;
+}
+```
+
+![Vertical Zebra Stripes](/assets/images/posts/2022-12-10-w3schools-html-part3/vertical-zebra-stripes.png)
+<br>
+
+__3 ) Combine Vertical and Horizontal Zebra Stripes__
+
+```css
+tr:nth-child(even) {
+  background-color: rgba(150, 212, 212, 0.4);
+}
+
+th:nth-child(even),td:nth-child(even) {
+  background-color: rgba(150, 212, 212, 0.4);
+}
+```
+
+![Combine Vertical and Horizontal Zebra Stripes](/assets/images/posts/2022-12-10-w3schools-html-part3/combine-vertical-and-horizontal-zebra-stripes.png)
+<br>
+
+__4 ) Horizontal Dividers__
+
+```css
+tr {
+  border-bottom: 1px solid #ddd;
+}
+```
+
+![Horizontal Dividers](/assets/images/posts/2022-12-10-w3schools-html-part3/horizontal-dividers.png)
+<br>
+
+__5 ) Hoverable Table__
+
+`:hober` 셀렉터를 이용해 마우스 오버시 하이라이트를 줄 수 있다.
+
+```css
+tr:hover {background-color: #D6EEEE;}
+```
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="ExpYzVw" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/ExpYzVw">
+  Hoverable Table</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 8. Table Colgroup
+
+__1 ) Colgroup Syntax__
+
+`colgroup` 태그는 `col` 태그와 함께 테이블의 column 에 특정 스타일을 적용하며, `colgroup`의 위치는 다음과 같다.
+
+```html
+<table>
+    <caption></caption>
+    <colgroup>
+        <col>
+        <col>
+    </colgroup>
+    <thead></thead>
+    <tbod></tbod>
+    <tfoot></tfoot>
+</table>
+```
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="poZzqpo" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/poZzqpo">
+  Table Colgroup and Col</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+__2 ) Prefer CSS to Colgroup__
+
+하지만 `colgroup`과 `col`은 제한된 `CSS`(width, visibility, background, border)만 지원하며, 
+우선순위가 `CSS`에 비해 낮으므로 `CSS`를 사용하는 것이 더 좋다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="dyjbwJZ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/dyjbwJZ">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+> `:nth-col`은 `CSS pseudo-class`로 아직 `experimental`로 지원되는 브라우저가 없으므로 `nth-child`를 사용한다.
+
 ---
 
 ### 16. HTML Lists 👩‍💻
