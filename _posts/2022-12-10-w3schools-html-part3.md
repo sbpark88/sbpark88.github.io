@@ -770,6 +770,120 @@ __2 ) Prefer CSS to Colgroup__
 
 ### 16. HTML Lists 👩‍💻
 
+HTML 은 `Unordered Lists`, `Ordered Lists`, `Description Lists` 를 사용할 수 있다.
+
+#### 1. Unordered Lists
+
+__1 ) Unordered Lists Syntax__
+
+```html
+<ul>
+  <li></li>
+  <li></li>
+</ul>
+```
+
+`ul` 태그는 `list-style-type`을 style property 로 갖는다.
+
+- disc : default, bullet `●` 으로 표현된다.
+- circle : 속이 빈 bullet 과 같다. `○` 으로 표현된다.
+- square : `■` 로 표현된다.
+- none : 아무런 표시도 하지 않는다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="eYjYOgR" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/eYjYOgR">
+  Unordered Lists</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+__2 ) Nested Unordered Lists__
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="KKBKPQa" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/KKBKPQa">
+  Nested Unordered Lists</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+__3 ) Horizontal Unordered Lists with CSS__
+
+`CSS`를 이용하면 리스트의 방향을 세로에서 가로로 바꿀 수 있다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="oNMNvEJ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/oNMNvEJ">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 2. Ordered Lists
+
+__1 ) Ordered Lists Syntax__
+
+```html
+<ol>
+  <li></li>
+  <li></li>
+</ol>
+```
+
+`ol` 태그는 `type` attribute 를 갖는다.
+
+- 1 : default, 숫자로 표현된다.
+- A : 알파벳 대문자로 표현된다.
+- a : 알파벨 소문자로 표현된다.
+- I : 대문자 로마 숫자로 표현된다.
+- i : 소문자 로마 숫자로 표현된다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="vYaYBeM" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/vYaYBeM">
+  Ordered Lists</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+__2 ) Control Ordered List Counting__
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="vYaYBRw" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/vYaYBRw">
+  Control Ordered Lists Counting</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+__3 ) Nested Ordered Lists__
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="rNrNBvp" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/rNrNBvp">
+  Nested Ordered Lists</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 3. Description Lists
+
+HTML Lists 는 `ul`과 `ol` 외에도 `dl`을 사용할 수 있다.
+
+__Syntax__
+
+```html
+<dl>
+  <dt></dt>
+  <dd></dd>
+  <dt></dt>
+  <dd></dd>
+</dl>
+```
+
+- dl : description lists 를 정의한다.
+- dt : description term 을 정의한다.
+- dd : description term 을 설명한다(describe).
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="BaPaBPj" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/BaPaBPj">
+  Description Lists</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
 ---
 
 ### 17. HTML Block & Inline 👩‍💻
