@@ -1684,7 +1684,7 @@ Link: [Apple Developer Documentation](https://developer.apple.com/documentation/
 
 `Substring`은 다음 링크를 참고한다. [About Substrings][sbpark-substrings]
 
-[sbpark-substrings]: https://sbpark88.github.io/swift/2022/09/17/strings-and-characters.html#h-9-substrings-부분-문자열-
+[sbpark-substrings]: /swift/2022/09/17/strings-and-characters.html#h-9-substrings-부분-문자열-
 
 <br>
 

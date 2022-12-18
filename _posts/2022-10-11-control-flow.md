@@ -79,7 +79,7 @@ Hello, Jack!
 우리는 [**Iterating over a dictionary**][Iterating over a dictionary]에서 살펴본 것 처럼 `Dictionary`는 한 쌍의 `Kye: Value` `tuple`로 접근해 반복할 수 있다.  
 아래는 `tuple`이 `animalName`이라는 `Key constant`와 `legCount`라는 `Value constant`로 분해되는 예제다.
 
-[Iterating over a dictionary]: https://sbpark88.github.io/swift/2022/10/03/collection-types.html#h-6-iterating-over-a-dictionary
+[Iterating over a dictionary]: /swift/2022/10/03/collection-types.html#h-6-iterating-over-a-dictionary
 
 ```swift
 let numberOfLegs = ["spider": 8, "ant": 6, "cat": 4]
