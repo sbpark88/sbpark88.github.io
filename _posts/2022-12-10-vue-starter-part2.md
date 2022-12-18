@@ -1051,7 +1051,17 @@ export default {
 ```
 {% endraw %}
 
-> `Getter/Setter`에 `Arrow Functions`는 사용할 수 없다.
+> Read-Only 의 경우 다음과 같이 사용할 수도 있다.
+> 
+> ```vue
+> computed: {
+>   fullName() {
+>     return `${this.firstName} ${this.lastName}`
+>   },
+> }
+> ```
+
+> Computed Properties 의 `Getter/Setter`에 `Arrow Functions`는 사용할 수 없다.
 
 #### 2. Watch(Property Observers)
 
