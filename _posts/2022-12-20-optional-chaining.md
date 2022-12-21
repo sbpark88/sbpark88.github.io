@@ -8,7 +8,7 @@ tags: [swift docs, optional chaining, forced unwrapping, accessing subscripts, l
 
 ### What is Optional Chaining?
 
-`Optional Chaining`은 properties, methods, subscripts 가 `nil`일 가능성이 있는 경우에 안전하게 조회(querying)하고
+`Optional Chaining`은 Properties, Methods, Subscripts 가 `nil`일 가능성이 있는 경우에 안전하게 조회(querying)하고
 호출(calling)하기 위한 프로세스다.
 
 `Optional`이 값을 가지고 있을 경우, Property, Method, Subscript 호출은 성공하고, `nil`일 경우 `nil`을 반환한다.
@@ -108,7 +108,54 @@ if let roomCount = john.residence?.numberOfRooms {
 
 ---
 
-### 2. Defining Model Classes for Optional Chaining 👩‍💻
+### 2. Defining Model Classes for Optional Chaining Examples 👩‍💻
+
+`Optional Chaining`을 이용해 `Subproperties`의 Properties, Methods, Subscripts 에 접근
+(drill down into subproperties more than one level deep)할 수 있다.
+
+앞으로의 예제를 위해 다음 4개의 class 를 정의한다.
+
+```swift
+class Person {
+    var rdsidence: Residence?
+}
+
+class Residence {
+    var rooms: [Room] = []
+    var numberOfRooms: Int { rooms.count }
+    subscript(i: Int) -> Room {
+        get { rooms[i] }
+        set { rooms[i] = newValue }
+    }
+    func printNumberOfRooms() {
+        print("The number of rooms is \(numberOfRooms)")
+    }
+    var address: Address?
+}
+
+class Room {
+    let name: String
+    init(name: String) { self.name = name }
+}
+
+class Address {
+    var buildingName: String?
+    var buildingNumber: String?
+    var street: String?
+    func buildingIdentifier() -> String? {
+        if let buildingNumber = buildingNumber, let street = street {
+            return "\(buildingNumber) \(street)"
+        } else if buildingName != nil {
+            return buildingName
+        } else {
+            return nil
+        }
+    }
+}
+```
+
+`Address` class 의 `buildingIdentifier()` 메서드는 `buildingNumber`와 `street`이 모두 값을 가지고 있다면 이를 반환하고, 
+그렇지 않을 경우 `buildingName`이 있다면 이것을 반환하고, 이것 마저 값이 없다면 `nil`을 반환한다.
 
 ---
 
