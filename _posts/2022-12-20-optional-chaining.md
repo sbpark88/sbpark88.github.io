@@ -110,10 +110,7 @@ if let roomCount = john.residence?.numberOfRooms {
 
 ### 2. Defining Model Classes for Optional Chaining Examples 👩‍💻
 
-`Optional Chaining`을 이용해 `Subproperties`의 Properties, Methods, Subscripts 에 접근
-(drill down into subproperties more than one level deep)할 수 있다.
-
-앞으로의 예제를 위해 다음 4개의 class 를 정의한다.
+앞으로의 예제를 위해 다음 4개의 Classes 를 정의한다.
 
 ```swift
 class Person {
@@ -295,6 +292,8 @@ if let firstRoomName = john.residence?[0].name {
 Unable to retrieve the first room name.
 ```
 
+<br>
+
 ```swift
 john.residence = {
     let someResidence = Residence()
@@ -344,6 +343,79 @@ print(testScores)   // ["Dave": [91, 82, 84], "Bev": [80, 94, 81]]
 ---
 
 ### 6. Linking Multiple Levels of Chaining 👩‍💻
+
+`Optional Chaining`을 이용해 `Subproperties`의 Properties, Methods, Subscripts 에 접근
+(drill down into subproperties more than one level deep)할 수 있으며 다음 규칙을 따른다.
+
+> - 조회하려는 타입이 `Non-Optional`일 경우 `Optional Chaining`에 의해 `Optional`이 된다.
+> - `Optional` wrapping 은 중복되지 않는다.
+
+<br>
+
+```swift
+let john = Person()
+if let johnsStreet = john.residence?.address?.street {
+    print("John's street name is \(johnsStreet).")
+} else {
+    print("Unable to retrieve the address.")
+}
+
+print(john.residence?.address?.street)
+print(type(of: john.residence?.address?.street))
+```
+
+```console
+Unable to retrieve the address.
+nil
+Optional<String>
+```
+
+<br>
+
+```swift
+john.residence = {
+    let someResidence = Residence()
+    someResidence.rooms = Array(repeating: "", count: 300).lazy
+        .enumerated().map { (index, value) in
+            index == 237 ? "Shining" : String(index)
+        }
+        .map { Room(name: $0) }
+    someResidence.address = {
+        let someAddress = Address()
+        someAddress.buildingNumber = "29"
+        someAddress.street = "Acacia Road"
+
+        return someAddress
+    }()
+
+    return someResidence
+}()
+
+
+if let johnsStreet = john.residence?.address?.street {
+    print("John's street name is \(johnsStreet).")
+} else {
+    print("Unable to retrieve the address.")
+}
+
+print(john.residence?.address?.street)
+print(type(of: john.residence?.address?.street))
+```
+
+```console
+John's street name is Acacia Road.
+Optional("Acacia Road")
+Optional<String>
+```
+
+> `john`의 `residence` property 의, `address` property 의, `street` property 에 접근하기 위해 
+> `Two levels of optional chaining`이 사용되었지만, 반환 값은 언제나 `nil` 또는 `Some String`을 포함한 `String?`이다.
+
+---
+
+### 7. Chaining on Methods with Optional Return Values 👩‍💻
+
+
 
 <br><br>
 
