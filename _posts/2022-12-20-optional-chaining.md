@@ -117,7 +117,7 @@ if let roomCount = john.residence?.numberOfRooms {
 
 ```swift
 class Person {
-    var rdsidence: Residence?
+    var residence: Residence?
 }
 
 class Residence {
@@ -160,6 +160,47 @@ class Address {
 ---
 
 ### 3. Accessing Properties Through Optional Chaining 👩‍💻
+
+[1. Alternative to Forced Unwrapping](#h-1-alternative-to-forced-unwrapping-) 에서 살펴본 것을 통해 다음 
+`Optional Chaining`은 `nil`이 발견됨으로써 실패할 것이고, 따라서 `else` clause 를 타게 된다.
+
+```swift
+let john = Person()
+if let roomCount = john.residence?.numberOfRooms {
+    print("John's residence has \(roomCount) room(s).")
+} else {
+    print("Unable to retrieve the number of rooms.")
+}
+```
+
+```console
+Unable to retrieve the number of rooms.
+```
+
+<br>
+
+또한 `Optional Chaining`은 `call` 하기 위한 접근 뿐 아니라, `set`을 하기 위한 접근에도 사용할 수 있다.
+
+```swift
+func createAddress() -> Address {
+    print("Function was called.")
+
+    let someAddress = Address()
+    someAddress.buildingNumber = "29"
+    someAddress.street = "Acacia Road"
+
+    return someAddress
+}
+john.residence?.address = createAddress()
+```
+
+```console
+// Nothing, the createAddress() function isn’t called.
+```
+
+`john.residence?.address` 에 `createAddress()`를 통해 생성된 값을 할당하는 위 코드는 `=` operator 의 좌변이 
+`Optional Chaining`에 의해 john 의 residence 가 아직 생성되지 않아 `nil` 상태이므로 `fail` 처리 되고, 좌변이 `fail` 처리 
+됨으로 인해 우변의 `createAddress()`는 아예 `evaluated` 되지 않고 종료된다.
 
 ---
 
