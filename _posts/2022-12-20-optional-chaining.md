@@ -276,9 +276,70 @@ It was possible to print the number of rooms.
 
 ### 5. Accessing Subscripts Through Optional Chaining 👩‍💻
 
-#### 1. Accessing Subscripts of Non-Optional Type
+#### 1. Accessing Subscripts of Optional Type
 
-#### 2. Accessing Subscripts of Optional Type
+`john.residence`가 `Optional`이기 때문에 `john.residence.printNumberOfRooms()`이 아닌 `Optional Chaining`을 통해 
+`john.residence?.printNumberOfRooms()`와 같이 접근했듯이, `Subscripts` 역시 `john.residence[237].name`이 아닌 
+`john.residence?[237].name`와 같이 접근한다.
+
+```swift
+let john = Person()
+if let firstRoomName = john.residence?[0].name {
+    print("The first room name is \(firstRoomName).")
+} else {
+    print("Unable to retrieve the first room name.")
+}
+```
+
+```console
+Unable to retrieve the first room name.
+```
+
+```swift
+john.residence = {
+    let someResidence = Residence()
+    someResidence.rooms = Array(repeating: "", count: 300).lazy
+        .enumerated().map { (index, value) in
+            index == 237 ? "Shining" : String(index)
+        }
+        .map { Room(name: $0) }
+    someResidence.address = {
+        let someAddress = Address()
+        someAddress.buildingNumber = "29"
+        someAddress.street = "Acacia Road"
+        
+        return someAddress
+    }()
+    
+    return someResidence
+}()
+
+if let roomNumber237 = john.residence?[237].name {
+    print("The room number 237 name is \(roomNumber237).")
+} else {
+    print("Unable to retrieve the room number 237 name.")
+}
+```
+
+```console
+The room number 237 name is Shining.
+```
+
+#### 2. Accessing Subscripts of Dictionaries
+
+[Accessing and Modifying a Dictionary][Accessing and Modifying a Dictionary] 에서 살펴본 것처럼 `Swift`에서 
+`Dictionary`와 같은 일부 Types 는 `Optional`을 반환한다. 따라서 이런 `Types`는 모두 위와 마찬가지로 `Optional Chaining`을 
+통해 접근할 수 있다.
+
+[Accessing and Modifying a Dictionary]:/swift/2022/10/03/collection-types.html#h-5-accessing-and-modifying-a-dictionary
+
+```swift
+var testScores = ["Dave": [86, 82, 84], "Bev": [79, 94, 81]]
+testScores["Dave"]?[0] = 91
+testScores["Bev"]?[0] += 1
+testScores["Brian"]?[0] = 72
+print(testScores)   // ["Dave": [91, 82, 84], "Bev": [80, 94, 81]]
+```
 
 ---
 
