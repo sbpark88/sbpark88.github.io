@@ -415,7 +415,57 @@ Optional<String>
 
 ### 7. Chaining on Methods with Optional Return Values 👩‍💻
 
+`Optional Chaining`의 return type 은 언제나 `Optional`이다.
 
+```swift
+let john = Person()
+john.residence = {
+    let someResidence = Residence()
+    someResidence.rooms = Array(repeating: "", count: 300).lazy
+        .enumerated().map { (index, value) in
+            index == 237 ? "Shining" : String(index)
+        }
+        .map { Room(name: $0) }
+    someResidence.address = {
+        let someAddress = Address()
+        someAddress.buildingNumber = "29"
+        someAddress.street = "Acacia Road"
+
+        return someAddress
+    }()
+
+    return someResidence
+}()
+```
+
+```swift
+if let buildingIdentifier = john.residence?.address?.buildingIdentifier() {
+    print("John's building identifier is \(buildingIdentifier).")
+}
+```
+
+```console
+John's building identifier is 29 Acacia Road.
+```
+
+<br>
+
+따라서 위 `john.residence?.address?.buildingIdentifier()`의 return type 은 언제나 `String?`이다. 만약 이 값에 
+다시 `Chaining`을 하고 싶다면 다음과 같이 `?`를 붙여 `Optional Chaining`을 이어가면 된다.
+
+```swift
+if let beginsWithThe = john.residence?.address?.buildingIdentifier()?.hasPrefix("The") {
+    if beginsWithThe {
+        print("John's building identifier begins with \"The\".")
+    } else {
+        print("John's building identifier doesn't begin with \"The\".")
+    }
+}
+```
+
+```console
+John's building identifier doesn't begin with "The".
+```
 
 <br><br>
 
