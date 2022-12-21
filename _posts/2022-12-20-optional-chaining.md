@@ -15,7 +15,7 @@ tags: [swift docs, optional chaining, forced unwrapping, accessing subscripts, l
 `Multiple queries`는 서로 `chaining` 될 수 있으며, 어느 하나라도 `nil`을 포함한다면 전체 `chain`은 실패한다.
 
 > `Optional Chaining in Swift`는 `Messaging nil in Objective-C`와 유사하지만 `모든 타입에 동작`하며,
-> `success of failure`를 확인할 수 있다.
+> `success or failure`를 확인할 수 있다.
 
 ### 1. Alternative to Forced Unwrapping 👩‍💻
 
@@ -205,6 +205,72 @@ john.residence?.address = createAddress()
 ---
 
 ### 4. Calling Methods Through Optional Chaining 👩‍💻
+
+`Optional Classes` 또는 `Optional Structures`의 메서드 호출의 `success or failure` 여부를 `Optional Chaining`을 통해 
+확인할 수 있다. 이것은 위 `Residence` class 의 `printNumberOfRooms()` 메서드와 같은 반환 값이 없는 메서드에 대해서도 유효하다.
+
+> [Functions Without Return Values][Functions Without Return Values] 에서 살펴본 것처럼, 암시적으로 `Void`라는 타입의 
+> 특수한 값(`()` 로 쓰여진 `Empty Tuple`)을 반환하기 때문이다.
+
+[Functions Without Return Values]:/swift/2022/10/19/functions.html#h-3-functions-without-return-values
+
+<br>
+
+`Optional Chaining`을 통해 호출하면, `printNumberOfRooms()`의 return type 은 `Void`가 아닌 `Void?`가 되므로, 
+`if` statement 를 통해 해당 `Void?`가 메서드 호출에 성공해 `()`를 포함하고 있는지, 실패해 `nil`을 포함하고 있는지 확인할 수 있다.
+
+```swift
+let john = Person()
+if john.residence?.printNumberOfRooms() != nil {
+    print("It was possible to print the number of rooms.")
+} else {
+    print("It was not possible to print the number of rooms.")
+}
+```
+
+```console
+It was not possible to print the number of rooms.
+```
+
+`john.residence?.printNumberOfRooms()`이 실패해 `nil`을 반환해 `nil`을 wrapping 한 `Void?`를 반환했다.  
+따라서 `else` clause 를 타고 `It was not possible to print the number of rooms.`를 출력한다.
+
+<br>
+
+```swift
+john.residence = {
+    let someResidence = Residence()
+    someResidence.rooms = Array(repeating: "", count: 300).lazy
+            .enumerated().map { (index, value) in
+                index == 237 ? "Shining" : String(index)
+            }
+            .map { Room(name: $0) }
+    someResidence.address = {
+        let someAddress = Address()
+        someAddress.buildingNumber = "29"
+        someAddress.street = "Acacia Road"
+
+        return someAddress
+    }()
+
+    return someResidence
+}()
+
+if john.residence?.printNumberOfRooms() != nil {
+    print("It was possible to print the number of rooms.")
+} else {
+    print("It was not possible to print the number of rooms.")
+}
+```
+
+```console
+The number of rooms is 300
+It was possible to print the number of rooms.
+```
+
+이번에는 `john.residence?.printNumberOfRooms()`이 성공해 `printNumberOfRooms()`가 호출되며 
+`The number of rooms is 300`를 출력하고 `Void`를 wrapping 한 `Void`를 반환했다.  
+따라서 `if` clause 를 타고 `It was possible to print the number of rooms.`를 출력한다.
 
 ---
 
