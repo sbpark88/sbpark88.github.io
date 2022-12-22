@@ -32,10 +32,12 @@ throw VendingMachineError.insufficientFunds(coinsNeeded: 5)
 
 ### 2. Handling Errors 👩‍💻
 
-에러가 발생하면 에러를 처리하는 코드가 이를 담당하거나 사용자에게 알리는 등의 방법으로 에러를 처리해야한다. 
+에러가 발생하면 에러는 주변 코드에 의해 `문제를 수정`하거나, `대안 접근 방식`을 시도하거나, `사용자에게 알림` 등의 방법을 통해 
+반드시 처리되어야한다.
 
 함수에서 에러가 발생하면 프로그램의 흐름이 변경되므로, 코드에서 에러가 발생한 위치를 빠르게 찾는 것이 매우 중요하다. 이를 위해 
-`Functions`, `Methods`, `Initializers`를 호출하는 코드 앞에 `try`(or try? or try!) keyword 를 작성한다.
+`Functions`, `Methods`, `Initializers`를 호출하는 코드 앞에 `try`(or try? or try!) keyword 를 작성해 
+`try expression` 으로 코드를 작성한다.
 
 > `Swift`의 에러 처리는 다른 언어의 `try-catch & throw`와 유사하다. 하지만 `Objective-C`를 포함한 많은 언어와 달리 
 > `Swift`의 에러 처리는 계산 비용이 많이 드는 `Call Stack` 해제(unwinding)을 포함하지 않는다.  
@@ -133,6 +135,141 @@ struct PurchasedSnack {
 ```
 
 #### 2. Handling Errors Using Do-Catch
+
+__Syntax__
+
+```swift
+do {
+    try expression
+    statements
+} catch pattern 1(let errorConstant) {
+    statements
+} catch pattern 2 where condition {
+    statements
+} catch pattern 3, pattern 4 where condition {
+    statements
+} catch {
+    statements
+}
+```
+
+`do-catch` statement 는 코드 블럭으로 에러를 처리한다. `do` clause 에서 에러가 `thrown` 되면, `catch` clauses 에서 일치하는 
+에러를 처리한다.
+
+`pattern`이 일치하거나, `pattern`과 `condition`이 일치할 때, 또는 여러 개의 `pattern`을 하나의 `catch` clauses 로 처리할 때 
+`pattern`과 `where condition`이 사용되며, `} catch {` 처럼 아무런 `pattern`도 작성하지 않으면 이것은 어떤 에러든 모두 
+처리한다.
+
+> 모든 `catch` clause 는 별도로 에러 상수를 정의하지 않으면, default 로 `error`를 `local constant`로 사용한다.
+
+<br>
+
+__1 ) do-catch examples 1__
+
+```swift
+let favoriteSnacks = [
+    "Alice": "Chips",
+    "Queen": "Licorice",
+    "Eve": "Pretzels"
+]
+
+func buyFavoriteSnack(person: String, vendingMachine: VendingMachine) throws {
+    let snackName = favoriteSnacks[person] ?? "Candy Bar"
+    try vendingMachine.vend(itemNamed: snackName)
+}
+```
+
+```swift
+var vendingMachine = VendingMachine()
+vendingMachine.coinsDeposited = 8
+do {
+    try buyFavoriteSnack(person: "Alice", vendingMachine: vendingMachine)
+    print("Success! Yum.")
+} catch VendingMachineError.invalidSelection {
+    print("Invalid Selection.")
+} catch VendingMachineError.outOfStock {
+    print("Out of Stock.")
+} catch VendingMachineError.insufficientFunds(let coinsNeeded) {
+    print("Insufficient funds. Please insert an additional \(coinsNeeded) coins.")
+} catch {
+    print("Unexpected error: \(error).")
+}
+```
+
+```console
+Insufficient funds. Please insert an additional 2 coins.
+```
+
+> `catch` clauses 는 `do` clause 가 `throw` 할 수 있는 모든 에러를 처리할 필요는 없다. 만약, `catch` clauses 가 에러를 
+> 처리하지 않으면, 에러는 주변 `scope`로 `propagate` 된다. 이렇게 `propagate` 된 코드는 반드시 이것을 둘러싼 `scope`에 의해 
+> 처리되어야한다.
+> 
+> - `Nonthrowing Functions`: 반드시 `do-catch` statement 로 감싸 에러를 처리해야한다.
+> - `Throwing Functions` : `do-catch` statement 로 감싸거나, 에러를 던져 올리고 `caller`가 에러를 처리해야한다.
+> 
+> 만약 에러를 처리하지 않을 경우, `Runtime Error`가 발생된다. 
+
+<br>
+
+__2 ) do catch examples 2__
+
+`catch is`를 이용해 연관된 에러를 한 번에 처리할 수 있다.
+
+```swift
+func buySnack(with item: String) throws {
+    do {
+        try vendingMachine.vend(itemNamed: item)
+    } catch is VendingMachineError {
+        print("Couldn't buy that from the vending machine.")
+    }
+}
+
+do {
+    try buySnack(with: "Beat-Flavored Chips")
+} catch {
+    print("Unexpected non-vending-machine-related error: \(error)")
+}
+```
+
+```console
+Couldn't buy that from the vending machine.
+```
+
+> 이 경우 `VendingMachineError`가 발생하면 `catch is VendingMachineError`에 의해 처리가 되고, 그 외 에러가 발생하면 
+> `throws` 되어 `caller`에 의해 처리된다.
+
+<br>
+
+__3 ) do catch examples 3__
+
+또는 `catch is` 대신 연관된 에러를 필요한 만큼 `,` 를 이용해 나열해 처리할 수 있다.
+
+
+```swift
+func buySnack(with item: String) throws {
+    do {
+        try vendingMachine.vend(itemNamed: item)
+    } catch VendingMachineError.invalidSelection,
+            VendingMachineError.insufficientFunds,
+            VendingMachineError.outOfStock {
+        print("""
+              Couldn't buy that from the vending machine
+              because of invalid selection, out of stock, or not enough money.
+              """)
+    }
+}
+
+do {
+    try buySnack(with: "Beat-Flavored Chips")
+} catch {
+    print("Unexpected non-vending-machine-related error: \(error)")
+}
+```
+
+```console
+Couldn't buy that from the vending machine
+because of invalid selection, out of stock, or not enough money.
+```
 
 #### 3. Converting Errors to Optional Values
 
