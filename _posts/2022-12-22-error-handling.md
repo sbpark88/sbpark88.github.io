@@ -378,9 +378,9 @@ let q = try? someThrowingFunction(1)
 print(q as Any)                         // Optional(1)
 ```
 
-> `Throwing Functions`의 반환값 자체는 `Normal Types`로 작성할 경우 `try` keyword 와 함께 사용하면 `Normal Types`가 
-> 된다. 따라서 결과값을 별도로 `unwrapping` 할 필요가 없지만 에러가 발생할 경우 `Runtime Error`가 된다. `Optional`로 
-> `wrapping` 하려면 반드시 `try?` keyword 와 함께 사용해야한다.
+> `Throwing Functions`이더라도 `try` keyword 와 함께 사용하면 `return type`은 `Normal Types`가 된다. 
+> 따라서 결과값을 별도로 `unwrapping` 할 필요가 없지만 에러가 발생할 경우 `Runtime Error`가 된다. 
+> `Throwing Functions`로 작성했더라도 `Optional`로 `wrapping` 하려면 반드시 `try?` keyword 와 함께 사용해야한다.
 > 
 > ```swift
 > let p = try someThrowingFunction(0)
@@ -402,6 +402,33 @@ func fetchData() -> Data? {
 ```
 
 #### 4. Disabling Error Propagation
+
+절대로 에러가 발생하지 않는다는 것을 알고 있는 경우, `Throwing Functions`를 호출할 때 `try!` 를 이용할 수 있다. 
+`try!` expressions 를 사용하면 다음 두 가지가 작동하지 않는다.
+
+- Error Propagation
+- 반환 값의 Optional Wrapping
+
+```swift
+func someThrowingFunctionWithOptional(_ input: Int) throws -> Int? {
+    if input == 0 {
+        throw SomeError.zero
+    } else {
+        return input
+    }
+}
+
+let x = try someThrowingFunction(1)
+print(x as Any)                         // 1
+let y = try! someThrowingFunction(1)
+print(y as Any)                         // 1
+```
+
+```swift
+let photo = try! loadImage(atPath: "./Resources/John Appleseed.jpg")
+```
+
+> 이 경우 예상과 달리 에러가 발생하면 `Runtime Error`가 되므로 절대 에러를 발생하지 않는지 신중한 판단이 필요하다. 
 
 ---
 
