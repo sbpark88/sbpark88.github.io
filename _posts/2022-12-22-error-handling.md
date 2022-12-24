@@ -211,7 +211,7 @@ Insufficient funds. Please insert an additional 2 coins.
 
 <br>
 
-__2 ) do catch examples 2__
+__2 ) do-catch examples 2__
 
 `catch is`를 이용해 연관된 에러를 한 번에 처리할 수 있다.
 
@@ -240,7 +240,7 @@ Couldn't buy that from the vending machine.
 
 <br>
 
-__3 ) do catch examples 3__
+__3 ) do-catch examples 3__
 
 또는 `catch is` 대신 연관된 에러를 필요한 만큼 `,` 를 이용해 나열해 처리할 수 있다.
 
@@ -272,6 +272,134 @@ because of invalid selection, out of stock, or not enough money.
 ```
 
 #### 3. Converting Errors to Optional Values
+
+`try?` expression 을 사용하면 [Optional Chaining][Chaining on Methods with Optional Return Values] 과 마찬가지로 
+`return type` 이 언제나 `Optional`이 된다.
+
+[Chaining on Methods with Optional Return Values]:/swift/2022/12/20/optional-chaining.html#h-7-chaining-on-methods-with-optional-return-values-
+
+따라서 모든 에러를 같은 방식으로 처리하는 경우 모든 에러를 처리하는 `} catch {` 를 이용해 `do-catch` 구문을 명시적으로 작성하는 것 보다 
+짧은 코드를 이용해 가독성을 높일 수 있다.
+
+```swift
+enum SomeError: Error {
+case zero
+}
+```
+
+아래 3개의 케이스는 모두 동일한 동작을 한다.
+
+<br>
+
+__1 ) Optional Functions without Throws__
+
+`throws`를 사용하지 않고 함수의 `return type` 자체를 `Optional`로 만들고, 에러 발생 조건에 대해 명시적으로 `nil`을 return 
+시켜 다음과 같이 동작시킬 수 있다.
+
+```swift
+func someOptionalFunction(_ input: Int) -> Int? {
+    if input == 0 {
+        return nil
+    } else {
+        return input
+    }
+}
+```
+
+```swift
+let x: Int? = someOptionalFunction(0)
+print(x as Any)                         // nil
+let y: Int? = someOptionalFunction(1)
+print(y as Any)                         // Optional(1)
+```
+
+하지만 위 케이스의 경우 `LBYL`(Look Before You Leap) 방식으로, 예상치 못한 에러로 인해 `Runtime Error`가 발생될 수 있다. 
+
+<br>
+
+__2 ) do-catch with Throws__
+
+`LBYL` 방식 대신 함수를 `Throwing Functions`로 만들고 호출하는 코드의 주변부를 `do-catch`로 감싸 
+`EAFP`(Easier to Ask for Forgiveness than Permission) 방식으로 처리할 수 있다.
+
+> `try?` expressions 의 `return type`은 항상 `Optional`이므로 함수는 더이상 명시적으로 `Optional Functions`일 필요가 없다.
+
+```swift
+func someThrowingFunction(_ input: Int) throws -> Int {
+    if input == 0 {
+        throw SomeError.zero
+    } else {
+        return input
+    }
+}
+```
+
+```swift
+let v: Int?
+do {
+    v = try someThrowingFunction(0)
+} catch {
+    v = nil
+}
+print(v as Any)                         // nil
+
+let w: Int?
+do {
+    w = try someThrowingFunction(1)
+} catch {
+    w = nil
+}
+print(w as Any)                         // Optional(1)
+```
+
+`LBYL` 방식과 달리 예상치 못한 에러도 모두 `catch` clause 를 통해 처리할 수 있으므로 `Runtime Error` 발생을 막을 수 있지만 
+코드가 너무 복잡해진다는 단점이 있다.
+
+<br>
+
+__3 ) Throwing Functions with Throws__
+
+`try?` keyword 를 사용하면 `EAFP` 방식으로 코드를 작성하면서 가독성 문제도 해결할 수 있다.
+
+```swift
+func someThrowingFunction(_ input: Int) throws -> Int {
+    if input == 0 {
+        throw SomeError.zero
+    } else {
+        return input
+    }
+}
+```
+
+```swift
+let p = try? someThrowingFunction(0)
+print(p as Any)                         // nil
+let q = try? someThrowingFunction(1)
+print(q as Any)                         // Optional(1)
+```
+
+> `Throwing Functions`의 반환값 자체는 `Normal Types`로 작성할 경우 `try` keyword 와 함께 사용하면 `Normal Types`가 
+> 된다. 따라서 결과값을 별도로 `unwrapping` 할 필요가 없지만 에러가 발생할 경우 `Runtime Error`가 된다. `Optional`로 
+> `wrapping` 하려면 반드시 `try?` keyword 와 함께 사용해야한다.
+> 
+> ```swift
+> let p = try someThrowingFunction(0)
+> print(p as Any)                         // Runtime Error!
+> let q = try someThrowingFunction(1)
+> print(q as Any)                         // 1
+> ```
+
+<br>
+
+따라서 모든 에러를 같은 방식으로 처리하려는 경우 다음과 같이 코드를 간결하게 작성할 수 있다.
+
+```swift
+func fetchData() -> Data? {
+    if let data = try? fetchDataFromDisk() { return data }
+    if let data = try? fetchDataFromServer() { return data }
+    return nil
+}
+```
 
 #### 4. Disabling Error Propagation
 
