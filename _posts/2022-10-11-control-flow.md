@@ -202,8 +202,8 @@ The dice are rolled 5 times.
 여기 조금 특별한 방식의 `While`문이 있다.  
 `While` 또는 `Repeat-While`의 `condition`은 `true`일 때 반복하므로 `false`가 될 때 중단된다.  
 반면 `While-True`는 위 `if`를 사용해 반복할 조건을 검사하므로 `condition`과 반대가 되어야한다. 
-즉, `!condition`일 때 중단되거나 `condition`은 그대로 사용하되 `if`절은 비워두고 `else`절에서 중단해야한다.  
-물론, 성능을 위해서는 `!`를 붙여 NOT 연산을 한 번 더 하거나, `else`절까지 가지 않도록 `condition` 자체를 
+즉, `!condition`일 때 중단되거나 `condition`은 그대로 사용하되 `if` statement 는 비워두고 `else` clause 에서 중단해야한다.  
+물론, 성능을 위해서는 `!`를 붙여 NOT 연산을 한 번 더 하거나, `else` clause 까지 가지 않도록 `condition` 자체를 
 논리적으로 반대로 바꿔 `if`에 넣어 중단하는 것이 좋다.
 
 __Syntax__
@@ -299,7 +299,7 @@ if temperatureInCelsius > 28 {
 ```
 
 #### 2. `if` statements with `else` clause
-`else`절을 이용해 `if`문의 조건을 만족하지 않은 경우에 실행하는 대안 로직을 정의할 수 있다.
+`else` clause 를 이용해 `if` statement 의 조건을 만족하지 않은 경우에 실행하는 대안 로직을 정의할 수 있다.
 
 ```swift
 let temperatureInCelsius = 24
@@ -328,7 +328,7 @@ if temperatureInCelsius > 28 {
 // It's cole. Turn on the boiler.
 ```
 
-> `else`절은 언제나 <span style="color: red">Optional</span>이기 때문에 필수가 아니다.
+> `else` clause 는 언제나 <span style="color: red">Optional</span>이기 때문에 필수가 아니다.
 
 ---
 
@@ -370,7 +370,7 @@ default:
 
 <br>
 
-`if`문에서 `else`는 언제나 <span style="color: red">Optional</span>이지만 `switch`문에서 `default`는 <span style="color: red">필수</span>다.  
+`if` statement 에서 `else`는 언제나 <span style="color: red">Optional</span>이지만 `switch`문에서 `default`는 <span style="color: red">필수</span>다.  
 따라서 `switch`문에서 `else`를 구현하지 않는 경우와 같은 로직을 만들고 싶다면 `default`에 `break`만 넣어주면 된다.
 
 ```swift
@@ -993,8 +993,8 @@ With label >> dice1: 4, dice2: 1, therefore dice1 > dice2 is true
 
 #### 7. Early Exit
 
-`guard`문은 `if`문과 비슷ㅎ게 `Boolean` 값에 따라 문을 실행한다. 하지만 `if`와의 가장 큰 차이점은 항상 `else`
-절이 뒤따르며, `else`절은 반드시 `code block`을 종료하기 위해 반드시 `return`, `break`, `continue`, `throw`와
+`guard`문은 `if` statement 와 비슷하게 `Boolean` 값에 따라 문을 실행한다. 하지만 `if`와의 가장 큰 차이점은 항상 `else`
+절이 뒤따르며, `else` clause 는 반드시 `code block`을 종료하기 위해 반드시 `return`, `break`, `continue`, `throw`와
 같은 `Control Transfer Statements`를 수행하거나 `fatalError(_:file:line:)`과 같이 `return`이 없는 
 함수나 메서드를 호출해야한다.
 
