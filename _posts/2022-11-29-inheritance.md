@@ -94,8 +94,8 @@ print("Tandem: \(tandem.description)")  // Tandem: traveling at 22.0 miles per h
 `Subclass`는 `Superclass`의 `Instance Methods`, `Type Methods`, `Instance Porperties`, 
 `Type Properties`, `Subscripts`를 다시 구현할 수 있다. 이것을 `Overriding`이라 한다.
 
-`Overriding`을 위해서 앞에 `override` 수정자를 붙여준다.  
-이렇게 하는 것은 재정의를 명확히 하고, 실수로 재정의하는 것을 방지하기 위한 것으로, `override` 수정자 없이 재정의하면 
+`Overriding`을 위해서 앞에 `override` modifier 를 붙여준다.  
+이렇게 하는 것은 재정의를 명확히 하고, 실수로 재정의하는 것을 방지하기 위한 것으로, `override` modifier 없이 재정의하면 
 `Swift`는 이를 확인하고 `compile error`를 발생시킨다.
 
 > `Overriding` 가능한 `characteristics`는 `mutable`한 것으로 제한된다. 예를 들어 `let` 키워드로 선언된 

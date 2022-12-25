@@ -8,8 +8,12 @@ tags: [swift docs, deinitializer, ARC, automatic reference counting, deinitializ
 
 ### 1. Deinitializer on Class Types 👩‍💻
 
-`Deinitializer`는 `class instance`의 할당이 해제(deallocate)되기 직전에 호출되며, `deinit` 키워드를 이용해 작성한다. 
+`Deinitializer`는 `class instance`의 할당이 해제(deallocate)되기 직전에 호출되며, `deinit` keyword 를 이용해 작성한다. 
 `Deinitializer`는 `class` 타입에서만 사용될 수 있다.
+
+> 일반 코드 블럭을 탈출하기 직전에 호출되는 코드는 [defer][Specifying Cleanup Actions] keyword 를 사용해 정의한다.
+
+[Specifying Cleanup Actions]:/swift/2022/12/22/error-handling.html#h-3-specifying-cleanup-actions-
 
 ---
 
@@ -167,7 +171,7 @@ There are now 9000 coins left in the bank
 > `playerOne`에 `nil`을 할당한다는 것은 `no Player instance`를 의미하며, `Player instance`에 대한 `playerOne` 변수의 
 > `reference`가 깨진다.
 > 
-> 아무런 `Properties` 또는 `Variables`도 `Player instance`를 참조하지 않는다면, 메모리를 리소스 확보를 위해 
+> 아무런 `Properties` 또는 `Variables`도 `Player instance`를 참조하지 않는다면, 메모리 리소스 확보를 위해 
 > instance 에 대한 참조 할당이 해제된다(it’s deallocated in order to free up its memory).
 > 
 > 이러한 일이 발생되기 직전, `Deinitializer`가 자동으로 호출되며, 정의한대로 소유한 모든 코인을 은행에 반환한다.

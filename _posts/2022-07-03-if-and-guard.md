@@ -30,7 +30,7 @@ largerThanThree(num: 5) // 5 is larger than 3.
 largerThanThree(num: 3) // 3 is not larger than 3.
 ```
 
-그런데 `Swift`에는 `if` 말고도 `guard`라는 것이 있다. 따라서 위 `if`문은 다음과 같이 바꿔 적을 수 있다.
+그런데 `Swift`에는 `if` 말고도 `guard`라는 것이 있다. 따라서 위 `if` statement 는 다음과 같이 바꿔 적을 수 있다.
 
 - guard
 

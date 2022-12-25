@@ -415,7 +415,7 @@ Optional<String>
 
 ### 7. Chaining on Methods with Optional Return Values 👩‍💻
 
-`Optional Chaining`의 return type 은 언제나 `Optional`이다.
+`Optional Chaining`의 `return type` 은 언제나 `Optional`이다.
 
 ```swift
 let john = Person()

@@ -1343,7 +1343,7 @@ print(rightChannel.currentLevel)    // 10
 print(AudioChannel.maxInputLevelForAllChannels) // 10
 ```
 
-이번엔 오른쪽 볼륨을 11로 올리자 최대 레벨 제한에 의해 10으로 저장되고, 이에 따라 그 다음 `if`문에서
+이번엔 오른쪽 볼륨을 11로 올리자 최대 레벨 제한에 의해 10으로 저장되고, 이에 따라 그 다음 `if` statement 에서
 `maxInputLevelForAllChannels`가 10으로 저장되었다.
 
 <br><br>
