@@ -3,7 +3,7 @@ layout: post
 title: Swift Error Handling
 subtitle: Error handling in Swift interoperates with error handling patterns that use the NSError class in Cocoa and Objective-C.
 categories: swift
-tags: [swift docs, error handling, do catch, do-catch, throw, throwing function, throwing initializer, propagating, try, try?, try!, cleanup action]
+tags: [swift docs, error handling, do catch, do-catch, throw, throwing function, throwing initializer, propagating, try, try?, try!, cleanup action, defer]
 ---
 
 ### 1. Representing and Throwing Errors 👩‍💻
@@ -433,6 +433,55 @@ let photo = try! loadImage(atPath: "./Resources/John Appleseed.jpg")
 ---
 
 ### 3. Specifying Cleanup Actions 👩‍💻
+
+`Class` 타입은 `class instance`의 할당이 해제(deallocate)되기 직전에 호출될 코드를 정의할 수 있는 
+[Deinitializer][Deinitialization] 라는 특별한 코드블럭이 있고 이것은 `deinit` keyword 를 이용해 정의되었다. 
+
+[Deinitialization]:/swift/2022/12/19/deinitialization.html#h-2-how-deinitialization-works-
+
+그리고 이러한 정리 작업은 `Classes` 보다 더 작은 코드 블럭 단위인 `Closures` 에서도 사용될 수 있는데, 바로 `Defer Statement`를 
+이용하는 것이다. `Defer Statement`는 `defer` keyword 를 이용해 정의된다.
+
+- `defer` statement 는 코드 블럭을 탈출하기 직전에 호출되며, `throw`, `return`, `break`에 관계 없이 작동한다.
+- `defer` statement 는 내부에 `throw`, `return`, `break`를 포함할 수 없다.
+- `defer` statement 는 `deinit` 과 달리 하나의 코드 블랙 내에 여러 개가 존재할 수 있으며, `Stack`을 이용해 `LIFO`로 작동한다.
+
+```swift
+_ = {
+    defer {
+        print("first")
+    }
+    defer {
+        print("second")
+    }
+    print("three")
+}()
+```
+
+```console
+three
+second
+first
+```
+
+<br>
+
+```swift
+func processFile(filename: String) throws {
+    if exists(filename) {
+        let file = open(filename)
+        defer {
+            close(file)
+        }
+        while let line = try file.readline() {
+            // Work with the file.
+        }
+        // close(file) is called here, at the end of the scope.
+    }
+}
+```
+
+위 코드에서 `defer` 는 `if` 블럭에 속해 있으므로, `if` 블럭을 탈출하기 직전에 호출되어 파일을 닫고 수동으로 메모리 리소스를 확보한다.
 
 
 <br><br>
