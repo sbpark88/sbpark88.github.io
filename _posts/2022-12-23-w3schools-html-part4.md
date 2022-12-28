@@ -59,6 +59,88 @@ tags: [w3school, class, id, iframe, file path]
 
 ### 20. HTML Iframes 👩‍💻
 
+#### 1. Embed Other Documents
+
+`iframe` 태그는 현재 `HTML` document 에 다른 `HTML` document 를 `inline frame`으로 `embed` 시킨다.
+
+__Syntax__
+
+```html
+<iframe src="url" title="description"></iframe>
+```
+
+<br>
+
+- Iframe Size with HTML attributes
+
+```html
+<iframe src="/categories.html#h-html" height="400" width="800" title="Iframe Example 1"></iframe>
+```
+
+<iframe src="/categories.html#h-html" height="400" width="800" title="Iframe Example 1"></iframe>
+
+<br>
+
+- Iframe Size with CSS
+
+```html
+<iframe src="/categories.html#h-html" style="height:400px;width:100%;" title="Iframe Example 2"></iframe>
+```
+
+<iframe src="/categories.html#h-html" style="height:400px;width:100%;" title="Iframe Example 2"></iframe>
+
+<br>
+
+- Iframe with removed border
+
+```html
+<iframe src="/categories.html#h-html" style="height:400px;width:100%;border:none;" title="Iframe Example 3"></iframe>
+```
+
+<iframe src="/categories.html#h-html" style="height:400px;width:100%;border:none;" title="Iframe Example 3"></iframe>
+
+<br>
+
+> 일반적으로 `iframe` 인 것을 속이기 위해 `CSS`에 `border: none;`과 함께 사용한다.
+
+#### 2. Iframe with HTML Link target attribute 
+
+[Link target attribute](/html/2022/12/10/w3schools-html-part3.html#h-2-link-target-attribute) 에서 
+`target` attribute 가 갖는 4가지 값 `_self`, `_blank`, `_parent`, `_top`을 살펴봤다. 그런데 이 `a` 태그의 `target` 
+attribute 가 `iframe`과 사용되면, 브라우저가 아닌 `iframe`을 대상으로 제어하는 것이 가능하다.
+
+> `iframe`의 `name` attribute 가 `a` 태그의 `target` attribute 와 같으면 브라우저가 아닌 `iframe`의 위치가 제어된다.
+
+```html
+<iframe src="/categories.html#h-html" name="iframe_a" style="height:400px;width:100%;" title="Iframe Example 4"></iframe>
+
+<p>
+  <a href="https://sbpark88.github.io"
+     style="background-color: cornflowerblue;
+            color: white;
+            padding: 15px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;"
+     target="iframe_a">Go to Home</a>
+</p>
+```
+
+<iframe src="/categories.html#h-html" name="iframe_a" style="height:400px;width:100%;" title="Iframe Example 4"></iframe>
+<br>
+<p>
+  <a href="https://sbpark88.github.io"
+     style="background-color: cornflowerblue;
+            color: white;
+            padding: 15px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;"
+     target="iframe_a">Go to Home</a>
+</p>
+
+> 외부 사이트 연결은 안 되는 것 같다.
+
 ---
 
 ### 21. HTML File Paths 👩‍💻
