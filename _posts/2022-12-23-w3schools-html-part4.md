@@ -145,6 +145,39 @@ attribute 가 `iframe`과 사용되면, 브라우저가 아닌 `iframe`을 대�
 
 ### 21. HTML File Paths 👩‍💻
 
+`Unix` like 경로 시스템과 동일하게 작동한다.
+
+#### 1. Same Directory as The Current Page
+
+```html
+<img src="picture.jpg">
+```
+
+현재 페이지와 동일 디렉토리에 있는 `picture.jpg`를 가리킨다.
+
+#### 2. Sub Directory of The Current Page
+
+```html
+<img src="images/picture.jpg">
+```
+
+현재 페이지가 존재하는 디렉토리 내에 `images` 디렉토리 안에 있는 `picture.jpg`를 가리킨다.
+
+#### 3. Root Directory of The Current Page
+
+```html
+<img src="/public/assets/images/picture.jpg">
+```
+
+`/`로 시작하면 `root`를 의미한다. `root`를 기준으로 파일까지의 전체 절대 경로를 명시한다.
+
+#### 4. Super Directory of The Current Page
+
+```html
+<img src="../picture.jpg">
+```
+
+현재 페이지의 상위 디렉토리 내에 있는 `picture.jpg`를 가리킨다.
 
 <br><br>
 
