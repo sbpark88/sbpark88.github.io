@@ -3,7 +3,7 @@ layout: post
 title: Vue.js Starter - Part 2
 subtitle: Vue.js 프로젝트 투입 일주일 전
 categories: javascript
-tags: [javascript, vue, vuej s, vue.js, router, vue router, component, vue component, v-for, v-if, v-show, v-on, computed, watch]
+tags: [javascript, vue, vue js, vue.js, router, vue router, component, vue component, v-for, v-if, v-show, v-on, computed, watch]
 ---
 
 <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
@@ -1133,5 +1133,5 @@ export default {
 ---
 Reference
 
-1. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 3
-2. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 4
+1. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 4
+2. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 5
