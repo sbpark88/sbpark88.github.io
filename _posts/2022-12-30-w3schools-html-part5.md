@@ -241,6 +241,101 @@ __4 ) CSS Grid Layout__
 
 ### 25. HTML Computercode 👩‍💻
 
+컴퓨터의 코드와 연관된 정보를 표현하기 위해 다음과 같은 `HTML` elements 가 있다.
+
+- kdb : Keyboard Input
+- samp : Sample Output From a Computer Program
+- code : Code Block
+- var : 'Variable in Programming' or 'Mathematical Expression' 
+- pre : Preformatted Text
+
+> 이 코드들은 브라우저에서 기본적으로 `고정 너비 폰트(monospace font)`로 표현된다.
+
+#### 1. Keyboard Input
+
+```html
+<p>Save the document by pressing "<kbd>Command + S</kbd>"</p>
+```
+
+Output:
+
+<p>Save the document by pressing "<kbd>Command + S</kbd>"</p>
+
+#### 2. Program Output
+
+콘솔창에 출력되는 것을 표현하기 위한 것이라 보면 된다.
+
+```html
+<p>Message from my computer:</p>
+<p><samp>File not found.<br>Press F1 to continue</samp></p>
+```
+
+Output:
+
+<p>Message from my computer:</p>
+<p><samp>File not found.<br>Press F1 to continue</samp></p>
+
+
+#### 3. Computer Code(Code Block)
+
+`Markdown`에서 \` 3개로 감싸 코드블럭을 만드는 것의 `HTML` 버전이다.
+
+```html
+<code>
+x = 5;
+y = 6;
+z = x + y;
+</code>
+```
+
+Output: 
+
+<code>
+x = 5;
+y = 6;
+z = x + y;
+</code>
+
+<br>
+
+- `<pre>` element
+
+`code` element 는 기본적으로 여러 개의 공백과 개행을 전부 무시한다. 따라서 코드 블럭 내에서 이를 허용하려면 
+`pre`(preformatted text) 태그로 감싸 작성된 포맷 한다.
+
+```html
+<pre>
+<code>
+x = 5;
+y = 6;
+z = x + y;
+</code>
+</pre>
+```
+
+Output:
+
+<pre>
+<code>
+x = 5;
+y = 6;
+z = x + y;
+</code>
+</pre>
+
+#### 4. Variable
+
+컴퓨터 프로그래밍 변수 또는 수학식의 변수를 표현하기 위한 태그로, 다른 `Computercode`들과 달리 브라우저에서 기본적으로 
+`italic`으로 표현된다.
+
+```html
+<p>The area of a triangle is: 1/2 x <var>b</var> x <var>h</var>, where <var>b</var> is the base, and <var>h</var> is the vertical height.</p>
+```
+
+Output:
+
+<p>The area of a triangle is: 1/2 x <var>b</var> x <var>h</var>, where <var>b</var> is the base, and <var>h</var> is the vertical height.</p>
+
 ---
 
 ### 26. HTML Semantics 👩‍💻
