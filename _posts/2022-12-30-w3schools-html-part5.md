@@ -142,6 +142,101 @@ __4 ) CSS Grid Layout__
 
 ### 24. HTML Responsive 👩‍💻
 
+#### 1. Setting The Viewport
+
+화면 크기와 사용성이 다른 여러 디바이스(컴퓨터, 태블릿, 스마트폰)에 따라 각 화면을 최적화 하기 위해 사용하는 방법으로, 
+`HTML`과 `CSS`를 화면에 맞게 자동으로 확대, 축소하거나 디자인을 변경하는 등 자동으로 화면 크기에 반응하도록 하는 
+디자인 `Layout`을 말한다.
+
+반응형 웹을 위해서 기본적으로 다음 `meta` 태그를 포함한다.
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+```
+
+![Setting The Viewport](/assets/images/posts/2022-12-30-w3schools-html-part5/responsive-viewport.png)
+
+> 동일한 사이트를 스마트폰으로 볼 때 `viewport`를 적용하지 않은 경우(왼쪽)와, `viewport`를 적용한 경우(오른쪽)의 차이를 볼 수 있다.
+
+#### 2. Responsive Images
+
+반응형에서 이미지의 `CSS`에 `width: 100%;`를 주면 이미지가 포함된 `HTML` element 의 폭에 맞게 자동으로 
+확대(scale up) 또는 축소(scale down)되어 폭을 전부 채운다. 
+
+<p class="codepen" data-height="500" data-default-tab="html,result" data-slug-hash="XWBKdZG" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/XWBKdZG">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+하지만 위와 같이 세로 이미지의 경우 주로 화면을 세로로 사용하는 스마트폰은 문제가 없지만, 주로 가로로 사용하는 컴퓨터 
+환경에서는 `UX`가 매우 떨어진다. 이 때 `max-width`를 이용하면 폭에 맞게 자동으로 확대/축소가 되지만 확대 되는 
+크기를 제한할 수 있다. `px`를 이용해 고정값을 줄 수도 있고, `max-width: 100%;`를 주게 되면 이미지의 원본 
+크기보다 더 확대되지 않도록 크기를 제한한다.
+
+<p class="codepen" data-height="500" data-default-tab="html,result" data-slug-hash="rNrLevR" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/rNrLevR">
+  Responsive Image with max-width</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+#### 3. Different Images with Picture Element
+
+[HTML Picture Element](/html/2022/12/10/w3schools-html-part3.html#h-6-html-picture-element) 에서 
+살펴본 것처럼, `pciture` 태그를 이용해 반응형 웹에서 화면 크기에 따라 서로 다른 이미지를 보여줄 수 있다.
+
+<p class="codepen" data-height="500" data-default-tab="html,result" data-slug-hash="jOprqpK" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/jOprqpK">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 4. Responsive Text Size
+
+반응형 디자인에서 각 요소들의 위치를 지정하는 `Layout`과 이미지 크기와 같은 것만 능동적으로 변화하는 것은 컴퓨터와 
+스마트폰에서 눈과의 거리가 비슷해 글씨 크기에 큰 변화가 없다는 전제 조건을 가정한 경우다. 화면 크기의 변화가 크거나, 
+내용에 해당하는 글씨 크기가 아닌 제목과 같은 글시 크기는 이미지 크기와 마찬가지로 적극적으로 반응할 필요가 있다.
+
+이를 위해서 글씨 크기를 고정값이 아닌 화면 폭을 기준으로 자동으로 확대/축소 되도록 `vw`를 사용한다.
+
+<p class="codepen" data-height="500" data-default-tab="html,result" data-slug-hash="RwBRaeK" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/RwBRaeK">
+  Responsive Text</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+> `vw`를 단위로 사용해 화면 폭을 기준으로 자동으로 확대/축소되어 크기가 일정하게 유지되는 1, 2번째 문장과 달리 
+> 3, 4번째 문장은 고정값으로 작동하는 것을 확인할 수 있다.
+
+#### 5. Media Queries
+
+반응형 디자인을 할 때 가장 많이 사용하는 방법 중 하나가 `CSS`에 `@media`를 이용해 `Media Queries`를 작성하는 것이다.
+
+<p class="codepen" data-height="500" data-default-tab="html,result" data-slug-hash="PoBzNVJ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/PoBzNVJ">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 6. With Frameworks
+
+[CSS Framworks](#h-2-layout-techniques) 를 사용하면, 반응형 디자인을 쉽게 구현할 수 있다.
+
+<p class="codepen" data-height="500" data-default-tab="html,result" data-slug-hash="ExpyKJx" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/ExpyKJx">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+<p class="codepen" data-height="500" data-default-tab="html,result" data-slug-hash="rNrLegE" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/rNrLegE">
+  Responsive</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
 ---
 
 ### 25. HTML Computercode 👩‍💻
