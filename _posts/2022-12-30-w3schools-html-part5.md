@@ -68,6 +68,76 @@ tags: [w3school, head, layout, responsive, computer code, semantics, style guide
 
 ### 23. HTML Layout 👩‍💻
 
+#### 1. Layout Elements
+
+절대적으로 정해진 규칙이 있는 것은 아니지만 일반적으로 `HTML`은 `semantic` elements 를 이용해 다음과 같이 구성된다.
+
+![HTML Layout Elements](/assets/images/posts/2022-12-30-w3schools-html-part5/img_sem_elements.gif)
+
+- header : 전체 문서 또는 부분 콘텐츠(section)를 위한 header 를 정의한다.
+- nav : navigation links 를 정의한다.
+- section : 문서의 콘텐츠를 정의한다.
+- article : 문서와 독립된 콘텐츠를 정의한다.
+- aside : 페이지에 콘텐츠 외 부가 정보를 위한 사이드바를 정의한다.
+- details : 사용자에 의해 열고 닫을 수 있는 추가적인 정보를 정의한다.
+- summary : details 를 위한 제목을 정의한다.
+- footer : header 와 반대대는 개념으로 마무리를 위한 footer 를 정의한다.
+
+> `semantic` elements 에 대해서는 [26. HTML Semantics](#h-26-html-semantics-) 에서 다시 자세히 설명한다.
+
+#### 2. Layout Techniques
+
+`Layout`을 다루는 방법은 여러 가지가 있으며, 대표적인 4 가지 방법을 소개한다.
+
+<br>
+
+__1 ) CSS Frameworks__
+
+1. [Bootstrap](https://getbootstrap.com)
+2. [Tailwind CSS](https://tailwindcss.com)
+3. [Foundation](https://get.foundation)
+4. [Bulma](https://bulma.io)
+5. [Skeleton](http://getskeleton.com)
+
+와 같은 `CSS Frameworks`를 사용하는 것이다. 위 frameworks 에 대한 비교는 
+[Top 5 CSS Frameworks][Top 5 CSS Frameworks] 를 참고한다.
+
+<br>
+
+__2 ) CSS Float Layout__
+
+[CSS Float and Clear](https://www.w3schools.com/css/css_float.asp) 이 어떻게 작동하는지만 기억하면 
+전체 웹 레이아웃을 쉽게 다룰 수 있다. 단, `float` element 는 전체 문서 흐름의 유연성을 해치는 문제를 갖는다. 
+즉, 다양한 디바이스를 커버하도록 반응형 디자인을 구현할 때 잘못 만들면 레이아웃이 깨질 위험이 있다.
+
+<p class="codepen" data-height="500" data-default-tab="html,result" data-slug-hash="abjZNOP" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/abjZNOP">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+__3 ) CSS Flexbox Layout__
+
+다른 방법으로는 [CSS Flexbox](https://www.w3schools.com/css/css3_flexbox.asp) 를 사용하는 것이다.
+`Flexbox`는 다양한 화면 크기와 장치를 커버하는 데 예측 가능한 방식으로 반응형 디자인을 구현하는 데 유용하다.
+
+위 `Float`과 공통된 `CSS`는 `HTML`의 `head`에 포함시키고, 서로 다른 부분만 `CodePen`의 `CSS` 탭에 넣어두었으니 비교해보자. 
+
+<p class="codepen" data-height="500" data-default-tab="html,result" data-slug-hash="vYaKGLO" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/vYaKGLO">
+  CSS Layout Flexbox</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+<br>
+
+__4 ) CSS Grid Layout__
+
+마지막으로 `Grid` 타입 디자인의 경우 `CSS`의 `display` property 의 `grid` 또는 `inline-grid` value 를 
+사용해 `Container`와 `Items`의 개념으로 모듈화 하는 것이다.
+
+[CSS Grid Layout Module](https://www.w3schools.com/css/css_grid.asp)
+
 ---
 
 ### 24. HTML Responsive 👩‍💻
@@ -90,3 +160,6 @@ tags: [w3school, head, layout, responsive, computer code, semantics, style guide
 Reference
 
 1. "HTML Tutorial", W3Schools, last modified latest(Unknown), accessed Dec. 30, 2022, [W3Schools-HTML](https://www.w3schools.com/html/default.asp)
+2. "Top 5 CSS Frameworks for Developers and Designers", Browserstack, last modified Mar. 25, 2022, accessed Jan. 1, 2023, [Top 5 CSS Frameworks][Top 5 CSS Frameworks]
+
+[Top 5 CSS Frameworks]:https://www.browserstack.com/guide/top-css-frameworks
