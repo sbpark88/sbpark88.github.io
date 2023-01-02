@@ -115,7 +115,7 @@ export default {
 ```
 {% endraw %}
 
-![Static Props](/assets/images/posts/2023-01-01-vue-starter-part4/static-props.png)
+![Nested Component Props](/assets/images/posts/2023-01-01-vue-starter-part4/nested-component-props.png)
 
 #### 3. Dynamic Props
 
@@ -166,6 +166,16 @@ export default {
 `Vue` 자체는 `Two-way data binding`를 지원하지만, 부모 자식 컴포넌트 사이는 `One-way down binding`으로 작동한다. 
 이는 자식 컴포넌트에 의해 부모 컴포넌트의 `state`가 변경되는 것을 허용하게 되면 앱의 데이터 흐름을 이해하기 
 어렵게 만들기 때문이다.
+
+> `Vue`에 의해 `Two-way data binding`이 안 된다는 것 뿐이지 자식 컴포넌트에서 부모 컴포넌트로 데이터 전달이 불가능한 것은 아니다. 
+> `Vue`에 의해 `binding`이 되지 않고, 자식 컴포넌트가 부모 컴포넌트를 변경할 수 없기 때문에 부모 컴포넌트 쪽에서 능동적으로 데이터를 
+> 반영하는 방법을 사용할 수 있다.
+> 
+> 1. 자식 컴포넌트가 부모 컴포넌트의 함수에 데이터를 arguments 로 던져 올리고, 부모 컴포넌트의 함수가 이 데이터를 자신의 변수에 
+>    저장한다. See: [Emitting and Listening to Events](#h-2-emitting-and-listening-to-events)
+> 2. 다른 방법으로는 부모 컴포넌트가 자식 컴포넌트의 데이터를 `Template Refs`를 이용해 변화를 감시하도록 부모 컴포넌트 내에 
+>    `Computed Properties`를 선언하고, 변화를 감시할 값을 `Template Refs`를 이용해 자식 컴포넌트의 변수를 지정한다.
+>    See: []()
 
 <br>
 
@@ -268,12 +278,149 @@ export default {
 
 ---
 
-### 14.  👩‍💻
+### 14. Nested Component - Template Refs and  Event Call 👩‍💻
 
-#### 1.
+#### 1. Template Refs ($ref) (Parent to Child)
+
+`HTML`에서 `id` attribute 가 `unique`한 속성을 가진 것처럼, `Vue`에서는 `ref` attribute 가 이 역할을 한다. 
+따라서, `Vue`에서 어떤 컴포넌트 또는 `Real DOM`에 접근하고 싶다면 `ref`를 사용해 접근할 수 있다.
+
+`Vue`에서 `Real DOM`에 접근하고 이를 다루는 것이 좋은 방법은 아니지만, `ref`를 이용하면 부모 컴포넌트가 자식 컴포넌트의 
+DOM 에 접근해 `click` 이벤트를 호출하거나, 자식 컴포넌트 내에 정의된 함수를 호출하거나, 자식 컴포넌트 내에 정의된 변수에 접근하는 
+것과 같은 모든 행위가 가능하다(`window.opener`로 접근할 때의 부모 자식 창 관계와 유사하다).
+
+#### 2. Emitting and Listening to Events ($emit) (Child to Parent)
+
+반면, 자식 컴포넌트에서 부모 컴포넌트에 무언가 직접적으로 데이터를 전달할 수 있는 방법은 부모 컴포넌트에 정의되어 있으며, 자식 컴포넌트에 
+`binding` 된 함수를 호출하기 위해 `emitting`하는 것만 허용된다. 하자민 정확히 얘기하면, 부모 컴포넌트가 자식 컴포넌트에 제공한 함수가 
+호출 요청이 있는지 `listening`하고 있고, 자식 컴포넌트에서 부모 컴포넌트에서 제공된 함수를 호출하는 요청과 함깨 `arguments`를 
+전달해 올리는 `emitting`이 발생됨으로 인해 자식 컴포넌트에서 부모 컴포넌트의 함수를 호출하는 것처럼 보이는 것일 뿐이다.
+
+> `Props`와 마찬가지로, `Parent Component`에서 `Component Tags`에 `attribute` 형태로 등록되는 `v-bind`는 모두 
+> `kebab-case`를 사용하고, `Child Componenet`에서 이 `binding` 변수를 지정할 때는 모두 `camelCase`를 사용한다.
+
+#### 3. Computed Properties (Child to Parent)
+
+> `Computed Properties`의 타겟이 자기 자신의 컴포넌트의 데이터일 경우 `Two-way binding`도 되고 아무런 제약이 없던 것과 
+> 달리 타겟을 `Template Refs`를 이용해 자식 컴포넌트의 값을 감시할 경우, 이 변수는 부모 컴포넌트의 `script` 내에서만 사용이 
+> 가능하다.  
+> (`template`에 사용된 변수는 `Two-way data binding`으로 작동하는데, 이 때 `template`의 변경 내역이 `script`에 정의된 
+> `Computed Property`로 전달 되고, 이는 다시 타겟인 자식 컴포넌트의 데이터를 향하게 된다. 문제는 자식 컴포넌트의 변경 사항은 
+> 부모 컴포넌트에서 능동적으로 제어되는 것일 뿐, 자식 컴포넌트에서 부모 컴포넌트로 전달을 하지 못 하므로 `Two-way data binding`의 
+> 흐름이 끊어진다.)
+
+#### 4. Template Refs and  Event Call Examples
+
+- /src/views/EventCallView.vue
 
 {% raw %}
+```vue
+<template>
+  <h1>Parent Component</h1>
+  <button type="button" @click="parentFunc">
+    부모 컴포넌트에서 부모 컴포넌트 이벤트 호출
+  </button>
+  <button type="button" @click="callChildEvent">
+    부모 컴포넌트에서 자식 컴포넌트 이벤트 호출(Real DOM 에 접근)
+  </button>
+  <button type="button" @click="callChildFunc">
+    부모 컴포넌트에서 자식 컴포넌트 이벤트 호출(함수에 직접 접근)
+  </button>
+  <button type="button" @click="setChildVariable">
+    부모 컴포넌트에서 자식 컴포넌트 데이터 'alpha' 변경
+  </button>
+  <!--  <p>-->
+  <!--    자식 컴포넌트의 데이터를 'beta' 를 computed 하는 부모 컴포넌트의 데이터:-->
+  <!--    {{ syncedWithChildComponentVariable }}-->
+  <!--  </p>-->
+  <button type="button" @click="popSyncedVariable">
+    자식 컴포넌트의 데이터 'beta' 를 computed 하는 부모 컴포넌트의 데이터 팝업
+  </button>
+  <hr />
+  <ChildComponent @parent-Func="parentFunc" ref="childComponent" />
+</template>
+
+<script>
+import ChildComponent from "@/components/ChildComponent.vue";
+
+export default {
+  name: "EventCallView",
+  components: {
+    ChildComponent,
+  },
+  methods: {
+    parentFunc() {
+      alert("부모 컴포넌트 이벤트가 호출되었습니다.");
+    },
+    callChildEvent() {
+      this.$refs.childComponent.$refs.myChildButton.click();
+    },
+    callChildFunc() {
+      this.$refs.childComponent.childFunc();
+    },
+    setChildVariable() {
+      this.$refs.childComponent.alpha = Math.trunc(Math.random() * 10);
+    },
+    popSyncedVariable() {
+      alert(this.syncedWithChildComponentVariable);
+    },
+  },
+  computed: {
+    syncedWithChildComponentVariable() {
+      return this.$refs.childComponent.beta;
+    },
+  },
+};
+</script>
+```
 {% endraw %}
+
+- /src/components/ChildComponent.vue
+
+{% raw %}
+```vue
+<template>
+  <h1>Child Component</h1>
+  <button type="button" @click="childFunc" ref="myChildButton">
+    자식 컴포넌트에서 자식 컴포넌트 이벤트 호출
+  </button>
+  <button type="button" @click="callParentFunc">
+    자식 컴포넌트에서 부모 컴포넌트 이벤트 호출
+  </button>
+  <button type="button" @click="setSelfVariable">
+    자식 컴포넌트에서 자식 컴포넌트 데이터 'beta' 변경
+  </button>
+  <p>alpha: {{ alpha }}</p>
+  <p>beta: {{ beta }}</p>
+</template>
+
+<script>
+export default {
+  name: "ChildComponent",
+  data() {
+    return {
+      alpha: 0,
+      beta: 0,
+      gamma: "abc",
+    };
+  },
+  methods: {
+    childFunc() {
+      alert("자식 컴포넌트의 이벤트가 호출되었습니다.");
+    },
+    callParentFunc() {
+      this.$emit("parentFunc");
+    },
+    setSelfVariable() {
+      this.beta = Math.trunc(Math.random() * 10);
+    },
+  },
+};
+</script>
+```
+{% endraw %}
+
+![Nested Component Refs and Emit](/assets/images/posts/2023-01-01-vue-starter-part4/nested-component-refs-and-emit.png)
 
 ---
 
