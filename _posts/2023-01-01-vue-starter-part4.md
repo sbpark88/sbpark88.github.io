@@ -115,7 +115,9 @@ export default {
 ```
 {% endraw %}
 
-![Nested Component Props](/assets/images/posts/2023-01-01-vue-starter-part4/nested-component-props.png)
+![Nested Component Props][Nested Component Props]
+
+[Nested Component Props]:/assets/images/posts/2023-01-01-vue-starter-part4/nested-component-props.png
 
 #### 3. Dynamic Props
 
@@ -424,12 +426,299 @@ export default {
 
 ---
 
-### 15.  👩‍💻
+### 15. Nested Component - Slots 👩‍💻
 
-#### 1.
+#### 1. Slot Content and Outlet
+
+일관된 디자인은 `UI/UX`에 매우 중요하다. 팝업창을 예로 들면, 동일한 팝업이라도 개발자가 매번 직접 구현할 경우 
+실수든 서로 다른 개발자에 의해 개발자의 주관이 섞이게 되든 다른 부분이 나타나게 된다.
+
+공통화 및 재사용을 위해 `Vue`는 `Componenets`를 이용한다. 하지만 단순한 모달창, 타이틀과 같은 컴포넌트는 
+부모 자식간 `props`를 이용해 데이터를 전달하고 전부 구현해야하는 불편함이 있다. 이런 공통 컴포넌트 내에 `Slots`을 이용하면 
+`HTML`을 작성해 그대로 주입하는 것이 가능해 가벼운 레이아웃을 쉽게 재사용 할 수 있다.
+
+[2. Static Props](#h-2-static-props) 에서 `/src/components/PageTitle.vue` 를 이용해 페이지에 타이틀을 
+공통화했다. 이것을 `Slots`으로 바꾸면 다음과 같다.
+
+- /src/components/PageTitle.vue
 
 {% raw %}
+```vue
+<template>
+  <h2>{{ myTitle }}</h2>
+</template>
+
+<script>
+export default {
+  name: "PageTitle",
+  props: {
+    myTitle: { type: String, default: "페이지 제목입니다." },
+  },
+};
+</script>
+```
 {% endraw %}
+
+- /src/components/common/SlotPageTitle.vue
+
+{% raw %}
+```vue
+<template>
+  <h2><slot /></h2>
+</template>
+```
+{% endraw %}
+
+<br>
+
+부모 컴포넌트 역시 단순 컴포넌트를 재사용 할 때와 `Slots`을 사용한 컴포넌트를 재사용 할 때 코드는 다음과 같이 
+변경된다.
+
+- /src/views/AboutView.vue (without Slots)
+
+{% raw %}
+```vue
+<template>
+  <PageTitle my-title="About 페이지입니다." />
+</template>
+
+<script>
+import PageTitle from "@/components/PageTitle.vue";
+
+export default {
+  name: "AboutView",
+  components: {
+    PageTitle,
+  },
+};
+</script>
+```
+{% endraw %}
+
+- /src/views/AboutView.vue (with Slots)
+
+{% raw %}
+```vue
+<template>
+  <SlotPageTitle> About 페이지입니다. </SlotPageTitle>
+</template>
+
+<script>
+import SlotPageTitle from "@/components/common/SlotPageTitle.vue";
+
+export default {
+  name: "AboutView",
+  components: {
+    SlotPageTitle,
+  },
+};
+</script>
+```
+{% endraw %}
+
+![Nested Component Slots][Nested Component Props]
+
+#### 2. Named Slots
+
+단일 `Slot`이 아닌 경우 구분하기 위해 `name`이 필요하다. 각 `name`은 `template` element 를 이용해 
+삽입하고, `v-slot` attribute 를 이용해 연결할 수 있다.   
+여러 `Slots` 중 하나의 `Slot`에 한해 `name`을 생략할 수 있는데, 이 경우 `v-slot:default`을 이용해 
+연결한다.
+
+`header`, `main`, `footer`로 구성된 팝업 모달 레이아웃을 `Slot`으로 만들어 적용해보자.
+
+- /src/components/common/SlotModalLayout.vue
+
+{% raw %}
+```vue
+<template>
+  <div class="modal-container">
+    <header>
+      <h1>
+        <slot name="header"></slot>
+      </h1>
+    </header>
+    <main>
+      <slot></slot>
+    </main>
+    <footer>
+      <slot name="footer"></slot>
+    </footer>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "SlotModalLayout",
+};
+</script>
+
+<style scoped>
+.modal-container {
+  width: 500px;
+  --modal-border: 30px;
+}
+
+.modal-container > header {
+  height: 50px;
+  background: aquamarine;
+  border-top-left-radius: var(--modal-border);
+  border-top-right-radius: var(--modal-border);
+}
+
+.modal-container > main {
+}
+
+.modal-container > footer {
+  height: 40px;
+  background: aquamarine;
+  border-bottom-left-radius: var(--modal-border);
+  border-bottom-right-radius: var(--modal-border);
+}
+</style>
+```
+{% endraw %}
+
+- /src/views/SlotModalLayoutView.vue
+
+{% raw %}
+```vue
+<template>
+  <button type="button" @click="openPopup">
+    {{ popupState ? "Close Popup" : "Open Popup!!" }}
+  </button>
+
+  <hr />
+
+  <SlotModalLayout v-show="popupState === true">
+    <template v-slot:header> 팝업 타이틀 </template>
+    <template v-slot:default>
+      <p>알림 1 : 안녕하세요</p>
+      <p>알림 2 : 반갑습니다</p>
+    </template>
+    <template v-slot:footer>
+      <button type="button" @click="openPopup">닫기</button>
+    </template>
+  </SlotModalLayout>
+</template>
+
+<script>
+import SlotModalLayout from "@/components/common/SlotModalLayout.vue";
+
+export default {
+  name: "SlotModalLayoutView",
+  data() {
+    return {
+      popupState: false,
+    };
+  },
+  components: {
+    SlotModalLayout,
+  },
+  methods: {
+    openPopup() {
+      this.popupState = !this.popupState;
+    },
+  },
+};
+</script>
+```
+{% endraw %}
+
+그리고 `v-slot:`은 `#`을 이용해 단축형으로 작성할 수 있다.
+
+{% raw %}
+```vue
+<template>
+  <button type="button" @click="openPopup">
+    {{ popupState ? "Close Popup" : "Open Popup!!" }}
+  </button>
+
+  <hr />
+
+  <SlotModalLayout v-show="popupState === true">
+    <template #header> 팝업 타이틀 </template>
+    <template #default>
+      <p>알림 1 : 안녕하세요</p>
+      <p>알림 2 : 반갑습니다</p>
+    </template>
+    <template #footer>
+      <button type="button" @click="openPopup">닫기</button>
+    </template>
+  </SlotModalLayout>
+</template>
+```
+{% endraw %}
+
+![Nested Component Slots](/assets/images/posts/2023-01-01-vue-starter-part4/nested-component-with-slots.png)
+
+#### 3. Slot Examples
+
+[1. Slot Content and Outlet](#h-1-slot-content-and-outlet), [2. Named Slots](#h-2-named-slots) 에 추가로 
+버튼 스타일을 공통화 하는 `Vue.js` documents 예제를 하나 더 소개한다.
+
+- /src/components/common/FancyButton.vue
+
+{% raw %}
+```vue
+<template>
+  <button class="fancy-btn">
+    <slot />
+  </button>
+</template>
+
+<style scoped>
+.fancy-btn {
+  color: #fff;
+  background: linear-gradient(315deg, #42d392 25%, #647eff);
+  border: none;
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+</style>
+```
+{% endraw %}
+
+- /src/components/common/AwesomeIcon.vue
+
+{% raw %}
+```vue
+<!-- using an emoji just for demo purposes -->
+<template>❤️</template>
+```
+{% endraw %}
+
+- /src/views/FancyButtonView.vue
+
+{% raw %}
+```vue
+<template>
+  <FancyButton> Click me </FancyButton>
+
+  <FancyButton>
+    <span style="color: cyan">Click me! </span>
+    <AwesomeIcon />
+  </FancyButton>
+</template>
+
+<script>
+import FancyButton from "@/components/common/FancyButton.vue";
+import AwesomeIcon from "@/components/common/AwesomeIcon.vue";
+
+export default {
+  name: "FancyButtonView",
+  components: {
+    FancyButton,
+    AwesomeIcon,
+  },
+};
+</script>
+```
+{% endraw %}
+
+![Nested Component Slots 2](/assets/images/posts/2023-01-01-vue-starter-part4/nested-component-slot-fancy-button.png)
 
 ---
 
