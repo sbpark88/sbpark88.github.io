@@ -72,7 +72,7 @@ tags: [w3school, head, layout, responsive, computer code, semantics, style guide
 
 절대적으로 정해진 규칙이 있는 것은 아니지만 일반적으로 `HTML`은 `semantic` elements 를 이용해 다음과 같이 구성된다.
 
-![HTML Layout Elements](/assets/images/posts/2022-12-30-w3schools-html-part5/img_sem_elements.gif)
+![HTML Layout Elements][HTML Semantic Elements]
 
 - header : 전체 문서 또는 부분 콘텐츠(section)를 위한 header 를 정의한다.
 - nav : navigation links 를 정의한다.
@@ -340,6 +340,169 @@ Output:
 
 ### 26. HTML Semantics 👩‍💻
 
+`Semantic Elements` 는 브라우저와 개발자 모두에게 의미를 명확하게 설명하기 위해 존재한다. 예를 들어 `<div>`나 `<span>`은 
+`Semantic Elements` 가 아니고, `<form>`, `<table>`, `<article>`, `<footer>`, `<aside>`와 같이 태그만 보고도 
+그 의미를 파악할 수 있는 elements 들은 모두 `Semantic Elements` 에 해당한다.
+
+![HTML Semantic Elements][HTML Semantic Elements]
+
+#### 1. HTML `section` Element
+
+__콘텐츠의 주제별 그룹으로 주로 `heading`과 함께 사용된다.__
+
+주로 다음과 같은 곳에 사용된다.
+
+- Chapter
+- Introduction
+- News items
+- Contact information
+
+```html
+<section>
+<h1>WWF</h1>
+<p>The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</p>
+</section>
+
+<section>
+<h1>WWF's Panda symbol</h1>
+<p>The Panda has become the symbol of WWF. The well-known panda logo of WWF originated from a panda named Chi Chi that was transferred from the Beijing Zoo to the London Zoo in the same year of the establishment of WWF.</p>
+</section>
+```
+
+#### 2. HTML `article` Element
+
+__독립적이고 자체 포함된 콘텐츠를 정의한다. 따라서 자체적으로 의미가 있어야하며, 웹 사이트의 나머지 부분과 독림접으로 배포될 수 있어야한다.__
+
+> - independent
+> - self-contained content
+
+주로 다음과 같은 곳에 사용된다.
+
+- Forum posts
+- Blog posts
+- User comments
+- Product cards
+- Newspaper articles
+
+```html
+<article>
+<h2>Google Chrome</h2>
+<p>Google Chrome is a web browser developed by Google, released in 2008. Chrome is the world's most popular web browser today!</p>
+</article>
+
+<article>
+<h2>Mozilla Firefox</h2>
+<p>Mozilla Firefox is an open-source web browser developed by Mozilla. Firefox has been the second most popular web browser since January, 2018.</p>
+</article>
+
+<article>
+<h2>Microsoft Edge</h2>
+<p>Microsoft Edge is a web browser developed by Microsoft, released in 2015. Microsoft Edge replaced Internet Explorer.</p>
+</article>
+```
+
+> [W3C](https://www.w3schools.com/html/html5_semantic_elements.asp) 에 따르면 `section`은 문서의 콘텐츠의 주제별 
+> 그룹으로 여러 개의 section 으로 구성된다, `article`은 문서와 독립된 자체 포함된 콘텐츠를 정의한다. 따라서 `section`과 
+> `article`이 중첩되는 방법을 정의하는 것은 불가능하며 `section` 내에 `article`이 포함되기도, `article` 내에 `section`이 
+> 포함되기도 한다.
+
+따라서 `article`은 주로 `CSS`를 이용해 다음과 같이 독립성을 표현한다.
+
+![Independent Article with CSS](/assets/images/posts/2022-12-30-w3schools-html-part5/html-independent-article-with-css.png)
+
+#### 3. HTML `header` Element
+
+__콘텐츠 소개나 네비게이션 링크와 같은 머리말을 담는 container 로 일반적으로 다음을 포함한다.__
+
+- __하나 이상의 `heading`(h1 ~ h6)__
+- `logo` 또는 `icon`
+- 저자 정보
+
+```html
+<article>
+  <header>
+    <h1>What Does WWF Do?</h1>
+    <p>WWF's mission:</p>
+  </header>
+  <p>WWF's mission is to stop the degradation of our planet's natural environment,
+  and build a future in which humans live in harmony with nature.</p>
+</article>
+```
+
+> 문서 내에 `header`가 여러 개 포함될 수 있으나, `header`가 다른 `header` 내에 포함되거나 `footer`, `address` 같은 곳에 
+> 포함되는 것은 불가능하다.
+
+#### 4. HTML `footer` Element
+
+__주로 `header`와 짝을 이루며, `document` 또는 `section`의 꼬리말을 담는 container 로 일반적으로 다음을 포함한다.__
+
+- 저자 정보
+- 저작권(copyright) 정보
+- 연락처
+- 사이트맵
+- 상단으로 이동 버튼
+- 연관된 documents 
+
+```html
+<footer>
+  <p>Author: Hege Refsnes</p>
+  <p><a href="mailto:hege@example.com">hege@example.com</a></p>
+</footer>
+```
+
+#### 5. HTML `nav` Element
+
+__네비게이션 링크를 한데 모아 그룹화 할 때 사용하는 container 다.__
+
+```html
+<nav>
+  <a href="https://www.w3schools.com/html/">HTML</a> |
+  <a href="https://www.w3schools.com/css/">CSS</a> |
+  <a href="https://www.w3schools.com/js/">JavaScript</a> |
+  <a href="https://www.w3schools.com/jquery/">jQuery</a>
+</nav>
+```
+
+<div style="background: midnightblue; padding: 20px; border-radius: 25px;">
+  <nav>
+    <a href='https://www.w3schools.com/html/'>HTML</a> |
+    <a href='https://www.w3schools.com/css/'>CSS</a> |
+    <a href='https://www.w3schools.com/js/'>JavaScript</a> |
+    <a href='https://www.w3schools.com/jquery/'>jQuery</a>
+  </nav>
+</div>
+
+#### 6. HTML `aside` Element
+
+__`Sidebar`와 같은 배치된 콘텐츠 외의 콘텐츠를 정의하며 이는 반드시 주변 콘텐츠와 간접적으로 관련되어야한다.__
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="abjmNqM" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/abjmNqM">
+  HTML Semantic aside Element</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
+
+#### 7. HTML `figure` and `figcaption` Elements
+
+__`Illustration`, `Diagram`, `Photo`와 같은 것들이 자체 포함된 콘텐츠를 정의한다. 단, `article`과 달리 독립적인지는 않다.__  
+
+- self-contained content
+
+```html
+<figure>
+  <img src="https://www.w3schools.com/html/pic_trulli.jpg" alt="Trulli">
+  <figcaption>Fig1. - Trulli, Puglia, Italy.</figcaption>
+</figure>
+```
+
+<div style="background: midnightblue; padding: 20px; border-radius: 25px;">
+  <figure>
+    <img src="https://www.w3schools.com/html/pic_trulli.jpg" alt="Trulli">
+    <figcaption>Fig1. - Trulli, Puglia, Italy.</figcaption>
+  </figure>
+</div>
+<br>
+
 ---
 
 ### 27. HTML Style Guide 👩‍💻
@@ -353,3 +516,4 @@ Reference
 2. "Top 5 CSS Frameworks for Developers and Designers", Browserstack, last modified Mar. 25, 2022, accessed Jan. 1, 2023, [Top 5 CSS Frameworks][Top 5 CSS Frameworks]
 
 [Top 5 CSS Frameworks]:https://www.browserstack.com/guide/top-css-frameworks
+[HTML Semantic Elements]:/assets/images/posts/2022-12-30-w3schools-html-part5/img_sem_elements.gif
