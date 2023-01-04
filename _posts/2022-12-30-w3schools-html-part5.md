@@ -507,6 +507,294 @@ __`Illustration`, `Diagram`, `Photo`와 같은 것들이 자체 포함된 콘텐
 
 ### 27. HTML Style Guide 👩‍💻
 
+일관되고 깔끔한, 정확한 태그를 이용해 좋은 `HTML` 문서를 작성하기 위한 팁이다.
+
+#### 1. Always Declare Document Type
+
+```html
+<!DOCTYPE html>
+```
+
+#### 2. Use Lowercase Element Names
+
+`HTML` elements 는 대소문자를 구분하지 않지만 소문자를 권장한다.
+
+- Good
+
+```html
+<body>
+<p>This is a paragraph.</p>
+</body>
+```
+
+- Bad
+
+```html
+<BODY>
+<P>This is a paragraph.</P>
+</BODY>
+```
+
+#### 3. Close All HTML Elements
+
+`<p>` 태그와 같은 것들은 태그를 닫지 않아도 무방하다. 하지만 `<hr>`, `<br>`태그와 같이 `Empty Elements`를 제외한 모든 태그는 
+항상 닫는 것을 권장한다.
+
+- Good
+
+```html
+<section>
+  <p>This is a paragraph.</p>
+  <p>This is a paragraph.</p>
+</section>
+```
+
+- Bad
+
+```html
+<section>
+  <p>This is a paragraph.
+  <p>This is a paragraph.
+</section>
+```
+
+#### 4. Use Lowercase Attribute Names
+
+`HTML` 태그와 마찬가지로 `attributes` 역시 대소문자를 구분하지 않지만 소문자를 권장한다.
+
+- Good
+
+```html
+<a href="https://www.w3schools.com/html/">Visit our HTML tutorial</a>
+```
+
+- Bad
+
+```html
+<a HREF="https://www.w3schools.com/html/">Visit our HTML tutorial</a>
+```
+
+#### 5. Always Quote Attribute Values
+
+`HTML`의 `attributes`의 `value`는 _공백이 포함되지 않는다면 따옴표를 생략_ 할 수 있다.  하지만 가독성을 위해 항상 작성하는 것을 
+권장한다.
+
+- Good
+
+```html
+<table class="striped">
+```
+
+- Bad
+
+```html
+<table class=striped>
+```
+
+- Very bad
+
+```html
+<table class=table striped>
+```
+
+위와 같이 공백이 포함된 경우 따옴표 생략은 불가능하다. 아예 잘못된 코드다. 
+
+#### 6. Always Specify alt, width, and height for Images
+
+> - `alt` : 어떤 이유에서건 이미지를 가져오지 못 하는 경우가 발생할 수 있으므로 반드시 작성하도록 한다.
+> - `width`, `height` : 브라우저가 공간을 미리 예약하도록 해 `Flikering`을 최소화한다.
+
+- Good
+
+```html
+<img src="html5.gif" alt="HTML5" style="width:128px;height:128px">
+```
+
+- Bad
+
+```html
+<img src="html5.gif">
+```
+
+#### 7. Do Not Allow Spaces Around Equal Signs
+
+`=` 앞뒤로 공백을 허용할 수 있지만 가독성을 위해 공백을 제거하도록 한다.
+
+- Good
+
+```html
+<link rel="stylesheet" href="styles.css">
+```
+
+- Bad
+
+```html
+<link rel = "stylesheet" href = "styles.css">
+```
+
+#### 8 Avoid Long Code Lines
+
+가로로 긴 코드는 화면을 좌우로 스크롤 하게 만든다. 이는 좋지 못한 코드이므로 너무 길지 않게 한다.
+
+#### 9. Blank Lines and Indentation
+
+- 이유 없는 빈 줄, 공백, 들여쓰기를 하지 말 것(빈 줄이나 공백, 들여쓰기를 하지 말라는 것이 아니다).
+- 들여쓰기는 공백 두 칸으로 할 것(탭 키를 사용하지 않는다).
+
+> 이 부분은 IDE 의 코드 자동 정렬과, 탭키 사용시 `indent`를 공백 2칸으로 설정하도록 한다.
+
+- Good
+
+```html
+<body>
+
+<h1>Famous Cities</h1>
+
+<h2>Tokyo</h2>
+<p>Tokyo is the capital of Japan, the center of the Greater Tokyo Area, and the most populous metropolitan area in the world.</p>
+
+<h2>London</h2>
+<p>London is the capital city of England. It is the most populous city in the United Kingdom.</p>
+
+<h2>Paris</h2>
+<p>Paris is the capital of France. The Paris area is one of the largest population centers in Europe.</p>
+
+</body>
+```
+
+- Bad
+
+```html
+<body>
+<h1>Famous Cities</h1>
+<h2>Tokyo</h2><p>Tokyo is the capital of Japan, the center of the Greater Tokyo Area, and the most populous metropolitan area in the world.</p>
+<h2>London</h2><p>London is the capital city of England. It is the most populous city in the United Kingdom.</p>
+<h2>Paris</h2><p>Paris is the capital of France. The Paris area is one of the largest population centers in Europe.</p>
+</body>
+```
+
+#### 10. Never Skip the `title` Element
+
+ `head`의 `title`은 탭바에 표시되는 것은 물론이고, `SEO`에 사용되므로 반드시 작성하도록 한다([22. HTML Head][22. HTML Head] 를 참고한다).
+
+> `title` attribute 와 헷갈리지 않도록 주의한다.  
+> (cf. `title` attribute 는 마우스 오버 시 `tooltip`에 보여지는 것으로, 해당 `element`에 대한 추가적인 정보를 제공한다.)
+
+
+#### 11. Do not omit `html` and `body` Elements
+
+`<html>`과 `<body>` 태그를 사용하지 않아도 최신 브라우저는 `HTML` 문서임을 확인하고 렌더링 해주지만 반드시 작성하도록 한다. 
+누락시 구버전 브라우저에서 에러가 발생되기도 하고, `DOM`과 `XML` 소프트웨어가 접근 시 에러를 야기할 수 있다.
+
+#### 12. Do not omit `head` Element
+
+[22. HTML Head][22. HTML Head] 를 생략해도 브라우저는 문제 없이 페이지를 렌더링 해주지만 반드시 작성하도록 한다.
+
+
+#### 13. Close Empty HTML Elements are Optional
+
+`HTML`에서 `Empty Elements`의 태그를 닫는 것은 선택사항이다. 닫지 않아도 전혀 무방하다. 하지만 `XML`이나 `XHTML` 소프트웨어의 
+접근이 필요한 경우에는 닫도록 해야한다.
+
+- Allowed
+
+```html
+<meta charset="utf-8">
+```
+
+- Also Allowed
+
+```html
+<meta charset="utf-8" />
+```
+
+#### 14. Add the lang Attribute
+
+`<html>` 태그의 `lang` attribute 는 웹 페이지의 언어를 정의해 `SEO`에 정보를 제공하므로 반드시 포함하도록 한다.
+
+```html
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <title>Page Title</title>
+</head>
+<body>
+
+<h1>This is a heading</h1>
+<p>This is a paragraph.</p>
+
+</body>
+</html>
+```
+
+#### 15. Meta Data
+
+`HTML` document 의 올바른 해석과 `SEO`의 인덱싱을 위해 `meta`태그는 반드시 포함되어야한다. 특히 `charset`은 가능한 앞에 
+정의되어야 한다([22. HTML Head][22. HTML Head] 를 참고한다).
+
+```html
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <title>Page Title</title>
+</head>
+```
+
+#### 16. Using Style Sheets
+
+- 외부 `CSS`를 사용할 경우 `type` attribute 는 필수 요소가 아니므로 생략해 간단히 작성한다.
+
+```html
+<link rel="stylesheet" href="styles.css">
+```
+
+- `Short CSS Rules`을 이용하면 압축해 작성할 수 있다.
+
+```html
+p.intro {font-family:Verdana;font-size:16em;}
+```
+
+- `Long CSS Ruels`을 이용하면 가독성 좋은 코드를 사용할 수 있다.
+
+```html
+body {
+  background-color: lightgrey;
+  font-family: "Arial Black", Helvetica, sans-serif;
+  font-size: 16em;
+  color: black;
+}
+```
+
+> 일반적으로, `Inline CSS`는 `Short CSS Rules`를 사용하고, `Internal/External CSS`는 `Long CSS Rules`를 사용해 작성 후 
+> 배포할 때 `minify`한다.
+
+
+#### 17. Loading JavaScript in HTML
+
+- 외부 `JavaScript`를 사용할 경우 `type` attribute 는 필수 요소가 아니므로 생략해 간단히 작성한다.
+
+```html
+<script src="myscript.js">
+```
+
+#### 18. Use Lower Case File Names
+
+`Unix`계 서버는 파일 이름의 대소문자를 구별한다. 하지만 `IIS(Windows)` 서버는 파일 이름의 대소문자를 구별하지 않는다. 따라서 파일 이름에 
+대소문자를 혼용할 경우 서버 시스템을 이전할 때 문제를 야기할 수 있다. 이런 문제를 피하기 위해 파일 이름은 항상 소문자로 작성한다.
+
+#### 19. File Extensions
+
+- HTML : 항상 `.html` 또는 `.htm` 확장자를 가져야한다(둘의 차이는 없다).
+- CSS : `.css` 확장자를 가져야한다.
+- JavaScript : `.js` 확장자를 가져야한다.
+
+#### 21. Default Filenames
+
+`https://www.w3schools.com/`와 같이 `URL` 끝에 파일 이름을 지정하지 않으면, 서버는 자동으로 `index.html`과 같은
+기본 파일을 응답한다. 서버는 둘 이상의 기본 파일 이름으로 서버를 구성하는 것도 가능하다.
+
+
 <br><br>
 
 ---
@@ -517,3 +805,4 @@ Reference
 
 [Top 5 CSS Frameworks]:https://www.browserstack.com/guide/top-css-frameworks
 [HTML Semantic Elements]:/assets/images/posts/2022-12-30-w3schools-html-part5/img_sem_elements.gif
+[22. HTML Head]:#h-22-html-head-
