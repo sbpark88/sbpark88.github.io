@@ -3,7 +3,7 @@ layout: post
 title: Vue.js Starter - Part 4
 subtitle: Vue.js 프로젝트 투입 일주일 전
 categories: javascript
-tags: [javascript, vue, vue js, vue.js, props, parent component, child component, $emit, $refs, provide, inject, composition, mixins, proxy, cors, vuex]
+tags: [javascript, vue, vue js, vue.js, props, parent component, child component, $emit, $refs, provide, inject]
 ---
 
 <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
@@ -722,25 +722,160 @@ export default {
 
 ---
 
-### 16.  👩‍💻
+### 16. Nested Component - Provide/Inject 👩‍💻
 
-#### 1.
+`Props`를 사용하면 부모 컴포넌트에서 자식 컴포넌트로 데이터를 전달할 수 있다. 문제는 계층이 1 계층이 아닌 경우 
+부모에서 자식에게, 또 다시 부모에서 자식에게... 이런식으로 여러 차례 반복해 내려가야 한다는 문제가 있다.
+
+![Nested Component Project/Inject Tree](/assets/images/posts/2023-01-01-vue-starter-part4/nested-component-provide-inject-tree.png)
+
+> 따라서 이런 경우 `Provide`로 제공하고, `Inject`로 주입하면 여러 계층으로 구성된 large tree 컴포넌트에서도 `DeepChild` 까지 
+> 한 번에 주입이 가능케 한다`Prop Drilling`.
+> 
+> 단, `Provide`를 통해 제공된 데이터는 자식 컴포넌트에서 주입할 때 어떤 상위 컴포넌트에서 온 데이터인지 알 수 없다는 단점이 존재한다.
+
+#### 1. Provide
+
+- /src/views/RootView.vue
 
 {% raw %}
+```vue
+<template>
+  <FirstChild />
+</template>
+
+<script>
+import FirstChild from "@/components/FirstChild.vue";
+
+export default {
+  name: "RootView",
+  components: {
+    FirstChild,
+  },
+  provide() {
+    return {
+      rootValue: "Hello~ I'm root.",
+    };
+  },
+};
+</script>
+```
 {% endraw %}
 
----
-
-### 17.  👩‍💻
-
-#### 1.
+- /src/components/FirstChild.vue
 
 {% raw %}
+```vue
+<template>
+  <SecondChild />
+</template>
+
+<script>
+import SecondChild from "@/components/SecondChild.vue";
+
+export default {
+  name: "FirstChild",
+  components: {
+    SecondChild,
+  },
+};
+</script>
+```
 {% endraw %}
 
----
+- /src/components/SecondChild.vue
 
+{% raw %}
+```vue
+<template>
+  <ThirdChild />
+</template>
 
+<script>
+import ThirdChild from "@/components/ThirdChild.vue";
+
+export default {
+  name: "SecondChild",
+  components: {
+    ThirdChild,
+  },
+};
+</script>
+```
+{% endraw %}
+
+#### 2. App-level Provide
+
+`Provide`를 `App-level`에서 제공하면 모든 컴포넌트에서 사용할 수 있다. 일반적으로 플러그인은 컴포넌트를 이용해 값을 제공할 수 
+없기 때문에 플러그인을 앱 전역에 작성할 때 유용하다.
+
+- /src/main.js
+
+```javascript
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+import mixins from "@/mixins";
+
+createApp(App)
+  .use(store)
+  .use(router)
+  .mixin(mixins)
+  .provide("appLevelValue", "Hello~ This is App")
+  .mount("#app");
+
+```
+
+#### 3. Inject
+
+- /src/components/SecondChild.vue
+
+`Provide` 된 데이터를 컴포넌트에 주입하는 방법은 `Array`를 이용하는 것과 `Object`를 이용하는 것 두 가지가 있다.
+
+- `Array`를 이용해 단순 주입하기
+
+{% raw %}
+```vue
+<template>
+  <p>This message is come from root : {{ rootValue }}</p>
+  <p>This message is come from app : {{ appLevelValue }}</p>
+</template>
+
+<script>
+export default {
+  name: "ThirdChild",
+  inject: ["rootValue", "appLevelValue"],
+};
+</script>
+```
+{% endraw %}
+
+![Nested Component Project/Inject](/assets/images/posts/2023-01-01-vue-starter-part4/nested-component-provide-inject.png)
+
+- `Object`를 이용해 `key-value` 타입으로 주입하기
+
+{% raw %}
+```vue
+<template>
+  <p>This message is come from root : {{ rootMessage }}</p>
+  <p>This message is come from app : {{ appMessage }}</p>
+</template>
+
+<script>
+export default {
+  name: "ThirdChild",
+  inject: {
+    rootMessage: "rootValue",
+    appMessage: "appLevelValue",
+  },
+};
+</script>
+```
+{% endraw %}
+
+> `Object`를 이용해 `key-value` 타입으로 주입하면, 상위 컴포넌트에서 제공한 `Provide`의 변수명 대신 자식 컴포넌트에서 생성한 변수명을 
+> 사용하는 것이 가능하다.
 
 
 <br><br>
@@ -749,7 +884,3 @@ export default {
 Reference
 
 1. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 8
-2. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 9
-3. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 10
-4. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 11
-5. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 12
