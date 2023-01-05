@@ -214,25 +214,14 @@ const calculator = () => {
 export default {
   name: 'CalculatorCompositionAPI',
   setup () {
-    const {
-      num1,
-      num2,
-      sum,
-      product
-    } = calculator()
+    const { num1, num2, sum, product } = calculator()
 
     const plusNumbers = () => {
       sum.value = sumTwoNumbers()(num1.value, num2.value)
     }
 
     // return Composition
-    return {
-      num1,
-      num2,
-      sum,
-      product,
-      plusNumbers
-    }
+    return { num1, num2, sum, product, plusNumbers }
   }
 }
 </script>
@@ -294,22 +283,10 @@ const calculator = () => {
 export default {
   name: 'CalculatorCompositionAPI',
   setup () {
-    const {
-      num1,
-      num2,
-      sum,
-      product,
-      plusNumbers
-    } = calculator()
+    const { num1, num2, sum, product, plusNumbers } = calculator()
 
     // return Composition
-    return {
-      num1,
-      num2,
-      sum,
-      product,
-      plusNumbers
-    }
+    return { num1, num2, sum, product, plusNumbers }
   }
 }
 </script>
@@ -376,22 +353,10 @@ import { calculator } from '@/utils/calculator'
 export default {
   name: 'CalculatorWithExternalFiles',
   setup () {
-    const {
-      num1,
-      num2,
-      sum,
-      product,
-      plusNumbers
-    } = calculator()
+    const { num1, num2, sum, product, plusNumbers } = calculator()
 
     // return Composition
-    return {
-      num1,
-      num2,
-      sum,
-      product,
-      plusNumbers
-    }
+    return { num1, num2, sum, product, plusNumbers }
   }
 }
 </script>
@@ -399,6 +364,87 @@ export default {
 {% endraw %}
 
 #### 2. Lifecycle Hooks
+
+![Vue Lifecycle Hookds](/assets/images/posts/2022-12-10-vue-starter-part2/lifecycle.png)
+
+`Composition API` 내에서 사용할 수 있는 `Component Lifecycle Hooks`는 다음과 같다.
+
+|   Options API   |  Composition API  |
+|:---------------:|:-----------------:|
+|                 |       setup       |
+|  beforeCreate   |                   |
+|     created     |                   |
+|   beforeMount   |   onBeforeMount   |
+|     mounted     |     onMounted     |
+|  beforeUpdate   |  onBeforeUpdate   |
+|     updated     |     onUpdated     |
+|  beforeUnmount  |  onBeforeUnmount  |
+|    unmounted    |    onUnmounted    |
+|  errorCaptured  |  onErrorCaptured  |
+|  renderTracked  |  onRenderTracked  |
+| renderTriggered | onRenderTriggered |
+
+`beforeCreate`, `created` 와 일치하는 `Hooks`는 `Composition API`에는 존재하지 않는다. 대신 `setup`을 사용하며, 나머지 
+`Hooks`는 모두 `setup` 안에서 `Composition API`에서 제공하는 메서드를 이용해 정의한다.
+
+[Composition API: Lifecycle Hooks][Composition API: Lifecycle Hooks]
+
+<br>
+`Composition API`에서 `onMounted`를 이용해 콘솔에 메시지를 출력하도록 해보자.
+
+{% raw %}
+```vue
+<template>
+  <div>
+    <h2>Calculator</h2>
+    <div>
+      <input type="text" v-model.number="num1" @keyup="plusNumbers">
+      <span> + </span>
+      <input type="text" v-model.number="num2" @keyup="plusNumbers">
+      <span> = </span>
+      <span> {{ sum }} </span>
+    </div>
+    <div>
+      <input type="text" v-model.number="num1" disabled>
+      <span> x </span>
+      <input type="text" v-model.number="num2" disabled>
+      <span> = </span>
+      <span> {{ product }} </span>
+    </div>
+  </div>
+  <p> {{ initialMessage }} </p>
+  <p> {{ state.anotherMessage }} </p>
+</template>
+
+<script>
+import { calculator } from '@/utils/calculator'
+import { onMounted, reactive, ref } from 'vue'
+
+export default {
+  name: 'CalculatorWithExternalFiles',
+  setup () {
+    const { num1, num2, sum, product, plusNumbers } = calculator()
+
+    const initialMessage = ref('')
+
+    const state = reactive({
+      anotherMessage: ''
+    })
+
+    onMounted(() => {
+      initialMessage.value = 'CalculatorWithExternalFiles.vue is mounted'
+      state.anotherMessage = 'Hello Vue.js'
+    })
+
+    // return Composition
+    return { num1, num2, sum, product, plusNumbers, initialMessage, state }
+  }
+}
+</script>
+```
+{% endraw %}
+
+![Composition API Hooks](/assets/images/posts/2023-01-05-vue-starter-part5/composition-api-hooks.png)
 
 #### 3. Provide/Inject in Composition API
 
@@ -426,3 +472,6 @@ Reference
 2. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 10
 3. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 11
 4. "Reactivity API: Core", Vue.js, last modified latest(Unknown), accessed Jan. 05, 2022, [Reactivity: Core](https://vuejs.org/api/reactivity-core.html)
+5. "Composition API: Lifecycle Hooks", Vue.js, last modified latest(Unknown), accessed Jan. 05. 2022, [Composition API: Lifecycle Hooks][Composition API: Lifecycle Hooks]
+
+[Composition API: Lifecycle Hooks]:https://vuejs.org/api/composition-api-lifecycle.html
