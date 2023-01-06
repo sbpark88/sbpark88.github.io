@@ -829,7 +829,7 @@ createApp(App)
 
 #### 3. Inject
 
-- /src/components/SecondChild.vue
+- /src/components/ThirdChild.vue
 
 `Provide` 된 데이터를 컴포넌트에 주입하는 방법은 `Array`를 이용하는 것과 `Object`를 이용하는 것 두 가지가 있다.
 

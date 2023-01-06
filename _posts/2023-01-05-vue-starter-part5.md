@@ -448,6 +448,140 @@ export default {
 
 #### 3. Provide/Inject in Composition API
 
+`Composition API`에서 `Provide/Inject`를 사용하려면 `Hooks`와 마찬가지로 `vue`에서 import 해야한다.
+
+__1 ) Provide__
+
+- /src/views/RootView.vue
+
+```vue
+<template>
+  <button type="button" @click="changeValue">Change Root Value</button>
+  <hr>
+  <FirstChild/>
+</template>
+
+<script>
+import FirstChild from '@/components/FirstChild.vue'
+import { provide, ref } from 'vue'
+
+export default {
+  name: 'RootView',
+  components: {
+    FirstChild
+  },
+  setup () {
+    const rootValue = ref("Hello~ I'm root.")
+
+    const changeValue = (() => {
+      let times = 0
+      return () => {
+        rootValue.value = `Hello~ I'm root. is changed ${++times} times`
+      }
+    })()
+
+    provide('rootValue', rootValue)
+
+    return { changeValue }
+  }
+}
+</script>
+```
+
+- /src/components/FirstChild.vue
+
+```vue
+<template>
+  <SecondChild/>
+</template>
+
+<script>
+import SecondChild from '@/components/SecondChild.vue'
+
+export default {
+  name: 'FirstChild',
+  components: {
+    SecondChild
+  }
+}
+</script>
+```
+
+- /src/components/SecondChild.vue
+
+```vue
+<template>
+  <ThirdChild/>
+</template>
+
+<script>
+import ThirdChild from '@/components/ThirdChild.vue'
+
+export default {
+  name: 'SecondChild',
+  components: {
+    ThirdChild
+  }
+}
+</script>
+```
+
+<br>
+
+__2 ) App-level Provide__
+
+- /src/main.js
+
+```javascript
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+import store from './store'
+
+createApp(App)
+  .use(store)
+  .use(router)
+  .provide('appLevelValue', 'Hello~ This is App')
+  .mount('#app')
+```
+
+<br>
+
+__3 ) Inject__
+
+- /src/components/ThirdChild.vue
+
+{% raw %}
+```vue
+<template>
+  <p>This message is come from root : {{ rootMessage }}</p>
+  <p>This message is come from app : {{ appMessage }}</p>
+</template>
+
+<script>
+
+import { inject } from 'vue'
+
+export default {
+  name: 'ThirdChild',
+  setup () {
+    const rootMessage = inject('rootValue')
+    const appMessage = inject('appLevelValue')
+
+    return {
+      rootMessage,
+      appMessage
+    }
+  }
+}
+</script>
+```
+{% endraw %}
+
+![Composition API Provide/Inject 1](/assets/images/posts/2023-01-05-vue-starter-part5/composition-api-provide-inject-1.png)
+
+![Composition API Provide/Inject 2](/assets/images/posts/2023-01-05-vue-starter-part5/composition-api-provide-inject-2.png)
+
 #### 4. Mixins
 
 #### 5. Custom Directives
