@@ -708,6 +708,8 @@ pm.test("Get /test JSON data is correct", function () {
 
 `Axios`를 이용해 보내는 `XHR` 요청을 공통으로 사용하기 위해 `mixins.js`파일을 생성하고, 여기에 공통으로 사용할 함수를 작성한다.
 
+> mixins 에 대한 자세한 설명은 [mixins](/javascript/2023/01/05/vue-starter-part5.html#h-20-mixins-) 를 참고한다.
+
 - /src/mixins.js
 
 ```javascript

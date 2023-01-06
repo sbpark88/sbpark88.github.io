@@ -8,11 +8,11 @@ tags: [javascript, vue, vue js, vue.js, composition api, options api, mixins, pr
 
 <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
 
-### 17. Reusability & Composition 👩‍💻
+### 17. Options API & Composition API 👩‍💻
 
-#### 1. Options API & Composition API
+#### 1. Composition API Examples
 
-`COmposition API`는 `TypeScript`의 도입과 함께 `Vue.js 3`의 가장 큰 특징 중 하나다.
+`Composition API`는 `TypeScript`의 도입과 함께 `Vue.js 3`의 가장 큰 특징 중 하나다.
 
 기존 `Vue.js 2`에서는 `Options API`를 이용해 컴포넌트와 `lifecycle`을 관리하고, `mixins`를 통해서 코드를 재사용 할 수 
 있었다. 하지만 이는 프로젝트 규모가 커지며 재사용이 어려운 `Options API`는 large tree 컴포넌트에서 `data`, `computed`, 
@@ -117,10 +117,13 @@ export default {
 > `Options API`에서 `data()`에 해당하는 `Two-way data binding`을 할 데이터를 `reactive`를 이용해 객체로 생성해 
 > 사용한다. 따라서 모든 변수/상수는 이 객체를 통해 접근한다. 위 예제에서는 `state`를 이용해 접근한다.
 
-<br>
+#### 2. Use External Functions with `toRefs`
 
 위와 같이 `setup()`에 작성된 코드는 해당 컴포넌트에서만 사용 가능하다. 만약 다른 컴포넌트에서 재사용 가능하도록 하려면 이를 별도의 
 함수로 분리하고, `setup()`에서 이것을 가져와 사용하도록 해야한다. 즉, 코드를 함수형으로 작성해 분리하는 것이다.
+
+위 `Options API` 예제에 `Computed Properties`까지 포함된 로직을 확인한 후 이를 `Composition API` 방식으로 바꾸고 
+함수형으로 작성해 분리해보자. 
 
 - /src/views/CalculatorOptionsAPI.vue
 
@@ -236,11 +239,12 @@ export default {
 
 <br>
 
-<p style="font-weight:bold;color:rgba(166, 42, 254, 1);">
-  calculator 와 연관된 부분을 `setup` 에서 완전히 분리시키기 위해 `plusNumbers`를 `calculator` 안에 넣어보자. <br>  
-  단, 이때 `product`와 같이 `computed`를 이용해 내부에서 로직을 정의하는 것이 아니고, 또 다시 외부에서 모듈을 가져오는 
-  세부 모듈화 개념으로 `sumTwoNumbers`를 `calculator` 외부에서 가져와 이용하도록 코드를 작성해보자.
-</p>
+<span style="font-weight:bold;color:rgba(166, 42, 254, 1);">
+  `calculator` 와 연관된 부분을 `setup` 에서 완전히 분리시키기 위해 `plusNumbers`를 `calculator` 안에 넣어보자.  
+</span>
+
+단, 이때 `product`와 같이 `computed`를 이용해 내부에서 로직을 정의하는 것이 아니고, 또 다시 외부에서 모듈을 가져오는 
+세부 모듈화 개념을 가정해 `sumTwoNumbers`는 `calculator` 외부에서 가져와 이용하도록 코드를 작성해보자.
 
 {% raw %}
 ```vue
@@ -293,11 +297,10 @@ export default {
 ```
 {% endraw %}
 
-<br>
+#### 3. Modularize into Separate Files
 
-<p style="font-weight:bold;color:rgba(166, 42, 254, 1);">
-  이제 `calculator`와 연관된 비즈니스 로직이 완전히 분리되었다. 그렇다면 이 코드는 외부 파일로 완전히 분리시켜 다음과 같이 모듈화 시킬 수 있다.
-</p>
+이제 `calculator`와 연관된 비즈니스 로직이 완전히 분리되었다. 그렇다면 이 코드는 외부 파일로 완전히 분리시켜 다음과 같이 
+별도의 파일로 모듈화 시킬 수 있다.
 
 - /src/utils/calculator.js
 
@@ -363,7 +366,9 @@ export default {
 ```
 {% endraw %}
 
-#### 2. Lifecycle Hooks
+---
+
+### 18. Lifecycle Hooks 👩‍💻
 
 ![Vue Lifecycle Hookds](/assets/images/posts/2022-12-10-vue-starter-part2/lifecycle.png)
 
@@ -446,7 +451,9 @@ export default {
 
 ![Composition API Hooks](/assets/images/posts/2023-01-05-vue-starter-part5/composition-api-hooks.png)
 
-#### 3. Provide/Inject in Composition API
+---
+
+### 19. Provide/Inject in Composition API 👩‍💻
 
 `Composition API`에서 `Provide/Inject`를 사용하려면 `Hooks`와 마찬가지로 `vue`에서 import 해야한다.
 
@@ -582,19 +589,25 @@ export default {
 
 ![Composition API Provide/Inject 2](/assets/images/posts/2023-01-05-vue-starter-part5/composition-api-provide-inject-2.png)
 
-#### 4. Mixins
+---
 
-#### 5. Custom Directives
-
-#### 6. Plugins
+### 20. Mixins 👩‍💻
 
 ---
 
-### 18. Proxy
+### 21. Custom Directives 👩‍💻
 
 ---
 
-### 19. Vuex
+### 22. Plugins 👩‍💻
+
+---
+
+### 23. Proxy 👩‍💻
+
+---
+
+### 24. Vuex 👩‍💻
 
 
 <br><br>
