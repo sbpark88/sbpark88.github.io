@@ -51,7 +51,7 @@ tags: [javascript, vue, vue js, vue.js, props, parent component, child component
 
 - Child Component
 
-> 1 ) 부모 컴포넌트가 전달한 `Props`는 `props` property 에 `Object`를 매핑해 받는다. 이 때
+> 1 ) 부모 컴포넌트가 전달한 `Props`는 `props` property 에 `Object`를 매핑해 받는다. 이때
 > `props`의 key 는 `JavaScript`의 식별자 규칙에 맞게 `camelCase`를 사용한다.
 >
 > ```vue
@@ -306,7 +306,7 @@ DOM 에 접근해 `click` 이벤트를 호출하거나, 자식 컴포넌트 내�
 > `Computed Properties`의 타겟이 자기 자신의 컴포넌트의 데이터일 경우 `Two-way binding`도 되고 아무런 제약이 없던 것과 
 > 달리 타겟을 `Template Refs`를 이용해 자식 컴포넌트의 값을 감시할 경우, 이 변수는 부모 컴포넌트의 `script` 내에서만 사용이 
 > 가능하다.  
-> (`template`에 사용된 변수는 `Two-way data binding`으로 작동하는데, 이 때 `template`의 변경 내역이 `script`에 정의된 
+> (`template`에 사용된 변수는 `Two-way data binding`으로 작동하는데, 이때 `template`의 변경 내역이 `script`에 정의된 
 > `Computed Property`로 전달 되고, 이는 다시 타겟인 자식 컴포넌트의 데이터를 향하게 된다. 문제는 자식 컴포넌트의 변경 사항은 
 > 부모 컴포넌트에서 능동적으로 제어되는 것일 뿐, 자식 컴포넌트에서 부모 컴포넌트로 전달을 하지 못 하므로 `Two-way data binding`의 
 > 흐름이 끊어진다.)

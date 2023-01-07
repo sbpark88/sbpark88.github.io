@@ -1007,7 +1007,7 @@ print(numbersWithNil.map { $0 != nil ? $0! : 0 })            // [1, 2, 0, 5, 0, 
 > - `filter`는 `nil`을 제거하지만 `Optioanl`을 `unwrapping` 하지는 못 한다.
 > - `compactMap`은 `nil`을 제거하고, `Optioanl`을 `unwrapping`한다.
 > - `map`을 적절한 `default value`와 함께 사용하면, `nil`을 제거하지는 못 하지만 `Optional`을 
->   `unwrapping` 할 수 있다(이 때 `default value`는 `side effect`를 일으키지 않아야한다).
+>   `unwrapping` 할 수 있다(이때 `default value`는 `side effect`를 일으키지 않아야한다).
 
 사실 의도적으로 `nil`을 특정한 `default value`로 바꾸려는 것이 아니라면 `map` case 는 좋지 못 한 방법이다. 
 위 값을 더하기 위해 `0`이라는 값을 `default value`로 주었지만 만약 곱하기로 변경된다면? `default value`를 
@@ -1612,7 +1612,7 @@ print(numbers)  // [2, 5, 6, 8, 9, 15, 24, 32, 42, 74, 87]
 
 때로는 원본 배열을 수정하지 않고 정렬된 새 배열이 필요할 수 있다. `sort(by:)`는 `mutating`이기 때문에 이를 위해서 
 `sort(by:)`를 하기 전 배열을 미리 복사해야한다. 또는 원본 배열이 `let`으로 선언되어 변경할 수 없을 수도 있다. 
-이 때 사용하면 좋은 함수가 `sorted(by:)`다.
+이때 사용하면 좋은 함수가 `sorted(by:)`다.
 
 ```swift
 var numbers: [Int] = [5, 87, 2, 6, 15, 24, 8, 42, 74, 9, 32]
@@ -1750,4 +1750,3 @@ Reference
 5. "Higher-Order Functions in Swift", Medium, last modified Jun. 9, 2020, accessed Nov. 07, 2022, [Higher-Order Functions in Swift](https://betterprogramming.pub/higher-order-functions-in-swift-13c31a769c0c)
 6. "Understanding Higher Order Functions in Swift", APPCODA, Feb. 26, 2020, accessed Nov. 07, 2022, [Understanding Higher Order Functions in Swift](https://www.appcoda.com/higher-order-functions-swift/)
 7. "Higher Order Functions in Swift", Level Up Coding, Aug. 12, 2020, accessed Nov. 14, 2022, [Level Up Coding - Higher Order Functions in Swift](https://levelup.gitconnected.com/higher-order-functions-in-swift-35861620ad1)
-   

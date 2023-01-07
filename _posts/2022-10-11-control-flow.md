@@ -313,7 +313,7 @@ if temperatureInCelsius > 28 {
 ```
 
 #### 3. Chaining multiple `if` statements
-`else if`를 이용해 여러 개의 `if` 조건을 연속적으로 검사할 수 있다. 이 때 만족하는 `if`를 만나면 로직을 수행 후 탈출한다.
+`else if`를 이용해 여러 개의 `if` 조건을 연속적으로 검사할 수 있다. 이때 만족하는 `if`를 만나면 로직을 수행 후 탈출한다.
 
 ```swift
 let temperatureInCelsius = 3
@@ -921,7 +921,7 @@ print(description)  // The number 5 is a prime number, and also an integer.
 
 #### 6. Labeled Statements
 
-`iteration loop`나 `switch`와 같은 구문을 중복해 사용할 수 있다. 이 때 로직의 흐름을 정확히 제어하기 위해서는 `label`이 필요하고, 이를 `labeld statements`라 한다.
+`iteration loop`나 `switch`와 같은 구문을 중복해 사용할 수 있다. 이때 로직의 흐름을 정확히 제어하기 위해서는 `label`이 필요하고, 이를 `labeld statements`라 한다.
 
 __Syntax__
 

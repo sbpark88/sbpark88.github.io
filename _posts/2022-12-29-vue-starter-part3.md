@@ -956,10 +956,10 @@ export default {
 만들거나 제약을 위해 `Wrapper`를 사용하는 등 추가적인 처리를 할 수가 없다. 따라서 재사용 가능성이 있는 이런 `Entities`는 
 별도의 `Classes`로 관리할 수 있다.
 
-- /src/dto/product.js
+- /src/dto/Product.js
 
 ```javascript
-export default class product {
+export default class Product {
   productName;
   price;
   category;
@@ -977,13 +977,13 @@ export default class product {
 {% raw %}
 ```vue
 <script>
-import product from "@/dto/product";
+import Product from "@/dto/Product";
 
 export default {
   name: "AxiosTestView",
   data() {
     return {
-      productList: Array[product],
+      productList: Array[Product],
     };
   },
   created() {

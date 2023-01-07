@@ -455,7 +455,7 @@ __1 ) HTML Picture Element__
 소녀의 이미지를 보여준다.
 
 > - `picture`는 하나 또는 그 이상의 `source` 태그를 자식으로 갖는다.
-> - `source` 태그의 조건은 `media` attribute 에 의해 정의되며, 그 때 매칭할 사진은 `srcset` attribute 에 정의한다.
+> - `source` 태그의 조건은 `media` attribute 에 의해 정의되며, 그때 매칭할 사진은 `srcset` attribute 에 정의한다.
 > - `img` 태그는 반드시 포함되어야하는 태그로, 매칭되는 케이스가 없거나 `source` 를 지원하지 않는 경우에 `default`로 사용된다.
 > 
 > 즉, `picture` 태그 는 `switch`, `source` 태그는 각 `case`, `media` attribute 는 조건, 

@@ -185,7 +185,7 @@ __1 ) href__
 
 __2 ) src__
 
-`img` 태그는 `HTML` 페이지에 이미지를 `embed`한다. 이 때 `src` attribute 를 사용해 이미지 경로를 제공한다.
+`img` 태그는 `HTML` 페이지에 이미지를 `embed`한다. 이때 `src` attribute 를 사용해 이미지 경로를 제공한다.
 
 - Absolute URL : `https://sbpark88.github.io/assets/images/favicon/greendreamtree.png`
 - Relative URL : `/assets/images/favicon/greendreamtree.png` 와 같은 형태로 같은 도메인 내 이미지는 
@@ -235,7 +235,7 @@ __6 ) lang__
 </html>
 ```
 
-`en-US`와 같이 `'language code'-'country code'` 형태로 작성할 수도 있다. 이 때 `lang` attribute 는 
+`en-US`와 같이 `'language code'-'country code'` 형태로 작성할 수도 있다. 이때 `lang` attribute 는 
 앞의 두 글자 `en`을 인식해 영어로 정의한다.
 
 <br>

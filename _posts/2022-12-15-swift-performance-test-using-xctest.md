@@ -81,7 +81,7 @@ struct OneToSix {
 
 #### 2. Make Sample Project
 
-`Playground`가 아닌 `Xcode Project`를 생성하도록한다. 이 때 프로젝트를 `App`으로 생성할 경우 아래와 같이 `Include Test`를 
+`Playground`가 아닌 `Xcode Project`를 생성하도록한다. 이때 프로젝트를 `App`으로 생성할 경우 아래와 같이 `Include Test`를 
 선택하면 프로젝트에 `Tests Group`과 `UITests Group`이 기본으로 포함되므로 [3. Add Test Target Groups](#h-3-add-test-target-groups) 로 건너뛴다.
 
 ![New Project App](/assets/images/posts/2022-12-15-swift-performance-test-using-xctest/new-project-app.png)
