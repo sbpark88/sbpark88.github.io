@@ -720,7 +720,7 @@ print(houseAnimals.isDisjoint(with: farmAnimals))       // false
 
 ### 4. Dictionary (딕셔너리) 👩‍💻
 `Dictionary`는 `Key: Value` 쌍을 elements 로 저장하는 collection 이다.    
-이 때 key 는 Set 과 마찬가지로 unique 하다.
+이때 key 는 Set 과 마찬가지로 unique 하다.
 
 Swift 의 `Dictionary` 타입은 `Foundation`의 `NSDictionary` 클래스와 연결되고, 이를 확장해 Dictionary 에서 NSDictionary 메서드를 사용할 수 있게 해준다.    
 따라서, `import Foundation`을 하면 Dictionary 을 `캐스팅 하지 않고 NSDictionary 메서드를 사용`할 수 있다.

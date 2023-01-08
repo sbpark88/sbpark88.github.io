@@ -708,6 +708,8 @@ pm.test("Get /test JSON data is correct", function () {
 
 `Axios`를 이용해 보내는 `XHR` 요청을 공통으로 사용하기 위해 `mixins.js`파일을 생성하고, 여기에 공통으로 사용할 함수를 작성한다.
 
+> mixins 에 대한 자세한 설명은 [mixins](/javascript/2023/01/05/vue-starter-part5.html#h-20-mixins-) 를 참고한다.
+
 - /src/mixins.js
 
 ```javascript
@@ -954,10 +956,10 @@ export default {
 만들거나 제약을 위해 `Wrapper`를 사용하는 등 추가적인 처리를 할 수가 없다. 따라서 재사용 가능성이 있는 이런 `Entities`는 
 별도의 `Classes`로 관리할 수 있다.
 
-- /src/dto/product.js
+- /src/dto/Product.js
 
 ```javascript
-export default class product {
+export default class Product {
   productName;
   price;
   category;
@@ -975,13 +977,13 @@ export default class product {
 {% raw %}
 ```vue
 <script>
-import product from "@/dto/product";
+import Product from "@/dto/Product";
 
 export default {
   name: "AxiosTestView",
   data() {
     return {
-      productList: Array[product],
+      productList: Array[Product],
     };
   },
   created() {

@@ -25,7 +25,7 @@ brew install yarn
 
 #### 1. 디렉토리 생성하기
 node 디렉토리로 사용할 경로를 만들어야한다.  
-이 때 주의할 점은 `url friendly`하게 경로를 생성한다.
+이때 주의할 점은 `url friendly`하게 경로를 생성한다.
 
 >  `non-case-sensitive`, `non-space` 를 의미한다. 즉, `Camel Case` 같은 것은 사용하지 말 것.
 

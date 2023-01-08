@@ -337,7 +337,7 @@ func printBarcode (_ productBarcode: Barcode) {
 __Summary of Associated Values__
 
 > `Associated Values`는 `Enumeration`의 `cases`가 온전히 자기 자신을 값으로 갖는 대 다른 타입의 값을 갖게 한다.  
-> 이 때 `Enumeration`의 `cases` 값은 가질 수 있는 `Associated Values`를 정의한다.  
+> 이때 `Enumeration`의 `cases` 값은 가질 수 있는 `Associated Values`를 정의한다.  
 > `Associated Values`를 이용하면 서로 다른 타입의 값을 하나의 `Enumeration`에 저장할 수 있다.  
 > 단, 서로 다른 타입을 동시에 저장하는 것은 아니다.
 

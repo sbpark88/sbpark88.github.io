@@ -1469,7 +1469,7 @@ __3 ) `Nonfailable Initializers`를 `Failable Initializers`에 `delegates` 하�
 
 일반적으로 `Nonfailable Initializers`를 `Failable Initializers`에 `delegates` 하는 것은 허용되지 않는다.
 
-예외적인 허용을 위해서는 `Failable Initializers`의 결과를 `Foreced Unwrapping` 해야하며, 이 때 `delegates` 된
+예외적인 허용을 위해서는 `Failable Initializers`의 결과를 `Foreced Unwrapping` 해야하며, 이때 `delegates` 된
 `Failable Initializers`가 프로세스를 절대로 실패하지 않도록 해야한다. 이것은 `Overriding` 할 때도 적용되는 규칙으로 
 바로 아래 이어서 설명한다.
 
