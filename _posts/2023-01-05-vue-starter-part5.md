@@ -822,6 +822,242 @@ th {
 
 ### 21. Custom Directives 👩‍💻
 
+`Vue`는 `v-model`, `v-show`와 같은 미리 정의된 `Built-in Directives` 외에 `Custom Directives`를 사용할 수 있다.
+
+예를 들어 여러 페이지로 나뉜 회원가입 페이지에서 각 페이지마다 첫 `input`에 자동으로 `focus` 시키는 경우를 가정해보자. 
+`Vanilla JS`에서는 `window` 또는 `document`에 `onload()` 또는 `addEventListener('load', () => {})`와 같은 
+코드에 특정 `HTML`의 `attribute`를 찾아 `focus()`를 실행시키도록 하는 코드를 별도의 `JavaScript` 파일로 만들어 모듈화 하고, 
+각 `HTML` 페이지에는 해당 `attribute`를 추가해줌으로써 공통화 처리할 수 있다.  
+그리고 `Vue`는 이 과정을 `Vue`과 좀 더 세분화해 관리한다. `Vue` Instance 를 생성할 때 `Custom Directives`를 만들어 지정하고 
+각 컴포넌트에서는 해당 `Directives`를 추가하기만 하면 `focus`되도록 할 수 있다.
+
+#### 1. Directive Hooks
+
+`Directive Hooks`에서 사용할 수 있는 `Hooks`의 종류는 다음과 같다.
+
+```javascript
+const myDirective = {
+  // called before bound element's attributes
+  // or event listeners are applied
+  created(el, binding, vnode, prevVnode) {
+    // see below for details on arguments
+  },
+  // called right before the element is inserted into the DOM.
+  beforeMount(el, binding, vnode, prevVnode) {},
+  // called when the bound element's parent component
+  // and all its children are mounted.
+  mounted(el, binding, vnode, prevVnode) {},
+  // called before the parent component is updated
+  beforeUpdate(el, binding, vnode, prevVnode) {},
+  // called after the parent component and
+  // all of its children have updated
+  updated(el, binding, vnode, prevVnode) {},
+  // called before the parent component is unmounted
+  beforeUnmount(el, binding, vnode, prevVnode) {},
+  // called when the parent component is unmounted
+  unmounted(el, binding, vnode, prevVnode) {}
+}
+```
+
+#### 2. Hook Arguments
+
+`Directive Hooks`이 갖는 `arguments`는 다음과 같다.
+
+> `el`: the element the directive is bound to. This can be used to directly manipulate the DOM.
+>
+> `binding`: an object containing the following properties.
+>
+> > `value`: The value passed to the directive. For example in `v-my-directive="1 + 1"`, the value would be `2`.  
+> > `oldValue`: The previous value, only available in `beforeUpdate` and `updated`. It is available whether or not the value has changed.  
+> > `arg`: The argument passed to the directive, if any. For example in `v-my-directive:foo`, the arg would be `"foo"`.  
+> > `modifiers`: An object containing modifiers, if any. For example in `v-my-directive.foo.bar`, the modifiers object would be `{ foo: true, bar: true }`.  
+> > `instance`: The instance of the component where the directive is used.  
+> > `dir`: the directive definition object.
+>
+> `vnode`: the underlying VNode representing the bound element.
+>
+> `prevNode`: the VNode representing the bound element from the previous render. Only available in the `beforeUpdate` and `updated` hooks.
+
+예를 들어 다음과 같은 `Custom Directive`가 있다고 가정해보자.
+
+```vue
+<template>
+  <div v-example:foo.bar="baz"></div>
+</template>
+```
+
+이때 `binding` argument 의 `Object`는 다음과 같을 것이다.
+
+```javascript
+{
+  arg: 'foo',
+  modifiers: { bar: true },
+  value: /* value of `baz` */,
+  oldValue: /* value of `baz` from previous update */
+}
+```
+
+또한 `Custom Directives` 역시 `Built-in Diriectives`와 마찬가지로 `attribute`와 `value`를 이용한 `Dynamic` 처리가 
+가능하다.
+
+```vue
+<template>
+  <div v-example:[arg]="value"></div>
+</template>
+```
+
+> `el`을 제외한 `arguments` 수정되어서는 안 된다. 반드시 `Read-only`로 다루어져야한다. 만약 서로 다른 `Hooks` 간 데이터를 공유할 
+> 필요가 있다면 [dataset][HTML Element dataset] 를 사용하도록 한다.
+
+
+#### 3. Create Global Custom Directives
+
+`main.js`에서 `Vue` Instance 를 생성하는 시점에 `v-focus` directive 를 추가해 모든 컴포넌트에서 사용할 수 있도록 등록하자.
+
+```javascript
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+import store from './store'
+
+createApp(App)
+  .use(store)
+  .use(router)
+  .directive('focus', {
+    mounted (el) {
+      el.focus()
+    }
+  })
+  .provide('appLevelValue', 'Hello~ This is App')
+  .mount('#app')
+```
+
+> - `v-focus` directive 의 앞 `v-`는 `HTML`의 `attributes`에 이것은 `Vue`에 의해 관리되는 `Directives`라는 것을 인식하도록 
+>    붙여주는 `prefix`로 `Custom Directives`를 만들때 `v-`는 제외하고 만들어야한다.
+
+#### 4. Function Shorthand
+
+대부분의 `Directives`는 기본적으로 `mounted`와 `updated` 일 때 동일하게 작동한다. 만약, `mounted`와 `updated` `Hooks`의 
+동작이 동일하며, 다른 `Hooks`이 필요 없을 경우 다른 설정값과 마찬가지로 `APP`의 `mount()` 메서드를 분리시킨 후 `Custom Directives`를 
+다음과 같이 함수형으로 작성할 수 있다.
+
+```javascript
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+import store from './store'
+
+const myApp = createApp(App)
+  .use(store)
+  .use(router)
+  .provide('appLevelValue', 'Hello~ This is App')
+
+myApp.directive('focus', (el, binding) => {
+  el.focus()
+})
+
+myApp.mount('#app')
+```
+
+는 아래와 같다.
+
+```javascript
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+import store from './store'
+
+createApp(App)
+  .use(store)
+  .use(router)
+  .directive('focus', {
+    mounted (el) {
+      el.focus()
+    },
+    updated (el) {
+      el.focus()
+    }
+  })
+  .provide('appLevelValue', 'Hello~ This is App')
+  .mount('#app')
+```
+
+
+#### 5. Create Local Custom Directives
+
+`Custom Directives`를 모두 `Global`로 등록할 경우 불필요하게 너무 많은 `Directives`가 생겨나게된다 따라서, 각 컴포넌트에서만 사용할 
+`Custom Directives`가 필요할 경우 컴포넌트 내에서 등록해 사용할 수 있다. 위 `v-focus` directive 를 `Local`로 추가 등록해보자.
+
+```vue
+<template>
+  <p>Global Custom Directive 'focus' : <input type="text" v-focus></p>
+  <img v-pin="{ position: 'fixed', top: 20, left: 20 }" :src="blogIcon" alt="blog-icon" :style="iconSize">
+</template>
+
+<script>
+import { ref } from 'vue'
+
+export default {
+  name: 'CustomDirectives',
+  setup () {
+    const blogIcon = ref('/greendreamtree.png')
+    const iconSize = { height: '70px', weight: '70px;' }
+    return { blogIcon, iconSize }
+  },
+  directives: {
+    pin: {
+      mounted (el, binding) {
+        el.style.position = binding.value.position
+        el.style.top = `${binding.value.top}px`
+        el.style.left = `${binding.value.left}px`
+      }
+    }
+  }
+}
+</script>
+```
+
+#### 6. Object Literals
+
+`Directives`에 여러 개의 값이 필요할 때 `Object Literals`를 사용할 수 있다. 위 예제에서
+
+```vue
+<template>
+  <img v-pin="{ position: 'fixed', top: 20, left: 20 }">
+</template>
+
+<script>
+export default {
+  name: 'CustomDirectives',
+  directives: {
+    pin: {
+      mounted (el, binding) {
+        el.style.position = binding.value.position
+        el.style.top = `${binding.value.top}px`
+        el.style.left = `${binding.value.left}px`
+      }
+    }
+  }
+}
+</script>
+```
+
+이 부분에 해당한다.
+
+#### 6. Use Custom Directives
+
+```vue
+<template>
+  <p>Global Custom Directive 'focus' : <input type="text" v-focus></p>
+  <img v-pin="{ position: 'fixed', top: 20, left: 20 }" :src="blogIcon" alt="blog-icon" :style="iconSize">
+</template>
+```
+
+![Custom Directives Focus On](/assets/images/posts/2023-01-05-vue-starter-part5/custom-directives.png)
+
+`Custom Directives`로 `focus`와 `pin`을 만들었다. 사용할 때는 `Vue`가 `Directives`로 인식할 수 있도록 `prefix`로 
+`v-`를 붙여 `v-focus`, `v-pin`으로 사용한다.
+
 ---
 
 ### 22. Plugins 👩‍💻
@@ -846,6 +1082,9 @@ Reference
 4. "Reactivity API: Core", Vue.js, last modified latest(Unknown), accessed Jan. 05, 2022, [Reactivity: Core](https://vuejs.org/api/reactivity-core.html)
 5. "Composition API: Lifecycle Hooks", Vue.js, last modified latest(Unknown), accessed Jan. 05, 2023, [Composition API: Lifecycle Hooks][Composition API: Lifecycle Hooks]
 6. "Options: Composition #mixins", Vue.js, last modified latest(Unknown), accessed Jan. 07, 2023, [mixins in Composition API][mixins in Composition API]
+7. "Custom Directives", Vue.js, last modified latest(Unknown), accessed Jan. 08, 2023, [Reusability: Custom Directives](https://vuejs.org/guide/reusability/custom-directives.html)
+8. "HTMLElement.dataset", MDN, last modified Oct. 26, 2022, accessed Jan. 08, 2023, [HTML Element dataset][HTML Element dataset]
 
 [Composition API: Lifecycle Hooks]:https://vuejs.org/api/composition-api-lifecycle.html
 [mixins in Composition API]:https://vuejs.org/api/options-composition.html#mixins
+[HTML Element dataset]:https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset
