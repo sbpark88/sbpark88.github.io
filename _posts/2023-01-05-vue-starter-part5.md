@@ -3,7 +3,7 @@ layout: post
 title: Vue.js Starter - Part 5
 subtitle: Vue.js 프로젝트 투입 일주일 전
 categories: javascript
-tags: [javascript, vue, vue js, vue.js, composition api, options api, mixins, proxy, cors, vuex]
+tags: [javascript, vue, vue js, vue.js, composition api, options api, mixins, plugins]
 ---
 
 <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
@@ -1062,13 +1062,189 @@ export default {
 
 ### 22. Plugins 👩‍💻
 
----
+#### 1. Introduction
 
-### 23. Proxy 👩‍💻
+`NPM` 패지지 매니저를 사용해 공개된 라이브러리를 사용하는 것 외에 사용자가 직접 만들어 사용하는 것 역시 가능하다.
 
----
+`Plugins`이란건 위에서 모듈화를 위해 만든 `api.js`나 `calculator.js`와 같은 `Utilities`와 달리 `App-level`에서 
+작동하는 기능이다.
 
-### 24. Vuex 👩‍💻
+`Plugins`는 `install(app, options)` 메서드를 노출시키는 방법으로 정의된다. `install(app, options)` 메서드는 
+기본적으로 `App Instance`를 전달받으며, `app.use('plugins', 'options')`를 통해 `options`를 전달받는다. 
+
+- Plugins 를 정의
+
+```javascript
+const myPlugin = {
+  install(app, options) {
+    // configure the app
+  }
+}
+```
+
+- Plugins 를 사용
+
+```javascript
+import { createApp } from 'vue'
+
+const app = createApp({})
+
+app.use(myPlugin, {
+  /* optional options */
+})
+```
+
+<br>
+
+> `Plugins`를 만드는 것에 엄격히 정의된 것이 존재하지는 않는다. 하지만 일반적으로 유용한 플러그인의 시나리오는 다음과 같다.
+> 
+> 1. 하나 이상의 `Global Components` 또는 `Custom Directives`를 `app.component()` 또는 `app.directive()` 
+>    를 사용해 등록한다.
+> 2. `app.provide()`를 호출해 앱 전역에서 리소스를 `injectable` 하도록 만든다.
+> 3. 일부 `Global Instance Properties` 또는 `Methods`를 `app.config.globalProperties`에 추가한다.
+> 
+> 이러한 조건을 만족하는 좋은 라이브러리의 예 중 하나가 [vue-router][Vue Router Library] 다.
+
+#### 2. Writing a Plugin
+
+`i18n`을 처리해주는 플러그인을 만들고, 이를 적용해보도록 한다.
+
+> `Internationalization`의 알파벳은 20글자인데 이걸 다 쓰면 기니까 맨 앞 `i`와 18자리 `nternationalizatio`, 
+> 그리고 마지막 `n`으로 분리해 `i18n`이라 부른다.
+
+- /src/plugins/i18n.js
+
+```javascript
+export default {
+  install: (app, options) => {
+    // inject a globally available $translate() method
+    app.config.globalProperties.$translate = (key) => {
+      // retrieve a nested property in `options`
+      // using `key` as the path
+      return key.split('.').reduce((o, i) => {
+        return o ? o[i] : null
+      }, options)
+    }
+  }
+}
+```
+
+- /src/main.js
+
+```javascript
+import { createApp } from 'vue'
+import App from './App.vue'
+import router from './router'
+import store from './store'
+import i18n from '@/plugins/i18n'
+
+const myApp = createApp(App)
+  .use(store)
+  .use(router)
+  .use(i18n, {
+    greetings: {
+      en: 'Hello!',
+      ko: '안녕하세요!',
+      fr: 'Bonjour!',
+      de: 'Hallo!'
+    }
+  })
+  .provide('appLevelValue', 'Hello~ This is App')
+
+myApp.directive('focus', (el, binding) => {
+  el.focus()
+})
+
+myApp.mount('#app')
+```
+
+- /src/views/CustomPlugins.vue
+
+{% raw %}
+```vue
+<template>
+  <h3>English</h3>
+  <p>{{ $translate('greetings.en') }}</p>
+  <h3>Korean</h3>
+  <p>{{ $translate('greetings.ko') }}</p>
+  <h3>French</h3>
+  <p>{{ $translate('greetings.fr') }}</p>
+  <h3>German</h3>
+  <p>{{ $translate('greetings.de') }}</p>
+</template>
+
+<script>
+export default {
+  name: 'CustomPlugins'
+}
+</script>
+```
+{% endraw %}
+
+![Custom Plugins i18n][Custom Plugins i18n]
+
+#### 3. Provide/Inject with Plugins
+
+`Plugins`는 `App-level`에서 작동하는 것을 위해 만든다고 했다. 따라서 위에서 `app.use()`를 이용해 앱 전역에 
+사용할 수 있도록 `Custom Plugins`를 `Global`로 등록했기 때문에 어떤 컴포넌트에서든 `globalProperties`에 등록된 
+`$translate`라는 함수를 별도의 `import` 없이 사용할 수 있다(e.g. `$translate('greetings.en')`).
+
+그리고 `globalProperties`를 사용하는 것 외 다른 방법을 통해서도 컴포넌트 전역에 사용할 수 있는 방법이 있다. 바로 
+[Provide/Inject](/javascript/2023/01/01/vue-starter-part4.html#h-16-nested-component---provideinject-)
+를 사용하는 것이다.
+
+- /src/plugins/i18n.js
+
+```javascript
+export default {
+  install: (app, options) => {
+    // inject a globally available $translate() method
+    app.config.globalProperties.$translate = (key) => {
+      // retrieve a nested property in `options`
+      // using `key` as the path
+      return key.split('.').reduce((o, i) => {
+        return o ? o[i] : null
+      }, options)
+    }
+
+    app.provide('i18n', options)
+  }
+}
+```
+
+이제 `Custom Plugins`는 `app.use()`설정에과 함께 `Vue` Instance 가 생성될 때 자기 자신을 `Provide` 하게 된다. 
+따라서 각 컴포넌트에서는 `Inject`를 통해 주입 후 사용이 가능하다.
+
+- /src/views/CustomPlugins.vue
+
+{% raw %}
+```vue
+<template>
+  <h3>English</h3>
+  <p>{{ $translate('greetings.en') }}</p>
+  <h3>Korean</h3>
+  <p>{{ $translate('greetings.ko') }}</p>
+  <h3>French</h3>
+  <p>{{ this.i18n.greetings.fr }}</p>
+  <h3>German</h3>
+  <p>{{ this.i18n.greetings.de }}</p>
+</template>
+
+<script>
+export default {
+  name: 'CustomPlugins',
+  inject: ['i18n']
+}
+</script>
+```
+{% endraw %}
+
+![Custom Plugins i18n][Custom Plugins i18n]
+
+
+> 실제 개발에서 이런 것들은 직접 개발하는 것 보다는 다수가 참여하는 오픈소스를 사용하는 것이 더 좋다.  
+> [Vue I18n for Vue 2][Vue I18n for Vue 2] 또는 [Vue I18n for Vue 3][Vue I18n for Vue 3] 와 같은 
+> 것들이 있으니 참고하도록 한다.
 
 
 <br><br>
@@ -1077,14 +1253,20 @@ export default {
 Reference
 
 1. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 9
-2. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 10
-3. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 11
-4. "Reactivity API: Core", Vue.js, last modified latest(Unknown), accessed Jan. 05, 2022, [Reactivity: Core](https://vuejs.org/api/reactivity-core.html)
-5. "Composition API: Lifecycle Hooks", Vue.js, last modified latest(Unknown), accessed Jan. 05, 2023, [Composition API: Lifecycle Hooks][Composition API: Lifecycle Hooks]
-6. "Options: Composition #mixins", Vue.js, last modified latest(Unknown), accessed Jan. 07, 2023, [mixins in Composition API][mixins in Composition API]
-7. "Custom Directives", Vue.js, last modified latest(Unknown), accessed Jan. 08, 2023, [Reusability: Custom Directives](https://vuejs.org/guide/reusability/custom-directives.html)
-8. "HTMLElement.dataset", MDN, last modified Oct. 26, 2022, accessed Jan. 08, 2023, [HTML Element dataset][HTML Element dataset]
+2. "Reactivity API: Core", Vue.js, last modified latest(Unknown), accessed Jan. 05, 2022, [Reactivity: Core](https://vuejs.org/api/reactivity-core.html)
+3. "Composition API: Lifecycle Hooks", Vue.js, last modified latest(Unknown), accessed Jan. 05, 2023, [Composition API: Lifecycle Hooks][Composition API: Lifecycle Hooks]
+4. "Options: Composition #mixins", Vue.js, last modified latest(Unknown), accessed Jan. 07, 2023, [mixins in Composition API][mixins in Composition API]
+5. "Custom Directives", Vue.js, last modified latest(Unknown), accessed Jan. 08, 2023, [Reusability: Custom Directives](https://vuejs.org/guide/reusability/custom-directives.html)
+6. "HTMLElement.dataset", MDN, last modified Oct. 26, 2022, accessed Jan. 08, 2023, [HTML Element dataset][HTML Element dataset]
+7. "Plugins", Vue.js, last modified latest(Unknown), accessed Jan. 08, 2023, [Reusability: Plugins](https://vuejs.org/guide/reusability/plugins.html)
+8. "vue-router", Github, last modified Jan. 05, 2023, accessed Jan. 08, 2023, [Vue Router][Vue Router Library]
+9. "Vue I18n", Github, last modified May. 03, 2022, accessed Jan. 08, 2023, [Vue I18n for Vue 2][Vue I18n for Vue 2]
+10. "Vue I18n", Vue-I18n, last modified Aug. 01, 2022, accessed Jan. 08, 2023, [Vue I18n for Vue 3][Vue I18n for Vue 3]  
 
 [Composition API: Lifecycle Hooks]:https://vuejs.org/api/composition-api-lifecycle.html
 [mixins in Composition API]:https://vuejs.org/api/options-composition.html#mixins
 [HTML Element dataset]:https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset
+[Vue Router Library]:https://github.com/vuejs/router
+[Vue I18n for Vue 2]:https://kazupon.github.io/vue-i18n/
+[Vue I18n for Vue 3]:https://vue-i18n.intlify.dev
+[Custom Plugins i18n]:/assets/images/posts/2023-01-05-vue-starter-part5/custom-plugins.png
