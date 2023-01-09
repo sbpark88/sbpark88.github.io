@@ -454,12 +454,12 @@ _ = {
     defer {
         print("second")
     }
-    print("three")
+    print("third")
 }()
 ```
 
 ```console
-three
+third
 second
 first
 ```
