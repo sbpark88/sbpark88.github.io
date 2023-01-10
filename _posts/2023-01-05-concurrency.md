@@ -168,7 +168,7 @@ for try await line in handle.bytes.lines {
 
 위 코드에서 `handle`은 파일의 모든 데이터를 한 번에 준비하지 않고 라인 하나를 읽은 후 `iteration`이 진행됨에 따라 중단/재개를 반복한다.
 
-> - `Sequence` protocol 을 추가함으로써 `Custom Types`를 `for-in` loop 로 사용할 수 있다.
+> - `Sequence` protocol 을 추가함으로써 `Custom Types`를 `for-in loops` 로 사용할 수 있다.
 > - `AsyncSequence` protocol 을 추가함으로써 `Custom Types`를 `for-await-in` loop 로 사용할 수 있다.
 
 > `Swift`의 `for-await-in`은 `JavaScript`의 [for-await-of][MDN - for await...of]와 비교해서 보면 좋을 것 같다.
@@ -217,11 +217,82 @@ const [result1, result2] = await Promise.all([func1(), func2()])
 
 ### 5. Tasks and Task Groups 👩‍💻
 
-#### 1. Unit of Asynchronous Work
+#### 1. Structured Concurrency
+
+`Task`는 프로그램의 일부를 `Asynchronously` 하게 실행할 수 있는 작업의 단위(A unit of asynchronous work)를 말하며, 
+모든 `Asynchronous code`는 `Task`의 일부로써 실행된다. 앞에서 본 `async-let` syntax 는 `Task` 내에 `Child Task`를 만들어 낸다. 
+`Child Task`가 여러 개일 경우 이를 관리하기 위한 `Task Group`을 생성하고, 이 그룹에 `Child Task`를 추가할 수 있다. 이를 그룹화 함으로써 
+우선순위와 취소를 더 잘 제어할 수 있으며, 동적으로 작업의 수를 생성할 수 있다.
+
+```swift
+await withTaskGroup(of: Data.self) { taskGroup in
+    let photoNames = await listPhotos(inGallery: "Summer Vacation")
+    for name in photoNames {
+        taskGroup.addTask { await downloadPhoto(named: name) }
+    }
+}
+```
+
+`Task Group`과 각 `Task`는 `parent-child` 구조를 갖는다. `Task Group` 안의 각각의 `Child Task`는 동일한 `Parent Task`를 
+갖는다. 그리고 이 각각의 `Child Task`는 또 다른 `Child Task`를 가질 수 있다. 이들은 `Task Group`으로 묶인 `hierarchy` 구조를 
+채택하고 있으며, 이들 `Task Group`과 `Tasks` 관계를 `Structured Concurrency`라 한다.
+
+> `Structured Concurrency`는 정확성에 대한 *일부* 책임(some responsibility for correctness)이 사용자에게 
+> 주어지지만 이로써 `Swift`는 `Propagating Cancellation`을 처리할 수 있으며, `compile-time error`를 감지할 수 있다.
+
+
+- `Task`에 대한 추가 정보는 [Task][Apple Developer Documentation - Task] 를 참고한다.
+- `Task Group`에 대한 추가 정보는 [TaskGroup][Apple Developer Documentation - TaskGroup] 을 참고한다.
 
 #### 2. Unstructured Concurrency
 
+`Structured Concurrency`에서 `Tasks`는 `Task Group`에 속해 동일한 `Parent Task`를 갖는 것과 달리 
+`Unstructured Task`는 `Parent Task`를 갖지 않는다. 이를 `Unstructured Concurrency`라 한다. 
+
+따라서 프로그램이 요구하는대로 `Unstructured Task`를 관리할 수 있는 완전한 유연성(complete flexibility)을 갖는 대신, 
+정확성에 대한 *완전한* 책임(completely responsibility for correctness)이 사용자에게 주어진다.
+
+<p class="center">
+  With great flexibility comes great responsibility
+</p>
+
+> 1. 현재 `Actor`에서 실행되는 `Unstructured Task`를 생성하기 위해서는 
+>    [Task.init(priority:operation:)](https://developer.apple.com/documentation/swift/task/init(priority:operation:)-5k89c) 
+>    initializer 를 호출해야한다.
+> 2. 현재 `Actor`가 아닌 분리된 작업(detached task)로 `Unstructured Task`를 생성하기 위해서는 
+>    [Task.detached(priority:operation:)](https://developer.apple.com/documentation/swift/task/detached(priority:operation:)-8a4p6) 
+>    class method 를 호출해야한다.
+> 
+> 두 작업은 모두 결과를 기다리거나(wait), 취소하는(cancel) 상호 작용을 할 수 있는 `Task`를 반환한다.
+
+```swift
+let newPhoto = // ... some photo data ...
+let handle = Task {
+    return await add(newPhoto, toGalleryNamed: "Spring Adventures")
+}
+let result = await handle.value
+```
+
 #### 3. Task Cancellation
+
+`Swift`의 `Concurrency`는 협동 취소 모델(Cooperative Cancellation Model)을 사용한다. 각의 `Tasks`는 실행 중 적절한 시점에 
+취소되었는지를 확인 후, 적절한 방식으로 취소에 응답한다.
+
+`Task Cancellation`은 수행중인 작업에 따르며, 일반적으로 다음 중 하나를 의미한다.
+
+- Throwing an error like CancellationError 
+- Returning nil or an empty collection 
+- Returning the partially completed work
+
+작업이 취소되었는지를 확인하려면 다음 둘 중 한 가지 방법을 사용한다.
+
+- `Task`가 취소되면 `CancellationError`를 throw 하는 
+  Type Method [Task.checkCancellation][Apple Developer Documentation - checkCancellation] 를 호출한다.
+- Type Property [Task.isCancelled][Apple Developer Documentation - isCancelled] 의 값을 확인한다.
+
+그리고 취소가 확인된다면, 현재의 코드에서 취소를 처리(handle)해야한다. 예를 들어, `downloadPhoto(named:)`이 취소된 경우, 
+`1. 부분 다운로드를 삭제`하고, `2. 네트워크 접속을 닫음`을 처리해야한다. 그리고 취소를 수동으로 전파하려면 
+Instance Method [Task.cancel()][Apple Developer Documentation - cancel] 를 호출한다.
 
 ---
 
@@ -260,6 +331,16 @@ Reference
 2. "Sendable", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 05, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Sendable](https://developer.apple.com/documentation/swift/sendable)
 3. "for await...of", MDN Web Docs, last modified Dec. 14, 2022, accessed Jan. 10, 2023, [MDN - for await...of][MDN - for await...of]
 4. "Promise.all()", MDN Web Docs, last modified Dec. 14, 2022, accessed Jan. 10, 2023, [MDN - Promise.all()][MDN - Promise.all()]
+5. "Task", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Concurrency/Task][Apple Developer Documentation - Task]
+6. "TaskGroup", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Concurrency/TaskGroup][Apple Developer Documentation - TaskGroup]
+7. "checkCancellation()", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/../checkCancellation()][Apple Developer Documentation - checkCancellation]
+8. "isCancelled", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/../isCancelled][Apple Developer Documentation - isCancelled]
+9. "cancel()", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/../cancel()][Apple Developer Documentation - cancel]
 
 [MDN - for await...of]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of
 [MDN - Promise.all()]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
+[Apple Developer Documentation - Task]:https://developer.apple.com/documentation/swift/task
+[Apple Developer Documentation - TaskGroup]:https://developer.apple.com/documentation/swift/taskgroup
+[Apple Developer Documentation - checkCancellation]:https://developer.apple.com/documentation/swift/task/checkcancellation()
+[Apple Developer Documentation - isCancelled]:https://developer.apple.com/documentation/swift/task/iscancelled-swift.type.property
+[Apple Developer Documentation - cancel]:https://developer.apple.com/documentation/swift/task/cancel()

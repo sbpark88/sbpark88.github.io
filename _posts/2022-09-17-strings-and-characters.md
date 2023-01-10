@@ -194,7 +194,7 @@ print(constantString)
 > 하지만 실제로는 코드 뒤에서 컴파일러가 실제 복사가 정말 필요한 경우에만 발생하도록 문자열 최적화를 하기 대문에 항상 높은 성능을 유지할 수 있고, 우리는 성능은 신경쓸 필요 없이 스위프트의 문자열이 `Reference type`이 아니라 `Value type`이라는 것에만 집중하면 된다.
 
 #### 1. Working with Characters
-우리는 `for-in loop`를 통해 문자열을 반복함으로써 `String`의 개별 문자 `Character`에 접근할 수 있다.
+우리는 `for-in loops`를 통해 문자열을 반복함으로써 `String`의 개별 문자 `Character`에 접근할 수 있다.
 
 ```swift
 for character in "Dog!🐶" {
@@ -465,7 +465,7 @@ greeting.index(greeting.startIndex, offsetBy: 9)    // Index of "!",  Index(_raw
 greeting.index(greeting.startIndex, offsetBy: 10)   // Out of bounds, Index(_rawBits: 655361)
 ```
 
-#### 2. Iterating Over `for-in` loop with `indices` method
+#### 2. Iterating Over `for-in loops` with `indices` method
 또 다른 접근 방법으로는 `String` 전체를 접근해야 하는 경우 `for-in` 반복문을 사용할 수 있다.
 
 ```swift
