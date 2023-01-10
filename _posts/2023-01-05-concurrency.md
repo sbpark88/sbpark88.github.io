@@ -102,19 +102,18 @@ show(photo)
 >    `await` 중단점이 표시된 코드까지 진행 후 중단되거나 더이상 중단점이 없다면 해당 함수가 종료될 때까지 계속 진행된다.
 > 3. `listPhotos(inGallery:)`가 `return`되며 코드가 재시작되고, 변수 `photoNames`에 반환된 값을 assign 한다.
 > 4. 다음 중단점인 `await`를 만나기 전까지 `Synchronous code`를 진행한다.
-> 5. `await` 중단점이 있는 `downloadPhoto(named:)` 함수를 호출 후 `return`이 반환될 때까지 실행을 중단한다. `2.` 와 
+> 5. `await` 중단점이 있는 `downloadPhoto(named:)` 함수를 호출 후 `return`이 반환될 때까지 실행을 중단한다. '2.' 와 
 >    마찬가지로 이 코드가 중단된 동안 다른 `Concurrent code`가 실행된다.
 > 6. `downloadPhoto(named:)`가 `return`되며 코드가 재시작되고, 변수 `photo`에 반환된 값을 assign 한다.
 > 7. 이후 다른 중단점이 없으므로 코드는 다시 `Synchronous`하게 진행되어 `show(photo)`를 호출해 사진을 보여준다.
 
 > `await` 중단점은 코드의 실행을 중단하고 해당 스레드에서 다른 코드를 실행하기 때문에 이를 스레드 양보(yielding the thread) 라고 
-> 부르며, 코드의 실행을 중단할 수 있어야하므로, 앱의 특정 위치에서만 `Asynchronous Functions` 또는 `Asynchronous Methods`를 
+> 부른다. 이것은 코드의 실행을 중단할 수 있어야하므로, 앱의 특정 위치에서만 `Asynchronous Functions` 또는 `Asynchronous Methods`를 
 > 호출할 수 있으며 그 특정 위치는 다음과 같다.
 >
-> - `Asynchronous Function/Method/Property`의 `context(or scope)` 내부  
->    (`async` keyword 로 쓰여진 `Closure`를 생각하면 된다)
+> - `Asynchronous Function/Method/Property`의 `context(or scope)` 내부 (`async` keyword 로 쓰여진 `Closure`를 생각하면 된다)
 > - `@main`이 markd 된 `Structure/Class/Enumeration`의 `static main()` 메서드의 `context` 내부
-> - [Unstructured Concurrency]() 에 나온 것과 같은 `Unstructured child task`
+> - [Unstructured Concurrency](#h-2-unstructured-concurrency) 에 나온 것과 같은 `Unstructured child task`
 
 #### 2. Encapsulation the Code within an Asynchronous Code
 
@@ -148,8 +147,31 @@ move(firstPhoto, from: "Summer Vacation", to: "Road Trip")
 
 ---
 
-### 3. Asynchronous Sequences 👩‍💻
+### 3. Asynchronous Sequences (Iterating Over an Asynchronous Sequences) 👩‍💻
 
+앞에서 본 `listPhotos(inGallery:)` 함수는 `Asynchronous Function`으로 `Collection`이 모두 준비될 때까지 기다렸다 결과를 
+한 번에 `Array`로 `return`한다.
+
+그리고 이와 다른 접근 방법으로, `Asynchronous Sequence`가 있다. 이것은 `Collection`이 모두 준비될 때까지 기다리지 않고, 준비 되는 
+`elements`를 지속적으로 `return`하는 것이다. 즉, `Collection`이 모두 준비될 때까지 기다리지 않고 `Iterating`을 할 수 있다.
+
+`Iterating Over an Asynchronous Sequence`는 `for-await-in`를 이용해 접근한다.
+
+```swift
+import Foundation
+
+let handle = FileHandle.standardInput
+for try await line in handle.bytes.lines {
+    print(line)
+}
+```
+
+위 코드에서 `handle`은 파일의 모든 데이터를 한 번에 준비하지 않고 라인 하나를 읽은 후 `iteration`이 진행됨에 따라 중단/재개를 반복한다.
+
+> - `Sequence` protocol 을 추가함으로써 `Custom Types`를 `for-in` loop 로 사용할 수 있다.
+> - `AsyncSequence` protocol 을 추가함으로써 `Custom Types`를 `for-await-in` loop 로 사용할 수 있다.
+
+> `Swift`의 `for-await-in`은 `JavaScript`의 [for-await-of][MDN - for await...of]와 비교해서 보면 좋을 것 같다.
 
 ---
 
@@ -201,3 +223,6 @@ Reference
 1. "Concurrency", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Jan. 05,
    2023, [Swift Docs Chapter 17 - Concurrency](https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html)
 2. "Sendable", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 05, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Sendable](https://developer.apple.com/documentation/swift/sendable)
+3. "for await...of", MDN Web Docs, last modified Dec. 14, 2022, accessed Jan. 10, 2023, [MDN - for await...of][MDN - for await...of]
+
+[MDN - for await...of]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of
