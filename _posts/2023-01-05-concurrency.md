@@ -177,7 +177,42 @@ for try await line in handle.bytes.lines {
 
 ### 4. Calling Asynchronous Functions in Parallel 👩‍💻
 
+`downloadPhoto(named:)` 함수는 `Fetching data`를 하는 함수로 `Asynchronous`로 동작한다. 따라서 `await` 중단점을 만나 코드가 
+중단된 동안 다른 `Concurrent code`가 실행될 수 있지만 다음과 같은 경우 매번 `await`를 만날 때마다 정지 후 다운로드를 완료하고 재개하는 
+것을 반복한다. 즉, 앞에서 요청한 사진이 완전히 다운로드 되기를 기다린 후 순차적으로 다운로드 받는다.
 
+```swift
+let firstPhoto = await downloadPhoto(named: photoNames[0])
+let secondPhoto = await downloadPhoto(named: photoNames[1])
+let thirdPhoto = await downloadPhoto(named: photoNames[2])
+
+let photos = [firstPhoto, secondPhoto, thirdPhoto]
+show(photos)
+```
+
+각 사진은 멀티 다운로드를 하는 것이 더 효율적이다. 따라서 위 3개의 `Asynchronous Function`은 다음과 같이 한 번에 요청 후 
+코드를 중단한 다음 모두 완료된 후 한 번에 재개할 수 있다.
+
+```swift
+async let firstPhoto = downloadPhoto(named: photoNames[0])
+async let secondPhoto = downloadPhoto(named: photoNames[1])
+async let thirdPhoto = downloadPhoto(named: photoNames[2])
+
+let photos = await [firstPhoto, secondPhoto, thirdPhoto]
+show(photos)
+```
+
+`Asynchronous Function`이 호출된 후 `return`이 반환되는 시점에 `await`를 거는 것이 아니라, 변수에 데이터가 assign 되는 것을 
+기다리도록 `Asynchronous Property`를 이용하고, 이를 `Array`에 담아 `await`를 걸어준다.  
+이렇게 하면 각각의 `downloadPhoto(named:)` 함수는 `await` 중단점이 없기 때문에 다운로드를 기다리지 않고 다음 
+`downloadPhoto(named:)`를 호출하기 때문에 동시에 여러 개의 `Asynchronous Function`를 호출하게되고, `Asynchronous Property` 
+가 담긴 `Array`에 `await` 중단점이 걸려 있기 때문에  값이 모두 assign 되는 것을 기다린 후 재개된다.
+
+> `Swift`의 `await [func1, func2]`은  `JavaScript`의 [Promise.all()][MDN - Promise.all()]와 비교해서 보면 좋을 것 같다.
+
+```javascript
+const [result1, result2] = await Promise.all([func1(), func2()])
+```
 ---
 
 ### 5. Tasks and Task Groups 👩‍💻
@@ -224,5 +259,7 @@ Reference
    2023, [Swift Docs Chapter 17 - Concurrency](https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html)
 2. "Sendable", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 05, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Sendable](https://developer.apple.com/documentation/swift/sendable)
 3. "for await...of", MDN Web Docs, last modified Dec. 14, 2022, accessed Jan. 10, 2023, [MDN - for await...of][MDN - for await...of]
+4. "Promise.all()", MDN Web Docs, last modified Dec. 14, 2022, accessed Jan. 10, 2023, [MDN - Promise.all()][MDN - Promise.all()]
 
 [MDN - for await...of]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of
+[MDN - Promise.all()]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
