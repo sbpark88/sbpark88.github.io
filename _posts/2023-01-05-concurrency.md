@@ -80,8 +80,58 @@ func listPhotos(inGallery name: String) async throws -> [String] {
 
 > `Asynchronous Functions` 실행이 중단되는 경우는 다른 비동기 함수를 호출하는 경우만 해당된다.  
 > 즉, `await` 키워드를 사용해 기다린다는 것은 다른 비동기 함수의 반환을 기다린다는 의미이다. `TypeScript`에서 `await`를 사용한다는 
-> 것은 `Promise` 객체를 반환하는 함수의 종료를 기다린다는 것을 의미했다. `Swift`에서도 마찬가지로 `await`를 사용한다는 것은 
-> `completion handler`가 있는 함수의 종료를 기다린다는 것을 의미한다.
+> 것은 `Promise` 객체를 반환하는 함수의 종료를 기다린다는 것을 의미했다.
+> 
+> 하지만 기존의 `Promise` 객체를 직접 생성하던 방식과 달리 `async`, `await`를 사용하면 `then..then..then..catch...finally` 형태의 
+> chaining 대신 성공했을 경우 이미 resolved 상태의 값을 unwrapping 해 반환하고, 에러는 catch 를 통해 처리한다.  
+> 즉, 일반 코드를 작성하듯 코딩하며 `try-catch`를 통해 코드를 작성할 수 있다.
+
+```typescript
+const asyncStr: () => Promise<string> = async () => {
+    // throw Error('throw error!!')
+    return 'first'
+}
+```
+
+- without async/await
+
+```typescript
+const printOneTwo: () => void = () => {
+    let str: Promise<string> = asyncStr()    // Must be returned as (Promise, state is resolved) or (Promise, state is reject)
+    str.then((value: string) => console.log(value))
+        .catch((error: string) => console.error(error))
+        .finally(() => console.log('second'))
+}
+printOneTwo()
+```
+
+```console
+first
+second
+```
+
+- with async/await
+
+```typescript
+const printOneTwo: () => void = async () => {
+    try {
+        let str: string = await asyncStr()  // This returned as unwrapped, (string) or (Error)
+        console.log(str)
+    } catch (e) {
+        console.error(e)
+    }
+    console.log('second')
+}
+printOneTwo()
+```
+
+```console
+first
+second
+```
+
+> Swift`의 `async`, `await`도 이와 유사하다. `await`를 사용한다는 것은 `Task`라는 하나의 작업 단위가 종료되고 
+> `return`의 반환값을 기다린다는 것을 의미한다. 
 
 > 참고로 `async` keyword 와 `throws` keyword 를 함꼐 쓸 때는 `async throws` 순서로 작성했으나, `await` keyword 와 
 > `try` keyword 를 함께 쓸 때는 `try await` 순서로 작성한다.
@@ -298,6 +348,246 @@ Instance Method [Task.cancel()][Apple Developer Documentation - cancel] 를 호�
 
 ### 6. Actors 👩‍💻
 
+#### 1. Actors in Swift
+
+프로그램을 `isolated, concurrent pieces` 으로 분리시키기 위해 `Task`를 사용할 수 있다. 기본적으로 `Tasks`는 isolated 되어 있어 
+동시에 실행하는 것이 안전하지만 `Tasks` 사이에 정보를 공유할 필요가 있는데 이때 `Actors`를 사용한다. `Actors`는 
+`Concurrent code` 간에 정보를 안전하게 공유할 수 있게 한다.
+
+`Actors`는 `Reference Types`로 Classes 와 비슷하지만, Classes 와 다르게 Actor 는 동시에 하나의 `Task`만 `mutable state`의 
+접근을 허용하므로, 여러 `Tasks`가 동시에 하나의 `Actor` instance 와 상호작용해도 안전하다.
+
+즉, `Actors`의 `mutable state`에 접근하기 위해서는 `isolated`된 `Task` 단위로 접근해야한다. 이로 인해 접근하는 즉시 
+요청한 값을 반환 받는다는 보장이 없기 때문에 `var`로 선언된 변수 또는 메서드에 접근하기 위해서는 반드시 `await`을 이용해 접근해야한다.
+
+> - `let`으로 선언한 변수에 접근할 때는 `await` keyword 를 명시하지 않아도 된다. `immutable`이기 때문에 `Asynchronous work`가 
+>   일어나지 않기 때문이다.
+> - `var`로 선언한 변수라 하더라도 이 변수는 `actor-isolated property`이므로 외부 `context`에서 임의로 값을 수정하는 
+>   것은 불가능하다. `mutable`이기 때문에 반드시 `await` keyword 를 이용해 접근해야한다.
+> - 메서드는 반환값이 없는 메서드라 하더라도 암시적으로 `Void`라는 타입 특수한 값(`()` 로 쓰여진 `Empty Tuple`)을 반환한다.  
+>   그리고 단순히 메서드의 타입만으로는 이 메서드가 `Actor`의 `mutable state`와 상호작용을 하지 않는다는 것을 보장할 수 없다. 
+>   예를 들어 따라서 `Dictionaries`의 값을 조회시 항상 `Optional`로 반환하는 것처럼 `Actor`의 모든 메서드는 호출시 
+>   항상 `await` keyword 를 이용해 접근해야한다.
+
+다음 예제는 온도를 기록하는 `Actor`다.
+
+```swift
+actor TemperatureLogger {
+    let label: String
+    var measurements: [Int]
+    private(set) var max: Int
+
+    init(label: String, measurement: Int) {
+        self.label = label
+        self.measurements = [measurement]
+        self.max = measurement
+    }
+}
+```
+
+`Actors`는 `actor` keyword 를 이용해 정의한다. 위 `TemperatureLogger` actor 는 3개의 properties 를 가지고 있으며, 
+그 중 `max`는 `var`로 선언되었으며, `private(set)` modifier 애 의해 `get`은 `internal`, `set`은 `private`의 
+`Access Level`을 갖는다.
+
+#### 2. Actor Isolation
+
+`Swift`는 `Actor`의 `local state`에 접근할 수 있는 것은 `Actor`의 `context`로 제한함으로써 `Asynchronous work`에서도 
+`mutable state`를 안전하게 공유할 수 있음을 보장(guarantee)한다.
+
+잠시 후에 자세히 살펴보겠지만, 이 보장성으로 `Actor`의 `let` properties 를 제외한 모든 `var` properties 와 `Methods`는 
+반드시 `await` keyword 를 이용해 접근해야하며, 그렇지 않으면 에러가 발생한다.
+
+`Swift`의 이런 보장성을 `Actor Isolation`이라 한다. 
+
+#### 3. Class with private properties
+
+`Actor`가 `Class`와 어떻게 다른지 알아보기 위해 위와 다음과 같이 `TemperaturLogger`를 `Class`를 만들어 `Actor`와 
+비교해보도록하자.
+
+```swift
+class TemperatureLogger {
+    let label: String
+    var measurements: [Int]
+    private var max: Int
+
+    init(label: String, measurement: Int) {
+        self.label = label
+        self.measurements = [measurement]
+        self.max = measurement
+    }
+
+    func getMax() -> Int {
+        max
+    }
+}
+```
+
+```swift
+let logger = TemperatureLogger(label: "Outdoors", measurement: 25)
+print(logger.label)     // Outdoors
+print(logger.max)       // error: 'max' is inaccessible due to 'private' protection level
+print(logger.getMax())  // 25
+````
+
+`private` modifier 에 의해 `get`과 `set` 모두 `private`의 `Access Level`을 갖기 때문에 외부 `context`에서 
+직접 접근이 불가능하다.
+
+#### 4. Class with private(set) properties
+
+이제 `max`의 modifier 를 `private(set)`으로 바꿔보자.
+
+```swift
+class TemperatureLogger {
+    let label: String
+    var measurements: [Int]
+    private(set) var max: Int
+
+    init(label: String, measurement: Int) {
+        self.label = label
+        self.measurements = [measurement]
+        self.max = measurement
+    }
+
+    func getMax() -> Int {
+        max
+    }
+}
+```
+
+```swift
+let logger = TemperatureLogger(label: "Outdoors", measurement: 25)
+print(logger.label)     // Outdoors
+print(logger.max)       // 25
+print(logger.getMax())  // 25
+```
+
+이제 `max` property 는 `get`은 `internal`, `set`은 `private`의 `Access Level`을 갖기 때문에 `getter` 
+메서드 없이 외부에서 접근이 가능하다.
+
+#### 5. Actor with private property
+
+그렇다면 `Actor`에서의 `private`은 어떻게 동작할까?
+
+```swift
+actor TemperatureLogger {
+    let label: String
+    var measurements: [Int]
+    private var max: Int
+
+    init(label: String, measurement: Int) {
+        self.label = label
+        self.measurements = [measurement]
+        self.max = measurement
+    }
+
+    func getMax() -> Int {
+        max
+    }
+
+    func greeting(name: String) {
+        print("Hello~ \(name)")
+    }
+}
+```
+
+```swift
+Task {
+    let logger = TemperatureLogger(label: "Outdoors", measurement: 25)
+    print(logger.label)                             // Outdoors
+    print(logger.max)                               // error: 'max' is inaccessible due to 'private' protection level
+    print(await logger.getMax())                    // 25
+    await logger.greeting(name: "Actor Methods")    // Hello~ Actor Methods
+}
+```
+
+- logger.label : `Class`와 마찬가지로 `Task`로 격리되어있다면 `let`으로 선언되어 `immutable`이므로 외부 
+                 `context`에서 자유롭게 접근이 가능하다.
+- logger.max : `get`과 `set` 모두 `private`의 `Access Level`을 갖기 때문에 외부 `context`에서
+               직접 접근이 불가능하다.
+- logger.getMax() : `getMax()` 메서드는 `Actor`의 메서드이므로 `await`을 이용해 접근해야한다.
+- logger.greeting(name:) : 어떠한 `mutable state`와 상호작용을 하지 않는다. 하지만 `greeting(name:)` 메서드 역시 
+                           `Actor`의 메서드이므로 `await`을 이용해 접근해야한다.
+  
+#### 6. Actor with private(set) property
+
+이제 원래대로 돌아와 `private(set)`으로 바꿔보자.
+
+```swift
+actor TemperatureLogger {
+    let label: String
+    var measurements: [Int]
+    private(set) var max: Int
+
+    init(label: String, measurement: Int) {
+        self.label = label
+        self.measurements = [measurement]
+        self.max = measurement
+    }
+
+    func getMax() -> Int {
+        max
+    }
+}
+```
+
+```swift
+Task {
+    let logger = TemperatureLogger(label: "Outdoors", measurement: 25)
+    print(await logger.label)               // Outdoors, No 'async' operations occur within 'await' expression
+    print(logger.label)                     // Outdoors
+    logger.measurements[0] = 0              // error: actor-isolated property 'measurements' can not be mutated from a non-isolated context
+    print(logger.max)                       // error: expression is 'async' but is not marked with 'await'
+    print("1. \(await logger.max)")         // 1. 25
+    await print("2. \(logger.max)")         // 2. 25
+    print("3. \(await logger.getMax())")    // 3. 25
+    await print("4. \(logger.getMax())")    // 4. 25
+}
+```
+
+> 이번엔 모든 케이스에 대해 살펴보며 `Actor`의 `mutable state`와 `immutable`의 차이도 함께 살펴본다.
+> 
+> - await logger.label : `let`으로 선언한 변수이므로 비동기로 동작하지 않는다. 따라서 정상 작동하지만 `await`는 무시되고 
+>                        컴파일러는 `await`을 지울 것을 요구한다.
+> - logger.label : `let`으로 선언되어 `immutable`이므로 비동기로 동작하지 않으므로 `await` 없이도 `Actor`의 값에 정상적으로 접근할 수 있다.  
+>                  (단, `Actor` 자체에 대한 접근은 반드시 `Task` 안에서 이루어져야한다)
+> - logger.measurements[0] = 0 : `var`로 선언되었지만 `measurements`는 `actor-isolated property` 이므로 `Actor`의 
+>                                `context` 외부에서 수정이 불가능하다.
+> - logger.max : `private(set)`이므로 `get`은 `internal`, `set`은 `private`의 `Access Level`을 갖는다. 따라서 
+>                `Class`와 마찬가지로 `getter` 메서드 없이 외부에서 접근이 가능하다. 하지만 `var`이기 때문에 `await` 없이 
+>                 접근하는 것은 불가능하다.
+> - logger.max / logger.getMax() : `print(_:)`에 값을 넘기기 전에 `await`을 걸든, `print`를 하기 전에 `await`를 걸든 
+>                                  모두 정상적으로 동작한다. 
+
+#### 7. Extensions of Actor
+
+```swift
+actor TemperatureLogger {
+    let label: String
+    var measurements: [Int]
+    private(set) var max: Int
+
+    init(label: String, measurement: Int) {
+        self.label = label
+        self.measurements = [measurement]
+        self.max = measurement
+    }
+}
+
+extension TemperatureLogger {
+    func update(with measurement: Int) {
+        measurements.append(measurement)
+        if measurement > max {
+            max = measurement
+        }
+    }
+}
+```
+
+`Swift`의 `Extensions`는 `extension` keyword 를 이용해 `Class`, `Structure`, `Enumeration`, `Protocol`을 
+확장한다. 이는 `Objective-C`의 `Categories`와 유사하다. 그리고 필자의 눈에는 `TypeScript`의 `Prototypes`와도 듀사해보인다.
+
+즉, `update(with:)` 메서드는 이미 `Actor` 내부에 있는 것이기 때문에 `Actor`의 `context`에 포함되므로 `await` keyword 
+없이 `mutable state`에 접근할 수 있다.
 
 ---
 
