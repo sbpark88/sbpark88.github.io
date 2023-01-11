@@ -144,7 +144,7 @@ blockquote {
 pre,
 code {
   @include relative-font-size(0.9375);
-  color: $text-color;
+  //color: $text-color;
 }
 
 *:not(pre) > code {
