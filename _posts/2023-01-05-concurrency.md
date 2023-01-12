@@ -87,21 +87,23 @@ func listPhotos(inGallery name: String) async throws -> [String] {
 > 즉, 일반 코드를 작성하듯 코딩하며 `try-catch`를 통해 코드를 작성할 수 있다.
 
 ```typescript
-const asyncStr: () => Promise<string> = async () => {
-    // throw Error('throw error!!')
-    return 'first'
-}
+const asyncStr: () => Promise<string> =
+    async () => {
+        // throw Error('throw error!!')
+        return 'first'
+    }
 ```
 
 - without async/await
 
 ```typescript
-const printOneTwo: () => void = () => {
-    let str: Promise<string> = asyncStr()    // Must be returned as (Promise, state is resolved) or (Promise, state is reject)
-    str.then((value: string) => console.log(value))
-        .catch((error: string) => console.error(error))
-        .finally(() => console.log('second'))
-}
+const printOneTwo: () => void =
+    () => {
+        let str: Promise<string> = asyncStr()    // Must be returned as (Promise, state is resolved) or (Promise, state is reject)
+        str.then((value: string) => console.log(value))
+            .catch((error: string) => console.error(error))
+            .finally(() => console.log('second'))
+    }
 printOneTwo()
 ```
 
@@ -113,15 +115,16 @@ second
 - with async/await
 
 ```typescript
-const printOneTwo: () => void = async () => {
-    try {
-        let str: string = await asyncStr()  // This returned as unwrapped, (string) or (Error)
-        console.log(str)
-    } catch (e) {
-        console.error(e)
+const printOneTwo: () => void =
+    async () => {
+        try {
+            let str: string = await asyncStr()  // This returned as unwrapped, (string) or (Error)
+            console.log(str)
+        } catch (e) {
+            console.error(e)
+        }
+        console.log('second')
     }
-    console.log('second')
-}
 printOneTwo()
 ```
 
@@ -593,22 +596,136 @@ extension TemperatureLogger {
 
 ### 7. Sendable Types 👩‍💻
 
-#### 1. Sendable Protocol
+#### 1. Concurrency Domain
 
-#### 2. Sendable Structures and Enumerations
+`Tasks`와 `Actors`는 프로그램의 일부를 조각으로 분리시켜 `Concurrent code`가 안전하도록 만든다. `Task` 또는 `Actor` instance 의 
+내부에 `var`로 선언된 `mutable state`를 포함하는 경우가 있는데 이를 `Concurrency domain`이라 한다. 이렇게 `mutable state`를 
+포함하지만 동시 접근(overlapping access)에 대해 보호되지 않는 경우는 `Concurrency domain` 간에 공유될 수 없다.
 
-#### 3. Sendable Actors
+#### 2. Sendable Protocol
 
-#### 4. Sendable Classes
+`Concurrency domain` 간에 공유될 수 있는 타입을 `Sendable Types`라 한다. `Sendable Types`는 `Actor`의 메서드를 호출할 때 
+`arguments`로 전달되거나 `Task`의 결과로써 반환될 수 있다.
 
-#### 5. Sendable Functions and Closures
+`Value Types`는 언제나 안전한 공유가 가능하다. 따라서 `Concurrency domain` 간에도 안전하게 공유할 수 있다.
 
-#### 6. Sendable Tuples
+반면, `Reference Types`는 `Concurrency domain` 간에 전달하기에 안전하지 않다. `Class`가 `mutable properties`를 포함하고, 
+순차적 접근(serialize access)을 하지 않는다면, 서로 다른 `Tasks` 간에 `Class`의 instance 를 전달할 때 예측 불가능하고 
+잘못된 결과를 전달할 수 있다(무분별한 순서로 접근할 경우 `Reference Types`의 값이 의도한 시점이 아닌데도 불구하고 변경될 수 있다).
 
-#### 7. Sendable Metatypes
+이 문제를 해겷하기 위해 우리는 `Sendable Protocol` 을 준수하도록(conformance) 선언해 `Sendable Types`로 만들 수 있다. 
+`Sendable Protocol`은 코드적인 요구사항(code requirements)은 없지만, Swift 가 강제하는 의미론적인 요구사항(semantic requirements)이 있다.
 
-#### 8. Concurrency Domains
+<br>
 
+[Apple Developer Documentation][Apple Developer Documentation - Sendable] 의 설명을 다시 읽어보자.
+
+`Sendable Types`의 값은 하나의 `Concurrency domain`에서 다른 `Concurrency domain`으로 안전하게 보낼 수 있다. 예를 들어, 
+`Sendabl Values`는 `Actor`의 메서드를 호출할 때 `arguments`로 전달될 수 있다. 다음은 모두 `Sendable`로 표시 가능하다(marked as sendable).
+
+- Value Types
+- Reference types with no mutable storage
+- Reference types that internally manage access to their state
+- Functions and closures (by marking them with `@Sendable`)
+
+이 프로토콜은 `required methods`나 `required properties`와 같은 요구사항은 없지만, `compile-time`에 강제되는 의미론적인 요구사항이 
+있다. 그리고 <span style="color: red">*__Sendable__*은 반드시 *__Type__*이 선언된 파일 내에서 선언되어야한다</span>. 
+이러한 요구사항에 대해서는 아래 번호에 이어서 설명한다.
+
+Compiler 의 강제성 없이 Sendable 을 선언하려면 `@unchecked Sendable`를 작성한다. 이 경우 정확성에 대한 책임이 사용자에게 있으며, 
+사용자는 `lock` 또는 `queue`를 이용해 타입의 상태에 대한 모든 접근을 보호해야한다. 또한 이 `Unchecked conformance to Sendable`은 
+`Sendable`이 반드시 `Type`이 선언된 파일 내에서 선언되어야 한다는 규칙 역시 따르지 않는다.
+
+#### 3. Sendable Structures and Enumerations
+
+Structures 와 Enumerations 가 Sendable Protocol 을 만족시키기 위해 `Sendable Members` 와 `Associated Values` 만 가져야한다.
+
+일부 케이스의 경우 암시적으로 `Sendable`을 따르는데 그것은 다음과 같다.
+
+- `Frozen` structures and enumerations
+- Structures and enumerations that `aren’t public` and `aren’t marked @usableFromInline`.
+
+그 외 경우는 `Sendable`에 대한 적합성을 명시적으로 선언해야한다.
+
+Structures 가 `nonsendable stored properties`를 가지고 있거나, Enumerations 가 `nonsendable associated values`를 가지고 
+있다면 `final class`로 선언할 수 없으므로 `Sendable` 적합성을 따를 수 없다. 따라서 이 경우 위에서 설명했듯이 `@unchecked Sendable`를 표시해 
+`compile-time error`를 비활성화 한 후 사용자가 직접 해당 `Types`가 `Sendable Protocol`의 의미론적인 요구사항(semantic requirements)을 
+만족하는지 검증해야한다.
+
+- Conformance to Sendable with Final Class
+
+```swift
+final class Abc: Sendable {
+    let x: String
+    init(x: String) {
+        self.x = x
+    }
+}
+```
+
+- marked as `@unchecked Sendable` 
+
+```swift
+class Abc: @unchecked Sendable {
+    let x: String
+    
+    init(x: String) { self.x = x }
+}
+```
+
+#### 4. Sendable Actors
+
+`Actors`는 모든 `muatble state`에 순차적인 접근만 허용하기 때문에 암시적으로 `Sendable`을 만족한다.
+
+#### 5. Sendable Classes
+
+`Classes`가 `Sendable Protocol`을 따르기 위해서는 다음을 만족해야한다.
+
+- Be marked final
+- Contain only stored properties that are immutable and sendable
+- Have no superclass or have NSObject as the superclass
+
+<br>
+__1 ) `@MainActor`가 표시된 `Classes`는 암시적으로 `Sendable`을 만족한다.__
+
+`Main Actor`는 자신의 `state`에 대한 모든 접근을 조정하기 때문에 암시적으로 `Sendable`을 만족하며, 이 `Classes`는 
+`mutable`하며 `nonsendable`한 Stored Properties 를 저장할 수 있다.
+
+__2 ) Verify conform to sendable protocol manually__
+
+위 사항을 따르지 않는 `Classes`에 `@unchecked Sendable`을 표시하고 사용자가 적합성을 만족하는지 확인한다.
+
+
+#### 6. Sendable Functions and Closures
+
+`Sendable Protocol`을 따르게 하는 대신 `@Sendable` attribute 사용해 `Sendable Functions` 또는 `Sendable Closures`임을 
+나타낼 수 있다. 함수 또는 클로저의 모든 값은 `Sendbale`을 만족해야한다.  
+추가로 클로저는 오직 `Value` 캡처만 사용해야하며, 그 값은 반드시 `Sendable Type`이어야 한다.
+
+`Task.detached(priority:operation:)` 호출과 같이 `Sendable Closures`를 예상하는 `context`에서 요구사항을 만족하는 클로저는 
+암시적으로 `Sendable`을 만족한다.
+
+다음과 같이 `Type Annotation`의 일부로 `@Sendable`을 표시하거나 `parameters`의 앞에 `@Sendable`을 표시함으로 명시적으로 
+`Sendable`을 만족함을 나타낼 수 있다.
+
+```swift
+let sendableClosure = { @Sendable (number: Int) -> String in
+    if number > 12 {
+        return "More than a dozen."
+    } else {
+        return "Less than a dozen"
+    }
+}
+```
+
+#### 7. Sendable Tuples
+
+`Sendable Protocol`을 만족하기 위해서는 `Tuples`의 모든 elements 가 `Sebdable`을 만족해야하며, 조건이 만족되면 
+`Tuples` 역시 암시적으로 `Sendable`을 만족한다.
+
+#### 8. Sendable Metatypes
+
+`Int.Type`과 같은 `Metatypes`는 암시적으로 `Sendable`을 만족한다.
 
 
 <br><br>
@@ -616,16 +733,16 @@ extension TemperatureLogger {
 ---
 Reference
 
-1. "Concurrency", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Jan. 05,
-   2023, [Swift Docs Chapter 17 - Concurrency](https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html)
-2. "Sendable", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 05, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Sendable](https://developer.apple.com/documentation/swift/sendable)
-3. "for await...of", MDN Web Docs, last modified Dec. 14, 2022, accessed Jan. 10, 2023, [MDN - for await...of][MDN - for await...of]
-4. "Promise.all()", MDN Web Docs, last modified Dec. 14, 2022, accessed Jan. 10, 2023, [MDN - Promise.all()][MDN - Promise.all()]
-5. "Task", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Concurrency/Task][Apple Developer Documentation - Task]
-6. "TaskGroup", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Concurrency/TaskGroup][Apple Developer Documentation - TaskGroup]
-7. "checkCancellation()", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/../checkCancellation()][Apple Developer Documentation - checkCancellation]
-8. "isCancelled", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/../isCancelled][Apple Developer Documentation - isCancelled]
-9. "cancel()", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/../cancel()][Apple Developer Documentation - cancel]
+1. "Concurrency", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Jan. 05, 2023, [Swift Docs Chapter 17 - Concurrency](https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html)
+2. "for await...of", MDN Web Docs, last modified Dec. 14, 2022, accessed Jan. 10, 2023, [MDN - for await...of][MDN - for await...of]
+3. "Promise.all()", MDN Web Docs, last modified Dec. 14, 2022, accessed Jan. 10, 2023, [MDN - Promise.all()][MDN - Promise.all()]
+4. "Task", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Concurrency/Task][Apple Developer Documentation - Task]
+5. "TaskGroup", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Concurrency/TaskGroup][Apple Developer Documentation - TaskGroup]
+6. "checkCancellation()", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/../checkCancellation()][Apple Developer Documentation - checkCancellation]
+7. "isCancelled", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/../isCancelled][Apple Developer Documentation - isCancelled]
+8. "cancel()", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/../cancel()][Apple Developer Documentation - cancel]
+9. "Sendable", Apple Developer Documentation, last modified latest(Unknown), accessed Jan. 13, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Sendable][Apple Developer Documentation - Sendable]
+10. "Sendable and @Sendable in Swift", Mobikul, last modified Jul. 01, 2022, accessed Jan. 13, 2023, [Mobikul - Sendable and @Sendable in Swift](https://mobikul.com/sendable-and-sendable-in-swift/)
 
 [MDN - for await...of]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of
 [MDN - Promise.all()]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all
@@ -634,3 +751,4 @@ Reference
 [Apple Developer Documentation - checkCancellation]:https://developer.apple.com/documentation/swift/task/checkcancellation()
 [Apple Developer Documentation - isCancelled]:https://developer.apple.com/documentation/swift/task/iscancelled-swift.type.property
 [Apple Developer Documentation - cancel]:https://developer.apple.com/documentation/swift/task/cancel()
+[Apple Developer Documentation - Sendable]:https://developer.apple.com/documentation/swift/sendable
