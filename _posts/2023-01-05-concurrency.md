@@ -8,7 +8,7 @@ tags: [swift docs, asynchronous, parallel, threads, asynchronous functions, asyn
 
 ### 1. Asynchronous and Parallel 👩‍💻
 
-`Swift`는 구조화된 방법으로 `Asynchronous`, `Parallel` 코드 작성을 지원한다.
+Swift 는 구조화된 방법으로 `Asynchronous`, `Parallel` 코드 작성을 지원한다.
 
 - `Asynchronous code`는 `Single Thread`로 작동해 한 번에 하나의 코드만 실행이 가능하지만, 코드를 잠시 중단 후 다시 재개할 수 있는 
    코드 블럭으로, `Fetching data` 또는 `Parsing files`와 같은 `long-running background task`을 요청 후 기다리는 동안 

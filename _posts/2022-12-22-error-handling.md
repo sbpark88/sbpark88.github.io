@@ -11,8 +11,8 @@ tags: [swift docs, error handling, do catch, do-catch, throw, throwing function,
 `Swift`에서 에러 처리는 `Cocoa`와 `Objective-C`에서 `NSError` class 를 사용하는 에러 처리 패턴과 상호 운용 된다.
 [Handling Cocoa Errors in Swift](https://developer.apple.com/documentation/swift/cocoa_design_patterns/handling_cocoa_errors_in_swift)
 
-`Swift`에서 에러는 `Error` protocol 을 따르는 Types 의 값으로 표현된다. 그러기 위해서 `Error` protocol 을 채택하도록 해야한다.
-`Swift`의 `Enumerations`는 연관된 `Error conditions`를 그룹화하는데 적합하다.
+Swift 에서 에러는 `Error` protocol 을 따르는 Types 의 값으로 표현된다. 그러기 위해서 `Error` protocol 을 채택하도록 해야한다.
+Swift 의 `Enumerations`는 연관된 `Error conditions`를 그룹화하는데 적합하다.
 
 ```swift
 enum VendingMachineError: Error {
@@ -40,8 +40,8 @@ throw VendingMachineError.insufficientFunds(coinsNeeded: 5)
 `try expression` 으로 코드를 작성한다.
 
 > `Swift`의 에러 처리는 다른 언어의 `try-catch & throw`와 유사하다. 하지만 `Objective-C`를 포함한 많은 언어와 달리 
-> `Swift`의 에러 처리는 계산 비용이 많이 드는 `Call Stack` 해제(unwinding)을 포함하지 않는다.  
-> `Swift`의 `throw` statement 의 성능 특성은 `return` statement 와 유사하다.
+> Swift 의 에러 처리는 계산 비용이 많이 드는 `Call Stack` 해제(unwinding)을 포함하지 않는다.  
+> Swift 의 `throw` statement 의 성능 특성은 `return` statement 와 유사하다.
 
 #### 1. Propagating Errors Using Throwing Functions
 

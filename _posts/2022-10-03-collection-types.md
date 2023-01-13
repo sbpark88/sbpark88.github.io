@@ -7,8 +7,8 @@ tags: [swift docs, collection, array, set, dictionary]
 ---
 
 ![swift collection types](/assets/images/posts/2022-10-03-collection-types/CollectionTypes_intro_2x.png)
-1
-`Swift`는 다음 3가지 `primary collection types`를 제공한다.
+
+Swift 는 다음 3가지 `primary collection types`를 제공한다.
 
 - Array
 - Set
@@ -91,7 +91,7 @@ print(sixDoubles)   // [0.0, 0.0, 0.0, 2.5, 2.5, 2.5]
 var shoppingList: [String] = ["Eggs", "Milk"]
 ```
 
-만약 위와 같이 `Array Literal`이 한 가지 타입으로 구성되었다면, `Swift`는 해당 배열의 타입을 추론한다.
+만약 위와 같이 `Array Literal`이 한 가지 타입으로 구성되었다면, Swift 는 해당 배열의 타입을 추론한다.
 
 ```swift
 var shoppingList = ["Eggs", "Milk"]
@@ -776,7 +776,7 @@ var airports: [String: String] = ["YYZ": "Toronto Pearson", "DUB": "Dublin"]
 print(airports)     // ["DUB": "Dublin", "YYZ": "Toronto Pearson"]
 ```
 
-만약 위와 같이 `Dictionary Literal`의 `Key: Value` 쌍이 한 가지 타입으로 구성되었다면, `Swift`는 해당 딕셔너리의 타입을 추론한다.
+만약 위와 같이 `Dictionary Literal`의 `Key: Value` 쌍이 한 가지 타입으로 구성되었다면, Swift 는 해당 딕셔너리의 타입을 추론한다.
 
 <br>
 

@@ -7,6 +7,7 @@ tags: [swift docs, swift operators, swift 연산자]
 ---
 
 ### 1. Assignment Operator (할당 연산자) 👩‍💻
+
 #### 1. `상수`, `변수`의 값을 초기화 시키거나 변경한다.
 
 ```swift
@@ -94,6 +95,7 @@ a = a + 7
 ---
 
 ### 4. Comparison Operators (비교 연산자) 👩‍💻
+
 #### 1. Basic Comparison Operators (기본 비교 연산자)
 
 ```swift
@@ -121,6 +123,7 @@ print(5 <= 7)       // false
 위 연산자 외에도 Swift 는 두 객체의 reference 가 동일 인스턴스인지 비교를 위해 `===`와 `!==` 연산자를 제공한다.
 
 #### 2. Tuple Comparison (튜플 비교)
+
 튜플의 `타입이 동일`하고, `동일한 개수의 값`을 가지고 있을 경우 비교가 가능하다.
 튜플의 비교는 `왼쪽에서 오른쪽으로`, `한 번에 하나씩`, `서로 다른 값이 나올때까지` 비교한다. 단, 마지막 비교는 동일 값에 대해서도 정확한 비교를 한다.
 
@@ -154,6 +157,7 @@ print((1, "apple") <= (1, "apple"))     // true
 ---
 
 ### 5. Ternary Conditional Operator (삼항 조건 연산자) 👩‍💻
+
 삼항 연산자는 `if ~ else` 구문의 축약형(shorthand)으로 표현식은 다음과 간다.
 
 ```swift
@@ -174,6 +178,7 @@ print(rowHeight)    // 90
 ---
 
 ### 6. Nil-Coalescing Operator (Nil 병합 연산자) 👩‍💻
+
 `Nil-Coalescing Operator`는 다음 `Ternary Conditional Operator`의 축약형(shorthand)으로
 
 ```swift
@@ -208,6 +213,7 @@ print(colorNameToUse)               // green
 ---
 
 ### 7. Range Operators (범위 연산자) 👩‍💻
+
 #### 1. Closed Range Operator (닫힌 범위 연산자)
 `a...b`
 - a에서 b까지 연속된 데이터를 만든다.
@@ -226,6 +232,7 @@ for index in 1...5 {
 ```
 
 #### 2. Half-Open Range Operator (반 닫힌 범위 연산자)
+
 `a..<b`
 - a에서 b까지 연속된 데이터를 만든다.
 - a는 포함하나 b는 포함하지 않는다.
@@ -246,6 +253,7 @@ for i in 0..<count {
 > Array 의 길이는 4다. 하지만 zero-base index 로 인해 0, 1, 2, 3을 순회해야 하므로, `a...(b-1)` 대신 `a..<b`를 사용하면 손쉽게 Array 를 순회할 수 있다.
 
 #### 3. One-Sided Ranges (단방향 범위)
+
 범위의 끝을 한 쪽만 지정하고 싶다면 `One-Sided Ranges`를 이용하면 된다.
 
 ```swift
@@ -278,12 +286,14 @@ Awesome! 👏👏👏
 ---
 
 ### 8. Logical Operators (논리 연산자) 👩‍💻
+
 Swift 에서는 3가지 Logical Operators 를 지원한다.
 - Logical NOT Operator `!a`
 - Logical AND Operator `a && b`
 - Logical OR Operator `a || b`
 
 #### 1. NOT(논리 부정), AND(논리 곱), OR(논리 합)
+
 -  `NOT(!)` 연산자는 `Boolean`의 부호를 바꾼다.
 
 ```swift
@@ -318,6 +328,7 @@ if hasDoorKey || knowsOverridePassword {
 ```
 
 #### 2. Combining Logical Operators (논리 연산자의 조합)
+
 논리 연산자는 여러 개를 중복해서 사용할 수 있다. 하지만 여전히 2개의 값만 비교하고, 이는 우선순위에 따라 왼쪽에서 오른쪽으로 연쇄적으로 일어난다.
 
 ```swift
@@ -332,6 +343,7 @@ if enteredDoorCode && passedRetinaScan || hasDoorKey || knowsOverridePassword {
 ```
 
 #### 3. Explicit Parentheses (명시적 괄호)
+
 우리는 명시적으로 괄호를 표현하므로써 논리 연산의 우선 순위를 부여하는 것 뿐 아니라, 가독성을 높일 수 있다.
 
 ```swift
@@ -346,6 +358,7 @@ if (enteredDoorCode && passedRetinaScan) || hasDoorKey || knowsOverridePassword 
 ```
 
 #### 4. Short-Circuit Evaluation (단락 평가)
+
 - `&&` 연산은 왼쪽이 `false`일 확률이 높을 수록 좋다.
 
 ```swift
@@ -365,6 +378,7 @@ case 2: (70% true) || (10% true)
 > 수학적 확률상 'case 2'가 더 좋다.
 
 #### 5. nil 과 value check 등 다양한 활용
+
 - 단순히 `Boolean` 표현식을 계산하는 것 외에도 비즈니스 로직 상 `nil` 체크, `value` 체크 등을 동시에 하기 위해 사용하기도 한다.
 
 ```swift

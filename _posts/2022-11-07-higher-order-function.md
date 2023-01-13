@@ -688,7 +688,7 @@ __3 ) Optional Collection with `default value`__
 `Optional Collection`이라고 무조건 `compactMap`을 사용해서는 안 된다. `nil`을 제거하지 않고 남겨두거나, 
 `default value` 처리를 해야할 수도 있다. 이때는 `nil`을 `default value`로 처리하므로 `compactMap`과 
 `map`은 동일하게 작동한다. 따라서 이 경우 굳이 `compactMap`을 쓸 필요가 없다. `nil`이 제거된 `new Collection`을 
-반환하므로, `Swift`는 이를 추론해 `unwrapping`된 `Collection`을 반환한다.
+반환하므로, Swift 는 이를 추론해 `unwrapping`된 `Collection`을 반환한다.
 
 ```swift
 let withDefaultValue = numbersWithNil.compactMap { $0 != nil ? $0! * 2 : -1 }
@@ -702,7 +702,7 @@ print(type(of: withDefaultValue))   // Array<Int>
 print(withDefaultValue)             // [10, 30, -1, 6, 18, 24, -1, -1, 34, -1]
 ```
 
-> `map`을 사용했지만 `nil`을 `default value`로 처리했기 때문에 `Swift`는 이를 추론해 `unwrapping`된 
+> `map`을 사용했지만 `nil`을 `default value`로 처리했기 때문에 Swift 는 이를 추론해 `unwrapping`된 
 > `new Collection`을 반환한다.  
 > 단, `default value`를 사용할 때 주의해야 할 것은 주어진 `default value`가 전체 앱 또는 구현 중인 로직에 
 > `side effect`를 일으키지 않는 값을 선택해야한다.
@@ -1091,7 +1091,7 @@ sumWithCompact:    47
 
 <br>
 
-> 따라서 필터링 하려는 값이 `nil`이고, 이 `nil`을 버릴거라면 `Swift`는 `compactMap`을 사용하는 것이 더 적합한
+> 따라서 필터링 하려는 값이 `nil`이고, 이 `nil`을 버릴거라면 Swift 는 `compactMap`을 사용하는 것이 더 적합한
 > 경우가 많으니 각 case 에 따라 유리한 것을 활용하도록 한다.
 
 
@@ -1750,4 +1750,3 @@ Reference
 5. "Higher-Order Functions in Swift", Medium, last modified Jun. 9, 2020, accessed Nov. 07, 2022, [Higher-Order Functions in Swift](https://betterprogramming.pub/higher-order-functions-in-swift-13c31a769c0c)
 6. "Understanding Higher Order Functions in Swift", APPCODA, Feb. 26, 2020, accessed Nov. 07, 2022, [Understanding Higher Order Functions in Swift](https://www.appcoda.com/higher-order-functions-swift/)
 7. "Higher Order Functions in Swift", Level Up Coding, Aug. 12, 2020, accessed Nov. 14, 2022, [Level Up Coding - Higher Order Functions in Swift](https://levelup.gitconnected.com/higher-order-functions-in-swift-35861620ad1)
-   

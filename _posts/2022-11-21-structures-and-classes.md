@@ -8,10 +8,10 @@ tags: [swift docs, structure, class, value type, reference type]
 
 ### 1. Comparing Structures and Classes 👩‍💻
 
-일반적으로 프로그래밍 언어에서 `Class` 하나에 파일 하나가 필요하다. 하지만 `Swift`는 파일 하나에 여러 개의 `Class`와
+일반적으로 프로그래밍 언어에서 `Class` 하나에 파일 하나가 필요하다. 하지만 Swift 는 파일 하나에 여러 개의 `Class`와
 `Structure`를 정의할 수 있으며, 외부 인터페이스는 다른 `Class`나 `Structure`가 사용할 수 있도록 자동으로 제공된다.
 
-이는 전통적으로 프로그래밍 언어에서 `Class`의 `instance`는 `Object`인 반면, `Swift`의 `Structures`와
+이는 전통적으로 프로그래밍 언어에서 `Class`의 `instance`는 `Object`인 반면, Swift 의 `Structures`와
 `Classes`는 다른 언어와 비교해 `Functionality`에 가깝다.
 
 #### 1. Structure 와 Class 의 공통점
@@ -103,13 +103,13 @@ class SomeClass {
 - `Class`는 앞에 `class` 키워드를 붙여 정의한다.
 
 새 `Structure`나 `Class`를 정의할 때마다 새 `Swift Type`를 정의하는 것이다. `Enumeration`과 마찬가지로
-`Swift`의 다른 `Types`와 마찬가지로 이름은 `대문자로 시작`한다.
+Swift 의 다른 `Types`와 마찬가지로 이름은 `대문자로 시작`한다.
 
 반면 `Properties`와 `Methods`는 `Type Names`와 구분을 위해 `소문자로 시작`한다.
 
 #### 2. Structure and Class Instances
 
-`Swift`에 `Resolution`과 `VideoMode`라는 새 `Types`를 만들어낸다.
+Swift 에 `Resolution`과 `VideoMode`라는 새 `Types`를 만들어낸다.
 
 ```swift
 struct Resolution {
@@ -219,7 +219,7 @@ print(resolutionTypeC)  // Resolution(width: 0, height: 1440)
 
 > `Value Type`은 `Variable` 또는 `Constant`에 할당될 때, 그리고 함수에 전달될 때 전체가 `copy`된다.
 > 
-> `Swift`의 모든 기본 타입들, `integers`, `floating-point Numbers`, `Booleans`, `strings`,
+> Swift 의 모든 기본 타입들, `integers`, `floating-point Numbers`, `Booleans`, `strings`,
 > `arrays`, `dictionaries`는 모두 `Value Types`으로 `Structures`로 구현되어있다.
 
 > `Standard Library`에 의해 정의된 `Array`, `Dictionary` 그리고 `String`과 같은 `Collections` 역시 
@@ -428,11 +428,11 @@ print(numA === numB)  // error: argument type 'Int' is not a reference types
 #### 4. Pointers
 
 `C`, `C++`, `Objective-C` 같은 언어는 메모리 주소를 참조하기 위해 `pointer`를 사용한다.  
-이것은 `Swift`에서 `Reference Types`의 `instance`를 참조하기 위해 `constant` 또는 `variable`이 참조하는 방식과 
+이것은 Swift 에서 `Reference Types`의 `instance`를 참조하기 위해 `constant` 또는 `variable`이 참조하는 방식과 
 같다. 다만, `C` 언어에서의 `pointer`와 달리 메모리 주소를 가리키는 `direct pointer`가 아니며, `reference`를 
 만들기 위해 `asterisk(*)`를 필요로 하지 않는다.
 
-`Swift`에서 `references`는 다른 `constants` 또는 `variables`를 정의하듯 사용하면 된다.
+Swift 에서 `references`는 다른 `constants` 또는 `variables`를 정의하듯 사용하면 된다.
 
 만약, `pointer`를 직접적으로 다뤄야 하는 경우를 위해 `Standard Library`는 `pointer types`와 `buffer types`를 
 제공한다. [Manual Memory Management](https://developer.apple.com/documentation/swift/manual-memory-management)
