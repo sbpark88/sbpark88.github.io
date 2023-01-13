@@ -101,7 +101,7 @@ struct OneToSix {
 
 <br>
 
-그리고 다음 코드를 각 `Swift` 파일에 작성한다.
+그리고 다음 코드를 각 Swift 파일에 작성한다.
 
 - main.swift
 
@@ -250,18 +250,18 @@ struct DiceTwo {
 
 #### 5. Add Target Memberships
 
-테스트에 필요한 모든 `Swift` 파일을 `Computed-PropertiesTests`의 `Target Membership`으로 등록한다.
+테스트에 필요한 모든 Swift 파일을 `Computed-PropertiesTests`의 `Target Membership`으로 등록한다.
 
 ![Add Target Membership 1](/assets/images/posts/2022-12-15-swift-performance-test-using-xctest/add-target-membership-1.png)
 
 ![Add Target Membership 2](/assets/images/posts/2022-12-15-swift-performance-test-using-xctest/add-target-membership-2.png)
 
-테스트에 필요한 모든 `Swift` 파일은 위와 같이 테스트 그룹을 `Target Membership`에 체크해 등록해야한다. 
+테스트에 필요한 모든 Swift 파일은 위와 같이 테스트 그룹을 `Target Membership`에 체크해 등록해야한다. 
 따라서, `DiceTwo.swift` 파일도 동일한 작업을 해주도록 한다.
 
 <br>
 
-위 경우는 기존의 프로젝트가 진행되는 중간에 테스트 그룹을 추가했기 때문이고, 테스트 그룹을 생성한 이후 새 `Swift` 파일을 생성할 경우, 
+위 경우는 기존의 프로젝트가 진행되는 중간에 테스트 그룹을 추가했기 때문이고, 테스트 그룹을 생성한 이후 새 Swift 파일을 생성할 경우, 
 아래와 같이 `Target Membership`을 미리 설정할 수 있다.
 
 ![Add Target Membership 3](/assets/images/posts/2022-12-15-swift-performance-test-using-xctest/add-target-membership-3.png)
@@ -269,7 +269,7 @@ struct DiceTwo {
 <br>
 
 > 이 설정을 하지 않으면 테스트는 실행되지만, `Computed-Properties` 그룹의 `Classes`, `Structures`, `Protocols` 같은 
-> 것들을 찾지 못 한다(해당 코드가 포함된 `Swift` 파일을 찾지 못 하기 때문이다).
+> 것들을 찾지 못 한다(해당 코드가 포함된 Swift 파일을 찾지 못 하기 때문이다).
 
 #### 6. Write Test Cases
 

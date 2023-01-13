@@ -138,7 +138,7 @@ hello, world
 
 #### 4. Functions with Multiple Return Values
 
-`Swift`에서 `tuple`을 이용해 하나의 `compound`로 여러 변수에 값을 할당할 수 있다.
+Swift 에서 `tuple`을 이용해 하나의 `compound`로 여러 변수에 값을 할당할 수 있다.
 
 ```swift
 let (alphabetA, alphabetB) = ("A", "B")
@@ -291,7 +291,7 @@ print(add(6, 8))    // 14
 
 ### 3. Function Argument Labels and Parameter Names 👩‍💻
 
-`Swift` 함수는 `argument label`과 `parameter name`을 갖는다. `argument label`은 함수를 호출할 때 
+Swift 함수는 `argument label`과 `parameter name`을 갖는다. `argument label`은 함수를 호출할 때 
 사용되고, `parameter name`은 함수가 실행될 때 내부에서 사용된다.  
 
 __Syntax__
@@ -362,7 +362,7 @@ console.log(add(5, NaN))        // NaN
 
 <br>
 
-`Swift`에서의 동작은 다음과 같다.
+Swift 에서의 동작은 다음과 같다.
 
 ```swift
 func add(a num1: Int, b num2: Int = 10) -> Int {
@@ -464,7 +464,7 @@ print(arithmeticMean([3, 8.25, 18.75]))     // 10.0
 
 <br>
 
-`Swift`에서 `Variadic Parameters`는 `TypeScript`에서 `Rest Parameters`를 이용해 다음과 같이 구현되는 것과 같다.
+Swift 에서 `Variadic Parameters`는 `TypeScript`에서 `Rest Parameters`를 이용해 다음과 같이 구현되는 것과 같다.
 
 ```typescript
 const arithmeticMean = (...numbers: number[]): number => {
@@ -549,7 +549,7 @@ func printHelloWorld() {
 
 #### 1. Using Function Types
 
-`Swift`에서는 `Function Types` 역시 다른 `Types`와 같이 사용할 수 있다.
+Swift 에서는 `Function Types` 역시 다른 `Types`와 같이 사용할 수 있다.
 
 __1 ) Function Declarations__
 
@@ -667,7 +667,7 @@ console.log((multiplyTwoInts(5, 7)))    // 35
 
 #### 2. Function Types as Parameter Types
 
-`Swift`의 함수는 `First-Class Citizen`이므로 `parameters`가 될 수 있다. 
+Swift 의 함수는 `First-Class Citizen`이므로 `parameters`가 될 수 있다. 
 
 ```swift
 let addTwoInts: (Int, Int) -> Int = { (a: Int, b: Int) in
@@ -714,7 +714,7 @@ printMathResult(multiplyTwoInts, 5, 7)  // Result: 35
 
 #### 3. Function Types as Return Types
 
-마찬가지로 `Swift`의 함수는 `First-Class Citizen`이므로 `return type`이 될 수 있다.
+마찬가지로 Swift 의 함수는 `First-Class Citizen`이므로 `return type`이 될 수 있다.
 
 0보다 크면 `stepBackward(_:)` 함수를 실행하고, 0보다 작으면 `stepForward(_:)` 함수를 실행해 0에 도달하는 
 로직을 출력해보자.

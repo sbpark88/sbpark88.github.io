@@ -10,6 +10,7 @@ tags: [markdown]
 
 
 ### 1. Header
+
 header는 # (H1) ~ ###### (H6) 까지 사용할 수 있다.  
 일반적으로 H1, H6는 잘 사용하지 않는다. H5도 사용해보니 깃허브 블로그에 매우 작게 나온다.
 
@@ -17,15 +18,22 @@ header는 # (H1) ~ ###### (H6) 까지 사용할 수 있다.
 ### `###` It is H3.
 #### `####` It is H4.
 
+---
+
 ### 2. Italics and Bold
+
 `_이탤릭체입니다_` _이텔릭체입니다_  
 `**볼드체입니다**` **볼드체입니다**  
 `_**이탤릭과 볼드체입니다**_` _**이탤릭과 볼드체입니다**_  
 `_이렇게도 **가능**합니다_` _이렇게도 **가능**합니다_  
 `**이렇게도 _불가능_하네요**` **이렇게도 _불가능_하네요**
 
+---
+
 ### 3. Links
+
 #### Inline link
+
 `[GitHub 방문!](www.github.com)` [GitHub 방문!](www.github.com)  
 `이 링크는 [**Google**](www.google.com)로 연결됩니다.` 이 링크는 [**Google**](www.google.com)로 연결됩니다.
 
@@ -34,6 +42,7 @@ header는 # (H1) ~ ###### (H6) 까지 사용할 수 있다.
 #### The Latest News from [the BBC](www.bbc.com/news)
 
 #### Reference link
+
 ```markdown
 우리는 [아마존][amazon shopping]에서 직구를 합니다.
 
@@ -44,6 +53,8 @@ header는 # (H1) ~ ###### (H6) 까지 사용할 수 있다.
 이렇게 링크를 분리할 수 있다.
 
 [amazon shopping]: www.amazon.com
+
+---
 
 ### 4. Images
 이미지는 `Links`와 사용법이 거의 같다. 차이점은 앞에 `!`을 붙여준다는 것이다.
@@ -60,17 +71,23 @@ header는 # (H1) ~ ###### (H6) 까지 사용할 수 있다.
 
 #### Reference image
 Link 문법에 `!`을 붙여 렌더링 타입을 바꿔주는 것이므로 레퍼런스도 사용 가능하다.
+
 ```markdown
 ![Orange cat][Orange]
 
 [Orange]: http://icons.iconarchive.com/icons/google/noto-emoji-animals-nature/256/22221-cat-icon.png
 ```
+
 ![Orange cat][Orange]
 
 [Orange]: http://icons.iconarchive.com/icons/google/noto-emoji-animals-nature/256/22221-cat-icon.png
 
+---
+
 ### 5. Blockquotes
+
 인용문 구문은 `caret(>)`을 붙여주어 만들 수 있다.
+
 ```markdown
 I read this interesting quote the other day:
 
@@ -78,6 +95,7 @@ I read this interesting quote the other day:
 >
 > To live, to err, to fall, to triumph, to recreate life out of life!"
 ```
+
 I read this interesting quote the other day:
 
 > "Her eyes had called him and his soul had leaped at the call.
@@ -86,10 +104,13 @@ I read this interesting quote the other day:
 
 인용문 안에서 이탤릭체, 링크, 이미지도 함께 사용 가능하다.
 
+---
+
 ### 6. Lists
 
 #### Unordered list
 순서 없는 리스트는 `asterisk(*)`를 붙여주어 만들 수 있다.
+
 ```markdown
 장보기 목록
 * 우유
@@ -97,6 +118,7 @@ I read this interesting quote the other day:
 * 양상치
 * 드레싱
 ```
+
 장보기 목록
 * 우유
 * 치즈
@@ -104,23 +126,27 @@ I read this interesting quote the other day:
 * 드레싱
 
 `dash(-)`를 붙여서도 동일하게 만들 수 있다.
+
 ```markdown
 먹고 싶은 것
 - 소곱창
 - 양갈비
 ```
+
 먹고 싶은 것
 - 소곱창
 - 양갈비
 
 #### Ordered list
 순서 있는 리스트는 `숫자`를 이용한다.
+
 ```markdown
 1. 보울 위에 계란 세 개를 깨뜨린다
 2. 우유 3.7L를 보울에 붓는다
 3. 버터를 힘차게 연어에 문지른다
 4. 연어를 우유,계란을 쏟은 보울에 넣는다
 ```
+
 1. 보울 위에 계란 세 개를 깨뜨린다
 2. 우유 3.7L를 보울에 붓는다
 3. 버터를 힘차게 연어에 문지른다
@@ -129,6 +155,7 @@ I read this interesting quote the other day:
 #### Sub list
 앞에 `공백`을 하나 넣어주면 하위 리스트를 만드는 것도 가능하다.  
 (튜토리얼에서는 `공백 하나`만 넣어도 되나, VS Code나 깃허브에서는 `공백 두 칸` 또는 `탭`을 넣어야 하위 리스트로 인식한다.)
+
 ```markdown
 * 장보기 목록
   * 우유
@@ -139,6 +166,7 @@ I read this interesting quote the other day:
   * 소곱창
   * 양갈비
 ```
+
 * 장보기 목록
   * 우유
   * 치즈
@@ -150,6 +178,7 @@ I read this interesting quote the other day:
 
 다만 위와 같이 적으면 렌더링 이후는 상관 없지만 작성시 가독성이 좋지 않다.
 `*`과 `-`를 섞어서 사용하는 것이 좋다.
+
 ```markdown
 * 장보기 목록
   - 우유
@@ -160,6 +189,7 @@ I read this interesting quote the other day:
   - 소곱창
   - 양갈비
 ```
+
 * 장보기 목록
   - 우유
   - 치즈
@@ -170,6 +200,7 @@ I read this interesting quote the other day:
   - 양갈비
 
 #### 이것들을 잘 활용하면 다음과 같이 쉬우면서도 구조를 갖는 글을 만들 수 있다.
+
 ```markdown
 1. 보울에 계란 3개를 깨뜨린다.
 
@@ -192,6 +223,7 @@ I read this interesting quote the other day:
       * 양손을 사용하세요.
       * 떨어뜨릴 상황을 대비하여 주변에 휴지를 놔두세요.
 ```
+
 1. 보울에 계란 3개를 깨뜨린다.
 
     여러분은 흘리지 않고 계란을 깨뜨리고 싶을거에요.
@@ -215,7 +247,10 @@ I read this interesting quote the other day:
 
 (위와 마찬가지로 튜토리얼에서는 공백 하나 또는 둘을 넣어 가능했지만, VS Code와 깃허브에서는 탭 하나 또는 둘을 넣거나 공백 2칸 또는 4칸을 넣어야한다.)
 
+---
+
 ### 7. Table
+
 테이블은 다음과 같이 `|`와 `-`를 적절히 조합해 만들면 된다.
 ```markdown
 | Number | Next number | Previous number |
@@ -233,13 +268,16 @@ I read this interesting quote the other day:
 | Seven | Eight | Six |
 | Two | Three | One |
 
+---
 
 ### 8. Code Blocks
+
 (```)을 앞뒤로 감싸서 만든다.
 
 시작 부분의 (```) 뒤에
 
 (```javascript) 뒤에 언어를 적어주면 `highlighter`가 적용된다.
+
 ```javascript
 const hello = name => console.log(`Hello ${name}`);
 ```
