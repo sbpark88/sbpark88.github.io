@@ -1225,7 +1225,7 @@ print(type(of: anonymousCreature))  // Animal
 
 `Parameter Types`가 불일치하는 경우는 호출을 할 수 없기 때문에 `init(species:)`에 `nil`을 넘기는 것은 불가능하지만, 
 `""`은 논리적으로 문제가 있으나 코드상으론 올바른 형태이기 때문에 위와 같이 아무 의미가 없는 `anonymousCreature`를 
-`Animal Types`의 `new Instance`를 성공적으로 생성한다.
+`Animal Types`의 `new Instance`로 성공적으로 생성한다.
 
 <br>
 
