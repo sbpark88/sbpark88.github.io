@@ -3,7 +3,7 @@ layout: post
 title: Swift Type Casting
 subtitle: Swift Type casting is a way to check the type of an instance, or to treat that instance as a different superclass or subclass from somewhere else in its own class hierarchy.
 categories: swift
-tags: [swift docs, checking type, downcasting, type casting for any, type casting for any object]
+tags: [swift docs, checking type, type check operator, is, downcasting, type cast operator, as, as?, as!, type casting for Any]
 ---
 
 ### 1. Type Casting 👩‍💻
@@ -107,7 +107,7 @@ print(type(of: library))    // Array<MediaItem>
 
 ---
 
-### 2. Checking Type `is` 👩‍💻
+### 2. Checking Type (Type Check Operator '`is`') 👩‍💻
 
 `Type Check Operator(is)`는 일치하는 타입인지 확인 후 `Bool`을 반환한다.
 
@@ -153,8 +153,37 @@ Media library contains 2 movies and 3 songs
 
 ---
 
-### 3. Downcasting 👩‍💻
+### 3. Downcasting (Type Cast Operator '`as?`, `as!`') 👩‍💻
 
+특정 `Class Type`의 상수나 변수는 겉으로 보이는 것과 달리 실제로는 `Subclass Instance`를 참조하고 있는 경우도 있다. 위에서 
+`library`가 그런 경우다. 만약 이 특정 `Class Type`이 실제로는 `Subclass Instance`를 참조하는 것이 사실이라면, 
+`Type Cast 이것의 Type 을 `Subclass Type`으로 `Downcasting` 할 수 있다. 
+
+Downcasting 은 실패할 수 있기 때문에 2가지의 Operators 가 제공된다. 조건부 형식(conditional form)인 `as?`는 `Optional`을 
+반환하므로 Downcating 의 성공 여부를 확인하는 용도로 사용한다. 만약 Downcasting 성공 여부를 확신할 수 있을 경우는 
+강제 형식(forced form)인 `as!`를 사용해 `Forced Unwrapping`된 타입을 얻을 수 있다. 단, Downcasting 이 유효하지 않을 경우 
+`Runtime Error`가 trigger 되므로 반드시 성공함을 확신할 수 있을 때만 사용해야한다.
+
+> `Casting`은 실제 instance 를 수정하거나 값을 바꾸지 않는다. instance 는 그대로 유지하면서, 단지 casting 된 타입의 instance 로 
+> 다루고 접근할 수 있도록 한다.
+
+```swift
+library.forEach {
+    if let movie = $0 as? Movie {
+        print("Movie: \(movie.name), dir. \(movie.director)")
+    } else if let song = $0 as? Song {
+        print("Song: \(song.name), by \(song.artist)")
+    }
+}
+```
+
+```console
+Movie: Casablanca, dir. Michael Curtiz
+Song: Blue Suede Shoes, by Elvis Presley
+Movie: Citizen Kane, dir. Orson Welles
+Song: The One And Only, by Chesney Hawkes
+Song: Never Gonna Give You Up, by Rick Astley
+```
 
 ---
 
