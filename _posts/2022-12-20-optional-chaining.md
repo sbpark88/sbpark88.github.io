@@ -238,10 +238,10 @@ It was not possible to print the number of rooms.
 john.residence = {
     let someResidence = Residence()
     someResidence.rooms = Array(repeating: "", count: 300).lazy
-            .enumerated().map { (index, value) in
-                index == 237 ? "Shining" : String(index)
-            }
-            .map { Room(name: $0) }
+        .enumerated().map { (index, value) in
+            index == 237 ? "Shining" : String(index)
+        }
+        .map { Room(name: $0) }
     someResidence.address = {
         let someAddress = Address()
         someAddress.buildingNumber = "29"
