@@ -107,8 +107,49 @@ print(type(of: library))    // Array<MediaItem>
 
 ---
 
-### 2. Checking Type 👩‍💻
+### 2. Checking Type `is` 👩‍💻
 
+`Type Check Operator(is)`는 일치하는 타입인지 확인 후 `Bool`을 반환한다.
+
+```swift
+let aMedia = MediaItem(name: "Avatar")
+let aMovie = Movie(name: "Casablanca", director: "Michael Curtiz")
+```
+
+```swift
+print(aMedia is MediaItem)  // true
+print(aMedia is Movie)      // false
+print(aMedia is Song)       // false
+
+print(aMovie is MediaItem)  // true
+print(aMovie is Movie)      // true
+print(aMovie is Song)       // false
+```
+
+Superclass 의 instance 는 Subclass 의 `Memebrs`를 모두 갖지 못하므로 Subclass 타입이 될 수 없다.  
+반면 Subclass 의 instance 는 Superclass 의 모든 `Memebrs`를 모두 갖고 있으므로, Superclass 타입이 될 수 있다.
+
+<br>
+
+위 `library`에 각 타입이 몇 개씩 저장되어 있는지 `Type Check Operator`를 사용해 확인해보자.
+
+```swift
+var (movieCount, songCount) = (0, 0)
+
+library.forEach {
+    switch $0 {
+    case is Movie: movieCount += 1
+    case is Song: songCount += 1
+    default: break
+    }
+}
+
+print("Media library contains \(movieCount) movies and \(songCount) songs")
+```
+
+```console
+Media library contains 2 movies and 3 songs
+```
 
 ---
 
