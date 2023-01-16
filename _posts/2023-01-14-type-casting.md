@@ -157,7 +157,7 @@ Media library contains 2 movies and 3 songs
 
 특정 `Class Type`의 상수나 변수는 겉으로 보이는 것과 달리 실제로는 `Subclass Instance`를 참조하고 있는 경우도 있다. 위에서 
 `library`가 그런 경우다. 만약 이 특정 `Class Type`이 실제로는 `Subclass Instance`를 참조하는 것이 사실이라면, 
-`Type Cast 이것의 Type 을 `Subclass Type`으로 `Downcasting` 할 수 있다. 
+이것의 Type 을 `Subclass Type`으로 `Downcasting` 할 수 있다. 
 
 Downcasting 은 실패할 수 있기 때문에 2가지의 Operators 가 제공된다. 조건부 형식(conditional form)인 `as?`는 `Optional`을 
 반환하므로 Downcating 의 성공 여부를 확인하는 용도로 사용한다. 만약 Downcasting 성공 여부를 확신할 수 있을 경우는 
