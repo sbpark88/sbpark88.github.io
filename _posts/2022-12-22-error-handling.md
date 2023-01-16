@@ -39,7 +39,7 @@ throw VendingMachineError.insufficientFunds(coinsNeeded: 5)
 `Functions`, `Methods`, `Initializers`를 호출하는 코드 앞에 `try`(or try? or try!) keyword 를 작성해 
 `try expression` 으로 코드를 작성한다.
 
-> `Swift`의 에러 처리는 다른 언어의 `try-catch & throw`와 유사하다. 하지만 `Objective-C`를 포함한 많은 언어와 달리 
+> Swift 의 에러 처리는 다른 언어의 `try-catch & throw`와 유사하다. 하지만 `Objective-C`를 포함한 많은 언어와 달리 
 > Swift 의 에러 처리는 계산 비용이 많이 드는 `Call Stack` 해제(unwinding)을 포함하지 않는다.  
 > Swift 의 `throw` statement 의 성능 특성은 `return` statement 와 유사하다.
 

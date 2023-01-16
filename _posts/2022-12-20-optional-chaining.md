@@ -326,7 +326,7 @@ The room number 237 name is Shining.
 
 #### 2. Accessing Subscripts of Dictionaries
 
-[Accessing and Modifying a Dictionary][Accessing and Modifying a Dictionary] 에서 살펴본 것처럼 `Swift`에서 
+[Accessing and Modifying a Dictionary][Accessing and Modifying a Dictionary] 에서 살펴본 것처럼 Swift 에서 
 `Dictionary`와 같은 일부 Types 는 `Optional`을 반환한다. 따라서 이런 `Types`는 모두 위와 마찬가지로 `Optional Chaining`을 
 통해 접근할 수 있다.
 

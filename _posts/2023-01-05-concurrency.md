@@ -27,7 +27,7 @@ Swift 는 구조화된 방법으로 `Asynchronous`, `Parallel` 코드 작성을 
 `Parallel code`는 이 로직이 필요한 곳에서만 적절히 사용해야한다. `Fetching data`와 같이 외부 요인에 의한 지연을 기다리는 것이 아닌 
 내부적으로 느린 코드는 코드의 비즈니스 로직의 문제를 찾아 해결해야지 `Concurrency`를 통해 해결하려 해서는 안 된다.
 
-> `Swift`에서 `Concurrency model`은 스레드의 최상단에서 작동하지만 직접적으로 상호작용 하지 않는다. `Swift`의 
+> Swift 에서 `Concurrency model`은 스레드의 최상단에서 작동하지만 직접적으로 상호작용 하지 않는다. Swift 의 
 > `Asynchronous Function`은 실행 중인 스레드를 중단할 수 있다. 그러면 첫 번째 `Asynchronous Function`이 중단된 동안 
 > 동일 프로그램의 다른 `Asynchronous Function`이 해당 스레드에서 실행될 수 있다. 따라서 `Asynchronous Function`이 재개될 때 
 > 어떤 스레드가 그 함수를 실행할지에 대해 아무런 보장도 하지 않는다.
@@ -59,7 +59,7 @@ listPhotos(inGallery: "Summer Vacation") { photoNames in
 
 ### 2. Asynchronous Functions 👩‍💻
 
-`Swift`에서 `Asynchronous Functions`를 정의하는 방법은 함수를 정의할 때 `arrow(->)` 앞에 `async` keyword 를 작성하는 것으로 
+Swift 에서 `Asynchronous Functions`를 정의하는 방법은 함수를 정의할 때 `arrow(->)` 앞에 `async` keyword 를 작성하는 것으로 
 정의된다.
 
 ```swift
@@ -224,7 +224,7 @@ for try await line in handle.bytes.lines {
 > - `Sequence` protocol 을 추가함으로써 `Custom Types`를 `for-in loops` 로 사용할 수 있다.
 > - `AsyncSequence` protocol 을 추가함으로써 `Custom Types`를 `for-await-in` loop 로 사용할 수 있다.
 
-> `Swift`의 `for-await-in`은 `JavaScript`의 [for-await-of][MDN - for await...of]와 비교해서 보면 좋을 것 같다.
+> Swift 의 `for-await-in`은 `JavaScript`의 [for-await-of][MDN - for await...of]와 비교해서 보면 좋을 것 같다.
 
 ---
 
@@ -261,7 +261,7 @@ show(photos)
 `downloadPhoto(named:)`를 호출하기 때문에 동시에 여러 개의 `Asynchronous Function`를 호출하게되고, `Asynchronous Property` 
 가 담긴 `Array`에 `await` 중단점이 걸려 있기 때문에  값이 모두 assign 되는 것을 기다린 후 재개된다.
 
-> `Swift`의 `await [func1, func2]`은  `JavaScript`의 [Promise.all()][MDN - Promise.all()]와 비교해서 보면 좋을 것 같다.
+> Swift 의 `await [func1, func2]`은  `JavaScript`의 [Promise.all()][MDN - Promise.all()]와 비교해서 보면 좋을 것 같다.
 
 ```javascript
 const [result1, result2] = await Promise.all([func1(), func2()])
@@ -291,7 +291,7 @@ await withTaskGroup(of: Data.self) { taskGroup in
 채택하고 있으며, 이들 `Task Group`과 `Tasks` 관계를 `Structured Concurrency`라 한다.
 
 > `Structured Concurrency`는 정확성에 대한 *일부* 책임(some responsibility for correctness)이 사용자에게 
-> 주어지지만 이로써 `Swift`는 `Propagating Cancellation`을 처리할 수 있으며, `compile-time error`를 감지할 수 있다.
+> 주어지지만 이로써 Swift 는 `Propagating Cancellation`을 처리할 수 있으며, `compile-time error`를 감지할 수 있다.
 
 
 - `Task`에 대한 추가 정보는 [Task][Apple Developer Documentation - Task] 를 참고한다.
@@ -328,7 +328,7 @@ let result = await handle.value
 
 #### 3. Task Cancellation
 
-`Swift`의 `Concurrency`는 협동 취소 모델(Cooperative Cancellation Model)을 사용한다. 각의 `Tasks`는 실행 중 적절한 시점에 
+Swift 의 `Concurrency`는 협동 취소 모델(Cooperative Cancellation Model)을 사용한다. 각의 `Tasks`는 실행 중 적절한 시점에 
 취소되었는지를 확인 후, 적절한 방식으로 취소에 응답한다.
 
 `Task Cancellation`은 수행중인 작업에 따르며, 일반적으로 다음 중 하나를 의미한다.
@@ -394,13 +394,13 @@ actor TemperatureLogger {
 
 #### 2. Actor Isolation
 
-`Swift`는 `Actor`의 `local state`에 접근할 수 있는 것은 `Actor`의 `context`로 제한함으로써 `Asynchronous work`에서도 
+Swift 는 `Actor`의 `local state`에 접근할 수 있는 것은 `Actor`의 `context`로 제한함으로써 `Asynchronous work`에서도 
 `mutable state`를 안전하게 공유할 수 있음을 보장(guarantee)한다.
 
 잠시 후에 자세히 살펴보겠지만, 이 보장성으로 `Actor`의 `let` properties 를 제외한 모든 `var` properties 와 `Methods`는 
 반드시 `await` keyword 를 이용해 접근해야하며, 그렇지 않으면 에러가 발생한다.
 
-`Swift`의 이런 보장성을 `Actor Isolation`이라 한다. 
+Swift 의 이런 보장성을 `Actor Isolation`이라 한다. 
 
 #### 3. Class with private properties
 
@@ -586,7 +586,7 @@ extension TemperatureLogger {
 }
 ```
 
-`Swift`의 `Extensions`는 `extension` keyword 를 이용해 `Class`, `Structure`, `Enumeration`, `Protocol`을 
+Swift 의 `Extensions`는 `extension` keyword 를 이용해 `Class`, `Structure`, `Enumeration`, `Protocol`을 
 확장한다. 이는 `Objective-C`의 `Categories`와 유사하다. 그리고 필자의 눈에는 `TypeScript`의 `Prototypes`와도 듀사해보인다.
 
 즉, `update(with:)` 메서드는 이미 `Actor` 내부에 있는 것이기 때문에 `Actor`의 `context`에 포함되므로 `await` keyword 

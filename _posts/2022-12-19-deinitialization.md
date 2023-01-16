@@ -19,7 +19,7 @@ tags: [swift docs, deinitializer, ARC, automatic reference counting, deinitializ
 
 ### 2. How Deinitialization Works 👩‍💻
 
-`Swift`는 리소스 확보를 위해 자동으로 더이상 필요하지 않은 `instances`를 `deallocate`한다. 이를 위해 `Swift`는 
+Swift 는 리소스 확보를 위해 자동으로 더이상 필요하지 않은 `instances`를 `deallocate`한다. 이를 위해 Swift 는 
 `ARC`(Automatic Reference Counting)를 이용해 `instances`의 메모리를 관리한다.
 
 일반적으로 `instances`의 `deallocate`를 수동으로 할 필요는 없다. 하지만 자기 자신의 리소스를 이용하는 경우 직접 `cleanup`을 
