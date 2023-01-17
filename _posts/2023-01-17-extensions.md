@@ -55,6 +55,36 @@ extension SomeType: SomeProtocol, AnotherProtocol {
 
 ### 3. Computed Properties 👩‍💻
 
+Extensions 를 이용해 `Computed Instance Properties` 또는 `Computed Type Properties`를 확장하는 것이 가능하다. 이것은 
+사용자가 정의한 타입 뿐 아니라 Built-in Types 를 확장하는 것을 포함한다.
+
+다음 예제는 TypeScript 가 Prototype 을 이용해 Built-in Types 에 기능을 추가하듯 다양한 길이 단위를 `meter` 단위로 변경하기 위해 
+Double 에 5개의 Computed Instance Properties 를 추가한다.
+
+```swift
+extension Double {
+    var km: Double { return self * 1_000.0 }
+    var m: Double { return self }
+    var cm: Double { return self / 100.0 }
+    var mm: Double { return self / 1_000.0 }
+    var ft: Double { return self / 3.28084 }
+}
+```
+
+```swift
+let oneInch = 25.4.mm
+print("One inch is \(oneInch) meters")          // One inch is 0.0254 meters
+
+let threeFeet = 3.ft
+print("Three feet is \(threeFeet) meters")      // Three feet is 0.914399970739201 meters
+
+let aMarathon = 42.km + 195.m
+print("A marathon is \(aMarathon) meters long") // A marathon is 42195.0 meters long
+```
+
+> Extensions 는 `Computed Properties`를 추가하는 것만 가능하다. `Stored Properties`를 추가하거나, 이미 존재하는 Properties 에 
+> `Property Observers`를 추가하는 것은 불가능하다.
+
 ### 4. Initializers 👩‍💻
 
 ### 5. Methods 👩‍💻
