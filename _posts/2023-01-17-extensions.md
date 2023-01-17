@@ -35,6 +35,24 @@ Extension 은 Inheritance 와 마찬가지로 기존에 존재하는 타입에 �
 
 ### 2. Extension Syntax 👩‍💻
 
+__Syntax__
+
+```swift
+extension SomeType {
+    // new functionality to add to SomeType goes here
+}
+```
+
+Extension 은 하나 이상의 Protocols 를 채택해 기존의 타입을 확장할 수 있다.
+
+```swift
+extension SomeType: SomeProtocol, AnotherProtocol {
+    // implementation of protocol requirements goes here
+}
+```
+
+이뿐 아니라 `Generic Type`을 확장하는 것 역시 가능하다.
+
 ### 3. Computed Properties 👩‍💻
 
 ### 4. Initializers 👩‍💻
