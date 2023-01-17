@@ -514,10 +514,8 @@ struct Rect {
 
 ```swift
 let basicRect = Rect()
-let originRect = Rect(origin: Point(x: 2.0, y: 2.0),
-                      size: Size(width: 5.0, height: 5.0))
-let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
-                      size: Size(width: 3.0, height: 3.0))
+let originRect = Rect(origin: Point(x: 2.0, y: 2.0), size: Size(width: 5.0, height: 5.0))
+let centerRect = Rect(center: Point(x: 4.0, y: 4.0), size: Size(width: 3.0, height: 3.0))
 
 printRect(basicRect)    // The origin is (0.0, 0.0) and its size is (0.0, 0.0)
 printRect(originRect)   // The origin is (2.0, 2.0) and its size is (5.0, 5.0)
