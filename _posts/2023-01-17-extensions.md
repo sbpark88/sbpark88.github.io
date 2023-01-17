@@ -11,7 +11,7 @@ tags: [swift docs, extension, category]
 기존의 `Types`를 확장하기 위한 방법 중 하나인 [Inheritance](/swift/2022/11/29/inheritance.html) 
 는 Class 에서만 사용할 수 있다.
 Inheritance 는 기존 Class 는 그대로 둔 채 별도의 Class 를 생성하며, 이들은 Superclass/Subclass 라는 관계로 연결된 Hierarchy 
-구조를 갖는다. Subclass 는 기존의 Superclass 애 기능을 추가해 확장하는 것 뿐 아니라 이미 존재하는 기능을 Overriding 하는 것도 가능하다.
+구조를 갖는다. Subclass 는 기존의 Superclass 에 기능을 추가해 확장하는 것 뿐 아니라 이미 존재하는 기능을 Overriding 하는 것도 가능하다.
 
 `Extension`은 Class, Structure, Enumeration, Protocol 타입에서 사용이 가능하며 Extensions 가 할 수 있는 것은 다음과 같다.
 
@@ -29,7 +29,9 @@ Extension 은 Inheritance 와 마찬가지로 기존에 존재하는 타입에 �
 
 - <span style="color: red;">Original source code 에 접근 권한이 없는 경우에도 Extension 이 가능</span>하다. 
   이를 `Retroactive Modeling`(소급 모델링) 이라 한다.
-- Extension 은 기능을 추가만 가능할 뿐 Inheritance 와 달리 Overriding 은 불가능하다.
+- Extension 은 Inheritance 와 달리 모든 `Properties`를 추가하는 것이 불가능하다(Stored Properties, Property Observers 와 
+  같은 것들은 확장이 불가능하다).
+- Extension 은 기능을 추가만 가능할 뿐 Inheritance 와 달리 Overriding 이 불가능하다.
 
 > Swift 의 `Extensions`는 Objective-C 의 `Categories`와 유사하다. 단, `Extensions`는 이름을 갖지 않는다.
 
@@ -56,7 +58,7 @@ extension SomeType: SomeProtocol, AnotherProtocol {
 ### 3. Computed Properties 👩‍💻
 
 Extensions 를 이용해 `Computed Instance Properties` 또는 `Computed Type Properties`를 확장하는 것이 가능하다. 이것은 
-사용자가 정의한 타입 뿐 아니라 Built-in Types 를 확장하는 것을 포함한다.
+사용자가 정의한 타입 뿐 아니라 `Built-in Types 를 확장하는 것을 포함`한다.
 
 다음 예제는 TypeScript 가 Prototype 을 이용해 Built-in Types 에 기능을 추가하듯 다양한 길이 단위를 `meter` 단위로 변경하기 위해 
 Double 에 5개의 Computed Instance Properties 를 추가한다.
@@ -268,7 +270,92 @@ func printRect(_ rect: Rect) {
 
 #### 1. Add Instance Methods
 
+Extensions 를 이용해 `Instance Methods`와 `Type Methods`를 확장하는 것이 가능하다. 이것은 
+[Computed Property Extensions](#h-3-computed-properties-) 와 마찬가지로 사용자가 정의한 타입 뿐 아니라 
+`Built-in Types 를 확장하는 것을 포함`한다.
+
+다음 예제는 Built-in Types 에 별도의 Iterator 를 사용하지 않고 내장된 메서드만을 사용해 반복을 할 수 있도록 Int 에 반복을 실행하는 
+Instance Methods 를 추가한다.
+
+```swift
+extension Int {
+    func repetitions(task: () -> Void) {
+        for _ in 0..<self {
+            task()
+        }
+    }
+}
+```
+
+<br>
+다음 세 코드는 모두 동일한 동작을 한다.
+
+```swift
+for _ in 1...3 {
+    print("Hello!")
+}
+```
+
+```swift
+Array(1...3).forEach { _ in print("Hello!") }
+```
+
+```swift
+3.repetitions { print("Hello!") }
+```
+
+```console
+Hello!
+Hello!
+Hello!
+```
+
 #### 2. Mutating Instance Methods
+
+Swift 에서 `Structures`와 `Enumerations`는 `Value Types`로 instance 자기 자신의 Properties 수정하기 위해서는 반드시 메서드 
+앞에 `mutating` keyword 를 적어야한다. 
+
+Swift 에서 `Double` 또는 `Int` 와 같은 자료형은 `Structure`로 구현되었다. 따라서 자신의 Properties 를 수정하려면 mutating 이 
+필요하다.
+
+```swift
+var someDouble: Double = 3.342
+
+let rounded = someDouble.rounded()
+print(rounded)          // 3
+print(someDouble)       // 3.342
+
+someDouble.round()
+print(someDouble)       // 3
+```
+
+`rounded()` 메서드는 `func rounded() -> Self`로 자신의 타입을 반환하는 메서드다. 반면 `round()` 메서드는 
+`mutating func round()`로 자시 자신의 Properties 를 변경하는, 즉, `mutating` 메서드다. 
+
+<br>
+`Int` Structure 에 자기 자신을 제곱해 값을 변경하는(mutating) 메서드를 Extensions 를 이용해 추가해보자.
+
+```swift
+extension Int {
+    func squared() -> Self {
+        self * self
+    }
+    mutating func square() {
+        self = self * self
+    }
+}
+```
+
+```swift
+var someInt: Int = 3
+
+let squared = someInt.squared()
+print(squared)          // 9
+print(someInt)          // 3
+
+someInt.square()
+print(someInt)          // 9
+```
 
 ### 6. Subscripts 👩‍💻
 
