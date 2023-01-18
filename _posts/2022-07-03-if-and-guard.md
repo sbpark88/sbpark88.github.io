@@ -298,6 +298,6 @@ guard let constantName = someOptional else {
 Reference
 
 
-1. "Basic Operators." Welcome to Swift.org, accessed Jul. 3, 2022, [https://docs.swift.org/swift-book/LanguageGuide/Methods.html](https://docs.swift.org/swift-book/LanguageGuide/Methods.html)
-2. "Statements." Welcome to Swift.org, accessed Jul. 3, 2022, [https://docs.swift.org/swift-book/ReferenceManual/Statements.html](https://docs.swift.org/swift-book/ReferenceManual/Statements.html)
+1. "Basic Operators." Welcome to Swift.org. accessed Jul. 3, 2022, [https://docs.swift.org/swift-book/LanguageGuide/Methods.html](https://docs.swift.org/swift-book/LanguageGuide/Methods.html)
+2. "Statements." Welcome to Swift.org. accessed Jul. 3, 2022, [https://docs.swift.org/swift-book/ReferenceManual/Statements.html](https://docs.swift.org/swift-book/ReferenceManual/Statements.html)
 

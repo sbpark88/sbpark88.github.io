@@ -1253,15 +1253,15 @@ export default {
 Reference
 
 1. 고승원. Vue.js 프로젝트 투입 일주일 전. 비제이퍼블릭 Chapter 9, 2021.
-2. "Reactivity API: Core", Vue.js. accessed Jan. 05, 2022, [Reactivity: Core](https://vuejs.org/api/reactivity-core.html)
-3. "Composition API: Lifecycle Hooks", Vue.js. accessed Jan. 05, 2023, [Composition API: Lifecycle Hooks][Composition API: Lifecycle Hooks]
-4. "Options: Composition #mixins", Vue.js. accessed Jan. 07, 2023, [mixins in Composition API][mixins in Composition API]
-5. "Custom Directives", Vue.js. accessed Jan. 08, 2023, [Reusability: Custom Directives](https://vuejs.org/guide/reusability/custom-directives.html)
-6. "HTMLElement.dataset", MDN, Oct. 26, 2022, [HTML Element dataset][HTML Element dataset]
-7. "Plugins", Vue.js. accessed Jan. 08, 2023, [Reusability: Plugins](https://vuejs.org/guide/reusability/plugins.html)
-8. "vue-router", Github, Jan. 05, 2023, [Vue Router][Vue Router Library]
-9. "Vue I18n", Github, May. 03, 2022, [Vue I18n for Vue 2][Vue I18n for Vue 2]
-10. "Vue I18n", Vue-I18n, Aug. 01, 2022, [Vue I18n for Vue 3][Vue I18n for Vue 3]  
+2. "Reactivity API: Core." Vue.js. accessed Jan. 05, 2022, [Reactivity: Core](https://vuejs.org/api/reactivity-core.html)
+3. "Composition API: Lifecycle Hooks." Vue.js. accessed Jan. 05, 2023, [Composition API: Lifecycle Hooks][Composition API: Lifecycle Hooks]
+4. "Options: Composition #mixins." Vue.js. accessed Jan. 07, 2023, [mixins in Composition API][mixins in Composition API]
+5. "Custom Directives." Vue.js. accessed Jan. 08, 2023, [Reusability: Custom Directives](https://vuejs.org/guide/reusability/custom-directives.html)
+6. "HTMLElement.dataset." MDN, Oct. 26, 2022, [HTML Element dataset][HTML Element dataset]
+7. "Plugins." Vue.js. accessed Jan. 08, 2023, [Reusability: Plugins](https://vuejs.org/guide/reusability/plugins.html)
+8. "vue-router." GitHub. Jan. 05, 2023, [Vue Router][Vue Router Library]
+9. "Vue I18n." GitHub. May. 03, 2022, [Vue I18n for Vue 2][Vue I18n for Vue 2]
+10. "Vue I18n." Vue-I18n, Aug. 01, 2022, [Vue I18n for Vue 3][Vue I18n for Vue 3]  
 
 [Composition API: Lifecycle Hooks]:https://vuejs.org/api/composition-api-lifecycle.html
 [mixins in Composition API]:https://vuejs.org/api/options-composition.html#mixins

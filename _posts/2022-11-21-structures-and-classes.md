@@ -443,5 +443,5 @@ Swift 에서 `references`는 다른 `constants` 또는 `variables`를 정의하�
 ---
 Reference
 
-1. "Structures and Classes", The Swift Programming Language Swift 5.7. accessed Nov. 21, 2022, [Swift Docs Chapter 8 - Structures and Classes](https://docs.swift.org/swift-book/LanguageGuide/ClassesAndStructures.html)
-2. "Choosing Between Structures and Classes", Apple Developer Documentation, accessed Nov. 21, 2022, [Choosing Between Structures and Classes](https://developer.apple.com/documentation/swift/choosing-between-structures-and-classes)
+1. "Structures and Classes." The Swift Programming Language Swift 5.7. accessed Nov. 21, 2022, [Swift Docs Chapter 8 - Structures and Classes](https://docs.swift.org/swift-book/LanguageGuide/ClassesAndStructures.html)
+2. "Choosing Between Structures and Classes." Apple Developer Documentation. accessed Nov. 21, 2022, [Choosing Between Structures and Classes](https://developer.apple.com/documentation/swift/choosing-between-structures-and-classes)

@@ -95,6 +95,6 @@ SwiftLint 의 기본 규칙 외에 더 많은 규칙을 등록/수정하고 싶�
 ---
 Reference
 
-1. "realm/SwiftLint", GitHub, Jun. 30, 2022, [https://github.com/realm/SwiftLint](https://github.com/realm/SwiftLint)
-2. "baelex/SwiftLintAppCode", GitHub, Jun. 6, 2022, [https://github.com/bealex/SwiftLintAppCode](https://github.com/bealex/SwiftLintAppCode)
+1. "realm/SwiftLint." GitHub. Jun. 30, 2022, [https://github.com/realm/SwiftLint](https://github.com/realm/SwiftLint)
+2. "baelex/SwiftLintAppCode." GitHub. Jun. 6, 2022, [https://github.com/bealex/SwiftLintAppCode](https://github.com/bealex/SwiftLintAppCode)
 3. "Rule Directory", SwiftLintFramework Reference, accessed Jul. 1, 2022, [https://realm.github.io/SwiftLint/rule-directory.html](https://realm.github.io/SwiftLint/rule-directory.html)

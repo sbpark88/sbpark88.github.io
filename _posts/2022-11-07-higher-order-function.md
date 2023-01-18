@@ -1743,10 +1743,10 @@ print(type(of: splited))    // Array<Substring>
 ---
 Reference
 
-1. "First-class citizen", Wikipedia. Oct. 15, 2022, [Wikipedia - First Class Citizen](https://en.wikipedia.org/wiki/First-class_citizen)
-2. "First-class function", Wikipedia. Jul. 14, 2022, [Wikipedia - First Class Function](https://en.wikipedia.org/wiki/First-class_function)
-3. "Higher-order function", Wikipedia. Sep. 8, 2022, [Wikipedia - Higher-Order Function](https://en.wikipedia.org/wiki/Higher-order_function)
-4. "Non-local variable", Wikipedia. May. 12, 2022, [Wikipedia - Non-local Variable](https://en.wikipedia.org/wiki/Non-local_variable)
-5. "Higher-Order Functions in Swift", Medium, Jun. 9, 2020, [Higher-Order Functions in Swift](https://betterprogramming.pub/higher-order-functions-in-swift-13c31a769c0c)
-6. "Understanding Higher Order Functions in Swift", APPCODA, Feb. 26, 2020, [Understanding Higher Order Functions in Swift](https://www.appcoda.com/higher-order-functions-swift/)
-7. "Higher Order Functions in Swift", Level Up Coding, Aug. 12, 2020, [Level Up Coding - Higher Order Functions in Swift](https://levelup.gitconnected.com/higher-order-functions-in-swift-35861620ad1)
+1. "First-class citizen." Wikipedia. Oct. 15, 2022, [Wikipedia - First Class Citizen](https://en.wikipedia.org/wiki/First-class_citizen)
+2. "First-class function." Wikipedia. Jul. 14, 2022, [Wikipedia - First Class Function](https://en.wikipedia.org/wiki/First-class_function)
+3. "Higher-order function." Wikipedia. Sep. 8, 2022, [Wikipedia - Higher-Order Function](https://en.wikipedia.org/wiki/Higher-order_function)
+4. "Non-local variable." Wikipedia. May. 12, 2022, [Wikipedia - Non-local Variable](https://en.wikipedia.org/wiki/Non-local_variable)
+5. "Higher-Order Functions in Swift." Medium, Jun. 9, 2020, [Higher-Order Functions in Swift](https://betterprogramming.pub/higher-order-functions-in-swift-13c31a769c0c)
+6. "Understanding Higher Order Functions in Swift." APPCODA, Feb. 26, 2020, [Understanding Higher Order Functions in Swift](https://www.appcoda.com/higher-order-functions-swift/)
+7. "Higher Order Functions in Swift." Level Up Coding, Aug. 12, 2020, [Level Up Coding - Higher Order Functions in Swift](https://levelup.gitconnected.com/higher-order-functions-in-swift-35861620ad1)

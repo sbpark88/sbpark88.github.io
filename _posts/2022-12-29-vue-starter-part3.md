@@ -1006,10 +1006,10 @@ export default {
 Reference
 
 1. 고승원. Vue.js 프로젝트 투입 일주일 전. 비제이퍼블릭 Chapter 7, 2021.
-2. "Axios", Axios Documents, accessed Dec. 29, 2022, [Axios](https://axios-http.com)
-3. "사이트 간 요청 위조", 위키백과, Fab. 6, 2022, accessed Dec. 29, 2022, [사이트 간 요청 위조](https://ko.wikipedia.org/wiki/사이트_간_요청_위조)
-4. "AbortController", MND, Oct. 10, 2022, accessed Dec. 29, 2022, [Web APIs - AbortController][Web APIs - AbortController]
-5. "URLSearchParams", MND, Oct. 10, 2022, accessed Dec. 29, 2022, [Web APIs - URLSearchParams][Web APIs - URLSearchParams]
+2. "Axios." Axios Documents, accessed Dec. 29, 2022, [Axios](https://axios-http.com)
+3. "사이트 간 요청 위조." 위키백과, Fab. 6, 2022, accessed Dec. 29, 2022, [사이트 간 요청 위조](https://ko.wikipedia.org/wiki/사이트_간_요청_위조)
+4. "AbortController." MND, Oct. 10, 2022, accessed Dec. 29, 2022, [Web APIs - AbortController][Web APIs - AbortController]
+5. "URLSearchParams." MND, Oct. 10, 2022, accessed Dec. 29, 2022, [Web APIs - URLSearchParams][Web APIs - URLSearchParams]
 
 [Web APIs - AbortController]:https://developer.mozilla.org/en-US/docs/Web/API/AbortController
 [Web APIs - URLSearchParams]:https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
