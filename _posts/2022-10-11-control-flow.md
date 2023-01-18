@@ -107,6 +107,7 @@ func rollDice() -> Int {
 ```
 
 #### 1. While
+
 `while` 반복문은 조건이 `false`가 될 때까지 반복을 계속한다. 이것은 `loop`가 시작될 때 정확한 반복 횟수를 알 수 없는 경우 유용하게 사용될 수 있다.
 
 __Syntax__
@@ -144,6 +145,7 @@ The dice are rolled 3 times.
 
 
 #### 2. Repeat-While
+
 `repeat-while`문이 `while`문과 다른 점은 반복할 로직을 먼저 실행 후 조건을 검사한다. 그렇기 때문에 `repeat-while`은 최소한 1번의 로직은 수행한다.
 
 __Syntax__
@@ -199,11 +201,12 @@ The dice are rolled 5 times.
 따라서 `Repeat-While`은 최소 1번은 실행하므로 1 ~ n번의 반복을 하게 된다.
 
 #### 3. While-True
+
 여기 조금 특별한 방식의 `While`문이 있다.  
 `While` 또는 `Repeat-While`의 `condition`은 `true`일 때 반복하므로 `false`가 될 때 중단된다.  
 반면 `While-True`는 위 `if`를 사용해 반복할 조건을 검사하므로 `condition`과 반대가 되어야한다. 
-즉, `!condition`일 때 중단되거나 `condition`은 그대로 사용하되 `if`절은 비워두고 `else`절에서 중단해야한다.  
-물론, 성능을 위해서는 `!`를 붙여 NOT 연산을 한 번 더 하거나, `else`절까지 가지 않도록 `condition` 자체를 
+즉, `!condition`일 때 중단되거나 `condition`은 그대로 사용하되 `if` statement 는 비워두고 `else` clause 에서 중단해야한다.  
+물론, 성능을 위해서는 `!`를 붙여 NOT 연산을 한 번 더 하거나, `else` clause 까지 가지 않도록 `condition` 자체를 
 논리적으로 반대로 바꿔 `if`에 넣어 중단하는 것이 좋다.
 
 __Syntax__
@@ -278,15 +281,17 @@ while true {
 print("The dice are rolled \(rollCount) times.")
 ```
 
-> `Repeat-While` 로직이 없는 언어일 경우 이런식으로 구현할 수 있지만, `Swift`는 이를 지원하므로
+> `Repeat-While` 로직이 없는 언어일 경우 이런식으로 구현할 수 있지만, Swift 는 이를 지원하므로
 > 명확한 코드 의도 전달 및 가독성을 위해 `Repeat-While`로 코드를 작성하는 것이 좋다.
 
 ---
 
 ### 3. Conditional Statements - If 👩‍💻
-`Swift`는 조건에 따라 다른 로직을 수행할 수 있도록 `If`와 `Switch`를 제공한다. 그 중 `If`를 알아본다.
+
+Swift 는 조건에 따라 다른 로직을 수행할 수 있도록 `If`와 `Switch`를 제공한다. 그 중 `If`를 알아본다.
 
 #### 1. Single `if` statement
+
 `if`는 조건이 만족될 때 실행하는 로직을 정의할 수 있다.
 
 ```swift
@@ -299,7 +304,8 @@ if temperatureInCelsius > 28 {
 ```
 
 #### 2. `if` statements with `else` clause
-`else`절을 이용해 `if`문의 조건을 만족하지 않은 경우에 실행하는 대안 로직을 정의할 수 있다.
+
+`else` clause 를 이용해 `if` statement 의 조건을 만족하지 않은 경우에 실행하는 대안 로직을 정의할 수 있다.
 
 ```swift
 let temperatureInCelsius = 24
@@ -313,7 +319,8 @@ if temperatureInCelsius > 28 {
 ```
 
 #### 3. Chaining multiple `if` statements
-`else if`를 이용해 여러 개의 `if` 조건을 연속적으로 검사할 수 있다. 이때 만족하는 `if`를 만나면 로직을 수행 후 탈출한다.
+
+`else if`를 이용해 여러 개의 `if` 조건을 연속적으로 검사할 수 있다. 이 때 만족하는 `if`를 만나면 로직을 수행 후 탈출한다.
 
 ```swift
 let temperatureInCelsius = 3
@@ -328,14 +335,16 @@ if temperatureInCelsius > 28 {
 // It's cole. Turn on the boiler.
 ```
 
-> `else`절은 언제나 <span style="color: red">Optional</span>이기 때문에 필수가 아니다.
+> `else` clause 는 언제나 <span style="color: red">Optional</span>이기 때문에 필수가 아니다.
 
 ---
 
 ### 4. Conditional Statements - Switch 👩‍💻
-`Swift`는 조건에 따라 다른 로직을 수행할 수 있도록 `If`와 `Switch`를 제공한다. 그 중 `Switch`를 알아본다.
+
+Swift 는 조건에 따라 다른 로직을 수행할 수 있도록 `If`와 `Switch`를 제공한다. 그 중 `Switch`를 알아본다.
 
 #### 1. Alternative to the if statement for multiple states
+
 여러 개의 `condition`이 주어지는 경우 `if ~ else if ~ else if ... else`는 __`switch`문으로 대체__할 수 있다.
 
 __Syntax__
@@ -370,7 +379,7 @@ default:
 
 <br>
 
-`if`문에서 `else`는 언제나 <span style="color: red">Optional</span>이지만 `switch`문에서 `default`는 <span style="color: red">필수</span>다.  
+`if` statement 에서 `else`는 언제나 <span style="color: red">Optional</span>이지만 `switch`문에서 `default`는 <span style="color: red">필수</span>다.  
 따라서 `switch`문에서 `else`를 구현하지 않는 경우와 같은 로직을 만들고 싶다면 `default`에 `break`만 넣어주면 된다.
 
 ```swift
@@ -387,7 +396,7 @@ default:
 // Nothing
 ```
 
-> `TypeScript(JavaScript)`와 같은 다른 언어에서는 `default`가 `Optional`인 경우가 있으나 `Swift`에서는 필수로 구현해야한다.
+> `TypeScript(JavaScript)`와 같은 다른 언어에서는 `default`가 `Optional`인 경우가 있으나 Swift 에서는 필수로 구현해야한다.
 
 > `TypeScript`는 `default`가 `Optional`이라 구현하지 않아도 된다.
 > ```typescript
@@ -427,7 +436,7 @@ switch (anotherCharacter) {
 
 <br>
 
-`Swift`의 `switch`문은 <span style="color: red">처음 일치하는 `case`를 실행한 후 `즉시 종료`</span>된다. 따라서 `Swift`에서 아래와 같은 로직은 컴파일 에러가 발생된다.
+Swift 의 `switch`문은 <span style="color: red">처음 일치하는 `case`를 실행한 후 `즉시 종료`</span>된다. 따라서 Swift 에서 아래와 같은 로직은 컴파일 에러가 발생된다.
 
 ```swift
 let anotherCharacter: Character = "z"
@@ -445,7 +454,7 @@ default:
 
 <br>
 
-따라서 `Swift`의 `switch`문은 <span style="color: red">'_**break**_'를 명시하지 않아도 된다</span>.  
+따라서 Swift 의 `switch`문은 <span style="color: red">'_**break**_'를 명시하지 않아도 된다</span>.  
 반대로 의도적으로 `fallthrough` 시키길 원하면 `fallthrough`를 명시해야한다.
 
 ```swift
@@ -466,7 +475,7 @@ default:
 
 <br>
 
-하지만 위와 같은 방식은 권장되지 않는다. `Swift`에서는 대부분의 경우 개발자가 `switch`문에서 `break`를 빠뜨려 
+하지만 위와 같은 방식은 권장되지 않는다. Swift 에서는 대부분의 경우 개발자가 `switch`문에서 `break`를 빠뜨려 
 발생하는 에러를 일치하는 `case`를 실행 후 즉시 종료하는 것 뿐 아니라 다른 언어에서 `case`가 `single case match`만 
 매칭할 수 있는 것과 달리 `multiple case match`를 지원한다. 이를 `Compound Cases`라 하며 아래 `8. Compound Cases`에서 다시 다룬다.
 
@@ -523,7 +532,7 @@ There are dozens of moons orbiting Saturn.
 ```
 
 <br>
-마찬가지로 `Swift`에서도 다음과 같이 범위 매칭을 할 수 있다.
+마찬가지로 Swift 에서도 다음과 같이 범위 매칭을 할 수 있다.
 
 ```swift
 let approximateCount: Int = 62
@@ -623,7 +632,7 @@ Validation check result of myUser is true.
 
 #### 4. Interval Matching
 
-`Swift`의 `switch`문은 `multiple case match`를 지원하기 때문에 `Switch-True` 대신 `range operator`를 이용해 
+Swift 의 `switch`문은 `multiple case match`를 지원하기 때문에 `Switch-True` 대신 `range operator`를 이용해 
 더욱 간결한 코드로 범위 매칭을 할 수 있다.
 
 ```swift
@@ -685,7 +694,7 @@ whereIs((3, 2))     // (3, 2) is outside of the box
 
 #### 6. Value Bindings
 
-`Swift`는 `switch`구문에서도 `Value Bindings`를 사용할 수 있다.
+Swift 는 `switch`구문에서도 `Value Bindings`를 사용할 수 있다.
 
 ```swift
 func anotherPoint(_ point: (Int, Int)) {
@@ -753,7 +762,7 @@ yetAnotherPoint((3, 7))     // (3, 7) is just some arbitrary point
 
 #### 8. Compound Cases
 
-위 `1. No Implicit Fallthrough`에서 본 것처럼 `Swift`의 `switch`는 `multiple case match`를 지원하므로 여러 케이스를 혼합해서 사용할 수 있다.
+위 `1. No Implicit Fallthrough`에서 본 것처럼 Swift 의 `switch`는 `multiple case match`를 지원하므로 여러 케이스를 혼합해서 사용할 수 있다.
 
 ```swift
 let someCharacter: Character = "e"
@@ -822,7 +831,8 @@ Validation check result is false.
 ```
 
 ### 5. Control Transfer Statements 👩‍💻
-`Swift`에는 코드의 흐름을 제어하는 5가지 `Control Transfer Statements`가 있다.
+
+Swift 에는 코드의 흐름을 제어하는 5가지 `Control Transfer Statements`가 있다.
 
 - continue
 - break
@@ -881,7 +891,7 @@ default: break
 }
 ```
 
-> `Swift`의 `Switch`문은 기본적으로 `No Implicit Fallthrough`이므로 `break`는 생략해도 된다.
+> Swift 의 `Switch`문은 기본적으로 `No Implicit Fallthrough`이므로 `break`는 생략해도 된다.
 
 #### 3. fallthrough
 
@@ -900,7 +910,7 @@ default:
 print(description)  // The number 5 is a prime number, and also an integer.
 ```
 
-> `Swift`의 `Switch`문은 `case` 매칭시 `break`가 기본 동작 순서이므로 다른 언어와 달리 `fallthrough`가 필요할 경우는 명시해야한다.
+> Swift 의 `Switch`문은 `case` 매칭시 `break`가 기본 동작 순서이므로 다른 언어와 달리 `fallthrough`가 필요할 경우는 명시해야한다.
 
 #### 4. return
 
@@ -921,7 +931,7 @@ print(description)  // The number 5 is a prime number, and also an integer.
 
 #### 6. Labeled Statements
 
-`iteration loop`나 `switch`와 같은 구문을 중복해 사용할 수 있다. 이때 로직의 흐름을 정확히 제어하기 위해서는 `label`이 필요하고, 이를 `labeld statements`라 한다.
+`iteration loop`나 `switch`와 같은 구문을 중복해 사용할 수 있다. 이 때 로직의 흐름을 정확히 제어하기 위해서는 `label`이 필요하고, 이를 `labeld statements`라 한다.
 
 __Syntax__
 
@@ -993,8 +1003,8 @@ With label >> dice1: 4, dice2: 1, therefore dice1 > dice2 is true
 
 #### 7. Early Exit
 
-`guard`문은 `if`문과 비슷ㅎ게 `Boolean` 값에 따라 문을 실행한다. 하지만 `if`와의 가장 큰 차이점은 항상 `else`
-절이 뒤따르며, `else`절은 반드시 `code block`을 종료하기 위해 반드시 `return`, `break`, `continue`, `throw`와
+`guard`문은 `if` statement 와 비슷하게 `Boolean` 값에 따라 문을 실행한다. 하지만 `if`와의 가장 큰 차이점은 항상 `else`
+절이 뒤따르며, `else` clause 는 반드시 `code block`을 종료하기 위해 반드시 `return`, `break`, `continue`, `throw`와
 같은 `Control Transfer Statements`를 수행하거나 `fatalError(_:file:line:)`과 같이 `return`이 없는 
 함수나 메서드를 호출해야한다.
 
@@ -1067,4 +1077,4 @@ Validation check result of myUser is true.
 ---
 Reference
 
-1. "Control Flow", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Oct. 11, 2022, [Swift Docs Chapter 4 - Control Flow](https://docs.swift.org/swift-book/LanguageGuide/ControlFlow.html#)
+1. "Control Flow." The Swift Programming Language Swift 5.7. accessed Oct. 11, 2022, [Swift Docs Chapter 4 - Control Flow](https://docs.swift.org/swift-book/LanguageGuide/ControlFlow.html#)

@@ -6,7 +6,7 @@ categories: swift
 tags: [if, guard, if let, guard let, optional, optional binding, unwrap]
 ---
 
-`Swift`를 처음 접했을 때 가장 이상해보였고, 궁금했던 것이 `if`와 `guard`였다.
+Swift 를 처음 접했을 때 가장 이상해보였고, 궁금했던 것이 `if`와 `guard`였다.
 
 뭔가 비슷하게 사용되는 것 같으면서도 내가 아는 사용법이 아닌 것도 존재하고... 🤔🤔🤔
 
@@ -30,7 +30,7 @@ largerThanThree(num: 5) // 5 is larger than 3.
 largerThanThree(num: 3) // 3 is not larger than 3.
 ```
 
-그런데 `Swift`에는 `if` 말고도 `guard`라는 것이 있다. 따라서 위 `if`문은 다음과 같이 바꿔 적을 수 있다.
+그런데 Swift 에는 `if` 말고도 `guard`라는 것이 있다. 따라서 위 `if` statement 는 다음과 같이 바꿔 적을 수 있다.
 
 - guard
 
@@ -136,7 +136,7 @@ Passed array is empty.
 
 ### 2. Optional binding(unwrap)
 
-`Swift` 언어의 `특징` 중 하나로, `nil`(다른 언어에서의 null)에 대한 에러 처리를 쉽게 해줌으로써 문법적 `Safety`를 보장한다.  
+Swift 언어의 `특징` 중 하나로, `nil`(다른 언어에서의 null)에 대한 에러 처리를 쉽게 해줌으로써 문법적 `Safety`를 보장한다.  
 즉, 문법적 안정성을 위해 `Optional을 이용해 wrapping 되어있는 값`을 사용하기 위해서는 `unwrap`을 해야하는데, 이를 `Optional binding`이라 한다.
 
 `Optional binding`을 하는 가장 쉬운 방법은 다음과 같다.
@@ -210,6 +210,7 @@ func priceOfTwoCookies() -> Void {
 ```
 
 #### Optional binding using `guard`
+
 ```swift
 func priceOfTwoCookies() -> Void {
     guard let name = storeName else {
@@ -297,6 +298,6 @@ guard let constantName = someOptional else {
 Reference
 
 
-1. "Basic Operators", Welcome to Swift.org, last modified latest(Swift 5.7), accessed Jul. 3, 2022, [https://docs.swift.org/swift-book/LanguageGuide/Methods.html](https://docs.swift.org/swift-book/LanguageGuide/Methods.html)
-2. "Statements", Welcome to Swift.org, last modified latest(Swift 5.7), accessed Jul. 3, 2022, [https://docs.swift.org/swift-book/ReferenceManual/Statements.html](https://docs.swift.org/swift-book/ReferenceManual/Statements.html)
+1. "Basic Operators." Welcome to Swift.org. accessed Jul. 3, 2022, [https://docs.swift.org/swift-book/LanguageGuide/Methods.html](https://docs.swift.org/swift-book/LanguageGuide/Methods.html)
+2. "Statements." Welcome to Swift.org. accessed Jul. 3, 2022, [https://docs.swift.org/swift-book/ReferenceManual/Statements.html](https://docs.swift.org/swift-book/ReferenceManual/Statements.html)
 

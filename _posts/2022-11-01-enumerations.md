@@ -11,10 +11,10 @@ tags: [swift docs, enumeration, associated value, raw value]
 #### 1. Enumerations in Swift
 
 `Enumeration`은 연관된 값들을 공통 타입으로 그룹화해 `Type-Safe`한 코드를 작성하도록 돕는다.  
-`Swift`에서 `Enumeration`은 주어진 값이 `String`, `Character`, `Interger`, `Float` 어떤 것이든
+Swift 에서 `Enumeration`은 주어진 값이 `String`, `Character`, `Interger`, `Float` 어떤 것이든
 저장할 수 있다. 다른 언어에서 `unions` 또는 `variants`가 작동하는 것과 같다.
 
-`Swift`에서 `Enumeration`은 그 자체로 `First-Class Types`로 전통적으로 `Class`에서만 제공되는 많은 기능을 채택한다.
+Swift 에서 `Enumeration`은 그 자체로 `First-Class Types`로 전통적으로 `Class`에서만 제공되는 많은 기능을 채택한다.
 
 - Initializers
 - Computed Properties
@@ -40,7 +40,7 @@ enum SomeEnumeration {
 }
 ```
 
-> 1. `Enumeration`은 새 `Type`을 만들어 낸다. 따라서 `Swift`의 다른 `Types`와 마찬가지로 이름은 `대문자로 시작`한다.
+> 1. `Enumeration`은 새 `Type`을 만들어 낸다. 따라서 Swift 의 다른 `Types`와 마찬가지로 이름은 `대문자로 시작`한다.
 > 2. `Enumeration`은 `Singleton`을 기반으로 하므로 이름 역시 자명하게 읽히도록 복수형(plural)이 아닌
      `단수형(singular)을 사용`한다.
 
@@ -55,7 +55,7 @@ enum CompassPoint {
 }
 ```
 
-> `Swift`의 `Enumeration`은 다른 언어와 달리 암시적으로 integer value(0, 1, 2, ...)를 할당하지 않는다.
+> Swift 의 `Enumeration`은 다른 언어와 달리 암시적으로 integer value(0, 1, 2, ...)를 할당하지 않는다.
 > `case`는 `온전히 자기 자신을 값`으로 갖는다.
 
 <br>
@@ -136,7 +136,7 @@ case .south:
 ```
 
 `south`를 제외한 `case`를 제거했다. `directionToHead`는 현재 `south`니까 문제 없을 것 
-같지만, `Swift`는 이 `Switch`가 완전하지 않은 것을 발견하고 `compile-error`를 발생시킨다.  
+같지만, Swift 는 이 `Switch`가 완전하지 않은 것을 발견하고 `compile-error`를 발생시킨다.  
 따라서, 사용되지 않더라도 다음과 같이 `case miss-matching`이 일어나지 않도록 다음과 같이 
 처리해야한다.
 
@@ -392,7 +392,7 @@ print(SomeEnumeration.one.rawValue) // 하나
 #### 1. Implicitly Assigned Raw Values
 
 `Enumerations`가 `Integer` 또는 `String` `Raw Values`를 저장할 경우 모든 `case`에 명시적(explicit)으로 
-값을 지정하지 않아도 `Swift`는 암시적(implicit)으로 값을 할당한다.
+값을 지정하지 않아도 Swift 는 암시적(implicit)으로 값을 할당한다.
 
 - Integer Raw Value
 
@@ -660,5 +660,4 @@ print(evaluate(product))    // 18
 ---
 Reference
 
-1. "Enumerations", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Nov. 1,
-   2022, [Swift Docs Chapter 7 - Enumerations](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html)
+1. "Enumerations." The Swift Programming Language Swift 5.7. accessed Nov. 1, 2022, [Swift Docs Chapter 7 - Enumerations](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html)

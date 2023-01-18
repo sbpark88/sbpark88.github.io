@@ -72,4 +72,4 @@ qbittorrent pdfpenpro busycal busycontacts imazing onyx knockknock --force
 ---
 Reference
 
-1. "Chaining Commands in Linux", GeeksforGeeks, last modified Oct. 14, 2020, accessed Jun. 5, 2022, [https://www.geeksforgeeks.org/chaining-commands-in-linux/](https://www.geeksforgeeks.org/chaining-commands-in-linux/)
+1. "Chaining Commands in Linux." GeeksforGeeks. Oct. 14, 2020, [https://www.geeksforgeeks.org/chaining-commands-in-linux/](https://www.geeksforgeeks.org/chaining-commands-in-linux/)

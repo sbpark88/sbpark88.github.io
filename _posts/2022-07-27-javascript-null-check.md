@@ -12,7 +12,7 @@ tags: [javascript null check, null coalescing operator]
 편의상 default value 는 `'default'`라는 string 으로 통일합니다. TypeScript 에서는 동일 타입으로 지정해줘야한다.
 💁‍♀️ 하지만 우리가 TypeScript 에서 타입을 지정한다 해도 결국 실행 시점에는 JavaScript 로 `transpile`되므로 결국 JavaScript 의 동등 비교 및 체크의 넓은 범위를 모두 이해해야한다.
 
-**<span style="color: red">빨간색</span>** 칸: 에러 또는 예상과 다른 case 가 출력되는 경우
+**<span style="color: red">빨간색</span>** 칸: 에러 또는 예상과 다른 case 가 출력되는 경우  
 **<span style="color: green">초록색</span>** 칸: 의도한 바에 맞는 null, empty value 체크가 가능한 경우
 
 ---
@@ -37,10 +37,12 @@ tags: [javascript null check, null coalescing operator]
 * `{} === []`은(는) Uncaught SyntaxError 가 발생한다.
 
 그렇다면 `NaN`의 동등 비교는 어떻게 해야할까?
+
 ```javascript
 Number.isNaN();
 isNaN();  // Number는 생략 가능하다.
 ```
+
 를 통해 할 수 있다.
 
 ```javascript
@@ -49,9 +51,11 @@ isNaN(undefined);     // true
 isNaN({});            // true
 isNaN(function(){});  // true
 ```
+
 하지만 메서드 이름과 달리 아름다운 결과를 보여주진 않는다. 💢💢
 
 따라서 정말 `NaN`인지만 정확히 판단하고 싶다면 다음과 같이 조건을 두 가지를 사용해야한다.
+
 ```javascript
 const checkNaN = input => ((input !== NaN) && Number.isNaN(input));
 checkNaN(NaN);           // true
@@ -59,6 +63,7 @@ checkNaN(undefined);     // fasle
 checkNaN({});            // false
 checkNaN(function(){});  // false
 ```
+
 사실 `input !== NaN`을 별도로 실행해보면 모든 경우 true 가 반환된다. 하지만 위와 같이 isNaN과 && 연산을 하면 NaN을 제외하면 모든 경우의 수에서 false 조건이 된다는 것을 알 수 있다. 따라서 위 로직을 통해 정확한 체크가 가능하다.
 
 
@@ -67,6 +72,7 @@ _**`&&` 앞위 순서는 바뀌어도 결과에 영향을 미치지는 않지만
 ---
 
 #### 3. Logical NOT Operator(`!`)
+
 ![logical-not](/assets/images/posts/2022-07-27-javascript-null-check/logical-not.png)
 개인적으로 null, not null check 시 유용하게 사용하고 있다!! 👏👏👏
 위 1, 2와 달리 동등비교는 아니고 null, not null 체크 시에 활용하기 좋은 방법이다.
@@ -78,6 +84,7 @@ _**`&&` 앞위 순서는 바뀌어도 결과에 영향을 미치지는 않지만
 참고로 0인 경우는 `value === 0` 또는 `value !== 0` 조건을 추가해 제거할 수 있고, true, false 와 같은 Boolean 값은 `typeof`나 `constructor`를 통해 체크할 수 있다.
 
 **좀 더 완벽한 `!`를 위한 함수**
+
 ```javascript
 const runWhenEmpty = input => {
     if (!input && (typeof input !== "boolean") && (input !== 0)) {
@@ -85,7 +92,9 @@ const runWhenEmpty = input => {
     }
 }
 ```
+
 **좀 더 완벽한 `!!`를 위한 함수**
+
 ```javascript
 const runWhenNotEmpty = input => {
     if (!!input || (typeof input === "boolean") || (input === 0)) {
@@ -93,10 +102,11 @@ const runWhenNotEmpty = input => {
     }
 }
 ```
+
 하지만 굳이 저런식으로 조건을 복잡하게 나열할 할 필요 없이 `!`, `!!`만 체크한 후 `try-catch`를 이용해 로직을 보호해주는 방법이 더 깔끔하고 안전한 코딩이 가능하다.
 
-
 #### 4. Nullish Coalescing Operator(`??`)
+
 ![nullish-coalescing](/assets/images/posts/2022-07-27-javascript-null-check/nullish-coalescing.png)
 <span style="color: red">
 > <span style="color: red">1. {} : Uncaught SyntaxError: Unexpected token '??'</span>  
@@ -107,18 +117,21 @@ const runWhenNotEmpty = input => {
 `undefined`와 `null`일 때만 `default value`를 반환한다는 것을 기억하자. 
 
 #### 5. Default function parameter(편의상 JavaScript 를 기준으로 합니다 👻👻👻)
+
 ```javascript
 const nullCheck = (input = 'default') => console.log(input);
 ```
+
 ![default-function-parameter](/assets/images/posts/2022-07-27-javascript-null-check/default-function-parameter.png)
 이름 그대로 `parameter`에 `default value`를 지정하는 것이다.
 함수 block scope 에 들어가기도 전에 에러를 발생하지 않는 유연함은 있지만 비슷해 보이는 `??`와 달리 `undefined`일 때만 `default value`를 반환한다는 것에 유의하자. 👀
 
-
 #### 6. OR Operator(`||`)
+
 ![or-operator](/assets/images/posts/2022-07-27-javascript-null-check/or-operator.png)
 
 `??` 보다는 `!`를 사용하는 것과 비슷하다. `!`와 `Ternary Operator`를 결합해 사용하면 다음과 같다.
+
 ```javascript
 let value;
 !value ? 'default' : value;

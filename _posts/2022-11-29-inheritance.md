@@ -25,7 +25,7 @@ class Vehicle {
 ```
 
 > `Universal Base Class`를 하나 만들어 모든 `Classes`가 기본적으로 이것을 상속하도록 하는 일부 언어와 달리
-> `Swift`는 명시적으로 상속을 하지 않은 `Class`는 `build`할 때 자동으로 `Base Class`가 된다.
+> Swift 는 명시적으로 상속을 하지 않은 `Class`는 `build`할 때 자동으로 `Base Class`가 된다.
 
 #### 2. Subclassing
 
@@ -94,9 +94,9 @@ print("Tandem: \(tandem.description)")  // Tandem: traveling at 22.0 miles per h
 `Subclass`는 `Superclass`의 `Instance Methods`, `Type Methods`, `Instance Porperties`, 
 `Type Properties`, `Subscripts`를 다시 구현할 수 있다. 이것을 `Overriding`이라 한다.
 
-`Overriding`을 위해서 앞에 `override` 수정자를 붙여준다.  
-이렇게 하는 것은 재정의를 명확히 하고, 실수로 재정의하는 것을 방지하기 위한 것으로, `override` 수정자 없이 재정의하면 
-`Swift`는 이를 확인하고 `compile error`를 발생시킨다.
+`Overriding`을 위해서 앞에 `override` modifier 를 붙여준다.  
+이렇게 하는 것은 재정의를 명확히 하고, 실수로 재정의하는 것을 방지하기 위한 것으로, `override` modifier 없이 재정의하면 
+Swift 는 이를 확인하고 `compile error`를 발생시킨다.
 
 > `Overriding` 가능한 `characteristics`는 `mutable`한 것으로 제한된다. 예를 들어 `let` 키워드로 선언된 
 > 경우 `immutable`이기 때문에 `Overriding` 할 수 없다.
@@ -204,7 +204,7 @@ __3 ) Overriding Stored Properties__
 ### 3. Preventing Overrides 👩‍💻
 
 `Overriding`을 막기 위해 `final` 키워드를 앞에 붙이면 `Subclass`에서 재정의하면
-`Swift`는 이를 확인하고 `compile error`를 발생시킨다.
+Swift 는 이를 확인하고 `compile error`를 발생시킨다.
 
 ```swift
 class AutomaticCar: Car {
@@ -232,4 +232,4 @@ class ElectricMotorCar: AutomaticCar {
 ---
 Reference
 
-1. "Inheritance", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Nov. 29, 2022, [Swift Docs Chapter 12 - Inheritance](https://docs.swift.org/swift-book/LanguageGuide/Inheritance.html)
+1. "Inheritance." The Swift Programming Language Swift 5.7. accessed Nov. 29, 2022, [Swift Docs Chapter 12 - Inheritance](https://docs.swift.org/swift-book/LanguageGuide/Inheritance.html)

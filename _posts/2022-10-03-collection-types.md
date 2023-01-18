@@ -7,8 +7,8 @@ tags: [swift docs, collection, array, set, dictionary]
 ---
 
 ![swift collection types](/assets/images/posts/2022-10-03-collection-types/CollectionTypes_intro_2x.png)
-1
-`Swift`는 다음 3가지 `primary collection types`를 제공한다.
+
+Swift 는 다음 3가지 `primary collection types`를 제공한다.
 
 - Array
 - Set
@@ -91,7 +91,7 @@ print(sixDoubles)   // [0.0, 0.0, 0.0, 2.5, 2.5, 2.5]
 var shoppingList: [String] = ["Eggs", "Milk"]
 ```
 
-만약 위와 같이 `Array Literal`이 한 가지 타입으로 구성되었다면, `Swift`는 해당 배열의 타입을 추론한다.
+만약 위와 같이 `Array Literal`이 한 가지 타입으로 구성되었다면, Swift 는 해당 배열의 타입을 추론한다.
 
 ```swift
 var shoppingList = ["Eggs", "Milk"]
@@ -776,7 +776,7 @@ var airports: [String: String] = ["YYZ": "Toronto Pearson", "DUB": "Dublin"]
 print(airports)     // ["DUB": "Dublin", "YYZ": "Toronto Pearson"]
 ```
 
-만약 위와 같이 `Dictionary Literal`의 `Key: Value` 쌍이 한 가지 타입으로 구성되었다면, `Swift`는 해당 딕셔너리의 타입을 추론한다.
+만약 위와 같이 `Dictionary Literal`의 `Key: Value` 쌍이 한 가지 타입으로 구성되었다면, Swift 는 해당 딕셔너리의 타입을 추론한다.
 
 <br>
 
@@ -1190,6 +1190,6 @@ Tangerine's price is 2800won.
 ---
 Reference
 
-1. "Collection Types", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Oct. 3, 2022, [Swift Docs Chapter 3 - Collection Types](https://docs.swift.org/swift-book/LanguageGuide/CollectionTypes.html)
-2. "RandomAccessCollection", Apple Developer Documentation, last modified latest(Unknown), accessed Oct. 3, 2022, [Apple Developer Documentation - Swift/Swift Standard Library/Collections](https://developer.apple.com/documentation/swift/randomaccesscollection)
-3. "RandomAccessCollection Implementations", Apple Developer Documentation, last modified latest(Unknown), accessed Oct. 3, 2022, [Apple Developer Documentation - Swift/Array/RandomAccessCollection Implementations](https://developer.apple.com/documentation/swift/array/randomaccesscollection-implementations)
+1. "Collection Types." The Swift Programming Language Swift 5.7. accessed Oct. 3, 2022, [Swift Docs Chapter 3 - Collection Types](https://docs.swift.org/swift-book/LanguageGuide/CollectionTypes.html)
+2. "RandomAccessCollection." Apple Developer Documentation. accessed Oct. 3, 2022, [Apple Developer Documentation - Swift/Swift Standard Library/Collections](https://developer.apple.com/documentation/swift/randomaccesscollection)
+3. "RandomAccessCollection Implementations." Apple Developer Documentation. accessed Oct. 3, 2022, [Apple Developer Documentation - Swift/Array/RandomAccessCollection Implementations](https://developer.apple.com/documentation/swift/array/randomaccesscollection-implementations)

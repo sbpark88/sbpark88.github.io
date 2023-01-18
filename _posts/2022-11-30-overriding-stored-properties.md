@@ -57,8 +57,8 @@ class Bicycle: Vehicle {
 }
 ```
 
-다른 `Properties`와 마찬가지로 `override` 수정자를 사용해 동일하게 `Stored Properties`를 재정의하려 했으나 
-`Swift`는 `Overriding` 불가능하다는 에러를 출력한다.
+다른 `Properties`와 마찬가지로 `override` modifier 를 사용해 동일하게 `Stored Properties`를 재정의하려 했으나 
+Swift 는 `Overriding` 불가능하다는 에러를 출력한다.
 
 #### 2. Implement computed properties with private stored properties - Success
 
@@ -142,5 +142,5 @@ Awesome!! 😆😆
 ---
 Reference
 
-1. "Inheritance", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Nov. 30, 2022, [Swift Docs Chapter 12 - Inheritance](https://docs.swift.org/swift-book/LanguageGuide/Inheritance.html)
-2. "Initialization", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Dec. 1, 2022, [Swift Docs Chapter 13 - Initialization](https://docs.swift.org/swift-book/LanguageGuide/Initialization.html)
+1. "Inheritance." The Swift Programming Language Swift 5.7. accessed Nov. 30, 2022, [Swift Docs Chapter 12 - Inheritance](https://docs.swift.org/swift-book/LanguageGuide/Inheritance.html)
+2. "Initialization." The Swift Programming Language Swift 5.7. accessed Dec. 1, 2022, [Swift Docs Chapter 13 - Initialization](https://docs.swift.org/swift-book/LanguageGuide/Initialization.html)

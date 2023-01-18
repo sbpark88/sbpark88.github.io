@@ -1133,5 +1133,5 @@ export default {
 ---
 Reference
 
-1. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 4
-2. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 5
+1. 고승원. Vue.js 프로젝트 투입 일주일 전. 비제이퍼블릭 Chapter 4, 2021.
+2. 고승원. Vue.js 프로젝트 투입 일주일 전. 비제이퍼블릭 Chapter 5, 2021.

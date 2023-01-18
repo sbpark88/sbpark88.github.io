@@ -883,4 +883,4 @@ export default {
 ---
 Reference
 
-1. 고승원, [Vue.js 프로젝트 투입 일주일 전], 비제이퍼블릭, Chapter 8
+1. 고승원. Vue.js 프로젝트 투입 일주일 전. 비제이퍼블릭 Chapter 8, 2021.

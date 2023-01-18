@@ -77,7 +77,7 @@ print("The default temperature is \(c.temperature)° Celsius")
 __1 ) IIFE__
 
 상수나 변수에 값을 저장할 때 사용자 정의 로직이나 설정이 필요한 경우가 있을 수 있다.  
-`Swift`에서는 이를 위해 `Closure`나 `Global Function`를 사용할 수 있는데, `Closure` (=`Function`)를 
+Swift 에서는 이를 위해 `Closure`나 `Global Function`를 사용할 수 있는데, `Closure` (=`Function`)를 
 정의함과 동시에 실행시키고 그 값을 반환하도록 해, 이 `return value`를 상수 또는 변수에 저장하는 것이다.
 
 좀 더 쉽고 간결한 예를 위해 `TypeScript`의 로직을 본 후 `Swift`와 비교해보자.  
@@ -91,7 +91,7 @@ console.log(isEven) // This is an odd number
 
 <br>
 
-그리고 `Swift`로 구현한 예를 보자.
+그리고 Swift 로 구현한 예를 보자.
 
 ```swift
 var someNumber: Int = 13
@@ -100,7 +100,7 @@ print(isEven)       // This is an odd number
 ```
 
 어디서 많이 본 것 같지 않은가? [Lazy Stored Properties][Lazy Stored Properties] 에서 
-`lazy` 수정자만 빠진 것과 같다는 것을 알 수 있다.  
+`lazy` modifier 만 빠진 것과 같다는 것을 알 수 있다.  
 즉, 위와 같은 기법을 이용해 `Stored Properties`의 `Initial Values`를 설정할 때 사용자 정의 로직을 정의하는 
 것이 가능하다.
 
@@ -130,13 +130,13 @@ class SomeClass {
 단, 이 방법을 사용할 때 주의해야할 것은 해당 `Closures`가 정의되고 실행되는 시점은 `Instance`가 "생성되기 전" 
 이라는 것이다. 즉, 어떠한 `Instance Properties`나 `Instance Methods`에도 접근할 수 없다는 것을 의미한다.
 
-> `IIFE`처럼 작동하는 이 방법과 `Lazy Stored Properties`의 차이점은 `lazy` 수정자를 붙였는가이다.  
-> 즉, `lazy` 수정자로 인해 `Stored Properties`를 저장하는 방법이 변경되는 것이다.
+> `IIFE`처럼 작동하는 이 방법과 `Lazy Stored Properties`의 차이점은 `lazy` modifier 를 붙였는가이다.  
+> 즉, `lazy` modifier 로 인해 `Stored Properties`를 저장하는 방법이 변경되는 것이다.
 > 
-> - `lazy` 수정자를 붙이지 않으면 `IIFE`와 같이 작동한다. 따라서 `Instance`가 생성되기 전에 값이 반드시 
+> - `lazy` modifier 를 붙이지 않으면 `IIFE`와 같이 작동한다. 따라서 `Instance`가 생성되기 전에 값이 반드시 
 >   저장되어야하므로 `let`, `var` 키워드를 모두 사용할 수 있다. 단, `Instance` 생성 시점보다 먼저 실행이되므로, 어떠한 
 >   `Instance Properties`나 `Instance Methods`에도 접근할 수 없다.
-> - `lazy` 수정자를 붙이면 이것은 `Lazy Stored Properties`로 작동하므로, `Instance`가 생성된 후 최초로 
+> - `lazy` modifier 를 붙이면 이것은 `Lazy Stored Properties`로 작동하므로, `Instance`가 생성된 후 최초로 
 >   사용할 때 설정된다. 즉, 다른 `Instance Properties`나 `Instance Methods`에 접근할 수 있다.
 
 <br>
@@ -197,11 +197,11 @@ func printColor(_ row: Int, _ column: Int) {
 > 
 > 즉, `Types`를 함께 구분하더라도 동일한 `Parameters` 개수와 `Types`는 `overload`를 할 수 없다는 말이 된다.
 
-> 하지만 `Swift`는 `Argument Labels`를 생략하지 않는다면 다음과 같이 더 세분화해 `overload`를 처리한다.
+> 하지만 Swift 는 `Argument Labels`를 생략하지 않는다면 다음과 같이 더 세분화해 `overload`를 처리한다.
 > 
 > - `Parameters`의 개수와 `Parameter Types`에 추가로 `Argument Labels`까지 구분
 
-따라서 `Swift`는 아래 예제와 같이 동일한 `Parameters`의 개수와 `Parameter Types`를 갖더라도 `Argument Labels`를 
+따라서 Swift 는 아래 예제와 같이 동일한 `Parameters`의 개수와 `Parameter Types`를 갖더라도 `Argument Labels`를 
 다르게 해 화씨를 섭씨로 바꾸는 `initializer`와 켈빈을 섭씨로 바꾸는 `initializer`를 `overload` 할 수 있다.
 
 ```swift
@@ -426,7 +426,7 @@ class ShoppingListItem {
 var item = ShoppingListItem()
 ```
 
-`Swift`가 자동으로 `Default Initializers`를 생성한다.
+Swift 가 자동으로 `Default Initializers`를 생성한다.
 
 #### 2. Memberwise Initializers for Structure Types
 
@@ -514,10 +514,8 @@ struct Rect {
 
 ```swift
 let basicRect = Rect()
-let originRect = Rect(origin: Point(x: 2.0, y: 2.0),
-                      size: Size(width: 5.0, height: 5.0))
-let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
-                      size: Size(width: 3.0, height: 3.0))
+let originRect = Rect(origin: Point(x: 2.0, y: 2.0), size: Size(width: 5.0, height: 5.0))
+let centerRect = Rect(center: Point(x: 4.0, y: 4.0), size: Size(width: 3.0, height: 3.0))
 
 printRect(basicRect)    // The origin is (0.0, 0.0) and its size is (0.0, 0.0)
 printRect(originRect)   // The origin is (2.0, 2.0) and its size is (5.0, 5.0)
@@ -533,7 +531,7 @@ func printRect(_ rect: Rect) {
 
 ### 5. Class Inheritance and Initialization 👩‍💻
 
-`Swift`는 `Classes`의 모든 `Stored Properties`가 `Initialization`가 진행되는 동안 초기값을 가질 수 있도록 
+Swift 는 `Classes`의 모든 `Stored Properties`가 `Initialization`가 진행되는 동안 초기값을 가질 수 있도록 
 `Designated Initializers`와 `Convenience Initializers`라는 두 가지 종류의 `Initializers`를 제공한다.
 
 #### 1. Designated Initializers and Convenience Initializers
@@ -566,7 +564,7 @@ convenience init(parameters) {
 }
 ```
 
-> init 앞에 `convenience` 수정자를 붙인다
+> init 앞에 `convenience` modifier 를 붙인다
 
 #### 3. Initializer Delegation for Class Types
 
@@ -593,7 +591,7 @@ convenience init(parameters) {
 
 __1 ) Two-Phase Initialization__
 
-`Swift`에서 `Class Initialization`은 2단계 프로세스를 갖는다.
+Swift 에서 `Class Initialization`은 2단계 프로세스를 갖는다.
 
 - Phase 1. 각 `Stored Properties`가 그것을 정의한 `Class`에 의해 초기값이 할당된다.
 - Phase 2. `Instance`를 생성하기 전 `Stored Properties`를 추가로 `Customizing` 할 기회가 주어진다.
@@ -607,7 +605,7 @@ __1 ) Two-Phase Initialization__
 
 __2 ) Safety Check__
 
-`Swift`는 에러 없이 `Initialization`이 완료되었는지 보장하기 위해 4가지 `Safety Check`를 수행한다.
+Swift 는 에러 없이 `Initialization`이 완료되었는지 보장하기 위해 4가지 `Safety Check`를 수행한다.
 
 - Safety Check 1. `Designated Initializers`는 `Superclass Initializer`에 `delegates up` 하기 전 
   `context` 내 모든 `Properties`가 초기화 되었음을 확인한다.
@@ -679,15 +677,15 @@ __1 ) Difference between `Objective-C` and `Swift`__
 __2 ) Inherit Superclass's Initializers by Overriding__
 
 `Superclass`의 `Designated Initializers`의 구문과 일치하는 형태의 `Initializers`를 `Subclass`에서 
-구현할 때는 `Properties`, `Methods`와 마찬가지로 반드시 `override` 수정자를 사용해야한다.
+구현할 때는 `Properties`, `Methods`와 마찬가지로 반드시 `override` modifier 를 사용해야한다.
 
 > - `Subclass`에서 구현하는 `Initializers`가 `Designated Initializers`든, `Convenience Initializers`든 
->   상관 없이 `Superclass`의 `Designated Initializers`를 재정의 하는 경우라면 반드시 `override` 수정자를 사용해댜한다.
+>   상관 없이 `Superclass`의 `Designated Initializers`를 재정의 하는 경우라면 반드시 `override` modifier 를 사용해댜한다.
 > - 반면, `Subclass`에서 구현하는 `Initializers`가 `Superclass`의 `Convenience Initializers`와 일치하는 경우는
->   `override` 수정자를 사용하지 않는다.  
+>   `override` modifier 를 사용하지 않는다.  
 >   [Initializer Delegation for Class Types][Initializer Delegation] 에서 설명한 규칙에 따라 
 >   `Superclass`의 `Convenience Initializers`는 `Subclass`에 의해 직접 호출되거나 `Overriding` 되는 것이 
->   불가능하기 때문에 새롭게 구현하는 것이므로 `override` 수정자를 사용하지 않는다.
+>   불가능하기 때문에 새롭게 구현하는 것이므로 `override` modifier 를 사용하지 않는다.
 
 [Initializer Delegation]:/swift/2022/12/01/initialization.html#h-3-initializer-delegation-for-class-types
 
@@ -849,7 +847,7 @@ print("Hoverboard: \(hoverboard.description)")  // Hoverboard: 0 wheels(s) in a 
 
 #### 6. Automatic Initializer Inheritance
 
-[Initializer Inheritance and Overriding][Initializer Inheritance and Overriding] 에서 설명했던 것처럼 `Swift`의 
+[Initializer Inheritance and Overriding][Initializer Inheritance and Overriding] 에서 설명했던 것처럼 Swift 의 
 `Subclass`는 `Superclass`의 `Initialiers`를 기본으로 상속하지 않는다. 하지만 자동으로 상속하는 조건이 존재한다. 그 조건은 
 다음과 같다.
 
@@ -1225,7 +1223,7 @@ print(type(of: anonymousCreature))  // Animal
 
 `Parameter Types`가 불일치하는 경우는 호출을 할 수 없기 때문에 `init(species:)`에 `nil`을 넘기는 것은 불가능하지만, 
 `""`은 논리적으로 문제가 있으나 코드상으론 올바른 형태이기 때문에 위와 같이 아무 의미가 없는 `anonymousCreature`를 
-`Animal Types`의 `new Instance`를 성공적으로 생성한다.
+`Animal Types`의 `new Instance`로 성공적으로 생성한다.
 
 <br>
 
@@ -1837,7 +1835,7 @@ printTitle("emptyName", emptyName)
 #### 1. Required Initializer Syntax
 
 `Classes`, `Structures`, `Enumerations`에 `Protocols`를 채택(adopt)해 특정 구현을 강요할 수 있듯이 
-`Classes`의 경우 `Superclass`의 특정 `Initializers`를 `Subclass`에서 구현하도록 `required` 수정자를 사용해 
+`Classes`의 경우 `Superclass`의 특정 `Initializers`를 `Subclass`에서 구현하도록 `required` modifier 를 사용해 
 강요할 수 있다.
 
 단, `Protocols`와 달리 상속된 `Required Initializers`로 조건이 충족된다면, 이를 `Overriding`해 재구현 할 필요 
@@ -1863,7 +1861,7 @@ class SomeSubclass: SomeClass {
 }
 ```
 
-> - `Subclass`에서 재구현할 때 `override` 수정자는 생략하고 `required` 수정자만 사용한다.
+> - `Subclass`에서 재구현할 때 `override` modifier 는 생략하고 `required` modifier 만 사용한다.
 > - 상속된 `Required Initializers`로 조건이 충족된다면 재구현할 필요 없이 충족될 수 있다.
 
 #### 2. Required Initializer Examples
@@ -1888,7 +1886,7 @@ class Vehicle {
 }
 ```
 
-`Vehicle` 클래스는 `init(name:)`을 강제하도록 `requried` 수정자를 사용한다.
+`Vehicle` 클래스는 `init(name:)`을 강제하도록 `requried` modifier 를 사용한다.
 
 <br>
 
@@ -1937,4 +1935,4 @@ printCar(someTruck) // Car name is "BMW Truck" and have 8 cylinders
 ---
 Reference
 
-1. "Initialization", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Dec. 1, 2022, [Swift Docs Chapter 13 - Initialization](https://docs.swift.org/swift-book/LanguageGuide/Initialization.html)
+1. "Initialization." The Swift Programming Language Swift 5.7. accessed Dec. 1, 2022, [Swift Docs Chapter 13 - Initialization](https://docs.swift.org/swift-book/LanguageGuide/Initialization.html)

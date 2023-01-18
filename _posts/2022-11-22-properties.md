@@ -290,7 +290,7 @@ print(manager.importer.filename)
 `Objective-C`는 `Class instance`의 `Properties`로 `Values`와 `References`를 저장하는 두 가지
 방법을 제공했다. 또한 `Properties`를 `Backing Store(백업 저장소)`로 사용할 수 있었다.
 
-하지만 `Swift`는 `Backing Store`에 직접 접속할 수 없도록 하고, `Properties`를 저장하는 방식을
+하지만 Swift 는 `Backing Store`에 직접 접속할 수 없도록 하고, `Properties`를 저장하는 방식을
 통합했다. 따라서 선언하는 방법에 따른 혼동을 피하고 명확한 문장으로 단순화되었으며, 이는 `Properties`의
 `이름`, `타입`, `메모리 관리 특성`을 포함하는 모든 정보를 유형을 한 곳에서 정의한다.
 
@@ -1182,7 +1182,7 @@ someFunction()
 `C`나 `Objective-C`에서 `static constants`, `static variables`를 정의하기 위해 `Global Static Variables` 
 를 사용했다.
 
-하지만 `Swift`는 불필요하게 전역으로 생성되는 `Global Static Variables`의 전역 변수 오염 문제를 해결하기 위한 
+하지만 Swift 는 불필요하게 전역으로 생성되는 `Global Static Variables`의 전역 변수 오염 문제를 해결하기 위한 
 `Type Properties`를 제공한다. `Type Properties`는 `Swift Types`가 정의되는 `{ }` 내부 `context` 범위 
 내에 정의되며, `Scope`가 해당 `Types`의 범위로 명확해진다. 
 
@@ -1343,7 +1343,7 @@ print(rightChannel.currentLevel)    // 10
 print(AudioChannel.maxInputLevelForAllChannels) // 10
 ```
 
-이번엔 오른쪽 볼륨을 11로 올리자 최대 레벨 제한에 의해 10으로 저장되고, 이에 따라 그 다음 `if`문에서
+이번엔 오른쪽 볼륨을 11로 올리자 최대 레벨 제한에 의해 10으로 저장되고, 이에 따라 그 다음 `if` statement 에서
 `maxInputLevelForAllChannels`가 10으로 저장되었다.
 
 <br><br>
@@ -1351,7 +1351,7 @@ print(AudioChannel.maxInputLevelForAllChannels) // 10
 ---
 Reference
 
-1. "Properties", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Nov. 21, 2022, [Swift Docs Chapter 9 - Properties](https://docs.swift.org/swift-book/LanguageGuide/Properties.html)
-2. "Projected Value", Apple Developer Documentation, last modified latest(Unknown), accessed Nov. 25, 2022, [Apple Developer Documentation - Swift/Swift Standard Library/../projectedValue](https://developer.apple.com/documentation/swift/tasklocal/projectedvalue)
-3. "Projected Value", Apple Developer Documentation, last modified latest(Unknown), accessed Nov. 25, 2022, [Apple Developer Documentation - Swift/Swift UI/../projectedValue](https://developer.apple.com/documentation/swiftui/binding/projectedvalue)
-4. "프로젝션 매핑", Wikipedia, last modified Mar. 6, 2022, accessed Nov. 25, 2022, [프로젝션 매핑](https://ko.wikipedia.org/wiki/프로젝션_매핑)
+1. "Properties." The Swift Programming Language Swift 5.7. accessed Nov. 21, 2022, [Swift Docs Chapter 9 - Properties](https://docs.swift.org/swift-book/LanguageGuide/Properties.html)
+2. "Projected Value." Apple Developer Documentation. accessed Nov. 25, 2022, [Apple Developer Documentation - Swift/Swift Standard Library/../projectedValue](https://developer.apple.com/documentation/swift/tasklocal/projectedvalue)
+3. "Projected Value." Apple Developer Documentation. accessed Nov. 25, 2022, [Apple Developer Documentation - Swift/Swift UI/../projectedValue](https://developer.apple.com/documentation/swiftui/binding/projectedvalue)
+4. "프로젝션 매핑." Wikipedia. Mar. 6, 2022, [프로젝션 매핑](https://ko.wikipedia.org/wiki/프로젝션_매핑)
