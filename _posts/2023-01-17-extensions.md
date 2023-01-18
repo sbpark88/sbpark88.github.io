@@ -398,6 +398,56 @@ extension Int {
 
 ### 7. Nested Types 👩‍💻
 
+Extensions 를 이용해 이미 존재하는 Classes, Structures, Enumerations 에 `Nested Types` 를 추가할 수 있으며, 
+이것 역시 `Build-in Types 를 확장하는 것을 포함`한다.
+
+```swift
+extension Int {
+    enum Kind {
+        case negative, zero, positive
+    }
+    var kind: Kind {
+        switch self {
+        case 0:
+            return .zero
+        case let x where x > 0:
+            return .positive
+        default:
+            return .negative
+        }
+    }
+}
+```
+
+```swift
+0.kind      // zero
+1.kind      // positive
+(-2).kind   // negative
+```
+
+Extensions 를 이용해 `Built-in Type`를 확장하면 다음과 같은 로직을 좀 더 우아하게 구현할 수 있다.
+
+```swift
+func printIntegerKinds(_ numbers: Int...) {
+    for number in numbers {
+        switch number.kind {
+        case .negative:
+            print("- ", terminator: "")
+        case .zero:
+            print("0 ", terminator: "")
+        case .positive:
+            print("+ ", terminator: "")
+        }
+    }
+    print("")
+}
+```
+
+```swift
+printIntegerKinds(1, 3, 0, -7, 9, 2, 0, -3) // + + 0 - + + 0 -
+```
+
+
 <br><br>
 
 ---
