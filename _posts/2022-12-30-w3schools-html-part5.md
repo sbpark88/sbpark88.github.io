@@ -800,8 +800,8 @@ body {
 ---
 Reference
 
-1. "HTML Tutorial", W3Schools, last modified latest(Unknown), accessed Dec. 30, 2022, [W3Schools-HTML](https://www.w3schools.com/html/default.asp)
-2. "Top 5 CSS Frameworks for Developers and Designers", Browserstack, last modified Mar. 25, 2022, accessed Jan. 1, 2023, [Top 5 CSS Frameworks][Top 5 CSS Frameworks]
+1. "HTML Tutorial", W3Schools, accessed Dec. 30, 2022, [W3Schools-HTML](https://www.w3schools.com/html/default.asp)
+2. "Top 5 CSS Frameworks for Developers and Designers", Browserstack, Mar. 25, 2022, [Top 5 CSS Frameworks][Top 5 CSS Frameworks]
 
 [Top 5 CSS Frameworks]:https://www.browserstack.com/guide/top-css-frameworks
 [HTML Semantic Elements]:/assets/images/posts/2022-12-30-w3schools-html-part5/img_sem_elements.gif

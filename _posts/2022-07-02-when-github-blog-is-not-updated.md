@@ -85,4 +85,4 @@ timezone: Asia/Seoul
 ---
 Reference
 
-1. "Configuration Options", jekyllrb, last modified unknown, accessed Jul. 2, 2022, [https://jekyllrb.com/docs/configuration/options/](https://jekyllrb.com/docs/configuration/options/)
+1. "Configuration Options", jekyllrb, accessed Jul. 2, 2022, [https://jekyllrb.com/docs/configuration/options/](https://jekyllrb.com/docs/configuration/options/)

@@ -937,8 +937,8 @@ zero!
 ---
 Reference
 
-1. "Functions", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Oct. 19, 2022, [Swift Docs Chapter 5 - Functions](https://docs.swift.org/swift-book/LanguageGuide/Functions.html#)
-2. "First-class citizen", Wikipedia, last modified Oct. 15, 2022, accessed Oct. 19, 2022, [Wikipedia - First Class Citizen](https://en.wikipedia.org/wiki/First-class_citizen)
-3. "First-class function", Wikipedia, last modified Jul. 14, 2022, accessed Oct. 19, 2022, [Wikipedia - First Class Function](https://en.wikipedia.org/wiki/First-class_function)
-4. "Spread syntax", MDN Web Docs, last modified Sep. 19, 2022, accessed Oct. 23, 2022, [MDN - Spread Syntax(...)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
-5. "Rest parameters", MDN Web Docs, last modified Sep. 19, 2022, accessed Oct. 23, 2022, [MDN - Rest Parameters(...args)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)
+1. "Functions." The Swift Programming Language Swift 5.7. accessed Oct. 19, 2022, [Swift Docs Chapter 5 - Functions](https://docs.swift.org/swift-book/LanguageGuide/Functions.html#)
+2. "First-class citizen." Wikipedia. Oct. 15, 2022, [Wikipedia - First Class Citizen](https://en.wikipedia.org/wiki/First-class_citizen)
+3. "First-class function." Wikipedia. Jul. 14, 2022, [Wikipedia - First Class Function](https://en.wikipedia.org/wiki/First-class_function)
+4. "Spread syntax." MDN Web Docs. Sep. 19, 2022, [MDN - Spread Syntax(...)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)
+5. "Rest parameters." MDN Web Docs. Sep. 19, 2022, [MDN - Rest Parameters(...args)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters)

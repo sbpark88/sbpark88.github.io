@@ -227,8 +227,8 @@ Last name, First name. Title of Book. Edited by Translator. Publisher, Year of p
 ---
 Reference
 
-1. "참고문헌 작성법(Citation)", 서울대학교 중앙도서관, accessed Jan. 18, 2023, [서울대학교 중앙도서관 - 참고문헌 작성법(Citation)][서울대학교 중앙도서관 - 참고문헌 작성법(Citation)]
-2. "Chicago Citation Guide (17th Edition): Websites", Columbia College, Jan. 6, 2023, [Columbia College - Chicago Citation Guide][Columbia College - Chicago Citation Guide]
+1. "참고문헌 작성법(Citation)." 서울대학교 중앙도서관, accessed Jan. 18, 2023, [서울대학교 중앙도서관 - 참고문헌 작성법(Citation)][서울대학교 중앙도서관 - 참고문헌 작성법(Citation)]
+2. "Chicago Citation Guide (17th Edition): Websites." Columbia College, Jan. 6, 2023, [Columbia College - Chicago Citation Guide][Columbia College - Chicago Citation Guide]
 
 [서울대학교 중앙도서관 - 참고문헌 작성법(Citation)]:https://libguide.snu.ac.kr/c.php?g=321609&p=2151910
 [Columbia College - Chicago Citation Guide]:https://columbiacollege-ca.libguides.com/chicago/websites

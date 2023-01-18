@@ -203,4 +203,4 @@ print(type(of: mars))   // Planet
 ---
 Reference
 
-1. "Subscripts", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Nov. 28, 2022, [Swift Docs Chapter 11 - Subscripts](https://docs.swift.org/swift-book/LanguageGuide/Subscripts.html)
+1. "Subscripts." The Swift Programming Language Swift 5.7. accessed Nov. 28, 2022, [Swift Docs Chapter 11 - Subscripts](https://docs.swift.org/swift-book/LanguageGuide/Subscripts.html)

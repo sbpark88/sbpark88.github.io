@@ -1351,7 +1351,7 @@ print(AudioChannel.maxInputLevelForAllChannels) // 10
 ---
 Reference
 
-1. "Properties", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Nov. 21, 2022, [Swift Docs Chapter 9 - Properties](https://docs.swift.org/swift-book/LanguageGuide/Properties.html)
-2. "Projected Value", Apple Developer Documentation, last modified latest(Unknown), accessed Nov. 25, 2022, [Apple Developer Documentation - Swift/Swift Standard Library/../projectedValue](https://developer.apple.com/documentation/swift/tasklocal/projectedvalue)
-3. "Projected Value", Apple Developer Documentation, last modified latest(Unknown), accessed Nov. 25, 2022, [Apple Developer Documentation - Swift/Swift UI/../projectedValue](https://developer.apple.com/documentation/swiftui/binding/projectedvalue)
-4. "프로젝션 매핑", Wikipedia, last modified Mar. 6, 2022, accessed Nov. 25, 2022, [프로젝션 매핑](https://ko.wikipedia.org/wiki/프로젝션_매핑)
+1. "Properties." The Swift Programming Language Swift 5.7. accessed Nov. 21, 2022, [Swift Docs Chapter 9 - Properties](https://docs.swift.org/swift-book/LanguageGuide/Properties.html)
+2. "Projected Value." Apple Developer Documentation, accessed Nov. 25, 2022, [Apple Developer Documentation - Swift/Swift Standard Library/../projectedValue](https://developer.apple.com/documentation/swift/tasklocal/projectedvalue)
+3. "Projected Value." Apple Developer Documentation, accessed Nov. 25, 2022, [Apple Developer Documentation - Swift/Swift UI/../projectedValue](https://developer.apple.com/documentation/swiftui/binding/projectedvalue)
+4. "프로젝션 매핑." Wikipedia. Mar. 6, 2022, [프로젝션 매핑](https://ko.wikipedia.org/wiki/프로젝션_매핑)

@@ -201,7 +201,7 @@ class ViewController: UIViewController {
 ---
 Reference
 
-1. "How to loop through view outlets in a UIViewController with Swift?", stackoverflow, last modified Mar. 20, 2015, accessed Jul. 6, 2022, [https://stackoverflow.com/questions/29167294/how-to-loop-through-view-outlets-in-a-uiviewcontroller-with-swift](https://stackoverflow.com/questions/29167294/how-to-loop-through-view-outlets-in-a-uiviewcontroller-with-swift)
-2. "forEach", Developer Apple, last modified latest(Unknown), accessed Jul. 6, 2022, [https://developer.apple.com/documentation/swift/array/foreach(_:)][apple docs array foreach]
+1. "How to loop through view outlets in a UIViewController with Swift?", stackoverflow, Mar. 20, 2015, [https://stackoverflow.com/questions/29167294/how-to-loop-through-view-outlets-in-a-uiviewcontroller-with-swift](https://stackoverflow.com/questions/29167294/how-to-loop-through-view-outlets-in-a-uiviewcontroller-with-swift)
+2. "forEach", Developer Apple, accessed Jul. 6, 2022, [https://developer.apple.com/documentation/swift/array/foreach(_:)][apple docs array foreach]
 
 [apple docs array foreach]: https://developer.apple.com/documentation/swift/array/foreach(_:)

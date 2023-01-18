@@ -111,4 +111,4 @@ print(heartsSymbol)     // ♡
 ---
 Reference
 
-1. "Nested Types", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Jan. 16, 2023, [Swift Docs Chapter 19 - Nested Types](https://docs.swift.org/swift-book/LanguageGuide/NestedTypes.html)
+1. "Nested Types." The Swift Programming Language Swift 5.7. accessed Jan. 16, 2023, [Swift Docs Chapter 19 - Nested Types](https://docs.swift.org/swift-book/LanguageGuide/NestedTypes.html)

@@ -660,5 +660,4 @@ print(evaluate(product))    // 18
 ---
 Reference
 
-1. "Enumerations", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Nov. 1,
-   2022, [Swift Docs Chapter 7 - Enumerations](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html)
+1. "Enumerations." The Swift Programming Language Swift 5.7. accessed Nov. 1, 2022, [Swift Docs Chapter 7 - Enumerations](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html)

@@ -1935,4 +1935,4 @@ printCar(someTruck) // Car name is "BMW Truck" and have 8 cylinders
 ---
 Reference
 
-1. "Initialization", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Dec. 1, 2022, [Swift Docs Chapter 13 - Initialization](https://docs.swift.org/swift-book/LanguageGuide/Initialization.html)
+1. "Initialization", The Swift Programming Language Swift 5.7. accessed Dec. 1, 2022, [Swift Docs Chapter 13 - Initialization](https://docs.swift.org/swift-book/LanguageGuide/Initialization.html)

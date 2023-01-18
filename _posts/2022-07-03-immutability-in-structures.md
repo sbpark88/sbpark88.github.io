@@ -139,5 +139,5 @@ property`에 완전히 `new Instance`를 할당할 수도 있으며, `new Instan
 ---
 Reference
 
-1. "Language Guide", Welcome to Swift.org, last modified latest(Swift 5.7), accessed Jul. 3, 2022, [https://docs.swift.org/swift-book/LanguageGuide/Methods.html#](https://docs.swift.org/swift-book/LanguageGuide/Methods.html#)
-2. "What does the Swift 'mutating' keyword mean?", stackoverflow, last modified Jul. 2 2018, accessed Jul. 3, 2022, [https://stackoverflow.com/questions/51128666/what-does-the-swift-mutating-keyword-mean](https://stackoverflow.com/questions/51128666/what-does-the-swift-mutating-keyword-mean)
+1. "Language Guide", Welcome to Swift.org, accessed Jul. 3, 2022, [https://docs.swift.org/swift-book/LanguageGuide/Methods.html#](https://docs.swift.org/swift-book/LanguageGuide/Methods.html#)
+2. "What does the Swift 'mutating' keyword mean?", stackoverflow, Jul. 2 2018, [https://stackoverflow.com/questions/51128666/what-does-the-swift-mutating-keyword-mean](https://stackoverflow.com/questions/51128666/what-does-the-swift-mutating-keyword-mean)

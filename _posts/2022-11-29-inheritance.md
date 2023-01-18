@@ -232,4 +232,4 @@ class ElectricMotorCar: AutomaticCar {
 ---
 Reference
 
-1. "Inheritance", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Nov. 29, 2022, [Swift Docs Chapter 12 - Inheritance](https://docs.swift.org/swift-book/LanguageGuide/Inheritance.html)
+1. "Inheritance." The Swift Programming Language Swift 5.7. accessed Nov. 29, 2022, [Swift Docs Chapter 12 - Inheritance](https://docs.swift.org/swift-book/LanguageGuide/Inheritance.html)

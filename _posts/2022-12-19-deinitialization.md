@@ -207,4 +207,4 @@ There are now 10000 coins left in the bank
 ---
 Reference
 
-1. "Deinitialization", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Dec. 19, 2022, [Swift Docs Chapter 14 - Deinitialization](https://docs.swift.org/swift-book/LanguageGuide/Deinitialization.html)
+1. "Deinitialization." The Swift Programming Language Swift 5.7. accessed Dec. 19, 2022, [Swift Docs Chapter 14 - Deinitialization](https://docs.swift.org/swift-book/LanguageGuide/Deinitialization.html)

@@ -184,4 +184,4 @@ attribute 가 `iframe`과 사용되면, 브라우저가 아닌 `iframe`을 대�
 ---
 Reference
 
-1. "HTML Tutorial", W3Schools, last modified latest(Unknown), accessed Dec. 23, 2022, [W3Schools-HTML](https://www.w3schools.com/html/default.asp)
+1. "HTML Tutorial", W3Schools, accessed Dec. 23, 2022, [W3Schools-HTML](https://www.w3schools.com/html/default.asp)
