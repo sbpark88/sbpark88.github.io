@@ -6,8 +6,6 @@ categories: javascript
 tags: [javascript, vue, vue js, vue.js, props, parent component, child component, $emit, $refs, provide, inject]
 ---
 
-<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
-
 ### 13. Nested Component - Props 👩‍💻
 
 #### 1. Parent/Child Component and Props

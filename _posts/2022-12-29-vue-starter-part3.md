@@ -6,8 +6,6 @@ categories: javascript
 tags: [javascript, vue, vue js, vue.js, promise, axios, mixins]
 ---
 
-<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
-
 ### 11. Axios 👩‍💻
 
 #### 1. Installation

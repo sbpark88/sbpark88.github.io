@@ -6,8 +6,6 @@ categories: javascript
 tags: [javascript, vue, vue js, vue.js, router, vue router, component, vue component, v-for, v-if, v-show, v-on, computed, watch]
 ---
 
-<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
-
 ### 3. Vue Router 👩‍💻
 
 #### 1. Installation

@@ -6,8 +6,6 @@ categories: javascript
 tags: [javascript, vue, vue js, vue.js, vue cli, vue/cli]
 ---
 
-<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
-
 ### 1. Vue.js Characteristics 👩‍💻
 
 #### 1. MVVM Pattern

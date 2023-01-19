@@ -6,8 +6,6 @@ categories: javascript
 tags: [javascript, vue, vue js, vue.js, composition api, options api, mixins, plugins]
 ---
 
-<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
-
 ### 17. Options API & Composition API 👩‍💻
 
 #### 1. Composition API Examples
