@@ -15,6 +15,60 @@ tags: [web security, xsrf, csrf, sql injection, webgoat, xss, v-html, sop, cors]
 그리고 웹 취약점에 대한 기본 학습 및 테스트를 위해 [OWASP WebGoat](https://github.com/WebGoat/WebGoat) 를 이용하면 
 편리하다. OWASP 에서도 소개하는 방법으로 WebGoat 는 테스트 할 수 있는 웹 서버로 `Docker` 또는 `jar`로 배포된다.
 
+---
+
+### 2. SQL Injection 👩‍💻
+
+- 공격 대상 : 서버
+- 방식 : SQL 에 예상되는 값이 아닌 공격 목적의 값을 보내 데이터를 탈취/삭제/변조한다. SQL 문장이 컴파일 되기 전 
+        String 상태일 때 입력되는 데이터에 취약한 점을 이용한 공격이다.
+
+#### 1. String SQL Injection
+
+```sql
+SELECT * FROM user_data WHERE first_name = 'John' AND last_name = '" + lastName + "';
+```
+
+위 쿼리에 다음과 같은 공격을 하면 모든 데이터를 탈취할 수 있다.
+
+![String SQL Injection 1](/assets/images/posts/2023-01-20-xss-cors-sql-injection/string-sql-injection-1.png)
+
+```sql
+SELECT * FROM user_data WHERE first_name = 'John' and last_name = '' or '1' = '1'
+```
+
+![String SQL Injection 2](/assets/images/posts/2023-01-20-xss-cors-sql-injection/string-sql-injection-2.png)
+
+<br>
+
+비슷하게 다음과 같은 공격도 가능하다.
+
+![String SQL Injection 3](/assets/images/posts/2023-01-20-xss-cors-sql-injection/string-sql-injection-3.png)
+
+![String SQL Injection 4](/assets/images/posts/2023-01-20-xss-cors-sql-injection/string-sql-injection-4.png)
+
+#### 2. Numeric SQL Injection
+
+![Numeric SQL Injection](/assets/images/posts/2023-01-20-xss-cors-sql-injection/numeric-sql-injection.png)
+
+일반적으로 위에 소개된 방식으로는 SQL Injection 이 불가능하다. SQL 실행을 위해 ORM 같은 것을 이용하기 때문에 
+대부분의 쉬운 공격은 실행 이전에 차단된다. 하지만 어떤 식으로 공격이 이루어지는지 알아야 대응을 할 수 있으니 반드시 
+기본부터 알아야한다.
+
+---
+
+### 3. XSRF(CSRF) 👩‍💻
+
+
+---
+
+### 4. XSS 👩‍💻
+
+`v-html` 또는 `findDOMNOde`, `ref` 와 같은 `escape hatch`는 Vue 에게 XSS 공격에 다시 취약하도록 만든다.
+
+XSS 공격에 가장 취약한 DOM 기반 XSS 를 막기 위해서 가급적 HTML 코드를 직접 출력하는 것을 피해야하며, 완벽히 막기는 힘드니
+[vue-sanitize](https://www.npmjs.com/package/vue-sanitize) 또는
+[sanitize-html](https://www.npmjs.com/package/sanitize-html) 과 같은 라이브러리를 사용하는 것도 좋은 방법이다.
 
 
 <br><br>
