@@ -3,7 +3,7 @@ layout: post
 title: Web Security 
 subtitle: XSS, XSRF(CSRF), SQL Injection and OWASP/WebGoat
 categories: security
-tags: [web security, xsrf, csrf, sql injection, webgoat, xss, v-html, sop, cors]
+tags: [web security, xsrf, csrf, csrf token, sql injection, webgoat, xss, v-html, sop, cors]
 ---
 
 ### 1. OWASP/WebGoat 👩‍💻
@@ -19,7 +19,8 @@ tags: [web security, xsrf, csrf, sql injection, webgoat, xss, v-html, sop, cors]
 
 ### 2. SQL Injection 👩‍💻
 
-- 공격 대상 : 서버
+- 공격 대상 : Database
+- 매개체 : 없음
 - 방식 : SQL 에 예상되는 값이 아닌 공격 목적의 값을 보내 데이터를 탈취/삭제/변조한다. SQL 문장이 컴파일 되기 전 
         String 상태일 때 입력되는 데이터에 취약한 점을 이용한 공격이다.
 
@@ -51,24 +52,45 @@ SELECT * FROM user_data WHERE first_name = 'John' and last_name = '' or '1' = '1
 
 ![Numeric SQL Injection](/assets/images/posts/2023-01-20-xss-cors-sql-injection/numeric-sql-injection.png)
 
-일반적으로 위에 소개된 방식으로는 SQL Injection 이 불가능하다. SQL 실행을 위해 ORM 같은 것을 이용하기 때문에 
+
+#### 3. How to prevent?
+
+요즘은 대게 위에 소개된 방식으로는 SQL Injection 이 불가능하다. SQL 실행을 위해 ORM 같은 것을 이용하기 때문에 
 대부분의 쉬운 공격은 실행 이전에 차단된다. 하지만 어떤 식으로 공격이 이루어지는지 알아야 대응을 할 수 있으니 반드시 
-기본부터 알아야한다.
+기본부터 알아야한다. 물론 라이브러리를 신용하는 것 만으로 충분하지 않으므로, 높은 보안이 요구되는 경우 추가적인 장치가 
+필요할 것이다.
 
 ---
 
 ### 3. XSRF(CSRF) 👩‍💻
 
+- 공격 대상 : WAS, Database
+- 매개체 : Browser
+- 방식 : 서버가 이미 인증된 사용자 브라우저의 요청을 신용하는 것을 이용한 공격이다.
 
----
+Cross-site Request Forgery 로 사용자의 의지와 무관하게 서버가 이미 인증된 브라우저를 신용하는 것을 이용해 
+공격한다. 주문하지 않은 물건을 구매하도록 할 수도 있고, 계정의 비밀번호를 변경하거나 기록을 삭제하거나 사용자가 
+하지 않은 송금을 할 수도 있다.
 
-### 4. XSS 👩‍💻
+#### How to prevent?
 
-`v-html` 또는 `findDOMNOde`, `ref` 와 같은 `escape hatch`는 Vue 에게 XSS 공격에 다시 취약하도록 만든다.
+__1 ) Referer 검증__
 
-XSS 공격에 가장 취약한 DOM 기반 XSS 를 막기 위해서 가급적 HTML 코드를 직접 출력하는 것을 피해야하며, 완벽히 막기는 힘드니
-[vue-sanitize](https://www.npmjs.com/package/vue-sanitize) 또는
-[sanitize-html](https://www.npmjs.com/package/sanitize-html) 과 같은 라이브러리를 사용하는 것도 좋은 방법이다.
+HTTP Request Header 에 포함된 [Referer][MDN - Referer] (요청자의 절대 주소 또는 일부 주소로 
+`document.referrer`를 통해 쉽게 확인할 수 있다) 정보를 검증한다
+
+하지만 이것은 쉽게 조작이 가능하기 때문에 크게 도움 되는 방식은 아니다.
+
+<br>
+
+__2 ) CSRF Token__
+
+송금이나 정보 변경과 같은 민감한 정보를 다룰 때 엄청난 크기의 난수 토큰을 발행해 화면을 응답할 때 `form` 에 hidden 
+으로 넣어두거나 `POST` 요청 시 함께 응답할 수 있도록 뷰 페이지를 보내준다. 이렇게 하면 `Cookie` 나 `Local Stroage` 
+등에 저장하지 않으므로 XSS 에 의한 탈취가 어려워진다. 클라이언트는 매 요청마다 이를 함께 보내야하고, 서버는 이를 
+검증한다. 그리고 이러한 토큰은 각 뷰 페이지마다 발행된 후 필요가 없어지면 즉시 삭제된다. 일반적으로 `JWT` 토큰 또는 
+`OAuth 2.0` 인증 토큰 등을 Local Storage 에 저장하는데 이는 XSS 에 의해 탈취되기 쉽기 때문에 `CSRF Token` 
+으로 추가적인 보안 조치를 하는 것이다. 따라서 이 토큰은 예측할 수 없어야한다.
 
 
 <br><br>
@@ -80,3 +102,6 @@ Reference
 2. “사이트 간 스크립팅.” Wikipedia. Aug. 26, 2022, [Wikipedia - 사이트 간 스크립팅](https://ko.wikipedia.org/wiki/사이트_간_스크립팅).
 3. “XSS.” 나무위키. Aug. 09, 2022, [나무위키 - XSS](https://namu.wiki/w/XSS#s-4.4).
 4. "WebGoat/WebGoat." GitHub. Jan. 15, 2023, [https://github.com/WebGoat/WebGoat](https://github.com/WebGoat/WebGoat).
+5. "Referer." MDN Web Docs. Oct. 28, 2022, [MDN - Referer][MDN - Referer]
+
+[MDN - Referer]:https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referer
