@@ -3,7 +3,7 @@ layout: post
 title: Web Security 
 subtitle: XSS, XSRF(CSRF), SQL Injection and OWASP/WebGoat
 categories: security
-tags: [web security, xsrf, csrf, csrf token, sql injection, webgoat, xss, v-html, sop, cors]
+tags: [web security, xsrf, csrf, csrf token, sql injection, ddos, webgoat, xss, v-html, sop, cors]
 ---
 
 ### 1. OWASP/WebGoat 👩‍💻
@@ -92,6 +92,62 @@ __2 ) CSRF Token__
 `OAuth 2.0` 인증 토큰 등을 Local Storage 에 저장하는데 이는 XSS 에 의해 탈취되기 쉽기 때문에 `CSRF Token` 
 으로 추가적인 보안 조치를 하는 것이다. 따라서 이 토큰은 예측할 수 없어야한다.
 
+CSRF Token 관련해서는 [PortSwigger - CSRF][PortSwigger - CSRF] 와 
+[PortSwigger - CSRF Token Validation][PortSwigger - CSRF Token Validation] 를 참고하면 좋을 것 같다.
+
+---
+
+### 4. DDoS 👩‍💻
+
+- 공격 대상 : WAS
+- 매개체 : Client PC
+- 방식 : 많은 컴퓨터를 감염시켜 짧은 ping 으로 동시 다발적으로 요청해 서버에 과부하를 일으켜 장애를 유발하는 공격이다.
+
+Distributed Denial of Service 공격은 네트워크(계층 3), 전송(계층 4), 표현(계층 6) 및 애플리케이션(계층 7) 계층에서 
+가장 많이 나타나며 서비스의 장애를 일으키는 것이 목적이다.
+
+#### How to prevent?
+
+사실상 DDoS 공격은 공격 당하는 서버를 감염시키는 것이 아닌 다수의 클라이언트를 감염시키는 것이라 서버 측에서 예방을 
+할 수는 없고 방어만 가능하다.
+
+__1 ) DDoS 패턴 탐지__
+
+정상 트래픽과 비정상 트래픽을 분석하고 빠르게 탐지해 정상적인 트래픽만 수용할 수 있도록 해 수용 가능한 트래픽을 제한한다.
+
+<br>
+
+__2 ) CDN 등을 이용한 분산__
+
+Content Delivery Network 의 본래 목적은 세계 여러 곳에 분산시킴으로써 페이지 로드 시간을 단축시키고, 대역폭 비용을 
+절감하며, 가용성을 높이는 것이다. 즉, CDN 을 구축한다는 것은 공격의 대상을 한 곳에 집중할 수 없도록 해 DDoS 공격에 의해 전체 
+서비스가 마비되는 것을 방지한다.
+
+---
+
+### 5. XSS 👩‍💻
+
+- 공격 대상 : Client
+- 매개체 : Browser
+- 방식 : 사용자가 특정 웹 사이트를 신용하는 것을 이용한 공격이다.
+
+
+#### Difference between `XSS` and `CSRF`
+
+XSS 와 CSRF 는 모두 사용자의 브라우저를 매개체로 한다는 점은 동일하다. 하지만 CSRF 는 신뢰하는 서버를 대상으로
+공격하므로 `사용자의 인증된 세션을 악용`한다. 반면 XSS 는 `브라우저 자체에 대해 공격`한다.
+
+- CSRF 공격 : 물품 구매나 송금과 같은 요청을 서버로 보낸다. 또는 공격자가 직접 CSRF 를 이용해 정보를 빼와 탈취한다.
+- CSRF & XSS 공격 : CSRF 를 이용해 정보를 빼오거나 수정 후 XSS 를 이용해 공격자에게 전송해 탈취한다.
+- XSS 공격 : 브라우저에 저장된 계정 정보나 세션 정보 등을 공격자에게 전송해 탈취한다.
+
+
+`v-html` 또는 `findDOMNOde`, `ref` 와 같은 `escape hatch`는 Vue 에게 XSS 공격에 다시 취약하도록 만든다.
+
+XSS 공격에 가장 취약한 DOM 기반 XSS 를 막기 위해서 가급적 HTML 코드를 직접 출력하는 것을 피해야하며, 완벽히 막기는 힘드니
+[vue-sanitize](https://www.npmjs.com/package/vue-sanitize) 또는
+[sanitize-html](https://www.npmjs.com/package/sanitize-html) 과 같은 라이브러리를 사용하는 것도 좋은 방법이다.
+
 
 <br><br>
 
@@ -103,5 +159,11 @@ Reference
 3. “XSS.” 나무위키. Aug. 09, 2022, [나무위키 - XSS](https://namu.wiki/w/XSS#s-4.4).
 4. "WebGoat/WebGoat." GitHub. Jan. 15, 2023, [https://github.com/WebGoat/WebGoat](https://github.com/WebGoat/WebGoat).
 5. "Referer." MDN Web Docs. Oct. 28, 2022, [MDN - Referer][MDN - Referer]
+6. "Cross-site request forgery (CSRF)." PortSwigger. accessed Jan. 20, 2023, [PortSwigger - CSRF][PortSwigger - CSRF]
+7. "Bypassing CSRF token validation." PortSwigger. accessed Jan. 20, 2023, [PortSwigger - CSRF Token Validation][PortSwigger - CSRF Token Validation]
+8. "DDoS 공격이란 무엇입니까?." AWS. accessed Jan. 20, 2023, [DDoS 공격이란 무엇입니까?](https://aws.amazon.com/ko/shield/ddos-attack-protection/)
+9. "CDN이란 무엇입니까?." AWS. accessed Jan. 20, 2023, [CDN이란 무엇입니까?](https://aws.amazon.com/ko/what-is/cdn/)
 
 [MDN - Referer]:https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referer
+[PortSwigger - CSRF]:https://portswigger.net/web-security/csrf
+[PortSwigger - CSRF Token Validation]:https://portswigger.net/web-security/csrf/bypassing-token-validation
