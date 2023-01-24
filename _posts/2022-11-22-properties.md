@@ -1189,8 +1189,8 @@ someFunction()
 #### 1. Type Property Syntax
 
 `Global Static Variables`와 마찬가지로 `Properties` 앞에 `static` 키워드를 사용한다.  
-그리고 `Superclass`의 `Computed Properties`를 `Subclass`에서 `override` 할 때는 `static` 키워드 대신 
-`class` 키워드를 사용한다.
+단, Classes 의 경우 Computed Properties 를 Subclass 가 overriding 을 허용하려면 `static` keyword 대신 
+`class` keyword 를 사용한다.
 
 > `Type Properties`는 정의할 때 반드시 `Initiate Value`를 함께 정의해야한다.
 
@@ -1225,7 +1225,7 @@ enum SomeEnumeration {
 - Classes
 
 ```swift
-class SomeClass {
+class SomeClass: SomeSuperClass {
     static var someTypeProperty = "Initiate Value"
     static var computedTypeProperty: Int {
         return 27
@@ -1235,6 +1235,9 @@ class SomeClass {
     }
 }
 ```
+
+> computedTypeProperties 는 `static` keyword 를 사용헸지만 overrideableComputedTypeProperty 는 
+> `class` keyword 를 사용해 overriding 을 허용했다.
 
 #### 2. Querying and Setting Type Properties
 
@@ -1256,7 +1259,7 @@ struct AnotherStructure {
 
 - Type Properties
 
-```
+```swift
 print(AnotherStructure.storedTypeProperty)   // Apple
 print(AnotherStructure.computedTypeProperty) // 1
 
