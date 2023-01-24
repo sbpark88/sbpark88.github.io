@@ -3,7 +3,7 @@ layout: post
 title: Vue.js Starter - Part 6
 subtitle: Vue.js 프로젝트 투입 일주일 전
 categories: javascript
-tags: [javascript, vue, vue js, vue.js, proxy, cors, xss, sop, vuex, store, state, mutations, actions, build]
+tags: [javascript, vue, vue js, vue.js, proxy, cors, xss, sop, vuex, pinia, singleton, store, state, mutations, actions, build]
 ---
 
 ### 23. Proxy 👩‍💻
@@ -353,7 +353,598 @@ Vue 서버로 요청했지만 정상적으로 Mock 서버와 통신해 데이터
 
 ### 24. Vuex 👩‍💻
 
+#### 1. What is Vuex?
 
+다음과 같은 `self-contained app`이 있다고 해보자.
+
+```javascript
+const Counter = {
+  // state
+  data () {
+    return {
+      count: 0
+    }
+  },
+  // view
+  template: `
+    <div>{{ count }}</div>
+  `,
+  // actions
+  methods: {
+    increment () {
+      this.count++
+    }
+  }
+}
+
+createApp(Counter).mount('#app')
+```
+
+![Vue Data Flow](/assets/images/posts/2023-01-10-vue-starter-part6/vue-data-flow.png){: width="800"}
+
+이 경우 데이터 흐름은 단순하게 `one-way data flow`을 보인다. 하지만 어떤 상태를 단일 컴포넌트가 아닌 서로 다른 뷰 컴포넌트가 
+공유해야 하는 경우에는 어떨까?
+
+두 컴포넌트가 부모자식 사이일 경우 `props`를 이용해 공유하고 `$emit`을 통해 동기화가 가능하다. 하지만 이건 부모자식 사이에만 
+가능하다. 여러 계층일 경우는 그만큼 여러 차례 `drill down` 해서 내려가야한다. 또한 부모자식이 아닌 형제 컴포넌트 간에 교환은 
+불가능하다.
+
+이러한 문제는 또 다른 SPA 인 React 에서도 존재했으며, React 는 Redux 를 이용해 문제를 해결했다. SPA 가 규모가 커지면서 
+여러 컴포넌트에서 상태를 공유하는 데 어려움을 느끼게되었고, 이를 해결하기 위해 여러 컴포넌트에서 상태를 공유할 필요가 있는 데이터를 
+`Global Sintleton`으로써 관리하도록 변경했다. Vue 에서 이 상태 관리 매니저 역할을 하는 것이 Vuex 라이브러리다.
+
+Vuex 를 사용하면 여러 컴포넌트는 다음과 같이 Vuex 를 `Global Singleton`으로 공유하게된다.
+
+![Vuex Data Flow](/assets/images/posts/2023-01-10-vue-starter-part6/vuex-data-flow.png){: width="800"}
+
+#### 2. Difference between `Vuex` and `Provide/Inject`
+
+[Provide/Inject](/javascript/2023/01/01/vue-starter-part4.html#h-16-nested-component---provideinject-) 역시 
+여러 컴포넌트에서 데이터를 사용할 수 있었다. 그렇다면 Vuex 와 차이가 무엇일까?
+
+`Provide/Inject`는 `Vuex`와 성격이 메우 다르다. Provide/Inject 별도의 라이브러리가 아니며, Vue 가 자체적으로 지원하는 
+기능으로 데이터의 흐름은 부모 컴포넌트에서 자식 컴포넌트로 흐른다. 앱의 최상단인 `App-level`에서 주입하면 모든 컴포넌트에서 사용 
+가능하도록 만들 수 있기 때문에 Vuex 와 같이 여러 컴포넌트에서 사용하는 것이 가능하지만, 컴포넌트간 상태 관리가 목적이 아니다.
+
+- Provide/Inject : 부모에서 자식으로 트리 구조가 1 계층 이상인 경우 손쉽게 drill down 하기 위해 사용한다.
+- Vuex : 여러 컴포넌트에서 상태를 공유하기 위해 사용한다.
+
+> 사실 다른 앱 개발에서 Reference Types 인 `Class`에 자기 자신을 static 변수로 만들고 Initializer 를 private 으로 만들어 
+> `Singleton Design Pattern`을 적용하면 손쉽게 해결되는 문제이다. 아니면 뭐 단순히 데이터 저장 공유가 목적이면 
+> `Type Properties`와 `Type Methods`를 사용하면 되는 간단한 문제지만 Vue 는 결국 브라우저 환경에서, 하나의 Document 안에서 
+> 이루어져야하는 SPA 특성의 한계를 극복하기 위해 생겨난 라이브러리인 것이다.
+
+#### 3. Next Generation is `Pinia`
+
+Vuex 3.x 는 Vue 2 를 위한것이었고, Vuex 4.x 는 Vue 3 를 위한 것이었다. 그리고 Vuex 의 다음 버전인 Vuex 5 에 대해 여러 
+아이디어를 토론하던 중 이미 Vuex 5 에서 원하는 대부분을 구현하고있는 `Piania`가 이미 존재하고 있다는 것을 알게 되었다. 따라서 Vuex 5 
+를 개발하는 대신 Vue 의 공식 상태 관리 라이브러리는 `Pinia`로 변경되었으며, Vuex 3 과 4는 계속 유지는 되지만 기능 추가가 되지는 
+않을 것이라 한다.
+
+사실상 둘은 업그레이드 버전이 아닌 다른 라이브러리이므로 하나의 프로젝트 내에 `Pinia`와 `Vuex`를 모두 설치하는 것이 가능하다. 
+이로써 기존에 Vuex 를 사용중인 앱이 Pinia 로 마이그레이션 하는 것을 점진적으로 처리할 수 있을 것이다. 그러나 새 프로젝트를 시작할 
+계획이라면 더이상 Vuex 를 사용하지 말고 `Pinia`를 사용할 것을 권장하고있다.
+
+Comparison with Vuex 3.x/4.x ¶
+
+- Pinia 에는 더이상 `mutations`가 존재하지 않는다.
+- TypeScript 의 Type Inference 를 활용하므로 더이상 TypeScript 를 지원하기 위해 Custom Complex Wrappers 를 만들 필요가 없다.
+- 자동완성을 지원한다.
+- 더이상 동적으로 `store` 를 추가할 필요가 없다. Pinia 에서는 이미 동적이다. 만약 직접 다루길 원한다면 할 수는 있지만 사용자가 눈치채지 
+  못하더라도 이미 동적으로 관리되도록 자동화 되어 있으므로 그럴 필요가 없다.
+- 더이상 중첩된 모듈 구조가 없다. 여전히 store 를 다른 store 안에서 import 함으로써 nest store 를 암시적으로 포함할 수 있지만 
+  ,  Pinia 는 평면 구조로 이를 디자인 해 제공하는 동시에 stores 간에 교차 구성을 가능하게 한다(Stores 의 순환 종속을 가질 수도 있다).
+- 더이상 `Namespaced Modules`가 존재하지 않는다. Stores 가 `flat architecture`로 제공되므로 `namespacing`은 어떻게 
+  정의되었는가에 의해 상속되므로 모든 stores 는 `namedspaced` 되었다 할 수 있다.
+
+#### 4. Installation
+
+Pinia 는 나중에 다시 알아보도록하고 책의 내용에 맞춰 Vuex 를 이용해 진행하도록 한다.
+
+```shell
+npm install vuex@next --S
+```
+
+#### 5. Store with Options API
+
+Vuex 나 Pinia 는 모두 Vue 의 `State Management Library`다. 그리고 이들이 저장하는 데이터는 `Store`라 부르는 Object 
+컨테이너에 저장되어 관리된다.
+
+![Store Tree](/assets/images/posts/2023-01-10-vue-starter-part6/store-tree.png){: width="800"}
+
+- /src/store/index.js
+
+```javascript
+import { createStore } from 'vuex'
+
+export default createStore({
+  state () {
+    return {
+      count: 0
+    }
+  },
+  mutations: {
+    increment (state) {
+      state.count++
+    }
+    // 아래와 같이 this.state 로도 접근 가능하다. 하지만 Vuex 공식 예제를 보면 위와 같은 방법을 사용하도록 지시한다.
+    // increment () {
+    //   this.state.count++
+    // }
+  }
+})
+```
+
+> - state : 공유될 데이터 Object 를 정의한다.
+> - mutations : state 는 외부에서 접근해 변경하는 것은 가능하나, 내부에서는 mutations 를 통해서만 변경된다. 이 mutations 를 
+>               각 컴포넌트에서 호출할 때는 `this.$store.commit('mutation-method-name')`을 통해 호출한다.
+
+- /src/views/StoreOptionsAPI.vue
+
+{% raw %}
+```vue
+<template>
+  <p>Count: {{ count }}</p>
+  <button type="button" @click="increment">Increment</button>
+</template>
+
+<script>
+export default {
+  name: 'StoreOptionsAPI',
+  computed: {
+    count () {
+      return this.$store.state.count
+    }
+  },
+  methods: {
+    increment () {
+      // this.$store.state.count++
+      this.$store.commit('increment')
+    }
+  }
+}
+</script>
+
+<style scoped>
+p { color: red; }
+</style>
+```
+{% endraw %}
+
+> mutations 를 사용하지 않고 외부에서 직접 state 의 값을 변경하는 것이 가능하다(i.e. `this.$store.state.count++`).  
+> 이것이 가능한 것으로 보아 member 가 private 으로 관리되서 내부에서 변경하도록 setter 를 사용하듯 mutations methods 를 
+> 사용할 수 밖에 없던 것은 아닌 것 같다. 뒤에서 `actions`를 설명하면서 다시 이야기 하겠지만 아마 `mutations`가 `Synchronous`로 
+> 동작하기 때문인 것 같다. 그렇기 때문에 Vuex 공식 문서를 보면 Vuex 는 상태 변화시 mutations 를 사용해 상태를 변경하도록 
+> 안내했던 것으로 보인다. 또한 공식 문서의 mutations 항목을 보면 devTool 이 상태 변화를 스냅샷을 이용해 추적할 수 있다고 한다. 
+> 
+> Vuex 컨테이너 자체는 Reference Types 의 Singleton 을 모델로 하고 있다는 것만 제외하면 Vuex 의 member 의 성질은 
+> Swift 에서 [Structures][Swift - mutating in Structures] 의 동작과 유사해보인다.
+> 
+> 하지만, Vuex 는 이제 deprecated 된 것이나 마찬가지고 Pinia 는 mutations 가 없으니 추후 migration 을 위해서라도 
+> mutations 를 사용하는 것은 지양하는 것이 좋을 것 같다.
+
+- /src/views/AnotherStoreOptionsAPI.vue
+
+{% raw %}
+```vue
+<template>
+  <p>Count: {{ count }}</p>
+  <button type="button" @click="increment">Increment</button>
+</template>
+
+<script>
+export default {
+  name: 'AnotherStoreOptionsAPI',
+  computed: {
+    count () {
+      return this.$store.state.count
+    }
+  },
+  methods: {
+    increment () {
+      this.$store.commit('increment')
+    }
+  }
+}
+</script>
+
+<style scoped>
+p { color: blue; }
+</style>
+```
+{% endraw %}
+
+![Vuex State 1](/assets/images/posts/2023-01-10-vue-starter-part6/vuex-state-1.png)
+
+![Vuex State 2](/assets/images/posts/2023-01-10-vue-starter-part6/vuex-state-2.png)
+
+`Vuex Store 1` 페이지에서 변경한 상태값이 `Vuex Store 2` 페이지에서도 유지되는 것을 확인할 수 있다.
+
+#### 6. Store with Composition API
+
+위에서 2개의 Vuex 페이지는 모두 Options API 를 사용했다. `Composition API` 에서 Vuex 를 사용하도록 변경해보자.
+
+`computed`, `reactive`, `ref`, `toRefs` 등을 사용하기 위해 `vue` 에서 기능을 import 하던 것처럼 
+`vuex`로부터 `useStore`를 import 해서 사용한다.
+
+`AnotherStoreOptionsAPI`를 `StoreCompositionAPI`로 바꾸고 다음과 같이 코드를 수정한다.
+
+- /src/views/StoreCompositionAPI.vue
+
+{% raw %}
+```vue
+<template>
+  <p>Count: {{ count }}</p>
+  <button type="button" @click="increment">Increment</button>
+</template>
+
+<script>
+import { useStore } from 'vuex'
+import { computed } from 'vue'
+
+export default {
+  name: 'StoreCompositionAPI',
+  setup () {
+    const store = useStore()
+    return {
+      count: computed(() => store.state.count),
+      increment: () => store.commit('increment')
+    }
+  }
+}
+</script>
+
+<style scoped>
+p { color: blue; }
+</style>
+```
+{% endraw %}
+
+기능이 적을 때는 위와 같이 작성해도 무방하지만 컴포넌트에 기능이 많을 경우 분석하기 어려워질 수 있다. vuex 의 counter 와 연관된 기능을 
+분리시켜보자.
+
+{% raw %}
+```vue
+<template>
+  <p>Count: {{ count }}</p>
+  <button type="button" @click="increment">Increment</button>
+</template>
+
+<script>
+import { useStore } from 'vuex'
+import { computed, reactive, toRefs } from 'vue'
+
+const storeCounter = (store) => {
+  const state = reactive({
+    count: computed(() => store.state.count),
+    increment: () => store.commit('increment')
+  })
+  return toRefs(state)
+}
+
+export default {
+  name: 'StoreCompositionAPI',
+  setup () {
+    const store = useStore()
+    const { count, increment } = storeCounter(store)
+    return { count, increment }
+  }
+}
+</script>
+
+<style scoped>
+p { color: blue; }
+</style>
+
+```
+{% endraw %}
+
+#### 7. Getters
+
+위에서는 단순히 Store 에 저장된 state 의 값을 가져오기만했다. 그런데 만약 값을 가져오기 위한 custom 로직(예를 들어 filter 를 
+수행하거나, prefix 를 붙이거나, 2개의 값을 결합하는 등)이 필요할 경우 모든 컴포넌트에서 이를 copy/paste 해야한다. 따라서 이런 
+로직은 해당 객체 내에서 로직을 수행하고 그 결과를 가져다 사용할 수 있도록 캡슐화 하는 것이 좋다.
+ 
+increment 가 몇 번 호출되었는지를 getter 를 이용해 가져와보자.
+
+- /src/store/index.js
+
+```javascript
+import { createStore } from 'vuex'
+
+export default createStore({
+  state () {
+    return {
+      count: 0
+    }
+  },
+  mutations: {
+    increment (state) {
+      state.count++
+    }
+  },
+  getters: {
+    calledEvenTimes (state) {
+      return state.count % 2 === 0
+    }
+  }
+})
+```
+
+getters 에서 로직을 이미 적용했기 때문에 모든 컴포넌트가 동일한 결과를 얻을 수 있다. 단지 컴포넌트는 조회만 하면 된다.
+
+- /src/views/StoreOptionsAPI.vue
+
+{% raw %}
+```vue
+<template>
+  <p>
+    Count: {{ count }}
+    <span>{{ calledEvenTimes ? '짝수번 호출되었습니다' : '홀수번 호출되었습니다' }}</span>
+  </p>
+  <button type="button" @click="increment">Increment</button>
+</template>
+
+<script>
+export default {
+  name: 'StoreOptionsAPI',
+  computed: {
+    count () {
+      return this.$store.state.count
+    },
+    calledEvenTimes () {
+      return this.$store.getters.calledEvenTimes
+    }
+  },
+  methods: {
+    increment () {
+      this.$store.commit('increment')
+    }
+  }
+}
+</script>
+
+<style scoped>
+p { color: red; }
+</style>
+```
+{% endraw %}
+
+- /src/views/StoreCompositionAPI.vue
+
+{% raw %}
+```vue
+<template>
+  <p>
+    Count: {{ count }}
+    <span>{{ calledEvenTimes ? '짝수번 호출되었습니다' : '홀수번 호출되었습니다' }}</span>
+  </p>
+  <button type="button" @click="increment">Increment</button>
+</template>
+
+<script>
+import { useStore } from 'vuex'
+import { computed, reactive, toRefs } from 'vue'
+
+const storeCounter = (store) => {
+  const state = reactive({
+    count: computed(() => store.state.count),
+    calledEvenTimes: computed(() => store.getters.calledEvenTimes),
+    increment: () => store.commit('increment')
+  })
+  return toRefs(state)
+}
+export default {
+  name: 'StoreCompositionAPI',
+  setup () {
+    const store = useStore()
+    const { count, calledEvenTimes, increment } = storeCounter(store)
+    return { count, calledEvenTimes, increment }
+  }
+}
+</script>
+
+<style scoped>
+p { color: blue; }
+</style>
+```
+{% endraw %}
+
+> Vue 3.0 버전에서 Getters 의 결과가 Computed Properties 에 의해 캐싱 되지 않는 문제가 보고되었다. 해당 문제를 제기한 
+> 깃의 PR 을 보면 Vue 3.1 부터 정상 동작하는 것으로 보인다.
+
+#### 8. Mutations and Actions
+
+Pinia 는 mutations 가 존재하지 않으므로 더이상 필요한 개념은 아니다. 정확한 것은 Pinia 에서 상태 관리를 어떻게 하고 값을 
+다루는지를 확인한 후 포스팅을 일부 수정할 필요가 있을 것으로 보인다. 단, 아직 Vuex 를 사용중이라면 mutations 를 사용하고 있을텐데 
+Vuex 에서 mutations 없이도 컴포넌트에서 state 수정이 가능했음에도 불구하고 mutations 를 사용한 이유는 Vuex 의 Actions 설명을 
+보면 다음으로 추측된다.
+
+- Mutations : Synchronous 로 동작.
+- Actions : Asynchronous 로 동작하며 여러 개의 mutations 를 실행할 수 있다.
+
+
+Action handlers 는 Store instance 와 동일한 `context` object 를 노출시킴으로써 작동하며 Store 의 4가지 기능을 사용할 
+수 있다.
+
+- context.state : state 에 접근한다.
+- context.getter : getter 에 접근한다.
+- context.commit : mutation 을 commit 한다.
+- context.dispatch : action 을 호출한다.
+
+> context.state 는 store.state 와 같고, context.dispatch 는 store.dispatch 와 같다. context arguments 로 넣지 
+> 않고 그냥 store 를 써도 된다.
+
+<br>
+
+Actions 를 이용해 Mutations 의 increment 를 호출하도록 변경해보자.
+
+
+- /src/store/index.js
+
+```javascript
+import { createStore } from 'vuex'
+
+export default createStore({
+  state () {
+    return {
+      count: 0
+    }
+  },
+  mutations: {
+    increment (state) {
+      state.count++
+    }
+  },
+  getters: {
+    calledEvenTimes (state) {
+      return state.count % 2 === 0
+    }
+  },
+  actions: {
+    incrementInActions (context) {
+      context.commit('increment')
+    }
+  }
+})
+```
+
+그리고 `context.commit`, `store.commit`은 그냥 다음과 같이 축약해서 사용할 수 있다.
+
+```javascript
+import { createStore } from 'vuex'
+
+export default createStore({
+  // ...
+  actions: {
+    incrementInActions ({ commit }) {
+      console.log('\'increment\' will be called by actions.')
+      commit('increment')
+    }
+  }
+})
+
+```
+
+<br>
+
+- /src/views/StoreOptionsAPI.vue
+
+{% raw %}
+```vue
+<template>
+  <p>
+    Count: {{ count }}
+    <span>{{ calledEvenTimes ? '짝수번 호출되었습니다' : '홀수번 호출되었습니다' }}</span>
+  </p>
+  <button type="button" @click="increment">Increment</button><br><br>
+  <button type="button" @click="incrementInActions">Increment(called by actions)</button>
+</template>
+
+<script>
+export default {
+  name: 'StoreOptionsAPI',
+  computed: {
+    count () {
+      return this.$store.state.count
+    },
+    calledEvenTimes () {
+      return this.$store.getters.calledEvenTimes
+    }
+  },
+  methods: {
+    increment () {
+      this.$store.commit('increment')
+    },
+    incrementInActions () {
+      this.$store.dispatch('incrementInActions')
+    }
+  }
+}
+</script>
+
+<style scoped>
+p { color: red; }
+</style>
+```
+{% endraw %}
+
+> mutations 는 `commit`으로 호출하고, actions 는 `dispatch`로 호출한다는 것을 꼭 기억하자.
+
+- /src/views/StoreCompositionAPI.vue
+
+{% raw %}
+```vue
+<template>
+  <p>
+    Count: {{ count }}
+    <span>{{ calledEvenTimes ? '짝수번 호출되었습니다' : '홀수번 호출되었습니다' }}</span>
+  </p>
+  <button type="button" @click="increment">Increment</button><br><br>
+  <button type="button" @click="incrementInActions">Increment(called by actions)</button>
+</template>
+
+<script>
+import { useStore } from 'vuex'
+import { computed, reactive, toRefs } from 'vue'
+
+const storeCounter = (store) => {
+  const state = reactive({
+    count: computed(() => store.state.count),
+    calledEvenTimes: computed(() => store.getters.calledEvenTimes),
+    increment: () => store.commit('increment'),
+    incrementInActions: () => store.dispatch('incrementInActions')
+  })
+  return toRefs(state)
+}
+export default {
+  name: 'StoreCompositionAPI',
+  setup () {
+    const store = useStore()
+    const { count, calledEvenTimes, increment, incrementInActions } = storeCounter(store)
+    return { count, calledEvenTimes, increment, incrementInActions }
+  }
+}
+</script>
+
+<style scoped>
+p { color: blue; }
+</style>
+```
+{% endraw %}
+
+> 근데 막상 mutations 의 increment 를 `setTimeout(() => state.count++, 3000)` 로 바꿔 테스트 해보니 Mutations 에서도 
+> setTimout 이 문제 없이 동작했다. 결국 싱글 스레드인 JavaScript 에서 둘은 차이가 없는 것 아닌가 생각되는데 이 부분은 좀 더 깊게 
+> 살펴봐야 할 것으로 보인다.
+
+#### 9. Account Examples
+
+Vuex 가 실무에서 가장 많이 사용되는 예는 사용자가 로그인 했을 때 그 사용자 정보를 저장하는 것이다.
+
+```javascript
+import { createStore } from 'vuex'
+import persistedstate from 'vuex-persistedstate'
+
+const store = createStore({
+  state () {
+    return {
+      user: { }
+    }
+  },
+  mutations: {
+    user (state, data) {
+      state.user = data
+    }
+  },
+  plugins: [
+    persistedstate({
+      path: ['user']
+    })
+  ]
+})
+
+export default store
+```
 
 <br><br>
 
@@ -362,8 +953,10 @@ Reference
 
 1. 고승원. Vue.js 프로젝트 투입 일주일 전. 비제이퍼블릭 Chapter 10, 2021.
 2. 고승원. Vue.js 프로젝트 투입 일주일 전. 비제이퍼블릭 Chapter 11, 2021.
-3. 고승원. Vue.js 프로젝트 투입 일주일 전. 비제이퍼블릭 Chapter 12, 2021.
-4. Agnė Augustėnė. “프록시 VPN, 서로 어떻게 다를까?.” NordVPN. last modified Dec. 12, 2021, [VPN vs. Proxy](https://nordvpn.com/ko/blog/proxy-versus-vpn/).
-5. "Same-origin policy." MDN Web Docs. Dec. 13, 2022, accessed Jan. 22, 2023, [MDN - Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy).
-6. "Access-Control-Allow-Origin." MND Web Docs. Jan. 07, 2023, accessed Jan. 22, 2023, [MDN - Access-Control-Allow-Origin](https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Access-Control-Allow-Origin).
-7. 
+3. Agnė Augustėnė. “프록시 VPN, 서로 어떻게 다를까?.” NordVPN. last modified Dec. 12, 2021, [VPN vs. Proxy](https://nordvpn.com/ko/blog/proxy-versus-vpn/).
+4. "Same-origin policy." MDN Web Docs. Dec. 13, 2022, accessed Jan. 22, 2023, [MDN - Same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy).
+5. "Access-Control-Allow-Origin." MND Web Docs. Jan. 07, 2023, accessed Jan. 22, 2023, [MDN - Access-Control-Allow-Origin](https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Access-Control-Allow-Origin).
+6. "What is Vuex." Vuex Docs. Oct. 15, 2022, accessed Jan. 23, 2023, [Vuex Documentation](https://vuex.vuejs.org).
+7. "What is Pinia." Pinia Docs. accessed Jan. 24, 2024, [Pinia Documentation](https://pinia.vuejs.org).
+
+[Swift - mutating in Structures]:/swift/2022/11/27/methods.html#h-2-modifying-value-types-from-within-instance-methods
