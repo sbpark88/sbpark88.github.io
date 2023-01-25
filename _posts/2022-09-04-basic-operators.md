@@ -408,4 +408,4 @@ print(location!)                    // Prints "California"
 ---
 Reference
 
-1. "Basic Operators", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Sep. 4, 2022, [Swift Docs Chapter 1 - Basic Operators](https://docs.swift.org/swift-book/LanguageGuide/BasicOperators.html)
+1. "Basic Operators", The Swift Programming Language Swift 5.7, last modified latest(Unknown), accessed Sep. 4, 2022, [Swift Docs Chapter 1 - Basic Operators](https://docs.swift.org/swift-book/LanguageGuide/BasicOperators.html).

@@ -3,7 +3,7 @@ layout: post
 title: Swift Functions
 subtitle: Functions, Nested Functions, First-Class Citizens
 categories: swift
-tags: [swift docs, function, nested function, first class citizen]
+tags: [swift docs, function, nested function, typealias, first class citizen, multiple return values, implicit return, argument label, default parameter value, variadic parameter, inout parameter]
 ---
 
 ### 1. Defining and Calling Functions 👩‍💻
@@ -16,10 +16,13 @@ func name (parameters) -> return type {
 }
 ```
 
-- Name: 함수를 `정의할 때` 작성한다. 함수를 정의하고 호출할 때 사용하기 위한 필수 요소다.
-- Parameters(Optional): 함수를 `정의할 때` 작성한다. 함수가 실행될 때 입력되어 내부에서 사용할 값들로, 하나 또는 그 이상 정의할 수 있다.
-- Return Type(Optional): 함수를 `정의할 때` 작성한다. 함수가 실행을 마치고 종료되며 반환할 값으로, 단 하나의 타입을 정의할 수 있다.
-- Arguments(Optional): 함수를 `호출할 때` 작성한다. 함수를 실행하기 위해 함수 외부에서 전달하는 값으로, 반드시 `Parameters`의 `순서 및 타입과 일치`해야한다.
+- Name: 함수를 <span style="color: orange;">정의할 때</span> 작성한다. 함수를 정의하고 호출할 때 사용하기 위한 필수 요소다.
+- Parameters(Optional): 함수를 <span style="color: orange;">정의할 때</span> 작성한다. 함수가 실행될 때 입력되어 내부에서 
+                        사용할 값들로, 하나 또는 그 이상 정의할 수 있다.
+- Return Type(Optional): 함수를 <span style="color: orange;">정의할 때</span> 작성한다. 함수가 실행을 마치고 종료되며 
+                         반환할 값으로, 단 하나의 타입을 정의할 수 있다.
+- Arguments(Optional): 함수를 <span style="color: red;">호출할 때</span> 작성한다. 함수를 실행하기 위해 함수 외부에서 
+                       전달하는 값으로, 반드시 `Parameters`의 `순서 및 타입과 일치`해야한다.
 
 <br>
 
@@ -39,7 +42,7 @@ __2 ) Calling Functions__
 print(greet(person: "Anna"))    // Hello, Anna! 
 ```
 
-> 함수의 `이름`, `파라미터`, `리턴 타입`은 함수가 무슨 일을 할지, 무엇을 입력 받을지, 무엇을 반환 할지를 설명하는 정보이므로 명확히 작성하도록 한다.
+> 함수의 `Name`, `Parameters`, `Return Type`은 함수가 무슨 일을 할지, 무엇을 입력 받을지, 무엇을 반환 할지를 설명하는 정보이므로 명확히 작성하도록 한다.
 
 ---
 
@@ -88,7 +91,7 @@ print(greet(person: "Tim", alreadyGreeted: true))   // Hello again, Tim!
 
 #### 3. Functions Without Return Values
 
-`Return Type`이 없을 때는 `Void`를 `Return Type`으로 정의한다.
+_Return Type_ 이 없을 때는 `Void`를 _Return Type_ 으로 정의한다.
 
 ```swift
 func greetVoid(person: String) -> Void {
@@ -98,7 +101,7 @@ func greetVoid(person: String) -> Void {
 
 <br>
 
-`Return Type`은 `Void`일 때 한하여 생략될 수 있다(Optional).
+_Return Type_ 은 `Void`일 때 한하여 생략될 수 있다(It implicitly returns Void).
 
 ```swift
 func greetVoid(person: String) {
@@ -108,14 +111,13 @@ func greetVoid(person: String) {
 greetVoid(person: "Harry")  // Hello, Harry!
 ```
 
-> 엄밀히 말하면 `Return Type`을 생략하더라도 함수는 `Void`라는 타입의 특수한 값을 반환한다.  
+> 엄밀히 말하면 _Return Type_ 을 생략하더라도 함수는 `Void`라는 타입의 특수한 값을 반환한다.  
 > 이 값은 `()`로 쓰여진 `Empty Tuple`이다.
 
 <br>
 
-반환 값이 있는 함수를 호출할 때는 반드시 `constant(let keyword)`, `variable(var keyword)` 또는 `arguement`로 받아야 한다.  
-그렇게 하지 않으면 `compile-time error`가 발생한다.  
-만약, 함수가 값을 반환하는 데 사용할 필요가 없다면 간단히 `_`로 받으면 된다.
+명시적으로 반환 값이 있는 함수를 호출할 때는 반드시 `let`, `var` 로 받아야 한다. 그렇지 않으면 `compile-time error`가 발생한다.  
+만약, 함수의 반환값을 사용할 필요가 없다면 간단히 `_`로 받으면 된다.
 
 ```swift
 func printAndCount(string: String) -> Int {
@@ -134,11 +136,9 @@ hello, world
 ()
 ```
 
-하지만 Docs 의 설명과 달리 `let _ =`로 받지 않고 생략해도 에러가 발생하지 않았다. 이는 좀 더 확인해야 할 것 같다.
-
 #### 4. Functions with Multiple Return Values
 
-Swift 에서 `tuple`을 이용해 하나의 `compound`로 여러 변수에 값을 할당할 수 있다.
+Swift 는 `tuple`을 이용해 하나의 _compound_ 로 여러 변수에 값을 할당할 수 있다.
 
 ```swift
 let (alphabetA, alphabetB) = ("A", "B")
@@ -151,8 +151,7 @@ alphabetA is A and alphabetB is B
 
 <br>
 
-마찬가지로 함수 역시 `tuple`을 이용해 함수의 `Return Type`에 여러 값을 `compound` 시켜 한 번에 
-`One compound return value`로 반환할 수 있다. 
+`One compound return value` : 마찬가지로 함수의 반환값 역시 `tuple`을 이용해 여러 값을 하나의 _compound_ 로 반환할 수 있다. 
 
 ```swift
 let intArray: [Int] = [31, 6, 43, 13, 6, 1, 56, 5, 88, 24]
@@ -173,7 +172,7 @@ func minMax(array: [Int]) -> (Int, Int) {
 
 <br>
 
-__1 ) `Tuple Type Return Value`를 `tuple`을 이용해 각각 `Int` 타입의 상수 `minNumber`, `maxNumber`로 받는다__
+__1 ) 반환값을 `tuple`을 이용해 각각 _Int_ 타입의 상수 `minNumber`, `maxNumber`에 할당한다__
 
 ```swift
 let (minNumber, maxNumber): (Int, Int) = minMax(array: intArray)
@@ -186,8 +185,7 @@ min is 1 and max is 88
 
 <br>
 
-__2 )`Tuple Type Return Value`를 `tuple` 타입의 단일 상수 `bounds`로 받는다__  
-그리고 `tuple`의 각 값에 접근할 수 있도록 `min`과 `max`이라는 `label`을 붙여주었다.
+__2 ) 반환값을 `tuple` 타입의 단일 상수 `bounds`에 그대로 할당한다. 그리고 각 tuple 에는 `min`, `max` 라는 `label`을 붙여준다__  
 
 ```swift
 let bounds: (min: Int, max: Int) = minMax(array: intArray)
@@ -200,7 +198,7 @@ min is 1 and max is 88
 
 <br>
 
-__3 ) 만약, <span style="color: red;">`Return Type`에 미리 `label`을 붙여주면</span> 반환 받은 값은 위 `2)`처럼 별도의 `label` 지정 없이 해당 `label`을 이용할 수 있다__
+__3 ) 만약, 함수의 <span style="color: red;">_Return Type_ 을 정의할 때 `label`을 붙여주면</span> 별도의 _label_ 지정 없이 해당 _label_ 을 이용할 수 있다__
 
 ```swift
 let intArray: [Int] = [31, 6, 43, 13, 6, 1, 56, 5, 88, 24]
@@ -230,8 +228,8 @@ min is 1 and max is 88
 
 #### 5. Optional Tuple Return Types
 
-함수가 반환하는 전체 `Tuple`이 `nil`일 가능성이 있다면, `(Int, Int)?` 또는 `(String, Int, Bool)?`과 같이 
-`?`를 붙여 `Optiional`을 반환하도록 할 수 있다.
+함수가 반환하는 전체 _Tuple_ 이 `nil`일 가능성이 있다면, `(Int, Int)?` 또는 `(String, Int, Bool)?`과 같이 _tuple_ 자체에 
+`?`를 붙여 `Optiional Tuple Types`를 반환하도록 할 수 있다.
 
 > `(Int, Int)?`는 `Optional Tuple Type`이고  
 > `(Int?, Int?)`는 `Optional Int Type`을 포함하는 `Tuple Type`이다.
@@ -291,8 +289,8 @@ print(add(6, 8))    // 14
 
 ### 3. Function Argument Labels and Parameter Names 👩‍💻
 
-Swift 함수는 `argument label`과 `parameter name`을 갖는다. `argument label`은 함수를 호출할 때 
-사용되고, `parameter name`은 함수가 실행될 때 내부에서 사용된다.  
+Swift 함수는 `argument label`과 `parameter name`을 모두 갖는다. _argument label_ 은 함수를 호출할 때 
+사용되고, _parameter name_ 은 함수가 실행될 때 내부에서 사용된다.  
 
 __Syntax__
 
@@ -303,7 +301,7 @@ func someFunction(argumentLabel parameterName: Int) {
 }
 ```
 
-만약, `argument label`을 생략하면 기본적으로 `paramter name`을 `argument label`로 사용하게 된다.
+만약, _argument label_ 을 생략하면 기본적으로 _paramter name_ 을 _argument label_ 로 사용하게 된다.
 
 | __argument label__                       | __parameter name__               |
 |------------------------------------------|----------------------------------|
@@ -311,12 +309,13 @@ func someFunction(argumentLabel parameterName: Int) {
 | Used to call a function                  | Used when a function is executed |
 | Non-Unique(Duplicate labels are allowed) | Unique                           |
 
-> `argument label`은 `non-unique`이므로 동일한 이름을 사용할 수 있으나 코드를 읽기 쉽도록 적절한 이름을 사용하는 것이 좋다. 
+> **parameter name** 과 달리 **argument label** 은 `non-unique`이므로 동일한 이름을 사용할 수 있으나 코드를 읽기 쉽도록 적절한 
+> 이름을 사용하는 것이 좋다. 
 
 #### 1. Specifying Argument Labels
 
-`argument`를 `default`값인 `parameter name`과 동일하게 사용하지 않고 다른 이름을 사용하려면 `parameter name` 앞에 
-`argument label`을 작성한다.
+_argument_ 를 _default_ 값인 _parameter name_ 과 동일하게 사용하지 않고 다른 이름을 사용하려면 _parameter name_ 앞에 
+_argument label_ 을 작성한다.
 
 ```swift
 func greet(person: String, from hometown: String) -> String {
@@ -332,7 +331,7 @@ Hello Bill!  Glad you could visit from Cupertino.
 
 #### 2. Omitting Argument Labels
 
-`argument label` 굳이 필요 없어 생략하길 원한다면 `arguemnt label`에 `_`을 사용한다. 
+_argument label_ 자체를 생략하길 원한다면 _arguemnt label_ 에 `_` 을 사용한다. 
 
 ```swift
 func someFunction(_ firstParameterName: Int, secondParameterName: Int) {
@@ -349,7 +348,7 @@ someFunction(1, secondParameterName: 2)
 
 #### 1. Default Parameter Values
 
-`parameter`의 `default value`를 설정하면 호출할 때 생략할 수 있다. 우선 `TypeScript`의 동작을 보자.
+우선 _TypeScript_ 의 동작을 보자.
 
 ```typescript
 const add = (num1: number, num2: number = 10): number => +num1 + +num2
@@ -362,7 +361,7 @@ console.log(add(5, NaN))        // NaN
 
 <br>
 
-Swift 에서의 동작은 다음과 같다.
+_Swift_ 에서의 동작은 다음과 같다.
 
 ```swift
 func add(a num1: Int, b num2: Int = 10) -> Int {
@@ -375,18 +374,21 @@ print(add(a: 5))            // 15
 
 <br>
 
-하지만 nil 을 받을 수 없기 때문에 위 함수는 아예 호출될 때 num2 `argument` 없이 호출된 경우에 대해서만 
-`default value`가 작동할 뿐 다음과 같은 경우는 에러가 발생된다.
+*Swift* 는 Int 대신 `nil` 을 받을 수 없기 때문에 호출될 때 num2 *argument* 없이 호출된 경우에 대해서만 
+*default value* 가 작동한다.
 
 ```swift
 print(add(a: 5, b: nil))    // 'nil' is not compatible with expected argument type 'Int'
 ```
 
+*argument* 가 생략된 것이 아니고 *Int* 타입을 기대하는 데 *nil* 이 들어와 에러가 발생했다.  
+
 <br>
 
-즉, 위 `TypeScript`에서 `undefined`가 넘어 오는 경우까지 고려하려면 `parameter`가 `Optional`을 허용하게 
-해준 다음 `nil`의 경우 `default parameter value`가 작동하지 않기 때문에 내부에서 다시 한 번 
-`if` 또는 `guard`를 이용해 `default value`를 `handling` 해줘야 한다.
+즉, 위 *TypeScript* 에서 *undefined* 가 넘어오는 것처럼 *Swift* 에서 `nil`을 처리하려면, *Optional Parameters* 를 사용하고, 
+*nil* 은 `undefined` 와 달리 초기화는 되었으나 *nil* 이므로 (엄밀히 말하면 위에서 TypeScript 에서도 null 을 받지는 못한다) 
+*argument* 로 `nil`을 넣어 호출하면 *parameter* 에 `Optional<Int>` 타입에 `nil`이 저장되어 들어옴으로
+*default parameter value* 가 작동하지 않아 내부에서 별도로 처리해야한다. 
 
 ```swift
 func add(a num1: Int, b num2: Int? = 10) -> Int {
@@ -423,7 +425,6 @@ print(add(a: 5))            // 105
 
 #### 2. Variadic Parameters
 
-
 - Variadic Parameters
 
 ```swift
@@ -459,12 +460,12 @@ print(arithmeticMean([3, 8.25, 18.75]))     // 10.0
 ```
 
 > `Variadic Parameters`와 `Array Parameter`의 내부 동작은 `[Double]`로 같지만,  
-> `Variadic Parameters`는 `Double` n개를 `arguments`로 받고,  
-> `Array Parameter`는 `[Double]` 1개를 `argument`로 받는다는 것이 다르다.
+> *Variadic Parameters*는 `Double n개`를 *arguments*로 받고,  
+> *Array Parameter*는 `[Double] 1개`를 *argument*로 받는다는 것이 다르다.
 
 <br>
 
-Swift 에서 `Variadic Parameters`는 `TypeScript`에서 `Rest Parameters`를 이용해 다음과 같이 구현되는 것과 같다.
+*Swift* 에서 `Variadic Parameters`는 *TypeScript* 에서 `Rest Parameters`를 이용해 다음과 같이 구현되는 것과 같다.
 
 ```typescript
 const arithmeticMean = (...numbers: number[]): number => {
@@ -483,12 +484,12 @@ console.log(arithmeticMean(3, 8.25, 18.75))     // 10
 
 #### 3. In-Out Parameters
 
-함수의 `parameters`는 기본적으로 `constants`(상수)이므로 수정할 수 없다.
+함수의 `parameters`는 기본적으로 *constants* 이므로 수정할 수 없다.
 
-만약, `parameters`를 수정하고, 함수가 종료된 후에도, 즉, 함수 `scope` 밖에서도 이 값을 유지하고 싶다면 
-`parameter type` 앞에 `inout` 키워드를 사용해 `In-Out Parameters`로 만들 수 있다.
+만약, *parameters*를 수정하고, 함수가 종료된 후에도, 즉, 함수 *scope* 밖에서도 이 값을 유지하고 싶다면 
+*parameter type* 앞에 `inout` 키워드를 사용해 `In-Out Parameters`로 만들 수 있다.
 
-`In-Out Parameters`는 `variables`(변수)만 `arguments`로 받을 수 있다. `constants`나 `literals`는 
+`In-Out Parameters`는 `variables`만 *arguments*로 받을 수 있다. `constants`나 `literals`는 
 수정이 불가하므로 입력 받을 수 없다.
 
 ```swift
@@ -514,13 +515,13 @@ someInt is now 107, and anotherInt is now 3
 <br>
 
 > `In-Out Parameters`를 정리하면 다음과 같다.
-> - `In-Out Parameters`는 `parameter type` 앞에 `inout` 키워드를 사용해 만든다.
-> - `In-Out Parameters`를 사용한 함수를 호출할 때 `arguments` 앞에 `&` 키워드를 붙여 호출한다.
+> - *In-Out Parameters* 는 *parameter type* 앞에 `inout` 키워드를 사용해 만든다.
+> - *In-Out Parameters* 를 사용한 함수를 호출할 때 `arguments` 앞에 `&` 키워드를 붙여 호출한다.
 > 
 > 작동 순서는 다음과 같다.
-> 1. 함수가 호출될 때 `arguments`의 값이 복사된다.
-> 2. 함수의 `body`에서 값이 수정된다.
-> 3. 함수가 종료될 때 위 값이 함수 `scope` 밖의 `original arguments`에 할당된다.
+> 1. 함수가 호출될 때 `arguments`의 값이 `복사`된다.
+> 2. 복사된 arguments 의 값이 함수의 `body`에서 `수정`된다.
+> 3. 함수가 종료될 때 위 값이 함수를 호출할 때 전달된 `original variable`의 주소값을 찾아가 값을 `할당`한다.
 
 ---
 
@@ -535,7 +536,7 @@ func multiplyTwoInts(_ a: Int, _ b: Int) -> Int {
 }
 ```
 
-위 두 함수의 `Function Types`는 다음과 같다. `(Int, Int) -> Int`
+위 두 함수의 *Function Types* 는 다음과 같다. `(Int, Int) -> Int`
 
 <br>
 
@@ -545,11 +546,11 @@ func printHelloWorld() {
 }
 ```
 
-위 함수의 `Function Types`는 다음과 같다. `() -> Void`
+위 함수의 *Function Types* 는 다음과 같다. `() -> Void`
 
 #### 1. Using Function Types
 
-Swift 에서는 `Function Types` 역시 다른 `Types`와 같이 사용할 수 있다.
+Swift 에서는 *Function Types* 역시 다른 `Types`와 같이 사용할 수 있다.
 
 __1 ) Function Declarations__
 
@@ -576,7 +577,8 @@ print(mathFunction(5, 7))   // 35
 
 __2 ) Function Expressions__
 
-또한 `Closures`를 와 함께 `Function Types`을 지정함과 동시에 함수를 정의해 할당할 수도 있다.
+다음 예제는 `Function Types`를 이용해 변수나 상수의 타입을 지정하고, `Closures`를 할당해 함수를 선언한다.  
+이것은 위 `Function Declarations`와 동일한 결과를 갖는다(<span style="color: red;">단, *Hoisting* 은 작동하지 않는다</span>).
 
 ```swift
 // With Function Types
@@ -597,7 +599,7 @@ print(multiplyTwoInts(5, 7))    // 35
 
 <br>
 
-위 코드 역시 `TypeScript`와 비교해보자
+위 코드 역시 *TypeScript* 와 비교해보자
 
 ```typescript
 // With Function Types
@@ -617,7 +619,8 @@ console.log((multiplyTwoInts(5, 7)))    // 35
 
 __3 ) Define Function Types from Typealias__
 
-`protocol`을 통해 코드의 `skeleton`을 제공하듯 `Function Type` 역시 `Type`을 강제할 수 있다.
+`Protocols`를 이용해 Classes, Structures 등과 같은 타입에 `Blueprint`를 제공하듯 함수 역시 `typealias`를 이용해 `Type`을 
+강제할 수 있다.
 
 ```swift
 typealias arithmeticCalc = (Int, Int) -> Int
@@ -633,7 +636,7 @@ print(multiplyTwoInts(5, 7))    // 35
 
 <br>
 
-위 코드 역시 `TypeScript`와 비교해보자
+위 코드 역시 *TypeScript* 와 비교해보자
 
 ```typescript
 type GenericFunc = <Number>(a: number, b: number) => number
@@ -667,7 +670,7 @@ console.log((multiplyTwoInts(5, 7)))    // 35
 
 #### 2. Function Types as Parameter Types
 
-Swift 의 함수는 `First-Class Citizen`이므로 `parameters`가 될 수 있다. 
+Swift 의 함수는 `First-Class Citizen`이므로 *parameters* 가 될 수 있다. 
 
 ```swift
 let addTwoInts: (Int, Int) -> Int = { (a: Int, b: Int) in
@@ -688,12 +691,11 @@ printMathResult(mathFunction: addTwoInts, 5, 7)       // Result: 12
 printMathResult(mathFunction: multiplyTwoInts, 5, 7)  // Result: 35
 ```
 
-`printMathResult(mathFunction:_:_:)`의 첫 번째 `parameter`는 `(Int, Int) -> Int` 타입의 
-`Function`을 `argument`로 받는다. 
+`printMathResult(mathFunction:_:_:)`의 첫 번째 *parameter* 는 `(Int, Int) -> Int` 타입의 함수를 `argument`로 받는다. 
 
 <br>
 
-위 코드 역시 `TypeScript`와 비교해보자
+위 코드 역시 *TypeScript* 와 비교해보자
 
 ```typescript
 const addTwoInts: (num1: number, num2: number) => number
@@ -714,10 +716,9 @@ printMathResult(multiplyTwoInts, 5, 7)  // Result: 35
 
 #### 3. Function Types as Return Types
 
-마찬가지로 Swift 의 함수는 `First-Class Citizen`이므로 `return type`이 될 수 있다.
+마찬가지로 Swift 의 함수는 `First-Class Citizen`이므로 *return type* 이 될 수 있다.
 
-0보다 크면 `stepBackward(_:)` 함수를 실행하고, 0보다 작으면 `stepForward(_:)` 함수를 실행해 0에 도달하는 
-로직을 출력해보자.
+0보다 크면 `stepBackward(_:)` 함수를 실행하고, 0보다 작으면 `stepForward(_:)` 함수를 실행해 0에 도달하는 로직을 출력해보자.
 
 ```swift
 func stepForward(_ input: Int) -> Int {
@@ -736,7 +737,7 @@ func chooseStepFunction(backward: Bool) -> (Int) -> Int {
 }
 ```
 
-`chooseStepFunction(backward:)` 함수는 `(Int) -> Int` 함수를 `return`한다.
+`chooseStepFunction(backward:)` 함수는 `(Int) -> Int` 함수를 *return* 한다.
 
 <br>
 
@@ -774,7 +775,7 @@ zero!
 
 <br>
 
-위 코드 역시 `TypeScript`와 비교해보자
+위 코드 역시 *TypeScript* 와 비교해보자
 
 ```typescript
 const stepForward = (input: number): number => input + 1
@@ -824,11 +825,11 @@ zero!
 ### 6. Nested Functions 👩‍💻
 
 위에서 작성된 함수는 모두 `Global Scope`의 접근성을 갖는 `Global Functions`다.  
-하지만 함수의 `body` 내부에 다른 함수를 정의할 수 있는데 이를 `Nested Functions`라 한다.
+하지만 함수의 `body 안`에 다른 함수를 정의할 수 있는데 이를 `Nested Functions`라 한다.
 
 <br>
 
-위 `3. Function Types as Return Types`를 `Nested Functions`로 바꿔본다.
+위 [Function Types as Return Types](#h-3-function-types-as-return-types) 를 `Nested Functions`로 바꿔본다.
 
 ```swift
 func chooseStepFunction(backward: Bool) -> (Int) -> Int {
@@ -882,7 +883,7 @@ zero!
 
 <br>
 
-위 코드 역시 `TypeScript`와 비교해보자
+위 코드 역시 *TypeScript* 와 비교해보자
 
 ```typescript
 const chooseStepFunction = (backward: boolean): (input: number) => number => {
@@ -926,10 +927,9 @@ zero!
 ```
 
 
-> `Nested Functions`를 활용하면 전역에서 접근할 필요가 없는 함수의 `scope`를 제한해 코드를 
-> 더욱 안전하고 가독성 높게 만들 수 있다.  
-> 단, `Swift`에서는 위 `TypeScript`에서와 달리 중첩된 함수를 `let` 또는 `var`로 정의할 수 없다. 
-> 반드시 `func` 키워드를 이용해 정의해야한다.
+> `Nested Functions`를 활용하면 전역에서 접근할 필요가 없는 함수의 `scope`를 제한해 코드를 더욱 안전하고 가독성 높게 만들 수 있다.  
+> 단, *Swift* 에서는 위 *TypeScript* 에서와 달리 중첩된 함수를 `let` 또는 `var`로 정의할 수 없다. 
+> 반드시 `func` 키워드를 이용해 정의해야한다 (cf. [Closure Expressions](/swift/2022/10/24/closures.html#h-1-closure-expressions-) 를 참고한다).
 
 
 <br><br>
