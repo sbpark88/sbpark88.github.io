@@ -3,7 +3,7 @@ layout: post
 title: Swift Strings and Characters
 subtitle: Strings, Characters
 categories: swift
-tags: [swift docs, string, character]
+tags: [swift docs, string, character, multiline string literal, string indent, unicode, unicode scalar value, extended grapheme cluster, closed range, half open range, one sided range, substring, prefix, suffix]
 ---
 
 Swift 의 `String` 타입은 `Foundation`의 `NSString` 클래스와 연결되고, 이를 확장해 `String`에서 `NSString` 메서드를 사용할 수 있게 해준다. 따라서, `import Foundation`을 하면 `String`을 캐스팅 하지 않고 `NSString` 메서드를 사용할 수 있다.
@@ -218,14 +218,14 @@ for character in "Dog!🐶" {
 `String`을 개별 문자 `Character`에 접근하는 것을 반대로 접근하면 다음과 같다.  
 👉 `Character`를 개별로 생성하고 배열을 구성해, `String`으로 만들 수 있다.
 
-- 단일 `Character` 생성
+- 단일 Character 생성
 
 ```swift
 let cCharacter: Character = "C"
 print(cCharacter)   // Prints "C"
 ```
 
-- `Character` 배열을 `String` 생성자에 `arguments`로 전닳 `String`을 생성할 수 있다
+- Character 배열을 String initializers 에 arguments 로 전달해 `String`을 생성할 수 있다
 
 ```swift
 let catCharacters: [Character] = ["C", "a", "t", "!", "🐱"]
@@ -305,7 +305,8 @@ three
 
 ### 5. String Interpolation (문자열 삽입) 👩‍💻
 
-`String Interpolation`은 `String Literal` 안에 `constants`, `variables`, `literals`, 그리고 `expressions`를 포함해 `새 문자열`을 만드는 방법이다.
+`String Interpolation`은 `String Literal` 안에 constants, variables, literals, 그리고 expressions 를 포함해 
+`new String`을 만드는 방법이다.
 
 ```swift
 let three = 3
@@ -349,11 +350,11 @@ print(worksWell) = 3 times 2.5 is 7.5
 ### 6. Unicode (유니코드) 👩‍💻
 
 유니코드는 서로 다른 시스템에서 문자를 인코딩, 표현, 처리하기 위한 국제 표준이다.  
-Swift 의 `String`과 `Character`는 완벽히 유니코드와 호환된다.
+Swift 의 String 과 Character 는 완벽히 유니코드와 호환된다.
 
 #### 1. Unicode Scalar Values (유니코드 스칼라 값)
 
-Swift 의 기본 `String` 타입은 `Unicode Scalar Values`로부터 빌드된다.  
+Swift 의 기본 String 타입은 `Unicode Scalar Values`로부터 빌드된다.  
 `Unicode Scalar Value`는 `character` 또는 `modifier`를 표현하기 위한 `unique`한 21-bit 숫자다.
 
 Syntax 는 다음과 같다. `\u{Unicode Number}`
@@ -369,7 +370,9 @@ print("\u{1F425}")  // 🐥
 
 #### 2. Extended Grapheme Clusters (자모 그룹의 확장)
 
-Swift 의 모든 `Character` 타입 인스턴스는 `single extended grapheme cluster`로 표현된다. 이것은 하나 또는 그 이상의 `Unicode Scalar Values`로 구성되며 여러 개의 `Unicode Scalar Values`로 구성되는 경우 결합되어 사람이 읽을 수 있는 단일 문자로 표현된다.
+Swift 의 모든 Character 타입 인스턴스는 `single extended grapheme cluster`로 표현된다. 이것은 하나 또는 그 이상의 
+`Unicode Scalar Values`로 구성되며 여러 개의 Unicode Scalar Values 로 구성되는 경우 결합되어 사람이 읽을 수 있는 단일 문자로 
+표현된다.
 
 - 이 클러스터는 하나의 `scalar`로 구성되었다.
 
@@ -433,15 +436,17 @@ print("\(word), \(word.count)") // café, 4
 > `Extended Grapheme Clusters`는 여러 `Unicode Scalars`로 구성될 수 있다.
 > 즉, 동일 문자를 여러 다른 방법으로 표현할 수 있고, 이는 저장하는데 필요한 메모리 공간의 크기 역시 달라짐을 의미한다.
 > 
-> 따라서 긴 `String`의 길이를 계산(count)하는 경우, `Extended Grapheme Clusters`의 경계를 구하기 위해 전체 `String`의 `Unicode Scalars`를 반복해야한다.
+> 따라서 긴 String 의 길이를 계산(count)하는 경우, Extended Grapheme Clusters 의 경계를 구하기 위해 전체 String 의 
+> `Unicode Scalars`를 반복해야한다.
 > 
-> 또한 `Extended Grapheme Clusters`로 인해 동일한 문자를 표현하더라도 `String`이 반환하는 `count`의 값과 `NSString`이 반환하는 `count`의 값은 다를 수 있습니다. `NSString`은 `UTF-16`의 `16-bit` 코드 단위를 이용하기 때문이다.
+> 또한 Extended Grapheme Clusters 로 인해 동일한 문자를 표현하더라도 `String 이 반환하는 `count`의 값과 `NSString`이 
+> 반환하는 `count`의 값은 다를 수 있다. `NSString`은 `UTF-16`의 `16-bit` 코드 단위를 이용하기 때문이다.
 
 ---
 
 ### 8. Accessing and Modifying a String (문자열 접근과 수정) 👩‍💻
 
-`String`의 접근과 수정은 `String`의 메서드를 이용하거나 `Subscript Syntax`를 이용한다.
+String 의 접근과 수정은 String 의 메서드를 이용하거나 `Subscript Syntax`를 이용한다.
 
 #### 1. String Indices
 
@@ -482,7 +487,7 @@ greeting.index(greeting.startIndex, offsetBy: 10)   // Out of bounds, Index(_raw
 
 #### 2. Iterating Over `for-in loops` with `indices` method
 
-또 다른 접근 방법으로는 `String` 전체를 접근해야 하는 경우 `for-in` 반복문을 사용할 수 있다.
+또 다른 접근 방법으로는 String 전체를 접근해야 하는 경우 `for-in` 반복문을 사용할 수 있다.
 
 ```swift
 let greeting = "Guten Tag!"
@@ -574,13 +579,17 @@ print(beginning)            // Hello
 print(type(of: beginning))  // Substring
 ```
 
-위 코드에서 `greeting`은 `String` 인스턴스고, `beginning`은 `greeting`의 `Substring` 인스턴스다.
+위 코드에서 `greeting`은 `String` 인스턴스고, `beginning`은 greeting 의 `Substring` 인스턴스다.
 
-__Advantage of `Substring` - Optimization__  
-`Substring`은 자기 자신의 메모리 공간을 갖지 않고 원본 `String`의 메모리 공간을 재사용하기 때문에, `String` 또는 `Substring`을 수정하기 전까지 아무리 많은 `Substring`을 만들어도 `performance cost of copying memory`을 소비하지 않는다.
+__Advantage of Substring - Optimization__
 
-__Disadvantage of `Substring` - Paradox of advantage__  
-위 이점으로 인해 `Substring`이 사용되는동안 원본 `String`은 전체 데이터를 메모리에 저장해야한다. 따라서 `Substring`의 장기 저장시 오히려 메모리 낭비가 되는 상황이 생기게 된다. 그러므로 장기 저장시 `String` instance 로 변경해야한다.
+Substring 은 자기 자신의 메모리 공간을 갖지 않고 원본 String 의 메모리 공간을 재사용하기 때문에, String 또는 Substring 을 
+수정하기 전까지 아무리 많은 Substring 을 만들어도 `performance cost of copying memory`을 소비하지 않는다.
+
+__Disadvantage of Substring - Paradox of advantage__
+
+위 이점으로 인해 Substring 이 사용되는동안 원본 String 은 전체 데이터를 메모리에 저장해야한다. 따라서 Substring 의 장기 저장시 
+오히려 메모리 낭비가 되는 상황이 생기게 된다. 그러므로 `장기 저장시 String instance 로 변경`해야한다.
 
 ```swift
 // The 'Substring' has to be converted to an instance of 'String' for long time storing.
@@ -591,9 +600,11 @@ let newString = String(beginning)
 
 정리하면 다음과 같다.
 > 1. `String`과 `Substring`은 `StringProtocol`을 따른다. 따라서 유사하게 메서드 사용이 가능하다.
-> 2. `String` instance 는 자기 자신이 저장하는 character 들의 실제 메모리 공간을 갖는다.
-> 3. `Substring` instance 는 자기 자신이 저장하는 character 들의 실제 메모리 공간을 갖지 않는다. 대신 원본 `String`의 character 들의 공간을 재사용한다.
-> 4. `Substring`은 장기 저장에 적합하지 않다. 장기 저장되어야 하는 경우 수정이 끝난 `Substring`은 `String` instance 로 변환되어야한다.
+> 2. String instance 는 자기 자신이 저장하는 `character 들의 실제 메모리 공간`을 갖는다.
+> 3. Substring instance 는 자기 자신이 저장하는 character 들의 실제 메모리 공간을 갖지 않는다. 대신 
+>    `원본 String 의 character 들의 공간을 재사용` 한다.
+> 4. Substring 은 장기 저장에 적합하지 않다. `장기 저장` 되어야 하는 경우 수정이 끝난 Substring 은 
+>    `String instance 로 변환`되어야한다.
 
 #### 2. Substring Handling
 

@@ -109,8 +109,8 @@ Passed array is empty.
 3
 ```
 
-> `num > 3`에서는 `if`와 `guard`에 동일한 `condition`을 사용했지만 `anyArray.isEmpty`에서는
-> `if`와 달리 `guard`에서는 `!anyArray.isEmpty`를 `condition`으로 사용했다.  
+> `num > 3`에서는 `if`와 `guard`에 동일한 condition 을 사용했지만 `anyArray.isEmpty`에서는
+> if 와 달리 guard 에서는 `!anyArray.isEmpty`를 condition 으로 사용했다.  
 > 만약 둘의 코드를 바꿀 경우 `Optional binding`과 `Bool condition`의 판단에 따라
 > 조건을 달리 해야하는 상황이 생길 수 있으니 주의하도록 한다.
 
@@ -126,11 +126,11 @@ Passed array is empty.
 > 
 > - 그렇다면 다른점은 무엇일까?
 > 
-> 1. `guard`는 `else`가 필수다. 반면, `if`는 `else`가 필수가 아니다.
-> 2. `guard의 else block`에는 `Functions that Never Return` 또는 `Control Transfer Statements(return, break, continue, throw)` 중 하나를 사용해 block 밖으로 제어를 전송해야한다.
-> 3. `if`는 `condition`이 `true`일 때 <span style="color: green;">if block</span>으로 들어가고 `nil` 또는 `false`일 때 <span style="color: red;">else block</span>으로 들어간다.
-> 4. `guard`는 `condition`이 `nil`이거나 `false`일 때 <span style="color: red;">else block</span>으로, `true`일 때 <span style="color: green;">guard 다음 라인</span>으로 넘어간다.
-> 5. `Optional binding`으로 사용할 경우, `if`에 의해 binding 된 변수의 `scope는 if block`이다. 하지만 `guard`에 의해 binding 된 변수의 `scope는 guard가 속해 있는 block`이다. 
+> 1. `guard`는 `else`가 필수다. 반면, if 는 else 가 필수가 아니다.
+> 2. guard 의 `else clause` 에는 `Functions that Never Return` 또는 `Control Transfer Statements(return, break, continue, throw)` 중 하나를 사용해 block 밖으로 제어를 전송해야한다.
+> 3. `if`는 condition 이 `true`일 때 <span style="color: green;">if block</span>으로 들어가고 `nil` 또는 `false`일 때 <span style="color: red;">else block</span>으로 들어간다.
+> 4. `guard`는 condition 이 `nil`이거나 `false`일 때 <span style="color: red;">else block</span>으로, `true`일 때 <span style="color: green;">guard 다음 라인</span>으로 넘어간다.
+> 5. `Optional binding`으로 사용할 경우, `if` 에 의해 binding 된 변수의 scope 는 `if block`이다. 하지만 `guard`에 의해 binding 된 변수의 scope 는 `guard가 속해 있는 block`이다. 
 
 ---
 
@@ -139,7 +139,8 @@ Passed array is empty.
 Swift 언어의 `특징` 중 하나로, `nil`(다른 언어에서의 null)에 대한 에러 처리를 쉽게 해줌으로써 문법적 `Safety`를 보장한다.  
 즉, 문법적 안정성을 위해 `Optional을 이용해 wrapping 되어있는 값`을 사용하기 위해서는 `unwrap`을 해야하는데, 이를 `Optional binding`이라 한다.
 
-`Optional binding`을 하는 가장 쉬운 방법은 다음과 같다.
+Optional binding 을 하는 가장 쉬운 방법은 다음과 같다.
+
 ```swift
 var price: [String: Int] = [
     "coffee": 3000,
@@ -158,10 +159,11 @@ price["cookie"] ?? 3000
 ```
 
 > `Nil-Coalescing Operator`는 `condition`이 nil 인지를 판별하는 `Ternary Operators`의 축약형이라 볼 수 있다.
-```swift
-name ?? "GS25"
-name != nil ? name! : "GS25"
-```
+> 
+> ```swift
+> name ?? "GS25"
+> name != nil ? name! : "GS25"
+> ```
 
 하지만 `Unconditional Unwrapping(=Forced Unwrapping)`( _name!_ ) 은 fatal error 를 발생시킬 위험성이 높고 ☠️☠️☠️, `Nil-Coalescing Operator`( _price["cookie"] ?? 0_ ) 은 fatal error 는 발생하지 않겠지만 의도한 바와 다른 비즈니스 로직을 진행하고도 아무런 문제가 없는 것처럼 보이게 된다. 🤥🤥
 
@@ -227,15 +229,15 @@ priceOfTwoCookies()     // Homeplus sells two cookies for 4000 won.
 storeName = nil
 priceOfTwoCookies()     // The store is not specified.
 ```
-> `guard`를 이용한 `Optional binding`의 특징은 `else block`이 필수다. 그리고 `binding한 값의 block scope`가 `guard가 속한 code block scope`와 같다.
+> `guard`를 이용한 Optional binding 의 특징은 `else block`이 필수다. 그리고 binding 한 값의 block scope 가 guard 가 속한 code block scope 와 같다.
 
 
 단일 `if`에 비즈니스 로직이 짧으면 어떤걸 쓰든 비슷하다. 하지만 위 예제처럼 `Optional binding`을 여러 번 하거나 비즈니스 로직이 길어지면 코드 가독성이 떨어지게된다. 🥵🥵🥵
 
 하지만 `guard`는 `Optional binding & error handling`과 `Business logic`의 코드가 섞이지 않고 완전히 라인 분리가 가능하다.
-따라서 `guard`를 사용하면 `binding한 값의 scope`가 guard block 내부가 아닌 `guard가 존재하는 block scope`이므로 코드를 순차적으로 작성하면 된다. 🤩🤩🤩
+따라서 guard 를 사용하면 binding 한 값의 scope 가 guard block 내부가 아닌 guard 가 존재하는 block scope 이므로 코드를 순차적으로 작성하면 된다. 🤩🤩🤩
 
-JavaScript(TypeScript)에서 똑같이 Promise object 를 이용하지만 `Promise callback hell`을 `async`, `await`를 이용해 개선할 수 있는 것처럼, `guard` 역시 똑같이 `조건절`과 `Optional binding`을 수행할 수 있지만 `if`의 가독성 문제를 해결한다.
+guard 는 if 와 동일하게 `조건절`과 `Optional binding`을 수행할 수 있지만 if 의 가독성 문제를 해결한다.
 
 ---
 
@@ -288,8 +290,9 @@ guard let constantName = someOptional else {
     */
 }
 ```
-> Optional 이 `nil`이거나 `false`일 경우는 `false`, 그 외에는 `true`가 된다. 즉, `bridged to Bool`에 의해 `if`, `guard`의 조건이 결정되고, `true`일 경우 someOptional 을 `let` 또는 `var`에 `unwarp`된 값을 할당하는 것이다.
-
+> Optional 이 `nil`이거나 `false`일 경우는 `false`, 그 외에는 `true`가 된다.  
+> 즉, `bridged to Bool` 에 의해 if, guard 의 조건이 결정되고, `true`일 경우 someOptional 을 let 또는 var 에 
+> `unwarp`된 값을 할당하는 것이다.
 
 
 <br><br>
