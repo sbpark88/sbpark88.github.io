@@ -28,7 +28,7 @@ tags: [ux, ui, jakob, fitts, hick, miller, postel, peak end, aesthetic usability
 이 책을 통해 소개되는 10가지 법칙은 다음과 같다.
 
 - [1. Jakob's Law (제이콥의 법칙) 👩‍💻](#1-jakobs-law--제이콥의-법칙--)  
-  사용자는 여러 사이트를 이용하며 시간을 보낸다. 그래서 자신이 이미 알고 있는 다른 사이트들과 같은 방식으로 작동하길 원한다. 
+  사용자는 여러 사이트를 이용하며 많은 시간을 보낸다. 그래서 자신이 이미 알고 있는 다른 사이트들과 같은 방식으로 작동하길 원한다. 
 - [2. Fitts's Law (피츠의 법칙) 👩‍💻](#2-fittss-law--피츠의-법칙--)  
   대상에 도달하는 시간은 대상까지의 거리, 대상 크기와 함수 관계에 있다.
 - [3. Hick's Law (힉의 법칙) 👩‍💻](#3-hicks-law--힉의-법칙--)  
@@ -51,6 +51,30 @@ tags: [ux, ui, jakob, fitts, hick, miller, postel, peak end, aesthetic usability
 ---
 
 ### 1. Jakob's Law (제이콥의 법칙) 👩‍💻
+
+> - 사용자는 자신에게 익숙한 제품을 통해 구축한 기대치를 그와 비슷해 보이는 다른 제품에도 투영한다.
+> - 기존의 멘탈 모델(mental model)을 활용하면 사용자가 새 모델을 익히지 않아도 바로 작업에 돌입할 수 있는 뛰어난 사용자 경험이 완성된다.
+> - 변화를 꾀할 때는, 사용자에게 익숙한 모델을 한시적으로 이용할 권한을 부여해서 불협화음을 최소화하라.
+
+내비게이션의 위치와 사용 방식, 페이지 레이아웃과 시각적 단서 등이 ***익숙하다는 것***은 사용자가 ***인터페이스를 익히는데 요구되는*** 
+`정신적 에너지`줄어들고, 사용자가 ***목표를 성공적으로 달성할 확률이 높아진다는 것***을 의미한다.
+<br>
+
+__멘탈 모델__
+
+우리가 어떤 시스템에 관해, 특히 그 시스템의 작동 방식에 관해 알고 있다고 생각하는 바를 가리킨다. 사용자의 멘탈 모델을 따르지 않는 
+디자인은 사용자가 인지하는 방식이나 이해하는 속도에 악영향을 미치고, 이를 멘탈 모델 부조화(mental model discordance)가 일어난다.
+<br>
+
+__사용자 페르소나__
+
+대상 사용자(target audience)를 명확히 정의해두지 않으면 디자이너마다 대상 사용자를 제각기 다르게 해석하기 때문에 프로세스가 어려워진다. 
+사용자 페르소나(user persona)는 이런 문제를 해결하는 데 도움을 준다. 이것은 포괄적인 사용자가 아닌 서비스의 실제 사용자에게서 모든 
+데이터를 바탕으로 다음과 같은 가상의 사용자를 만들어 대상 사용자로 활용한다.
+
+![User Persona Examples 1](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/user-persona-templates-examples-1.png){: width="800"}
+
+![User Persona Examples 2](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/user-persona-templates-examples-2.png){: width="800"}
 
 ---
 
@@ -107,6 +131,7 @@ Reference
 
 1. 존 야브론스키. UI/UX의 10가지 심리학 법칙. Edited by 이미령. 책만, 2020.
 2. "Laws of UX." Laws of UX. accessed Jan. 16, 2023, [Laws of UX][Laws of UX].
+3. "30 must-see user persona templates." Justmind. July. 30, 2020, [User Persona Templates](https://www.justinmind.com/blog/user-persona-templates/).
 
 [Laws of UX]:https://lawsofux.com
 
