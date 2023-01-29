@@ -3,7 +3,7 @@ layout: post
 title: Vue.js Starter - Part 4
 subtitle: Vue.js 프로젝트 투입 일주일 전
 categories: javascript
-tags: [javascript, vue, vue js, vue.js, props, parent component, child component, $emit, $refs, provide, inject]
+tags: [javascript, vue, vue js, vue.js, props, parent component, child component, slot, $emit, $refs, provide, inject]
 ---
 
 ### 13. Nested Component - Props 👩‍💻
@@ -434,11 +434,11 @@ export default {
 공통화 및 재사용을 위해 `Vue`는 `Componenets`를 이용한다. 하지만 단순한 모달창, 타이틀과 같은 컴포넌트는 
 부모 자식간 `props`를 이용해 데이터를 전달하고 전부 구현해야하는 불편함이 있다. 이런 공통 컴포넌트 내에 `Slots`을 이용하면 
 `HTML`을 작성해 그대로 주입하는 것이 가능해 가벼운 레이아웃을 쉽게 재사용 할 수 있다.
-
-[2. Static Props](#h-2-static-props) 에서 `/src/components/PageTitle.vue` 를 이용해 페이지에 타이틀을 
-공통화했다. 이것을 `Slots`으로 바꾸면 다음과 같다.
+<br>
 
 - /src/components/PageTitle.vue
+
+[2. Static Props](#h-2-static-props) 에서 `/src/components/PageTitle.vue` 를 이용해 페이지에 타이틀을 공통화했다.
 
 {% raw %}
 ```vue
@@ -459,11 +459,19 @@ export default {
 
 - /src/components/common/SlotPageTitle.vue
 
+이것을 `Slots`으로 바꾸면 다음과 같다.
+
 {% raw %}
 ```vue
 <template>
   <h2><slot /></h2>
 </template>
+
+<script>
+export default {
+  name: "SlotPageTitle",
+};
+</script>
 ```
 {% endraw %}
 
