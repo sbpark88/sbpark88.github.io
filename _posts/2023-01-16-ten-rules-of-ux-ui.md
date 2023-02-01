@@ -37,7 +37,7 @@ tags: [ux, ui, jakob, fitts, hick, miller, postel, peak end, aesthetic usability
   보통 사람은 작업 기억`Working Memeory` 에 7(±2) 개의 항목밖에 저장하지 못한다.
 - [5. Postel's Law (포스텔의 법칙) 👩‍💻](#5-postels-law--포스텔의-법칙--)  
   자신이 행하는 일은 엄격하게, 남의 것을 받아들일 때는 너그럽게.
-- [6. Peak-End Rule (피크엔드 법칙) 👩‍💻](#6-peak-end-rule--피크엔드-법칙--)  
+- [6. Peak-End Rule (피크엔드 규칙) 👩‍💻](#6-peak-end-rule--피크엔드-법칙--)  
   인간은 경험 전체의 평균이나 합계가 아니라, 절정의 순간과 마지막 순간에 느낀 감정을 바탕으로 경험을 판단하는 경향이 있다.
 - [7. Aesthetic-Usability Effect (심미적 사용성 효과) 👩‍💻](#7-aesthetic-usability-effect--심미적-사용성-효과--)  
   사용자는 보기 좋은 디자인을 사용성이 더 뛰어난 디자인으로 인식한다.
@@ -239,12 +239,63 @@ RT(반응 시간) = a + b log<sub>2</sub>(n)
 
 ---
 
-### 6. Peak-End Rule (피크엔드 법칙) 👩‍💻
+### 6. Peak-End Rule (피크엔드 규칙) 👩‍💻
 
 **인간은 경험 전체의 평균이나 합계가 아니라, 절정의 순간과 마지막 순간에 느낀 감정을 바탕으로 경험을 판단하는 경향이 있다.**
 
-> - 
+> - 사용자 여정 중 가장 강렬한 순간과 마지막 순간을 세심하게 신경 쓰자.
+> - 제품이 사용자에게 가장 큰 도움을 주는 순간, 혹은 가장 중요하게 여겨지는 순간, 가장 큰 즐거움을 주는 순간 등을 알아내라.
+> - 사람들은 긍정적인 순간보다 부정적인 순간을 더 생생하게 기억한다는 사실을 명심하자.
 
+사실 우리는 피크엔드 규칙은 `끝마무리까지 잘해야한다`, `경사는 안 가도 조사는 꼭 가야한다`는 등 생활의 경험을 통해서 이해하고 있다. 
+이것을 단순히 사회 생활의 경험과 같은 어떠하더라가 아닌 증거가 뒷받침되는 실증 논문을 통해 자세히 알아보도록하자.
+
+피크엔드 규칙은 1993년 대니얼 카너먼과 연구진이 발표한 논문 `더 큰 고통을 적은 고통보다 선호하게 하려면 경험의 마지막 순간이 좋아야 한다`
+(When More Pain Is Preferred to Less: Adding a Better End) 를 통해 처음 실증을 통한 증거가 제시되었다. 이것은 인간의 
+인지 편항(cognitive bias)에 기반한다. 어떤 일련의 사건에 대해 떠올릴 때 그 사건의 스펙트럼이 아닌, 절정의 순간과 마지막 경험에 의해 
+경험을 평가한다는 것을 알아냈다. 또한 긍정적인 경험보다 부정적인 경험이 더 생생하다는 것을 확인했다.
+
+즉, 사용자가 어떤 앱 또는 웹을 사용할 때 전반적으로 좋은 경험을 했더라도 순간의 불쾌한 경험의 정도가 크거나 마지막 경험이 좋지 못하면 
+평가를 낮게 줄 것이고, 나아가 주변에 추천할 확률이 줄어든다.
+
+#### 1. Examples 1 - 404 Pages
+
+인터넷을 하는 중 요청한 페이지를 찾을 수 없을 경우 `404` 응답 페이지를 보게 된다.
+
+![Default 404 Page](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/default-404-page.png){: width="600"}
+
+사용자의 요청을 웹사이트가 수행하지 못함으로 인해 스트레스를 받고 부정적인 경험을 할 것이다. 이런 상황이 발생하지 않는 것이 가장 좋겠지만 
+어쩔 수 없는 상황은 생기기 마련이다. 그렇다면 이런 상황에서 사용자에게 재치있는 화면을 출력해 부정적인 경험의 크기를 줄이도록 노력할 수 있다. 
+다음은 훌륭한 404 페이지의 예다.
+
+![Amazon 404 Page](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/amazon-404-page.jpg){: width="600"}
+
+![Pixar 404 Page](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/pixar-404-page.jpg){: width="600"}
+
+![Lego 404 Page](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/lego-404-page.jpg){: width="600"}
+
+#### 2. Examples 2 - Loading Pages 
+
+기존에는 앱이나 웹이 로딩이 오래걸릴 경우 화면이 멈춘 것처럼 보였다. 이런 경우 사용자는 응답이 지연됨으로 인해 불편함을 느끼는 것에 추가로
+자신의 요청이 여전히 수행중인지 혹시 정지되지는 않았는지 알 수 없어 그 스트레스는 배가 된다. 따라서 최근 앱이나 웹은 자신의 요청이 
+수행중이라는 메시지를 로딩 화면을 통해 보여준다. 이런 시각적 요소는 사용자가 안심하고 좀 더 자신의 요청을 기다리도록 만든다.
+
+![Apple Loading](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/apple-loading.gif){: width="600"}
+
+![Whatsapp Loading](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/whatsapp-loading.gif){: width="600"}
+
+![Funny Loading](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/funny-loading.gif){: width="600"}
+
+#### 3. Examples 3 - Uber
+
+피크엔드 규칙을 종합적으로 잘 활용한 예 중 하나로 우버를 들 수 있다. 우버는 승차 공유 서비스라는 비즈니스 모델의 특성상 대기 시간이 
+불가피하다는 것을 깨닫고 고객의 부정적인 경험을 줄이도록 다음 3가지에 주목했다.
+
+- 유휴 시간에 대한 거부감: 배정된 차량이 도착할 때까지 차량의 이동 경로 및 상태를 애니메이션으로 볼 수 있다.
+- 작동상의 투명성: 도착 예상 시간뿐 아니라 이것이 계산되는 방법에 대한 정보도 확인할 수 있디.
+- 점진적 목표 달성: 차량이 다가오는 것을 애니메이션으로 보며 탑승이라는 자신의 목표 달성을 향해 진전하고 있다고 느낀다.
+
+우버의 이런 노력 요소는 사용자들이 택시를 기다리는 동안 발생할 수 있는 부정적 경험을 효과적으로 컨트롤 해 앱에 좋은 인상을 남긴다.
 
 ---
 
@@ -282,6 +333,6 @@ Reference
 1. 존 야브론스키. UI/UX의 10가지 심리학 법칙. Edited by 이미령. 책만, 2020.
 2. "Laws of UX." Laws of UX. accessed Jan. 16, 2023, [Laws of UX][Laws of UX].
 3. "30 must-see user persona templates." Justmind. July. 30, 2020, [User Persona Templates](https://www.justinmind.com/blog/user-persona-templates/).
+4. Kate Rooney. "8 Awesome 404 Page Designs (and Best Practices)." Design Pickle. last modified Jan. 12, 2022, [Awesome 404](https://designpickle.com/creative-hub/website-design/404-page-designs-best-practices/).
 
 [Laws of UX]:https://lawsofux.com
-
