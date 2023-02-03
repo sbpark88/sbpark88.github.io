@@ -494,7 +494,7 @@ __3 ) Progress Bar and Remain Times__
 
 ![Mac OS Update](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/apple-software-update.png)
 
-애플은 OS 업데이트와 같이 오래 걸리는 작업을 할때 진행 상태를 막대로 표시하고 남은 시간을 알려준다. 이렇게 하면 사용자는 얼마나 
+애플은 OS 업데이트와 같이 오래 걸리는 작업을 할 때 진행 상태를 막대로 표시하고 남은 시간을 알려준다. 이렇게 하면 사용자는 얼마나 
 기다려야하는지에 대한 불확실성이 없기 때문에 기다림으로 인한 불만을 덜어낸다.
 
 #### 3. Intentionally Slowing Down
