@@ -8,7 +8,7 @@ tags: [ux, ui, jakob, fitts, hick, miller, postel, peak end, aesthetic usability
 
 ### 0. What is UX/UI 👩‍💻
 
-우선 이 책은 존 `야블론스키의 UX/UI의 10가지 심리학 법칙`을 읽고 정리한 글이다.  
+우선 이 책은 `존 야블론스키의 UX/UI의 10가지 심리학 법칙`을 읽고 정리한 글이다.  
 
 #### 1. User Experience
 
