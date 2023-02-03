@@ -113,6 +113,8 @@ D : 대상 중심까지의 거리, W : 대상의 허용 오차 혹은 너비
 
 ### 3. Hick's Law (힉의 법칙) 👩‍💻
 
+#### 1. Hick's Law
+
 **의사결정에 걸리는 시간은 선택지의 개수와 복잡성에 비례해 늘어난다.**
 
 > - 의사결정 시간이 반응 시간에 큰 영향을 받을 때는 선택지의 개수를 최소화하라.
@@ -128,13 +130,13 @@ RT(반응 시간) = a + b log<sub>2</sub>(n)
 선택지의 개수가 많아짐에 따라 사용자는 인터페이스를 익히고 인터랙션하는 데 필요한 정신적 자원의 소모가 커지게되며, 이때 필요한 정신적 자원의 
 크기를 인지 부하(cognitive load)라 한다.
 
-#### 1. Examples 1 - Apple Remote 
+#### 2. Examples 1 - Apple Remote 
 
 ![TV Remote](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/tv-remote.jpg){: width="800"}
 
 ![Apple TV Remote](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/apple-tv-remote.jpeg){: width="800"}
 
-#### 2. Examples 2 - Tutorials
+#### 3. Examples 2 - Tutorials
 
 ![Tutorial](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/tutorial.png){: width="800"}
 
@@ -187,6 +189,8 @@ RT(반응 시간) = a + b log<sub>2</sub>(n)
 
 ### 5. Postel's Law (포스텔의 법칙) 👩‍💻
 
+#### 1. Postel's Law
+
 **자신이 행하는 일은 엄격하게, 남의 것을 받아들일 때는 너그럽게.**
 
 > - 사용자가 어떤 동작이나 입력을 하든지 공감하는 태도로 유연하고 관대하게 대처하라.
@@ -210,7 +214,7 @@ RT(반응 시간) = a + b log<sub>2</sub>(n)
 이를 허용해 문제 없이 화면을 렌더링한고 사용자는 아무런 문제가 없는 것처럼 정상적으로 사이트를 이용할 수 있다. 
 즉, 더 나은 UX 를 제공한다는 뜻이고, 이러한 유연성은 사용자를 불러모으고, 다수의 사용자가 모인다는 것은 힘을 갖는다는 것을 의미한다.
 
-#### 1. Examples 1 - Apple Face ID
+#### 2. Examples 1 - Apple Face ID
 
 생체 인증이 없다면 사용자는 앱이 요구하는바에 따라 이메일 인증을 하기도 하고, 문자 인증을 하기도 하고, 비밀번호 입력 혹은 별도의 핀번호, 
 패턴 등 수많은 다양성에 맞춰 보안을 해제하기 위해 앱이 요구하는바에 따라 입력을 해야했다. 이것은 사용자에게 많은 것을 기억하고, 그에 따라 
@@ -218,14 +222,14 @@ RT(반응 시간) = a + b log<sub>2</sub>(n)
 
 하지만 생체 인증은 사용자는 적은 노력으로 일관되며 손쉽게, 하지만 더욱 견고하고 안전하게 보안을 해제한다.
 
-#### 2. Examples 2 - Progressive Enhancement
+#### 3. Examples 2 - Progressive Enhancement
 
 구글은 기존에 PC 체계를 기반으로 검색 시스템을 만들었기 때문에 텍스트 검색만을 이용했다.
 
 하지만 모바일 기기가 대세가 되며 음성은 물론 사진을 사용할 수 있게 되었고, 이를 통한 검색이 가능하도록 검색창을 확장했다. 하지만 이를 
 대체하는 것이 아닌 기존의 검색창에 아이콘을 추가해 기존 인터페이스와 새로운 인터페이스를 모두 포용하고 사용자가 이를 선택하도록 했다.
 
-#### 3. Examples 3 - Amazon i18n
+#### 4. Examples 3 - Amazon i18n
 
 웹이나 앱을 디자인 할 때 모국어로만 디자인 하는 경우가 많다. 문제는 이렇게 만들어진 앱이나 웹은 다국어 서비스를 할 때 늘어나거나 줄어든 
 글자수로 인한 디자인 깨짐을 경험하게 된다.
@@ -240,6 +244,8 @@ RT(반응 시간) = a + b log<sub>2</sub>(n)
 ---
 
 ### 6. Peak-End Rule (피크엔드 규칙) 👩‍💻
+
+#### 1. Peak-End Rule
 
 **인간은 경험 전체의 평균이나 합계가 아니라, 절정의 순간과 마지막 순간에 느낀 감정을 바탕으로 경험을 판단하는 경향이 있다.**
 
@@ -258,7 +264,7 @@ RT(반응 시간) = a + b log<sub>2</sub>(n)
 즉, 사용자가 어떤 앱 또는 웹을 사용할 때 전반적으로 좋은 경험을 했더라도 순간의 불쾌한 경험의 정도가 크거나 마지막 경험이 좋지 못하면 
 평가를 낮게 줄 것이고, 나아가 주변에 추천할 확률이 줄어든다.
 
-#### 1. Examples 1 - 404 Pages
+#### 2. Examples 1 - 404 Pages
 
 인터넷을 하는 중 요청한 페이지를 찾을 수 없을 경우 `404` 응답 페이지를 보게 된다.
 
@@ -274,7 +280,7 @@ RT(반응 시간) = a + b log<sub>2</sub>(n)
 
 ![Lego 404 Page](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/lego-404-page.jpg){: width="600"}
 
-#### 2. Examples 2 - Loading Pages 
+#### 3. Examples 2 - Loading Pages 
 
 기존에는 앱이나 웹이 로딩이 오래걸릴 경우 화면이 멈춘 것처럼 보였다. 이런 경우 사용자는 응답이 지연됨으로 인해 불편함을 느끼는 것에 추가로
 자신의 요청이 여전히 수행중인지 혹시 정지되지는 않았는지 알 수 없어 그 스트레스는 배가 된다. 따라서 최근 앱이나 웹은 자신의 요청이 
@@ -286,7 +292,7 @@ RT(반응 시간) = a + b log<sub>2</sub>(n)
 
 ![Funny Loading](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/funny-loading.gif){: width="600"}
 
-#### 3. Examples 3 - Uber
+#### 4. Examples 3 - Uber
 
 피크엔드 규칙을 종합적으로 잘 활용한 예 중 하나로 우버를 들 수 있다. 우버는 승차 공유 서비스라는 비즈니스 모델의 특성상 대기 시간이 
 불가피하다는 것을 깨닫고 고객의 부정적인 경험을 줄이도록 다음 3가지에 주목했다.
@@ -333,6 +339,8 @@ RT(반응 시간) = a + b log<sub>2</sub>(n)
 
 ### 8. Von Restorff Effect (폰 레스토프 효과) 👩‍💻
 
+#### 1. Von Restorff Effect
+
 **비슷한 사물이 여러 개 있으면 그중에서 가장 차이가 나는 한 가지만 기억할 가능성이 크다.**
 
 > - 중요한 정보나 핵심 동작은 시각적으로 눈에 띄게 하라.
@@ -347,19 +355,19 @@ RT(반응 시간) = a + b log<sub>2</sub>(n)
 돕는 동시에 이들을 인터페이스의 어떤 부분에 집중하게 할지 관리하는 것이 중요하다. 어떤 항목을 넣을 때 그 색상과 크기, 형태, 위치, 움직임은 
 사용자의 주의를 끄는 요소가 되므로 강조해야 할 것과 시선을 빼앗기지 말아야 할 것을 신중히 고민해야한다.
 
-#### 1. Examples 1 - NY Times
+#### 2. Examples 1 - NY Times
 
 ![NY Times](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/nytimes.png)
 
 지면의 크기와 타이틀의 크기를 이용해 강조할 요소를 구별하고있다.
 
-#### 2. Examples 2 - iPhone Badge
+#### 3. Examples 2 - iPhone Badge
 
 ![iPhone Badge](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/iphone-badge.jpg){: width="600"}
 
 배지를 이용해 사용자에게 다른 앱 아이콘보다 우선적으로 앱의 알림이 얼마나 있는지 확인하도록 정보를 제공한다.
 
-#### 3. Examples 3 - Popup
+#### 4. Examples 3 - Popup
 
 ![Popup](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/delete-popup.png){: width="600"}
 
@@ -369,6 +377,8 @@ RT(반응 시간) = a + b log<sub>2</sub>(n)
 ---
 
 ### 9. Tesler's Law (테슬러의 법칙) 👩‍💻
+
+#### 1. Tesler's Law
 
 **복잡성 보존의 법칙이라고도 알려진 테슬러의 법칙에 따르면, 모든 시스템에는 더 줄일 수 없는 일정 수준의 복잡성이 존재한다.**
 
@@ -387,7 +397,7 @@ RT(반응 시간) = a + b log<sub>2</sub>(n)
 > 해석될 수도 있기 때문에 주의해야한다. 이를 줄이기 위해 아이콘은 항상 의도가 명확하고, 동작에 일관성이 있어야한다. 그렇지 못한 아이콘은 
 > 지나친 추상화로 인해 사용자의 목적 달성을 저해하는 시각적 소음으로 전락하고 만다.
 
-#### 1. Examples 1 - e-mail
+#### 2. Examples 1 - e-mail
 
 이메일을 작성하고 보내기 위해서는 `발신인`, `수신인`의 정보가 반드시 필요하다. 이 정보가 없다면 발송이 불가하므로 이메일에 있어서 
 이 부분은 필수적인 복잡성에 해당한다.
@@ -399,7 +409,7 @@ RT(반응 시간) = a + b log<sub>2</sub>(n)
 이메일 발송인 서명까지 자동으로 처리해주곤한다. 그만큼 사용자는 자신의 목적에 집중할 수 있게 된다. 심지어 요즘엔 AI 가 학습 데이터를 
 이용해 답장 내용까지 미리 제안하거나 입력하곤한다.
 
-#### 2. Examples 2 - Shopping Site
+#### 3. Examples 2 - Shopping Site
 
 대부분의 쇼핑몰은 사용자가 제품을 결제할 때 복잡성을 줄이기 위해 주소지와 결제 방식을 사용자가 등록했거나 마지막 사용한 정보를 저장했다 
 자동으로 불러온다. 특히 각종 간편결제 서비스는 가장 번거롭던 결제 정보 입력 단계를 효과적으로 줄여준다. 이제 사용자는 결제 시점에 
@@ -412,17 +422,91 @@ RT(반응 시간) = a + b log<sub>2</sub>(n)
 
 ### 10. Doherty Threshold (도허티 임계) 👩‍💻
 
----
+#### 1. Doherty Threshold
 
-### 11. 힘에는 책임이 따른다 👩‍💻
+**컴퓨터와 사용자가 서로를 기다리지 않아도 되는 속도`0.4초 이하`로 인터랙션하면 생산성은 급격히 높아진다.**
 
-심리학을 활용하여 더 직관적인 제품과 경험을 만든다는 게 어떤 의미인지 좀 더 자세히 살펴본다.
+> - 사용자의 주의가 분산되는 것을 막는 동시에 생산성도 향상시키려면 시스템 피드백을 `0.4초 이내`에 제공하라.
+> - 반응 시간을 개선하고 체감 대기 시간을 줄이려면 체감 성능을 활용하라.
+> - 애니메이션은 로딩이나 프로세싱이 진행되는 동안 사람들의 시선을 끄는 한 가지 방법이다.
+> - 설사 정확하지 않다고 해도 진행표시줄을 보여주면 사용자는 대기 시간에 좀 더 관대해진다.
+> - 실제 작업이 훨씬 빨리 완료되더라도, 의도적으로 작업 완료를 늦게 알리면 체감 가치를 높이고 신뢰를 형성하는 데 도움이 되기도 한다.
 
----
+HTTP 아카이브에 따르면 2010년 데스크탑 페이지의 평균 페이지 용량이 609KB 였던 것에 비해 2019년 에는 2MB 정도로 늘어났다. 또한 
+모바일 페이지 용량도 1.7MB 수준에 이른다. 물론, 과거보다 통신 속도 역시 빨라졌지만 항상 빠른 통신이 보장되는 것은 아니다. 더군다나 
+웹페이지의 용량은 조금씩 커지는 추세다. 이로써 대기시간이 길어지는 것이 사용자에게 답답함을 유발할 수 있다. 심지어 대기시간이 너무 
+길어지면 많은 사용자는 아예 사용을 포기하기에 이른다.
 
-### 12. 디자인, 심리학을 만나다 👩‍💻
+도허티 임계는 과거 반응 시간의 임계값이 2초로 여겨지던 개발 문화에 의문을 제기하면서 시작되었다. 1982년 IMB 직원이 반응 시간이 0.4초 
+이하일 때 `생산성은 반응 시간 감소의 정비례 이상으로 증가한다`는 논문을 통해 컴퓨터와 사용자가 기다리지 않아도 되는 속도로 인터랙션할 때 
+생산성이 급격히 높아지고, 직원들의 만족도가 높아지며, 작업 결과의 품질도 개선된다고 주장했다. 컴퓨터 반응시간이 생산성에 불균형한 영향을 
+미친다는 도허티의 발견을 바탕으로 도허티 임계라고 알려진 새로운 표준이 탄생했다.
 
-이 책에서 소개한 심리학 법칙을 팀의 목표와 우선순위를 고려해 세운 디자인 원칙을 적용함으로써 실무에 적용하는 과정을 살펴본다.
+> - 0.1초 이내 : 반응이 즉각적이라고 느낌
+> - 0.1 ~ 0.3초 사이 : 지연이 눈으로 감지되는 수준으로 사용자는 해당 시스템이 자신의 통제에서 벗어나고 있다고 느낀다.
+> - 0.3 ~ 0.4초 사이 : 생산성이 감소하며 효율적인 생산성을 위한 반응 지연의 임계값이다.
+> - 0.4 ~ 1.0초 사이 : 생산성 감소가 더 커진다.
+> - 1.0초 이상 : 사용자가 집중하기 어려워지고, 작업 수행에 필요한 정보를 놓치기 시작한다. 인지 부하가 커지고 사용자 경험이 나빠진다.
+
+#### 2. Give a feedback if it takes long time
+
+어떤 경우는 처리 시간이 오래 걸려서 또는 네트워크 통신 상황 등 외부 요인에 영향을 받아서 도허티 임계가 규정한 0.4초 이하를 지킬 수 
+없지만 개선할 방법이 없을 때도 있다. 이럴 때는 사용자가 기다리는 것에 불편을 느끼지 않도록 사용자에게 처리 시간이 필요하다는 것을 
+의도적으로 알리는 피드백을 줄 수 있다. 피드백은 받은 사용자는 아직 앱이나 웹이 완전히 로딩되지 않았음을 인지하지만 여전히 앱이 
+빠르게 작동한다고 느끼게 된다.
+
+__1 ) Skeleton Screen__
+
+![Skeleton Screen 1](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/skeleton-1.png)
+
+페이스북 같은 플랫폼에서 흔히 볼 수 있는 사례로 화면의 뼈대를 먼저 그릴 후 콘텐츠를 로딩한다. 로딩되는 동안은 placeholder 블럭을 
+표시한다. 그리고 실제 텍스트와 이미지와 같은 콘텐츠가 로딩되면서 placeholder 를 채워간다.
+
+![Skeleton Screen 2](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/skeleton-2.png)
+
+그러면 이미 화면의 구조가 모두 잡힌 상태라 콘텐츠 로딩에 따라 화면이 이리저리 움직이는 일이 줄어들고 사용자는 콘텐츠 로딩 속도가 
+느려도 기다린다는 느낌이 덜해 속도와 반응성을 더 좋게 인지한다. 
+
+<br>
+
+__2 ) Blur Up__
+
+화면 로딩 시간을 지연시키는 가장 큰 원인은 미디어 데이터다. 특히 이미지가 로딩되어 자리를 잡으면서 화면이 이리저리 움직이는 것은 
+사용자의 주의를 산만하게 만들고 사용성이 나쁘다고 느끼게 된다.
+
+위에서 페이스북의 Skeleton Screen 과 비슷한 문제를 해결하기 위한 기법 중 하나로, Skeleton Screen 이 전체 화면의 뼈대를 
+잡고 그 위치를 placeholder 처리 한 것과 달리 Blur Up 기술은 실제 이미지를 불러온다. 단, 실제 이미지의 매우 경량화된 버전을 
+불러오고, 이걸 디자인 기법인 `Blur Up`을 이용해 필요한 공간의 크기만큼 확대해 뿌려준다. 이후 이미지 로딩이 완료되면 고해상도 
+이미지로 교체한다.
+
+![Blur Up](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/medium-blur-up.gif)
+
+이렇게 하면 단순 저해상도 이미지를 크기만 키웠을 때 발생하는 픽셀 깨짐 노이즈 현상이 보이지 않고 그저 흐릿하게 보이기 때문에 
+사용자는 로딩 지연에 대한 거부감을 덜게 된다. 더욱이 아무것도 없는 placeholder 보다 시각적으로 더 나은 사용성을 보여준다.
+
+> Blur Up 의 장점은 Skeleton Screen 으로 구성되지 않은 Legacy 화면을 적은 노력을 들여 효과를 볼 수 있다는 장점을 
+> 갖는다. 하지만 Blur Up 기법을 사용한다고 Skeleton Screen 기법을 사용하지 못 하는 것은 아니다. 둘 다 적절히 사용하면 
+> 더욱 좋은 사용성을 제공할 수 있다.
+
+<br>
+
+__3 ) Progress Bar and Remain Times__
+
+![Mac OS Update](/assets/images/posts/2023-01-16-ten-rules-of-ux-ui/apple-software-update.png)
+
+애플은 OS 업데이트와 같이 오래 걸리는 작업을 할때 진행 상태를 막대로 표시하고 남은 시간을 알려준다. 이렇게 하면 사용자는 얼마나 
+기다려야하는지에 대한 불확실성이 없기 때문에 기다림으로 인한 불만을 덜어낸다.
+
+#### 3. Intentionally Slowing Down
+
+도허티 임계를 통해 반응 시간이 지연됨으로 인해 사용성이 떨어지는 문제에 대해 알아보았다. 하지만 오히려 반응이 빨라 문제가 되는 경우도 
+있다. 이런 경우 의도적으로 반응 속도를 느리게 해 사용성을 높이는 역설과도 같은 상황이 존재한다. 예를 들어 반응이 너무 빨라 사용자가 
+변화를 인지하지 못 하는 경우 오히려 사용자는 자신의 요청이 제대로 수행되지 않는다고 판단하게된다. 또한 보안과 관련된 민감함 정보를 
+다룰때 너무 빠르게 동작하면 안전한 것인지에 대한 의구심을 가져 신뢰도를 떨어뜨리는 역효과가 발생하게된다.
+
+이것은 우리가 발표를 할 때 청중이 반드시 인지해야하는 부분에서 의도적으로 속도를 느리게 하는 것과 마찬가지다. 사용자가 요청에 대한 
+변화가 잘 수행되고 있음을 잘 인지할 수 있도록 의도적으로 속도를 늦춰 좋은 사용성을 가지고 있도록 느끼게 만든다.
+
 
 <br><br>
 
@@ -433,5 +517,7 @@ Reference
 2. "Laws of UX." Laws of UX. accessed Jan. 16, 2023, [Laws of UX][Laws of UX].
 3. "30 must-see user persona templates." Justmind. July. 30, 2020, [User Persona Templates](https://www.justinmind.com/blog/user-persona-templates/).
 4. Kate Rooney. "8 Awesome 404 Page Designs (and Best Practices)." Design Pickle. last modified Jan. 12, 2022, [Awesome 404](https://designpickle.com/creative-hub/website-design/404-page-designs-best-practices/).
+5. "Understanding code splitting on facebook.com.", stackoverflow, last modified Jun. 01, 2021, accessed Feb. 3, 2023, [https://stackoverflow.com/questions/67779334/understanding-code-splitting-on-facebook-com](https://stackoverflow.com/questions/67779334/understanding-code-splitting-on-facebook-com).
+6. "The “Blur Up” Technique for Loading Background Images." Digital Ocean, last modified Par. 10, 2017, [Blur Up Technique](https://css-tricks.com/the-blur-up-technique-for-loading-background-images/).
 
 [Laws of UX]:https://lawsofux.com
