@@ -6,7 +6,7 @@ categories: javascript
 tags: [javascript, vue, kakao oauth, kakao token]
 ---
 
-### 1. 카카오 OAuth 2.0 삽을 들자
+### 1. 카카오 OAuth 2.0 삽을 들자  👩‍💻
 
 대체 삽질은 뭐라고 번역 해야 할지 모르겠다. 튜토리얼이나 도큐먼트, 정의나 개념을 정리한 것도 아닌 단순 카카오 OAuth 2.0 테스트를 
 하면서 삽질을 많이 해서 올려본다. Vue 에서 하고 있기 때문에 Vue 에서 다른 사람들이 OAuth 테스트 한 것을 봤는데 딱히 참고할만한 레퍼런스도 
@@ -68,7 +68,17 @@ tags: [javascript, vue, kakao oauth, kakao token]
 
 ---
 
-### 2.  👩‍💻
+### 2. Kakao Developer configs for Kakao Login  👩‍💻
+
+다음 스크린샷을 참고해 카카오 개발자 사이트의 설정을 해주도록 하자.
+
+![Kakao Developer configs 1](/assets/images/posts/2023-02-05-kakao-oauth/preliminary-settings-1.png)
+
+![Kakao Developer configs 2](/assets/images/posts/2023-02-05-kakao-oauth/preliminary-settings-2.png)
+
+![Kakao Developer configs 3](/assets/images/posts/2023-02-05-kakao-oauth/preliminary-settings-3.png)
+
+![Kakao Developer configs 4](/assets/images/posts/2023-02-05-kakao-oauth/preliminary-settings-4.png)
 
 ---
 
