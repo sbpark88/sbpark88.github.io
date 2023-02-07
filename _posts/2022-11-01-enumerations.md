@@ -3,7 +3,7 @@ layout: post
 title: Swift Enumerations
 subtitle: Enumerations - Associated Values, Raw Values
 categories: swift
-tags: [swift docs, enumeration, associated value, raw value]
+tags: [swift docs, enumeration, associated value, raw value, recursive enumeration, indirect]
 ---
 
 ### 1. Enumeration Syntax 👩‍💻
@@ -11,10 +11,11 @@ tags: [swift docs, enumeration, associated value, raw value]
 #### 1. Enumerations in Swift
 
 `Enumeration`은 연관된 값들을 공통 타입으로 그룹화해 `Type-Safe`한 코드를 작성하도록 돕는다.  
-Swift 에서 `Enumeration`은 주어진 값이 `String`, `Character`, `Interger`, `Float` 어떤 것이든
-저장할 수 있다. 다른 언어에서 `unions` 또는 `variants`가 작동하는 것과 같다.
+Swift 에서 *Enumeration* 은 주어진 값이 `String`, `Character`, `Interger`, `Float` 어떤 것이든
+저장할 수 있다. 다른 프로그래밍 언어에서 *unions* 또는 *variants* 가 작동하는 것과 같다.
 
-Swift 에서 `Enumeration`은 그 자체로 `First-Class Types`로 전통적으로 `Class`에서만 제공되는 많은 기능을 채택한다.
+Swift 에서 *Enumeration* 은 그 자체로 `First-Class Types` 로 전통적으로 `Classes` 에서만 제공되는 
+많은 기능을 채택한다.
 
 - Initializers
 - Computed Properties
@@ -40,8 +41,8 @@ enum SomeEnumeration {
 }
 ```
 
-> 1. `Enumeration`은 새 `Type`을 만들어 낸다. 따라서 Swift 의 다른 `Types`와 마찬가지로 이름은 `대문자로 시작`한다.
-> 2. `Enumeration`은 `Singleton`을 기반으로 하므로 이름 역시 자명하게 읽히도록 복수형(plural)이 아닌
+> 1. **Enumeration** 은 새 `Type`을 만들어 낸다. 따라서 Swift 의 다른 **Types** 와 마찬가지로 이름은 `대문자로 시작`한다.
+> 2. **Enumeration** 은 `Singleton`을 기반으로 하므로 이름 역시 자명하게 읽히도록 복수형(plural)이 아닌
      `단수형(singular)을 사용`한다.
 
 #### 2. Enumeration Examples
@@ -55,11 +56,11 @@ enum CompassPoint {
 }
 ```
 
-> Swift 의 `Enumeration`은 다른 언어와 달리 암시적으로 integer value(0, 1, 2, ...)를 할당하지 않는다.
+> Swift 의 **Enumeration** 은 다른 언어와 달리 **암시적으로 integer value(0, 1, 2, ...)를 할당하지 않는다**.
 > `case`는 `온전히 자기 자신을 값`으로 갖는다.
 
 <br>
-각 `case`는 다음과 같이 `,`를 이용해 한 줄로 적을 수 있다.
+각 *case* 는 다음과 같이 `,`를 이용해 한 줄로 적을 수 있다.
 
 ```swift
 enum Planet {
@@ -67,7 +68,7 @@ enum Planet {
 }
 ```
 
-위에서 정의한 `CompassPoint`, `Planet`은 각각 하나의 `Type`을 만들어냈으며, 둘은 서로 다른 `Type`이다.
+위에서 정의한 `CompassPoint`, `Planet`은 각각 하나의 *Type* 을 만들어냈으며, 둘은 서로 다른 *Type* 이다.
 
 ```swift
 var directionToHead = CompassPoint.west
@@ -76,7 +77,7 @@ print("Type of directionToHead is '\(type(of: directionToHead))'")
 
 <br>
 
-이미 `Type`이 정해진 경우, `Dot Syntax`(`.`)를 이용할 수 있다.
+이미 *Type* 이 정해진 경우, `Dot Syntax`(`.`)를 이용할 수 있다.
 
 ```swift
 var directionToHead = CompassPoint.west
@@ -95,7 +96,7 @@ print("anotherDirectionToHead is '\(anotherDirectionToHead)'")    // anotherDire
 ### 2. Matching Enumeration Values with Switch 👩‍💻
 
 #### 1. Matching with Switch
-`Enumeration`은 `Switch`를 이용해 다음과 같이 매칭시킬 수 있다.
+*Enumeration* 은 `Switch`를 이용해 다음과 같이 매칭시킬 수 있다.
 
 ```swift
 enum CompassPoint {
@@ -135,7 +136,7 @@ case .south:
 }
 ```
 
-`south`를 제외한 `case`를 제거했다. `directionToHead`는 현재 `south`니까 문제 없을 것 
+*south* 를 제외한 *case* 를 제거했다. *directionToHead* 는 현재 *south* 니까 문제 없을 것 
 같지만, Swift 는 이 `Switch`가 완전하지 않은 것을 발견하고 `compile-error`를 발생시킨다.  
 따라서, 사용되지 않더라도 다음과 같이 `case miss-matching`이 일어나지 않도록 다음과 같이 
 처리해야한다.
@@ -155,7 +156,7 @@ default:
 
 ### 3. Iterating over Enumeration Cases 👩‍💻
 
-`Enumeration`에 `CaseIterable` 프로토콜을 채택하므로써 해당 `Enum Type`의 모든 `cases`를
+*Enumeration* 에 `CaseIterable` 프로토콜을 채택함으로써 해당 *Enum Type* 의 모든 *cases* 를
 갖는 `Collection`을 생성한다.
 
 __Syntax__
@@ -193,9 +194,9 @@ juice
 
 ### 4. Associated Values 👩‍💻
 
-때로는 `Enumeration`의 `cases`가 자기 자신의 값 외에 다른 타입의 값을 함께 저장하는 것이 
-유용할 때가 있다. 이를 `Associated Value`라고 하며, 이는 다른 프로그래밍 언어에서 
-`unions`, `tagged unions`, `variants`로 알려진 것들과 유사하다.
+때로는 *Enumeration* 의 *cases* 가 `자기 자신의 값 외에 다른 타입의 값을 함께 저장`하는 것이 유용할 때가 있다. 
+이를 `Associated Value`라고 하며, 이는 다른 프로그래밍 언어에서 *unions*, *tagged unions*, *variants* 로 
+알려진 것들과 유사하다.
 
 __Syntax__
 
@@ -221,9 +222,9 @@ enum SomeEnumeration {
 
 <br>
 
-우선 `UPC`는 1D 바코드로 `numebr system`, `manufacturer code`, `product code`, `check` 순으로 
+우선 *UPC* 는 1D 바코드로 *numebr system*, *manufacturer code*, *product code*, *check* 순으로 
 이뤄진 4개의 `Int` 그룹으로 구성되어진다.  
-다음으로 `QR code`는 2D 바코드로 2,953자 이내의 어떠한 `ISO 8859-1` 문자든 저장할 수 있다.
+다음으로 *QR code* 는 2D 바코드로 2,953자 이내의 어떠한 `ISO 8859-1` 문자든 저장할 수 있다.
 
 #### 2. Adopt Associated Values
 
@@ -234,12 +235,12 @@ enum Barcode {
 }
 ```
 
-__`Barcode` enum type 이 가질 수 있는 값은 다음과 같다.__
-- `(Int, Int, Int, Int)` `4 Integer Tuple` 타입의 `upc`
+__*Barcode* enum type 이 가질 수 있는 값은 다음과 같다.__
+- (Int, Int, Int, Int) `4 Integer Tuple` 타입의 `upc`
 - `String` 타입의 `qrCode`
 
-하지만 `Barcode` `enum`이 갖는 값은 사실상 `Associated Value`의 타입을 정의할 뿐 이 값 자체는 
-코드상 어떠한 실질적으로 의미를 갖지 않는다. `Beverage`와 비교해보자.
+하지만 `Barcode enum` 이 갖는 값은 사실상 `Associated Value`의 타입을 정의할 뿐 이 값 자체는 코드상 어떠한 
+실질적 의미도 갖지 않는다. `Beverage`와 비교해보자.
 
 <br>
 
@@ -252,12 +253,12 @@ var myBeverage: Beverage
 myBeverage = .coffee
 ```
 
-`Beverage` `enum type`은 `coffee`, `tea`, `juice`를 자기 자신을 값으로 갖는다. 이 값은 값 자체가 코드상 
-의미를 갖는다. 따라서, `myBeverage`라는 변수에 `Beverage` 타입의 `.coffee`라는 값을 할당할 수 있다. 
+`Beverage enum` *type* 은 *coffee*, *tea*, *juice* 를 자기 자신을 값으로 갖는다. 
+이 값은 값 자체가 코드상에서 실질적 의미를 갖는다. 
 
 <br>
 
-이번에는 위 `Beverage`를 기억하며 `Barcode`를 살펴보자.
+이번에는 위 *Beverage* 를 기억하며 *Barcode* 를 살펴보자.
 
 ```swift
 var productBarcode: Barcode
@@ -269,26 +270,25 @@ print("productBarcode is '\(productBarcode)' now")  // productBarcode is 'qrCode
 ```
 
 1. `Barcode` 타입의 변수 `productBarcode`를 선언한다.
-2. 변수 `productBarcode`에 `Associated Tuple Value` `(8, 85909, 51226, 3)`를 갖는 
+2. 변수 *productBarcode* 에 *Associated Tuple Value* 로 `(8, 85909, 51226, 3)` 를 갖는 
    `Barcode.upc` 값을 할당한다.
-3. 이제 변수 `productBarcode`는 `Associated Tuple Value` `("ABCDEFGHIJKLMNOP")`를 갖는 
+3. 이번에는 변수 *productBarcode* 는 *Associated Tuple Value* `("ABCDEFGHIJKLMNOP")`를 갖는 
    `Barcode.qrCode` 값을 할당한다.
 
 <br>
 이를 정리하면 다음과 같다.
 
-> `Beverage`의 값 `coffee`가 실질적인 값을 갖는 것과 달리 `Barcode`의 값 `upc`나 `qrCode`는 값 자체로써는 
-> 실질적인 의미가 없다. `Barcode`의 값 `upc`나 `qrCode`는 가질 수 있는 `Associated Value`의 타입을 
-> 정의할 뿐이다.  
-> 실제로 의미를 갖는 값은 `(8, 85909, 51226, 3)` 또는 `("ABCDEFGHIJKLMNOP")`와 같은
-> `Associated Tuple Value`다. 
+> *Beverage* 의 값 `coffee`가 실질적인 값을 갖는 것과 달리 *Barcode* 의 값 `upc`나 `qrCode`는 값 자체로써는 
+> 실질적인 의미가 없다. *Barcode* 의 값 *upc* 나 *qrCode* 는 가질 수 있는 `Associated Value 의 Type 을 정의`할 뿐이다.    
+> 실제로 의미를 갖는 값은 `(8, 85909, 51226, 3)` 또는 `("ABCDEFGHIJKLMNOP")`와 같은 `Associated Tuple Value`가 
+> 저장하고 있는 값이다.
 > 
-> 또한 `Beverage` 타입의 상수 또는 변수가 값으로 `coffee`와 `tea`를 동시에 가질 수 없는 것과 마찬가지로, 
-> `Beverage` 타입의 상수 또는 변수 역시 `upc`나 `qrCode` 두 가지의 값을 모두 저장할 수는 있지만 동시에 가질 수는 없다.
+> 또한 *Beverage* 타입의 상수 또는 변수가 값으로 `coffee`와 `tea`를 동시에 가질 수 없는 것과 마찬가지로, 
+> *Barcode* 타입의 상수 또는 변수 역시 `upc`나 `qrCode` 두 가지의 값을 모두 저장할 수는 있지만 동시에 가질 수는 없다.
 
 #### 3. Switch Statements with Associated Values
 
-위에서 살펴본 `Enumeration`을 `Switch`에 매칭하는 것은 동일하다. 단, 이 경우 실질적인 값은 `Associated Values`인데 
+위에서 살펴본 *Enumeration* 을 *Switch* 에 매칭하는 것과 동일하다. 단, 이 경우 실질적인 값이 `Associated Values` 
 이 값을 `case` 내에서 사용하기 위해서는 `let` 또는 `var`에 할당해야한다.
 
 ```swift
@@ -336,21 +336,21 @@ func printBarcode (_ productBarcode: Barcode) {
 
 __Summary of Associated Values__
 
-> `Associated Values`는 `Enumeration`의 `cases`가 온전히 자기 자신을 값으로 갖는 대 다른 타입의 값을 갖게 한다.  
-> 이때 `Enumeration`의 `cases` 값은 가질 수 있는 `Associated Values`를 정의한다.  
-> `Associated Values`를 이용하면 서로 다른 타입의 값을 하나의 `Enumeration`에 저장할 수 있다.  
+> *Associated Values* 는 *Enumeration* 의 *cases* 가 온전히 자기 자신을 값으로 갖는 대신 다른 타입의 값을 갖게 하며, 
+> 이때 *Enumeration* 의 *cases* 값은 가질 수 있는 *Associated Values* 의 *types* 를 정의한다.  
+> <span style="color: red;">*Associated Values* 를 이용하면 서로 다른 타입의 값을 하나의 *Enumeration* 에 저장</span>할 수 있다.  
 > 단, 서로 다른 타입을 동시에 저장하는 것은 아니다.
 
 ---
 
 ### 5. Raw Values 👩‍💻
 
-앞에서 `Associated Values`는 `cases`가 자기 자신의 값 외에 다른 값을 갖는 것은 물론, 서로 `다른 타입의 값`을 
+앞에서 *Associated Values* 는 *cases* 가 자기 자신의 값 외에 다른 값을 갖는 것은 물론, `서로 다른 타입의 값`을 
 저장하기 위해 어떻게 정의해야하는지를 보여주었다.
 
 이번에는 `Associated Values`의 대안 중 하나로, `cases`가 자기 자신의 값 외에 다른 값을 가질 수 있는 방법으로 
-`Raw Values`를 소개한다. `Associated Values`와 마찬가지로 자기 자신의 값 외에 다른 값을 갖도록 하는 것은 
-동일하지만, `Associated Values`와 달리 `동일 타입의 값`만 `cases`로 저장할 수 있다.
+`Raw Values`를 소개한다. *Associated Values* 와 마찬가지로 자기 자신의 값 외에 다른 값을 갖도록 하는 것은 
+동일하지만, *Associated Values* 와 달리 `동일 타입의 값`만 `cases`로 저장할 수 있다.
 
 `Raw Values`를 정의하는 방법은 `enum`을 정의함과 동시에 `default values`를 정의하는 것이다.
 
@@ -391,13 +391,14 @@ print(SomeEnumeration.one.rawValue) // 하나
 
 #### 1. Implicitly Assigned Raw Values
 
-`Enumerations`가 `Integer` 또는 `String` `Raw Values`를 저장할 경우 모든 `case`에 명시적(explicit)으로 
-값을 지정하지 않아도 Swift 는 암시적(implicit)으로 값을 할당한다.
+*Enumerations* 는 `Raw Values` 를 별도로 지정하지 않으면 *첫 case* 에 암시적(implicit) `0`을 할당한다. 
+만약, `Integer` 또는 `String` Types 의 데이터를 명시적(explicit)으로 지정해 저장할 경우 모든 *cases* 에 
+값을 명시할 필요 없이 하나의 값을 명시하면 이후 값은 그 값일 기반으로 자동으로 암시적으로 할당된다.
 
 - Integer Raw Value
 
-`Integer`이 `Raw Values`로 사용된 경우, 값을 지정한 `case`의 다음 순서부터 1씩 증가시킨다. 시작 값을 
-지정하지 않을 경우 `default`로 0을 할당한다.
+*Raw Values* 를 *Integer* Type 으로 지정 후 아무란 값도 명시하지 않을 경우 Swift 는 암시적으로 `첫 case` 를 
+`0` 으로 할당된다.
 
 ```swift
 enum Planet: Int {
@@ -408,6 +409,9 @@ print(Planet.mercury.rawValue)  // 0
 print(Planet.venus.rawValue)    // 1
 print(Planet.neptune.rawValue)  // 7
 ```
+
+*Raw Values* 를 *Integer* Type 으로 지정 후 *case* 에 값을 명시적으로 저장할 경우, 명시적으로 저장한 `case`의 
+다음 순서부터 1씩 증가시킨다.
 
 ```swift
 enum Planet: Int {
@@ -451,7 +455,7 @@ print(Planet.neptune.rawValue)  // 9
 
 - String Raw Value
 
-`String`이 `Raw Values`로 사용된 경우, 암시적으로 각 `cases`의 이름이 `String`으로 할당된다.
+*Raw Values* 를 *String* Type 으로 지정할 경우 암시적으로 각 `cases의 이름`이 `String`으로 할당된다.
 
 ```swift
 enum CompassPoint: String {
@@ -469,21 +473,21 @@ print(type(of: CompassPoint.east.rawValue)) // String
 
 #### 2. Initializing from a Raw Value
 
-`Enumeration`을 `Raw Value`를 이용해 정의하면, `Raw Value`를 받아 일치하는 `Enumeration`의 `Instance` 
+*Enumeration* 을 *Raw Value* 를 이용해 정의하면, *Raw Value* 를 받아 일치하는 *Enumeration* 의 `Instance` 
 또는 `nil`을 반환하는 `initializer`를 이용할 수 있다.
 
-- Creating `instance of the enumeration` using `cases of the enumeration`
+- Cases: Creating `instance of the enumeration`
 
 ```swift
 let possiblePlanet = Planet.uranus
 print(possiblePlanet)   // uranus
 ```
 
-> 명확하게 `case`를 지정하므로, 언제나 해당하는 `case`의 `Enumeration`을 `Instance`로 생성한다.
+> 명확하게 `case`를 지정하므로, 언제나 해당하는 *case* 의 *Enumeration* 을 `Instance`로 생성한다.
 
 <br>
 
-- Creating `iinstance of the enumeration` or using `raw values`
+- Raw Values: Creating `instance of the enumeration` or `nil`
 
 ```swift
 let possiblePlanet = Planet(rawValue: 7)
@@ -496,8 +500,8 @@ print(type(of: impossiblePlanet))   // Optional<Planet>
 print(impossiblePlanet as Any)      // nil
 ```
 
-> `Raw Value`를 이용하는 것은 명시적으로 `case`를 지정하는 것이 아니므로 언제나 `Enumeration`의 `Instance`를 
-> `Optional` 타입으로 생성한다.
+> `Raw Value` 를 이용하는 것은 명시적으로 *case* 를 지정하는 것이 아니므로 `Optional Instance` 또는 `nil` 을 
+> 생성한다(Dictionaries 에서 Key 로 Value 를 조회할 때 Optional 인 것과 유사하다).
 
 <br>
 
@@ -570,7 +574,7 @@ safe: false
 
 ### 6. Recursive Enumerations 👩‍💻
 
-`Enumeration`의 `case`가 다시 자기 자신을 `Associated Values`로 가질 때 이를 `Recursive`라 하며, 
+*Enumeration* 의 *case* 가 다시 `자기 자신`을 `Associated Values`로 가질 때 이를 `Recursive`라 하며, 
 반드시 `indirect` 키워드를 명시해야한다.
 
 <br>
@@ -583,7 +587,7 @@ enum ArithmeticExpression { // Recursive enum 'ArithmeticExpression' is not mark
 }
 ```
 
-`indirect` 키워드 없이 선언하면 `Swift-compiler`에 의해 에러가 발생된다.
+`indirect` 키워드 없이 선언하면 *Swift-compiler* 에 의해 **에러**가 발생된다.
 
 <br>
 
@@ -595,8 +599,8 @@ enum ArithmeticExpression {
 }
 ```
 
-반드시 `Recursive-case` 앞에 `indirect` 키워드를 붙여줘야한다.  
-만약, `enum` 키워드 앞에 `indirect` 키워드를 선언하면 모든 `cases`에 `indirect`를 선언할 수 있다.
+반드시 *Recursive-case* 앞에 `indirect` 키워드를 붙여줘야한다.  
+만약, *enum* 키워드 앞에 `indirect` 키워드를 선언하면 모든 *cases* 에 *indirect* 를 암시적으로 선언할 수 있다.
 
 
 ```swift
@@ -607,19 +611,20 @@ indirect enum ArithmeticExpression {
 }
 ```
 
-위 `Enumeration` `ArithmeticExpression.Type`은 다음 3 가지의 `arithmetic expressions`(산술 표현식)을 
+위 *Enumeration* `ArithmeticExpression.Type`은 다음 3 가지의 `arithmetic expressions`(산술 표현식)을 
 저장할 수 있다.
 
 - a plain number
 - the addition of two expressions
 - the multiplication of two expressions
 
-이 중 `addition`과 `multiplication` `cases`는 다시 `arithmetic expressions`를 `Associated Values`로 
-가지므로 표현식의 중첩을 허용해 `Recursive` 상태를 만든다.
+이 중 `addition`과 `multiplication` *cases* 는 다시 *arithmetic expressions* 를 *Associated Values* 로 
+가지므로 표현식의 중첩을 허용해 *Recursive* 상태를 만든다.
 
 <br>
 
-`(5 + 4) * 2`를 `ArithmeticExpression.Type`를 이용해 선언해보자. 데이터가 중첩(nested)되므로, `Enumeration` 역시 중첩(nested)이 가능해야한다.
+`(5 + 4) * 2`를 *ArithmeticExpression.Type* 를 이용해 선언해보자. `데이터가 중첩(nested)`되므로, 
+`Enumeration 역시 중첩(nested)`이 가능해야한다.
 
 ```swift
 let five = ArithmeticExpression.number(5)
@@ -630,7 +635,7 @@ let product = ArithmeticExpression.multiplication(sum, ArithmeticExpression.numb
 
 <br>
 
-`Recursive Structure`를 가진 데이터를 다루는 가장 직관적인 방법은 `Recursive Function` 을 이용하는 것이다.
+**`Recursive Structure`를 가진 데이터를 다루는 가장 직관적인 방법은 `Recursive Function`을 이용하는 것**이다.
 
 ```swift
 func evaluate(_ expression: ArithmeticExpression) -> Int {
@@ -642,9 +647,9 @@ func evaluate(_ expression: ArithmeticExpression) -> Int {
 }
 ```
 
-`evaluate(_:)`의 첫 번째 `case`는 `Optional Binding` 하듯 `ArithmeticExpression.Type`으로부터
+`evaluate(_:)`의 첫 번째 *case* 는 *Optional Binding* 하듯 *ArithmeticExpression.Type* 으로부터
 `Int`를 반환한다.  
-`evaluate(_:)`의 두 번째와 세 번째 `case`는 첫 번째 `case`를 취하도록 `Recursive Function`으로 작성되었다.
+`evaluate(_:)`의 두 번째와 세 번째 *case* 는 첫 번째 *case* 를 취하도록 `Recursive Function`으로 작성되었다.
 
 `ArithmeticExpression`와 `evaluate(_:)`의 구조가 모두 `Recursive`인 것을 확인할 수 있다.
 
@@ -660,4 +665,4 @@ print(evaluate(product))    // 18
 ---
 Reference
 
-1. "Enumerations." The Swift Programming Language Swift 5.7. accessed Nov. 1, 2022, [Swift Docs Chapter 7 - Enumerations](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html)
+1. "Enumerations." The Swift Programming Language Swift 5.7. accessed Nov. 1, 2022, [Swift Docs Chapter 7 - Enumerations](https://docs.swift.org/swift-book/LanguageGuide/Enumerations.html).
