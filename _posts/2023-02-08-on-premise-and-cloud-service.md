@@ -50,17 +50,34 @@ IDC 관련 정보는 [IDC](https://www.idc.com) 에서 얻을 수 있다.
 
 ![On-premise](/assets/images/posts/2023-02-08-on-premise-and-cloud-service/on-premise-and-cloud-service.png)
 
+`IaaS`는 `Infrastructure as a Service`의 약자로 클라우드 회사에서 가상화 서버를 운영하고, 그 위에 OS 를 제공한다. AWS 의 
+EC2 가 이 방식이다. 사용자는 VM 의 OS 와 사양을 선택하면 이미 생성된 더미 VM OS 를 복제해 빠르게 제공한다. 이 OS 는 정말로 순수하게 
+OS 만 제공하는 깡통 OS 이므로, [On-Premise](#h-2-on-premise-) 와 마찬가지로 운영체제의 관리를 포함한 모든 것은 직접 해야한다. 
+[IDC](#h-2-idc-internet-data-center) 를 이용하는 것과 유사하다.
+
+하지만 IDC 에 비해 빠른 서비스 제공이 가능하며, 다른 지역에 서비스를 운영하거나, 서버의 컴퓨팅 성능을 확장하는 등의 선택이 좀 더 유연하다.
+
+> 주요 서비스는 다음과 같다.
+> 
+> DigitalOcean, Linode, Rackspace, Amazon Web Services (AWS), Cisco Metapod, Microsoft Azure, 
+> Google Compute Engine (GCE)
+
 ---
 
 ### 4. Cloud - PaaS and Serverless 👩‍💻
 
-![On-premise](/assets/images/posts/2023-02-08-on-premise-and-cloud-service/on-premise-and-cloud-service.png)
 
 ---
 
 ### 5. Cloud - SaaS 👩‍💻
 
 ![On-premise](/assets/images/posts/2023-02-08-on-premise-and-cloud-service/on-premise-and-cloud-service.png)
+
+`SaaS`는 `Software as a Service`의 약자로 서비스 자체를 제공한다.
+
+> 주요 서비스는 다음과 같다.
+> 
+> Google Workspace, Dropbox, Salesforce, Cisco WebEx, Concur, GoToMeeting
 
 <br><br>
 
