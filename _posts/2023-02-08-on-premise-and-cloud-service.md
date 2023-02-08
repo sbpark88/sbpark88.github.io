@@ -66,6 +66,49 @@ OS 만 제공하는 깡통 OS 이므로, [On-Premise](#h-2-on-premise-) 와 마�
 
 ### 4. Cloud - PaaS and Serverless 👩‍💻
 
+#### 1. PaaS
+
+![On-premise](/assets/images/posts/2023-02-08-on-premise-and-cloud-service/on-premise-and-cloud-service.png)
+
+사실 운영체제를 OS 버전 및 보안부터 시작해 프록시, 계정 및 권한, 스냅샷 백업 등 모든 것을 직접 관리하는 것은 쉽지 않은 것이다. 
+따라서 이 부분까지 제공해 좀 더 사용자가 자신의 서비스 코드에만 집중할 수 있도록 한 상품들이 나오게 되었는데 이것이 바로 *PaaS* 다. 
+
+`PaaS`는 `Platform as a Service`의 약자로 *OS* 와 *Middleware*, *Runtime* 환경까지 모두 클라우드에서 관리 제공한다. 
+*Runtime* 을 제공한다는 것은 서비스 패키지를 배포만 하면 자동으로 서비스 운영까지 제공하는 편리함을 제공하는 대신 사용자는 
+*Runtime* 환경을 선택에 제약을 받게 되는 단점이 존재한다.
+
+> 주요 서비스는 다음과 같다.
+> 
+> AWS Elastic Beanstalk, Azure App Service, Azure Cognitive Search, Heroku, Google App Engine, 
+> Apache Stratos, RedHat OpenShift, IBM Cloud Pak for Applications, BitNami by VMWare
+
+#### 2. Serverless
+
+*PaaS* 와 비슷한 클라우드 서비스로 `Serverless` 서비스가 있다. 이것은 *PaaS* 는 물론 시간 기반 정액제로 과금되는 다른 클라우드 
+서비스와 다르게 코드가 실행되는 순간의 비용만 지불하는 서비스 모델로 `사용한 만큼 비용을 지불`하는 서비스다. 한 번에 실행되는 크기에 제약이 
+존재하며, 따라서 오랜 시간 사용되는 코드나 상태 관리가 필요한 앱은 적합하지 않다. 또한 서버가 다시 구동되기까지 시간이 필요하다(Cold Start).
+
+*Serverless* 서비스가 적합성은 다음과 같다.
+
+- Suitable : Event-driven Architectures, Microservices-based Applications
+- Unsuitable : Long-running Processes, Stateful Applications
+
+*PaaS* 와 비교하면 유연성에 있어서도 차이가 있다. *PaaS* 역시 클라우드 서비스이므로 서비스의 확장이 자유롭다. 하지만 *PaaS* 는 
+확장을 위해 *Configuration* 을 직접 구성해야하지만 *Serverless* 는 자동으로 관리된다.
+
+<br>
+
+*Serverless* 는 주로 `BaaS` `Backend as a Service`와 `FaaS` `Function as a Service`로 나뉜다.
+
+- **BaaS** 는 대표적으로 Google 의 **Firebase** 와 같은 서비스로 **Backend** 기능을 클라우드가 제공하고, **API** 를 
+  제공한다. **Serverless** 모델이기 때문에 사용한 만큼 비용이 부과된다.
+- **FaaS** 는 대표적으로 AWS 의 **Lambda** 와 같은 서비스로 서비스의 기능을 함수 단위로 쪼개 사전에 정의된 이벤트가 트리거 
+  되면 해당 함수를 실행 후 종료된다.
+
+> 주요 서비스는 다음과 같다.
+> 
+> AWS Lambda, AWS Fargate, Azure Functions, Google Cloud Functions, Google Firebase, Apache OpenWhisk, 
+> IBM Cloud Functions, Fission.io serverless Kubernetes
 
 ---
 
