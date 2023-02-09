@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Vue.js Starter - Part 6
-subtitle: Vue.js 프로젝트 투입 일주일 전
+title: Vue.js Starter - Proxy, Vuex
+subtitle: Vue.js 프로젝트 투입 일주일 전 - Part 6
 categories: javascript
 tags: [javascript, vue, vue js, vue.js, proxy, cors, xss, sop, vuex, pinia, singleton, store, state, mutations, actions, build]
 ---
