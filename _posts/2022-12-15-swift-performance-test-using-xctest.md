@@ -268,7 +268,7 @@ struct DiceTwo {
 
 <br>
 
-> 이 설정을 하지 않으면 테스트는 실행되지만, `Computed-Properties` 그룹의 `Classes`, `Structures`, `Protocols` 같은 
+> 이 설정을 하지 않으면 테스트는 실행되지만, `Computed-Properties` 그룹의 *Classes*, *Structures*, *Protocols* 같은 
 > 것들을 찾지 못 한다(해당 코드가 포함된 Swift 파일을 찾지 못 하기 때문이다).
 
 #### 6. Write Test Cases
@@ -388,7 +388,7 @@ func testPerformnace_GetValueFromClosures() throws {
 <br>
 
 > 테스트 실행 자체가 실패하는 경우 [4. Edit Scheme for Tests](#h-4-edit-scheme-for-tests) 를 확인하고,  
-> 테스트는 실행되지만 `Classes`, `Structures`, `Protocols` 같은 것들을 찾지 못 하는 경우 
+> 테스트는 실행되지만 *Classes*, *Structures*, *Protocols* 같은 것들을 찾지 못 하는 경우 
 > [5. Add Target Memberships](#h-5-add-target-memberships) 를 확인한다.
 
 ---

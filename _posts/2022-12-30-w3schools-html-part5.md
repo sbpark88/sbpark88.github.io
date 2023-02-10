@@ -11,17 +11,17 @@ tags: [w3school, head, layout, responsive, computer code, semantics, style guide
 ### 22. HTML Head 👩‍💻
 
 `HTML`의 `<head>` element 는 `metadata`를 담는 컨테이너로 다음 elements 를 포함한다
-(`body` 태그와 동일 레벨에 선언하므로 `body`에 포함되지 않는다. 즉, 화면에 보이지 않는다).
+(*body 태그와 동일 레벨에 선언하므로 body 에 포함되지 않는다*. 즉, 화면에 보이지 않는다).
 
-- title : document 의 제목으로, 문자만 포함할 수 있다. title 은 브라우저의 `타이틀 바` 또는 `페이지 탭`에 보여진다. 
+- title : `document 의 제목`으로, 문자만 포함할 수 있다. title 은 브라우저의 *타이틀 바* 또는 *페이지 탭*에 보여진다. 
           또한 페이지 북마크 시 default 값으로 제공되며, `SEO`에 사용된다.
-- meta : `character set`, `keywords`, `page description`, `author`, `viewport` 등을 정의한다.
-         `keywords`와 같은 정보는 `SEO`에 사용된다.
+- meta : `character set, keywords, page description, author, viewport 등을 정의`한다.
+         *keywords* 와 같은 정보는 `SEO`에 사용된다.
 - style : document 페이지 내에 `CSS`를 정의할 수 있다. 
-- link : 현재 `HTML` document 와 `External Resource`의 관계를 정의하며, 주로 `stylesheet`를 연결하는데 사용된다.
-- script : document 페이지 내에 `JavaScript`를 정의할 수 있다.
-- base : `base` element 를 사용하면 document 내 `relative path`를 변경하거나 링크 규칙을 변경할 수 있다. 
-         `base` 태그는 반드시 `href` 또는 `target` 를 하나 이상 포함해야한다.
+- link : 현재 *HTML document* 와 *External Resource* 의 관계를 정의하며, 주로 `stylesheet 를 연결하는데 사용`된다.
+- script : document 페이지 내에 `JavaScript 를 정의`할 수 있다.
+- base : `base` element 를 사용하면 `document 내 relative path 를 변경하거나 링크 규칙을 변경`할 수 있다. 
+         *base 태그*는 반드시 `href` 또는 `target` 를 *하나 이상 포함*해야한다.
 
 ```html
 <!doctype html>
@@ -61,7 +61,7 @@ tags: [w3school, head, layout, responsive, computer code, semantics, style guide
 </p>
 <br>
 
-> `base` 태그를 사용하면 `relative path`의 base 를 `https://www.w3schools.com/`로 변경했다. 또한 링크 규칙을 
+> `base` 태그를 사용해 `relative path`의 base 를 `https://www.w3schools.com/`로 변경했다. 또한 링크 규칙을 
 > `_blank`를 기본값으로 지정했다.
 
 ---
@@ -122,7 +122,7 @@ __3 ) CSS Flexbox Layout__
 다른 방법으로는 [CSS Flexbox](https://www.w3schools.com/css/css3_flexbox.asp) 를 사용하는 것이다.
 `Flexbox`는 다양한 화면 크기와 장치를 커버하는 데 예측 가능한 방식으로 반응형 디자인을 구현하는 데 유용하다.
 
-위 `Float`과 공통된 `CSS`는 `HTML`의 `head`에 포함시키고, 서로 다른 부분만 `CodePen`의 `CSS` 탭에 넣어두었으니 비교해보자. 
+위 *Float 과 공통된 CSS 는 HTML 의 head 에 포함*시키고, *서로 다른 부분만 CodePen 의 CSS 탭*에 넣어두었으니 비교해보자. 
 
 <p class="codepen" data-height="500" data-default-tab="html,result" data-slug-hash="vYaKGLO" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
   <span>See the Pen <a href="https://codepen.io/sbpark88/pen/vYaKGLO">
@@ -133,7 +133,7 @@ __3 ) CSS Flexbox Layout__
 
 __4 ) CSS Grid Layout__
 
-마지막으로 `Grid` 타입 디자인의 경우 `CSS`의 `display` property 의 `grid` 또는 `inline-grid` value 를 
+마지막으로 `Grid` 타입 디자인의 경우 *CSS* 의 *display property 의 `grid` 또는 `inline-grid` value* 를 
 사용해 `Container`와 `Items`의 개념으로 모듈화 하는 것이다.
 
 [CSS Grid Layout Module](https://www.w3schools.com/css/css_grid.asp)
@@ -340,9 +340,12 @@ Output:
 
 ### 26. HTML Semantics 👩‍💻
 
-`Semantic Elements` 는 브라우저와 개발자 모두에게 의미를 명확하게 설명하기 위해 존재한다. 예를 들어 `<div>`나 `<span>`은 
-`Semantic Elements` 가 아니고, `<form>`, `<table>`, `<article>`, `<footer>`, `<aside>`와 같이 태그만 보고도 
-그 의미를 파악할 수 있는 elements 들은 모두 `Semantic Elements` 에 해당한다.
+`Semantic Elements` 는 브라우저와 개발자 모두에게 의미를 명확하게 설명하기 위해 존재한다.
+
+- 예를 들어 `<div>`나 `<span>`은 `Semantic Elements` 가 아니고, 
+- `<form>`, `<table>`, `<article>`, `<footer>`, `<aside>`와 같이 태그만 보고도 그 의미를 파악할 수 있는 
+  elements 들은 모두 `Semantic Elements` 에 해당한다.
+
 
 ![HTML Semantic Elements][HTML Semantic Elements]
 
@@ -402,9 +405,9 @@ __독립적이고 자체 포함된 콘텐츠를 정의한다. 따라서 자체�
 ```
 
 > [W3C](https://www.w3schools.com/html/html5_semantic_elements.asp) 에 따르면 `section`은 문서의 콘텐츠의 주제별 
-> 그룹으로 여러 개의 section 으로 구성된다, `article`은 문서와 독립된 자체 포함된 콘텐츠를 정의한다. 따라서 `section`과 
-> `article`이 중첩되는 방법을 정의하는 것은 불가능하며 `section` 내에 `article`이 포함되기도, `article` 내에 `section`이 
-> 포함되기도 한다.
+> 그룹으로 여러 개의 section 으로 구성된다, `article`은 문서와 독립된 자체 포함된 콘텐츠를 정의한다. 따라서 section 과 
+> article 이 중첩되는 방법을 정의하는 것은 불가능하며 **section 내에 article 이 포함**되기도, **article 내에 section 이 
+> 포함**되기도 한다.
 
 따라서 `article`은 주로 `CSS`를 이용해 다음과 같이 독립성을 표현한다.
 
@@ -429,8 +432,8 @@ __콘텐츠 소개나 네비게이션 링크와 같은 머리말을 담는 conta
 </article>
 ```
 
-> 문서 내에 `header`가 여러 개 포함될 수 있으나, `header`가 다른 `header` 내에 포함되거나 `footer`, `address` 같은 곳에 
-> 포함되는 것은 불가능하다.
+> 문서 내에 `header`가 **여러 개 포함될 수 있으나**, `header 가 다른 header 내에 포함되거나 footer, address 같은 곳에 
+> 포함되는 것은 불가능`하다.
 
 #### 4. HTML `footer` Element
 
