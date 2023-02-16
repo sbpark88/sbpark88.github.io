@@ -8,10 +8,11 @@ tags: [swift docs, extension, category]
 
 ### 1. Extension vs. Inheritance 👩‍💻
 
-기존의 `Types`를 확장하기 위한 방법 중 하나인 [Inheritance](/swift/2022/11/29/inheritance.html) 
-는 Class 에서만 사용할 수 있다.
-Inheritance 는 기존 Class 는 그대로 둔 채 별도의 Class 를 생성하며, 이들은 Superclass/Subclass 라는 관계로 연결된 Hierarchy 
-구조를 갖는다. Subclass 는 기존의 Superclass 에 기능을 추가해 확장하는 것 뿐 아니라 이미 존재하는 기능을 Overriding 하는 것도 가능하다.
+기존의 *Types* 를 확장하기 위한 방법 중 하나인 [Inheritance](/swift/2022/11/29/inheritance.html) 는 
+Class 에서만 사용할 수 있다.  
+Inheritance 는 ***기존 Class 는 그대로 둔 채 별도의 Class 를 생성***하며, 이들은 Superclass/Subclass 라는 관계로 연결된 
+`Hierarchy 구조`를 갖는다. Subclass 는 기존의 Superclass 에 `기능을 추가해 확장`하는 것 뿐 아니라 
+`이미 존재하는 기능을 Overriding` 하는 것도 가능하다.
 
 `Extension`은 Class, Structure, Enumeration, Protocol 타입에서 사용이 가능하며 Extensions 가 할 수 있는 것은 다음과 같다.
 
@@ -27,13 +28,14 @@ Inheritance 는 기존 Class 는 그대로 둔 채 별도의 Class 를 생성하
 Extension 은 Inheritance 와 마찬가지로 기존에 존재하는 타입에 기능을 추가할 수 있다. 그리고 Extension 이 갖는 특징으로 Inheritance 
 와 다른점은 다음과 같다.
 
-- <span style="color: red;">Original source code 에 접근 권한이 없는 경우에도 Extension 이 가능</span>하다. 
+- <span style="color: red;">**Original source code 에 접근 권한이 없는 경우에도 Extension 이 가능**</span>하다. 
   이를 `Retroactive Modeling`(소급 모델링) 이라 한다.
-- Extension 은 Inheritance 와 달리 모든 `Properties`를 추가하는 것이 불가능하다(Stored Properties, Property Observers 와 
-  같은 것들은 확장이 불가능하다).
-- Extension 은 기능을 추가만 가능할 뿐 Inheritance 와 달리 Overriding 이 불가능하다.
+- Extension 은 Inheritance 와 달리 **Stored Properties, Property Observers 는 확장이 불가능**하다.  
+  오직 **Computed Instance Properties** 와 **Computed Type Properties** 만 확장 가능하다.
+- Extension 은 기능을 추가만 가능할 뿐 Inheritance 와 달리 `Overriding 이 불가능`하다.
 
-> Swift 의 `Extensions`는 Objective-C 의 `Categories`와 유사하다. 단, `Extensions`는 이름을 갖지 않는다.
+> Swift 의 **Extensions** 는 Objective-C 의 **Categories** 와 유사하다. 
+> 단, ***Extensions 는 이름을 갖지 않는다***.
 
 ### 2. Extension Syntax 👩‍💻
 
@@ -45,7 +47,7 @@ extension SomeType {
 }
 ```
 
-Extension 은 하나 이상의 Protocols 를 채택해 기존의 타입을 확장할 수 있다.
+Extension 은 하나 이상의 `Protocol`*을 채택해 기존의 타입을 확장*할 수 있다.
 
 ```swift
 extension SomeType: SomeProtocol, AnotherProtocol {
@@ -53,15 +55,15 @@ extension SomeType: SomeProtocol, AnotherProtocol {
 }
 ```
 
-이뿐 아니라 `Generic Type`을 확장하는 것 역시 가능하다.
+이뿐 아니라 `Generic Type`*을 확장하는 것 역시 가능*하다.
 
 ### 3. Computed Properties 👩‍💻
 
 Extensions 를 이용해 `Computed Instance Properties` 또는 `Computed Type Properties`를 확장하는 것이 가능하다. 이것은 
 사용자가 정의한 타입 뿐 아니라 `Built-in Types 를 확장하는 것을 포함`한다.
 
-다음 예제는 TypeScript 가 Prototype 을 이용해 Built-in Types 에 기능을 추가하듯 다양한 길이 단위를 `meter` 단위로 변경하기 위해 
-Double 에 5개의 Computed Instance Properties 를 추가한다.
+다음 예제는 TypeScript 가 Prototype 을 이용해 Built-in Types 에 기능을 추가하듯 다양한 길이 단위를 *'meter'* 단위로 변경하기 
+위해 Double 에 5개의 Computed Instance Properties 를 추가한다.
 
 ```swift
 extension Double {
@@ -258,13 +260,13 @@ func printRect(_ rect: Rect) {
 }
 ```
 
-> - Without Extensions : 사용자 정의 Initializers 를 추가하는 순간 Default Initializers 와 Memberwise Initializers 는 
->                        자동 생성되는 조건을 만족하지 않게 된다. 따라서 필요한 만큼 Default Initializers 와
->                        Memberwise Initializers 를 명시적으로 생성해야한다.
-> - With Extensions : `Original implementation`은 Default Initializers 와 Memberwise Initializers 의 조건을 만족하므로 
->                     자동으로 해당 Initializers 를 생성한다. Extensions 를 이용한 Initializers 추가는 이미 존재하는 `Types`에 
->                     새 Initializers 만 추가하는 것이므로 자동 생성된 Default Initializers, Memberwise Initializers 와 
->                     사용자 정의 Initializers 가 모두 존재하게된다.
+- Without Extensions : 사용자 정의 Initializers 를 추가하는 순간 Default Initializers 와 
+                       Memberwise Initializers 는 자동 생성되는 조건을 만족하지 않게 된다. 따라서 *필요한 만큼 
+                       Default Initializers 와 Memberwise Initializers 를 명시적으로 생성*해야한다.
+- With Extensions : `Original implementation`은 *Default Initializers 와 Memberwise Initializers 
+                    의 조건을 만족하므로 자동으로 해당 Initializers 를 생성*한다.  
+                    따라서 `Default Initializers 와 Memberwise Initializers 의 생성 조건을 유지한 채 
+                    Custom Initializers 를 추가하는 것을 가능`하게 한다.
 
 ### 5. Methods 👩‍💻
 
@@ -312,11 +314,11 @@ Hello!
 
 #### 2. Mutating Instance Methods
 
-Swift 에서 `Structures`와 `Enumerations`는 `Value Types`로 instance 자기 자신의 Properties 수정하기 위해서는 반드시 메서드 
-앞에 `mutating` keyword 를 적어야한다. 
+Swift 에서 *Structures* 와 *Enumerations* 는 *Value Types* 로 instance 자기 자신의 Properties 수정하기 
+위해서는 반드시 메서드 앞에 `mutating` keyword 를 적어야한다. 
 
-Swift 에서 `Double` 또는 `Int` 와 같은 자료형은 `Structure`로 구현되었다. 따라서 자신의 Properties 를 수정하려면 mutating 이 
-필요하다.
+Swift 에서 `Double` 또는 `Int` 와 같은 자료형은 *Structure* 로 구현되었다. 따라서 자신의 Properties 를 수정하려면 
+`mutating`이 필요하다.
 
 ```swift
 var someDouble: Double = 3.342
@@ -330,10 +332,10 @@ print(someDouble)       // 3
 ```
 
 `rounded()` 메서드는 `func rounded() -> Self`로 자신의 타입을 반환하는 메서드다. 반면 `round()` 메서드는 
-`mutating func round()`로 자시 자신의 Properties 를 변경하는, 즉, `mutating` 메서드다. 
+`mutating func round()`로 자시 자신의 Properties 를 변경하는, 즉, *mutating* 메서드다. 
 
 <br>
-`Int` Structure 에 자기 자신을 제곱해 값을 변경하는(mutating) 메서드를 Extensions 를 이용해 추가해보자.
+Int Structure 에 자기 자신을 제곱해 값을 변경하는(mutating) 메서드를 Extensions 를 이용해 추가해보자.
 
 ```swift
 extension Int {
@@ -371,10 +373,10 @@ print(someInt)          // 9
 ```
 
 - `3782`를 10으로 나눈 `나머지는 2`가 되므로 `1의 자리`는 2다.
-- `3782`를 10으로 나누면 `Int / Int` 이므로 결과 역시 Int 가 되므로 `378`이 된다. 이제 378을 10으로 나눈 `나머지는 8`이 되므로 
-  `10의 자리`는 8이다.
+- `3782`를 10으로 나누면 `Int / Int` 이므로 결과 역시 Int 가 되어야한다. 따라서 결과는 `378`이 되고, 이제 378을 10으로 나눈 
+  `나머지는 8`이 되므로 `10의 자리는 8`이다.
 
-이 로직을 Build-in Type `Int`에 Subscripts 로 확장해보자.
+이 로직을 Built-in Types `Int`에 Subscripts 를 이용해 확장해보자.
 
 ```swift
 extension Int {
@@ -399,7 +401,7 @@ extension Int {
 ### 7. Nested Types 👩‍💻
 
 Extensions 를 이용해 이미 존재하는 Classes, Structures, Enumerations 에 `Nested Types` 를 추가할 수 있으며, 
-이것 역시 `Build-in Types 를 확장하는 것을 포함`한다.
+이것 역시 `Built-in Types 를 확장하는 것을 포함`한다.
 
 ```swift
 extension Int {
@@ -425,7 +427,7 @@ extension Int {
 (-2).kind   // negative
 ```
 
-Extensions 를 이용해 `Built-in Type`를 확장하면 다음과 같은 로직을 좀 더 우아하게 구현할 수 있다.
+Extensions 를 이용해 `Built-in Types`를 확장하면 다음과 같은 로직을 좀 더 우아하게 구현할 수 있다.
 
 ```swift
 func printIntegerKinds(_ numbers: Int...) {
