@@ -905,7 +905,7 @@ g :  103
 ---
 Reference
 
-1. "Strings and Characters." The Swift Programming Language Swift 5.7. accessed Sep. 17, 2022, [Swift Docs Chapter 2 - Strings and Characters](https://docs.swift.org/swift-book/LanguageGuide/StringsAndCharacters.html)
-2. "endIndex." Apple Developer Documentation. accessed Sep. 17, 2022, [Apple Developer Documentation - Swift/String/endIndex](https://developer.apple.com/documentation/swift/string/endindex)
-3. "How does String.Index work in Swift." stackoverflow. Apr. 28 2021, [Stackoverflow Question and Answer](https://stackoverflow.com/questions/39676939/how-does-string-index-work-in-swift)
-4. "How does String substring work in Swift." stackoverflow. May. 11 2022, [How to make the Substring](https://stackoverflow.com/questions/39677330/how-does-string-substring-work-in-swift)
+1. "Strings and Characters." The Swift Programming Language Swift 5.7. accessed Sep. 17, 2022, [Swift Docs Chapter 2 - Strings and Characters](https://docs.swift.org/swift-book/LanguageGuide/StringsAndCharacters.html).
+2. "endIndex." Apple Developer Documentation. accessed Sep. 17, 2022, [Apple Developer Documentation - Swift/String/endIndex](https://developer.apple.com/documentation/swift/string/endindex).
+3. "How does String.Index work in Swift." stackoverflow. Apr. 28 2021, [Stackoverflow Question and Answer](https://stackoverflow.com/questions/39676939/how-does-string-index-work-in-swift).
+4. "How does String substring work in Swift." stackoverflow. May. 11 2022, [How to make the Substring](https://stackoverflow.com/questions/39677330/how-does-string-substring-work-in-swift).
