@@ -1,7 +1,7 @@
 ---
 layout: post
-title: HTML Basic - Part 2
-subtitle: HTML Styles, Formatting, Quotations, Comments, Color, CSS
+title: HTML Basic - Styles, Formatting, Quotations, Comments, Color, CSS
+subtitle: HTML Basic - Part 2
 categories: html
 tags: [w3school, style, formatting, quotation, comment, color, css]
 ---

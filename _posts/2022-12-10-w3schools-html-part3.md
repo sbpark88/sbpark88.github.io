@@ -1,7 +1,7 @@
 ---
 layout: post
-title: HTML Basic - Part 3
-subtitle: HTML Links, Images, Favicon, Tables, Lists, Block, Inline
+title: HTML Basic - Links, Images, Favicon, Tables, Lists, Block, Inline
+subtitle: HTML Basic - Part 3
 categories: html
 tags: [w3school, image, favicon, table, list, block, inline]
 ---

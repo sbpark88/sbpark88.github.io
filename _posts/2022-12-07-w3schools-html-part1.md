@@ -1,7 +1,7 @@
 ---
 layout: post
-title: HTML Basic - Part 1
-subtitle: HTML Elements, Attributes, Headings, Paragraphs
+title: HTML Basic - Elements, Attributes, Headings, Paragraphs
+subtitle: HTML Basic - Part 1
 categories: html
 tags: [w3school, element, attribute, heading, paragraph]
 ---

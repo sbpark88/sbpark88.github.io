@@ -1,7 +1,7 @@
 ---
 layout: post
-title: HTML Basic - Part 5
-subtitle: HTML Head, Layout, Responsive, Computercode, Semantics, Style Guide
+title: HTML Basic - Head, Layout, Responsive, Computercode, Semantics, Style Guide
+subtitle: HTML Basic - Part 5
 categories: html
 tags: [w3school, head, layout, responsive, computer code, semantics, style guide]
 ---
