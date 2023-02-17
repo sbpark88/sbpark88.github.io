@@ -1,12 +1,10 @@
 ---
 layout: post
-title: Vue.js Starter - Part 2
-subtitle: Vue.js 프로젝트 투입 일주일 전
+title: Vue.js Starter - Data Binding
+subtitle: Vue.js 프로젝트 투입 일주일 전 - Part 2
 categories: javascript
 tags: [javascript, vue, vue js, vue.js, router, vue router, component, vue component, v-for, v-if, v-show, v-on, computed, watch]
 ---
-
-<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
 
 ### 3. Vue Router 👩‍💻
 
@@ -1113,14 +1111,13 @@ export default {
     }
   },
   watch: {
-    firstName() {
-      const oldValue = this.firstName
-      console.log(oldValue)
-      this.firstName = `${oldValue.substring(0, 1).toUpperCase()}${oldValue.substring(1)}`
+    firstName(newValue, oldValue) {
+      console.log(`firstName(old) : ${oldValue}`)
+      this.firstName = `${newValue.substring(0, 1).toUpperCase()}${newValue.substring(1)}`
     },
-    lastName() {
-      const oldValue = this.lastName
-      this.lastName = `${oldValue.substring(0, 1).toUpperCase()}${oldValue.substring(1)}`
+    lastName(newValue, oldValue) {
+      console.log(`lastName(old) : ${oldValue}`)
+      this.lastName = `${newValue.substring(0, 1).toUpperCase()}${newValue.substring(1)}`
     },
   }
 }

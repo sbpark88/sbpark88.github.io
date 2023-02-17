@@ -8,24 +8,22 @@ tags: [swift docs, initializer, default property value, default value, default i
 
 ### What is Initialization?
 
-`Initialization`은 `Classes`, `Structures`, `Enumerations`를 사용하기 위해 `Instance`를 
-준비하는 과정을 말한다. 이것은 `Stored Properties`를 위한 초기값을 설정하거나 `new Instance`가 생성되기 
-전에 수행해야 하는 것들을 정리한다.
+`Initialization`은 *Classes*, *Structures*, *Enumerations* 를 사용하기 위해 *Instance* 를 준비하는 과정을 말한다. 
+이것은 *Stored Properties* 를 위한 ***초기값을 설정하거나 new Instance 가 생성되기 전에 수행해야 하는 것***들을 정리한다.
 
-`Initializers`를 구현해야하며, `Objective-C`와 달리 `Swift`의 `Initializers`는 값을 
-반환하지 않는다. 초기화의 주요 역할은 사용하기 전에 `Instance`가 올바르게 초기화되는 것을 보장하는 것이다.
+`Initializers`를 구현해야하며, *Objective-C* 와 달리 *Swift* 의 *Initializers* 는 값을 반환하지 않는다. 
+초기화의 주요 역할은 `사용하기 전에 Instance가 올바르게 초기화되는 것을 보장`하는 것이다.
 
-그리고 세 `Types` 중 `Classes`는 `Instance`가 해제되기 전에 수행해야할 일을 구현할 수 있으며, 
+그리고 세 *Types* 중 `Classes`는 `Instance가 해제되기 전에 수행해야할 일`을 구현할 수 있으며, 
 이를 `Deinitialization`이라 한다.
 
 ### 1. Setting Initial Values for Stored Properties 👩‍💻
 
 #### 1. All Stored Properties Must be Set
 
-- `Classes`와 `Structures`의 `Stored Properties`는 `Instance`가 생성되기 전 
-   반드시 모든 값을 저장해야한다.
-- `Stored Properties`에 초기값을 설정할 때 사용되는 `Initializers`나 
-   `Default Property Values`는 `Property Observers`의 호출 없이 이루어진다.
+- *Classes* 와 *Structures* 의 `Stored Properties`는 *Instance* 가 생성되기 전 반드시 `모든 값을 저장`해야한다.
+- *Stored Properties* 에 초기값을 설정할 때 사용되는 `Initializers`나 `Default Property Values`는 
+  `Property Observers 의 호출 없이` 이루어진다.
 
 #### 2. Initializers
 
@@ -56,11 +54,10 @@ print("The default temperature is \(c.temperature)° Celsius")
 
 #### 3. Default Property Values
 
-`Properties`가 항상 동일한 초기값을 갖는다면 `Default Property Values`를 사용하는 것이 
-값을 선언에 더 가깝게 연결하고, 더 짧고 명확한 코드로 작성이 가능하며, 타입 추론을 허용한다.
+*Properties* 가 항상 동일한 초기값을 갖는다면 `Default Property Values`를 사용하는 것이 값을 선언에 더 가깝게 연결하고, 
+더 짧고 명확한 코드로 작성이 가능하며, 타입 추론을 허용한다.
 
-또한, `Defalut Property Values`를 사용하면, 이후 상속할 때 `Initial Values` 설정하는 
-것을 더욱 쉽게 만든다.
+또한, *Default Property Values* 를 사용하면, 이후 상속할 때 `Initial Values` 설정하는 것을 더욱 쉽게 만든다.
 
 ```swift
 struct Celsius {
@@ -77,11 +74,11 @@ print("The default temperature is \(c.temperature)° Celsius")
 __1 ) IIFE__
 
 상수나 변수에 값을 저장할 때 사용자 정의 로직이나 설정이 필요한 경우가 있을 수 있다.  
-Swift 에서는 이를 위해 `Closure`나 `Global Function`를 사용할 수 있는데, `Closure` (=`Function`)를 
-정의함과 동시에 실행시키고 그 값을 반환하도록 해, 이 `return value`를 상수 또는 변수에 저장하는 것이다.
+Swift 에서는 이를 위해 `Closure`나 `Global Function`를 사용할 수 있는데, 정의함과 동시에 실행시키고 그 값을 반환하도록 해, 
+이 `return value`를 상수 또는 변수에 저장하는 것이다.
 
-좀 더 쉽고 간결한 예를 위해 `TypeScript`의 로직을 본 후 `Swift`와 비교해보자.  
-`TypeScript`는 이러한 로직을 `IIFE(Immediately Invoked Function Expression)`라 한다.
+좀 더 쉽고 간결한 예를 위해 *TypeScript* 의 로직을 본 후 *Swift* 와 비교해보자.  
+*TypeScript* 는 이러한 로직을 `IIFE(Immediately Invoked Function Expression)`라 한다.
 
 ```typescript
 let someNumber: number = 13
@@ -101,8 +98,7 @@ print(isEven)       // This is an odd number
 
 어디서 많이 본 것 같지 않은가? [Lazy Stored Properties][Lazy Stored Properties] 에서 
 `lazy` modifier 만 빠진 것과 같다는 것을 알 수 있다.  
-즉, 위와 같은 기법을 이용해 `Stored Properties`의 `Initial Values`를 설정할 때 사용자 정의 로직을 정의하는 
-것이 가능하다.
+즉, 위와 같은 기법을 이용해 *Stored Properties* 의 *Initial Values* 를 설정할 때 사용자 정의 로직을 정의하는 것이 가능하다.
 
 [Lazy Stored Properties]:/swift/2022/11/22/properties.html#h-3-lazy-stored-properties
 
@@ -127,17 +123,17 @@ class SomeClass {
 }
 ```
 
-단, 이 방법을 사용할 때 주의해야할 것은 해당 `Closures`가 정의되고 실행되는 시점은 `Instance`가 "생성되기 전" 
-이라는 것이다. 즉, 어떠한 `Instance Properties`나 `Instance Methods`에도 접근할 수 없다는 것을 의미한다.
+단, 이 방법을 사용할 때 주의해야할 것은 해당 *Closures* 가 `정의되고 실행되는 시점은 'Instance가 생성되기 전'`이라는 것이다. 
+즉, 어떠한 `Instance Properties`나 `Instance Methods`에도 접근할 수 없다는 것을 의미한다.
 
-> `IIFE`처럼 작동하는 이 방법과 `Lazy Stored Properties`의 차이점은 `lazy` modifier 를 붙였는가이다.  
-> 즉, `lazy` modifier 로 인해 `Stored Properties`를 저장하는 방법이 변경되는 것이다.
+> **IIFE** 처럼 작동하는 이 방법과 **Lazy Stored Properties** 의 차이점은 `lazy` modifier 를 붙였는가이다.  
+> 즉, `lazy` modifier 로 인해 `Stored Properties 를 저장하는 방법이 변경`되는 것이다.
 > 
-> - `lazy` modifier 를 붙이지 않으면 `IIFE`와 같이 작동한다. 따라서 `Instance`가 생성되기 전에 값이 반드시 
->   저장되어야하므로 `let`, `var` 키워드를 모두 사용할 수 있다. 단, `Instance` 생성 시점보다 먼저 실행이되므로, 어떠한 
->   `Instance Properties`나 `Instance Methods`에도 접근할 수 없다.
-> - `lazy` modifier 를 붙이면 이것은 `Lazy Stored Properties`로 작동하므로, `Instance`가 생성된 후 최초로 
->   사용할 때 설정된다. 즉, 다른 `Instance Properties`나 `Instance Methods`에 접근할 수 있다.
+> - `lazy modifier 를 붙이지 않으면 IIFE 와 같이 작동`한다. 따라서 **Instance 가 생성되기 전에 값이 반드시 
+>   저장**되어야하므로 `let`, `var` 키워드를 모두 사용할 수 있다. 단, **Instance** 생성 시점보다 먼저 실행이되므로, **어떠한 
+>   Instance Properties 나 Instance Methods 에도 접근할 수 없다**.
+> - `lazy modifier 를 붙이면 이것은 Lazy Stored Properties 로 작동`하므로, **Instance 가 생성된 후 최초로 
+>   사용할 때 저장**된다. 즉, **다른 Instance Properties 나 Instance Methods 에 접근할 수 있다**.
 
 <br>
 
@@ -145,9 +141,9 @@ __3 ) Default Property Value with a Closure Examples__
 
 ![ChessBoard](/assets/images/posts/2022-12-01-initialization/chessBoard_2x.jpeg)
 
-`8x8` 체스판이 있다. 체스판을 `Structures`를 이용해 구현하자.  
-사각형이 검정색인지 여부를 `true`, `false`로 표현하도록 하고, 좌측 상단`(1, 1)`에서 우측 하단`(8, 8)`으로 
-표현된다고 가정하면 `Chessboard Structure`는 `Array of [8][8] Bool values`를 이용해 다음과 같이 정의될 수 있다.
+**8x8** 체스판이 있다. 체스판을 *Structures* 를 이용해 구현하자.  
+사각형이 검정색인지 여부를 *true*, *false* 로 표현하도록 하고, 좌측 상단`(1, 1)`에서 우측 하단`(8, 8)`으로 
+표현된다고 가정하면 *Chessboard Structure* 는 `Array of [8][8] Bool values`를 이용해 다음과 같이 정의될 수 있다.
 
 ```swift
 struct Chessboard {
@@ -190,19 +186,19 @@ func printColor(_ row: Int, _ column: Int) {
 
 #### 1. Initialization Parameters
 
-> 다른 프로그래밍 언어는 일반적으로 `initializer`의 `overload`를 처리하는 방법은 다음과 같다.
-> 
-> - `Parameters`의 개수로 구분
-> - `Parameters`의 개수와 `Parameter Types`를 함께 구분
-> 
-> 즉, `Types`를 함께 구분하더라도 동일한 `Parameters` 개수와 `Types`는 `overload`를 할 수 없다는 말이 된다.
+ 다른 프로그래밍 언어는 일반적으로 `initializer`의 `overload`를 처리하는 방법은 다음과 같다.
+ 
+- *Parameters 의 개수*로 구분
+- *Parameters 의 개수*와 *Parameter Types* 를 함께 구분
+ 
+ 즉, *Types* 를 함께 구분하더라도 `동일한 Parameters 개수와 Types 는  overload 를 할 수 없다`는 말이 된다.
 
 > 하지만 Swift 는 `Argument Labels`를 생략하지 않는다면 다음과 같이 더 세분화해 `overload`를 처리한다.
 > 
-> - `Parameters`의 개수와 `Parameter Types`에 추가로 `Argument Labels`까지 구분
-
-따라서 Swift 는 아래 예제와 같이 동일한 `Parameters`의 개수와 `Parameter Types`를 갖더라도 `Argument Labels`를 
-다르게 해 화씨를 섭씨로 바꾸는 `initializer`와 켈빈을 섭씨로 바꾸는 `initializer`를 `overload` 할 수 있다.
+> - `Parameters`의 개수와 `Parameter Types`에 추가로 `Argument Labels`까지 ***구분해 overload*** 를 처리한다.
+> 
+> 따라서 Swift 는 아래 예제와 같이 동일한 **Parameters** 의 개수와 **Parameter Types** 를 갖더라도 **Argument Labels** 를 
+> 다르게 해 화씨를 섭씨로 바꾸는 **initializer** 와 켈빈을 섭씨로 바꾸는 **initializer** 를 `overload` 할 수 있다.
 
 ```swift
 struct Celsius {
@@ -254,8 +250,8 @@ let halfGray = Color(white: 0.5)
 
 #### 3. Initializer Parameters Without Argument Labels
 
-`initializer`도 함수나 메서드와 마찬가지로 기본적으로 `Argument Labels`는 생략이 불가능하다. 생략을 위해서는 
-`Argument Labels`에 `_`를 사용해 `override` 함으로써 생략할 수 있다.
+*initializer* 도 함수나 메서드와 마찬가지로 기본적으로 *Argument Labels* 는 생략이 불가능하다. 생략을 위해서는 
+*Argument Labels* 에 `_`를 사용해 `override` 함으로써 생략할 수 있다.
 
 ```swift
 struct Celsius {
@@ -279,12 +275,12 @@ let bodyTemperature = Celsius(37.0)
 
 #### 4. Optional Property Types
 
-다음과 같은 이유로 인해 `Properties`가 `Optional Types`가 되어야하는 경우가 있을 수 있다.
+다음과 같은 이유로 인해 *Properties* 가 `Optional Types`가 되어야하는 경우가 있을 수 있다.
 
-- `Initialization` 하는 동안 값을 설정할 수 없어 `nil`을 허용해야하는 경우
+- *Initialization* 하는 동안 값을 설정할 수 없어 `nil`을 허용해야하는 경우
 - 논리적으로 `nil`을 허용해야하는 경우
 
-`nil`을 허용하기 위해 반드시 `Optional Types`로 정의되어야하며, `Properties`는 자동으로 `nil`로 초기화된다.
+`nil`을 허용하기 위해 반드시 `Optional Types`로 정의되어야하며, *Properties* 는 자동으로 `nil`로 초기화된다.
 
 ```swift
 class SurveyQuestion {
@@ -299,7 +295,7 @@ class SurveyQuestion {
 }
 ```
 
-질문에 대한 응답을 얻기 전까지 `response` 값은 `nil`을 허용해야하므로 `Optional Property Types`로 정의되어야한다.
+질문에 대한 응답을 얻기 전까지 *response* 값은 `nil`을 허용해야하므로 *Optional Property Types* 로 정의되어야한다.
 
 ```swift
 let cheeseQuestion = SurveyQuestion(text: "Do you like cheese?")
@@ -312,12 +308,10 @@ print(cheeseQuestion.response as Any)   // Optional("Yes, I do like cheese")
 
 #### 5. Assigning Constant Properties During Initialization
 
-`Stored Properties`는 `Instance`가 생성되기 전, 그러니까 `Initialization`이 종료되기 전에 반드시 값을 가져야한다.  
-[All Stored Properties Must be Set][All Stored Properties Must be Set]
+*Stored Properties* 는 *Instance*가 생성되기 전, 그러니까 ***Initialization 이 종료되기 전에 반드시 값을 가져야한다***.  
+cf. [All Stored Properties Must be Set](#h-1-all-stored-properties-must-be-set)
 
-[All Stored Properties Must be Set]:/swift/2022/12/01/initialization.html#h-1-all-stored-properties-must-be-set
-
-`Initialization`이 종료되기 전까지 어느 시점에서든 `let` 키워드로 선언한 `Constant Properties`에 값을 할당할 수 있다.
+*Initialization* 이 종료되기 전까지 어느 시점에서든 `let` 키워드로 선언한 `Constant Properties`에 ***값을 할당할 수 있다***.
 
 ```swift
 class SurveyQuestion {
@@ -339,12 +333,15 @@ beetsQuestion.response = "I also like beets. (But not with cheese.)"
 print(beetsQuestion.response as Any)    // Optional("I also like beets. (But not with cheese.)")
 ```
 
-`let` 키워드로 바꾼 `text property`가 `Initializer`에 의해 할당돼 `How about beets?`를 잘 출력하는 것을 볼 수 있다.
+`let` 키워드로 바꾼 *text property* 가 *Initializer* 에 의해 할당돼 "How about beets?" 를 잘 출력하는 것을 볼 수 있다.
 
 <br>
 
-주의해야 할 것은 이것이 `Initialization`이 종료되기 전까지 여러 번 할당해 수정할 수 있다는 뜻은 아니다.  
-> `Initialization`이 종료되기 전 이라도 한 번 할당된 값은 `immutable` 속성을 갖기 때문에 수정할 수 없다.
+주의해야 할 것은 이것이 *Initialization* 이 종료되기 전까지 *여러 번 할당해 수정할 수 있다는 뜻은 아니다*.
+
+> **Initialization** 이 종료되기 전 이라도 한 번 할당된 값은 `immutable` 속성을 갖기 때문에 **수정할 수 없다**.  
+> 또한 **Class Instances** 에서 **Initialization** 을 진행하는 동안 **Constant Properties** 를 수정하는 것은 해당 
+> **Properties** 를 도입한 **Class** 에서만 가능하다. **Subclass** 에서 수정하는 것은 불가능하다.
 
 ```swift
 class SurveyQuestion {
@@ -366,16 +363,16 @@ class SurveyQuestion {
 
 #### 1. Default Initializers for Structures and Classes
 
-`Structures` 또는 `Classes`에 `Default Initializers`(=`Empty Initializers`)가 자동 생성되는 조건은 다음과 같다.
+*Structures* 또는 *Classes* 에 `Default Initializers`가 자동 생성되는 조건은 다음과 같다.
 
-- 모든 `Properties`가 `default value`를 가지고 있다
-- 존재하는 `Initializers`가 하나도 없다
+- *모든 Properties* 가 `default value`를 가지고 있다
+- 존재하는 `Initializers 가 하나도 없다`
 
-> 참고로 `Classes`의 `Default Initializers`는 항상 `Designated Initializers`가 된다.
+> 참고로 **Classes** 의 `Default Initializers`는 항상 `Designated Initializers`가 된다.
 
 <br>
 
-- `default value`를 모두 가지고 있으나 `Initializer`가 존재하는 경우
+- *default value* 를 모두 가지고 있으나 *Initializer* 가 존재하는 경우
 
 ```swift
 class ShoppingListItem {
@@ -390,12 +387,14 @@ class ShoppingListItem {
 var item = ShoppingListItem(name: "Bread")
 ```
 
-모든 `Properties`가 `default value`를 가지고 있지만(`Optional Types` 는 자동으로 `nil`을 `deafult value`로 갖는다) 
-`Initializers`가 존재하기 때문에 `Default Initializers`는 생성되지 않는다.
+모든 *Properties* 가 *default value* 를 가지고 있지만 *Initializers* 가 존재하기 때문에 *Default Initializers* 
+는 생성되지 않는다.
+
+> `Optional Types`는 자동으로 `nil`을 `default value`로 갖는다
 
 <br>
 
-- `default value`를 모두 가지고 있지 않은 경우
+- *default value* 를 모두 가지고 있지 않은 경우
 
 ```swift
 class ShoppingListItem {
@@ -410,12 +409,13 @@ class ShoppingListItem {
 var item = ShoppingListItem(name: "Bread")
 ```
 
-`default value`를 가지고 있지 않은 `Properties`가 존재할 경우 반드시 해당 `Properties`에 값을 설정할 `Initializers`가 
-필요하므로 `Initializers`가 존재하게되고, 따라서 `Default Initializers`는 생성되지 않는다.
+*default value* 를 가지고 있지 않은 *Properties* 가 존재할 경우 반드시 해당 *Properties* 에 값을 설정할 *Initializers* 가 
+필요하므로 Swift 는 *Compile error* 를 발생시켜 *Initializers* 를 반드시 구현하도록 한다.  
+따라서 *Default Initializers* 는 생성되지 않는다.
 
 <br>
 
-- `default value`를 모두 가지고 있으며 `Initializer`가 존재하지 않는 경우
+- *default value* 를 모두 가지고 있으며 *Initializer* 가 존재하지 않는 경우
 
 ```swift
 class ShoppingListItem {
@@ -430,12 +430,13 @@ Swift 가 자동으로 `Default Initializers`를 생성한다.
 
 #### 2. Memberwise Initializers for Structure Types
 
-`Structures`는 `Classes`와 달리 `Mmeberwise Initializers`를 추가로 가질 수 있으며 자동 생성되는 조건은 다음과 같다.
+*Structures* 는 *Classes* 와 달리 `Mmeberwise Initializers`를 추가로 가질 수 있으며 자동 생성되는 조건은 다음과 같다.
 
-- 존재하는 `Initializers`가 하나도 없다
+- 존재하는 `Initializers 가 하나도 없다`
 
-`Default Initializers`와 달리 `default value`를 가지고 있어야 할 필요가 없다. 단지 이 `default value`의
-존재 유무에 따라 모든 `Member Properties`를 설정하기 위해 자동 생성되는 `Initializers`의 경우의 수만 달라질 뿐이다.
+*Default Initializers* 와 달리 `default value` 를 가지고 있어야 할 ***필요가 없다***.  
+단지 이 *default value* 의 존재 유무에 따라 모든 *Member Properties* 를 설정하기 위해 
+`자동 생성되는 'Initializers' 의 경우의 수만 달라질 뿐`이다.
 
 > `Custom Initializers`가 존재하는 경우, 더이상 `Default Initializers`나 `Memberwise Initializers`에 
 > 접근할 수 없다.
@@ -475,16 +476,14 @@ var hugeSquare = Size(width: 100.0, height: 100.0)
 
 ### 4. Initializer Delegation for Value Types 👩‍💻
 
-`Initializers`는 `Instance`를 생성할 때 코드가 중복되는 것을 방지하기 위해 다른 
-`Initializers`를 호출할 수 있는데, 이것을 `Initializer Delegation`이라 한다.
+*Initializers* 는 *Instance* 를 생성할 때 코드가 중복되는 것을 방지하기 위해 다른 *Initializers* 를 호출할 수 있는데, 
+이것을 `Initializer Delegation`이라 한다.
 
-`Initializer Delegation`이 동작하는 방식과 `Delegation`을 허용하는 범위는 `Value Types`와 
-`Class Types`가 다르다.
+*Initializer Delegation* 이 동작하는 방식과 *Delegation* 을 허용하는 범위는 *Value Types* 와 *Class Types* 가 다르다.
 
-- Value Types: 상속을 허용하지 않으므로 자신의 `context` 내 다른 `Initializers`에만 
-  `Delegation`이 허용된다.
-- Class Types: 상속을 허용하므로, `Classes`는 상속한 모든 `Stored Properties`에 정확한 값이 
-  설정되도록 하기 위한 책임이 필요함을 의미한다.
+- Value Types: 상속을 허용하지 않으므로 `자신의 context 내 다른 Initializers`에만 *Delegation* 이 허용된다.
+- Class Types: 상속을 허용하므로, *Classes* 는 `상속한 모든 Stored Properties 에 정확한 값이 설정`되도록 하기 위한 
+               책임이 필요함을 의미한다.
 
 <br>
 
@@ -531,16 +530,16 @@ func printRect(_ rect: Rect) {
 
 ### 5. Class Inheritance and Initialization 👩‍💻
 
-Swift 는 `Classes`의 모든 `Stored Properties`가 `Initialization`가 진행되는 동안 초기값을 가질 수 있도록 
-`Designated Initializers`와 `Convenience Initializers`라는 두 가지 종류의 `Initializers`를 제공한다.
+Swift 는 *Classes* 의 모든 *Stored Properties* 가 *Initialization* 가 진행되는 동안 초기값을 가질 수 있도록 
+`Designated Initializers`와 `Convenience Initializers`라는 두 가지 종류의 *Initializers* 를 제공한다.
 
 #### 1. Designated Initializers and Convenience Initializers
 
-`Designated Initializers`는 `Class`의 `Primary Initializers`로, `Class`의 모든 `Properties`를 
-초기화하고, `Superclass`로 올라가며 적절한 `Initializers`를 찾아 `Initialization Chaining`을 한다.
+`Designated Initializers`는 *Class* 의 `Primary Initializers`로, *Class 의 모든 Properties 를 초기화*하고, 
+*Superclass* 로 올라가며 적절한 *Initializers* 를 찾아 `Initialization Chaining`을 한다.
 
-모든 `Classes`는 최소한 하나의 `Designated Initializers`를 가져야하며, 경우에 따라 `Superclass`로부터 하나 또는 
-그 이상의 `Designated Initializers`를 상속받는 것으로 충족된다.
+*모든 Classes 는 최소한 하나의 Designated Initializers 를 가져야하며*, 경우에 따라 *Superclass* 로부터 하나 또는 
+그 이상의 `Designated Initializers 를 상속받는 것으로 충족`된다.
 
 `Convenience Initializers`는 `Optional`로 필요에 따라 작성하면 된다.
 
@@ -558,32 +557,34 @@ init(parameters) {
 
 - Convenience Initializers
 
+init 앞에 `convenience` modifier 를 붙인다
+
 ```swift
 convenience init(parameters) {
     statements
 }
 ```
 
-> init 앞에 `convenience` modifier 를 붙인다
-
 #### 3. Initializer Delegation for Class Types
 
-`Designated Initializers`와 `Convenience Initializers`의 관게를 단순화하기 위해 `Initializer Delegation`에 
+*Designated Initializers* 와 *Convenience Initializers* 의 관게를 단순화하기 위해 *Initializer Delegation* 에 
 3가지 규칙을 적용한다.
 
-- 규칙 1. `Designated Initializers`는 `Superclass`의 `Designated Initializers`를 호출해야한다.
-- 규칙 2. `Convenience Initializers`는 `context` 내 다른 `Initializers`를 호출해야한다.
-- 규칙 3. `Convenience Initializers`는 궁극적으로 `Designated Initializers`를 호출해야한다.
+- 규칙 1. `Designated Initializers`는 `Superclass 의 Designated Initializers 를 호출`해야한다.
+- 규칙 2. `Convenience Initializers`는 `context 내 다른 Initializers 를 호출`해야한다.
+- 규칙 3. `Convenience Initializers`는 `궁극적으로 Designated Initializers 를 호출`해야한다.
 
 ![Initializer Delegation](/assets/images/posts/2022-12-01-initialization/initializerDelegation01_2x.png)
 
-- `Superclass`는 규칙 2와 규칙3을 만족한다. `Base Class`이므로 규칙 1은 적용되지 않는다.
-- `Subclass`는 규칙 2와 규칙3을 만족하고, 규칙 1 역시 만족한다.
+> 위 그림에서 
+> 
+> - `Superclass`는 규칙 2와 규칙3을 만족한다. `Base Class`이므로 규칙 1은 적용되지 않는다.
+> - `Subclass`는 규칙 2와 규칙3을 만족하고, 규칙 1 역시 만족한다.
 
 <br>
 
-다음 그림은 좀 더 복잡한 `hierarchy` 구조에서 `Initializer Delegation`이 이루어질 때 
-`Designated Initializers`가 어떻게 `funnel` point 역할을 하는지를 보여준다.
+다음 그림은 좀 더 복잡한 `hierarchy` 구조에서 `Initializer Delegation`이 이루어질 때 `Designated Initializers`가 
+어떻게 `funnel point` 역할을 하는지를 보여준다.
 
 ![Designated Initializers Act as Funnel Point](/assets/images/posts/2022-12-01-initialization/initializerDelegation02_2x.png)
 
@@ -591,50 +592,49 @@ convenience init(parameters) {
 
 __1 ) Two-Phase Initialization__
 
-Swift 에서 `Class Initialization`은 2단계 프로세스를 갖는다.
+Swift 에서 *Class Initialization* 은 2단계 프로세스를 갖는다.
 
-- Phase 1. 각 `Stored Properties`가 그것을 정의한 `Class`에 의해 초기값이 할당된다.
-- Phase 2. `Instance`를 생성하기 전 `Stored Properties`를 추가로 `Customizing` 할 기회가 주어진다.
+- Phase 1. 각 `Stored Properties`가 *그것을 정의한 Class 에 의해* `초기값이 할당`된다.
+- Phase 2. `Instance 를 생성하기 전` *Stored Properties* 를 추가로 `Customizing 할 기회`가 주어진다.
 
-> `Swift`의 `Two-Phase Initialization` 프로세스는 `Objective-C`의 `Initialization`과 유사하다.   
-> 하지만 `Objective-C`는 Phase 1에서 모든 `Properties`에 `0` 또는 `nil`을 할당하는 반면, `Swift`는 
-> `Custom Initial Values`를 설정할 수 있어 `0` 또는 `nil`이 유효한 기본값이 아닌 경우에 대처할 수 있는 
-> 유연성을 갖는다.
+> **Swift** 의 `Two-Phase Initialization` 프로세스는 **Objective-C** 의 `Initialization`과 유사하다.   
+> 하지만 **Objective-C** 는 Phase 1에서 **모든 Properties 에 `0` 또는 `nil`을 할당**하는 반면, **Swift** 는 
+> `Custom Initial Values`를 설정할 수 있고, **`0` 또는 `nil`이 유효한 기본값이 아닌 경우에 대처**할 수 있는 유연성을 갖는다.
 
 <br>
 
 __2 ) Safety Check__
 
-Swift 는 에러 없이 `Initialization`이 완료되었는지 보장하기 위해 4가지 `Safety Check`를 수행한다.
+Swift 는 에러 없이 *Initialization* 이 완료되었는지 보장하기 위해 `4가지 Safety Check`를 수행한다.
 
-- Safety Check 1. `Designated Initializers`는 `Superclass Initializer`에 `delegates up` 하기 전 
-  `context` 내 모든 `Properties`가 초기화 되었음을 확인한다.
-- Safety Check 2. `Designated Initializers`는 상속된 `Properties`에 값을 할당하기 전 반드시 
-  `Superclass Initializer`에 `delegates up` 해야한다(반대 순서가 될 경우 `Superclass Initializer`가 값을 덮어쓴다).
-- Safety Check 3. Check 2와 마찬가지로 `Convenience Initializers`는 `Properties`에 값을 할당하기 전 반드시 
-  다른 `Initializers`에 `delegates` 해야한다.
-- Safety Check 4. `Initializers`는 `Phase 1 Initialization`이 종료되기 전 어떠한 `Instance Methods`나 
-  `Instance Properties`에 접근하거나 `self` 참조를 할 수 없다.
+- Safety Check 1. *Designated Initializers* 는 *Superclass Initializer* 에 `delegates up` 하기 전 
+  `context 내 모든 Properties 가 초기화 되었음을 확인`한다.
+- Safety Check 2. `Designated Initializers 는 상속된 Properties 에 값을 할당하기 전`반드시 
+  *Superclass Initializer* 에 `delegates up` 해야한다(반대 순서가 될 경우 *Superclass Initializer* 가 값을 덮어쓴다).
+- Safety Check 3. Check 2와 마찬가지로 `Convenience Initializers 는 Properties 에 값을 할당하기 전` 반드시 
+  다른 *Initializers* 에 `delegates` 해야한다.
+- Safety Check 4. *Initializers* 는 `Phase 1 Initialization 이 종료되기 전` 어떠한 *Instance Methods* 나 
+  *Instance Properties* 에 `접근하거나 'self' 참조를 할 수 없다`.
 
 <br>
 
-__3 )Two-Phase Initialization Process__
+__3 ) Two-Phase Initialization Process__
 
-위 `Safety Check`를 기반으로 `Two-Phase Initialization`이 수행되는 방식은 다음과 같다.
+위 *Safety Check* 를 기반으로 *Two-Phase Initialization* 이 수행되는 방식은 다음과 같다.
 
-- `Phase 1`: 0, nil, Custom Initial Values 등의 값을 할당해 Instance 의 메모리르 완전히 초기화한다
+- `Phase 1`: 0, nil, Custom Initial Values 등의 값을 할당해 `Instance 의 메모리르 완전히 초기화`한다
 
 ![Initialization Phase 1](/assets/images/posts/2022-12-01-initialization/twoPhaseInitialization01_2x.png)
 
-> - `Designated Initializers` 또는 `Convenience Initializers`가 `Class`에서 호출된다.
-> - `new Instance`를 위한 메모리가 할당된다(초기화는 하기 전).
-> - `Designated Initializers`가 `context` 내 모든 `Stored Properties`가 값을 가지고 있는지 확인한다
->   (이때 `Stored Properties`에 대한 메모리가 초기화된다).
-> - `Designated Initializers`는 `Superclass`의 `Initializers`가 자신의 `Stored Properties`에 
+> - **Designated Initializers** 또는 **Convenience Initializers** 가 **Class** 에서 호출된다.
+> - `new Instance 를 위한 메모리가 할당`된다(초기화는 하기 전).
+> - **Designated Initializers 가 context 내 모든 Stored Properties 가 값을 가지고 있는지 확인**한다
+>   (이때 `Stored Properties 에 대한 메모리가 초기화`된다).
+> - **Designated Initializers** 는 **Superclass** 의 **Initializers** 가 자신의 **Stored Properties** 에 
 >   동일한 일을 수행하도록 내버려둔다.
 > - 위 과정은 `Base Class`(최상위 Class)에 도달할 때까지 `Chaining`된다.
-> - `delegates up`이 `Base Class`에 도달하고, `Final Class`(최하위 Class)가 모든 값을 저장했다고 확인하면, 
->   `Instance`의 메모리는 완벽히 초기화 되었다고 간주하고, Phase 1이 완료된다.
+> - `delegates up 이 Base Class 에 도달`하고, `Final Class(최하위 Class)가 모든 값을 저장했다고 확인`하면, 
+>   **Instance 의 메모리는 완벽히 초기화 되었다고 간주**하고, `Phase 1이 완료`된다.
 
 <br>
 
@@ -642,52 +642,48 @@ __3 )Two-Phase Initialization Process__
 
 ![Initialization Phase 2](/assets/images/posts/2022-12-01-initialization/twoPhaseInitialization02_2x.png)
 
-> - Phase 1이 `Final Class`에서 `Base Class`까지 `delegates up`을 하며 `Chaining` 을 했다면 이번에는
->   반대로 `Base Class`에서 `Final Class`까지 `working back down`을 하며 내려간다. Phase 2는 Phase1 이 
->   `Instance`의 메모리를 초기화 했기 때문에 `self` 참조를 사용하거나 `Instance Methods`를 호출하거나 
->   `Instance Properties`를 수정하는 것이 가능하다.
-> - `Superclass`의 `Designated Initializers`에게 주어진 `Customizing` 할 기회를 모두 처리하면 
->   `Subclass`의 `Designated Initializers`에게 `Customizing` 할 기회가 주어진다.
-> - 위 과정은 Phase 1의 `Chaining`의 역순으로 일어나며 마지막으로 원래 호출되었던 `Convenience Initializers`에 
->   도달한다.
-> - 이 과정을 모두 완료하면 `Initialization`이 종료되고, 의도한 `Instance`를 얻게 된다.
+> - Phase 1이 **Final Class 에서 Base Class 까지 delegates up 을 하며 Chaining** 을 했다면 이번에는
+>   반대로 **Base Class 에서 Final Class 까지** `working back down`을 하며 내려간다. `Phase 2`는 Phase1 이 
+>   **Instance** 의 메모리를 초기화 했기 때문에 **Instance Methods** 나 **Instance Properties** 에 
+>   `접근하거나 'self' 참조를 할 수 있다`.
+> - **Superclass** 의 **Designated Initializers** 에게 주어진 **Customizing** 할 기회를 모두 처리하면 
+>   **Subclass** 의 **Designated Initializers** 에게 **Customizing** 할 기회가 주어진다.
+> - 위 과정은 `Phase 1의 Chaining 의 역순`으로 일어나며 `마지막으로 원래 호출되었던 Convenience Initializers 에 도달`한다.
+> - **이 과정을 모두 완료하면 Initialization 이 종료되고, 의도한 Instance 를 얻게 된다**.
  
-> 그림을 보면 알 수 있듯이, `Convenience Initializers`의 `Customizing`이 사용되는 것은, 처음 호출을 시작한 
-> `Convenience Initializers`의 `Chaining` 경로에 있는 경우 뿐이다. `Superclass`가 가지고 있는 
-> `Convenience Initializers`는 `Subclass`에서 직접 호출되거나 `Overriding` 되는 것이 불가능하기 때문이다.
-> 
-> 하지만 `Superclass`의 `Convenience Initializers`가 항상 무시되는 것은 아니다. 특정 조건이 일치될 경우 `Superclass`의 
-> `Convenience Initializers`는 `Subclass`에 자동으로 상속된다. 이것은 아래 
-> [Automatic Initializer Inheritance][Automatic Initializer Inheritance]에서 설명한다.
+그림을 보면 알 수 있듯이, *Convenience Initializers* 의 *Customizing* 이 사용되는 것은, 처음 호출을 시작한 
+*Convenience Initializers* 의 *Chaining* 경로에 있는 경우 뿐이다.  
+*Superclass* 가 가지고 있는 *Convenience Initializers* 는 *Subclass* 에서 직접 호출되거나 *Overriding* 
+되는 것이 불가능하기 때문이다.
 
-[Automatic Initializer Inheritance]:/swift/2022/12/01/initialization.html#h-6-automatic-initializer-inheritance
+하지만 *Superclass* 의 *Convenience Initializers* 가 항상 무시되는 것은 아니다. `특정 조건이 일치될 경우 Superclass 의 
+Convenience Initializers 는 Subclass 에 자동으로 상속`된다. 이것은 아래 
+[Automatic Initializer Inheritance](#h-6-automatic-initializer-inheritance)에서 설명한다.
 
 #### 5. Initializer Inheritance and Overriding
 
-__1 ) Difference between `Objective-C` and `Swift`__
+__1 ) Difference between *Objective-C* and *Swift*__
 
-- Objective-C : `Subclass`는 `Superclass`의 `Initializers`를 기본으로 상속한다.
-- Swift : `Subclass`는 `Superclass`의 `Initializers`를 기본으로 상속하지 않는다.
+- Objective-C : *Subclass* 는 `Superclass 의 Initializers 를 기본으로 상속한다`
+- Swift : *Subclass* 는 `Superclass 의 Initializers 를 기본으로 상속하지 않는다`
 
-이로써 `Swift`는 `Superclass`로부터 상속된 `Initializers`가 완전히 초기화되지 않거나 잘못 초기화된 채로 
-`Subclass`의 `new Instance`를 생성하기 위해 사용되는 상황을 방지한다.
+이로써 *Swift* 는 *Superclass 로부터 상속된  Initializers 가 완전히 초기화되지 않거나 잘못 초기화된 채로 
+Subclass 의 `new Instance`를 생성하기 위해 사용되는 상황을 방지*한다.
 
 <br>
 
 __2 ) Inherit Superclass's Initializers by Overriding__
 
-`Superclass`의 `Designated Initializers`의 구문과 일치하는 형태의 `Initializers`를 `Subclass`에서 
-구현할 때는 `Properties`, `Methods`와 마찬가지로 반드시 `override` modifier 를 사용해야한다.
+*Superclass 의 Designated Initializers 의 구문과 일치하는 형태의 Initializers 를 Subclass 에서 구현할 때*는 
+*Properties*, *Methods* 와 마찬가지로 반드시 `override` modifier 를 사용해야한다.
 
-> - `Subclass`에서 구현하는 `Initializers`가 `Designated Initializers`든, `Convenience Initializers`든 
->   상관 없이 `Superclass`의 `Designated Initializers`를 재정의 하는 경우라면 반드시 `override` modifier 를 사용해댜한다.
-> - 반면, `Subclass`에서 구현하는 `Initializers`가 `Superclass`의 `Convenience Initializers`와 일치하는 경우는
->   `override` modifier 를 사용하지 않는다.  
->   [Initializer Delegation for Class Types][Initializer Delegation] 에서 설명한 규칙에 따라 
->   `Superclass`의 `Convenience Initializers`는 `Subclass`에 의해 직접 호출되거나 `Overriding` 되는 것이 
->   불가능하기 때문에 새롭게 구현하는 것이므로 `override` modifier 를 사용하지 않는다.
-
-[Initializer Delegation]:/swift/2022/12/01/initialization.html#h-3-initializer-delegation-for-class-types
+> - **Subclass** 에서 구현하는 **Initializers** 가 **Designated Initializers** 든, **Convenience Initializers** 든 
+>   상관 없이 `Superclass 의 Designated Initializers 를 재정의 하는 경우`라면 반드시 `override modifier 를 사용해야한다`.
+> - 반면, **Subclass** 에서 구현하는 **Initializers** 가 `Superclass 의 Convenience Initializers 와 일치하는 경우`는
+>   `override modifier 를 사용하지 않는다`.  
+>   [Initializer Delegation for Class Types](#h-3-initializer-delegation-for-class-types) 에서 설명한 규칙에 따라 
+>   `Superclass 의 Convenience Initializers`는 `Subclass 에 의해 직접 호출되거나 Overriding 되는 것이 불가능`하기 
+>   때문에 새롭게 구현하는 것이므로 `override modifier 를 사용하지 않는다`.
 
 <br>
 
@@ -704,10 +700,10 @@ class Vehicle {
 }
 ```
 
-`Vehicle`은 하나의 `Stored Property`와 하나의 `Computed Porperty`를 갖는다. 그리고 `Stored Property`는 
-`Default Value`를 제공한다.  
-대신 `Custom Initializers`를 제공하지 않는다. 그 결과 자동으로 `Default Initializers`를 생성하고, 이것은 
-`Designated Initializers`가 된다.
+*Vehicle* 은 하나의 *Stored Property* 와 하나의 *Computed Property* 를 갖는다. 
+그리고 *Stored Property* 는 *Default Value* 를 제공한다.  
+대신 ***Custom Initializers 를 제공하지 않는다***. 그 결과 자동으로 `Default Initializers 를 생성하고, 
+이것은 Designated Initializers 가 된다`.
 
 ```swift
 var vehicle = Vehicle()
@@ -728,16 +724,16 @@ class Bicycle: Vehicle {
 }
 ```
 
-`Vehicle`의 `Subclass`인 `Bicycle`은 `init()`이라는 `Custom Initializers`를 생성했고, 이것은 `Superclass`에 존재하는 
-것과 일치하므로, `Overriding`을 해야만한다.
+*Vehicle* 의 *Subclass* 인 *Bicycle* 은 `init()`이라는 `Custom Initializers`를 생성했고, 이것은 `Superclass 에 존재하는 
+것과 일치하므로, Overriding 을 해야만한다`.
 
-1. `Bicycle`의 `init()`이 호출되면 `new Instance`를 위한 메모리를 할당하고, 자신의 `context` 내에 정의된 `hasBasket`이라는 
-   `Stored Property`의 메모리를 초기화 한 후 `Superclass`의 `Designated Initializers`인 `super.init()`을 호출한다.
-2. 이제 `Vechicle`이 자신의 `Stored Property`인 `numberOfWheels`의 메모리를 초기화한다.
-3. `Vehicle`은 `Base Class`이고, `Final Class`인 `Bicycle`이 모든 `Properties`를 저장했다고 확인하므로써 `new Instance`를 
+1. *Bicycle* 의 `init()`이 호출되면 *new Instance* 를 위한 메모리를 할당하고, 자신의 *context* 내에 정의된 *hasBasket* 이라는 
+   *Stored Property* 의 메모리를 초기화 한 후 `Superclass 의 Designated Initializers 인 super.init() 을 호출`한다.
+2. 이제 *Vehicle* 이 자신의 *Stored Property* 인 *numberOfWheels* 의 메모리를 초기화한다.
+3. *Vehicle* 은 *Base Class* 이고, *Final Class* 인 *Bicycle* 이 모든 *Properties* 를 저장했다고 확인하므로써 `new Instance`를 
    초기화하며 Phase 1이 완료된다.
-4. 이제 `Chain`을 `working back down`하며 수정할 기회를 얻은 `Bicycle`의 `Initializers`가 `numberofWheels`를 수정한다.
-5. 모든 과정이 종료되면 `Initialization`이 종료되며 `Instnace`가 생성된다.
+4. 이제 *Chain* 을 `working back down`하며 수정할 기회를 얻은 *Bicycle* 의 *Initializers* 가 `numberOfWheels 를 수정`한다.
+5. 모든 과정이 종료되면 *Initialization* 이 종료되며 *Instance* 가 생성된다.
 
 > 좀 더 자세히 설명하면, 아래와 같은 코드는 잘못되었음을 의미한다.
 > 
@@ -752,7 +748,7 @@ class Bicycle: Vehicle {
 > }
 > ```
 > 
-> `Superclass`의 `Designated Initializers`를 호출하기 전 자신의 `context` 내에 정의된 `Stored Property`의 메모리를 
+> **Superclass** 의 **Designated Initializers** 를 호출하기 전 자신의 **context** 내에 정의된 **Stored Property** 의 메모리를 
 > 초기화 하지 않았다.
 > 
 > 따라서 다음과 같은 코드가 올바른 코드임을 의미한다.
@@ -772,7 +768,7 @@ class Bicycle: Vehicle {
 
 __4 ) Another Examples having no 'Phase 2'__
 
-`Vehicle`의 또 다른 `Subclass`인 `Hoverboard`를 보자.
+*Vehicle* 의 또 다른 *Subclass* 인 *Hoverboard* 를 보자.
 
 ```swift
 class Hoverboard: Vehicle {
@@ -787,7 +783,7 @@ class Hoverboard: Vehicle {
 }
 ```
 
-`Bicycle`의 `Initializers`와 `Hoverboard`의 `Initializers`를 비교해보자.
+*Bicycle* 의 *Initializers* 와 *Hoverboard* 의 *Initializers* 를 비교해보자.
 
 <br>
 
@@ -817,8 +813,8 @@ init(color: String) {
 }
 ```
 
-`Bicycle`은 Phase 2가 존재하지만, `Hoverboard`는 Phase 2가 존재하지 않는다. 따라서 이 경우 `super.init()`은 
-`Initializers`의 마지막에 암시적으로 호출될 수 있기 때문에 생략이 가능하다.
+*Bicycle 은 Phase 2가 존재*하지만, *Hoverboard 는 Phase 2가 존재하지 않는다*. 따라서 이 경우 `super.init()`은 
+*Initializers 의 마지막에 암시적으로 호출*될 수 있기 때문에 생략이 가능하다.
 
 ```swift
 class Hoverboard: Vehicle {
@@ -839,25 +835,23 @@ print("Hoverboard: \(hoverboard.description)")  // Hoverboard: 0 wheels(s) in a 
 
 ```
 
-> `Subclass`의 `Designated Initializers`가 `Superclass`의 `Designated Initializers` 호출을 생략할 수 있는 조건은 다음과 같다.
+> **Subclass** 의 **Designated Initializers** 가 `Superclass 의 Designated Initializers 호출을 생략할 수 있는 조건`은 다음과 같다.
 > 
-> 1. `Subclass`의 `Initializers`가 Phase 2의 수정할 기회를 사용하지 않는다.
-> 2. `Superclass`의 `Initializers`가 `Synchronous`다.  
+> 1. `Subclass`의 **Initializers** 가 `Phase 2의 수정할 기회를 사용하지 않는다`.
+> 2. `Superclass`의 **Initializers** 가 `Synchronous`다.  
 >    (`Asynchronous`일 경우 반드시 `await` 키워드를 붙여 `await super.init()`과 같이 명시적으로 작성해야 하기 때문에 생략할 수 없다)
 
 #### 6. Automatic Initializer Inheritance
 
-[Initializer Inheritance and Overriding][Initializer Inheritance and Overriding] 에서 설명했던 것처럼 Swift 의 
-`Subclass`는 `Superclass`의 `Initialiers`를 기본으로 상속하지 않는다. 하지만 자동으로 상속하는 조건이 존재한다. 그 조건은 
-다음과 같다.
+[Initializer Inheritance and Overriding](#h-5-initializer-inheritance-and-overriding) 에서 설명했던 것처럼 
+Swift 의 Subclass 는 *Superclass 의 Initializers 를* `기본으로 상속하지 않는다`. 하지만 `자동으로 상속하는 조건은 존재`한다.   
+그 조건은 다음과 같다.
 
-[Initializer Inheritance and Overriding]:/swift/2022/12/01/initialization.html#h-5-initializer-inheritance-and-overriding
-
-> - `Designated Initializers`의 자동 상속 : `Subclass`가 아무런 `Designated Initializers`를 정의하지 않았다면, 
->   자동으로 `Superclass`의 모든 `Designated Initializers`를 상속한다.
-> - `Convenience Initializers`의 자동 상속 : `Subclass`가 위 "`Designated Initializers`의 자동 상속" 규칙에 따라 
->   생성 하든, 직접 구현을 해 생성 하든, `Superclass`와 매칭되는 모든 `Designated Initializers`를 제공하면, 자동으로 
->   `Superclass`의 모든 `Convenience Initializers`를 상속한다.
+> - **Designated Initializers** 의 자동 상속 : `Subclass 가 아무런 Designated Initializers 를 정의하지 않았다면`, 
+>   자동으로 `Superclass 의 모든 Designated Initializers 를 상속`한다.
+> - **Convenience Initializers** 의 자동 상속 : **Subclass 가 위 "Designated Initializers 의 자동 상속" 규칙에 따라 
+>   생성 하든, 직접 구현을 해 생성 하든, `Superclass 와 매칭되는 모든 Designated Initializers 를 제공하면`, 자동으로 
+>   `Superclass 의 모든 Convenience Initializers 를 상속`한다.
 
 <br>
 
@@ -886,7 +880,7 @@ let hoverboard = Hoverboard()
 print("Hoverboard: \(hoverboard.description)")  // Hoverboard: 0 wheels(s) in a beautiful silver
 ```
 
-`Hoverboard`는 `Vehicle`의 `init()`을 상속했다.
+*Hoverboard* 는 *Vehicle* 의 `init()`을 상속했다.
 
 <br>
 
@@ -916,7 +910,7 @@ let bicycle = Bicycle(numberOfWheels: 2)
 print(bicycle.description)  // 2 wheels(s)
 ```
 
-`Bicycle`은 `Vehicle`의 `init(numberOfWheels:)`를 상속했다.
+*Bicycle* 은 *Vehicle* 의 `init(numberOfWheels:)`를 상속했다.
 
 <br>
 
@@ -950,11 +944,11 @@ let bicycle = Bicycle(numberOfWheels: 2)
 print(bicycle.description)  // 2 wheels(2)
 ```
 
-`Bicycle`은 `Vehicle`의 `init()`과 `init(numberOfWheels:)`를 상속했다.
+*Bicycle* 은 *Vehicle* 의 `init()`과 `init(numberOfWheels:)`를 상속했다.
 
 #### 7. Designated and Convenience Initializers in Action
 
-`Food`, `RecipeIngredient`, `ShoppingListItem`라는 3개의 `Class` 계층을 통해 위에서 설명한 내용을 설명한다.
+*Food*, *RecipeIngredient*, *ShoppingListItem* 라는 3개의 *Class* 계층을 통해 위에서 설명한 내용을 설명한다.
 
 <br>
 
@@ -975,11 +969,11 @@ class Food {
 
 ![Initializer of the Food](/assets/images/posts/2022-12-01-initialization/initializersExample01_2x.png)
 
-> `Classes`는 `Memberwise Initializers`를 가지고 있지 않기 때문에 `Base Class` `Food`는 `name`을 `arguments`로 갖는 
-> `Designated Initializers`를 구현했다.
+> **Classes** 는 `Memberwise Initializers 를 가지고 있지 않기 때문에` **Food 는 name 을 arguments 로 갖는 
+> Designated Initializers 를 구현**했다.
 > 
-> 그리고 `Food`는 `arguments`를 갖지 않는 `init()`을 `Convenience Initializers`로 구현했다. 이 `Convenience Initializers`은 
-> `context` 내 다른 `Initializers`를 호출하며, 궁극적으로 `Designated Initializers`를 호출하고있다.
+> 그리고 **Food** 는 **arguments** 를 갖지 않는 `init()`을 `Convenience Initializers`로 구현했다. 이 **Convenience Initializers 은 
+> context 내 다른 Initializers 를 호출**하며, `궁극적으로 Designated Initializers 를 호출`하고있다.
 
 ```swift
 let namedMeat = Food(name: "Bacon")
@@ -1003,13 +997,15 @@ class RecipeIngredient: Food {
 }
 ```
 
-`Custom Initializers`가 존재하지만 `Superclass`의 모든 `Designated Initializers`를 제공하지 않기 때문에 
-`Automatic Initializer Inheritance`는 발생하지 않는다. 따라서 현재 사용 가능한 `Initializers`는 
+*Custom Initializers* 가 존재하지만 *Superclass 의 모든 Designated Initializers 를 제공하지 않기 때문에* 
+`Automatic Initializer Inheritance 는 발생하지 않는다`. 따라서 현재 사용 가능한 *Initializers* 는 
 
-- `Designated Initializers`: RecipeIngredient(name:quantity:)
+- <span style="color: rgb(119,198,176);">**Designated**</span> Initializers: `RecipeIngredient(name:quantity:)`
 
-하나 뿐이다. 이것을 `Superclass`의 `Designated Initializers`를 모두 제공해, `Superclass`의 
-`Convenience Initializers`도 자동으로 상속되게 만들어보자. 
+하나 뿐이다.
+
+이것을 *Superclass*의 *Designated Initializers*를 모두 제공해, *Superclass 의 Convenience Initializers 가 
+자동으로 상속*되게 만들어보자. 
 
 <br>
 
@@ -1029,12 +1025,12 @@ class RecipeIngredient: Food {
 }
 ```
 
-`Superclass`의 `Designated Initializers`를 모두 제공하므로써 `Superclass`의 `Convenience Initializers`도 
-자동으로 상속해 사용 가능한 `Initializers`는 3개가 된다.
+*Superclass* 의 *Designated Initializers* 를 모두 제공하므로써 *Superclass 의 Convenience Initializers 가 
+자동으로 상속*되어 사용 가능한 *Initializers* 는 3개가 된다.
 
-- `Designated Initializers`: RecipeIngredient(name:quantity:)
-- `Designated Initializers`: RecipeIngredient(name:) (Overriding Superclass's init(name:))
-- `Convenience Initializers`: RecipeIngredient()
+- <span style="color: rgb(119,198,176);">**Designated**</span> Initializers: `RecipeIngredient(name:quantity:)`
+- <span style="color: rgb(119,198,176);">**Designated**</span> Initializers: `RecipeIngredient(name:)` (Overriding Superclass's init(name:))
+- <span style="color: rgb(232,138,105);">**Convenience**</span> Initializers: `RecipeIngredient()`
 
 <br>
 
@@ -1055,21 +1051,23 @@ class RecipeIngredient: Food {
 
 ![Initializer of the RecipeIngredient](/assets/images/posts/2022-12-01-initialization/initializersExample02_2x.png)
 
-이 방법 역시 `Superclass`의 `Designated Initializers`를 모두 제공해, 사용 가능한 `Initializers`는 3개가 된다.
+이 방법 역시 *Superclass* 의 *Designated Initializers* 를 모두 제공해, 사용 가능한 *Initializers* 는 3개가 된다.
 
-- `Designated Initializers`: RecipeIngredient(name:quantity:)
-- `Convenience Initializers`: RecipeIngredient(name:) (Overriding Superclass's init(name:))
-- `Convenience Initializers`: RecipeIngredient()
+- <span style="color: rgb(119,198,176);">**Designated**</span> Initializers: `RecipeIngredient(name:quantity:)`
+- <span style="color: rgb(232,138,105);">**Convenience**</span> Initializers: `RecipeIngredient(name:)` (Overriding Superclass's init(name:))
+- <span style="color: rgb(232,138,105);">**Convenience**</span> Initializers: `RecipeIngredient()`
 
-> 위 Case 1과 Case 2모두 `Subclass`가 `Superclass`의 `Designated Initializers` `init(name:)`을 `Overriding`
-> 하므로써 `Initializers`가 3개가 되고, 모두 동일한 `Instance` 결과물을 얻는다는 것은 동일하지만 다음과 같은 차이를 갖는다.
+> 위 Case 1과 Case 2모두 **Superclass** 의 `Designated Initializers` `init(name:)`을 **Overriding**
+> 하므로써 **Initializers** 가 3개가 되고, 모두 동일한 **Instance** 결과물을 얻는다는 것은 동일하지만 다음과 같은 차이를 갖는다.
 > 
-> - Case 1은 서로 다른 2개의 `Designated Initialziers`(Custom Initializers 와 Overriding Initializers)가
->   `Superclass`의 `Designated Initialziers`에 독립적으로 `delegates up` 한다.
-> 
-> - Case 2는 `Overriding Initializers`를 `Convenience Initializers`로 만들어, `context` 내 존재하는 
->   `Designated Initialziers`(Custom Initializers)로 `delegates`하고, 이 `Designated Initialziers`가 다시
->   `Superclass`의 `Designated Initialziers`에 `delegates up` 하도록 한다.
+> - Case 1은 서로 다른 2개의 **Designated Initializers**(Custom Initializers 와 Overriding Initializers)가
+>   `Superclass 의 Designated Initialziers 에 독립적으로 delegates up` 한다.
+> - Case 2는 **Overriding Initializers** 를 **Convenience Initializers** 로 만들어, `context 내 존재하는 
+>   Designated Initializers(Custom Initializers)로 delegates`하고, 이 `Designated Initializers 가 다시
+>   Superclass 의 Designated Initializers 에 delegates up` 하도록 한다.
+> - Case 2에서 상속할 때 `override convenience` 를 붙였다고 *Superclass 의 convenience Initializers* 를 *override* 
+>   한 것이 아니니 혼동하지 말고 *arguments* 를 자세히 보자. *Superclass* 가 가지고 있는 *Convenience Initializers* 는 *Subclass* 
+>   에서 직접 호출되거나 *Overriding* 되는 것이 불가능함을 다시 상기하도록 하자.
 
 ```swift
 let oneMysteryItem = RecipeIngredient()
@@ -1106,15 +1104,16 @@ class ShoppingListItem: RecipeIngredient {
 
 즉, 사용 가능한 `Initializers`는 3개가 된다.
 
-- `Designated Initializers`: ShoppingListItem()
-- `Convenience Initializers`: ShoppingListItem(name:)
-- `Convenience Initializers`: ShoppingListItem(name:quantity:)
+- <span style="color: rgb(119,198,176);">**Designated**</span> Initializers: `ShoppingListItem()`
+- <span style="color: rgb(232,138,105);">**Convenience**</span> Initializers: `ShoppingListItem(name:)`
+- <span style="color: rgb(232,138,105);">**Convenience**</span> Initializers: `ShoppingListItem(name:quantity:)`
 
-> `RecipeIngredient`의 `Subclass` `ShoppingListItem`는 자신의 `Stored Property`에 `default value`를 정의했고, 
-> `Instance`는 해당 값을 항상 `false`로 시작하므로 `Initial Values`를 위한 `Initializers`가 필요하지 않디.  
->  따라서 `ShoppingListItem`은 아무런 `Designated Initializers`도 정의하지 않았기 때문에 `Automatic Initializer Inheritance`가 
-> 발생해 `Superclass`의 모든 `Designated Initializers`를 상속하고, 이로서 `Superclass`의 모든 `Designated Initializers`를 
-> 모두 제공해 `Superclass`의 `Convenience Initializers`도 자동으로 상속한다.
+> **RecipeIngredient 의 Subclass ShoppingListItem 은 자신의 Stored Property 에 default value 를 정의**했고, 
+> **Instance 는 해당 값을 항상 false** 로 시작하므로 **Initial Values** 를 위한 **Initializers** 가 필요하지 않디.
+> 
+>  따라서 **ShoppingListItem 은 아무런 Designated Initializers 도 정의하지 않았기 때문에 `Automatic Initializer Inheritance 가 
+> 발생해 Superclass 의 모든 Designated Initializers 를 상속`하고, 이로서 **Superclass 의 모든 Designated Initializers 를 
+> 모두 제공해** `Superclass 의 Convenience Initializers 도 자동으로 상속`한다.
 
 ```swift
 var breakfastList = [
@@ -1141,23 +1140,22 @@ breakfastList.forEach { print($0.description) }
 
 #### 1. Failable Initializer Syntax
 
-`Classes`, `Structures`, `Enumerations`의 `Initialization`이 실패할 수 있는 경우 이에 대한 정의를 해주는 것이 
-유용할 수 있다. `Initialization`이 실패될 수 있는 경우는 다음과 같다.
+*Classes*, *Structures*, *Enumerations*의 *Initialization* 이 실패할 수 있는 경우 이에 대한 정의를 해주는 것이 
+유용할 수 있다. *Initialization 이 실패할 수 있는 경우*는 다음과 같다.
 
 - 유효하지 않은 초기화 파라미터 값
 - 필수 외보 리소스의 부재
 - 초기화 성공을 방해하는 기타 다른 조건
 
-> `Failable Initializers`는 `init?` 키워드를 사용해 만들며, `Parameters`의 개수와
-> `Parameter Types`, `Argument Labels`가 모두 동일한 경우 `Nonfailable Initializers`와
-> `Failable Initializers`는 공존할 수 없다.
+`Failable Initializers`는 `init?` 키워드를 사용해 만들며, *Parameters 의 개수와 Parameter Types, Argument Labels 가 
+모두 동일한 경우 Nonfailable Initializers 와 Failable Initializers 는 공존할 수 없다*.
 
-> `Failable Initializers`는 `return nil`을 이용해 `Initialization` 실패를 트리거 할 수 있고, 해당 `Types`의 
-> `Optional`을 생성한다. 즉, `Int Type`의 `Nonfailable Initializers`가 `Int`를 생성한다면, `Failable Initializers`는
-> `Int?`를 생성한다.  
-> (엄밀히 말하면 `Objective-C`와 달리 `Swift`의 `Initializers`는 값을 반환하지 않는다. `Initializers`의 역할은 
-> `self`가 완전하고 정확히 초기화되도록 하는 것으로, `return nil`은 오직 `Failable Initializers`를 트리거 하기 위한 
-> 것으로, `Initialization`이 성공인 경우 `return` 키워드를 사용하지 않는다.)
+*Failable Initializers 는 `return nil`을 이용해 Initialization 실패를 트리거* 할 수 있고, 해당 `Types 의 Optional 을 생성`한다.  
+즉, Int Type 의 *Nonfailable Initializers 가 `Int` 를 생성*한다면, *Failable Initializers 는 `Int?`를 생성*한다.
+
+> 엄밀히 말하면 **Objective-C** 와 달리 `Swift 의 Initializers 는 값을 반환하지 않는다`. **Swift 에서 Initializers 의 역할**은 
+> `self 가 완전하고 정확히 초기화되도록 하는 것`으로, `return nil 은 오직 Failable Initializers 를 트리거 하기 위한 것`으로, 
+> **Initialization 이 성공인 경우 `return` 키워드를 사용하지 않는다**.
 
 <br>
 
@@ -1201,7 +1199,7 @@ print(type(of: valueChanged))   // Optional<Int>
 
 - Nonfailable Initializer of Custom Types
 
-`Animal Types` 구현을 통해 `Nonfailable Initializers`와 `Failable Initializers`의 차이를 알아보자.
+*Animal Types* 구현을 통해 *Nonfailable Initializers* 와 *Failable Initializers* 의 차이를 알아보자.
 
 ```swift
 struct Animal {
@@ -1221,13 +1219,14 @@ print("An animal was initialized with a species of \(anonymousCreature.species)"
 print(type(of: anonymousCreature))  // Animal
 ```
 
-`Parameter Types`가 불일치하는 경우는 호출을 할 수 없기 때문에 `init(species:)`에 `nil`을 넘기는 것은 불가능하지만, 
-`""`은 논리적으로 문제가 있으나 코드상으론 올바른 형태이기 때문에 위와 같이 아무 의미가 없는 `anonymousCreature`를 
-`Animal Types`의 `new Instance`로 성공적으로 생성한다.
+*Parameter Types 가 불일치하는 경우는 호출을 할 수 없기 때문에 `init(species:)`에 `nil`을 넘기는 것은 불가능*하지만, 
+`""`은 논리적으로 문제가 있으나 코드상으론 올바른 형태이기 때문에 위와 `anonymousCreature` Instance 가 성공적으로 생성되었다.
 
 <br>
 
 - Failable Initializer of Custom Types
+
+*Failable Initializers* 를 이용해 이 문제를 해결해보자.
 
 ```swift
 struct Animal {
@@ -1255,9 +1254,9 @@ if anonymousCreature == nil {
 print(type(of: anonymousCreature))  // Optional<Animal>
 ```
 
-`Failable Initializers`이므로 `Animal?`를 생성한다.  
-따라서 `Animal?`을 `unwrapping`하면 유효한 `Parameters`를 갖는 `someCreature`는 `Animal Types`의 
-`new Instance`를 반환하고, `anonymousCreature`는 `nil`을 반환한다.
+*Failable Initializers* 이므로 `Animal?`를 *생성*한다.  
+따라서 `Animal?`을 `unwrapping`하면 유효한 *Parameters* 를 갖는 *someCreature* 는 
+`Animal Types 의 new Instance`를 반환하고, *anonymousCreature* 는 `nil`을 반환한다.
 
 #### 2. Failable Initializers for Enumerations
 
@@ -1315,12 +1314,15 @@ east is type of String
 Constant 'east' is type of Optional<CompassPoint>
 ```
 
-> `RawValues`를 갖는 `Enumerations`는 자동으로 `Failable Initializers` `init?(rawValue:)`를 생성한다.
+> [RawValues 를 갖는 Enumerations][Enumerations with RawValues]는 자동으로 
+> **Failable Initializers** `init?(rawValue:)`를 생성한다.
+
+[Enumerations with RawValues]:/swift/2022/11/01/enumerations.html#h-2-initializing-from-a-raw-value
 
 <br>
 
-따라서, 위 `TemperatureUnit Enumerations`는 `Raw Values`가 자동 생성하는 `init?(rawValue:)`를 이용해 다음과 같이 
-바꿀 수 있다.
+따라서, 위 *TemperatureUnit Enumerations* 는 *Raw Values* 가 자동 생성하는 `init?(rawValue:)`를 이용해 
+다음과 같이 바꿀 수 있다.
 
 ```swift
 enum TemperatureUnit: Character {
@@ -1344,14 +1346,14 @@ if unknownUnit == nil {
 
 #### 4. Propagation of Initialization Failure
 
-__1 )`Failable Initializers`를 `Failable Initializers`에 `delegates` 하는 경우__
+__1 ) *Failable Initializers* 를 *Failable Initializers* 에 *delegates* 하는 경우__
 
-- `Classes`, `Structures`, `Enumerations`의 `Failable Initializers`는 `context` 내 다른 
-  `Failable Initializer`에 `delegates` 될 수 있다.
-- `Subclass`의 `Failable Initializers`는 `Superclass`의 `Failable Initializers`에 
+- *Classes*, *Structures*, *Enumerations* 의 *Failable Initializers 는 context 내 다른 
+  Failable Initializer*에 `delegates` 될 수 있다.
+- *Subclass 의 Failable Initializers* 는 *Superclass 의 Failable Initializers* 에 
   `delegates up` 될 수 있다.
 
-> 이 프로세스는 즉시 `Initialization` 실패를 유발하고, 전체 `Initialization` 프로세스를 중단시킨다.
+> 이 프로세스는 `즉시 Initialization 실패를 유발`하고, `전체 Initialization 프로세스를 중단`시킨다.
 
 ```swift
 class Product {
@@ -1401,15 +1403,18 @@ Unable to initialize one unnamed product
 
 <br>
 
-__2 ) `Failable Initializers`를 `Nonfailable Initializers`에 `delegates` 하는 경우__
 
-- 달리 실패하지 않는 기존의 `Initialization` 프로세스에 잠재적인 실패 상태를 추가해야하는 경우 `Failable Initializers`를 
-  `Nonfailable Initializers`에 `delegates` 하는 접근법을 사용한다.  
 
-> 이 프로세스는 `Initialization` 프로세스에 `failure state`를 추가할 뿐, `Initialization`은 성공한다  
-> (정확히는 `Failable Initializers`의 실패 처리를 하지 않고 `failur state`를 추가한다. 즉, 로직만 보면 
-> `Nonfailable Initializers`를 `Nonfailable Initializers`로 `delegates` 하는 것과 같다. 
-> 이 부분에 대해서는 자세한 설명이 없어 굳이 왜 이런 기법을 사용하는 것인지는 명확하지 않다).
+__2 ) <span id="failableToNonfailable">*Failable Initializers* 를 *Nonfailable Initializers* 에 *delegates* 하는 경우</span>__
+
+- 달리 `실패하지 않는 기존의 Initialization 프로세스에 잠재적인 실패 상태를 추가해야하는 경우` `Failable Initializers 를 
+  Nonfailable Initializers 에 delegates`하는 접근법을 사용한다.
+- 이 프로세스는 *Initialization 프로세스에 `failure state`를 추가할 뿐*, `Initialization 은 성공`한다
+
+> 정확히는 `Failable Initializers`의 실패 처리를 하지 않고 `failur state`를 추가한다. 즉, 결과물만 보면 에러처리 후 
+> `Nonfailable Initializers`를 `Nonfailable Initializers`로 `delegates` 하는 것과 같다.
+
+이것은 아래 [6. Overriding a Failable Initializer 의 Case 3](#h-5-overriding-a-failable-initializer) 와 연결된다.
 
 ```swift
 class Product {
@@ -1456,24 +1461,14 @@ Item: shirt, quantity: -1
 Item: , quantity: 1
 ```
 
-결론적으로 `Failable Initializers`는 실패 처리를 하지 않고, `delegates`를 위임 받은 `Initializers`는 
-`Nonfailable Initializers`이기 때문에 모두 `Instnace` 생성에 성공했다.  
-단, 실패했어야 하는 케이스인 `zeroShirt`는 실패 상태를 나타내기 위해 `-1` 이라는 `failur state`를 나타내는 
-`Custom Values`가 들어간다.
-
-<br>
-
-__3 ) `Nonfailable Initializers`를 `Failable Initializers`에 `delegates` 하는 경우__
-
-일반적으로 `Nonfailable Initializers`를 `Failable Initializers`에 `delegates` 하는 것은 허용되지 않는다.
-
-예외적인 허용을 위해서는 `Failable Initializers`의 결과를 `Foreced Unwrapping` 해야하며, 이때 `delegates` 된
-`Failable Initializers`가 프로세스를 절대로 실패하지 않도록 해야한다. 이것은 `Overriding` 할 때도 적용되는 규칙으로 
-바로 아래 이어서 설명한다.
+위 예제에서 확인할 수 있듯이 결론적으로 *Failable Initializers* 는 실패 처리를 하지 않았고, *delegates* 를 
+`위임 받은 Initializers 는 Nonfailable Initializers 이기 때문에 모두 Instnace 생성에 성공`했다.  
+단, 실패했어야 하는 케이스인 *zeroShirt* 는 실패 상태를 논리적으로 나타내기 위해 `-1` 이라는 `failur state`를 
+*Custom Values* 로 저장했다.
 
 #### 5. Overriding a Failable Initializer
 
-`Initializers Overriding`에 `Failable Initializers`를 추가해 정리하면 다음과 같다.
+*Initializers Overriding* 에 *Failable Initializers* 를 추가해 정리하면 다음과 같다.
 
 |            | Superclass                    | Subclass                      | Allowed |
 |------------|-------------------------------|-------------------------------|---------|
@@ -1482,26 +1477,23 @@ __3 ) `Nonfailable Initializers`를 `Failable Initializers`에 `delegates` 하�
 | Case 3     | Failable Initializer(init?)   | Nonfailable Initializer(init) | △       |
 | ~~Case 4~~ | Nonfailable Initializer(init) | Failable Initializer(init?)   | X       |
 
-`Failable Initializers`를 `Failable Initializers`로 `Overriding`하는 것은 기존의 `Nonfailable Initializers`를
-`Nonfailable Initializers`로 `Overriding`하는 것과 같다.
+*Failable Initializers 를 Failable Initializers 로 Overriding 하는 것*은 기존에 
+*Nonfailable Initializers 를 Nonfailable Initializers 로 Overriding 하는 것*과 같다.
 
 주의 깊게 봐야할 것은 위 표에서 Case 3과 Case 4다.
 
-- Case 3 : `Failable Initializers`를 `Nonfailable Initializers`로 `Overriding`하는 방법은 `Superclass`의 
-  `Failable Initializers` 결과를 `Forced Unwrapping` 하는 것이다(일반적으로 `Nonfailable Initializers`를 
-  `Failable Initializers`에 `delegates` 하는 것은 허용되지 않기 때문이다 
-  [Propagation of Initialization Failure][Propagation of Initialization Failure]).
-- Case 4 : `Nonfailable Initializers`를 `Failable Initializers`로 `Overriding`하는 것은 허용되지 않는다.
-
-> 주의해야할 것이 `Failable Initilizers`를 `Nonfailable Initializers`로 `delegates` 하는 것 `init ← init?`은 허용되지만,  
-> `Nonfailable Initializers`를 `Failable Initilizers`로 `Overriding` 하는 것은 허용되지 않는다.  
-> (케이스만 보면 `delegates up` `init ← init?` 이지만 `Overriding` 자체를 허용하지 않는다)
-
-[Propagation of Initialization Failure]:/swift/2022/12/01/initialization.html#h-4-propagation-of-initialization-failure
+- Case 3 : *Failable Initializers* 를 *Nonfailable Initializers* 로 *Overriding* 하는 방법은 
+          `Superclass 의 Failable Initializers 결과를 Subclass 에서 Forced Unwrapping 하는 것`이다.  
+          (Superclass 의 Initializers 가 Optional Types 를 생성하는 반면, Subclass 의 Initializers 는 Normal Types 를 
+           생성해야하기 때문이다. 위 [Failable Initializers 를 Nonfailable Initializers 에 delegates 하는 경우](#failableToNonfailable) 
+           와 연관되므로 함께 보도록 한다.) 
+- Case 4 : `Nonfailable Initializers 를 Failable Initializers 로 Overriding 하는 것은 허용되지 않는다`.  
+          (Phase 1에서 이미 Superclass 에서 초기화를 했는데, Subclass 가 Phase 2에서 수정 기회에 초기화를 실패하는 케이스가 
+           발생할 수 있기 때문이다.)
 
 <br>
 
-아래 예제의 결과를 확인하기 위해 미리 다음 `Closures`를 정의하고 시작한다.
+아래 예제의 결과를 확인하기 위해 미리 다음 *Closures* 를 정의하고 시작한다.
 
 ```swift
 let printTitle = { (variable: String, document: Document?) in
@@ -1511,7 +1503,7 @@ let printTitle = { (variable: String, document: Document?) in
     }
     if document.name == nil {
         print("\"\(variable)\" initialization success, name is nil")
-    } else {
+    } else {contacts
         print("\"\(variable)\" initialization success, name is \"\(document.name!)\"")
     }
 }
@@ -1519,7 +1511,7 @@ let printTitle = { (variable: String, document: Document?) in
 
 <br>
 
-`Document`는 `name`에 `Non-empty String`과 `nil`은 허용하지만 `Empty String`은 허용하지 않는다.
+*Document* 는 *name* 에 `Non-empty String` 과 `nil` 은 *허용*하지만 `Empty String` 은 *허용하지 않는다*.
 
 ```swift
 class Document {
@@ -1550,15 +1542,24 @@ printTitle("emptyName", emptyName)
 "emptyName" initialization failed
 ```
 
-`Non-empty String`과 `nil`은 `Initialization`에 성공했지만, `Empty String`은 실패했다.
+*Non-empty String* 과 `nil`은 *Initialization 에 성공*했지만, `Empty String`은 *실패*했다.
 
 <br>
 
-__1 ) Case 3의 `Superclass`의 `Failable Initializers`를 `Subclass`의 `Nonfailable Initializers`로 `Overriding`하는 첫 번째 방법__
+__1 ) Case 3의 첫 번째 방법 - without *Forced Unwrapping*__
 
-`Document`의 `Subclass`인 `AutomaticallyNamedDocument`는 이름이 없거나(init -> nil), 
-`Empty String`(init? -> "")인 케이스에 대해 `"[Untitled]"`라는 이름을 초기값으로 지정해 `Superclass`의 두 
-`Initializers` 모두 `Nonfailable Initializers`로 `Overriding`한다.
+*Overriding 하려는 Superclass 의 Initializers* 가 `Failable Initializers`일 때, *Superclass 에 
+존재하는 다른 `Nonfailable Initializers`를 찾아 `delegates up`한다*.
+
+*이름이 없거나*(init -> nil), *Empty String*(init? -> "")인 케이스가 초기화를 실패하지 않도록
+`Superclass 의 Nonfailable Initializers 쪽으로 우회`시킨 후, *Superclass 의 Failable Initializers* 가
+했어야 하는 일까지 모두 *Subclass 가 Phase 2 에서 처리*한다.
+
+> 즉, 이 방법을 사용하기 위해서는 두 가지 조건이 반드시 필요하다.
+>
+> - **Superclass** 에 `Nonfailable Initializers`가 존재할 것.
+> - **Superclass 의 Failable Initializers 가 Stored Properties 에 값을 저장하는 경우**, 
+>   **Phase 2 에서 Customizing 할 기회를 이용해 처리할 수 있도록** `Superclass 의 Properties`가 `Variable`일 것.
 
 ```swift
 class AutomaticallyNamedDocument: Document {
@@ -1577,11 +1578,6 @@ class AutomaticallyNamedDocument: Document {
 }
 ```
 
-> `init?(name:)`을 `Overriding` 할 때 `super.init(name:)`이 아니라 `super.init()`에 `delegates up` 하는 이유는  
-> 일반적으로 `init` ← `init?`은 허용되지만(실패 케이스는 버리면 그만이니까),  
-> `init?` ← `init`은 허용되지 않기 때문(성공 케이스인데 `Optional`이 되니까)이다.  
-> [Propagation of Initialization Failure][Propagation of Initialization Failure] 를 참고한다.
-
 ```swift
 let unnamed = AutomaticallyNamedDocument()
 let contacts = AutomaticallyNamedDocument(name: "Contacts")
@@ -1598,24 +1594,15 @@ printTitle("emptyName", emptyName)
 "emptyName" initialization success, name is "[Untitled]"
 ```
 
-`Non-empty String`과 `nil`에 `Empty String`까지 모두 `Initialization`에 성공했다.
-
-> 그런데 위 방법은 `Superclass`의 `Failable Initializers`를 `Subclass`의 `Nonfailable Initializers`로 `Overriding` 
-> 했기 때문에 Case 3에 해당하기는 하지만 일반적으로 `Nonfailable Initializers`를 `Failable Initializers`에 `delegates` 
-> 하는 것은 허용되지 않기 때문에 Case 1에 해당하는 `Nonfailable Initializers`를 `Nonfailable Initializers`로 `delegates` 
-> 하는 방법으로 우회를 한 것이다.
-> 
-> 즉, 이 방법을 사용하기 위해서는 두 가지 조건이 반드시 필요하다.
-> 
-> - `Superclass`에 `Nonfailable Initializers`가 존재할 것
-> - `Phase 2`를 통한 `Customizing` 할 기회를 처리할 수 있도록 `Properties`가 `Constant`가 아닌 `Variable`이어야 한다
+> 이 방법은 `Forced Unwrapping` 없이 처리할 수 있다는 장점이 있지만 우회하기 위한 조건을 갖고 있어야하며, 
+> 우회한 결과가 논리적으로 동일한 결과를 도출할 수 있는지에 대한 책임이 개발자에게 주어진다.
 
 <br>
 
-__2 ) Case 3의 `Superclass`의 `Failable Initializers`를 `Subclass`의 `Nonfailable Initializers`로 `Overriding`하는 두 번째 방법__
+__2 ) Case 3의 두 번째 방법 - with *Forced Unwrapping*__
 
-`Nonfailable Initializers`를 `Failable Initializers`로 `delegates up`한 후 `Superclass`의 
-`Failable Initializers` 결과를 `Forced Unwrapping`한다.
+*Superclass 의 Failable Initializers 가 실패하지 않도록* `예외 처리`를 한 후, *생성된 Optional Instance 를 
+Subclass* 에서 `Forced Unwrapping`한다.
 
 ```swift
 class AutomaticallyNamedDocument: Document {
@@ -1648,12 +1635,43 @@ printTitle("emptyName", emptyName)
 "emptyName" initialization success, name is "[Untitled]"
 ```
 
-> 물론 이 방법에도 문제점은 존재한다.  
-> 그것은 바로 `Supercalss`의 `Failable Initializers`가 절대로 실패하지 않도록 `delegates up`해야한다.
+> 이 방법의 장점은 우회를 하지 않기 때문에 우회했을 때 필요한 `논리적 검증을 개발자가 할 필요가 없다`는 것이다. 
+> 또한 우회를 하지 않으므로 **Superclass** 에 `Nonfailable Initializers 가 존재할 필요가 없으며`, 코드가 
+> 더 직관적이게된다.
+> 
+> 그리고 마지막으로, 위 우회하는 케이스의 경우는 **Subclass** 에서 Phase 2에서 수정할 기회를 사용하기 때문에 
+> **Superclass 의 Stored Properties**가 반드시 `Variable`이어야 했지만, 이 경우는 `Constant`여도 
+> 문제 없이 Initialization 을 처리할 수 있다. 아래 예를 보면 **Document** 의 **name** 이 `let`으로 선언되어 
+> 있지만 정상적으로 동작함을 확인할 수 있다.
+
+```swift
+class Document {
+    let name: String?
+    init?(name: String) {
+        if name.isEmpty { return nil }
+        self.name = name
+    }
+}
+
+class AutomaticallyNamedDocument: Document {
+    override init(name: String) {
+        if name.isEmpty {
+            super.init(name: "[Untitled]")!
+        } else {
+            super.init(name: name)!
+        }
+    }
+}
+
+let contacts = AutomaticallyNamedDocument(name: "Contacts")
+print("\"contacts\" initialization success, name is \(contacts.name!)")
+// "contacts" initialization success, name is Contacts
+```
 
 #### 6. The init! Failable Initializer
 
-일반적으로 `Failable Initializers`는 `?`를 붙여 만들지만, `!`를 붙여 암시적으로 `unwrapping` 시킬 수도 있다.
+일반적으로 *Failable Initializers* 는 `?`를 붙여 만들지만, `!`를 붙여 암시적으로 `unwrapping` 된 
+*Optional Instance* 를 생성하는 *Failable Initializer* 를 정의할 수도 있다.
 
 `init!`은 `init?`과 거의 동일하며 차이점은 다음과 같다.  
 
@@ -1681,8 +1699,8 @@ printTitle("emptyName", emptyName)
 </tbody>
 </table>
 
-- `init?`은 `delegates`를 위임한 `Initializers`가 `Failable Initializers`의 결과를 `Forced Unwrapping` 한다.
-- `init!`은 `delegates`를 위임 받은 `Initializers`가 `Forced Unwrapping` 후 결과를 반환한다.
+- `init?`은 **Optional Types 를 반환**하기 때문에 `delegates 를 위임한 Initializers 가 Unwrapping`해야한다.
+- `init!`은 `delegates 를 위임 받은 Initializers 가 Unwrapping` 후 결과를 반환한다.
 
 따라서 바로 위 Case 3의 두 번째 방법을 `init?`에서 `init!`으로 바꾸면 다음과 같다.
 
@@ -1728,6 +1746,12 @@ printTitle("emptyName", emptyName)
 "emptyName" initialization success, name is "[Untitled]"
 ```
 
+*예외 처리*를 하지 않았을 경우, `init?`은 *delegate 를 위임한 Class 에서 결과를 받아 Unwrapping* 하기 때문에 
+에러가 발생할 경우 위임한 Class 에서 에러가 발생하고, `init!`은 *Unwrapping 을 해서 반환*하기 때문에 위임을 받은 Class 
+에서 에러가 발생한다.  
+즉, 위 경우 *예외 처리*를 제대로 하지 않았을 경우 `init?`은 *Subclass 에서 에러가 발생*하고, 
+`init!`은 *Superclass 에서 에러가 발생*한다.
+
 #### 7. Summary
 
 <table style="text-align: center;">
@@ -1765,7 +1789,7 @@ printTitle("emptyName", emptyName)
     <th>when overriding</th>
     <th>Superclass</th>
     <th>Subclass</th>
-    <th>delegates up</th>
+    <th>Allowed</th>
   </tr>
 </thead>
 <tbody>
@@ -1821,12 +1845,13 @@ printTitle("emptyName", emptyName)
 </tbody>
 </table>
 
-<span style="color: red">*</span> [Overriding a Failable Initializer - Case 4][Overriding a Failable Initializer] : 
-   `Nonfailable Initializers`를 `Failable Initializers`로 `Overriding`하는 것은 허용되지 않는다.  
-<span style="color: red">**</span> [Overriding a Failable Initializer - Case 3][Overriding a Failable Initializer] : 
-   `Failable Initializers`를 `Nonfailable Initializers`로 `Overriding`하는 방법은 `Forced Unwrapping` 하는 것이다.
+<span style="color: red">*</span> [Overriding - Case 4][Overriding a Failable Initializer] : 
+  `Nonfailable Initializers`를 `Failable Initializers`로 `Overriding`하는 것은 허용되지 않는다.  
+<span style="color: red">**</span> [Overriding - Case 3][Overriding a Failable Initializer] : 
+  `Failable Initializers`를 `Nonfailable Initializers`로 `Overriding`하는 방법은 *Superclass 의 Failable 
+  Initializers 가 실패하지 않도록* `예외 처리`를 한 후, *생성된 Optional Instance 를 Subclass* 에서 `Forced Unwrapping`하는 것이다.
 
-[Overriding a Failable Initializer]:/swift/2022/12/01/initialization.html#h-5-overriding-a-failable-initializer
+[Overriding a Failable Initializer]:#h-5-overriding-a-failable-initializer
 
 ---
 
@@ -1834,12 +1859,12 @@ printTitle("emptyName", emptyName)
 
 #### 1. Required Initializer Syntax
 
-`Classes`, `Structures`, `Enumerations`에 `Protocols`를 채택(adopt)해 특정 구현을 강요할 수 있듯이 
-`Classes`의 경우 `Superclass`의 특정 `Initializers`를 `Subclass`에서 구현하도록 `required` modifier 를 사용해 
-강요할 수 있다.
+*Classes*, *Structures*, *Enumerations* 에 `Protocols`를 채택(adopt)해 특정 구현을 강요할 수 있듯이 
+*Classes* 의 경우 *Superclass 의 특정 Initializers 를 Subclass 에서 구현하도록 `required` modifier 를 사용해 
+강요할 수 있다*.
 
-단, `Protocols`와 달리 상속된 `Required Initializers`로 조건이 충족된다면, 이를 `Overriding`해 재구현 할 필요 
-없이 만족하는 것이 가능하다.
+> - `Required Initializers`는 **Overriding** 할 때 `override` modifier 는 생략하고 `required` modifier 만 작성한다.
+> - **Protocols** 와 달리 상속된 **Initializers** 로 조건이 충족된다면, **Overriding** 을 명시적으로 구현하지 않아도 충족된다.
 
 <br>
 
@@ -1861,12 +1886,9 @@ class SomeSubclass: SomeClass {
 }
 ```
 
-> - `Subclass`에서 재구현할 때 `override` modifier 는 생략하고 `required` modifier 만 사용한다.
-> - 상속된 `Required Initializers`로 조건이 충족된다면 재구현할 필요 없이 충족될 수 있다.
-
 #### 2. Required Initializer Examples
 
-아래 예제의 결과를 확인하기 위해 미리 다음 `Closures`를 정의하고 시작한다.
+아래 예제의 결과를 확인하기 위해 미리 다음 *Closures* 를 정의하고 시작한다.
 
 ```swift
 let printCar = { (car: Car) in
@@ -1886,7 +1908,7 @@ class Vehicle {
 }
 ```
 
-`Vehicle` 클래스는 `init(name:)`을 강제하도록 `requried` modifier 를 사용한다.
+*Vehicle* 클래스는 `init(name:)`을 강제하도록 `requried` modifier 를 사용한다.
 
 <br>
 
@@ -1903,7 +1925,7 @@ class Car: Vehicle {
 }
 ```
 
-`Car`는 `Vehicle`의 `Required Initializers`를 상속하는 것으로 충족된다.
+*Car* 는 *Vehicle* 의 *Required Initializers* 를 상속하는 것으로 충족된다(주석 처리한 부분).
 
 <br>
 
@@ -1916,7 +1938,7 @@ class Truck: Car {
 }
 ```
 
-`Truck`은 기본 실린더를 8로 저장하기 위해 `Required Initializers` `init(name:)`을 재정의하였다.
+*Truck* 은 기본 실린더를 8로 저장하기 위해 *Required Initializers* `init(name:)`을 *재정의*하였다.
 
 <br>
 

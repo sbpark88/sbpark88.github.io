@@ -68,11 +68,12 @@ struct Town {
 
 메서드를 작성하면 다음과 같은 에러가 뜰 것이다. `Cannot assign through subscript: 'self' is immutable.`
 
-Swift 에서 `Structures`와 `Enumerations`는 `Int`처럼 `Value Types`다.  
-`Objective-C`에서 `Swift`로 넘어오며 `Classes` 기반의 `Reference Type NSString` 대신 
+Swift 에서 `Structures`와 `Enumerations`는 Int 처럼 `Value Types`다.  
+Objective-C 에서 Swift 로 넘어오며 `Classes` 기반의 `Reference Type NSString` 대신 
 `Structures` 기반의 `Value Type String`을 사용하기 때문이다.
 
-`Value Types`이 의미하는 것은 다음과 같다.
+`Value Types`가 의미하는 것은 다음과 같다.
+
 ```swift
 func address(of object: UnsafeRawPointer) -> NSString {
     let address = Int(bitPattern: object)
@@ -89,15 +90,16 @@ print("s1 address: \(address(of: &s1)), s2 address: \(address(of: &s2))")
 // s1: Hello, s2: Hi
 // s1 address: 0x1043842b0, s2 address: 0x1043842c0
 ```
-즉, `Reference Types`이 아닌 `Value Types`는 변수나 상수에 할당될 때, 함수에 전달될 때 `Instance` 전체가 
+
+즉, Reference Types 가 아닌 Value Types 는 변수나 상수에 할당될 때, 함수에 전달될 때 `Instance` 전체가 
 `copy`되어 독립된 자기 자신을 갖는 것을 의미한다.
 
 그리고 <span style="color: rgba(210, 122, 250, 1); font-weight: 900;">Swift 는 기본적으로 
-`Value Type`의 `Properties`는 `Instance Methods`에 의해 변경될 수 없다.</span>
+_Value Type_ 의 _Properties_ 는 _Instance Methods_ 에 의해 변경될 수 없다.</span>
 
-하지만 변경을 하고 싶다면 어떻게 해야할까? 내부에서 `Properties`의 변경을 위해 다음과 같은 규칙을 따라야한다.
+하지만 변경을 하고 싶다면 어떻게 해야할까? 내부에서  Properties 의 변경을 위해 다음과 같은 규칙을 따라야한다.
 
-1. 인스턴스를 `let`이 아닌 `var`로 선언한다( let hogwarts = Town()로 선언하면 immutable instance 가 된다 ).
+1. 인스턴스를 let 이 아닌 `var`로 선언한다( let hogwarts = Town()로 선언하면 immutable instance 가 된다 ).
 2. 인스턴스 메서드에 `mutating` 키워드를 붙여준다.
 
 ```swift
@@ -126,13 +128,12 @@ print(hogwarts.resources)   // ["Galleon": 80]
 
 hogwarts.earn()
 print(hogwarts.resources)   // ["Galleon": 100]
-
 ```
+
 `mutating` 키워드를 붙여줌으로써 immutable 한 properties 의 변경을 허용하게된다.
 
-`mutating`을 허용하게되면 메서드가 종료될 때 해당 `Properties`를 변경한다. 또한 이 메서드는 `implicit self 
-property`에 완전히 `new Instance`를 할당할 수도 있으며, `new Instance`는 메서드가 종료될 때 `original Instance`를 
-대체한다.
+mutating 을 허용하게되면 `메서드가 종료될 때 해당 Properties 를 변경` 한다. 또한 이 메서드는 _implicit self property_ 에 
+완전히 _new Instance_ 를 할당할 수도 있으며, new Instance 는 `메서드가 종료될 때 original Instance 를 대체`한다.
 
 <br><br>
 

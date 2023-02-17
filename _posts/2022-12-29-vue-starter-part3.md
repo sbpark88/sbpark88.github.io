@@ -1,19 +1,17 @@
 ---
 layout: post
-title: Vue.js Starter - Part 3
-subtitle: Vue.js 프로젝트 투입 일주일 전
+title: Vue.js Starter - Axios
+subtitle: Vue.js 프로젝트 투입 일주일 전 - Part 3
 categories: javascript
 tags: [javascript, vue, vue js, vue.js, promise, axios, mixins]
 ---
-
-<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
 
 ### 11. Axios 👩‍💻
 
 #### 1. Installation
 
-[Axios](https://axios-http.com/docs/intro) 는 `Promise`를 기반으로 하는 `HTTP Client`로 
-`node.js`와 `Web-browser`에서 동일한 코드 베이스로 작동한다.
+[Axios](https://axios-http.com/docs/intro) 는 `Promise 를 기반으로 하는 HTTP Client`로 `node.js`와 
+`Web-browser`에서 *동일한 코드 베이스로 작동*한다.
 
 > - Server-side : native node.js http module 을 사용.
 > - Web-browser : XMLHttpRequests 를 사용.
@@ -46,7 +44,7 @@ __1 ) import library__
 import axios from "axios"
 ```
 
-단, `TypeScript`와 함께 CommonJS 방식을 사용할 경우 아래와 같이 사용해야 자동완성과 intellisense 가 
+단, *TypeScript* 와 함께 CommonJS 방식을 사용할 경우 아래와 같이 사용해야 자동완성과 intellisense 가 
 지원된다.
 
 ```typescript
@@ -129,7 +127,7 @@ axios.post('/user', {
 
 __4 ) Performing Multiple Concurrent Requests__
 
-`Axios`는 `Promise` 기반이므로, 여러 요청을 동시에 보내려면 `Promise.all()` 메서드를 사용할 수 있다.
+`Axios 는 Promise 기반`이므로, 여러 요청을 동시에 보내려면 `Promise.all()` 메서드를 사용할 수 있다.
 
 ```javascript
 const getUserAccount = () => {
@@ -160,7 +158,7 @@ Promise.all([getUserAccount(), getUserPermissions()])
 > - axios.put(url[, data[, config]])
 > - axios.patch(url[, data[, config]])
 
-> 위 `Alias` 메서드를 사용하면 `url`, `method`, `data` properties 를 명시할 필요가 없다.
+> 위 `Alias 메서드`를 사용하면 `url`, `method`, `data` properties 를 명시할 필요가 없다.
 
 #### 5. Axios Instance
 
@@ -541,8 +539,8 @@ axios.get('/user/12345', {
 })
 ```
 
-> `validateStatus`가 `true` 또는 `null` 또는 `undefined`를 응답하면 `Promise`는 
-> `resolve()`가 trigger 되고, `false`를 응답하면 `reject()`가 trigger 된다.
+> `validateStatus`가 `true` 또는 `null` 또는 `undefined`를 응답하면 **Promise 는 `resolve()`가 trigger** 되고, 
+> `false`를 응답하면 **`reject()`가 trigger** 된다.
 
 <br>
 
@@ -652,7 +650,7 @@ axios(options);
 
 #### 1. Create Mock API for Axios Examples
 
-`Mock` 서버를 통한 테스트를 진행하기 위해 `Postman` 에 `Mock` 서버와 GET `/test` 를 생성 후 다음과 같이 `example`과 
+*Mock* 서버를 통한 테스트를 진행하기 위해 *Postman* 에 `Mock` 서버와 GET `/test` 를 생성 후 다음과 같이 `example`과 
 `Tests`를 등록한다.
 
 - example
@@ -826,11 +824,11 @@ th {
 </template>
 ```
 
-`TypeScript`가 아닌 `JavaScript`를 사용중일 때 `productList`의 타입을 미리 정할 수 없다. 인스턴스가 생성되며 
+*TypeScript* 가 아닌 *JavaScript* 를 사용중일 때 *productList 의 타입을 미리 정할 수 없다*. 인스턴스가 생성되며 
 `Type Inference`를 통해서만 타입이 정해지기 때문이다. 따라서 타입을 미리 알 수 없으니 `IDE`의 `Intellisense`를 사용할 수 
 없어 코드 작성이 어려울 뿐 아니라 휴먼 에러를 발생시키는 요인이 된다.
 
-따라서 `TypeScript`가 아닌 `JavaScript`의 한계를 극복하기 위해 아래와 같이 타입 추론에 의해 객체의 타입이 지정되도록 초기화 후 
+따라서 *TypeScript* 가 아닌 *JavaScript* 의 한계를 극복하기 위해 아래와 같이 타입 추론에 의해 객체의 타입이 지정되도록 초기화 후 
 데이터를 교체하는 `Trick`을 사용할 수 있다.
 
 ```javascript
@@ -864,8 +862,8 @@ Sprite is less than 2000 won.
 
 <br>
 
-위 예제의 `mixins.js`를 `Axios Default Alias Methods`를 사용하도록 리팩토링 하고, `productList` Array 의 타입을 
-미리 지정해 `JavaScript`의 타입 추론을 이용하도록 변경해보자.
+위 예제의 `mixins.js`를 `Axios Default Alias Methods`를 사용하도록 리팩토링 하고, *productList* Array 의 타입을 
+미리 지정해 *JavaScript* 의 `IDE`의 `Intellisense`가 이를 인식하도록 변경해보자.
 
 - /src/mixins.js
 
@@ -914,7 +912,7 @@ export default {
 ```
 
 > 이제 `this.$api.get(...)` 과 같이 기본 `config`를 포함한 instance 에 일부 config 를 수정해 Custom Request 를 
-> 사용할 수 있을 뿐 아니라, `this.$get(url, data)`와 같이 별도의 설정 없이 공통으로 설정한 기본 `config`가 적용된 
+> 사용할 수 있을 뿐 아니라, `this.$get(url, data)`와 같이 **별도의 설정 없이 공통으로 설정한 기본 config 가 적용된** 
 > `Axios Default Alias Methods`를 사용하는 것도 가능하다.
 
 - /src/views/AxiosTestView.vue 
@@ -952,9 +950,10 @@ export default {
 
 #### 4. Refactor Axios with DTO Classes
 
-위와 같이 `Object`를 `DTO`로 사용하는 것은 다른 `Component`에서 재사용 할 수 없다. 또한, 필요에 따라 `Getter/Setter`를 
-만들거나 제약을 위해 `Wrapper`를 사용하는 등 추가적인 처리를 할 수가 없다. 따라서 재사용 가능성이 있는 이런 `Entities`는 
-별도의 `Classes`로 관리할 수 있다.
+위와 같이 *Options API* 내의 *data* 를 이용해 `Object`를 `DTO`로 사용하는 것은 다른 *Component 에서 재사용 할 수 없다*. 
+또한, 필요에 따라 `Getter/Setter`를 만들거나 제약을 위해 `Wrapper`를 사용하는 등 추가적인 처리를 코드 분하기가 힘들다. 
+따라서 재사용 가능성이 있는 이런 `Entities`는 `Vue` 파일이 아닌 별도의 *JavaScript* 파일로 분리하는 것이 좋다. 그리고 
+단순 *Object* 보다는 좀 더 기능이 많은 `Class`를 이용해 `DTO`를 만들어 관리할 수 있다.
 
 - /src/dto/Product.js
 

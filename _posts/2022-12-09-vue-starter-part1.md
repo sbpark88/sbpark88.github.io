@@ -1,12 +1,10 @@
 ---
 layout: post
-title: Vue.js Starter - Part 1
-subtitle: Vue.js 프로젝트 투입 일주일 전
+title: Vue.js Starter - Vue CLI
+subtitle: Vue.js 프로젝트 투입 일주일 전 - Part 1
 categories: javascript
 tags: [javascript, vue, vue js, vue.js, vue cli, vue/cli]
 ---
-
-<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
 
 ### 1. Vue.js Characteristics 👩‍💻
 

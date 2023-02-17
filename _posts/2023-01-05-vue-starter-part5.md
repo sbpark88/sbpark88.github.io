@@ -1,12 +1,10 @@
 ---
 layout: post
-title: Vue.js Starter - Part 5
-subtitle: Vue.js 프로젝트 투입 일주일 전
+title: Vue.js Starter - Composition, Directives, Plugins
+subtitle: Vue.js 프로젝트 투입 일주일 전 - Part 5
 categories: javascript
 tags: [javascript, vue, vue js, vue.js, composition api, options api, mixins, plugins]
 ---
-
-<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
 
 ### 17. Options API & Composition API 👩‍💻
 

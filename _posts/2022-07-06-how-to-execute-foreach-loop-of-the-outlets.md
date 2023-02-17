@@ -66,11 +66,13 @@ var buttons: [UIButton] = []
 var buttons: [UIButton] = [choice1Button, choice2Button]
 ```
 
-뒤에 ` = [choice1Button, choice2Button]` 이 부분이 바로 `property initializer`에 해당하는 것이다.
+뒤에 ` = [choice1Button, choice2Button]` 이 부분이 바로 property 를 생성 후 할당하는 것이다.
 
-즉, `instance member`는 해당 `class`가 인스턴스화 되며 메모리에 실제 객체가 생성될 때 생성자를 통해 주입(`initializing instance member`)이 된다. 그렇다면 당연히 생성자가 실행된 후에 참조가 가능한데, `property initializer`가 실행되는 시점이 `initializing instance member`보다 빠르기 때문에 `self`를 통해 `instance member`를 참조할 수 없게 되는 것이다.
+즉, `instance member`는 해당 `class`가 인스턴스화 되며 메모리에 실제 객체가 생성될 때 생성자를 통해 주입이 된다. 그렇다면 당연히 
+생성자가 실행된 후에 참조가 가능한데, property 초기화가 실행되는 시점이 `initializing instance member`보다 빠르기 때문에 
+`self`를 통해 instance member 를 참조할 수 없게 되는 것이다.
 
-따라서 정상적으로 코드를 작동시키기 위해서는 `instance member`가 생성된 직후 할당을 해야하므로 
+따라서 정상적으로 코드를 작동시키기 위해서는 instance member 가 생성된 직후 할당을 해야하므로 
 
 ```javascript
 window.onload = () => {
@@ -160,7 +162,9 @@ class ViewController: UIViewController {
 
 ### 3. Index 와 Elements 를 모두 사용할 수는 없을까? 🧐
 
-개인적으로 `forEach`를 사용할 때, `elements` 뿐 아니라 가끔 `index`가 필요할 때 유용하게 사용하곤 했다. 물론, 반드시 index 가 필요할 경우 `for i`를 이용한 반복문을 돌려도 되지만, forEach 를 사용하는 것이 코드가 더 깔끔하고, `method chaining`을 사용할 수 있는 등 장점이 많았기 때문이다.
+개인적으로 `forEach`를 사용할 때, elements 뿐 아니라 가끔 `index`가 필요할 때 유용하게 사용하곤 했다. 물론, 반드시 index 가 
+필요할 경우 `for i`를 이용한 반복문을 돌려도 되지만, forEach 를 사용하는 것이 코드가 더 깔끔하고, `method chaining`을 사용할 수 
+있는 등 장점이 많았기 때문이다.
 
 Swift 에서도 가능하다!!
 
@@ -168,7 +172,8 @@ Swift 에서도 가능하다!!
 collectionVariable.enumerated().forEach { (offset: Int, element: Base.Element) in  }
 ```
 
-`collection` 변수에 `.forEach`를 붙이기 전에 `.enumerated()`를 해주고, `forEach` 뒤에 오는 `closure` 에서는 `parameters`에 `type 명시를 반드시` 해줘야한다.
+`collection` 변수에 `.forEach`를 붙이기 전에 `.enumerated()`를 해주고, forEach 뒤에 오는 closure 에서 parameters 에 `
+`(index: Int, value: ValueType)`을 받아 처리할 수 있다.
 
 ```swift
 import UIKit

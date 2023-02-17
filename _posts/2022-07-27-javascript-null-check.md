@@ -73,7 +73,8 @@ _**`&&` 앞위 순서는 바뀌어도 결과에 영향을 미치지는 않지만
 
 #### 3. Logical NOT Operator(`!`)
 
-![logical-not](/assets/images/posts/2022-07-27-javascript-null-check/logical-not.png)
+![logical-not](/assets/images/posts/2022-07-27-javascript-null-check/logical-not.png){: width="600"}
+
 개인적으로 null, not null check 시 유용하게 사용하고 있다!! 👏👏👏
 위 1, 2와 달리 동등비교는 아니고 null, not null 체크 시에 활용하기 좋은 방법이다.
 동등 비교시에는 null, undefined, NaN, ''의 경우의 수를 각각 체크해야했지만 `!`를 사용하면 그럴 필요가 없다.
@@ -107,7 +108,8 @@ const runWhenNotEmpty = input => {
 
 #### 4. Nullish Coalescing Operator(`??`)
 
-![nullish-coalescing](/assets/images/posts/2022-07-27-javascript-null-check/nullish-coalescing.png)
+![nullish-coalescing](/assets/images/posts/2022-07-27-javascript-null-check/nullish-coalescing.png){: width="600"}
+
 <span style="color: red">
 > <span style="color: red">1. {} : Uncaught SyntaxError: Unexpected token '??'</span>  
 > <span style="color: red">2.1 function(){} : 'Anonymous function' 일 경우 >> Uncaught SyntaxError: Function statements require a function name</span>  
@@ -122,13 +124,14 @@ const runWhenNotEmpty = input => {
 const nullCheck = (input = 'default') => console.log(input);
 ```
 
-![default-function-parameter](/assets/images/posts/2022-07-27-javascript-null-check/default-function-parameter.png)
+![default-function-parameter](/assets/images/posts/2022-07-27-javascript-null-check/default-function-parameter.png){: width="600"}
+
 이름 그대로 `parameter`에 `default value`를 지정하는 것이다.
 함수 block scope 에 들어가기도 전에 에러를 발생하지 않는 유연함은 있지만 비슷해 보이는 `??`와 달리 `undefined`일 때만 `default value`를 반환한다는 것에 유의하자. 👀
 
 #### 6. OR Operator(`||`)
 
-![or-operator](/assets/images/posts/2022-07-27-javascript-null-check/or-operator.png)
+![or-operator](/assets/images/posts/2022-07-27-javascript-null-check/or-operator.png){: width="600"}
 
 `??` 보다는 `!`를 사용하는 것과 비슷하다. `!`와 `Ternary Operator`를 결합해 사용하면 다음과 같다.
 
@@ -138,8 +141,10 @@ let value;
 ```
 
 ### Summary
+
 ![triple-equal-simple](/assets/images/posts/2022-07-27-javascript-null-check/triple-equal-simple.png)
 ![summary](/assets/images/posts/2022-07-27-javascript-null-check/summary.png)
+
 모든 것을 다 기억하긴 어려우니 이것만 기억하자. 🤓🤓
 
 Numbers: [javascript null check](/assets/images/posts/2022-07-27-javascript-null-check/javascript%20null%20check.numbers)<br>
