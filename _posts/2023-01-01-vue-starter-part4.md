@@ -39,7 +39,7 @@ tags: [javascript, vue, vue js, vue.js, props, parent component, child component
 > </template>
 > ```
 >
-> 3 ) `Dynamic Props`를 전달하리 위해 `v-bind` 또는 `:`를 사용한다.
+> 3 ) `Dynamic Props`를 전달하기 위해 `v-bind` 또는 `:`를 사용한다.
 > 
 > ```vue
 > <template>
@@ -49,8 +49,8 @@ tags: [javascript, vue, vue js, vue.js, props, parent component, child component
 
 - Child Component
 
-> 1 ) 부모 컴포넌트가 전달한 `Props`는 `props` property 에 `Object`를 매핑해 받는다. 이때
-> `props`의 key 는 `JavaScript`의 식별자 규칙에 맞게 `camelCase`를 사용한다.
+> 1 ) 부모 컴포넌트가 전달한 데이터는 `props` property 에 `Object`를 매핑해 받는다. 
+> 이때 이름은 JavaScript 의 식별자 규칙에 맞게 `camelCase`를 사용한다.
 >
 > ```vue
 > <script>
@@ -62,8 +62,8 @@ tags: [javascript, vue, vue js, vue.js, props, parent component, child component
 > </script>
 > ```
 > 
-> 2 ) `props`는 `TypeScript`를 사용하지 않고도 `Data Type`을 이용할 수 있게 도와준다. 자세한
-> `Type` 체크 및 `Validation`은 [5. Prop Validation](#h-5-prop-validation) 를 참고한다.
+> 2 ) `props`는 `TypeScript`를 사용하지 않고도 부모에게 전달 받은 `Data Type`을 지정할 수 있게 도와준다. 
+> 자세한 *Type 체크 및 Validation* 은 [5. Prop Validation](#h-5-prop-validation) 를 참고한다.
 
 #### 2. Static Props
 
