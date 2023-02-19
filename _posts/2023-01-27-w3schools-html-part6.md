@@ -139,6 +139,162 @@ URL 은 오직 `ASCII character-set`만 표현할 수 있다. 따라서 *ASCII c
 
 ### 32. XHTML 👩‍💻
 
+#### 1. What is XHTML?
+
+`EXtensible HyperText Markup Language`은 `XML 기반의 더 엄격한 HTML`버전이다. `XML application`으로 정의된 *HTML* 로
+주요 브라우저는 모두 이를 지원한다.
+
+*XHTML* 은 *XML* 과 같은 다른 포맷과 함께 작업할 수 있도록 *HTML* 을 보다 확장 가능하고 유연하게 만들기 위해 개발되었다. 그리고 
+브라우저는 *HTML* 을 느슨하게 다룸으로 일부 오류가 있어도 이를 무시하고 정상적으로 렌더링한다. 반면, *XHTML* *XML* 포맷과의 호환을 위해 
+오류를 더 엄격하게 다룬다.
+
+다음은 XHTML 의 특징이다.
+
+- `<!DOCTYPE>`을 반드시 작성해야한다.
+- `<html xmlns="http://www.w3.org/1999/xhtml">`과 같이 `<html>` element 에 `xmlns`(XML Name Space)를 반드시 작성해야한다.
+- `<html>`, `<head>`, `<title>`, `<body>` 모두 반드시 작성해야한다.
+- `element`는 반드시 닫혀야한다(`closed`).
+- `element`는 반드시 열린 순서의 역순으로(LIFO) 닫혀 완벽하게 `nested` 구조를 취해야한다.
+- `element`는 반드시 `소문자`로 작성해야한다.
+- `attribute name`은 반드시 `소문자`로 작성해야한다.
+- `attribute value`는 반드시 `"`로 감싸야한다.
+- `attribute value`는 반드시 `작성`해야한다.
+
+#### 2. Requirements of XHTML. 
+
+- `<!DOCTYPE>`
+- `<html xmlns="">`
+- `<html>`, `<head>`, `<title>`, `<body>`
+
+위 3가지의 기본 의무조건을 반드시 작성해야한다.
+
+```html
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Title of document</title>
+</head>
+<body>
+
+  some content here... 
+
+</body>
+</html>
+```
+
+#### 3. Elements Must Always be Closed
+
+- Correct
+
+```html
+<p>This is a paragraph</p>
+<p>This is another paragraph</p>
+```
+
+- Wrong
+
+```html
+<p>This is a paragraph
+<p>This is another paragraph
+```
+
+#### 4. Empty Elements Must Always be Closed
+
+XHTML 은 `<br>`, `<hr>`과 같이 종료 태크가 없는 `Empty Elements` 역시 `공백 + /` 를 이용해 반드시 닫아줘야한다.
+
+- Correct
+
+```html
+A break: <br />
+A horizontal rule: <hr />
+An image: <img src="happy.gif" alt="Happy face" />
+```
+
+- Wrong
+
+```html
+A break: <br>
+A horizontal rule: <hr>
+An image: <img src="happy.gif" alt="Happy face">
+```
+
+#### 5. Elements Must be Properly Nested
+
+- Correct
+
+```html
+<b><i>Some text</i></b>
+```
+
+- Wrong
+
+```html
+<b><i>Some text</b></i>
+```
+
+#### 6. Elements Must be in Lowercase
+
+- Correct
+
+```html
+<body>
+<p>This is a paragraph</p>
+</body>
+```
+
+- Wrong
+
+```html
+<BODY>
+<P>This is a paragraph</P>
+</BODY>
+```
+
+#### 7. Attribute Names Must be in Lowercase
+
+- Correct
+
+```html
+<a href="https://www.w3schools.com/html/">Visit our HTML tutorial</a>
+```
+
+- Wrong
+
+```html
+<a HREF="https://www.w3schools.com/html/">Visit our HTML tutorial</a>
+```
+
+#### 8. Attribute Values Must be Quoted
+
+- Correct
+
+```html
+<a href="https://www.w3schools.com/html/">Visit our HTML tutorial</a>
+```
+
+- Wrong
+
+```html
+<a href=https://www.w3schools.com/html/>Visit our HTML tutorial</a>
+```
+
+#### 9. XHTML Attribute Minimization is Forbidden
+
+- Correct
+
+```html
+<input type="checkbox" name="vehicle" value="car" checked="checked" />
+<input type="text" name="lastname" disabled="disabled" />
+```
+
+- Wrong
+
+```html
+<input type="checkbox" name="vehicle" value="car" checked />
+<input type="text" name="lastname" disabled />
+```
+
 
 <br><br>
 
