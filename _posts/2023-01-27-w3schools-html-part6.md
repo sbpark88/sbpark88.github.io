@@ -80,6 +80,19 @@ HTML 을 사용할 때 `Character Entities`를 사용하는 데는 2가지 이�
 
 ### 30. HTML Emojis 👩‍💻
 
+`UTF-8 Emojis`를 사용하려면 제대로 표현되도록 document 의 *character set* 을 지정해주어야한다.
+
+```html
+<meta charset="UTF-8">
+```
+
+> 최신 브라우저는 미지정 시 `UTF-8`을 **default character set** 으로 설정한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="jOvbYKg" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/jOvbYKg">
+  HTML Character Entities</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
 
 ---
 
