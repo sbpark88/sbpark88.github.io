@@ -113,7 +113,7 @@ export default {
 ```
 {% endraw %}
 
-![Nested Component Props][Nested Component Props]
+![Nested Component Props][Nested Component Props]{: width="800"}
 
 [Nested Component Props]:/assets/images/posts/2023-01-01-vue-starter-part4/nested-component-props.png
 
@@ -158,8 +158,8 @@ export default {
 </template>
 ```
 
-> `Static Props`는 `String`만 전달할 수 있다. 따라서 `Number`, `Boolean`, `Array`, 
-> `Object`, `Property of Object`와 같은 데이터는 모두 `Dynamic Props`를 사용해 전달해야한다.
+> `Static Props`는 `String`만 전달할 수 있다. 따라서 **Number**, **Boolean**, **Array**, **Object**, 
+> **Property of Object**와 같은 데이터는 모두 `Dynamic Props`를 사용해 전달해야한다.
 
 #### 4. One-way Data Flow
 
@@ -296,8 +296,8 @@ DOM 에 접근해 `click` 이벤트를 호출하거나, 자식 컴포넌트 내�
 호출 요청이 있는지 `listening`하고 있고, 자식 컴포넌트에서 부모 컴포넌트에서 제공된 함수를 호출하는 요청과 함깨 `arguments`를 
 전달해 올리는 `emitting`이 발생됨으로 인해 자식 컴포넌트에서 부모 컴포넌트의 함수를 호출하는 것처럼 보이는 것일 뿐이다.
 
-> `Props`와 마찬가지로, `Parent Component`에서 `Component Tags`에 `attribute` 형태로 등록되는 `v-bind`는 모두 
-> `kebab-case`를 사용하고, `Child Componenet`에서 이 `binding` 변수를 지정할 때는 모두 `camelCase`를 사용한다.
+> `Props`와 마찬가지로, **Parent Component**에서 **Component Tags**에 **attribute** 형태로 등록되는 `v-bind`는 
+> 모두 `kebab-case`를 사용하고, `Child Componenet`에서 이것을 **binding** 할 변수는 모두 `camelCase`를 사용한다.
 
 #### 3. Computed Properties (Child to Parent)
 
@@ -431,7 +431,7 @@ export default {
 일관된 디자인은 `UI/UX`에 매우 중요하다. 팝업창을 예로 들면, 동일한 팝업이라도 개발자가 매번 직접 구현할 경우 
 실수든 서로 다른 개발자에 의해 개발자의 주관이 섞이게 되든 다른 부분이 나타나게 된다.
 
-공통화 및 재사용을 위해 `Vue`는 `Componenets`를 이용한다. 하지만 단순한 모달창, 타이틀과 같은 컴포넌트는 
+공통화 및 재사용을 위해 *Vue* 는 `Componenets`를 이용한다. 하지만 단순한 모달창, 타이틀과 같은 컴포넌트는 
 부모 자식간 `props`를 이용해 데이터를 전달하고 전부 구현해야하는 불편함이 있다. 이런 공통 컴포넌트 내에 `Slots`을 이용하면 
 `HTML`을 작성해 그대로 주입하는 것이 가능해 가벼운 레이아웃을 쉽게 재사용 할 수 있다.
 <br>
@@ -459,7 +459,7 @@ export default {
 
 - /src/components/common/SlotPageTitle.vue
 
-이것을 `Slots`으로 바꾸면 다음과 같다.
+이것을 `Slot`으로 바꾸면 다음과 같다.
 
 {% raw %}
 ```vue
@@ -477,10 +477,10 @@ export default {
 
 <br>
 
-부모 컴포넌트 역시 단순 컴포넌트를 재사용 할 때와 `Slots`을 사용한 컴포넌트를 재사용 할 때 코드는 다음과 같이 
+부모 컴포넌트 역시 단순 컴포넌트를 재사용 할 때와 `Slot`을 사용한 컴포넌트를 재사용 할 때 코드는 다음과 같이 
 변경된다.
 
-- /src/views/AboutView.vue (without Slots)
+- /src/views/AboutView.vue (with Ordinary Component)
 
 {% raw %}
 ```vue
@@ -501,7 +501,7 @@ export default {
 ```
 {% endraw %}
 
-- /src/views/AboutView.vue (with Slots)
+- /src/views/AboutView.vue (with Slot Component)
 
 {% raw %}
 ```vue
@@ -522,16 +522,15 @@ export default {
 ```
 {% endraw %}
 
-![Nested Component Slots][Nested Component Props]
+![Nested Component Slots][Nested Component Props]{: width="800"}
 
 #### 2. Named Slots
 
-단일 `Slot`이 아닌 경우 구분하기 위해 `name`이 필요하다. 각 `name`은 `template` element 를 이용해 
-삽입하고, `v-slot` attribute 를 이용해 연결할 수 있다.   
-여러 `Slots` 중 하나의 `Slot`에 한해 `name`을 생략할 수 있는데, 이 경우 `v-slot:default`을 이용해 
-연결한다.
+단일 `Slot 이 아닌 경우 구분하기 위해 'name' 이 필요`하다. 각 *name* 은 *element* 를 이용해 삽입하고, 
+`v-slot` attribute 를 이용해 연결할 수 있다.   
+여러 *Slots* 중 `하나의 Slot 에 한해 name 을 생략`할 수 있는데, 이 경우 `v-slot:default`을 이용해 연결한다.
 
-`header`, `main`, `footer`로 구성된 팝업 모달 레이아웃을 `Slot`으로 만들어 적용해보자.
+*header*, *main*, *footer* 로 구성된 팝업 모달 레이아웃을 `Slot`으로 만들어 적용해보자.
 
 - /src/components/common/SlotModalLayout.vue
 
@@ -656,7 +655,7 @@ export default {
 ```
 {% endraw %}
 
-![Nested Component Slots](/assets/images/posts/2023-01-01-vue-starter-part4/nested-component-with-slots.png)
+![Nested Component Slots](/assets/images/posts/2023-01-01-vue-starter-part4/nested-component-with-slots.png){: width="800"}
 
 #### 3. Slot Examples
 
@@ -724,7 +723,7 @@ export default {
 ```
 {% endraw %}
 
-![Nested Component Slots 2](/assets/images/posts/2023-01-01-vue-starter-part4/nested-component-slot-fancy-button.png)
+![Nested Component Slots 2](/assets/images/posts/2023-01-01-vue-starter-part4/nested-component-slot-fancy-button.png){: width="800"}
 
 ---
 

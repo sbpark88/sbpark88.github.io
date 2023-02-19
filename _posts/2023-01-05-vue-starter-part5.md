@@ -12,19 +12,17 @@ tags: [javascript, vue, vue js, vue.js, composition api, options api, mixins, pl
 
 `Composition API`는 `TypeScript`의 도입과 함께 `Vue 3`의 가장 큰 특징 중 하나다.
 
-기존 `Vue 2`에서는 `Options API`를 이용해 컴포넌트와 `lifecycle`을 관리하고, `mixins`를 통해서 코드를 재사용 할 수 
-있었다. 하지만 이는 프로젝트 규모가 커지며 재사용이 어려운 `Options API`는 large tree 컴포넌트에서 `data`, `computed`, 
-`watch`, `methods` 등을 관리하고 코드를 추적하는 것이 어려워지는 문제가 발생했고, 코드 재사용을 위해 사용한 `mixins`의 
-오버라이딩 문제가 발생해 다중 `minxins` 사용할 경우 코드 관리가 어려워지는 문제점이 발생했다.
+기존 `Vue 2`에서는 `Options API`를 이용해 *컴포넌트*와 *lifecycle* 을 관리하고, `mixins`를 통해서 코드를 재사용 할 수 
+있었다. 하지만 이는 프로젝트 규모가 커지며 재사용이 어려운 *Options API* 는 large tree 컴포넌트에서 data, computed, 
+watch, methods 등을 관리하고 코드를 추적하는 것이 어려워지는 문제가 발생했고, 코드 재사용을 위해 사용한 `mixins 의 
+오버라이딩 문제가 발생`해 다중 mixins 사용할 경우 코드 관리가 어려워지는 문제점이 발생했다.
 
-이를 해결하기 위해 `Composition API`는 함수 기반의 `API`로 코드를 유연하게 구성하여 `API`를 호출하듯 재사용 가능하게 만들어졌다. 
+이를 해결하기 위해 *Composition API* 는 `함수 기반의 API`로 코드를 유연하게 구성하여 API 를 호출하듯 재사용 가능하게 만들어졌다. 
 이것은 `React 16.8`에서 추가된 `Hooks`와 비슷하게 컴포넌트와 비즈니스 로직을 분리해 관리할 수 있게 해준다. 
 Vue 공식 문서의 가이드 [TypeScript with Composition API](https://vuejs.org/guide/typescript/composition-api.html) 
-에 따르면 `Composition API`는 `TypeScript`와 함께 사용하는 것을 권장하는 것을 알 수 있으며, `Vue 3`에서도 기존의 
-`Options API`를 `TypeScript`와 함께 사용할 수 있으나 
-[TypeScript with Options API](https://vuejs.org/guide/typescript/options-api.html) 에 따르면 `Vue 3`에서 
-`TypeScript`와 `Options API`를 사용하기보다는 `Composition API`를 사용할 것을 권장하고 있다.
-<br>
+에 따르면 *Vue 3* 에서 기존의 Options API 를 TypeScript 와 함께 사용하는 것은 가능하나  
+[TypeScript with Options API](https://vuejs.org/guide/typescript/options-api.html) 
+`Composition API 와 TypeScript 는 함께 사용하는 것을 권장`하는 것을 알 수 있다.
 
 - /src/views/CalculatorOptionsAPI.vue
 
@@ -238,11 +236,11 @@ export default {
 <br>
 
 <span style="font-weight:bold;color:rgba(166, 42, 254, 1);">
-  `calculator` 와 연관된 부분을 `setup` 에서 완전히 분리시키기 위해 `plusNumbers`를 `calculator` 안에 넣어보자.  
+  calculator 와 연관된 부분을 `setup` 에서 완전히 분리시키기 위해 plusNumbers 를 calculator 안에 넣어보자.  
 </span>
 
-단, 이때 `product`와 같이 `computed`를 이용해 내부에서 로직을 정의하는 것이 아니고, 또 다시 외부에서 모듈을 가져오는 
-세부 모듈화 개념을 가정해 `sumTwoNumbers`는 `calculator` 외부에서 가져와 이용하도록 코드를 작성해보자.
+단, 이때 *product* 와 같이 `computed`를 이용해 내부에서 로직을 정의하는 것이 아니고, 또 다시 외부에서 모듈을 가져오는 
+세부 모듈화 개념을 가정해 *sumTwoNumbers* 는 *calculator* 외부에서 가져와 이용하도록 코드를 작성해보자.
 
 {% raw %}
 ```vue
@@ -297,7 +295,7 @@ export default {
 
 #### 3. Modularize into Separate Files
 
-이제 `calculator`와 연관된 비즈니스 로직이 완전히 분리되었다. 그렇다면 이 코드는 외부 파일로 완전히 분리시켜 다음과 같이 
+이제 *calculator* 와 연관된 비즈니스 로직이 완전히 분리되었다. 그렇다면 이 코드는 외부 파일로 완전히 분리시켜 다음과 같이 
 별도의 파일로 모듈화 시킬 수 있다.
 
 - /src/utils/calculator.js
@@ -387,13 +385,13 @@ export default {
 |  renderTracked  |  onRenderTracked  |
 | renderTriggered | onRenderTriggered |
 
-`beforeCreate`, `created` 와 일치하는 `Hooks`는 `Composition API`에는 존재하지 않는다. 대신 `setup`을 사용하며, 나머지 
-`Hooks`는 모두 `setup` 안에서 `Composition API`에서 제공하는 메서드를 이용해 정의한다.
+*beforeCreate*, *created* 와 일치하는 *Hooks* 는 *Composition API* 에는 존재하지 않는다. 대신 `setup`을 사용하며, 
+나머지 *Hooks* 는 모두 *setup* 안에서 `Composition API 에서 제공하는 메서드를 이용해 정의`한다.
 
 [Composition API: Lifecycle Hooks][Composition API: Lifecycle Hooks]
 
 <br>
-`Composition API`에서 `onMounted`를 이용해 콘솔에 메시지를 출력하도록 해보자.
+*Composition API* 에서 `onMounted`를 이용해 콘솔에 메시지를 출력하도록 해보자.
 
 {% raw %}
 ```vue
@@ -453,7 +451,7 @@ export default {
 
 ### 19. Provide/Inject in Composition API 👩‍💻
 
-`Composition API`에서 `Provide/Inject`를 사용하려면 `Hooks`와 마찬가지로 `vue`에서 import 해야한다.
+Composition API 에서 `Provide/Inject`를 사용하려면 *Hooks 와 마찬가지로 vue 에서 import* 해야한다.
 
 __1 ) Provide__
 
@@ -603,14 +601,14 @@ export default {
 
 #### 2. Prefer Composition API
 
-[mixins in Composition API][mixins in Composition API] 를 보면 `Vue 3`에서 여전히 `mixins`를 지원하지만 컴포넌트간
-코드 재사용을 위해서는 `Composition API`를 선호하라고 되어있다.
+[mixins in Composition API][mixins in Composition API] 를 보면 `Vue 3`에서 *여전히 mixins 를 지원하지만* 
+`컴포넌트간 코드 재사용을 위해서는 Composition API 를 선호`하라고 되어있다.
 
-이는 `mixins`가 `Options API`의 `Lifecycle Hooks`를 공통화 할 수 있어 각 컴포넌트마다 동일한 `Hooks`를 작성하지 않아도 
-된다는 장점은 있지만 프로젝트 규모가 커지며 `Nested Components` 구조에서 `Overriding`되는 문제가 발생하기 때문이다. 
-따라서 `mixins`는 `Vue 2`까지만 사용하고 `Vue 3`에서는 기존 `Vue 2` 프로젝트에서 마이그레이션 된 `mixins`를 사용한 모듈은 
-`Composition API`를 이용하도록 변경되어야 할 것이다.  
-(`Lifecycle Hooks`의 공통 로직의 강제 주입은 `TypeScript`로 넘어가 `Interfaces`를 사용하면 해결될 것으로 보인다)
+이는 `mixins`가 Options API 의 Lifecycle Hooks 를 공통화 할 수 있어 각 컴포넌트마다 동일한 Hooks 를 작성하지 않아도 
+된다는 장점은 있지만 프로젝트 규모가 커지며 `Nested Components 구조에서 Overriding 되는 문제가 발생`하기 때문이다. 
+따라서 *mixins* 는 **Vue 2** 까지만 사용하고, `Vue 3`에서는 기존 *Vue 2* 프로젝트에서 마이그레이션 된 *mixins* 를 사용한 
+모듈은 `Composition API 를 이용`하도록 변경되어야 할 것이다.  
+(*Lifecycle Hooks* 의 공통 로직의 강제 주입은 *TypeScript* 로 넘어가 *Interfaces* 를 사용하면 해결될 것으로 보인다)
 
 #### 3. Axios Examples with Composition API 
 
@@ -660,8 +658,8 @@ export { $api, $get, $post, $put, $patch, $delete }
 ```
 
 > 메서드 이름 앞에 `$`를 붙이는 이유는 특정한 기능이 있는 것은 아니고 다음과 같다.
-> - 컴포넌트에서 혹시라도 동일한 이름의 함수가 존재할 경우 `Overriding` 되는 것을 방지.
-> - 컴포넌트가 아닌 공통화 모듈에서 온 메서드라는 것을 시각적으로 표현해 코드 분석을 용이하게 함.
+> - 컴포넌트에서 **혹시라도 동일한 이름의 함수가 존재할 경우 `Overriding` 되는 것을 방지**.
+> - 컴포넌트가 아닌 **공통화 모듈에서 온 메서드라는 것을 시각적으로 표현**해 코드 분석을 용이하게 함.
 
 - /src/dto/Product.js
 
@@ -814,24 +812,25 @@ th {
 ![Axios with Composition API](/assets/images/posts/2023-01-05-vue-starter-part5/composition-api-axios.png)
 
 > 단, `ref`, `toRef`, `toRefs`를 사용하면 `reactive`와 달리 `DTO`를 사용한 타입 추적이 되지 않아 코드 자동완성과 같은 것이 
-> 작동하지 않는다. 따라서 가급적이면 `DTO`와 같이 타입을 기억할 필요가 있는 곳은 `reactive`를 사용하는 것이 좋을 것으로 보인다.
+> 잘 작동하지 않는다. 따라서 가급적이면 `DTO`와 같이 타입을 기억할 필요가 있는 곳은 `reactive`를 사용하는 것이 좋을 것으로 보인다.
 
 ---
 
 ### 21. Custom Directives 👩‍💻
 
-`Vue`는 `v-model`, `v-show`와 같은 미리 정의된 `Built-in Directives` 외에 `Custom Directives`를 사용할 수 있다.
+*Vue* 는 *v-model*, *v-show* 와 같은 미리 정의된 `Built-in Directives` 외에 `Custom Directives`를 사용할 수 있다.
 
-예를 들어 여러 페이지로 나뉜 회원가입 페이지에서 각 페이지마다 첫 `input`에 자동으로 `focus` 시키는 경우를 가정해보자. 
-`Vanilla JS`에서는 `window` 또는 `document`에 `onload()` 또는 `addEventListener('load', () => {})`와 같은 
-코드에 특정 `HTML`의 `attribute`를 찾아 `focus()`를 실행시키도록 하는 코드를 별도의 `JavaScript` 파일로 만들어 모듈화 하고, 
-각 `HTML` 페이지에는 해당 `attribute`를 추가해줌으로써 공통화 처리할 수 있다.  
-그리고 `Vue`는 이 과정을 `Vue`과 좀 더 세분화해 관리한다. `Vue` Instance 를 생성할 때 `Custom Directives`를 만들어 지정하고 
-각 컴포넌트에서는 해당 `Directives`를 추가하기만 하면 `focus`되도록 할 수 있다.
+예를 들어 여러 페이지로 나뉜 회원가입 페이지에서 *각 페이지마다 첫 'input' 에 자동으로 **focus** 시키는 경우를 가정해보자. 
+`Vanilla JS`에서는 *window* 또는 *document* 에 `onload()` 또는 `addEventListener('load', () => {})`와 같은 
+코드에 *특정 HTML 의 attribute 를 찾아* `focus()`를 실행시키도록 하는 코드를 별도의 JavaScript 파일로 만들어 모듈화 하고, 
+`각 HTML 페이지에는 해당 attribute 를 추가`해줌으로써 **focus 되도록 공통화 처리**를 할 수 있다.  
+
+**Vue** 는 이 과정을 *Vue Instance* 를 생성할 때 `Custom Directives`를 만들어 지정하고 
+`각 컴포넌트에서는 해당 Directives 를 추가`하기만 하면 **focus 되도록 공통화 처리**를 할 수 있다.
 
 #### 1. Directive Hooks
 
-`Directive Hooks`에서 사용할 수 있는 `Hooks`의 종류는 다음과 같다.
+*Directive Hooks* 에서 사용할 수 있는 *Hooks* 의 종류는 다음과 같다.
 
 ```javascript
 const myDirective = {
@@ -876,7 +875,7 @@ const myDirective = {
 >
 > `prevNode`: the VNode representing the bound element from the previous render. Only available in the `beforeUpdate` and `updated` hooks.
 
-예를 들어 다음과 같은 `Custom Directive`가 있다고 가정해보자.
+예를 들어 다음과 같은 *Custom Directive* 가 있다고 가정해보자.
 
 ```vue
 <template>
@@ -884,7 +883,7 @@ const myDirective = {
 </template>
 ```
 
-이때 `binding` argument 의 `Object`는 다음과 같을 것이다.
+이때 `binding` argument 의 *Object* 는 다음과 같을 것이다.
 
 ```javascript
 {
@@ -895,8 +894,8 @@ const myDirective = {
 }
 ```
 
-또한 `Custom Directives` 역시 `Built-in Diriectives`와 마찬가지로 `attribute`와 `value`를 이용한 `Dynamic` 처리가 
-가능하다.
+또한 `Custom Directives` 역시 *Built-in Directives* 와 마찬가지로 *attribute* 와 *value* 를 이용한 
+`Dynamic 처리가 가능`하다.
 
 ```vue
 <template>
@@ -930,14 +929,14 @@ createApp(App)
   .mount('#app')
 ```
 
-> - `v-focus` directive 의 앞 `v-`는 `HTML`의 `attributes`에 이것은 `Vue`에 의해 관리되는 `Directives`라는 것을 인식하도록 
->    붙여주는 `prefix`로 `Custom Directives`를 만들때 `v-`는 제외하고 만들어야한다.
+> - `v-focus` directive 의 앞 `v-`는 **HTML 의 attributes 에 이것은 Vue 에 의해 관리되는 Directives 라는 것을 
+>   인식하도록 붙여주는 `prefix`로**, **Custom Directives 를 만들때 그 이름은 `v-`는 제외**하고 만들어야한다.
 
 #### 4. Function Shorthand
 
-대부분의 `Directives`는 기본적으로 `mounted`와 `updated` 일 때 동일하게 작동한다. 만약, `mounted`와 `updated` `Hooks`의 
-동작이 동일하며, 다른 `Hooks`이 필요 없을 경우 다른 설정값과 마찬가지로 `APP`의 `mount()` 메서드를 분리시킨 후 `Custom Directives`를 
-다음과 같이 함수형으로 작성할 수 있다.
+대부분의 `Directives 는 기본적으로 mounted 와 updated 일 때 동일하게 작동`한다. 만약, *mounted 와 updated Hooks 의 
+동작이 동일하며, 다른 Hooks 이 필요 없을 경우* 다른 설정값과 마찬가지로 *APP 의 `mount()` 메서드를 분리시킨 후 
+Custom Directives 를 다음과 같이 `함수형으로 작성`할 수 있다*.
 
 ```javascript
 import { createApp } from 'vue'
@@ -983,8 +982,9 @@ createApp(App)
 
 #### 5. Create Local Custom Directives
 
-`Custom Directives`를 모두 `Global`로 등록할 경우 불필요하게 너무 많은 `Directives`가 생겨나게된다 따라서, 각 컴포넌트에서만 사용할 
-`Custom Directives`가 필요할 경우 컴포넌트 내에서 등록해 사용할 수 있다. 위 `v-focus` directive 를 `Local`로 추가 등록해보자.
+***Custom Directives 를 모두 Global 로 등록할 경우*** 너무 많은 Directives 가 생겨나고 `전역 오염`이 발생한다. 따라서, 
+각 컴포넌트에서만 사용할 Custom Directives 가 필요할 경우 `컴포넌트 내에서 등록해 사용`할 수 있다. 위 `v-focus` directive 
+를 `컴포넌트 내에서 Local 로 등록`해보자.
 
 ```vue
 <template>
@@ -1042,7 +1042,7 @@ export default {
 
 이 부분에 해당한다.
 
-#### 6. Use Custom Directives
+#### 7. Use Custom Directives
 
 ```vue
 <template>
@@ -1053,8 +1053,8 @@ export default {
 
 ![Custom Directives Focus On](/assets/images/posts/2023-01-05-vue-starter-part5/custom-directives.png)
 
-`Custom Directives`로 `focus`와 `pin`을 만들었다. 사용할 때는 `Vue`가 `Directives`로 인식할 수 있도록 `prefix`로 
-`v-`를 붙여 `v-focus`, `v-pin`으로 사용한다.
+*Custom Directives* 로 `focus`와 `pin`을 만들었다. 사용할 때는 *Vue 가  Directives 로 인식할 수 있도록 prefix(`v-`) 
+를 붙여 `v-focus`, `v-pin`으로 사용한다.
 
 ---
 
@@ -1064,11 +1064,11 @@ export default {
 
 `NPM` 패지지 매니저를 사용해 공개된 라이브러리를 사용하는 것 외에 사용자가 직접 만들어 사용하는 것 역시 가능하다.
 
-`Plugins`이란건 위에서 모듈화를 위해 만든 `api.js`나 `calculator.js`와 같은 `Utilities`와 달리 `App-level`에서 
-작동하는 기능이다.
+`Plugins`이란건 위에서 *모듈화를 위해 만든 api.js 나 calculator.js 와 같은* `Utilities`와 달리, `App-level`*에서 
+작동하는 기능*이다.
 
-`Plugins`는 `install(app, options)` 메서드를 노출시키는 방법으로 정의된다. `install(app, options)` 메서드는 
-기본적으로 `App Instance`를 전달받으며, `app.use('plugins', 'options')`를 통해 `options`를 전달받는다. 
+**Plugins**는 `install(app, options)` **메서드를 노출시키는 방법으로 정의**된다. *install(app, options) 메서드는 
+기본적으로 `App Instance`를 전달*받으며, `app.use('plugins', 'options')`를 통해 `options`를 *전달*받는다. 
 
 - Plugins 를 정의
 
@@ -1094,7 +1094,7 @@ app.use(myPlugin, {
 
 <br>
 
-> `Plugins`를 만드는 것에 엄격히 정의된 것이 존재하지는 않는다. 하지만 일반적으로 유용한 플러그인의 시나리오는 다음과 같다.
+> *Plugins* 를 만드는 것에 엄격히 정의된 것이 존재하지는 않는다. 하지만 일반적으로 유용한 플러그인의 시나리오는 다음과 같다.
 > 
 > 1. 하나 이상의 `Global Components` 또는 `Custom Directives`를 `app.component()` 또는 `app.directive()` 
 >    를 사용해 등록한다.
@@ -1179,17 +1179,21 @@ export default {
 ```
 {% endraw %}
 
+> `app.config.globalProperties.$translate`을 보면 `globalProperties`에 `$translate`라는 이름으로 함수를 
+> 를 등록한 것을 볼 수 있다. 따라서 앱 전역에서 별도의 *import* 없이 `$translate`를 사용할 수 있다.
+
 ![Custom Plugins i18n][Custom Plugins i18n]
 
 #### 3. Provide/Inject with Plugins
 
-`Plugins`는 `App-level`에서 작동하는 것을 위해 만든다고 했다. 따라서 위에서 `app.use()`를 이용해 앱 전역에 
-사용할 수 있도록 `Custom Plugins`를 `Global`로 등록했기 때문에 어떤 컴포넌트에서든 `globalProperties`에 등록된 
-`$translate`라는 함수를 별도의 `import` 없이 사용할 수 있다(e.g. `$translate('greetings.en')`).
+*Plugins* 는 `App-level 에서 작동`하는 것을 위해 만든다고 했다. 따라서 위에서 `app.use()`를 이용해 앱 전역에 
+사용할 수 있도록 *Custom Plugins* 를 `Global 로 등록`했기 때문에 어떤 컴포넌트에서든 *globalProperties* 에 등록된 
+`$translate`라는 함수를 별도의 *import 없이 사용*할 수 있었다(e.g. `$translate('greetings.en')`).
 
-그리고 `globalProperties`를 사용하는 것 외 다른 방법을 통해서도 컴포넌트 전역에 사용할 수 있는 방법이 있다. 바로 
-[Provide/Inject](/javascript/2023/01/01/vue-starter-part4.html#h-16-nested-component---provideinject-)
-를 사용하는 것이다.
+[Create Local Custom Directives](#h-5-create-local-custom-directives) 에서 본 것처럼
+`전역 오염`을 피하기 위해 일부러 *Local* 로 등록하는 경우가 존재했다. *Plugins* 역시 가능한데, `globalProperties`에 등록하는 
+대신 [Provide/Inject](/javascript/2023/01/01/vue-starter-part4.html#h-16-nested-component---provideinject-)
+를 사용하는 것이다.  
 
 - /src/plugins/i18n.js
 
@@ -1210,8 +1214,8 @@ export default {
 }
 ```
 
-이제 `Custom Plugins`는 `app.use()`설정에과 함께 `Vue` Instance 가 생성될 때 자기 자신을 `Provide` 하게 된다. 
-따라서 각 컴포넌트에서는 `Inject`를 통해 주입 후 사용이 가능하다.
+이제 *Custom Plugins 는 *Vue Instance* 를 생성할 때 `app.provide()`를 이용해 자신을 전역으로 등록하고, 사용할 컴포넌트에서 
+이를 `Inject` 해 주입 후 사용하게된다.
 
 - /src/views/CustomPlugins.vue
 
