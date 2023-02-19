@@ -98,7 +98,42 @@ HTML 을 사용할 때 `Character Entities`를 사용하는 데는 2가지 이�
 
 ### 31. HTML URL Encode 👩‍💻
 
+#### 1. Uniform Resource Locator
 
+`URL`은 `w3schools.com` 또는 `192.68.20.50`과 같은 주소를 표현하며 다음과 같이 구성되어진다.
+
+`https://www.w3schools.com/html/default.asp`
+
+- **scheme** : protocol 을 나타내며 웹에서는 주로 http 또는 https 를 사용하며 위 경우 `https`에 해당한다.
+- **prefix** : domain prefix 로 *http* 또는 *https* 의 default prefix 는 위에서 볼 수 있듯이 `www`이다.
+- **domain** : 웹 서버의 고유 주소를 나타내며 위 경우 `w3schools.com`에 해당한다.
+- **port** : host 의 포트 번호를 정의하며, *http* 는 80, *https* 는 443 을 default 로 사용한다. 위 경우 생략되었으나 
+             `443`을 기본값으로 사용한다.
+- **path** : 서버상의 경로를 가리킨다. 생략시 서버의 *root* 를 의미한다. 위 경우 `/html`이다.
+- **filename** : 서버의 *document* 또는 *resource* 를 가리킨다. 위 경우 `default.asp`이다. 
+
+#### 2. Common URL Schemes
+
+| Scheme | Short for                          | Used for                        |
+|--------|------------------------------------|---------------------------------|
+| http   | HyperText Transfer Protocol        | Common web pages. Not encrypted |
+| https  | Secure HyperText Transfer Protocol | Secure web pages. Encrypted     |
+| ftp    | File Transfer Protocol             | Downloading or uploading files  |
+| file   |                                    | A file on your computer         |
+
+#### 3. URL Encoding
+
+URL 은 오직 `ASCII character-set`만 표현할 수 있다. 따라서 *ASCII character-set* 이외의 문자는 전송을 위해 *ASCII* 가 
+인식할 수 있으나 *ASCII* 에 포함되지 않는 방식으로 변경해야한다. 따라서 다음 규칙을 갖는다.
+
+- `ASCII`가 아닌 문자는 `%[hexadecimal]`로 변환한다.
+- URL 은 공백을 포함할 수 없다. `+` 도는 `%20`으로 변환한다.
+
+<p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="GRXpdjy" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/sbpark88/pen/GRXpdjy">
+  Untitled</a> by SB Park (<a href="https://codepen.io/sbpark88">@sbpark88</a>)
+  on <a href="https://codepen.io">CodePen</a>.</span>
+</p>
 
 ---
 
