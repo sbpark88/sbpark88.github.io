@@ -453,6 +453,58 @@ __5 ) Failable Initializer Requirements__
 
 ### 3. Protocols as Types 👩‍💻
 
+#### 1. Protocols as Types
+
+*Protocols* 는 자체적으로 어떠한 기능도 구현하지 않는다. 그럼에도 불구하고 코드에서 `Fully Fledged Types`으로 사용할 수 있다. 
+Types 로 Protocols 를 사용하는 것은 “there exists a type T such that T conforms to the protocol”라는 
+구절에서 비롯된 `존재 타입(Existential Type)`이라 한다.
+
+즉, *Protocols* 역시 [First-Class Citizen](/swift/2022/11/07/higher-order-function.html#h-1-first-class-citizen) 
+으로 다룰 수 있다는 것을 의미한다.
+
+- Function, Method, Initializer 의 `Parameter Type` 또는 `Return Type`으로 사용될 수 있다.
+- `Constant, Variable, Property 의 Type`으로 사용될 수 있다.
+- `Array, Dictionary, 또는 다른 Container 의 Type`으로 사용될 수 있다.
+
+> **Protocols** 역시 `Swift Types`이므로 이름은 `대문자로 시작`한다.
+
+> Superclass 에서 Subclasss 로 [Downcasting][Downcasting] 하던 것처럼 `Protocol Type`에서 이것을 준수하는
+> `Underlying Type`으로 **Downcasting** 할 수 있다.
+
+[Downcasting]:/swift/2023/01/14/type-casting.html#h-3-downcasting-type-cast-operator-as-as-
+
+#### 2. Examples
+
+```swift
+class Dice {
+    let sides: Int
+    let generator: RandomNumberGenerator
+    
+    init(sides: Int, generator: RandomNumberGenerator) {
+        self.sides = sides
+        self.generator = generator
+    }
+    
+    func roll() -> Int {
+        return Int(generator.random() * Double(sides)) + 1
+    }
+}
+```
+
+```swift
+var d6 = Dice(sides: 6, generator: LinearCongruentialGenerator())
+
+Array(1...5).forEach { _ in print("Random dice roll is \(d6.roll())") }
+```
+
+```console
+Random dice roll is 2
+Random dice roll is 3
+Random dice roll is 5
+Random dice roll is 6
+Random dice roll is 2
+```
+
 ---
 
 ### 4. Delegation 👩‍💻
