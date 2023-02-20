@@ -58,6 +58,7 @@ __You can define__
 - type
 - name
 - { get set } or { get }
+- `static`, `class` keyword
 
 ```swift
 protocol SomeProtocol {
@@ -169,6 +170,81 @@ print(ncc1701.fullName) // USS Enterprise
 ```
 
 #### 2. Method Requirements
+
+*Methods* 에 대한 요구사항 역시 *Properties* 와 유사하다. 
+
+__1 ) Syntax__
+
+__You can define__
+
+- type
+- parameter
+- variadic parameter
+- return type
+- `static` keyword
+
+```swift
+protocol SomeProtocol {
+    func someTypeMethod() -> SomeType
+}
+```
+
+<br>
+
+__You cannot define__
+
+- parameter default value
+- method `body`
+
+<br>
+
+__2 ) Type Methods__
+
+```swift
+protocol AnotherProtocol {
+    static func anotherTypeMethod() -> SomeType
+}
+```
+
+<br>
+
+__3 ) Examples__
+
+```swift
+protocol RandomNumberGenerator {
+    func random() -> Double
+}
+```
+
+이를 채택하는 Class 를 하나 만들어보자.
+
+```swift
+class LinearCongruentialGenerator: RandomNumberGenerator {
+    var lastRandom = 42.0
+    let m = 139968.0
+    let a = 3877.0
+    let c = 29573.0
+
+    func random() -> Double {
+        lastRandom = ((lastRandom + a + c).truncatingRemainder(dividingBy: m))
+        return lastRandom / m
+    }
+}
+```
+
+> 이 Class 는 선형 합동 생성기(linear congruential generator) 로 알려진 의사 난수(pseudorandom number) 생성기 
+> 알고리즘이다.
+
+```swift
+let generator = LinearCongruentialGenerator()
+print("Here's a random number: \(generator.random())")
+print("And another one: \(generator.random())")
+```
+
+```console
+Here's a random number: 0.23928326474622771
+And another one: 0.4782664609053498
+```
 
 #### 3. Mutating Method Requirements
 
