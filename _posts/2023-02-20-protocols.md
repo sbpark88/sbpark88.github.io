@@ -248,6 +248,48 @@ And another one: 0.4782664609053498
 
 #### 3. Mutating Method Requirements
 
+Protocol 에서 Methods 를 `mutating`으로 정의했을 때 이 Protocol 을 채택하는 Type 이 `Classes`인 경우는 
+**Reference Types** 이므로 `mutating` keyword 를 작성할 필요가 없다. 오직 **Value Types** 인 
+`Structures` 와 `Enumerations`에서만 작성한다.
+
+__Example__
+
+```swift
+protocol Togglable {
+    mutating func toggle()
+}
+```
+
+```swift
+enum OnOffSwitch: Togglable {
+    case off, on
+    
+    mutating func toggle() {
+        switch self {
+        case .off: self = .on
+        case .on: self = .off
+        }
+    }
+}
+```
+
+```swift
+var lightSwitch = OnOffSwitch.off
+print("light switch is \(lightSwitch) now.")
+
+lightSwitch.toggle()
+print("light switch is \(lightSwitch) now.")
+
+lightSwitch.toggle()
+print("light switch is \(lightSwitch) now.")
+```
+
+```console
+light switch is off now.
+light switch is on now.
+light switch is off now.
+```
+
 #### 4. Initializer Requirements
 
 <br>
