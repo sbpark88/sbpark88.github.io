@@ -475,6 +475,8 @@ Types 로 Protocols 를 사용하는 것은 “there exists a type T such that T
 
 #### 2. Examples
 
+주사위를 정의한다.
+
 ```swift
 class Dice {
     let sides: Int
@@ -490,6 +492,8 @@ class Dice {
     }
 }
 ```
+
+Initializer 에 *Protocol* 이 Type 으로 사용되었다.
 
 ```swift
 var d6 = Dice(sides: 6, generator: LinearCongruentialGenerator())
@@ -508,6 +512,154 @@ Random dice roll is 2
 ---
 
 ### 4. Delegation 👩‍💻
+
+#### 1. Delegation
+
+`Delegation`은 Class 또는 Structure 가 일부 책임을 다른 Type 의 Instance 에게 `hand off(or delegate)` 할 수 
+있도록 하는 `Design Pattern`이다. 이 Design Pattern 은 위임된 책임이 `캡슐화(encapsulates)`된 Protocol 을 정의하는 것으로 구현되어지며, 
+대리자(delegate)가 위임된 기능을 제공하는 것을 보장한다. 따라서 *Delegation* 은 특정 작업에 응답하거나 캡슐화된 유형을 알 
+필요 없이 기능을 제공하고자 하는데 사용된다.
+
+#### 2. Examples
+
+위에서 만든 *RandomNumberGenerator* Protocol, *Dice* Class 를 이용해 다음 두 Protocols 를 정의한다. 
+
+```swift
+protocol DiceGame {
+    var dice: Dice { get }
+    func play()
+}
+
+protocol DiceGameDelegate: AnyObject {
+    func gameDidStart(_ game: DiceGame)
+    func game(_ game: DiceGame, didStartNewTurnWithDiceRoll diceRoll: Int)
+    func gameDidEnd(_ game: DiceGame)
+}
+```
+
+*DiceGame* Protocol 은 주사위를 이용한 어떤 게임에게나 채택될 수 있고, *DiceGameDelegate* Protocol 은 *DiceGame* 
+의 진행 상태를 추적하기 위해 채택될 수 있다.
+
+![Snake and Ladders Game](/assets/images/posts/2023-02-20-protocols/snakesAndLadders~dark@2x.png){: width="800"}
+
+```swift
+class SnakesAndLadders: DiceGame {
+    let finalSquare = 25
+    let dice = Dice(sides: 6, generator: LinearCongruentialGenerator())
+    var square = 0
+    var board: [Int]
+
+    init() {
+        board = Array(repeating: 0, count: finalSquare + 1)
+        board[3] = 8; board[6] = 11; board[9] = 9; board[10] = 2
+        board[14] = -10; board[19] = -11; board[22] = -2; board[24] = -8
+    }
+
+    weak var delegate: DiceGameDelegate?
+
+    func play() {
+        square = 0
+        delegate?.gameDidStart(self)
+        gameLoop: while square != finalSquare {
+            let diceRoll = dice.roll()
+            delegate?.game(self, didStartNewTurnWithDiceRoll: diceRoll)
+            switch square + diceRoll {
+            case finalSquare:                                   // newSquare == finalSqure : finish
+                break gameLoop
+            case let newSquare where newSquare > finalSquare:   // roll dice again until it euqals finalSquare
+                continue gameLoop
+            default:                                            // progress game play
+                square += diceRoll
+                square += board[square]
+            }
+        }
+        delegate?.gameDidEnd(self)
+    }
+}
+```
+
+[Strong Reference Cycles Between Class instances][Strong Reference Cycles Between Class instances] 를
+예방하기 위해 *delegates* 는 `Week References`로 선언되었다.
+
+[Strong Reference Cycles Between Class instances]:https://docs.swift.org/swift-book/documentation/the-swift-programming-language/automaticreferencecounting/#Strong-Reference-Cycles-Between-Class-Instances
+
+> [Class-Only Protocols](#h-10-class-only-protocols-) 에서 다시 살펴보겠지만, `AnyObject`를 상속시키는것으로 
+> Protocol 은 `Class-Only Protocols`로 marking 된다. 그리고 **Class-Only Protocols** 를 채택한 **Class** 
+> 는 반드시 `delegate 를 Week Reference 로 선언`해야야한다.
+
+<br>
+
+이제 *DiceGameDelegate* Protocol 을 채택한 *Game Tracker* 를 만들어보자.
+
+```swift
+class DiceGameTracker: DiceGameDelegate {
+    var numberOfTurns = 0
+
+    func gameDidStart(_ game: DiceGame) {
+        numberOfTurns = 0
+        if game is SnakesAndLadders {
+            print("Started a new game of Snakes and Ladders")
+        }
+        print("The game is using a \(game.dice.sides)-side dice")
+    }
+
+    func game(_ game: DiceGame, didStartNewTurnWithDiceRoll diceRoll: Int) {
+        numberOfTurns += 1
+        print("Rolled a \(diceRoll)")
+    }
+
+    func gameDidEnd(_ game: DiceGame) {
+        print("The game lasted for \(numberOfTurns) turns")
+    }
+}
+```
+
+<br>
+
+게임을 진행시켜 `Delegate`를 어떻게 위임시켜 작동하도록 하는지 살펴보자.
+
+```swift
+let tracker = DiceGameTracker()
+let game = SnakesAndLadders()
+game.delegate = tracker
+game.play()
+```
+
+```console
+Started a new game of Snakes and Ladders
+The game is using a 6-side dice
+Rolled a 2
+Rolled a 3
+Rolled a 5
+Rolled a 6
+Rolled a 2
+Rolled a 3
+Rolled a 5
+Rolled a 6
+Rolled a 1
+Rolled a 3
+Rolled a 4
+Rolled a 6
+Rolled a 1
+Rolled a 3
+Rolled a 4
+Rolled a 5
+Rolled a 1
+Rolled a 2
+Rolled a 4
+Rolled a 5
+Rolled a 1
+Rolled a 2
+Rolled a 3
+Rolled a 5
+Rolled a 6
+Rolled a 2
+Rolled a 3
+Rolled a 5
+Rolled a 6
+Rolled a 2
+The game lasted for 30 turns
+```
 
 ---
 
