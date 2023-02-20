@@ -177,9 +177,8 @@ __1 ) Syntax__
 
 __You can define__
 
-- type
-- parameter
-- variadic parameter
+- name
+- parameter(including variadic parameter)
 - return type
 - `static` keyword
 
@@ -292,13 +291,163 @@ light switch is off now.
 
 #### 4. Initializer Requirements
 
+
+*Methods* 에 대한 요구사항 역시 *Properties* 와 유사하다.
+
+__1 ) Syntax__
+
+__You can define__
+
+- parameter
+
+Methods 와 유사하다. 하지만 *Initializers* 는 *name* 과 *Explicit return type* `static` 이 허용되지 않기 
+때문에 당연히 Protocol 역시 불가능하다. 즉, ***어떤 `Custom Initializrer`를 구현해야 하는지 그 Type 만 정의***한다.
+
+
+```swift
+protocol SomeProtocol {
+    func someTypeMethod() -> SomeType
+}
+```
+
 <br>
 
-__1 ) Class Implementations of Protocol Initializer Requirements__
+__You cannot define__
+
+- parameter default value
+- method `body`
 
 <br>
 
-__2 ) Failable Initializer Requirements__
+__2 ) Examples__
+
+```swift
+protocol Human {
+    var name: String { get set }
+    var age: Int { get set }
+    
+    init(name: String, age: Int)
+}
+```
+
+```swift
+struct Student: Human {
+    var name: String
+    
+    var age: Int
+    
+    init(name: String = "[Unknown]", age: Int) {
+        self.name = name
+        self.age = age
+    }
+    
+    func identification() {
+        print("My name is \(self.name) and I am \(self.age) years old")
+    }
+}
+```
+
+```swift
+var jamie = Student(name: "Jamie", age: 20)
+jamie.identification()
+
+var kate = Student(age: 22)
+kate.identification()
+```
+
+```console
+My name is Jamie and I am 20 years old
+My name is [Unknown] and I am 22 years old
+```
+
+<br>
+
+__3 ) Class Implementations of Protocol Initializer Requirements__
+
+위에서 *Structures* 를 이용한 예제를 살펴보았다. 그런데 ***Protocol 의 Initializers 를 `Classes` 에 채택***하려면 
+반드시 [Required Initializers](/swift/2022/12/01/initialization.html#h-7-required-initializers--) 
+를 사용해 이 *Class 의 Subclasses* 가 반드시 이를 구현하도록 강제해야한다.
+
+```swift
+class Student: Human {
+    var name: String
+    
+    var age: Int
+    
+    required init(name: String = "[Unknown]", age: Int) {
+        self.name = name
+        self.age = age
+    }
+    
+    func identification() {
+        print("My name is \(self.name) and I am \(self.age) years old")
+    }
+}
+```
+
+> `required` keyword 를 작성하지 않으면 **compile-time error** 가 발생한다.
+
+<br>
+
+하지만 [Classes 가 `final` modifier 를 이용해 정의되는 경우][Preventing Overrides], 이 *Class* 는 더이상 
+`Subclassing` 될 수 없기 때문에 `required`를 작성할 필요가 없다.
+
+[Preventing Overrides]:/swift/2022/11/29/inheritance.html#h-3-preventing-overrides-
+
+```swift
+final class Student: Human {
+    var name: String
+
+    var age: Int
+
+    init(name: String = "[Unknown]", age: Int) {
+        self.name = name
+        self.age = age
+    }
+
+    func identification() {
+        print("My name is \(self.name) and I am \(self.age) years old")
+    }
+}
+```
+
+<br>
+
+__4 ) Class Implementations Overriding Designated Initializer by Protocol Initializer Requirements__
+
+만약 어떤 `Subclass`가 *Protocol* 에 의해 *Initializers* 의 구현을 요구받는 데, 그 *Initializers* 의 Type 이 
+`Superclass 의 Designated Initializer`인 경우 `override` keyword 와 함께 사용한다.
+
+```swift
+protocol SomeProtocol {
+    init()
+}
+
+class SomeSuperClass {
+    init() {
+        // initializer implementation goes here
+    }
+}
+
+class SomeSubClass: SomeSuperClass, SomeProtocol {
+    // "required" from SomeProtocol conformance; "override" from SomeSuperClass
+    required override init() {
+        // initializer implementation goes here
+    }
+}
+```
+
+<br>
+
+__5 ) Failable Initializer Requirements__
+
+[Failable Initializers](/swift/2022/12/01/initialization.html#h-6-failable-initializers-) 역시 
+해당 *Protocol* 을 채택항 Types 가 이를 준수하도록 정의할 수 있다.
+
+- `Failable Initializer Requirements`는 *Failable Initializer* 또는 *Nonfailable Initializer* 
+  에 의해 충족될 수 있다.
+- `Nonfailable Initializer Requirements`는 *Nonfailable Initializer* 또는 
+  *Implicitly Unwrapped Failable Initializer* 에 의해 충족될 수 있다.
 
 ---
 
