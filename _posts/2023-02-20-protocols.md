@@ -10,7 +10,37 @@ tags: [swift docs, protocol, blueprint, requirement, delegation, add protocol, a
 
 #### 1. Protocols
 
+`Protocol`은 Methods, Properties, 그리고 특정 작업이나 기능의 요구사항을 정의하기위한 `blueprint`로, *Protocol* 은
+*Class*, *Structure*, *Enumeration* 에 채택(adopt)되어 요구사항을 구현하도록 한다.
+
 #### 2. Protocol Syntax
+
+__Syntax__
+
+```swift
+protocol SomeProtocol {
+    // protocol definition goes here
+}
+```
+
+*Protocol* 을 정의하는 방법은 *Class*, *Structure*, *Enumeration* 을 정의하는 방법과 유사하다.
+
+#### 3. Adopt Protocol
+
+```swift
+struct SomeStructure: FirstProtocol, AnotherProtocol {
+    // structure definition goes here
+}
+```
+
+Protocol 을 채택하는 것 역시 Class 의 Inheritance 와 유사하다. 단, `Class`에서는 주의해야할 것이 `Inheritance`가 
+종료된 후 `Protocol`의 채택이 가능하다.
+
+```swift
+class SomeClass: SomeSuperclass, FirstProtocol, AnotherProtocol {
+    // class definition goes here
+}
+```
 
 ---
 
