@@ -44,6 +44,16 @@ class SomeClass: SomeSuperclass, FirstProtocol, AnotherProtocol {
 }
 ```
 
+#### 4. Adopt Protocol vs. Class Inheritance
+
+|                                | Protocol | Class |
+|--------------------------------|:--------:|:-----:|
+| Class                          |    O     |   O   |
+| Structure                      |    O     |   X   |
+| Enumeration                    |    O     |   X   |
+| Multiple Inheritance(or Adapt) |    O     |   X   |
+
+
 ---
 
 ### 2. Protocol Requirements 👩‍💻
@@ -1022,27 +1032,103 @@ A hamster named Simon
 
 ---
 
-### 9. Protocol Inheritance 👩‍💻
+### 8. Protocol Inheritance 👩‍💻
+
+#### 1. Protocol Inheritance
+
+Protocol 을 *Classes*, *Structures*, *Enumerations* 에 `Adapt` 시키는 것 말고도 ***Protocol 이 
+다른 Protocol 을 `Inheritance`하는 것*** 역시 가능하다.
+
+*Multiple Adapt* 이 가능했던 것처럼 *Multiple Inherit* 역시 가능하다.
+
+```swift
+protocol InheritingProtocol: SomeProtocol, AnotherProtocol {
+    // protocol definition goes here
+}
+```
+
+#### 2. Examples
+
+*SnakesAndLadders* 에 *TextRepresentable* Protocol 을 채택하고 다음과 같이 게임 정보를 출력할 수 있다.
+
+```swift
+protocol TextRepresentable {
+    var textualDescription: String { get }
+}
+
+extension SnakesAndLadders: TextRepresentable {
+    var textualDescription: String {
+        return "A game of Snakes and Ladders with \(finalSquare) squares"
+    }
+}
+```
+
+```swift
+let game = SnakesAndLadders()
+print(game.textualDescription)
+```
+
+```console
+A game of Snakes and Ladders with 25 squares
+```
+
+<br>
+
+이제 이 *TextRepresentable* 를 상속해 *PrettyTextRepresentable* Protocol 을 만들고, 이것을 한 번 더 
+*SnakesAndLadders* 에 확장해보자.
+
+```swift
+protocol PrettyTextRepresentable: TextRepresentable {
+    var prettyTextualDescription: String { get }
+}
+
+extension SnakesAndLadders: PrettyTextRepresentable {
+    var prettyTextualDescription: String {
+        var output = textualDescription + ":\n"
+        for index in 1...finalSquare {
+            switch board[index] {
+            case let ladder where ladder > 0:
+                output += "▲ "
+            case let snake where snake < 0:
+                output += "▼ "
+            default:
+                output += "○ "
+            }
+        }
+        return output
+    }
+}
+```
+
+```swift
+let game = SnakesAndLadders()
+print(game.prettyTextualDescription)
+```
+
+```console
+A game of Snakes and Ladders with 25 squares:
+○ ○ ▲ ○ ○ ▲ ○ ○ ▲ ▲ ○ ○ ○ ▼ ○ ○ ○ ○ ▼ ○ ○ ▼ ○ ▼ ○ 
+```
 
 ---
 
-### 10. Class-Only Protocols 👩‍💻
+### 9. Class-Only Protocols 👩‍💻
 
 ---
 
-### 11. Protocol Composition 👩‍💻
+### 10. Protocol Composition 👩‍💻
 
 ---
 
-### 12. Checking for Protocol Conformance 👩‍💻
+### 11. Checking for Protocol Conformance 👩‍💻
 
 ---
 
-### 13. Optional Protocol Requirements 👩‍💻
+### 12. Optional Protocol Requirements 👩‍💻
 
 ---
 
-### 14. Protocol Extensions 👩‍💻
+### 13. Protocol Extensions 👩‍💻
 
 #### 1. Protocol Extensions
 
