@@ -3,12 +3,12 @@ layout: post
 title: Swift Protocols
 subtitle: Swift protocols make blueprint
 categories: swift
-tags: [swift docs, protocol, blueprint, requirement, delegation, add protocol, adopt protocol, protocol inheritance, class-only protocol, protocol extensions]
+tags: [swift docs, protocol, blueprint, requirement, delegation, add protocol, adopt protocol, protocol inheritance, class-only protocol, protocol extensions, equatable, hashable, comparable]
 ---
 
 ### 1. Protocols 👩‍💻
 
-#### 1. Protocols7
+#### 1. Protocols
 
 `Protocol`은 Methods, Properties, 그리고 특정 작업이나 기능의 요구사항을 정의하기위한 `blueprint`로, *Protocol* 은
 *Class*, *Structure*, *Enumeration* 에 `채택(adopt)`되어 요구사항을 구현하도록 한다. 그리고 `Protocol 의 모든 요구사항에 
@@ -76,10 +76,6 @@ protocol SomeProtocol {
 여기서 주의해야 할 것이 `{ get set }`은 이 Protocol 을 채택하는 Type 이 반드시 `get set`을 만족하도록 구현해야한다는 
 의미이고, `{ get }`은 반드시 `get`을 만족하도록 구현해야한다는 의미다. ***'get' 만 만족하고 'set' 을 만족하지 않도록 
 `Read-Only`임을 강제하는 것이 아니다***. 
-
-[Swift Properties]:/swift/2022/11/22/properties.html
-[Stored Properties]:/swift/2022/11/22/properties.html#h-1-stored-properties-
-[Read-Only Computed Properties]:/swift/2022/11/22/properties.html#h-3-read-only-computed-properties
 
 <br>
 
@@ -392,8 +388,6 @@ class Student: Human {
 하지만 [Classes 가 `final` modifier 를 이용해 정의되는 경우][Preventing Overrides], 이 *Class* 는 더이상 
 `Subclassing` 될 수 없기 때문에 `required`를 작성할 필요가 없다.
 
-[Preventing Overrides]:/swift/2022/11/29/inheritance.html#h-3-preventing-overrides-
-
 ```swift
 final class Student: Human {
     var name: String
@@ -470,8 +464,6 @@ Types 로 Protocols 를 사용하는 것은 “there exists a type T such that T
 
 > Superclass 에서 Subclasss 로 [Downcasting][Downcasting] 하던 것처럼 `Protocol Type`에서 이것을 준수하는
 > `Underlying Type`으로 **Downcasting** 할 수 있다.
-
-[Downcasting]:/swift/2023/01/14/type-casting.html#h-3-downcasting-type-cast-operator-as-as-
 
 #### 2. Examples
 
@@ -580,8 +572,6 @@ class SnakesAndLadders: DiceGame {
 
 [Strong Reference Cycles Between Class instances][Strong Reference Cycles Between Class instances] 를
 예방하기 위해 *delegates* 는 `Week References`로 선언되었다.
-
-[Strong Reference Cycles Between Class instances]:https://docs.swift.org/swift-book/documentation/the-swift-programming-language/automaticreferencecounting/#Strong-Reference-Cycles-Between-Class-Instances
 
 > [Class-Only Protocols](#h-10-class-only-protocols-) 에서 다시 살펴보겠지만, `AnyObject`를 상속시키는것으로 
 > Protocol 은 `Class-Only Protocols`로 marking 된다. 그리고 **Class-Only Protocols** 를 채택한 **Class** 
@@ -702,9 +692,6 @@ print(d12.textualDescription)   // A 12-sided dice
 이번에는 [Swift Strings and Characters][Swift Strings and Characters] 챕터에서 사용해본 Swift 의 불편한 문자열 접근과 
 [Swift Extensions][Swift Extensions] 챕터에서 확장할 때 사용했던 *Subscripts* 를 *Protocol* 을 이용해 확장해보자.
 
-[Swift Strings and Characters]:/swift/2022/09/17/strings-and-characters.html#h-8-accessing-and-modifying-a-string-문자열-접근과-수정-
-[Swift Extensions]:swift/2023/01/17/extensions.html#h-6-subscripts-
-
 공통으로 사용할 Protocol 을 하나 정의한다.
 
 ```swift
@@ -794,7 +781,7 @@ print(greeting[greeting.count - 1]) // !
 
 #### 3. Conditionally Conforming to a Protocol (where)
 
-`Generic Type`은 오직 `Generic parameter 가 Protocol 에 적합한 경우`와 같은 특정 조건에서만 Protocol 의 요구사항을 
+`Generic Type`은 오직 `Generic parameter 가 Protocol 을 준수하는 경우`와 같은 특정 조건에서만 Protocol 의 요구사항을 
 만족할 수 있다. 따라서 *Generic Type* 을 확장할 때 `where`를 이용해 `constraints`를 나열해 조건부로 준수하도록 만들어야한다. 
 이것은 추후 [Generic Where Clauses](링크 추가 예정) 에서 자세히 다룬다.
 
@@ -813,8 +800,8 @@ extension Array: TextRepresentable where Element: TextRepresentable {
 ```
 
 위 Protocol 은 `Array 에 TextRepresentable Protocol 을 채택하는 것으로 확장`한다. 그리고 이것이 작동하는 조건은 
-`Array 의 Element 가 TextRepresentable 에 적합`한 경우로 제한한다. 그래야만 `self.map { $0.textualDescription }`에서 
-에러가 발생하지 않기 때문이다.
+`Array 의 Element 가 TextRepresentable 을 준수하는 경우`로 제한한다.  
+그래야만 `self.map { $0.textualDescription }`에서 에러가 발생하지 않기 때문이다.
 
 ```swift
 let myDice = [d6, d12]
@@ -833,8 +820,6 @@ myString.textualDescription // Property 'textualDescription' requires that 'Stri
 
 `Protocol 을 채택해 확장하려는 기능이 이미 Type 에 존재`한다면, 어떻게 해야할까? [Swift Extensions][Extension cannot override] 
 에서 살펴본 것처럼 ***Extension 은 Overriding 을 할 수 없다***.
-
-[Extension cannot override]:/swift/2023/01/17/extensions.html#h-1-extension-vs-inheritance-
 
 하지만 이 `Type 이 어떤 Protocol 을 만족함을 명시적으로 표현`해야 할 수 있다. 이 경우 `extension`을 이용해 Protocol 을 채택하되, 
 아무런 구현도 하지 않으면 된다. 즉, *extension 의 body 를 아예 비워두면 된다*.
@@ -874,6 +859,142 @@ print(somethingTextRepresentable.textualDescription)    // A hamster named Simon
 ---
 
 ### 6. Adopting a Protocol Using a Synthesized Implementation 👩‍💻
+
+Swift 는 많은 *Simple Cases* 에 대해 자동으로 `Equatable`, `Hashable`, `Comparable` Protocol 을 만족하도록 
+할 수 있다. 이를 `Synthesized Implementation(함성된 구현)`이라 하며, Protocol 요구사항 구현을 직접 할 필요가 없다.
+
+#### 1. Synthesized Implementation of Equatable
+
+Swift 는 다음 조건을 만족하는 *Custom Types* 에게 `Equatable`을 제공한다.
+
+- Structures that have only stored properties & That stored properties conform to the Equatable protocol
+- Enumerations that have only [associated types][Associated Values] & That associated types conform to the Equatable protocol
+- Enumerations that have no [associated types][Associated Values]
+
+위 조건을 만족하는 경우 `==`, `!=` 를 직접 구현하지 않고 `Equatabe` Protocol 을 채택함으로써 
+`Synthesized Implementation`을 제공할 수 있다.
+
+```swift
+struct Vector3D {
+    var x = 0.0, y = 0.0, z = 0.0
+}
+
+let alpha = Vector3D(x: 2.0, y: 3.0, z: 4.0)
+let beta = Vector3D(x: 2.0, y: 3.0, z: 4.0)
+
+if alpha == beta { // Binary operator '==' cannot be applied to two 'Vector3D' operands
+    print("These two vectors are also equivalent.")
+}
+```
+
+`==`비교를 하기 위한 *피연산 함수*가 존재하지 않는다고 에러가 발생된다. 그런데 이 `Structure 는 Stored Properties 만 저장` 
+하고 있으며, `그 Stored Properties 는 Equatable Protocol 을 만족`하므로 첫 번째 조건에 의해 `Equatable` Protocol 을 
+채택하는 것 만으로 자동으로 `Synthesized Implementation`을 제공할 수 있다.
+
+```swift
+struct Vector3D: Equatable {
+    var (x, y, z) = (0.0, 0.0, 0.0)
+}
+
+let alpha = Vector3D(x: 2.0, y: 3.0, z: 4.0)
+let beta = Vector3D(x: 2.0, y: 3.0, z: 4.0)
+
+if alpha == beta {
+    print("These two vectors are also equivalent.")
+}
+```
+
+```console
+These two vectors are also equivalent.
+```
+
+#### 2. Synthesized Implementation of Hashable
+
+Swift 는 다음 조건을 만족하는 *Custom Types* 에게 `Hashable`을 제공한다.
+
+- Structures that have only stored properties & That stored properties conform to the Hashable protocol
+- Enumerations that have only [associated types][Associated Values] & That associated types conform to the Hashable protocol
+- Enumerations that have no [associated types][Associated Values]
+
+위 `Equatable`과 거의 동일하다는 것을 알 수 있다. 위 조건을 만족하는 경우 `hashValue`, `hash(into:)`를 직접 구현하지 않고 
+`Hashable` Protocol 을 채택함으로써 `Synthesized Implementation`을 제공할 수 있다.
+
+> 참고로 `Hashable` Protocol 은 `Equatable` Protocol 을 준수한다.
+> 
+> ```swift
+> extension AnyHashable : Equatable {}
+> ```
+> 
+> 따라서 `Hashable` Protocol 을 준수하는 경우 `Equatable` Protocol 의 `Synthesized Implementation`을 함께 
+> 제공한다.
+
+```swift
+struct Vector3D: Hashable {
+    var (x, y, z) = (0.0, 0.0, 0.0)
+}
+
+let alpha = Vector3D(x: 2.0, y: 3.0, z: 4.0)
+let beta = Vector3D(x: 2.0, y: 3.0, z: 4.0)
+
+let hashAlpha = alpha.hashValue
+let hashBeta = beta.hashValue
+
+if alpha == beta {
+    print("These two vectors are also equivalent.")
+}
+
+print(hashAlpha)
+print(hashBeta)
+```
+
+```console
+These two vectors are also equivalent.
+-4042012231002845599
+-4042012231002845599
+```
+
+#### 3. Synthesized Implementation of Comparable
+
+Swift 는 [Raw Values][Raw Values] 를 갖고 있지 않은 *Enumerations* 에게 다음 조건을 만족하는 경우 `Comparable`을 
+제공한다.
+
+- Enumerations that have no Raw Values
+- Enumerations that have no Raw Values  
+  & Enumerations that have  [associated types][Associated Values]  
+  & That associated types conform to the Comparable protocol
+
+위 조건을 만족하는 경우 `<`, `<=`, `>`, `>=` operator 를 직접 구현하지 않고 `Comparable` Protocol 을 채택함으로써
+`Synthesized Implementation`을 제공할 수 있다.
+
+```swift
+enum SkillLevel: Comparable {
+    case beginner
+    case intermediate
+    case expert(stars: Int)
+}
+
+var levels = [SkillLevel.intermediate,
+              SkillLevel.beginner,
+              SkillLevel.expert(stars: 5),
+              SkillLevel.expert(stars: 3)]
+
+if SkillLevel.intermediate > SkillLevel.beginner {
+    print("intermediate is higher level than beginner")
+}
+
+for level in levels.sorted() {
+    print(level)
+}
+```
+
+```console
+intermidiate is higer level than beginner
+
+beginner
+intermediate
+expert(stars: 3)
+expert(stars: 5)
+```
 
 ---
 
@@ -917,3 +1038,15 @@ Reference
 
 1. "Protocols." The Swift Programming Language Swift 5.7. accessed Feb. 20, 2023, [Swift Docs Chapter 18 - Protocols](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/protocols)
 
+
+[Swift Properties]:/swift/2022/11/22/properties.html
+[Stored Properties]:/swift/2022/11/22/properties.html#h-1-stored-properties-
+[Read-Only Computed Properties]:/swift/2022/11/22/properties.html#h-3-read-only-computed-properties
+[Preventing Overrides]:/swift/2022/11/29/inheritance.html#h-3-preventing-overrides-
+[Downcasting]:/swift/2023/01/14/type-casting.html#h-3-downcasting-type-cast-operator-as-as-
+[Strong Reference Cycles Between Class instances]:https://docs.swift.org/swift-book/documentation/the-swift-programming-language/automaticreferencecounting/#Strong-Reference-Cycles-Between-Class-Instances
+[Swift Strings and Characters]:/swift/2022/09/17/strings-and-characters.html#h-8-accessing-and-modifying-a-string-문자열-접근과-수정-
+[Swift Extensions]:swift/2023/01/17/extensions.html#h-6-subscripts-
+[Extension cannot override]:/swift/2023/01/17/extensions.html#h-1-extension-vs-inheritance-
+[Associated Values]:(/swift/2022/11/01/enumerations.html#h-4-associated-values-)
+[Raw Values]:/swift/2022/11/01/enumerations.html#h-5-raw-values-
