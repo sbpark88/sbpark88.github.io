@@ -667,9 +667,209 @@ The game lasted for 30 turns
 
 #### 1. Adding Protocol Conformance with an Extension
 
-#### 2. Conditionally Conforming to a Protocol
+기존 타입에 대해 소스 코드에서 접근할 수 없지만 새로운 프로토콜을 채택하고 준수하도록 해 확장할 수 있다. 이를 이용해 기존 타입에 새로운 
+Properties, Methods, Subscripts 를 추가할 수 있다. 
 
-#### 3. Declaring Protocol Adoption with an Extension
+이전의 [Swift Extensions](/swift/2023/01/17/extensions.html) 에서 `extension` keyword 만 이용해 확장을 했는데 
+이번 챕터에서는 `extension`을 확장할 때 `Protocol`을 채택시켜 확장하도록 해본다.
+
+```swift
+protocol TextRepresentable {
+    var textualDescription: String { get }
+}
+```
+
+*Dice* Class 를 위 Protocol 을 이용해 확장해보자.
+
+```swift
+extension Dice: TextRepresentable {
+    var textualDescription: String {
+        return "A \(sides)-sided dice"
+    }
+}
+```
+
+```swift
+let d6 = Dice(sides: 6, generator: LinearCongruentialGenerator())
+let d12 = Dice(sides: 12, generator: LinearCongruentialGenerator())
+
+print(d6.textualDescription)    // A 6-sided dice
+print(d12.textualDescription)   // A 12-sided dice
+```
+
+#### 2. Extending Primitive Types using Protocols
+
+이번에는 [Swift Strings and Characters][Swift Strings and Characters] 챕터에서 사용해본 Swift 의 불편한 문자열 접근과 
+[Swift Extensions][Swift Extensions] 챕터에서 확장할 때 사용했던 *Subscripts* 를 *Protocol* 을 이용해 확장해보자.
+
+[Swift Strings and Characters]:/swift/2022/09/17/strings-and-characters.html#h-8-accessing-and-modifying-a-string-문자열-접근과-수정-
+[Swift Extensions]:swift/2023/01/17/extensions.html#h-6-subscripts-
+
+공통으로 사용할 Protocol 을 하나 정의한다.
+
+```swift
+protocol easyIndex {
+    subscript(_ digitIndex: Int) -> Self { get }
+}
+```
+
+<br>
+
+__1 ) 우선 [Swift Extensions][Swift Extensions] 를 Protocol 을 이용하는 것으로 바꿔보자__
+
+```swift
+extension Int: easyIndex {
+    subscript(digitIndex: Int) -> Int {
+        var decimalBase = 1
+        for _ in 0..<digitIndex {
+            decimalBase *= 10
+        }
+        return (self / decimalBase) % 10
+    }
+}
+```
+
+> 위 Subscript 는 기존 챕터에서 살펴본 것과 마찬가지로 `10진법의 n 승수 를 index`로 접근한다.
+
+```swift
+3782[0] // 2, 10^0 의 자릿수는 2다.
+3782[1] // 8, 10^1 의 자릿수는 8이다.
+3782[2] // 7, 10^2 의 자릿수는 7이다.
+3782[3] // 3, 10^3 의 자릿수는 3이다.
+3782[4] // 0, 10^4 의 자릿수는 존재하지 않으므로 0이다.
+```
+
+<br>
+
+__2 ) [Swift Strings and Characters][Swift Strings and Characters] 역시 index 를 이용해 접근할 수 있도록 바꿔보자__
+
+```swift
+let greeting = "Guten Tag!"
+
+print(greeting.startIndex)                              // Index(_rawBits: 15)
+print(greeting.index(greeting.startIndex, offsetBy: 3)) // Index(_rawBits: 196871)
+```
+
+이미 이전 챕터에서 살펴보았지만 Swift 는 문자열에 대한 `index`가 다른 언어와는 좀 다르다. 따라서 접근할 때도 메서드를 사용해 다음과 같이 
+접근해야만한다.
+
+```swift
+print(greeting[greeting.startIndex])                                // G
+print(greeting[greeting.index(greeting.startIndex, offsetBy: 1)])   // u
+print(greeting[greeting.index(greeting.startIndex, offsetBy: 2)])   // t
+print(greeting[greeting.index(greeting.endIndex, offsetBy: -1)])    // !
+```
+
+반면 TypeScript 나 Python 등 다른 언어에서는 다음과 같이 직관적이고 쉽게 접근이 가능하다.
+
+```typescript
+const greeting: string = "Guten Tag!"
+
+console.log(greeting[0])                    // G
+console.log(greeting[1])                    // u
+console.log(greeting[2])                    // t
+console.log(greeting[greeting.length - 1])  // !
+```
+
+<br>
+
+위 Protocol 을 이용해 Swift 의 String 을 확장해보자.
+
+```swift
+extension String: easyIndex {
+    subscript(digitIndex: Int) -> String {
+        String(self[self.index(self.startIndex, offsetBy: digitIndex)])
+    }
+}
+```
+
+> 위 Subscript 는 TypeScript 와 동일하게 `앞에서부터 zero-based index`로 접근한다.
+
+```swift
+print(greeting[0])                  // G
+print(greeting[1])                  // u
+print(greeting[2])                  // t
+print(greeting[greeting.count - 1]) // !
+```
+
+#### 3. Conditionally Conforming to a Protocol (where)
+
+`Generic Type`은 오직 `Generic parameter 가 Protocol 에 적합한 경우`와 같은 특정 조건에서만 Protocol 의 요구사항을 
+만족할 수 있다. 따라서 *Generic Type* 을 확장할 때 `where`를 이용해 `constraints`를 나열해 조건부로 준수하도록 만들어야한다. 
+이것은 추후 [Generic Where Clauses](링크 추가 예정) 에서 자세히 다룬다.
+
+> [Switch Value Binding with Where](/swift/2022/10/11/control-flow.html#h-7-where) 에서 본 것 처럼 조건을 
+> 매칭시킬 때 `where`는 주로 추가적인 조건을 `constraints`로 추가하기 위해 사용된다.
+
+<br>
+
+```swift
+extension Array: TextRepresentable where Element: TextRepresentable {
+    var textualDescription: String {
+        let itemsAsText = self.map { $0.textualDescription }
+        return "[" + itemsAsText.joined(separator: ", ") + "]"
+    }
+}
+```
+
+위 Protocol 은 `Array 에 TextRepresentable Protocol 을 채택하는 것으로 확장`한다. 그리고 이것이 작동하는 조건은 
+`Array 의 Element 가 TextRepresentable 에 적합`한 경우로 제한한다. 그래야만 `self.map { $0.textualDescription }`에서 
+에러가 발생하지 않기 때문이다.
+
+```swift
+let myDice = [d6, d12]
+print(myDice.textualDescription)    // [A 6-sided dice, A 12-sided dice]
+```
+
+```swift
+let myNumber = [1, 2, 4, 6]
+let myString = ["A", "C", "F"]
+
+myNumber.textualDescription // Property 'textualDescription' requires that 'Int' conform to 'TextRepresentable'
+myString.textualDescription // Property 'textualDescription' requires that 'String' conform to 'TextRepresentable'
+```
+
+#### 4. Declaring Protocol Adoption with an Extension
+
+`Protocol 을 채택해 확장하려는 기능이 이미 Type 에 존재`한다면, 어떻게 해야할까? [Swift Extensions][Extension cannot override] 
+에서 살펴본 것처럼 ***Extension 은 Overriding 을 할 수 없다***.
+
+[Extension cannot override]:/swift/2023/01/17/extensions.html#h-1-extension-vs-inheritance-
+
+하지만 이 `Type 이 어떤 Protocol 을 만족함을 명시적으로 표현`해야 할 수 있다. 이 경우 `extension`을 이용해 Protocol 을 채택하되, 
+아무런 구현도 하지 않으면 된다. 즉, *extension 의 body 를 아예 비워두면 된다*.
+<br>
+
+이미 *TextRepresentable* 이 구현되어있는 *Hamster* Structure 가 있다.
+
+```swift
+struct Hamster {
+    var name: String
+    var textualDescription: String {
+        return "A hamster named \(name)"
+    }
+}
+```
+
+```swift
+let simonTheHamster = Hamster(name: "Simon")
+print(simonTheHamster.textualDescription)   // A hamster named Simon
+
+let somethingTextRepresentable: TextRepresentable = simonTheHamster // Value of type 'Hamster' does not conform to specified type 'TextRepresentable'
+```
+
+이미 해당 기능이 구현되어있기 때문에 사용 가능하지만, *TextRepresentable* Protocol 을 따르고 있는 것은 아니기 때문에 에러가 발생한다.  
+따라서 위 *Hamster* 가 *TextRepresentable* Protocol 을 만족하도록 만들어보자.
+
+```swift
+extension Hamster: TextRepresentable {}
+
+let somethingTextRepresentable: TextRepresentable = simonTheHamster
+print(somethingTextRepresentable.textualDescription)    // A hamster named Simon
+```
+
+`Protocol 을 채택`하지만 구현을 하지 않기 때문에 `Overriding`이 발생하지 않으므로 정상적으로 *Extension* 이 가능하다. 결과적으로 
+이제 *Hamster* 는 *TextRepresentable* 를 만족하는 것을 확인할 수 있다.
 
 ---
 

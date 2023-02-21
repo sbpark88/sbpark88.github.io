@@ -22,6 +22,7 @@ Inheritance 는 ***기존 Class 는 그대로 둔 채 별도의 Class 를 생성
 - Define subscripts
 - Define and use new nested types
 - Make an existing type conform to a protocol
+- Adopt Multiple Protocols (cf. Multiple inheritance is not allowed in Swift.)
 
 <br>
 
@@ -390,7 +391,7 @@ extension Int {
 }
 ```
 
-```console
+```swift
 3782[0] // 2, 10^0 의 자릿수는 2다.
 3782[1] // 8, 10^1 의 자릿수는 8이다.
 3782[2] // 7, 10^2 의 자릿수는 7이다.
