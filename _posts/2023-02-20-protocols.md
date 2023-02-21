@@ -1136,6 +1136,128 @@ protocol SomeClassOnlyProtocol: AnyObject, SomeInheritedProtocol {
 
 ### 10. Protocol Composition 👩‍💻
 
+#### 1. Protocol Composition
+
+동시에 여러 Protocols 를 준수하는 경우, 이것을 단일 요구사항으로 결합하는 것이 유용할 수 있다.
+
+`Protocol Composition`은 `SomeProtocol & Another Protocol`과 같이 `&` 를 이용해 결합하며, 이것은 
+`Temporary Local Protocol`인 것처럼 동작한다.
+
+다음은 *Named* 와 *Aged* Protocols 의 두 요구사항을 하나로 결합한다.
+
+```swift
+protocol Named {
+    var name: String { get }
+}
+
+protocol Aged {
+    var age: Int { get }
+}
+
+struct Person: Named, Aged {
+    var name: String
+    var age: Int
+}
+```
+
+```swift
+func wishHappyBirthday(to celebrator: Named & Aged) {
+    print("Happy birthday, \(celebrator.name), you're \(celebrator.age)!")
+}
+```
+
+`&`에 의해 *Named* 와 *Aged* Protocols 는 결합되어 요구사항을 한 번에 만족하도록 구현할 수 있다.
+
+```swift
+let birthdayPerson = Person(name: "Harry", age: 11)
+wishHappyBirthday(to: birthdayPerson)   // Happy birthday, Harry, you're 11!
+```
+
+#### 2. Protocol Composition with Class
+
+*Named* Protocol 과 *Location* Class 를 정의한다.
+
+```swift
+protocol Named {
+    var name: String { get }
+}
+
+class Location {
+    var latitude: Double
+    var longitude: Double
+    init(latitude: Double, longitude: Double) {
+        self.latitude = latitude
+        self.longitude = longitude
+    }
+}
+```
+
+이제 *Location* 을 상속하고 *Named* 를 채택하는 *City* Class 를 정의한다.
+
+```swift
+class City: Location, Named {
+    var name: String
+    init(name: String, latitude: Double, longitude: Double) {
+        self.name = name
+        super.init(latitude: latitude, longitude: longitude)
+    }
+}
+```
+
+```swift
+let seattle = City(name: "Seattle", latitude: 47.6, longitude: -122.3)
+```
+
+이제 City `seattle`의 이름과 위치를 출력하는 함수를 만들어보자.
+<br>
+
+__1 ) Case 1 - Subclass__
+
+```swift
+func whereIs(_ city: City) {
+    print("\(city.name), latitude: \(city.latitude), longitude: \(city.longitude)")
+}
+```
+
+가장 간단한 방법이다. 처음부터 *Named* 를 준수하는 *Subclass* `City`를 사용하는 것이다.
+<br>
+
+__2 ) Case 2 - Downcasting__
+
+하지만 `City`가 아닌 위치 정보와 이름을 갖는 *다른 Subclass Type* 이 추가된다면 위 함수는 재사용을 할 수 없게된다. 
+따라서 Parameter 를 *Superclass* `Location`을 받도록 해야한다.
+
+```swift
+func whereIs(_ location: Location) {
+    print("\((location as? City)!.name), latitude: \(location.latitude), longitude: \(location.longitude)")
+}
+```
+
+`Downcating`을 이용하면 *Location* 을 상속하고 *Named* 를 채택하는, *다른 Subclass Type* 이 추가되더라도 `Switch`와 
+`as`를 이용한 [Type Casting][Type Casting] 을 이용해 함수를 재사용 할 수 있다.
+<br>
+
+__3 ) Protocol Composition with Class__
+
+위 경우도 함수를 재사용 할 수는 있지만, Type 이 추가될 때마다 함수의 구현을 매번 수정해줘야하는 문제가 있다. 
+`Protocol Composition`는 이러한 경우 더욱 유연하게 대응할 수 있다.
+
+```swift
+func whereIs(_ location: Location & Named) {
+    print("\(location.name), latitude: \(location.latitude), longitude: \(location.longitude)")
+}
+```
+
+> `Location 을 상속하고 Named 를 채택하는, 다른 Subclass Type`이 추가되더라도 함수는 재사용 가능하며, 구현을 수정할 필요가 없다.
+
+<br>
+
+위 세 가지 방법 중 어떤 방법을 사용하든 다음 결과를 얻는다. 다만 `Protocol Composition`를 사용하는 것이 코드를 더 유연하게 만든다.
+
+```swift
+whereIs(seattle)    // Seattle, latitude: 47.6, longitude: -122.3
+```
+
 ---
 
 ### 11. Checking for Protocol Conformance 👩‍💻
@@ -1176,3 +1298,4 @@ Reference
 [Associated Values]:(/swift/2022/11/01/enumerations.html#h-4-associated-values-)
 [Raw Values]:/swift/2022/11/01/enumerations.html#h-5-raw-values-
 [Which one choose Structures or Classes]:/swift/2022/11/21/structures-and-classes.html#h-3-structure-와-class-무엇을-선택할까
+[Type Casting]:/swift/2023/01/14/type-casting.html#h-1-any
