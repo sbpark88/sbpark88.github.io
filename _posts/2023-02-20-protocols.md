@@ -453,8 +453,7 @@ __5 ) Failable Initializer Requirements__
 Types 로 Protocols 를 사용하는 것은 “there exists a type T such that T conforms to the protocol”라는 
 구절에서 비롯된 `존재 타입(Existential Type)`이라 한다.
 
-즉, *Protocols* 역시 [First-Class Citizen](/swift/2022/11/07/higher-order-function.html#h-1-first-class-citizen) 
-으로 다룰 수 있다는 것을 의미한다.
+즉, *Protocols* 역시 [First-Class Citizen][First-Class Citizen] 으로 다룰 수 있다는 것을 의미한다.
 
 - Function, Method, Initializer 의 `Parameter Type` 또는 `Return Type`으로 사용될 수 있다.
 - `Constant, Variable, Property 의 Type`으로 사용될 수 있다.
@@ -1000,6 +999,27 @@ expert(stars: 5)
 
 ### 7. Collections of Protocol Types 👩‍💻
 
+[Protocols as Types](#h-3-protocols-as-types-) 이미 살펴보았듯이 *Protocols* 역시 
+[First-Class Citizen][First-Class Citizen] 으로 다룰 수 있으므로 이것을 *Collections* 에 저장하는 것 역시 가능하다. 
+
+```swift
+let d6 = Dice(sides: 6, generator: LinearCongruentialGenerator())
+let d12 = Dice(sides: 12, generator: LinearCongruentialGenerator())
+let simonTheHamster = Hamster(name: "Simon")
+
+let things: [TextRepresentable] = [d6, d12, simonTheHamster]
+
+for thing in things {
+    print(thing.textualDescription)
+}
+```
+
+```console
+A 6-sided dice
+A 12-sided dice
+A hamster named Simon
+```
+
 ---
 
 ### 9. Protocol Inheritance 👩‍💻
@@ -1043,6 +1063,7 @@ Reference
 [Stored Properties]:/swift/2022/11/22/properties.html#h-1-stored-properties-
 [Read-Only Computed Properties]:/swift/2022/11/22/properties.html#h-3-read-only-computed-properties
 [Preventing Overrides]:/swift/2022/11/29/inheritance.html#h-3-preventing-overrides-
+[First-Class Citizen]:/swift/2022/11/07/higher-order-function.html#h-1-first-class-citizen
 [Downcasting]:/swift/2023/01/14/type-casting.html#h-3-downcasting-type-cast-operator-as-as-
 [Strong Reference Cycles Between Class instances]:https://docs.swift.org/swift-book/documentation/the-swift-programming-language/automaticreferencecounting/#Strong-Reference-Cycles-Between-Class-Instances
 [Swift Strings and Characters]:/swift/2022/09/17/strings-and-characters.html#h-8-accessing-and-modifying-a-string-문자열-접근과-수정-
