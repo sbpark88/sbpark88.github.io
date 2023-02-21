@@ -584,7 +584,7 @@ class SnakesAndLadders: DiceGame {
 
 > [Class-Only Protocols](#h-10-class-only-protocols-) 에서 다시 살펴보겠지만, `AnyObject`를 상속시키는것으로 
 > Protocol 은 `Class-Only Protocols`로 marking 된다. 그리고 **Class-Only Protocols** 를 채택한 **Class** 
-> 는 반드시 `delegate 를 Week Reference 로 선언`해야야한다.
+> 는 반드시 `delegate 를 Week Reference 로 선언`해야한다.
 
 <br>
 
@@ -1114,6 +1114,24 @@ A game of Snakes and Ladders with 25 squares:
 
 ### 9. Class-Only Protocols 👩‍💻
 
+```swift
+protocol SomeClassOnlyProtocol: AnyObject, SomeInheritedProtocol {
+    // class-only protocol definition goes here
+}
+```
+
+[Delegation Examples](#h-2-examples-1) 에서 본 것처럼, *Class* 의 채택만 허용하려면, `AnyObject`를 상속시킴으로써 
+`Class-Only Protocols`로 marking 된다.
+
+> **Class-Only Protocols** 를 채택한 **Class** 는 반드시 `delegate 를 Week Reference 로 선언`해야한다.
+
+> Protocol 의 요구사항에 정의된 동작이 `Value Semantics`가 아닌 `Reference Semantics`임을 가정하거나 요구하는 경우 
+> `Class-Only Protocols`를 사용한다.
+>
+> [Which one choose Structures or Classes][Which one choose Structures or Classes] 에서 애플은 
+> `Inheritance` 관계를 설계할 때 처음부터 `Protocol`을 사용하는 것을 권장하고있다. 따라서 **Class** 에만 채택되어야 하는 
+> 기능을 상속 구조로 설계할 때 **Class Inheritance** 대신 `Class-Only Protocols`를 사용할 수 있다. 
+
 ---
 
 ### 10. Protocol Composition 👩‍💻
@@ -1157,3 +1175,4 @@ Reference
 [Extension cannot override]:/swift/2023/01/17/extensions.html#h-1-extension-vs-inheritance-
 [Associated Values]:(/swift/2022/11/01/enumerations.html#h-4-associated-values-)
 [Raw Values]:/swift/2022/11/01/enumerations.html#h-5-raw-values-
+[Which one choose Structures or Classes]:/swift/2022/11/21/structures-and-classes.html#h-3-structure-와-class-무엇을-선택할까

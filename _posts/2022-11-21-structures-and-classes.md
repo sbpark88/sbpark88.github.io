@@ -84,6 +84,10 @@ __4 ) 공유 *implementation(구현체)* 를 적용하기 위해 *Structure* 와
 *Class* 로 제한되지만, `Protocol`은 *Class* 뿐 아니라 *Structure*, *Protocol* 까지 모두에게 채택을 
 허용하기 때문에 모델링이 훨씬 더 유연해진다.
 
+> 만약, `Class 에서만 유효해야하는 상속`을 구현할 때, **Class Inheritance** 대신 
+> [Class-Only Protocols](/swift/2023/02/20/protocols.html#h-9-class-only-protocols-) 를 
+> 사용할 수 있다.
+
 ---
 
 ### 2. Definition of Structures and Classes 👩‍💻
