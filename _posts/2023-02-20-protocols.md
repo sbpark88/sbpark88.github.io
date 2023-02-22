@@ -3,7 +3,7 @@ layout: post
 title: Swift Protocols
 subtitle: Swift protocols make blueprint
 categories: swift
-tags: [swift docs, protocol, blueprint, requirement, delegation, add protocol, adopt protocol, protocol inheritance, class-only protocol, protocol extensions, equatable, hashable, comparable]
+tags: [swift docs, protocol, blueprint, requirement, delegation, add protocol, adopt protocol, protocol inheritance, class-only protocol, protocol extension, equatable, hashable, comparable, optional protocol requirement, check protocol, protocol constraint where]
 ---
 
 ### 1. Protocols 👩‍💻
@@ -669,7 +669,7 @@ The game lasted for 30 turns
 기존 타입에 대해 소스 코드에서 접근할 수 없지만 새로운 프로토콜을 채택하고 준수하도록 해 확장할 수 있다. 이를 이용해 기존 타입에 새로운 
 Properties, Methods, Subscripts 를 추가할 수 있다. 
 
-이전의 [Swift Extensions](/swift/2023/01/17/extensions.html) 에서 `extension` keyword 만 이용해 확장을 했는데 
+이전의 [Swift Extensions][Swift Extensions] 에서 `extension` keyword 만 이용해 확장을 했는데 
 이번 챕터에서는 `extension`을 확장할 때 `Protocol`을 채택시켜 확장하도록 해본다.
 
 ```swift
@@ -699,7 +699,8 @@ print(d12.textualDescription)   // A 12-sided dice
 #### 2. Extending Primitive Types using Protocols
 
 이번에는 [Swift Strings and Characters][Swift Strings and Characters] 챕터에서 사용해본 Swift 의 불편한 문자열 접근과 
-[Swift Extensions][Swift Extensions] 챕터에서 확장할 때 사용했던 *Subscripts* 를 *Protocol* 을 이용해 확장해보자.
+[Extensions - Subscripts][Swift Extensions - Subscripts] 챕터에서 확장할 때 사용했던 *Subscripts* 를 *Protocol* 을 
+이용해 확장해보자.
 
 공통으로 사용할 Protocol 을 하나 정의한다.
 
@@ -711,7 +712,7 @@ protocol easyIndex {
 
 <br>
 
-__1 ) 우선 [Swift Extensions][Swift Extensions] 를 Protocol 을 이용하는 것으로 바꿔보자__
+__1 ) 우선 [Extensions - Subscripts][Swift Extensions - Subscripts] 를 Protocol 을 이용하는 것으로 바꿔보자__
 
 ```swift
 extension Int: easyIndex {
@@ -817,6 +818,9 @@ let myDice = [d6, d12]
 print(myDice.textualDescription)    // [A 6-sided dice, A 12-sided dice]
 ```
 
+`Element 가 TextRepresentable Protocol 을 따르는 Array`이므로 Computed Property `textualDescription`를 
+Member 로 갖는다.
+
 ```swift
 let myNumber = [1, 2, 4, 6]
 let myString = ["A", "C", "F"]
@@ -824,6 +828,9 @@ let myString = ["A", "C", "F"]
 myNumber.textualDescription // Property 'textualDescription' requires that 'Int' conform to 'TextRepresentable'
 myString.textualDescription // Property 'textualDescription' requires that 'String' conform to 'TextRepresentable'
 ```
+
+`Element 가 TextRepresentable Protocol 을 따르지 않는 Array`이므로 Computed Property `textualDescription`를
+Member 로 갖지 않아 에러가 발생한다.
 
 #### 4. Declaring Protocol Adoption with an Extension
 
@@ -1413,6 +1420,15 @@ __Syntax__
 }
 ```
 
+> 참고로 Protocol 이 구현 의무를 갖지 않도록 하는 방법은 Optional Protocol 외에도 
+> [Protocol Extensions](#h-13-protocol-extensions-) 가 있다. 물론, Optional Protocols 와 작동 방식은 다르지만 
+> 기본 구현을 제공하며, 사용자 정의 구현도 가능하게 할 뿐 아니라 Class 가 아닌 Structure 나 Enumeration 에서도 사용할 수 
+> 있다는 장점을 갖는다.
+> 
+> Optional Protocols 의 구현 의무 면제가 왜 위험하고 주의해야하는지 잠시 후 
+> [4. Optional Protocols as Types](#h-4-optional-protocols-as-types) 에서 소개한다. 이것을 기억한채로 
+> 다음 챕터인 `Protocol Extensions`와 비교해보자.
+
 #### 2. Examples
 
 ````swift
@@ -1569,7 +1585,7 @@ nil
 즉, <span style="color: red;">Protocol 을 채택하더라도 아무런 구현도 하지 않았을 가능성</span>이 존재한다.
 
 > 이런 요구사항을 준수하는 Class 를 만드는 것이 기술적으로는 가능하지만, 좋은 방법은 아니다. 이 Protocol 을 사용하지 않고 
-> 해당 요구사항을 준수하는 Class 의 구현을 할 수 있다. 
+> 해당 요구사항을 준수하는 Class 의 구현을 할 수 있다.
 
 이 Protocol 을 Class 가 직접 채택하지 말고 Type 으로 사용해보자.
 
@@ -1712,9 +1728,314 @@ Array(1...5).forEach { _ in
 
 #### 1. Protocol Extensions
 
+Protocol 은 이것을 준수하는 Type 에 기능을 제공하기 위해 [Extensions][Swift Extensions] 을 이용해 
+`Computed Properties`, `Initializers`, `Methods`, `Subscripts`의 기본 구현을 적합성을 준수하는 Type 에 
+추가할 수 있다.
+
+> 이는 Global Function 을 추가하거나 추가된 Protocol 채택으로 인해 개별 Type 마다 적합성을 다시 추가하는 대신 
+> `Protocol Extensions`를 사용해 기능을 제공할 수 있다.
+
+> `Protocol Extensions` 으로 확장된 기능은 기존의 Protocol 을 채택할 때 이 Extensions 은 기본 구현을 제공하기만 할 뿐 
+> 채택하는 <span style="color: red;">Type 에 적합성을 만족하기 위한 구현을 강요하지 않는다</span>. 
+> 
+> 또한 기능의 구현이 보장되므로 [Optional Protocols](#h-3-optional-members-make-them-optional-types) 와 다르게 
+> `Optional Chaining` 없이 호출될 수 있다.
+
+<br>
+
+의사 난수(pseudorandom number) 생성기를 다시 떠올려보자.
+
+```swift
+protocol RandomNumberGenerator {
+    func random() -> Double
+}
+
+class LinearCongruentialGenerator: RandomNumberGenerator {
+    var lastRandom = 42.0
+    let m = 139968.0
+    let a = 3877.0
+    let c = 29573.0
+
+    func random() -> Double {
+        lastRandom = ((lastRandom + a + c).truncatingRemainder(dividingBy: m))
+        return lastRandom / m
+    }
+}
+```
+
+```swift
+let generator = LinearCongruentialGenerator()
+Array(1...5).forEach { _ in print("Here's a random number: \(generator.random())") }
+```
+
+```console
+Here's a random number: 0.23928326474622771
+Here's a random number: 0.4782664609053498
+Here's a random number: 0.7172496570644719
+Here's a random number: 0.956232853223594
+Here's a random number: 0.19521604938271606
+```
+
+그런데 이 의사 난수 생성기를 이용한 `Bool`을 반환하는 함수를 추가하고 싶다면 어떻게 해야할까?
+
+앞에서 Protocol 의 기능을 확장하고자 할 때 [Protocol Inheritance](#h-8-protocol-inheritance-) 를 사용해 다음과 같이 
+기능을 추가했다.
+
+```swift
+protocol RandomBoolGenerator: RandomNumberGenerator {
+    func randomBool() -> Bool
+}
+
+extension LinearCongruentialGenerator: RandomBoolGenerator {
+    func randomBool() -> Bool {
+        random() > 0.5
+    }
+}
+```
+
+```swift
+Array(1...5).forEach { _ in print("Here's a random Boolean: \(generator.randomBool())") }
+```
+
+```console
+Here's a random Boolean: false
+Here's a random Boolean: false
+Here's a random Boolean: true
+Here's a random Boolean: true
+Here's a random Boolean: false
+```
+
+상속을 이용할 경우 우리는 다음과 같이 3가지를 구현해야한다.
+
+1. RandomNumberGenerator 를 상속한 RandomBoolGenerator Protocol 정의.
+2. Extension 을 이용해 LinearCongruentialGenerator Class 에 RandomBoolGenerator 를 추가로 채택.
+3. 채택된 RandomBoolGenerator Protocol 을 준수하도록 정의.
+
+그런데 LinearCongruentialGenerator Class 는 이미 RandomNumberGenerator Protocol 을 준수하고있다.
+
+<br>
+
+`Protocol Extensions`는 이미 `Protocol 을 준수하는 Type 에 Protocol 자체를 확장`함으로써 쉽게 기능을 추가할 수 있다.
+
+```swift
+extension RandomNumberGenerator {
+    func randomBool() -> Bool {
+        random() > 0.5
+    }
+}
+```
+
+```swift
+Array(1...5).forEach { _ in print("Here's a random Boolean: \(generator.randomBool())") }
+```
+
+```console
+Here's a random Boolean: false
+Here's a random Boolean: false
+Here's a random Boolean: true
+Here's a random Boolean: true
+Here's a random Boolean: false
+```
+
+> Protocol 을 확장하는 것이라 해도 Extension 은 Protocol 이 아니므로 구현을 미룰 수 없다.
+> 
+> ```swift
+> extension RandomNumberGenerator {
+>     func randomBool() -> Bool     // Expected '{' in body of function declaration
+> }
+> ```
+> 
+> 따라서 Protocol 을 확장함과 동시에 구현을 반드시 제공해야한다.
+
 #### 2. Providing Default Implementations
 
-#### 3. Adding Constraints to Protocol Extensions
+위에서 살펴보았듯이 
+
+```swift
+protocol RandomNumberGenerator {
+    func random() -> Double
+}
+
+extension RandomNumberGenerator {
+    func randomBool() -> Bool {
+        random() > 0.5
+    }
+}
+```
+
+RandomNumberGenerator 를 확장하고, RandomNumberGenerator 를 채택해 다음과 같이 LinearCongruentialGenerator 에
+적합성을 추가하면
+
+```swift
+class LinearCongruentialGenerator: RandomNumberGenerator {
+    var lastRandom = 42.0
+    let m = 139968.0
+    let a = 3877.0
+    let c = 29573.0
+
+    func random() -> Double {
+        lastRandom = ((lastRandom + a + c).truncatingRemainder(dividingBy: m))
+        return lastRandom / m
+    }
+}
+```
+
+이 LinearCongruentialGenerator Class 는 확장된 `RandomNumberGenerator`의 기본 구현을 받아 다음과 같은 형태인 것처럼 
+작동할 것이다.
+
+```swift
+class LinearCongruentialGenerator: RandomNumberGenerator {
+    var lastRandom = 42.0
+    let m = 139968.0
+    let a = 3877.0
+    let c = 29573.0
+
+    func random() -> Double {
+        lastRandom = ((lastRandom + a + c).truncatingRemainder(dividingBy: m))
+        return lastRandom / m
+    }
+
+    func randomBool() -> Bool {
+        random() > 0.5
+    }
+}
+```
+
+그런데 이것의 구현을 변경하고 싶다면 어떻게 해야할까? Default 로 제공된 이 구현을 다르게 하고 싶다면 어떻게 해야할까?
+
+<br>
+
+만약 이것을 Protocol Extensions 가 아닌 Protocols 로 정의했다면 매번 *RandomBoolGenerator* Protocol 을 채택할 때 
+적합성 구현을 해야하므로 필요한 Type 에 맞게 구현을 변경하면 된다.
+
+```swift
+extension LinearCongruentialGenerator: RandomBoolGenerator {
+    func randomBool() -> Bool {
+        random() > 0.8
+    }
+}
+```
+
+<br>
+
+반면 Extensions 은 구현의 의무가 없기 때문에 그냥 *RandomNumberGenerator* Protocol 을 채택한 후 Extensions 가 
+기본 구현을 제공하기로 한 기능을 직접 구현하면 된다. 
+
+```swift
+class LinearCongruentialGenerator: RandomNumberGenerator {
+    var lastRandom = 42.0
+    let m = 139968.0
+    let a = 3877.0
+    let c = 29573.0
+
+    func random() -> Double {
+        lastRandom = ((lastRandom + a + c).truncatingRemainder(dividingBy: m))
+        return lastRandom / m
+    }
+    
+    func randomBool() -> Bool {
+        random() > 0.8
+    }
+}
+```
+
+그러면 Extensions 은 기본 구현을 제공할 뿐 어떠한 구현도 강요하지 않기 때문에 Protocol 의 기능을 직접적으로 수행하지 않는다.
+따라서 위에서 `randomBool()`은 LinearCongruentialGenerator Class 가 자체적으로 정의한 것이 되고,
+RandomNumberGenerator 가 Extensions 으로써 제공한 기능은 Class 의 구현에 의해 무시된다.
+
+```swift
+let generator = LinearCongruentialGenerator()
+Array(1...5).forEach { _ in print("Here's a random Boolean: \(generator.randomBool())") }
+```
+
+```console
+Here's a random Boolean: false
+Here's a random Boolean: false
+Here's a random Boolean: false
+Here's a random Boolean: true
+Here's a random Boolean: false
+```
+
+이로써 별도의 구현 변경이 필요하지 않은 경우 *RandomBoolGenerator* Protocol 을 채택하는 것 만으로 우리는 
+
+```swift
+func randomBool() -> Bool {
+    random() > 0.5
+}
+```
+
+를 기본 구현으로 사용할 수 있으며, 필요시 이를 직접 구현해 사용할 수 있다.
+
+#### 3. Adding Constraints to Protocol Extensions (where)
+
+[Conditionally Conforming to a Protocol (where)](#h-3-conditionally-conforming-to-a-protocol-where) 에서 
+이미 Protocol 에 `where`를 이용해 `constraints`를 추가하는 것을 확인했다.
+
+```swift
+extension Array: TextRepresentable where Element: TextRepresentable {
+    var textualDescription: String {
+        let itemsAsText = self.map { $0.textualDescription }
+        return "[" + itemsAsText.joined(separator: ", ") + "]"
+    }
+}
+```
+
+이번엔 이를 좀 더 일반화 시켜 `Collection 에 기능을 추가`해보자. 단, 정상적인 동작을 위해 `Element 이 Equatable 에 적합`한 
+경우로 제한하도록한다.
+
+```swift
+extension Collection where Element: Equatable {
+    func allEqual() -> Bool {
+        for element in self {
+            if element != self.first {
+                return false
+            }
+        }
+        return true
+    }
+}
+```
+
+위 Protocol 은 모든 Element 가 `Equatable`을 만족하는 Collection 에게 자기 자신의 모든 Element 가 동일한지를 판별 후 
+Boolean 을 반환하는 `allEqual()` 메서드를 추가한다.
+
+```swift
+let equalNumbers = [100, 100, 100, 100, 100]
+let differentNumbers = [100, 100, 200, 100, 200]
+
+print(equalNumbers.allEqual())      // true
+print(differentNumbers.allEqual())  // false
+```
+
+<br>
+
+위 코드는 Protocol Extensions 와 constraints 를 이용해 기능을 확장하는 것을 어떤식으로 활용할 수 있는가 설명하기 위한 것으로 
+실제 위와 같이 단순한 코드는 따로 구현할 필요 없이 Swift 가 이미 모든걸 제공하고있다.
+
+`Higher-order Functions`를 사용하면 Collection 의 `모든 값이 같은지` 또는 `어떤 값을 포함하고 있는지`를 손쉽게 처리할 수 있다.
+
+- Swift 는 `allSatisfy`와 `contains`를 이용해 손쉽게 처리할 수 있다.
+
+```swift
+print(equalNumbers.allSatisfy { $0 == equalNumbers[0] })            // true
+print(differentNumbers.allSatisfy { $0 == differentNumbers[0] })    // false
+
+print(equalNumbers.contains { $0 == 200 })                          // false
+print(differentNumbers.contains { $0 == 200 })                      // true
+```
+
+- TypeScript 는 `every`와 `some`을 이용해 손쉽게 처리할 수 있다.
+
+```typescript
+const equalNumbers: Array<number> = [100, 100, 100, 100, 100]
+const differentNumbers: Array<number> = [100, 100, 200, 100, 200]
+
+console.log(equalNumbers.every(v => v === equalNumbers[0]))     // true
+console.log(differentNumbers.every(v => v === equalNumbers[0])) // false
+
+console.log(equalNumbers.some(v => v === 200))                  // false
+console.log(differentNumbers.some(v => v === 200))              // true 
+```
 
 
 <br><br>
@@ -1732,7 +2053,8 @@ Reference
 [Downcasting]:/swift/2023/01/14/type-casting.html#h-3-downcasting-type-cast-operator-as-as-
 [Strong Reference Cycles Between Class instances]:https://docs.swift.org/swift-book/documentation/the-swift-programming-language/automaticreferencecounting/#Strong-Reference-Cycles-Between-Class-Instances
 [Swift Strings and Characters]:/swift/2022/09/17/strings-and-characters.html#h-8-accessing-and-modifying-a-string-문자열-접근과-수정-
-[Swift Extensions]:swift/2023/01/17/extensions.html#h-6-subscripts-
+[Swift Extensions]:/swift/2023/01/17/extensions.html
+[Swift Extensions - Subscripts]:swift/2023/01/17/extensions.html#h-6-subscripts-
 [Extension cannot override]:/swift/2023/01/17/extensions.html#h-1-extension-vs-inheritance-
 [Associated Values]:(/swift/2022/11/01/enumerations.html#h-4-associated-values-)
 [Raw Values]:/swift/2022/11/01/enumerations.html#h-5-raw-values-
