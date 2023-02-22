@@ -260,13 +260,13 @@ Protocol 에서 Methods 를 `mutating`으로 정의했을 때 이 Protocol 을 �
 __Example__
 
 ```swift
-protocol Togglable {
+protocol Toggleable {
     mutating func toggle()
 }
 ```
 
 ```swift
-enum OnOffSwitch: Togglable {
+enum OnOffSwitch: Toggleable {
     case off, on
     
     mutating func toggle() {
@@ -312,7 +312,7 @@ Methods 와 유사하다. 하지만 *Initializers* 는 *name* 과 *Explicit retu
 
 ```swift
 protocol SomeProtocol {
-    func someTypeMethod() -> SomeType
+    init(someParameter: SomeType)
 }
 ```
 
@@ -1390,6 +1390,322 @@ Something that doesn't have an area
 
 ### 12. Optional Protocol Requirements 👩‍💻
 
+#### 1. Optional Protocol Requirements Syntax
+
+Protocol 의 *Requirements* 를 정의할 때 *Optional* 을 사용할 수 있다. 이를 `Optional Requirements`라 하며, 
+이것은 반드시 구현해야하는 책임을 갖지 않는다. 
+
+주의해야할 것이 
+<span style="color: red;">Optional Requirements 는 Objective-C 와 상호 운용(interoperates)</span>
+을 위한 것으로, Protocol 의 Type 은 반드시 `@objc` 를 이용해 `@objc Protocol`로 정의해야한다. 
+또한 *Optional Requirements* 를 적용할 attributes 는 반드시 `@objc`를 이용해 `@objc attribute`로만 정의될 수 있다. 
+
+마지막으로 이것이 `Optional`임을 나타내기 위해 `optional` modifier 도 함께 작성해줘야한다.
+
+__Syntax__
+
+```swift
+@objc protocol SomeProtocol {
+    @objc optional var mustBeSettable: Int { get set }
+    @objc optional var doesNotNeedToBeSettable: Int { get }
+    @objc optional func someTypeMethod() -> SomeType
+    @objc optional init(someParameter: SomeType)
+}
+```
+
+#### 2. Examples
+
+````swift
+protocol Member {
+    var name: String { get set }
+    var age: Int { get set }
+    optional var address: String { get }    // 'optional' can only be applied to members of an @objc protocol
+}
+````
+
+`optional`을 사용하려면 반드시 `Objective-C 와의 interoperates`가 필요하다. 따라서 `@objc protocol`의 member 가 
+되어야하므로 Protocol 정의를 변경해야한다.
+
+````swift
+@objc protocol Member {
+    var name: String { get set }
+    var age: Int { get set }
+    optional var address: String { get }   // 'optional' requirements are an Objective-C compatibility feature; add '@objc'
+}
+````
+
+Protocol 정의를 `@objc protocol`로 변경했지만 여전히 에러가 발생한다. `optional`을 사용하려면 그 member 역시 `@objc`로 
+marking 되어야한다.
+
+```swift
+@objc protocol Member {
+    var name: String { get set }
+    var age: Int { get set }
+    @objc optional var address: String { get }
+}
+```
+
+드디어 정상적으로 정의되었다. 즉, *Swift 만 사용해 코드를 작성하더라도 Optional Requirements 를 사용하려면 반드시 `@objc`로 
+정의*해야한다.
+
+<br>
+
+````swift
+struct Teacher: Member {    // Non-class type 'Teacher' cannot conform to class protocol 'Member'
+    var name: String
+    var age: Int
+    var address: String
+}
+````
+
+*Objective-C 와 상호 운용한다는 것*은 이것이 `Class`이어야 함을 의미한다. 따라서 Structure 로 정의할 수 없다. 
+
+````swift
+class Teacher: Member {
+    var name: String
+    var age: Int
+    var address: String
+    init(name: String, age: Int, address: String) {
+        self.name = name
+        self.age = age
+        self.address = address
+    }
+}
+
+class Student: Member {
+    var name: String
+    var age: Int
+    init(name: String, age: Int) {
+        self.name = name
+        self.age = age
+    }
+}
+````
+
+*Teacher* 는 optional 을 포함해 *name, age, address* 를 모두 member 로 갖는다. 
+반면, *Student* 는 optional 을 제외하고 *name, age* 만 member 로 갖는다. 실제 객체가 정상적으로 동작되는지 확인해보자.
+
+```swift
+let jamie = Teacher(name: "Jamie", age: 42, address: "서울시 강남구")
+let mike = Student(name: "Mike", age: 20)
+
+var MemberList: [Member] = [jamie, mike]
+
+for member in MemberList {
+    switch member {
+    case let manager as Teacher:
+        print("Teacher name is \(manager.name), he(she) is \(manager.age) years old, and lives in \(manager.address).")
+    case let student as Student:
+        print("Student name is \(student.name), he(she) is \(student.age) years old.")
+    default: break
+    }
+}
+```
+
+```console
+Teacher name is Jamie, he(she) is 42 years old, and lives in 서울시 강남구.
+Student name is Mike, he(she) is 20 years old.
+```
+
+#### 3. Optional Members make them Optional Types
+
+위 [Examples](#h-2-examples-4) 만 보면 굉장히 유용해 보인다. 하지만 Optional Protocols 를 사용하는 것은 매우 조심해야한다. 
+
+Protocol 은 직접 채택하는 것 뿐 아니라 [Protocol 을 Type 으로 사용](#h-3-protocols-as-types-)할 수 있음을 앞에서 확인했다. 
+바로 이때 Optional Protocols 를 Types 로 사용할 때 왜 위험한지 알아보자.
+
+![Optional Members are Optional Types](/assets/images/posts/2023-02-20-protocols/optional-memebrs-make-them-optional-types.png){: width="800"}
+
+> <span style="color: red;">Optional Members 는 구현 의무가 없기 때문에</span> 이것을 Types 로 사용할 때,
+> <span style="color: red;">Members 의 Type 은 항상 Optional</span> 이다.
+
+즉, `@objc optional var something: Int { get }`의 Type 은 `Int`가 아니라 `Int?`다.  
+마찬가지로 `@objc optional func someFunc(num: Int) -> String`의 Type 은 `(Int) -> String`이 아니라 
+`((Int) -> String)?`이다.
+
+```swift
+for member in MemberList {
+    userInformation(user: member)
+    print("")
+}
+
+func userInformation(user: Member) {
+    print(user.name)
+    print(user.age)
+    print(user.address as Any)
+}
+```
+
+```console
+Jamie
+42
+Optional("서울시 강남구")
+
+Mike
+20
+nil
+```
+
+> - 위 예제에서 Teacher, Student 는 `Member Protocol 을 채택한 Teacher, Student Types`다. 즉, Member Type 이 
+>   아니므로, Teacher 나 Student Types 는 `address 의 존재의 유무를 명확`하게 알 수 있다. 따라서 Teacher Class 는 
+>   address 를 `String` Type 으로 갖고 있으므로 Optional 이 아니다. 또한, Student Class 는 address 를 갖고 있지 않다.
+> - 이번 예제에서 Member 를 Type 으로 사용할 경우, 이 `Protocol 을 채택한 어떤 Class 가 그것을 구현 했는지 여부를 알 수 없다`. 
+>   그렇기 때문에 `Optional`인 것이다. 따라서 Type 으로 사용할 때는 적절한 Type 으로 `Downcasting`하거나 
+>   `Optional Chaining`으로 접근해야한다.
+
+#### 4. Optional Protocols as Types
+
+위에서 살펴본 것처럼 Optional Protocols 를 Type 으로 사용할 때는 주의해야한다. 이것을 좀 더 극단적인 케이스를 이용해 더 깊게 알아보자.
+
+```swift
+@objc protocol CounterDataSource {
+    @objc optional func increment(forCount count: Int) -> Int
+    @objc optional var fixedIncrement: Int { get }
+}
+```
+
+*CounterDataSource* 는 *increment 라는 Optional Method* 와 *fixedIncrement 라는 Optional Property* 를 
+갖고 있으며, `둘 다 Optional Members`다. 
+즉, <span style="color: red;">Protocol 을 채택하더라도 아무런 구현도 하지 않았을 가능성</span>이 존재한다.
+
+> 이런 요구사항을 준수하는 Class 를 만드는 것이 기술적으로는 가능하지만, 좋은 방법은 아니다. 이 Protocol 을 사용하지 않고 
+> 해당 요구사항을 준수하는 Class 의 구현을 할 수 있다. 
+
+이 Protocol 을 Class 가 직접 채택하지 말고 Type 으로 사용해보자.
+
+```swift
+class Counter {
+    var count = 0
+    var dataSource: CounterDataSource
+    func increment() {
+        if let amount = dataSource.increment?(forCount: count) {
+            count += amount
+        } else if let amount = dataSource.fixedIncrement {
+            count += amount
+        }
+    }
+    init(dataSource: CounterDataSource) {
+        self.dataSource = dataSource
+    }
+    convenience init(count: Int, dataSource: CounterDataSource) {
+        self.init(dataSource: dataSource)
+        self.count = count
+    }
+}
+```
+
+그런데 *dataSource* 가 Type 으로 사용하는 *CounterDataSource* Protocol 은 모든 Members 를 구현하지 않아도 되므로, 
+실제 아무런 구현도 하지 않았을 가능성이 존재한다. 따라서 `CounterDataSource 가 아닌 CounterDataSource?`를 사용하는 것이 
+적합하다.
+
+```swift
+class Counter {
+    var count = 0
+    var dataSource: CounterDataSource?
+    func increment() {
+        if let amount = dataSource?.increment?(forCount: count) {
+            count += amount
+        } else if let amount = dataSource?.fixedIncrement {
+            count += amount
+        }
+    }
+}
+```
+
+- `increment(forCount:)` 호출을 보자. 첫 번째 `?`은 `CounterDataSource? Type`이므로 사용되었고, 두 번째 `?`은 
+  *increment* 가 `Optional Member`이므로 구현 여부를 알 수 없어 사용되었다. 즉, 이렇게 `Optional Chaining`을 
+  이용해 접근해야 안전하다.
+- 함수에서 if clause 와 else clause 에서 `let amount`가 가능한 이유는 `increment(forCount:)`와 `fixedIncrement` 
+  모두 Optional Types 이므로 `Optional Binding`이 가능한 것이다.
+
+<br>
+
+Counter 를 작동시켜보자.
+
+```swift
+var counter = Counter()
+
+for _ in 1...4 {
+    counter.increment()
+    print(counter.count)
+}
+```
+
+```console
+0
+0
+0
+0
+```
+
+`var dataSource: CounterDataSource?`가 `nil`이기 때문에 count = 0 에 의해 0에 매번 0을 더하므로 모두 0이다.
+
+<br>
+
+*dataSource* 에 할당할 CounterDataSource Type 의 Class 를 하나 만들어보자.
+
+```swift
+class ThreeSource: NSObject, CounterDataSource {
+    let fixedIncrement = 3
+}
+```
+
+이번에는 이 Class 를 `var dataSource: CounterDataSource?`에 할당 후 Counter 를 작동시켜보자.
+
+```swift
+var counter = Counter()
+counter.dataSource = ThreeSource()
+
+for _ in 1...4 {
+    counter.increment()
+    print(counter.count)
+}
+```
+
+```console
+3
+6
+9
+12
+```
+
+<br>
+
+이번에는 `fixedIncrement`가 아닌 `increment(forCount:)`를 이용해 Counter 를 작동시켜보자.
+
+```swift
+class TowardsZeroSource: NSObject, CounterDataSource {
+    func increment(forCount count: Int) -> Int {
+        if count == 0 {
+            return 0
+        } else if count < 0 {
+            return 1
+        } else {
+            return -1
+        }
+    }
+}
+```
+
+```swift
+var counter = Counter()
+counter.count = -4
+counter.dataSource = TowardsZeroSource()
+
+Array(1...5).forEach { _ in
+    counter.increment()
+    print(counter.count)
+}
+```
+
+```console
+-3
+-2
+-1
+0
+0
+```
+
 ---
 
 ### 13. Protocol Extensions 👩‍💻
@@ -1407,7 +1723,6 @@ Something that doesn't have an area
 Reference
 
 1. "Protocols." The Swift Programming Language Swift 5.7. accessed Feb. 20, 2023, [Swift Docs Chapter 18 - Protocols](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/protocols)
-
 
 [Swift Properties]:/swift/2022/11/22/properties.html
 [Stored Properties]:/swift/2022/11/22/properties.html#h-1-stored-properties-
