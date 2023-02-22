@@ -1234,7 +1234,7 @@ func whereIs(_ location: Location) {
 ```
 
 `Downcating`을 이용하면 *Location* 을 상속하고 *Named* 를 채택하는, *다른 Subclass Type* 이 추가되더라도 `Switch`와 
-`as`를 이용한 [Type Casting][Type Casting] 을 이용해 함수를 재사용 할 수 있다.
+`as`를 이용한 [Type Casting][Type Casting Any] 을 이용해 함수를 재사용 할 수 있다.
 <br>
 
 __3 ) Protocol Composition with Class__
@@ -1261,6 +1261,130 @@ whereIs(seattle)    // Seattle, latitude: 47.6, longitude: -122.3
 ---
 
 ### 11. Checking for Protocol Conformance 👩‍💻
+
+#### 1. Checking for Protocol Conformance
+
+[Type Casting][Type Casting] 에서 설명했듯이 `is`와 `as` 연산자를 사용할 수 있다.
+
+- is : Instance 가 Protocol 을 준수하면 `true`, 아니면 `false`를 반환.
+- as? : Instance 가 Protocol 을 준수하면 `Optional<Protocol Type>`, 아니면 `nil`을 반환.
+- as! : Instance 가 Protocol 을 준수하면 `Protocol Type`, 아니면 `Runtime Error`를 trigger.
+
+<br>
+
+Protocol 을 하나 정의하자.
+
+```swift
+protocol HasArea {
+    var area: Double { get }
+}
+```
+
+이제 위 Protocol 을 준수하는 간단한 Class 를 하나 추가해본다.
+
+```swift
+class Country: HasArea {
+    var area: Double
+    init(area: Double) { self.area = area }
+}
+
+let country = Country(area: 100.0)
+```
+
+*country* Instance 를 `is`, `as?`, `as!` 연산자를 이용해 타입을 체크해본다.
+
+- is
+
+```swift
+print(country is HasArea)   // true
+print(country is Int)       // false
+```
+
+```swift
+if country is HasArea {
+    print("country conforms to HasArea protocol.")
+} else {
+    print("country do not conforms to HasArea protocol.")
+}
+```
+
+```console
+country conforms to HasArea protocol.
+```
+
+- as?
+
+```swift
+print(country as? HasArea)   // Optional(__lldb_expr_7.Country)
+print(country as? Int)       // nil
+```
+
+```swift
+if let country = country as? HasArea {
+    print(country)
+    print("country conforms to HasArea protocol.")
+} else {
+    print("country do not conforms to HasArea protocol.")
+}
+```
+
+```console
+Optional(__lldb_expr_7.Country)
+country conforms to HasArea protocol.
+```
+
+- as!
+
+```swift
+print(country as! HasArea)   // __lldb_expr_11.Country
+print(country as! Int)       // Could not cast value of type '__lldb_expr_11.Country' (0x1025a8720) to 'NSNumber' (0x1b8cd7ff0).
+```
+
+`Forced Unwrapping`으로 인해 Type 불일치 시 `Runtime Error`가 발생한다. `as!`는 에러가 발생하지 않음이 명확한 경우의 
+`Downcasting`에서 사용해야한다. 확인하는 용도로는 적합하지 않다. 
+
+#### 2. Examples
+
+*HasArea* Protocol 을 준수하는 Class 와 준수하지 않는 Class 를 추가로 정의한다.
+
+```swift
+class Circle: HasArea {
+    let pi = 3.1415927
+    var radius: Double
+    var area: Double { pi * radius * radius }
+    init(radius: Double) { self.radius = radius }
+}
+
+class Animal {
+    var legs: Int
+    init(legs: Int) { self.legs = legs }
+}
+```
+
+<br>
+이제 3개의 Classes 를 하나의 배열에 담아 Type Checking 을 이용해 안전하게 순환시켜보자.
+
+```swift
+let objects: [AnyObject] = [
+    Circle(radius: 2.0),
+    Country(area: 243_610),
+    Animal(legs: 4)
+]
+
+objects.forEach {
+    if let objectWithArea = $0 as? HasArea {
+        print("Area is \(objectWithArea.area)")
+    } else {
+        print("Something that doesn't have an area")
+    }
+}
+```
+
+```console
+Area is 12.5663708
+Area is 243610.0
+Something that doesn't have an area
+```
 
 ---
 
@@ -1298,4 +1422,5 @@ Reference
 [Associated Values]:(/swift/2022/11/01/enumerations.html#h-4-associated-values-)
 [Raw Values]:/swift/2022/11/01/enumerations.html#h-5-raw-values-
 [Which one choose Structures or Classes]:/swift/2022/11/21/structures-and-classes.html#h-3-structure-와-class-무엇을-선택할까
-[Type Casting]:/swift/2023/01/14/type-casting.html#h-1-any
+[Type Casting Any]:/swift/2023/01/14/type-casting.html#h-1-any
+[Type Casting]:/swift/2023/01/14/type-casting.html
