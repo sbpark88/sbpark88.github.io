@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Swift Protocols
-subtitle: Swift protocols make blueprint
+subtitle: Protocols make blueprint that define requirements that conforming types must implement.
 categories: swift
 tags: [swift docs, protocol, blueprint, requirement, delegation, add protocol, adopt protocol, protocol inheritance, class-only protocol, protocol extension, equatable, hashable, comparable, optional protocol requirement, check protocol, protocol constraint where]
 ---
