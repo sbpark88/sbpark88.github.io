@@ -2043,7 +2043,7 @@ console.log(differentNumbers.some(v => v === 200))              // true
 ---
 Reference
 
-1. "Protocols." The Swift Programming Language Swift 5.7. accessed Feb. 20, 2023, [Swift Docs Chapter 18 - Protocols](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/protocols)
+1. "Protocols." The Swift Programming Language Swift 5.7. accessed Feb. 20, 2023, [Swift Docs Chapter 21 - Protocols](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/protocols)
 
 [Swift Properties]:/swift/2022/11/22/properties.html
 [Stored Properties]:/swift/2022/11/22/properties.html#h-1-stored-properties-
