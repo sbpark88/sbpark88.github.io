@@ -226,6 +226,9 @@ class ElectricMotorCar: AutomaticCar {
 *AutomaticCar* 의 *currentSpeed* 를 *Overriding* 하면서 `final` modifier 를 붙여주었기 때문에
 *AutomaticCar* 를 상속한 *ElectricMotorCar* 는 이것을 재정의 할 수 없다.
 
+> **Properties, Methods, Subscripts** 가 아닌 ***Classes 정의에 `final` modifier 를 작성***할 경우, 
+> 이 **Class** 를 `Subclassing` 하려는 모든 시도는 **compile-time error** 가 발생한다.
+
 <br><br>
 
 ---
