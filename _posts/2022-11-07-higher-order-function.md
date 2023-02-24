@@ -1221,6 +1221,11 @@ let product: Int = numbers.reduce(1, {(prev, curr) -> Int in prev * curr }) // i
 ```swift
 let sum: Int = numbers.reduce(0, { $0 + $1 })
 let product: Int = numbers.reduce(1) { $0 * $1 }
+```
+
+```swift
+let sum: Int = numbers.reduce(0, +)
+let product: Int = numbers.reduce(1, *)
 
 print("sum: \(sum)   product: \(product)")  // sum: 55   product: 3628800
 ```

@@ -12,7 +12,7 @@ tags: [swift docs, protocol, blueprint, requirement, delegation, add protocol, a
 
 `Protocol`은 Methods, Properties, 그리고 특정 작업이나 기능의 요구사항을 정의하기위한 `blueprint`로, *Protocol* 은
 *Class*, *Structure*, *Enumeration* 에 `채택(adopt)`되어 요구사항을 구현하도록 한다. 그리고 `Protocol 의 모든 요구사항에 
-충족`하면 그 Type 은 해당 Protocol 을 `준수(confirm)`한다고 표현한다.
+충족`하면 그 Type 은 해당 Protocol 을 `준수(conform)`한다고 표현한다.
 
 #### 2. Protocol Syntax
 
