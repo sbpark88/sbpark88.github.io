@@ -1221,6 +1221,11 @@ let product: Int = numbers.reduce(1, {(prev, curr) -> Int in prev * curr }) // i
 ```swift
 let sum: Int = numbers.reduce(0, { $0 + $1 })
 let product: Int = numbers.reduce(1) { $0 * $1 }
+```
+
+```swift
+let sum: Int = numbers.reduce(0, +)
+let product: Int = numbers.reduce(1, *)
 
 print("sum: \(sum)   product: \(product)")  // sum: 55   product: 3628800
 ```
@@ -1329,7 +1334,7 @@ print(isIncluded)   // true
 그렇다면 *contains* 는 이를 얼마나 간단하게 구현할 수 있을까?
 
 ```swift
-let isIncluded: Bool = words.contains { $0 == "train" }
+let isIncluded: Bool = words.contains("train")
 print(isIncluded)   // true
 ```
 
@@ -1363,7 +1368,7 @@ print(isIncluded)   // true
 
 <br>
 
-만약, 단지 포함되어 있는지 여부만 확인하는 것이 아니라 그 *element* 가 무엇인지를 알고싶다면 어떻게 해야할까?  
+`contains`는 Bool`에 대한 판단만 한다. 만약, 단지 포함되어 있는지 여부만 확인하는 것이 아니라 그 *element* 가 무엇인지를 알고싶다면 어떻게 해야할까?  
 우리는 *filter* 와 *contains* 를 상호 보완적으로 함께 사용함으로써 이를 멋지게 처리할 수 있다.
 
 ```swift
@@ -1441,7 +1446,107 @@ let hasFemalesUnder30 = staff.contains { $0.age < 30 && $0.gender == .female }
 print("hasFemalesUnder30", hasFemalesUnder30)
 ```
 
-#### 8. removeAll
+#### 8. allSatisfy
+
+다음은 *Swift documentation* 의 Instance Method `allSatisfy(_:)`의 설명이다.
+
+```swift
+func allSatisfy(_ predicate: (Self.Element) throws -> Bool) rethrows -> Bool
+```
+
+Link: [Apple Developer Documentation](https://developer.apple.com/documentation/swift/array/allsatisfy(_:))  
+
+> - `allSatisfy` 역시 `contains`와 마찬가지로 주어진 조건에 대해 `Bool` 자체를 반환한다.  
+>   이것은 `Collection`의 모든 `elements`를 _Logical AND Operator(`&&`)_ 로 연결한 것과 같다.  
+>   (condition == element1) && (condition == element2) &&(condition ==  element3) || ...  
+>   따라서 하나라도 `false`가 되면 바로 종료 후 `false`를 반환하고, 마지막까지 `true`일 경우 `true`를 반환한다.
+
+<br>
+
+아래 배열이 모두 `길이가 4 이상`인 문자를 포함하고 있는지 확인해보자.
+
+```swift
+let words: [String] = ["room", "home", "train", "green", "heroe"]
+```
+
+<br>
+
+- For-In Loops
+
+```swift
+let isAllTrue: Bool = {
+    var isAllTrue = true
+    for word in words {
+        if word.count < 4 {
+            isAllTrue = false
+            break
+        }
+    }
+    return isAllTrue
+}()
+
+print(isAllTrue)   // true
+```
+
+<br>
+
+- AND Operator(`&&`)
+
+```swift
+let isAllTrue: Bool = words[0].count >= 4 &&
+        words[1].count >= 4 &&
+        words[2].count >= 4 &&
+        words[3].count >= 4 &&
+        words[4].count >= 4
+
+print(isAllTrue)   // true
+```
+
+<br>
+
+- Switch
+
+```swift
+let isAllTrue: Bool = {
+    switch true {
+    case words[0].count < 4: return false
+    case words[1].count < 4: return false
+    case words[2].count < 4: return false
+    case words[3].count < 4: return false
+    case words[4].count < 4: return false
+    default: return true
+    }
+}()
+
+print(isAllTrue)   // true
+```
+
+<br>
+
+- allSatisfy
+
+위에서 *For-In Loops* 를 제외한 다른 방법들은 코드의 성능과 유연성이 떨어진다. 그나마 가장 좋은 방법인 *For-In Loops* 역시
+코드가 길고 가독성이 좋지 못하다.  
+그렇다면 *allSatisfy* 는 이를 얼마나 간단하게 구현할 수 있을까?
+
+```swift
+let isAllTrue: Bool = words.allSatisfy { $0.count >= 4 }
+print(isAllTrue)   // true
+```
+
+정말 이게 전부다!!
+
+만약 이것을 굳이 *filter* 로 구현한다면 어떻게 해야할까?
+
+```swift
+let isAllTrue: Bool = words.filter { $0.count < 4 }.count > 0 ? false : true
+print(isAllTrue)   // true
+```
+
+코드 가독성도 썩 좋지 못할 뿐 아니라 *Collection* 의 모든 *elements* 를 다 돌아서 *new Collection* 을 생성한
+후 크기를 판단해야하므로 성능 또한 떨어진다.
+
+#### 9. removeAll
 
 다음은 *Swift documentation* 의 Instance Method `removeAll(_:)`의 설명이다.
 
@@ -1552,7 +1657,7 @@ words.removeAll { $0.contains("o") && $0.count >= 5 }
 print(words)        // ["room", "home", "train", "green"]
 ```
 
-#### 9. sort, sorted
+#### 19. sort, sorted
 
 다음은 *Swift documentation* 의 Instance Method `sort(by:)`와 `sorted(by:)`의 설명이다.
 
@@ -1677,7 +1782,7 @@ let descendingOrdered = numbers.sorted(by: >)
 print(descendingOrdered)    // [87, 74, 42, 32, 24, 15, 9, 8, 6, 5, 2]
 ```
 
-#### 10. split
+#### 11. split
 
 다음은 *Swift documentation* 의 Instance Method `compactMap(_:)`의 설명이다.
 

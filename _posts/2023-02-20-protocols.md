@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Swift Protocols
-subtitle: Swift protocols make blueprint
+subtitle: Protocols make blueprint that define requirements that conforming types must implement.
 categories: swift
 tags: [swift docs, protocol, blueprint, requirement, delegation, add protocol, adopt protocol, protocol inheritance, class-only protocol, protocol extension, equatable, hashable, comparable, optional protocol requirement, check protocol, protocol constraint where]
 ---
@@ -12,7 +12,7 @@ tags: [swift docs, protocol, blueprint, requirement, delegation, add protocol, a
 
 `Protocol`은 Methods, Properties, 그리고 특정 작업이나 기능의 요구사항을 정의하기위한 `blueprint`로, *Protocol* 은
 *Class*, *Structure*, *Enumeration* 에 `채택(adopt)`되어 요구사항을 구현하도록 한다. 그리고 `Protocol 의 모든 요구사항에 
-충족`하면 그 Type 은 해당 Protocol 을 `준수(confirm)`한다고 표현한다.
+충족`하면 그 Type 은 해당 Protocol 을 `준수(conform)`한다고 표현한다.
 
 #### 2. Protocol Syntax
 
@@ -793,7 +793,8 @@ print(greeting[greeting.count - 1]) // !
 
 `Generic Type`은 오직 `Generic parameter 가 Protocol 을 준수하는 경우`와 같은 특정 조건에서만 Protocol 의 요구사항을 
 만족할 수 있다. 따라서 *Generic Type* 을 확장할 때 `where`를 이용해 `constraints`를 나열해 조건부로 준수하도록 만들어야한다. 
-이것은 추후 [Generic Where Clauses](링크 추가 예정) 에서 자세히 다룬다.
+이것은 추후 [Generic Where Clauses](/swift/2023/02/23/generics.html#h-6-generic-where-clauses-) 에서 
+자세히 다룬다.
 
 > [Switch Value Binding with Where](/swift/2022/10/11/control-flow.html#h-7-where) 에서 본 것 처럼 조건을 
 > 매칭시킬 때 `where`는 주로 추가적인 조건을 `constraints`로 추가하기 위해 사용된다.
@@ -2043,7 +2044,7 @@ console.log(differentNumbers.some(v => v === 200))              // true
 ---
 Reference
 
-1. "Protocols." The Swift Programming Language Swift 5.7. accessed Feb. 20, 2023, [Swift Docs Chapter 18 - Protocols](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/protocols)
+1. "Protocols." The Swift Programming Language Swift 5.7. accessed Feb. 20, 2023, [Swift Docs Chapter 21 - Protocols](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/protocols)
 
 [Swift Properties]:/swift/2022/11/22/properties.html
 [Stored Properties]:/swift/2022/11/22/properties.html#h-1-stored-properties-
