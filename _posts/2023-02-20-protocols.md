@@ -793,7 +793,8 @@ print(greeting[greeting.count - 1]) // !
 
 `Generic Type`은 오직 `Generic parameter 가 Protocol 을 준수하는 경우`와 같은 특정 조건에서만 Protocol 의 요구사항을 
 만족할 수 있다. 따라서 *Generic Type* 을 확장할 때 `where`를 이용해 `constraints`를 나열해 조건부로 준수하도록 만들어야한다. 
-이것은 추후 [Generic Where Clauses](링크 추가 예정) 에서 자세히 다룬다.
+이것은 추후 [Generic Where Clauses](/swift/2023/02/23/generics.html#h-6-generic-where-clauses-) 에서 
+자세히 다룬다.
 
 > [Switch Value Binding with Where](/swift/2022/10/11/control-flow.html#h-7-where) 에서 본 것 처럼 조건을 
 > 매칭시킬 때 `where`는 주로 추가적인 조건을 `constraints`로 추가하기 위해 사용된다.
