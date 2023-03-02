@@ -96,8 +96,7 @@ let isEven: String = { someNumber % 2 == 0 ? "This is an even number" : "This is
 print(isEven)       // This is an odd number
 ```
 
-어디서 많이 본 것 같지 않은가? [Lazy Stored Properties][Lazy Stored Properties] 에서 
-`lazy` modifier 만 빠진 것과 같다는 것을 알 수 있다.  
+어디서 많이 본 것 같지 않은가? [Lazy Stored Properties] 에서 `lazy` modifier 만 빠진 것과 같다는 것을 알 수 있다.  
 즉, 위와 같은 기법을 이용해 *Stored Properties* 의 *Initial Values* 를 설정할 때 사용자 정의 로직을 정의하는 것이 가능하다.
 
 [Lazy Stored Properties]:/swift/2022/11/22/properties.html#h-3-lazy-stored-properties
@@ -1290,7 +1289,7 @@ if unknownUnit == nil {
 
 #### 3. Failable Initializers for Enumerations with Raw Values
 
-[Initializing from a Raw Value][Initializing from a Raw Value] 를 다시 한 번 떠올려보자. 
+[Initializing from a Raw Value] 를 다시 한 번 떠올려보자. 
 
 [Initializing from a Raw Value]:/swift/2022/11/01/enumerations.html#h-2-initializing-from-a-raw-value
 
@@ -1314,8 +1313,7 @@ east is type of String
 Constant 'east' is type of Optional<CompassPoint>
 ```
 
-> [RawValues 를 갖는 Enumerations][Enumerations with RawValues]는 자동으로 
-> **Failable Initializers** `init?(rawValue:)`를 생성한다.
+> [RawValues 를 갖는 Enumerations] 는 자동으로 **Failable Initializers** `init?(rawValue:)`를 생성한다.
 
 [Enumerations with RawValues]:/swift/2022/11/01/enumerations.html#h-2-initializing-from-a-raw-value
 

@@ -484,7 +484,7 @@ default:
 _break_ 를 빠뜨려 발생하는 논리적 오류를 예방할 뿐 아니라 다른 언어에서 `single case match`만 매칭할 수 있는 것과 달리 
 `multiple case match`를 하므로 더더욱 _fallthrough_ 는 필요가 없다.
 
-이것을 [Compound Cases][Compound Cases] 라 하며 아래서 다시 다루도록 한다.
+이것을 [Compound Cases] 라 하며 아래서 다시 다루도록 한다.
 
 ```swift
 let anotherCharacter: Character = "z"
@@ -541,8 +541,7 @@ There are dozens of moons orbiting Saturn.
 ```
 <br>
 
-마찬가지로 Swift 도 [Interval Matching][Interval Matching] 을 사용하지 않고 다음과 같이 `Switch-True` 를 이용해 
-범위 매칭을 할 수 있다.
+마찬가지로 Swift 도 [Interval Matching] 을 사용하지 않고 다음과 같이 `Switch-True` 를 이용해 범위 매칭을 할 수 있다.
 
 ```swift
 let approximateCount: Int = 62

@@ -775,9 +775,9 @@ Added 160 steps, totalStep is now 360
 
 마지막으로 **Property Observers** 를 사용할 때는 다음 경우를 조심해야한다.
 
-> `Observers`가 붙은 **Properties** 를 함수의 [In-Out Parameters][In-Out Parameters]로 전달하면, 
-> `willSet`과 `didSet`은 항상 호출된다. 이는 `In-Out Parameters`가 `Copy-in Copy-out Memory Model`에 의해 
-> 함수가 종료될 때 항상 값을 다시 저장하기 때문이다.
+> `Observers`가 붙은 **Properties** 를 함수의 [In-Out Parameters]로 전달하면, `willSet`과 `didSet`은 항상 
+> 호출된다. 이는 `In-Out Parameters`가 `Copy-in Copy-out Memory Model`에 의해 함수가 종료될 때 항상 값을 
+> 다시 저장하기 때문이다.
 
 [In-Out Parameters]:https://docs.swift.org/swift-book/ReferenceManual/Declarations.html#ID545
 
@@ -1038,7 +1038,7 @@ print("height: \(hugeRectangle.height), width: \(hugeRectangle.width)") // heigh
 <br>
 
 그리고 *Apple Developer Documentation* 에 `projectedValue`로 검색을 하면 다양한 곳에서 사용되는 것을 
-볼 수 있는데, 다음 두 링크([Link 1][Link 1], [Link 2][Link 2])로부터 유추해보면
+볼 수 있는데, 다음 두 링크([Link 1], [Link 2])로부터 유추해보면
 
 - `getter`, `setter`를 이용해 작동한다
 - `super` 쪽 `value`를 `sub`쪽에 노출시킨다. 즉, 기본으로 노출되지 않는 상위 `hierarchy`의 정보를 접근하게 한다

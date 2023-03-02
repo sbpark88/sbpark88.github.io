@@ -78,7 +78,7 @@ protocol SomeProtocol {
 ```
 
 > `get set`을 모두 정의할 경우 자동으로 [Constant Stored Properties][Stored Properties] 와 
-> [Read-Only Computed Properties][Read-Only Computed Properties] 는 자연스레 준수하는 것이 불가능하다.
+> [Read-Only Computed Properties] 는 자연스레 준수하는 것이 불가능하다.
 > 
 > 반면 `get`만 정의할 경우 모든 종류의 [Properties][Swift Properties] 에 대해 Protocol 을 준수할 수 있다. 
 > 그리고 이것이 유효할 때 `set`이 유효한 타입이라면 `set`은 자동으로 유효하다.
@@ -463,7 +463,7 @@ __5 ) Failable Initializer Requirements__
 Types 로 Protocols 를 사용하는 것은 “there exists a type T such that T conforms to the protocol”라는 
 구절에서 비롯된 `존재 타입(Existential Type)`이라 한다.
 
-즉, *Protocols* 역시 [First-Class Citizen][First-Class Citizen] 으로 다룰 수 있다는 것을 의미한다.
+즉, *Protocols* 역시 [First-Class Citizen] 으로 다룰 수 있다는 것을 의미한다.
 
 - Function, Method, Initializer 의 `Parameter Type` 또는 `Return Type`으로 사용될 수 있다.
 - `Constant, Variable, Property 의 Type`으로 사용될 수 있다.
@@ -471,8 +471,8 @@ Types 로 Protocols 를 사용하는 것은 “there exists a type T such that T
 
 > **Protocols** 역시 `Swift Types`이므로 이름은 `대문자로 시작`한다.
 
-> Superclass 에서 Subclasss 로 [Downcasting][Downcasting] 하던 것처럼 `Protocol Type`에서 이것을 준수하는
-> `Underlying Type`으로 **Downcasting** 할 수 있다.
+> Superclass 에서 Subclasss 로 [Downcasting] 하던 것처럼 `Protocol Type`에서 이것을 준수하는 `Underlying Type`으로 
+> **Downcasting** 할 수 있다.
 
 #### 2. Examples
 
@@ -579,8 +579,7 @@ class SnakesAndLadders: DiceGame {
 }
 ```
 
-[Strong Reference Cycles Between Class instances][Strong Reference Cycles Between Class instances] 를
-예방하기 위해 *delegates* 는 `Week References`로 선언되었다.
+[Strong Reference Cycles Between Class instances] 를 예방하기 위해 *delegates* 는 `Week References`로 선언되었다.
 
 > [Class-Only Protocols](#h-10-class-only-protocols-) 에서 다시 살펴보겠지만, `AnyObject`를 상속시키는것으로 
 > Protocol 은 `Class-Only Protocols`로 marking 된다. 그리고 **Class-Only Protocols** 를 채택한 **Class** 
@@ -669,8 +668,8 @@ The game lasted for 30 turns
 기존 타입에 대해 소스 코드에서 접근할 수 없지만 새로운 프로토콜을 채택하고 준수하도록 해 확장할 수 있다. 이를 이용해 기존 타입에 새로운 
 Properties, Methods, Subscripts 를 추가할 수 있다. 
 
-이전의 [Swift Extensions][Swift Extensions] 에서 `extension` keyword 만 이용해 확장을 했는데 
-이번 챕터에서는 `extension`을 확장할 때 `Protocol`을 채택시켜 확장하도록 해본다.
+이전의 [Swift Extensions] 에서 `extension` keyword 만 이용해 확장을 했는데 이번 챕터에서는 `extension`을 확장할 때 
+`Protocol`을 채택시켜 확장하도록 해본다.
 
 ```swift
 protocol TextRepresentable {
@@ -698,9 +697,8 @@ print(d12.textualDescription)   // A 12-sided dice
 
 #### 2. Extending Primitive Types using Protocols
 
-이번에는 [Swift Strings and Characters][Swift Strings and Characters] 챕터에서 사용해본 Swift 의 불편한 문자열 접근과 
-[Extensions - Subscripts][Swift Extensions - Subscripts] 챕터에서 확장할 때 사용했던 *Subscripts* 를 *Protocol* 을 
-이용해 확장해보자.
+이번에는 [Swift Strings and Characters] 챕터에서 사용해본 Swift 의 불편한 문자열 접근과 [Extensions - Subscripts] 
+챕터에서 확장할 때 사용했던 *Subscripts* 를 *Protocol* 을 이용해 확장해보자.
 
 공통으로 사용할 Protocol 을 하나 정의한다.
 
@@ -1018,7 +1016,7 @@ expert(stars: 5)
 ### 7. Collections of Protocol Types 👩‍💻
 
 [Protocols as Types](#h-3-protocols-as-types-) 이미 살펴보았듯이 *Protocols* 역시 
-[First-Class Citizen][First-Class Citizen] 으로 다룰 수 있으므로 이것을 *Collections* 에 저장하는 것 역시 가능하다. 
+[First-Class Citizen] 으로 다룰 수 있으므로 이것을 *Collections* 에 저장하는 것 역시 가능하다. 
 
 ```swift
 let d6 = Dice(sides: 6, generator: LinearCongruentialGenerator())
@@ -1136,9 +1134,9 @@ protocol SomeClassOnlyProtocol: AnyObject, SomeInheritedProtocol {
 > Protocol 의 요구사항에 정의된 동작이 `Value Semantics`가 아닌 `Reference Semantics`임을 가정하거나 요구하는 경우 
 > `Class-Only Protocols`를 사용한다.
 >
-> [Which one choose Structures or Classes][Which one choose Structures or Classes] 에서 애플은 
-> `Inheritance` 관계를 설계할 때 처음부터 `Protocol`을 사용하는 것을 권장하고있다. 따라서 **Class** 에만 채택되어야 하는 
-> 기능을 상속 구조로 설계할 때 **Class Inheritance** 대신 `Class-Only Protocols`를 사용할 수 있다. 
+> [Which one choose Structures or Classes] 에서 애플은 `Inheritance` 관계를 설계할 때 처음부터 `Protocol`을 
+> 사용하는 것을 권장하고있다. 따라서 **Class** 에만 채택되어야 하는 기능을 상속 구조로 설계할 때 **Class Inheritance** 
+> 대신 `Class-Only Protocols`를 사용할 수 있다. 
 
 ---
 
@@ -1272,7 +1270,7 @@ whereIs(seattle)    // Seattle, latitude: 47.6, longitude: -122.3
 
 #### 1. Checking for Protocol Conformance
 
-[Type Casting][Type Casting] 에서 설명했듯이 `is`와 `as` 연산자를 사용할 수 있다.
+[Type Casting] 에서 설명했듯이 `is`와 `as` 연산자를 사용할 수 있다.
 
 - is : Instance 가 Protocol 을 준수하면 `true`, 아니면 `false`를 반환.
 - as? : Instance 가 Protocol 을 준수하면 `Optional<Protocol Type>`, 아니면 `nil`을 반환.

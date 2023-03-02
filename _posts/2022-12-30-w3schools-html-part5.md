@@ -100,7 +100,7 @@ __1 ) CSS Frameworks__
 5. [Skeleton](http://getskeleton.com)
 
 와 같은 `CSS Frameworks`를 사용하는 것이다. 위 frameworks 에 대한 비교는 
-[Top 5 CSS Frameworks][Top 5 CSS Frameworks] 를 참고한다.
+[Top 5 CSS Frameworks]를 참고한다.
 
 <br>
 
@@ -678,7 +678,7 @@ __`Illustration`, `Diagram`, `Photo`와 같은 것들이 자체 포함된 콘텐
 
 #### 10. Never Skip the `title` Element
 
- `head`의 `title`은 탭바에 표시되는 것은 물론이고, `SEO`에 사용되므로 반드시 작성하도록 한다([22. HTML Head][22. HTML Head] 를 참고한다).
+ `head`의 `title`은 탭바에 표시되는 것은 물론이고, `SEO`에 사용되므로 반드시 작성하도록 한다([22. HTML Head] 를 참고한다).
 
 > `title` attribute 와 헷갈리지 않도록 주의한다.  
 > (cf. `title` attribute 는 마우스 오버 시 `tooltip`에 보여지는 것으로, 해당 `element`에 대한 추가적인 정보를 제공한다.)
@@ -691,7 +691,7 @@ __`Illustration`, `Diagram`, `Photo`와 같은 것들이 자체 포함된 콘텐
 
 #### 12. Do not omit `head` Element
 
-[22. HTML Head][22. HTML Head] 를 생략해도 브라우저는 문제 없이 페이지를 렌더링 해주지만 반드시 작성하도록 한다.
+[22. HTML Head] 를 생략해도 브라우저는 문제 없이 페이지를 렌더링 해주지만 반드시 작성하도록 한다.
 
 
 #### 13. Close Empty HTML Elements are Optional
@@ -733,7 +733,7 @@ __`Illustration`, `Diagram`, `Photo`와 같은 것들이 자체 포함된 콘텐
 #### 15. Meta Data
 
 `HTML` document 의 올바른 해석과 `SEO`의 인덱싱을 위해 `meta`태그는 반드시 포함되어야한다. 특히 `charset`은 가능한 앞에 
-정의되어야 한다([22. HTML Head][22. HTML Head] 를 참고한다).
+정의되어야 한다([22. HTML Head] 를 참고한다).
 
 ```html
 <!DOCTYPE html>
@@ -803,8 +803,8 @@ body {
 ---
 Reference
 
-1. "HTML Tutorial." W3Schools. accessed Dec. 30, 2022, [W3Schools-HTML](https://www.w3schools.com/html/default.asp)
-2. "Top 5 CSS Frameworks for Developers and Designers." Browserstack, Mar. 25, 2022, [Top 5 CSS Frameworks][Top 5 CSS Frameworks]
+1. "HTML Tutorial." W3Schools. accessed Dec. 30, 2022, [W3Schools-HTML](https://www.w3schools.com/html/default.asp).
+2. "Top 5 CSS Frameworks for Developers and Designers." Browserstack, Mar. 25, 2022, [Top 5 CSS Frameworks].
 
 [Top 5 CSS Frameworks]:https://www.browserstack.com/guide/top-css-frameworks
 [HTML Semantic Elements]:/assets/images/posts/2022-12-30-w3schools-html-part5/img_sem_elements.gif

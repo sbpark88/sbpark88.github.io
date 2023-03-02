@@ -31,7 +31,7 @@ Property, Method, Subscript 를 `non-nil` 값으로 얻고싶을 때 할 수 있
 얻을 수 있다는 문제가 있다.
 
 그렇다면 *Forced Unwrapping(!)* 과 *Nil-Coalescing Operator(??)* 의 문제를 모두 해결할 수 있는
-`if let` 또는 `guard let`을 이용한 [Optional Binding][Optional Binding] 을 이용하면 되는것 아닐까 생각할 수 있다.
+`if let` 또는 `guard let`을 이용한 [Optional Binding] 을 이용하면 되는것 아닐까 생각할 수 있다.
 물론, *Optional Binding 한 번으로 해결될 수 있다면*, 이 방도 매우 좋은 방법이다. 하지만, 여러 번 'Optional' 가능성이 있을_
 경우, 단순 'Optional Binding' 은 *JavaScript* 에서 *Promise 의 콜백지옥*과 같은 문제를 갖는다.
 
@@ -210,7 +210,7 @@ john.residence?.address = createAddress()
 이것은 위 *Residence* class 의 `printNumberOfRooms()` 메서드와 같은 `반환 값이 없는 메서드에 대해서도 유효`하다.
 
 > 반환 값이 없는 메서드에서도 메서드 호출의 **success or failure** 여부를 확인할 수 있는 이유는 
-> [Functions Without Return Values][Functions Without Return Values] 에서 살펴본 것처럼, 암시적으로 
+> [Functions Without Return Values] 에서 살펴본 것처럼, 암시적으로 
 > `Void`라는 타입의 특수한 값(`()` 로 쓰여진 `Empty Tuple`)을 반환하기 때문이다.
 
 [Functions Without Return Values]:/swift/2022/10/19/functions.html#h-3-functions-without-return-values
@@ -330,7 +330,7 @@ The room number 237 name is Shining.
 
 #### 2. Accessing Subscripts of Dictionaries
 
-[Accessing and Modifying a Dictionary][Accessing and Modifying a Dictionary] 에서 살펴본 것처럼 Swift 에서 
+[Accessing and Modifying a Dictionary] 에서 살펴본 것처럼 Swift 에서 
 *Dictionary 와 같은 일부 Types 는 항상 `Optional`을 반환*한다. 따라서 이런 경우에도 *Optional Chaining* 은 
 유용하게 사용될 수 있다.
 

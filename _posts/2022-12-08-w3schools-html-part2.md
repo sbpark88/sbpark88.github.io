@@ -583,4 +583,4 @@ __Margin Collapsing__
 ---
 Reference
 
-1. "HTML Tutorial." W3Schools. accessed Dec. 8, 2022, [W3Schools-HTML](https://www.w3schools.com/html/default.asp)
+1. "HTML Tutorial." W3Schools. accessed Dec. 8, 2022, [W3Schools-HTML](https://www.w3schools.com/html/default.asp).

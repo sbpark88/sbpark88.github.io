@@ -240,7 +240,7 @@ print(resolutionTypeC)  // Resolution(width: 0, height: 1440)
 > 즉, `copies`에 수정이 발생되기 이전에는 `Reference Types`처럼 작동하고, 수정이 발생되는 순간 `Value Types`처럼 작동하기 
 > 때문에 코드상으로는 즉시 `copy`가 이뤄지는 것처럼 보인다.
 
-[Standard Library - Array][Standard Library - Array]
+[Standard Library - Array]
 
 [Standard Library - Array]:https://developer.apple.com/documentation/swift/array
 
@@ -248,7 +248,7 @@ print(resolutionTypeC)  // Resolution(width: 0, height: 1440)
 > `Classes Bridged to Swift Standard Library Value Types`는 **Classes** 로 구현되어 있으므로 
 > `Reference Types`다.
 
-[Foundation - NSArray][Foundation - NSArray], [Classes Bridged to Swift Standard Library Value Types][Classes Bridged to Swift Standard Library Value Types]
+[Foundation - NSArray], [Classes Bridged to Swift Standard Library Value Types]
 
 [Foundation - NSArray]:https://developer.apple.com/documentation/foundation/nsarray
 [Classes Bridged to Swift Standard Library Value Types]:https://developer.apple.com/documentation/foundation/object_runtime/classes_bridged_to_swift_standard_library_value_types

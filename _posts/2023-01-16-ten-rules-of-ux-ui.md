@@ -21,7 +21,7 @@ tags: [ux, ui, jakob, fitts, hick, miller, postel, peak end, aesthetic usability
 
 이 책의 저자인 야블론스키 역시 사용자 경험이 중요하다는 것을 알고는 있지만 확실한 근거 없이 개선해야한다는 이야기에 대한 모순점에서 출발했다. 
 그는 심리학 논문을 실증적 증거로 활용해 이해관계자들에게 의사 결정의 근거로 제시할 수 있는 법칙을 여러 가지 정리해
-[Laws of UX][Laws of UX] 를 통해 공개했다. 이 책은 이 사이트에 소개된 21가지 법칙 중 더욱 유용한 법칙 10가지를 정리한 글이다.
+[Laws of UX] 를 통해 공개했다. 이 책은 이 사이트에 소개된 21가지 법칙 중 더욱 유용한 법칙 10가지를 정리한 글이다.
 
 #### 2. 10 Rules of UX/UI
 
@@ -514,7 +514,7 @@ __3 ) Progress Bar and Remain Times__
 Reference
 
 1. 존 야브론스키. UI/UX의 10가지 심리학 법칙. Edited by 이미령. 책만, 2020.
-2. "Laws of UX." Laws of UX. accessed Jan. 16, 2023, [Laws of UX][Laws of UX].
+2. "Laws of UX." Laws of UX. accessed Jan. 16, 2023, [Laws of UX]1.
 3. "30 must-see user persona templates." Justmind. July. 30, 2020, [User Persona Templates](https://www.justinmind.com/blog/user-persona-templates/).
 4. Kate Rooney. "8 Awesome 404 Page Designs (and Best Practices)." Design Pickle. last modified Jan. 12, 2022, [Awesome 404](https://designpickle.com/creative-hub/website-design/404-page-designs-best-practices/).
 5. "Understanding code splitting on facebook.com.", stackoverflow, last modified Jun. 01, 2021, accessed Feb. 3, 2023, [https://stackoverflow.com/questions/67779334/understanding-code-splitting-on-facebook-com](https://stackoverflow.com/questions/67779334/understanding-code-splitting-on-facebook-com).

@@ -89,10 +89,10 @@ print(numberOfLegs)  // ["spider": 8, "ant": 6, "cat": 4, "bird": 2]
 #### 3. Subscript Options
 
 > **Subscripts** 는 **Parameters** 의 타입이나 개수, **Return Type** 을 자유롭게 정의할 수 있다.  
-> 심지어 함수와 마찬가지로 [Variadic Parameters][Variadic Parameters] 와 
-> [Default Parameter Values][Default Parameter Values] 역시 가능하다.
+> 심지어 함수와 마찬가지로 [Variadic Parameters] 와 
+> [Default Parameter Values] 역시 가능하다.
 > 
-> 단, [In-Out Parameters][In-Out Parameters] 는 사용할 수 없다.
+> 단, [In-Out Parameters] 는 사용할 수 없다.
 
 [Variadic Parameters]:/swift/2022/10/19/functions.html#h-2-variadic-parameters
 [Default Parameter Values]:/swift/2022/10/19/functions.html#h-1-default-parameter-values

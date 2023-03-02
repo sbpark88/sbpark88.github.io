@@ -170,7 +170,7 @@ do {
 
 `pattern 은 catch 다음에 작성`하며, `condition 은 pattern 다음에 'where' 를 이용해 추가`한다. 또한 `,` 를 이용해 
 `Multiple Patterns` 를 하나의 `catch` clause 에 연결하거나 [catch is](#catchIs) 를 이용해 **여러 cases 를 하나의 
-catch 에서 처리**할 수 있다. 또한  [Switch Value Bindings][Switch Value Bindings] 와 같이 *catch clause* 
+catch 에서 처리**할 수 있다. 또한  [Switch Value Bindings] 와 같이 *catch clause* 
 내부 *context* 에서 사용할 값을 *binding* 하는 것도 가능하다.
 
 [Switch Value Bindings]:/swift/2022/10/11/control-flow.html#h-6-value-bindings
@@ -295,9 +295,9 @@ because of invalid selection, out of stock, or not enough money.
 `Throwing Functions 의 return types`는 항상 `Error protocol 을 따르는 Types 의 값` 또는 `Optional`이라고 했다. 
 따라서 에러가 발생할 경우 이를 처리하기 위한 `do-catch` statement 가 반드시 필요하다.
 
-[Optional Chaining always returns Optional Types][Optional Chaining always returns Optional Types]
-을 다시 떠올려보자. `Optional Chaining`은 `?`을 이용해 *Instance* 또는 *Value* 가 존재하지 않는 경우에도 별도의 에러 처리 
-없이 코드를 간결하게 처리했다. *Swift* 가 알아서 에러가 발생하는 상황에 실행을 중단하고 `nil`을 반환하기 때문이다.
+[Optional Chaining always returns Optional Types] 을 다시 떠올려보자. `Optional Chaining`은 `?`을 이용해 
+*Instance* 또는 *Value* 가 존재하지 않는 경우에도 별도의 에러 처리 없이 코드를 간결하게 처리했다. *Swift* 가 알아서 
+에러가 발생하는 상황에 실행을 중단하고 `nil`을 반환하기 때문이다.
 
 *Optional Chaining* 과 마찬가지로 *Throwing Functions* 역시 `try` 대신 `try?`를 이용하면
 `Throwing Functions 의 return types`이 항상 `Optional Types` 또는 `nil`을 반환하도록 할 수 있다. 
@@ -480,7 +480,7 @@ let photo = try! loadImage(atPath: "./Resources/John Appleseed.jpg")
 ### 3. Specifying Cleanup Actions 👩‍💻
 
 `Classes` 타입은 `class instance 의 할당이 해제(deallocate)되기 직전에 호출`될 코드를 정의할 수 있는 
-[Deinitializer][Deinitialization] 라는 특별한 코드블럭이 있고 이것은 `deinit` keyword 를 이용해 정의했다. 
+[Deinitializer] 라는 특별한 코드블럭이 있고 이것은 `deinit` keyword 를 이용해 정의했다. 
 
 [Deinitialization]:/swift/2022/12/19/deinitialization.html#h-2-how-deinitialization-works-
 

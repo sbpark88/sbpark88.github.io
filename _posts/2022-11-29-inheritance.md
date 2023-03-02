@@ -194,7 +194,7 @@ print("AutomaticCar: \(automatic.description)") // AutomaticCar: traveling at 35
 __3 ) Overriding Stored Properties__
 
 `Stored Properties`를 `Overriding` 하는 것은 다른 *Properties* 와는 조금 다르기 때문에 별도 포스팅 
-[Overriding Stored Properties][Overriding Stored Properties]으로 작성한다.
+[Overriding Stored Properties] 으로 작성한다.
 
 [Overriding Stored Properties]:/swift/2022/11/30/overriding-stored-properties.html
 

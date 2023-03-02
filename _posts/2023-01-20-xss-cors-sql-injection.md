@@ -92,8 +92,7 @@ __2 ) CSRF Token__
 `OAuth 2.0` 인증 토큰 등을 Local Storage 에 저장하는데 이는 XSS 에 의해 탈취되기 쉽기 때문에 `CSRF Token` 
 으로 추가적인 보안 조치를 하는 것이다. 따라서 이 토큰은 예측할 수 없어야한다.
 
-CSRF Token 관련해서는 [PortSwigger - CSRF][PortSwigger - CSRF] 와 
-[PortSwigger - CSRF Token Validation][PortSwigger - CSRF Token Validation] 를 참고하면 좋을 것 같다.
+CSRF Token 관련해서는 [PortSwigger - CSRF] 와 [PortSwigger - CSRF Token Validation] 를 참고하면 좋을 것 같다.
 
 ---
 
@@ -299,8 +298,7 @@ Dashboard for <span id="contentholder"></span>
 ```
 
 XSS 는 웹 개발의 취약점 중 가장 치명적이면서도 가장 다양한 유형이 존재하는 것 같다. 따라서 
-[OWASP - Cheatsheets - XSS][OWASP - Cheatsheets - XSS] 
-를 참고해 꾸준하게 신경 써야만 할 것이다.
+[OWASP - Cheatsheets - XSS] 를 참고해 꾸준하게 신경 써야만 할 것이다.
 
 #### 3. Reflected vs. Stored vs. DOM
 
@@ -358,7 +356,7 @@ __4 ) 난독화__
 브라우저는 읽을 수 있지만 사람이 쉽게 읽을 수 없도록 난독화 한다. 위 `<a href="javascript:alert('XSS')">XSS</a>`를 
 아스키 코드로 난독화를 해보자.
 
-[Web HTML entity encoder/decoder][Web HTML entity encoder/decoder] 에 `javascript:alert('XSS')` 부분을 
+[Web HTML entity encoder/decoder] 에 `javascript:alert('XSS')` 부분을 
 넣어보면 다음과 같은 결과를 얻는다.
 
 ![XSS Code ASCII Encode](/assets/images/posts/2023-01-20-xss-cors-sql-injection/xss-code-obfuscation-1.png){: width="800"}
@@ -386,7 +384,7 @@ __4 ) 난독화__
 
 __1 ) OWASP 의 Cheatsheets 를 꾸준히 참고한다__
 
-[OWASP - Cheatsheets - XSS][OWASP - Cheatsheets - XSS] 를 참고해 최신 XSS 공격에 꾸준히 대비해야한다.
+[OWASP - Cheatsheets - XSS] 를 참고해 최신 XSS 공격에 꾸준히 대비해야한다.
 
 __2 ) BBCode 를 사용한다__
 
@@ -432,15 +430,15 @@ Reference
 2. “사이트 간 스크립팅.” Wikipedia. Aug. 26, 2022, [Wikipedia - 사이트 간 스크립팅](https://ko.wikipedia.org/wiki/사이트_간_스크립팅).
 3. “XSS.” 나무위키. Aug. 09, 2022, [나무위키 - XSS](https://namu.wiki/w/XSS#s-4.4).
 4. "WebGoat/WebGoat." GitHub. Jan. 15, 2023, [https://github.com/WebGoat/WebGoat](https://github.com/WebGoat/WebGoat).
-5. "Referer." MDN Web Docs. Oct. 28, 2022, [MDN - Referer][MDN - Referer].
-6. "Cross-site request forgery (CSRF)." PortSwigger. accessed Jan. 20, 2023, [PortSwigger - CSRF][PortSwigger - CSRF].
-7. "Bypassing CSRF token validation." PortSwigger. accessed Jan. 20, 2023, [PortSwigger - CSRF Token Validation][PortSwigger - CSRF Token Validation].
+5. "Referer." MDN Web Docs. Oct. 28, 2022, [MDN - Referer].
+6. "Cross-site request forgery (CSRF)." PortSwigger. accessed Jan. 20, 2023, [PortSwigger - CSRF].
+7. "Bypassing CSRF token validation." PortSwigger. accessed Jan. 20, 2023, [PortSwigger - CSRF Token Validation].
 8. "DDoS 공격이란 무엇입니까?." AWS. accessed Jan. 20, 2023, [DDoS 공격이란 무엇입니까?](https://aws.amazon.com/ko/shield/ddos-attack-protection/).
 9. "CDN이란 무엇입니까?." AWS. accessed Jan. 20, 2023, [CDN이란 무엇입니까?](https://aws.amazon.com/ko/what-is/cdn/).
-10. "HTML entity encoder/decoder." Web developer tools. accessed Jan. 22, 2023, [Web HTML entity encoder/decoder][Web HTML entity encoder/decoder].
+10. "HTML entity encoder/decoder." Web developer tools. accessed Jan. 22, 2023, [Web HTML entity encoder/decoder].
 11. Tomasz Andrzej Nidecki. "DOM-based cross-site scripting." Invicti. accessed Jan. 22, 2023, [DOM-based XSS](https://www.invicti.com/learn/dom-based-cross-site-scripting-dom-xss/).
-12. "DOM based XSS Prevention Cheat Sheet." OSASP. accessed Ja. 22, 2023, [OWASP - Cheatsheets - XSS][OWASP - Cheatsheets - XSS].
-13. "BBCode." Wikipedia. Dec. 11, 2022, [Wikipedia - BBCode][Wikipedia - BBCode].
+12. "DOM based XSS Prevention Cheat Sheet." OSASP. accessed Ja. 22, 2023, [OWASP - Cheatsheets - XSS].
+13. "BBCode." Wikipedia. Dec. 11, 2022, [Wikipedia - BBCode].
 
 [MDN - Referer]:https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referer
 [PortSwigger - CSRF]:https://portswigger.net/web-security/csrf

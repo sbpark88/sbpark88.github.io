@@ -948,7 +948,7 @@ export default {
 
 #### 1. Computed Properties
 
-[Swift Computed Properties][Swift Computed Properties] 와 같다.
+[Swift Computed Properties] 와 같다.
 
 [Swift Computed Properties]:/swift/2022/11/22/properties.html#h-2-computed-properties-
 
@@ -1063,7 +1063,7 @@ export default {
 
 #### 2. Watch(Property Observers)
 
-[Swift Property Observers][Swift Property Observers] 에서 `didSet`만 존재하는 것과 같다.
+[Swift Property Observers] 에서 `didSet`만 존재하는 것과 같다.
 
 [Swift Property Observers]:/swift/2022/11/22/properties.html#h-3-property-observers-
 

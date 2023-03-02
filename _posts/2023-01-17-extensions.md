@@ -17,7 +17,7 @@ Inheritance 는 ***기존 Class 는 그대로 둔 채 별도의 Class 를 생성
 `Extension`은 Class, Structure, Enumeration, Protocol 타입에서 사용이 가능하며 Extensions 가 할 수 있는 것은 다음과 같다.
 
 - Add [computed instance properties][Computed Instance Properties] and [computed type properties][Computed Type Properties]
-- Define [instance methods][instance methods] and [type methods][type methods]
+- Define [instance methods] and [type methods]
 - Provide new initializers
 - Define subscripts
 - Define and use new nested types
@@ -86,10 +86,8 @@ let aMarathon = 42.km + 195.m
 print("A marathon is \(aMarathon) meters long") // A marathon is 42195.0 meters long
 ```
 
-> Extensions 는 [Computed Instance Properties][Computed Instance Properties] 나 
-> [Computed Type Properties][Computed Type Properties] 를 추가하는 것만 가능하다.  
-> [Stored Properties][Stored Properties] 를 추가하거나, 
-> 이미 존재하는 Properties 에 [Property Observers][Property Observers] 를 추가하는 것은 불가능하다.
+> Extensions 는 [Computed Instance Properties] 나 [Computed Type Properties] 를 추가하는 것만 가능하다.  
+> [Stored Properties] 를 추가하거나, 이미 존재하는 Properties 에 [Property Observers] 를 추가하는 것은 불가능하다.
 
 ### 4. Initializers 👩‍💻
 
@@ -128,7 +126,7 @@ let memberwiseRect = Rect(origin: Point(x: 2.0, y: 2.0), size: Size(width: 5.0, 
 
 > Extensions 는 [Convenience Initializers][Designated and Convenience Initializers] 를 추가하는 것만 가능하다.  
 > [Designated Initializers][Designated and Convenience Initializers] 나
-> [Deinitializers][Deinitializers] 를 추가하는 것은 불가능하다.
+> [Deinitializers] 를 추가하는 것은 불가능하다.
 
 #### 2. Without Initializer Extensions
 

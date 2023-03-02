@@ -206,8 +206,8 @@ __2 ) Props with Computed Properties__
 
 변수에 값을 저장할 때 `Observer`를 이용해 감시하고, 사용자 정의 로직을 추가해 저장할 수 있다. 
 하지만, `Vue`의 `Watch`의 경우  부모 컴포넌트에서 넘어오는 데이터를 자식 컴포넌트 변수에 `willSet`이 없고 
-`didSet`만 있다보니([Vue Watch Property][Vue Watch Property]) `Vue` 공식 문서를 보면 이런 경우 
-`Compouted Properties`를 사용하도록 하고 있다.
+`didSet`만 있다보니([Vue Watch Property]) `Vue` 공식 문서를 보면 이런 경우 `Compouted Properties`를 
+사용하도록 하고 있다.
 
 [Vue Watch Property]:/javascript/2022/12/10/vue-starter-part2.html#h-2-watchproperty-observers
 

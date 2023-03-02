@@ -388,7 +388,7 @@ export default {
 *beforeCreate*, *created* 와 일치하는 *Hooks* 는 *Composition API* 에는 존재하지 않는다. 대신 `setup`을 사용하며, 
 나머지 *Hooks* 는 모두 *setup* 안에서 `Composition API 에서 제공하는 메서드를 이용해 정의`한다.
 
-[Composition API: Lifecycle Hooks][Composition API: Lifecycle Hooks]
+[Composition API: Lifecycle Hooks]
 
 <br>
 *Composition API* 에서 `onMounted`를 이용해 콘솔에 메시지를 출력하도록 해보자.
@@ -601,7 +601,7 @@ export default {
 
 #### 2. Prefer Composition API
 
-[mixins in Composition API][mixins in Composition API] 를 보면 `Vue 3`에서 *여전히 mixins 를 지원하지만* 
+[mixins in Composition API] 를 보면 `Vue 3`에서 *여전히 mixins 를 지원하지만* 
 `컴포넌트간 코드 재사용을 위해서는 Composition API 를 선호`하라고 되어있다.
 
 이는 `mixins`가 Options API 의 Lifecycle Hooks 를 공통화 할 수 있어 각 컴포넌트마다 동일한 Hooks 를 작성하지 않아도 
@@ -1245,8 +1245,7 @@ export default {
 
 
 > 실제 개발에서 이런 것들은 직접 개발하는 것 보다는 다수가 참여하는 오픈소스를 사용하는 것이 더 좋다.  
-> [Vue I18n for Vue 2][Vue I18n for Vue 2] 또는 [Vue I18n for Vue 3][Vue I18n for Vue 3] 와 같은 
-> 것들이 있으니 참고하도록 한다.
+> [Vue I18n for Vue 2] 또는 [Vue I18n for Vue 3] 와 같은 것들이 있으니 참고하도록 한다.
 
 
 <br><br>
@@ -1256,14 +1255,14 @@ Reference
 
 1. 고승원. Vue.js 프로젝트 투입 일주일 전. 비제이퍼블릭 Chapter 9, 2021.
 2. "Reactivity API: Core." Vue.js. accessed Jan. 05, 2022, [Reactivity: Core](https://vuejs.org/api/reactivity-core.html)
-3. "Composition API: Lifecycle Hooks." Vue.js. accessed Jan. 05, 2023, [Composition API: Lifecycle Hooks][Composition API: Lifecycle Hooks]
-4. "Options: Composition #mixins." Vue.js. accessed Jan. 07, 2023, [mixins in Composition API][mixins in Composition API]
+3. "Composition API: Lifecycle Hooks." Vue.js. accessed Jan. 05, 2023, [Composition API: Lifecycle Hooks]
+4. "Options: Composition #mixins." Vue.js. accessed Jan. 07, 2023, [mixins in Composition API]
 5. "Custom Directives." Vue.js. accessed Jan. 08, 2023, [Reusability: Custom Directives](https://vuejs.org/guide/reusability/custom-directives.html)
-6. "HTMLElement.dataset." MDN, Oct. 26, 2022, [HTML Element dataset][HTML Element dataset]
+6. "HTMLElement.dataset." MDN, Oct. 26, 2022, [HTML Element dataset]
 7. "Plugins." Vue.js. accessed Jan. 08, 2023, [Reusability: Plugins](https://vuejs.org/guide/reusability/plugins.html)
 8. "vue-router." GitHub. Jan. 05, 2023, [Vue Router][Vue Router Library]
-9. "Vue I18n." GitHub. May. 03, 2022, [Vue I18n for Vue 2][Vue I18n for Vue 2]
-10. "Vue I18n." Vue-I18n, Aug. 01, 2022, [Vue I18n for Vue 3][Vue I18n for Vue 3]  
+9. "Vue I18n." GitHub. May. 03, 2022, [Vue I18n for Vue 2]
+10. "Vue I18n." Vue-I18n, Aug. 01, 2022, [Vue I18n for Vue 3]  
 
 [Composition API: Lifecycle Hooks]:https://vuejs.org/api/composition-api-lifecycle.html
 [mixins in Composition API]:https://vuejs.org/api/options-composition.html#mixins

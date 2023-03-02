@@ -783,8 +783,8 @@ struct Box<Val: Sendable> {
 Reference
 
 1. "Concurrency." The Swift Programming Language Swift 5.7. accessed Jan. 05, 2023, [Swift Docs Chapter 17 - Concurrency](https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html)
-2. "for await...of." MDN Web Docs. Dec. 14, 2022, accessed Jan. 10, 2023, [MDN - for await...of][MDN - for await...of]
-3. "Promise.all()." MDN Web Docs. Dec. 14, 2022, accessed Jan. 10, 2023, [MDN - Promise.all()][MDN - Promise.all()]
+2. "for await...of." MDN Web Docs. Dec. 14, 2022, accessed Jan. 10, 2023, [MDN - for await...of]
+3. "Promise.all()." MDN Web Docs. Dec. 14, 2022, accessed Jan. 10, 2023, [MDN - Promise.all()]
 4. "Task." Apple Developer Documentation. accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Concurrency/Task][Apple Developer Documentation - Task]
 5. "TaskGroup." Apple Developer Documentation. accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Concurrency/TaskGroup][Apple Developer Documentation - TaskGroup]
 6. "checkCancellation()." Apple Developer Documentation. accessed Jan. 11, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/../checkCancellation()][Apple Developer Documentation - checkCancellation]

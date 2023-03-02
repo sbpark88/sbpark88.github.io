@@ -558,7 +558,7 @@ axios.get('/user/12345')
 #### 11. Cancellation
 
 [2. Features](#h-2-features) 에서 설명한 `Axios`가 제공하는 기능 중 6번째 Request 취소에 대한 설명으로, 
-`Axios`는 `Fetch API` 방식의 요청을 취소하기 위해 [Web APIs - AbortController][Web APIs - AbortController]
+`Axios`는 `Fetch API` 방식의 요청을 취소하기 위해 [Web APIs - AbortController]
 interface 를 지원한다.
 
 이는 `AbortController` instance 를 생성해 처리를 가능케 한다.
@@ -586,7 +586,7 @@ controller.abort()
 
 __1 ) Using URLSearchParams__
 
-[Web APIs - URLSearchParams][Web APIs - URLSearchParams] 를 이용한다.
+[Web APIs - URLSearchParams] 를 이용한다.
 
 다음 3가지 방법은 모두 동일한 작업을 처리한다.
 
@@ -1007,8 +1007,8 @@ Reference
 1. 고승원. Vue.js 프로젝트 투입 일주일 전. 비제이퍼블릭 Chapter 7, 2021.
 2. "Axios." Axios Documents, accessed Dec. 29, 2022, [Axios](https://axios-http.com)
 3. "사이트 간 요청 위조." 위키백과, Fab. 6, 2022, accessed Dec. 29, 2022, [사이트 간 요청 위조](https://ko.wikipedia.org/wiki/사이트_간_요청_위조)
-4. "AbortController." MND, Oct. 10, 2022, accessed Dec. 29, 2022, [Web APIs - AbortController][Web APIs - AbortController]
-5. "URLSearchParams." MND, Oct. 10, 2022, accessed Dec. 29, 2022, [Web APIs - URLSearchParams][Web APIs - URLSearchParams]
+4. "AbortController." MND, Oct. 10, 2022, accessed Dec. 29, 2022, [Web APIs - AbortController]
+5. "URLSearchParams." MND, Oct. 10, 2022, accessed Dec. 29, 2022, [Web APIs - URLSearchParams]
 
 [Web APIs - AbortController]:https://developer.mozilla.org/en-US/docs/Web/API/AbortController
 [Web APIs - URLSearchParams]:https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams
