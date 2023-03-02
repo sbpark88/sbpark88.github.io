@@ -11,7 +11,7 @@ tags: [markdown]
 
 ### 1. Header
 
-header는 # (H1) ~ ###### (H6) 까지 사용할 수 있다.  
+header 는 # (H1) ~ ###### (H6) 까지 사용할 수 있다.  
 일반적으로 H1, H6는 잘 사용하지 않는다. H5도 사용해보니 깃허브 블로그에 매우 작게 나온다.
 
 ## `##` It is H2.
@@ -43,16 +43,31 @@ header는 # (H1) ~ ###### (H6) 까지 사용할 수 있다.
 
 #### Reference link
 
-```markdown
-우리는 [아마존][amazon shopping]에서 직구를 합니다.
+Reference link 를 사용하는 방법은 두 가지가 있다.
 
-[amazon shopping]: www.amazon.com
+우선 Reference link 는 다음과 같이 만든다.
+
+```markdown
+[Amazon]: www.amazon.com
 ```
-우리는 [아마존][amazon shopping]에서 직구를 합니다.
+
+그리고 사용 방법은 두 가지로 나뉜다.
+
+```markdown
+// 그대로 사용하기
+This links takes you to [Amazon].
+
+// 이름 바꿔 사용하기
+우리는 [아마존][Amazon]에서 직구를 합니다.
+```
+
+This links takes you to [Amazon].
+
+우리는 [아마존][Amazon]에서 직구를 합니다.
 
 이렇게 링크를 분리할 수 있다.
 
-[amazon shopping]: www.amazon.com
+[Amazon]: www.amazon.com
 
 ---
 
