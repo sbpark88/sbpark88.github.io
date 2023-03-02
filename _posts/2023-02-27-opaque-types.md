@@ -23,7 +23,7 @@ tags: [swift docs, opaque type, some type, opaque type vs. protocol type]
 #### 1. Triangle
 
 *Opaque Types* 가 해결 할 수 있는 문제를 살펴보기 위해 기존의 *Nonopaque Types* 버전의 코드를 만들어보자. 다음은 ASCII 그림 모양을 
-그리는 모듈로써 *String* 을 반환하는 `draw()` 함수를 요구 조건으로 정의하는 `Shape` protocol 과 이것을 준수하기 위한 `Triangle` 
+그리는 모듈로써 *String* 을 반환하는 `draw()` 함수를 요구사항으로 정의하는 `Shape` protocol 과 이것을 준수하기 위한 `Triangle` 
 structure 다.
 
 ```swift
@@ -243,7 +243,7 @@ print(trapezoid.draw())
 
 그렇다면 정의한 [JoinedShape](#h-3-joinedshape) 와 뭐가 다를까? 한번 비교해보도록 하자.
 
-![Nonopaque Type Return](/assets/images/posts/2023-02-27-opaque-types/nonopaque-type-return.png){: width="800"}
+![Nonopaque Return Type](/assets/images/posts/2023-02-27-opaque-types/nonopaque-return-type.png){: width="800"}
 
 ```swift
 print(joinedTriangles.top)      // Triangle(size: 3)
@@ -257,11 +257,11 @@ print(joinedTriangles.bottom)   // FlippedShape<Triangle>(shape: __lldb_expr_38.
 
 <br>
 
-![Before Opaque Type Return](/assets/images/posts/2023-02-27-opaque-types/before-opaque-type-return.png){: width="800"}
+![Before Opaque Return Type](/assets/images/posts/2023-02-27-opaque-types/before-opaque-return-type.png){: width="800"}
 
 `makeTrapezoid()` 역시 함수 내부에서는 `JoinedShape`가 생성한 Structure 로부터 `top`과 `bottom`에 접근 가능하지만
 
-![Opaque Type Return 1](/assets/images/posts/2023-02-27-opaque-types/opaque-type-return-1.png){: width="800"}
+![Opaque Return Type 1](/assets/images/posts/2023-02-27-opaque-types/opaque-return-type-1.png){: width="800"}
 
 <span style="color: red;">반환된 값에서는 접근할 수 없다</span>. `makeTrapezoid()`는 ***Return Type 을 
 Opaque Type 으로 `Wrapping`해 `Shape` protocol 을 준수하는 객체의 다른 정보를 노출시키지 않고 모듈의 사용자가 알아야 하는 
@@ -325,18 +325,22 @@ print(opaqueJoinedTriangles.draw())
 *
 ```
 
-![Opaque Type Return 2](/assets/images/posts/2023-02-27-opaque-types/opaque-type-return-2.png){: width="800"}
+![Opaque Return Type 2](/assets/images/posts/2023-02-27-opaque-types/opaque-return-type-2.png){: width="800"}
 
 > `flip(_:)`과 `join(_:)`에 의해 반환된 `opaqueJoinedTriangles` 역시 `draw()` 외에는 접근할 수 없다.
 
 #### 3. `invalidFlip(_:)`
 
-위에서 `Opaque Type 의 return type 은 Single Type`이어야 한다고 했다. 따라서 이번에는 이 요구 조건을 위반하는 잘못된 case 를 살펴본다.
+위에서 `Opaque Type 의 return type 은 Single Type`이어야 한다고 했다. 따라서 이번에는 이 요구사항을 위반하는 잘못된 case 를 살펴본다.
+
+위 `flip(_:)` 함수를 보면 굳이 정사각형을 정의하는 `Square`는 뒤집지 않아도 될 것 같다. 그래서 `flip(_:)` 함수 안에서 *전달된 
+Shape 의 Type 이 Square 일 경우 그냥 반환하고, 그렇지 않을 경우에만 뒤집는 것으로 변경*하면 더 좋을거라 판단되어 코드를 수정한다고 
+가정해보자.
 
 ![Invalid Opaque Type](/assets/images/posts/2023-02-27-opaque-types/invalid-opaque-type.png){: width="1000"}
 
 > *Opaque Type* 을 반환하겠다 해놓고 `Single Type`이 아닌 2가지 Types 로 *return* 을 하려고 하자 *Compiler* 가 *Opaque Type* 의 
-> 요구 조건에 위반됨을 인지하고 에러를 출력한다.
+> 요구사항에 위반됨을 인지하고 에러를 출력한다.
 > 
 > - Function declares an opaque return type 'some Shape', but the return statements in its body do not have matching underlying types
 
@@ -367,7 +371,7 @@ struct FlippedShape<T: Shape>: Shape {
 }
 ```
 
-의 내부로 옮기는 것이다.
+의 내부로 옮겨 `invalidFlip(_:)` 함수가 언제나 `FlippedShape 의 some Shape 를 return`하도록 하는 것이다.
 
 ```swift
 struct FlippedShape<T: Shape>: Shape {
@@ -381,7 +385,6 @@ struct FlippedShape<T: Shape>: Shape {
     }
 }
 ```
-
 
 <br>
 
@@ -470,7 +473,7 @@ print(trapezoid.draw())
 #### 4. `repeat(shape:count:)` - Opaque<T> Return Types with Generics 
 
 항상 `Single Type`을 반환해야 한다고 해서 `Opaque Types`를 return 하는 함수에 [Generic Types] 의 사용을 막지는 않는다. 
-다음은 [Generic Types] 를 사용하면서 `Opaque Types`의 요구 조건을 만족하는 경우를 보자.
+다음은 [Generic Types] 를 사용하면서 `Opaque Types`의 요구사항을 만족하는 경우를 보자.
 
 위에서 `invalidFlip(_:)`함수가 불가능했던 이유는 
 
@@ -493,7 +496,33 @@ func `repeat`<T: Shape>(_ shape: T, count: Int) -> some Collection {
 
 `repeat(shape:count:)` 함수 역시 `T`에 의존하므로 받는 `T`에 따라 반환되는 `T`의 Type 은 변경되지만, 
 `some Collection`의 일부로써 `Array<T>`라는 `Single Type 으로 Wrapping 된 Type 을 반환`하기 때문에 Opaque Type 의 
-요구 조건을 준수한다. 
+요구사항을 준수한다.
+
+<br>
+
+이는 [`flip(_:)` & `join(_:_:)`](l#h-2-flip_--join__-with-generics)
+
+```swift
+func flip<T: Shape>(_ shape: T) -> some Shape {
+    FlippedShape(shape: shape)
+}
+
+func join<T: Shape, U: Shape>(_ top: T, _ bottom: U) -> some Shape {
+    JoinedShape(top: top, bottom: bottom)
+}
+```
+
+의 `some Shape`가 각각
+
+```swift
+struct SomeStructure: Shape {
+    func draw() -> String { something }
+}
+```
+
+라는 `Single Type 으로 Wrapping`되는 것과 같다고 볼 수 있다.
+
+<br>
 
 잘 작동하는지 확인해보자.
 
@@ -540,11 +569,24 @@ tripleSquare.forEach { shape in
 
 ### 4. Differences Between Opaque Types and Protocol Types 👩‍💻
 
-#### 1. `protoFlip(_:)`
+#### 1. Opaque Types Preserve Type Identity
 
-#### 2. Protocol Has an Associated Type Cannot Use as the Return Type 
+함수의 *return type* 이 *Opaque Types* 인 경우와 *Protocol Types* 인 경우는 유사해 보이지만 명확한 차이점과 서로가 
+해결하는 문제(사용함으로써 얻는 강점)이 명확히 다르다. 이를 정리해보자.
 
-#### 3. Opaque Type Resolve The Problem That Protocol Has an Associated Type
+- Opaque Types : 모듈의 클라이언트가 Types 의 정보에 접근할 수 없다(hiding). Single Type Identity 를 유지한다. 
+                 <span style="color: red;">Opaque Type 은 하나의 특정 Type 을 참조하지만, 함수 호출자는 어떤 
+                 Type 인지 알 수 없다</span>.
+- Protocol Types : 모듈의 클라이언트가 Types 의 정보에 접근할 수 있다. Protocols 을 준수하는 모든 Types 가 가능하므로 
+                   Type Identity 가 유동적이다.
+
+#### 2. Strength of Opaque Types and Protocol Types
+
+따라서 각 Types 가 강점은 다음과 같다.
+
+- Opaque Types
+
+`some Type`을 반환하도록 하기 위해 다음과 같이 Wrapping 되어 반한되는 모양을 보자. 
 
 ```swift
 struct SomeStructure: Shape {
@@ -552,13 +594,315 @@ struct SomeStructure: Shape {
 }
 ```
 
-위 Wrapping 되어 반환되는 형태를 보자. 특정 Protocol 을 준수하는 다양한 Hierarchy 구조에서 *return type* 으로
-<span style="color: red;">Protocol Type</span> 을 사용한다는 것은 해당 모듈의 `Original Type Object`에 
-접근이 가능하므로 <span style="color: red;">높은 유연성</span>을 갖게 되고,  
-반대로 <span style="color: red;">Opaque Type</span> 을 사용한다는 것은 해당 모듈이 어떤 Hierarchy 구조를 갖고 있든, 
-중간에 모듈이 내부적으로 어떻게 변경되든 ***단지 제공하기로 약속된 `return type` 만 사용하면 된다는 것을 의미***하므로
-<span style="color: red;">return type 에 대한 강력한 보증</span>을 약속
-(Opaque Type 으로 반환하기 위해 단일 Identity 를 유지하도록 코드를 작성해야하므로)하는 것이다.
+Types 의 정보를 은닉화(hiding)할 수 있을 뿐 아니라 특정 Protocols 를 준수하는 경우 해당 모듈이 어떤 Hierarchy 구조를 갖고 
+있든, 중간에 모듈 내부가 어떻게 변경되든 언제나 `one specific type`을 반환하므로 함수 호출자 입장에서 보면 이것은 
+<span style="color: red;">return type 에 대한 강력한 보증</span>을 약속(Opaque Type 으로 반환하기 위해 단일 
+Identity 를 유지하도록 코드를 작성해야하므로)하는 것이다.
+
+<br>
+
+- Protocol Types
+
+특정 `Protocols 를 준수하면 어떤 Types 든 모두 허용됨`을 의미한다. 게다가 `Types 의 정보에 접근` 가능하므로 함수 호출자 
+입장에서 보면 이것은 <span style="color: red;">높은 유연성을 제공하고 **Original Types** 에 접근이 가능</span>하게 한다.
+
+#### 3. Protocol Return Type give more Flexibility - `protocolFlip(_:)`
+
+위에서 언급한 Protocol Types 의 강점인 코드를 유연하게 만드는 것에 대해 검증해본다. 우리는 위에서 
+[invalidFlip](#h-3-invalidflip_) 의 문제를 해결하기 위해 ***Square 의 특수한 경우를 FlippedShape 의 내부로 옮겼다***.
+
+```swift
+func invalidFlip<T: Shape>(_ shape: T) -> some Shape {
+    if shape is Square {
+        return shape // Error: return types don't match
+    }
+    return FlippedShape(shape: shape) // Error: return types don't match
+}
+```
+
+이번에는 *Square 나 FlippedShape 의 수정 없이 return type 을 `Protocol Types`로 변경*해보자.
+
+```swift
+func protocolFlip<T: Shape>(_ shape: T) -> Shape {
+    if shape is Square {
+        return shape
+    }
+    
+    return FlippedShape(shape: shape)
+}
+```
+
+```swift
+let smallTriangle = Triangle(size: 2)
+let smallSquare = Square(size: 2)
+let trapezoid = join(smallTriangle, join(smallSquare, protocolFlip(smallTriangle)))
+
+print(type(of: trapezoid))  // JoinedShape<Triangle, JoinedShape<Square, FlippedShape<Triangle>>>
+print(trapezoid.draw())
+```
+
+```console
+*
+**
+**
+**
+**
+*
+```
+
+> Protocol Return Type 은 높은 유연성을 제공해 `protocolFlip(_:)`함수가 `Shape`와 `FlippedShape`라는 다른 
+> Types 를 return 하더라도 `Shape` protocols 을 준수한다면 이를 허용한다.
+
+#### 4. Protocol Return Type cannot use Operations that depend on Type Information
+
+하지만 `Protocol Return Type`을 사용할 때 유의해야할 점이 있다. 코드를 유연하게 해줌으로써 많은 장점을 갖는 것은 맞지만 
+반대로 말하면, 위 `protocolFlip(_:)`의 *return type* 은 `2개의 완전히 다른 Types`를 갖는다.
+
+따라서 <span style="color: red;">Type 정보에 의존하는 많은 작업이 반환된 값에서 사용할 수 없음을 의미</span>한다.
+
+*Triangle* 과 *FlippedShape* 에 `Equatable`을 추가해보자.
+
+```swift
+extension Triangle: Equatable {}
+extension FlippedShape: Equatable where T == Triangle {
+    static func == (lhs: FlippedShape<T>, rhs: FlippedShape<T>) -> Bool {
+        lhs.shape == rhs.shape
+    }
+}
+```
+
+이제 *Triangle* 과 *FlippedShape* 은 `==` operator 를 사용할 수 있다.
+
+```swift
+let smallTriangle = Triangle(size: 3)
+let anotherSmallTriangle = Triangle(size: 3)
+print(smallTriangle == anotherSmallTriangle)      // true
+
+let flippedTriangle = FlippedShape(shape: smallTriangle)
+let anotherFlippedTriangle = FlippedShape(shape: smallTriangle)
+print(flippedTriangle == anotherFlippedTriangle)  // true
+```
+
+<br>
+
+그렇다면 `Protocol Return Type`은 어떨까?
+
+```swift
+let protocolFlippedTriangleA = protocolFlip(smallTriangle)
+let protocolFlippedTriangleB = protocolFlip(smallTriangle)
+
+print(type(of: flippedTriangle))            // FlippedShape<Triangle>
+print(type(of: protocolFlippedTriangleA))   // FlippedShape<Triangle>
+```
+
+우선 *Initializer* 에 의해 생성된 `flippedTriangle`과 *Protocol Return Type*에 의해 반환된 
+`protocolFlippedTriangleA`은 둘 다 동일한 `FlippedShape<Triangle>` Type 임이 확인된다.
+
+```swift
+print(protocolFlippedTriangleA == protocolFlippedTriangleB) // error: Binary operator '==' cannot be applied to two 'any Shape' operands
+```
+
+하지만 `Protocol Return Type`은 `==` operator 를 사용할 수 없어 에러가 발생한다.
+
+#### 5. Downcasting Protocol Return Types
+
+만약 위 경우 Protocols 를 이용한 유연성의 장점을 활용하면서, Types 의 정보를 활용하고자 하면 어떻게 해야할까?
+
+잠시 다른 언어의 이야기를 살펴보자. 만약 Java 와 같은 언어를 해봤다면 어떤 함수의 *return* 값을 받아 변수에 할당할 때 
+`ArrayList<String>`, `LinkedList<String>`와 같이 명확한 Types 를 선언해 받지 않고, Interface 를 이용해 
+`List<String>`으로 받도록 코드를 작성한다.   
+
+```java
+List<String> result = someFunction()  // return `ArrayList<String>` or `LinkedList<String>` or anything adopt to 'List' interface. 
+```
+
+이는 이 포스팅을 시작할 때 설명했던 `자세한 정보를 감추는 것은 '모듈'과 '모듈을 호출하는 코드' 사이의 '경계(boundaries)'에서 유용하다`는 
+설명과 유사함을 보여준다.
+
+이렇게 boundaries 에서 유연성을 확보하는 대신 `result`는 List 가 공통으로 가지고 있는 메서드는 사용할 수 있으나, 
+`ArrayList 나 LinkedList etc...`만 가지고 있는 전용 메서드는 사용할 수 없다. 만약, 전용 메서드를 사용하려면 `Downcasting`을 
+해야한다.
+
+<br>
+
+다시 Swift 로 돌아와보자. `flippedTriangle`와 `protocolFlippedTriangleA`은 동일한 Type 이지만
+*Protocol Return Type*에 의해 반환된 *protocolFlippedTriangleA* 만 `==` operator 를 사용할 수 없었다. 
+한 번 이것을 *Downcasting* 해보자.
+
+```swift
+print(downcastedFlippedTriangleA == downcastedFlippedTriangleB) // true
+```
+
+**작동된다‼️**
+
+#### 6. Protocol Has an Associated Type Cannot Use as the Return Types
+
+다음은 [Generics][Generic with Associated Types] 에서 Array 에 사용자가 생성한 Container 라는 Custom Protocol 에
+대한 적합성을 준수하도록 한 코드의 일부다.
+
+```swift
+protocol IntContainer {
+    mutating func append(_ item: Int)
+    var count: Int { get }
+    subscript(i: Int) -> Int { get }
+}
+
+protocol StringContainer {
+    mutating func append(_ item: String)
+    var count: Int { get }
+    subscript(i: Int) -> String { get }
+}
+```
+
+우리는 위와 같은 여러 Types 에 대한 버전의 Container 를 하나의 정의로 재사용하고자 *Associated Types* 를 사용해 다음과 같이 
+정의했었다.
+
+```swift
+protocol Container {
+    associatedtype Item
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+}
+```
+
+그리고 Array 는 이미 위와 같은 요구사항을 준수하기 위한 구현이 이미 존재하므로 다음과 같이 적합성을 추가할 수 있었다.
+
+```swift
+extension Array: Container { }
+```
+
+<br>
+
+우선 Protocols 가 *Protocol Return Type* 으로 사용될 때의 경우를 살펴보기 위해 *Container* Protocol 의 요구사항을 
+모두 제거해보자.
+
+```swift
+protocol Container { }
+extension Array: Container { }
+```
+
+```swift
+func makeProtocolContainer<T, C: Container>(item: T) -> C {
+    [item]  // error: Cannot convert return expression of type '[T]' to return type 'C'
+}
+```
+
+*item* 이라는 무언가를 받아 `Array()`에 저장해 반환하는 함수다. 우리는 위에서 Array 가 Container Protocol 을 준수하도록 
+했으므로 이를 Generic Types 로 정의해 반환하고자 했다. 실제로 Container Protocol 은 아무런 요구사항이 없음에도 불구하고 
+Swift *compiler* 는 Generic Type T 를 Container Protocol 을 준수하는 Generic Type C 로 변환할 수 없다고 이야기한다.
+
+`T`도 *Type Inference* 를 사용하는데, `C`도 *Type Inference* 가 필요한 상황이다. Swift 는 사전에 T 에 대한 충분한 
+정보도, C 에 대한 충분한 정보도, 게다가 T 와 C 의 관계가 가능한지에 대한 충분한 정보도 없는 상황이기 때문이다.
+
+그렇다면 불확실성을 줄이기 위해 함수를 다음과 같이 변경해보자.
+
+```swift
+func makeProtocolContainer<T>(item: T) -> Container {
+    [item]
+}
+```
+
+Array 는 *Associated Types* 를 사용해 무엇이든 저장할 수 있고, Array 는 Container Protocol 을 준수하므로 이제 
+`makeProtocolContainer(item:)`은 동작이 가능하다.
+
+```swift
+let emptyContainer = makeProtocolContainer(item: 10)
+print(type(of: emptyContainer)) // Array<Int>
+print(emptyContainer)           // [10]
+```
+
+반면, Array<Int> Type 임에도 불구하고 Container 로 반환하도록 했기 때문에 Subscript 는 동작하지 않는다.
+
+```swift
+print(emptyContainer[0])        // error: value of type 'any Container' has no subscripts
+```
+
+Container 는 Subscript 를 요구사항으로 갖고 있지 않기 때문이다. 그렇다면 Container 에 Subscript 에 대한 요구사항을 추가해보자.
+
+```swift
+protocol Container {
+    associatedtype Item
+    subscript(i: Int) -> Item { get }
+}
+extension Array: Container { }
+```
+
+Array 는 모든 Types 를 저장할 수 있으므로, Container 역시 Array 가 저장한 모든 Types 에 대해 Subscript 가 동작하도록 하기 
+위해 Associated Type 을 이용해 위와 같이 적합성을 준수하도록 하면 다음과 같은 문제가 발생한다.
+
+```swift
+func makeProtocolContainer<T>(item: T) -> Container {   // error: Use of protocol 'Container' as a type must be written 'any Container'
+    [item]
+}
+```
+
+그리고 Swift *compiler* 는 `Replace 'Container' with 'any Container'` 하도록 경고를 띄운다.
+<span style="color: red;">Associated Types 를 갖고 있는 Protocols 는 Return Types 로 사용될 수 없기 때문이다</span>. 
+이는 앞에서 맞닥뜨린 
+
+```swift
+func makeProtocolContainer<T, C: Container>(item: T) -> C {
+    [item]  // error: Cannot convert return expression of type '[T]' to return type 'C'
+}
+```
+
+와 유사한 케이스라 할 수 있다.
+
+#### 7. Opaque Type Resolve The Problem That Protocol Has an Associated Type
+
+Container Protocol 은 다시 처음 정의하려던대로 바꾸고 Swift *compiler* 가 시키는대로 따라가보자.
+
+```swift
+protocol Container {
+    associatedtype Item
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+}
+extension Array: Container { }
+```
+
+```swift
+func makeProtocolContainer<T>(item: T) -> any Container {
+    [item]
+}
+
+let anyContainer = makeProtocolContainer(item: 11)
+print(type(of: anyContainer))   // Array<Int>
+print(anyContainer)             // [11]
+print(anyContainer.count)       // 1
+
+let eleven = anyContainer[0]
+print(type(of: eleven))         // Int
+print(eleven)                   // 11
+```
+
+정상적으로 동작한다. 위 경우는 Array 가 실제로 `Any` Types 에 대해 동작할 수 있지만 `Any`나 `AnyObject`는 명확히 필요한 상황이 
+아니면 앱의 코드를 `Type-Safe`하지 않게 만들기 때문에 사용을 지양해야한다.
+
+<br>
+
+__이런 상황을 해결할 수 있게 해주는 것이 바로 `Opaque Return Types`다!__
+
+이번에는 다시 `makeProtocolContainer(item:)` 함수를 *Opaque Types* `some Container`를 *return* 하도록 바꿔보자.
+
+```swift
+func makeProtocolContainer<T>(item: T) -> some Container {
+    [item]
+}
+
+let opaqueContainer = makeProtocolContainer(item: 12)
+print(type(of: opaqueContainer))    // Array<Int>
+print(opaqueContainer)              // [12]
+print(opaqueContainer.count)        // 1
+
+let twelve = opaqueContainer[0]
+print(type(of: twelve))             // Int
+print(twelve)                       // 12
+```
+
+`Opaque Return Types`를 사용하면 *Any* 를 사용하지 않고 `Associated Types 를 갖는 Protocol 을 return 할 떼의 문제를 해결`할 수 있다.
 
 
 <br><br>
@@ -570,4 +914,4 @@ Reference
 
 [Generic Functions]:/swift/2023/02/23/generics.html#h-2-generic-functions-
 [Generic Types]:/swift/2023/02/23/generics.html#h-3-generic-types-
-
+[Generic with Associated Types]:/swift/2023/02/23/generics.html#h-4-extending-an-existing-type-to-specify-an-associated-type
