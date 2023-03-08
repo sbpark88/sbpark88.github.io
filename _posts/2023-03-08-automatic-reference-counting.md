@@ -45,6 +45,96 @@ Variables 를 참조(referring)하고 있는지 추적`해 단 하나의 참조(
 
 ### 3. ARC in Action 👩‍💻
 
+
+*ARC* 의 동작을 확인하기 위해 *Person* 이라는 Class 를 하나 생성한다.
+
+```swift
+class Person {
+    let name: String
+    init(name: String) {
+        self.name = name
+        print("\(name) is being initialized")
+    }
+    deinit {
+        print("\(name) is being deinitialized")
+    }
+}
+```
+
+<br>
+다음으로 `Person?` Types 의 변수를 3개 생성한다. Optional Types 이므로 해당 변수 3개는 `nil` value 로 초기화 된다.
+
+```swift
+var reference1: Person?
+var reference2: Person?
+var reference3: Person?
+```
+
+<br>
+`new Person` instance 를 하나 생성해 `reference1` 변수에 할당한다.
+
+```swift
+reference1 = Person(name: "John Appleseed")
+```
+
+```console
+John Appleseed is being initialized
+```
+
+이제 `reference1` 변수가 `Person(name: "John Appleseed")` instance 를 *Strong References* 로 갖는다. 따라서 ARC 는
+이 `Person(name: "John Appleseed")`에 대한 *Strong References* 를 `+1 시켜 1개를 기억`해 이 *Instance* 가 메모리에
+유지되고, deallocated 되지 않도록 한다.
+
+<br>
+
+```swift
+reference2 = reference1
+```
+
+이제 `reference2` 변수 역시 `Person(name: "John Appleseed")` instance 를 *Strong References* 로 가져 이들 사이에도
+*Strong References* 가 생성되었다. 따라서 ARC 는 `Person(name: "John Appleseed")`에 대한 *Strong References* 를
+`+1 시켜 2개를 기억`한다.
+
+> 그리고 여기서 중요한 것은 `new Instance`를 생성하는 것이 아닌 `Original Instance 의 Reference 를 공유`하는 것이기 때문에
+> Initializer 는 호출되지 않는다.
+
+<br>
+
+```swift
+reference3 = reference1
+```
+
+마찬가지로 이제 `Person(name: "John Appleseed")`에 대한 *Strong References* 는 3개가 생성되었다.
+
+<br>
+
+3개의 *Strong References* 중 *Original Reference* 를 포함해 2개를 끊어보자(break).
+
+```swift
+reference1 = nil
+reference2 = nil
+```
+
+> ARC 는 `Person(name: "John Appleseed")`에 대한 **Strong References** 를 `-2 시켜 1개를 기억`한다. 따라서 아직
+> 이 `Instance 가 메모리에 유지되고, deallocated 되지 않도록 한다`.
+
+<br>
+
+마지막 남은 *Strong References* 역시 끊어보자.
+
+```swift
+reference3 = nil
+```
+
+```console
+John Appleseed is being deinitialized
+```
+
+> ARC 는 `Person(name: "John Appleseed")`에 대한 **Strong References** 를
+> `-1 시켜 존재하지 않음을 확인(zero strong references)`한다.  
+> 따라서 이제 Instance 는 deallocated 되어 Deinitializer 가 호출된다.
+
+
 ---
 
 ### 4. Strong Reference Cycles Between Class Instances 👩‍💻
