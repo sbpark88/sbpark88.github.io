@@ -709,7 +709,7 @@ __3 ) Optional Collection with *default value*__
 *Optional Collection* 이라고 무조건 *compactMap* 을 사용해서는 안 된다. `nil`을 제거하지 않고 남겨두거나, 
 `default value` 처리를 해야할 수도 있다.
 
-만약 `nil`을 *default value* 로 처리하면 반환된 *Collection* 은 더이상 `nil`을 포함하지 않으므로 *compactMap* 과 
+만약 `nil`을 *default value* 로 처리하면 반환된 *Collection* 은 더 이상 `nil`을 포함하지 않으므로 *compactMap* 과 
 *map* 은 동일하게 작동한다. 따라서 이 경우 굳이 *compactMap* 을 쓸 필요가 없다. *map* 역시 `nil`이 제거된 
 `new Collection`을 반환하므로, Swift 는 이를 추론해 `unwrapping`된 *Collection* 을 반환한다.
 

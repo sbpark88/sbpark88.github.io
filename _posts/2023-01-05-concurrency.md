@@ -163,7 +163,7 @@ show(photo)
 
 1. `await` 중단점이 있는 `listPhotos(inGallery:)` 함수를 호출 후 **return 이 반환될 때까지 실행을 중단**한다.
 2. 이 코드가 중단된 동안 *long-running background task* 가 필요한 *동일 프로그램의 다른 Concurrent code 가 실행*된다. 
-   다른 *Concurrent code* 역시 다음 `await` *중단점이 표시된 코드까지 진행 후 중단*되거나 *더이상 중단점이 없다면 해당 
+   다른 *Concurrent code* 역시 다음 `await` *중단점이 표시된 코드까지 진행 후 중단*되거나 *더 이상 중단점이 없다면 해당 
    함수가 종료될 때까지 계속 진행*된다.
 3. `listPhotos(inGallery:)`가 *return 되며 코드가 재시작*되고, *변수 photoNames 에 반환된 값을 assign* 한다.
 4. *다음 중단점인 `await`를 만나기 전까지 *Synchronous code* 를 진행*한다.

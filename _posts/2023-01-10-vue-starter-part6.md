@@ -423,18 +423,18 @@ Vuex 3.x 는 Vue 2 를 위한것이었고, Vuex 4.x 는 Vue 3 를 위한 것이�
 
 사실상 둘은 업그레이드 버전이 아닌 다른 라이브러리이므로 하나의 프로젝트 내에 `Pinia`와 `Vuex`를 모두 설치하는 것이 가능하다. 
 이로써 기존에 Vuex 를 사용중인 앱이 Pinia 로 마이그레이션 하는 것을 점진적으로 처리할 수 있을 것이다. 그러나 새 프로젝트를 시작할 
-계획이라면 더이상 Vuex 를 사용하지 말고 `Pinia`를 사용할 것을 권장하고있다.
+계획이라면 더 이상 Vuex 를 사용하지 말고 `Pinia`를 사용할 것을 권장하고있다.
 
 Comparison with Vuex 3.x/4.x ¶
 
-- Pinia 에는 더이상 `mutations`가 존재하지 않는다.
-- TypeScript 의 Type Inference 를 활용하므로 더이상 TypeScript 를 지원하기 위해 Custom Complex Wrappers 를 만들 필요가 없다.
+- Pinia 에는 더 이상 `mutations`가 존재하지 않는다.
+- TypeScript 의 Type Inference 를 활용하므로 더 이상 TypeScript 를 지원하기 위해 Custom Complex Wrappers 를 만들 필요가 없다.
 - 자동완성을 지원한다.
-- 더이상 동적으로 `store` 를 추가할 필요가 없다. Pinia 에서는 이미 동적이다. 만약 직접 다루길 원한다면 할 수는 있지만 사용자가 눈치채지 
+- 더 이상 동적으로 `store` 를 추가할 필요가 없다. Pinia 에서는 이미 동적이다. 만약 직접 다루길 원한다면 할 수는 있지만 사용자가 눈치채지 
   못하더라도 이미 동적으로 관리되도록 자동화 되어 있으므로 그럴 필요가 없다.
-- 더이상 중첩된 모듈 구조가 없다. 여전히 store 를 다른 store 안에서 import 함으로써 nest store 를 암시적으로 포함할 수 있지만 
+- 더 이상 중첩된 모듈 구조가 없다. 여전히 store 를 다른 store 안에서 import 함으로써 nest store 를 암시적으로 포함할 수 있지만 
   ,  Pinia 는 평면 구조로 이를 디자인 해 제공하는 동시에 stores 간에 교차 구성을 가능하게 한다(Stores 의 순환 종속을 가질 수도 있다).
-- 더이상 `Namespaced Modules`가 존재하지 않는다. Stores 가 `flat architecture`로 제공되므로 `namespacing`은 어떻게 
+- 더 이상 `Namespaced Modules`가 존재하지 않는다. Stores 가 `flat architecture`로 제공되므로 `namespacing`은 어떻게 
   정의되었는가에 의해 상속되므로 모든 stores 는 `namedspaced` 되었다 할 수 있다.
 
 #### 4. Installation
@@ -755,7 +755,7 @@ p { color: blue; }
 
 #### 8. Mutations and Actions
 
-Pinia 는 mutations 가 존재하지 않으므로 더이상 필요한 개념은 아니다. 정확한 것은 Pinia 에서 상태 관리를 어떻게 하고 값을 
+Pinia 는 mutations 가 존재하지 않으므로 더 이상 필요한 개념은 아니다. 정확한 것은 Pinia 에서 상태 관리를 어떻게 하고 값을 
 다루는지를 확인한 후 포스팅을 일부 수정할 필요가 있을 것으로 보인다. 단, 아직 Vuex 를 사용중이라면 mutations 를 사용하고 있을텐데 
 Vuex 에서 mutations 없이도 컴포넌트에서 state 수정이 가능했음에도 불구하고 mutations 를 사용한 이유는 Vuex 의 Actions 설명을 
 보면 다음으로 추측된다.

@@ -437,7 +437,7 @@ Swift 가 자동으로 `Default Initializers`를 생성한다.
 단지 이 *default value* 의 존재 유무에 따라 모든 *Member Properties* 를 설정하기 위해 
 `자동 생성되는 'Initializers' 의 경우의 수만 달라질 뿐`이다.
 
-> `Custom Initializers`가 존재하는 경우, 더이상 `Default Initializers`나 `Memberwise Initializers`에 
+> `Custom Initializers`가 존재하는 경우, 더 이상 `Default Initializers`나 `Memberwise Initializers`에 
 > 접근할 수 없다.
 
 <br>

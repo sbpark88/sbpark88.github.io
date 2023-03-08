@@ -354,7 +354,7 @@ print(y as Any)                         // Optional(1)
 __2 ) Throwing Functions with `try`__
 
 우선 `Throwing Functions`는 항상 `Error protocol 을 따르는 Types 의 값` 또는 `Optional`을 반환하므로 
-더이상 *return types* 가 `Int?`일 필요가 없다. *return types* 를 `Int`로 바꾸도록하자. 
+더 이상 *return types* 가 `Int?`일 필요가 없다. *return types* 를 `Int`로 바꾸도록하자. 
 
 ```swift
 func someThrowingFunction(_ input: Int) throws -> Int {

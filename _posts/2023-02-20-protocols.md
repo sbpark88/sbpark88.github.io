@@ -395,7 +395,7 @@ class Student: Human {
 
 <br>
 
-하지만 [Classes 가 `final` modifier 를 이용해 정의되는 경우][Preventing Overrides], 이 *Class* 는 더이상 
+하지만 [Classes 가 `final` modifier 를 이용해 정의되는 경우][Preventing Overrides], 이 *Class* 는 더 이상 
 `Subclassing` 될 수 없기 때문에 `required`를 작성할 필요가 없다.
 
 ```swift
