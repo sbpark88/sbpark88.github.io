@@ -3,7 +3,7 @@ layout: post
 title: Swift Automatic Reference Counting
 subtitle: Model the lifetime of objects and their relationships. 
 categories: swift
-tags: [swift docs, arc, automatic reference counting, strong reference cycle, weak reference, unowned reference, capture list]
+tags: [swift docs, arc, automatic reference counting, strong reference cycle, zero strong references, memory leak, weak reference, unowned reference, capture list]
 ---
 
 ### 1. Automatic Reference Counting 👩‍💻
@@ -134,10 +134,99 @@ John Appleseed is being deinitialized
 > `-1 시켜 존재하지 않음을 확인(zero strong references)`한다.  
 > 따라서 이제 Instance 는 deallocated 되어 Deinitializer 가 호출된다.
 
-
 ---
 
 ### 4. Strong Reference Cycles Between Class Instances 👩‍💻
+
+위에서 ARC 가 어떻게 동작하고, Instance 를 메모리에 유지하는지 확인했다.
+
+이번에는 *Strong References* 가 절대로 *zero strong references* 에 도달하지 않는 코드의 예를 보려 한다. 이는 `두 개의 Classes 가
+서로에 대한 Strong References 를 갖는 경우 발생`한다. 두 Instances 를 동시에 해제(deallocate)할 수 없어 각 Instances 는 서로를
+유지시킨다.
+
+해당 Case 를 확인하기 위해 *Person* 과 *Apartment* 라는 Classes 를 아래와 같이 생성한다.
+
+```swift
+class Person {
+    let name: String
+    init(name: String) { self.name = name }
+    var apartment: Apartment?
+    deinit { print("\(name) is being deinitialized") }
+}
+
+class Apartment {
+    let unit: String
+    init(unit: String) { self.unit = unit }
+    var tenant: Person?
+    deinit { print("Apartment \(unit) is being deinitialized") }
+}
+```
+
+- `Person` class 는 초기값으로 `nil`을 갖는 `Apartment?`를 Properties 로 갖는다.
+- `Apartment` class 는 초기값으로 `nil`을 갖는 `Person?`을 Properties 로 갖는다.
+
+<br>
+
+위와 마찬가지로 변수를 선언한다.
+
+```swift
+var john: Person?
+var unit4A: Apartment?
+```
+
+```swift
+john = Person(name: "John Appleseed")
+unit4A = Apartment(unit: "4A")
+```
+
+이제 변수 `john`는 `Person(name: "John Appleseed")` instance 를 *Strong References* 로 갖고,
+변수 `unit4A`은 `Apartment(unit: "4A")` instance 를 *Strong References* 로 갖는다.
+
+![Strong Reference Cycle 1](/assets/images/posts/2023-03-08-automatic-reference-counting/referenceCycle01~dark@2x.png){: width="800"}
+
+<br>
+Person 은 Apartment 를 갖도록, Apartment 는 Person 을 갖도록 할 수 있다. 이 둘이 서로의 Instances 를 *Strong References* 로 
+갖도록 해보자.
+
+![Strong Reference Cycle 2](/assets/images/posts/2023-03-08-automatic-reference-counting/referenceCycle02~dark@2x.png){: width="800"}
+
+이제 `Person(name: "John Appleseed")`은 변수 `john`과 `Apartment(unit: "4A")` instance 의 변수 property `tenant`에 
+의해 참조되어 ARC 는 2개의 *Strong References* 가 존재함을 확인한다. 반대의 경우도 마찬가지로 `Apartment(unit: "4A")` instance 
+역시 ARC 는 2개의 *Strong References* 가 존재함을 확인한다.
+
+<br>
+변수 `john`과 `unit4A`가 갖는 *Strong References* 를 끊어보자.
+
+```swift
+john = nil
+unit4A = nil
+```
+
+```console
+// Nothing
+```
+
+![Strong Reference Cycle 3](/assets/images/posts/2023-03-08-automatic-reference-counting/referenceCycle03~dark@2x.png){: width="800"}
+
+서로가 서로를 *Strong References* 로 참조하고 있기 때문에 두 Instances 는 절대로 `Zero Strong References`에 도달할 수 없다.
+
+만약 이걸 끊어내려면 서로에 대한 *Strong References* 를 먼저 끊어야한다.
+
+```swift
+john?.apartment = nil
+unit4A?.tenant = nil
+
+john = nil
+unit4A = nil
+```
+
+```console
+Apartment 4A is being deinitialized
+John Appleseed is being deinitialized
+```
+
+하지만 이 방법은 위험한 방법이다. 개발자가 이를 놓치거나 로직 순서상 또는 예기치 못한 에러 등으로 인해 변수 `john`이나 `unit4A`가 갖는 
+*Strong References* 만 끊어질 경우 더이상 메모리를 해제할 수 없는 상태가 되므로 `Memory Leak`이 발생한다.
 
 ---
 
