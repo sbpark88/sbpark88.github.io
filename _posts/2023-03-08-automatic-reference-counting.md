@@ -8,6 +8,17 @@ tags: [swift docs, arc, automatic reference counting, strong reference cycle, we
 
 ### 1. Automatic Reference Counting 👩‍💻
 
+Swift 는 `Automatic Reference Counting (ARC)`를 사용해 앱의 메모리 사용을 관리하고 추적한다. 대부분의 경우 Swift 에서 개발자는
+메모리를 관리할 필요가 없다. 이에 대해 Apple 은 이렇게 말한다. `just work`.
+
+*ARC* 는 `Class Instance` 가 더이상 필요하지 않을 때 `메모리 할당을 해제(free up)`한다 
+([Deinitialization](/swift/2022/12/19/deinitialization.html) 이 호출됨을 의미).  
+
+그러나 일부 경우 ARC 는 메모리를 관리하기 위해 코드 관계에 대한 추가 정보를 요구한다. Swift 에서 ARC 를 사용하는 것은 Objective-C 에서
+ARC 사용에 대한 [Transitioning to ARC Release Notes] 에서 설명한 접근 방식과 유사하다.
+
+> `Reference counting`은 `Class Instance`에만 적용된다. **Structures** 와 **Enumerations** 는 **Value Types**이다.
+
 ---
 
 ### 2. How ARC Works 👩‍💻
