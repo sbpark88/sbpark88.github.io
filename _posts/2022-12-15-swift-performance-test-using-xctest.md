@@ -238,7 +238,7 @@ struct DiceTwo {
 
 <br>
 
-아래 캡쳐를 참고해 방금 생성한 `Computed-PropertiesTests` 그룹을 타겟 그룹으로 추가한다.
+아래 캡처를 참고해 방금 생성한 `Computed-PropertiesTests` 그룹을 타겟 그룹으로 추가한다.
 
 ![Add Test Targets 1](/assets/images/posts/2022-12-15-swift-performance-test-using-xctest/add-test-targets-1.png)
 

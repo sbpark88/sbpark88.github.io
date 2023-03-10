@@ -686,7 +686,7 @@ Course 'Caring for Tropical Plants' is being deinitialized
 > 필요가 없다.
 
 
-#### 5. Unowned References and Implicitly Unwrapped Optional Properties
+#### 5. Unowned References and Type! Properties
 
 위에서 *Strong Reference Cycles* 를 끊기 위한 2가지 방법(Week References, Unowned References)에 대해 다루었다.
 
@@ -703,8 +703,8 @@ Reference Cycles 이 발생할 가능성이 있는 상황*을 보여준다. 이 
 __3 ) 2개의 Properties 가 모두 nil 을 허용하지 않는 케이스__
 
 마지막으로 *2개의 Properties 가 모두 값이 항상 있고 초기화가 완료되면 nil 이 되어서는 안 되는 세 번째 시나리오가 있는 상황*을 설명한다. 
-이 시나리오는 **Unowned References 의 변형**으로 `Unowned References` 와 `Implicitly Unwrapped Optional Properties`를 
-이용해 해결한다.
+이 시나리오는 **Unowned References 의 변형**으로 `Unowned References` 와 
+`Implicitly Unwrapped Optional Properties(Type!)`를 이용해 해결한다.
 
 이렇게 하면 *Strong Reference Cycles* 를 피하면서, 초기화가 완료되면 두 Properties 모두 *Optional Unwrapping 없이 접근*할 
 수 있다.
@@ -793,11 +793,12 @@ Canada's capital city is called Ottawa
 
 *Country* 의 Initializer 의 `self.capitalCity = City(name: capitalName, country: self)`를 살펴보자.
 
-*City* 의 Initializer 는 Country 가 필요하다. 하지만 [Two-Phase Initialization] 에서 설명했듯이 `'self'에 대한 접근은 
-'Phase 2' 에서만 가능`하다.
+*City* 의 Initializer 는 Country 가 필요하다. 하지만 [Two-Phase Initialization] 에서 설명했듯이 `'self' 참조는 'Phase 2' 
+에서만 가능`하다.
 
-따라서 `Phase 1 을 완료하기 위해 & var capitalCity 가 Optional 을 허용하지 않기 위해 'City!'로 표시되는 
-Implicitly Unwrapped Optionals 를 사용해 nil 을 할당해 초기화`를 하고, `Phase 2 에서 반드시 저장`하는 방법을 사용한다.
+따라서 ***'self' 참조를 사용하면서, var capitalCity 가 Optional 을 허용하지 않도록 하기 위해*** `'City!'로 표시되는
+Implicitly Unwrapped Optionals 를 사용해 nil 을 할당해 Phase 1 을 처리하고`를 하고, `Phase 2 에서 반드시 저장`하는 방법을 
+사 용한다.
 
 > - Implicitly Unwrapped Optionals
 > 
@@ -825,9 +826,89 @@ Country Canada is being deinitialized
 City Ottawa is being deinitialized
 ```
 
+deallocated 까지 정상적으로 처리된다.
+
 ---
 
 ### 6. Strong Reference Cycles for Closures 👩‍💻
+
+위에서 `두 Class Instance Properties 사이에` 생성되는 *Strong Reference Cycles* 와 이를 어떻게 해결하는지 각각의 시나리오에 대해
+살펴보았다. 
+
+이번에는 `Class Instance 와 Closures 사이에` 생성되는 *Strong Reference Cycles* 에 대해 알아본다. 이것은 Class Instance 
+Property 에 Closure 를 할당하고, `Closure 가 'self' 를 이용해 자신이 속한 context 의 Instance Properties/Methods 를 
+캡처`할 때 생성된다.
+
+```swift
+class HTMLElement {
+    let name: String
+    let text: String?
+
+    lazy var asHTML: () -> String = {
+        if let text = self.text {
+            return "<\(self.name)>\(text)</\(self.name)>"
+        } else {
+            return "<\(self.name) />"
+        }
+    }
+
+    init(name: String, text: String? = nil) {
+        self.name = name
+        self.text = text
+    }
+
+    deinit { print("\(name) is being deinitialized") }
+}
+```
+
+위 HTMLElement class 는 `head`와 `text`를 받아 HTML 을 만들어준다.
+
+```swift
+var heading: HTMLElement? = HTMLElement(name: "h1")
+let html = heading!.asHTML()
+print(html)         // <h1 />
+
+var headingWithText: HTMLElement? = HTMLElement(name: "p", text: "Hello~")
+let anotherHtml = headingWithText!.asHTML()
+print(anotherHtml)  // <p>Hello~</p>
+```
+
+> `asHTML` property 는 String 값을 HTML Rendering 으로 출력할 때만 필요하므로 `lazy` property 로 선언된다.  
+> 그리고 `lazy`로 선언되었으므로 Property 가 호출되는 시점에는 이미 Initialization 을 마친 상태를 의미한다. 즉, `self` 참조가 
+> 가능함을 의미한다.
+
+<br>
+
+이제 사용이 끝났으니 deallocated 시켜보자.
+
+```swift
+heading = nil
+headingWithText = nil
+print(heading as Any)           // nil
+print(headingWithText as Any)   // nil
+```
+
+```console
+// Nothing
+```
+
+변수 `heading`과 `headingWithText`에 연결된 *Strong Reference Cycles* 는 제거되었지만 **두 Classes 모두 deallocated 
+되지 않는다**.
+
+> - 두 Classes 가 갖는 Properties 사이에 생성된 References 가 *Strong Reference Cycles* 를 생성하는 이유는 `Classes 가 
+> Reference Types`이기때문이다.
+> - 그리고 `Closures 역시 Reference Types 이므로, Classes 와 Closures 사이에도 Strong Reference Cycles 가 생성`된다.
+
+<br>
+
+![Closure Reference Cycles](/assets/images/posts/2023-03-08-automatic-reference-counting/closureReferenceCycle01~dark@2x.png){: width="800"}
+
+- Class Instances 는 context 내에 정의된 Properties 또는 Methods 의 Pointer 를 *Strong References* 로 참조한다.  
+  (이 경우 `asHTML`은 자신의 Closure `() -> String`을 강한 참조로 갖는다.)
+- Closures 는 자신이 속한 Context 내에 정의된 Properties 또는 Methods 의 Pointer 를 *Strong References* 로 참조한다.  
+  (이 경우 `() -> String`은 자신이 속한 Context 내에 정의된 name, text 에 접근하기 위해 `self`를 강한 참조로 갖는다.)
+
+> Closures 는 여러 번 참조하지만 단 하나의 `self`를 *Strong References* 로 캡처한다.
 
 ---
 
