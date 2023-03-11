@@ -916,7 +916,99 @@ print(headingWithText as Any)   // nil
 
 #### 1. Defining a Capture List
 
+Swift 는 이 문제를 해결하기 위해 `Closure Capture List`를 이용한 우아한 해결 방법을 제공한다. *Capture List* 는 Closures 가 
+하나 또는 그 이상의 `Reference Types 를 캡처할 때 사용할 규칙`을 정의한다. 두 Classes 의 경우와 마찬가지로 `Week References` 
+또는 `Unowned References`를 사용한다.
+
+<br>
+
+- Without Capture List
+
+```swift
+lazy var someClosure = {
+    (index: Int, stringToProcess: String) -> String in
+    // closure body goes here
+}
+```
+
+```swift
+lazy var someClosure = {
+    // closure body goes here
+}
+```
+
+Closures 는 Parameter List 를 context 로부터 유추할 수 있어 생략이 가능하다.
+
+<br>
+
+- With Capture List
+
+```swift
+lazy var someClosure = {
+    [unowned self, weak delegate = self.delegate]
+    (index: Int, stringToProcess: String) -> String in
+    // closure body goes here
+}
+```
+
+```swift
+lazy var someClosure = {
+    [unowned self, weak delegate = self.delegate] in
+    // closure body goes here
+}
+```
+
+> Parameter List 를 context 로부터 유추하도록 생략하더라도 Capture List 를 사용할 때는 `in` keyword 를 누락할 수 없다. 
+
 #### 2. Weak and Unowned References
+
+두 Classes 의 경우와 마찬가지로 Closures 가 캡처한 References 가 `nil`이 될 가능성이 있는지와 Lifetime 을 비교해 사용한다.
+
+- Week References : 캡처한 self 가 `nil`이 될 가능성이 있는 경우(*Short Lifetime*) 사용한다. 즉, Week References 는 항상 
+                    `Optional`이다.
+- Unowned References : 캡처한 self 가 `nil`이 될 가능성이 없고 항상 서로를 참조하는 경우(*Same Lifetime*) 사용한다. 
+                       즉, 
+
+<br>
+
+다음은 [Strong Reference Cycles for Closures](#h-6-strong-reference-cycles-for-closures-) 에 *Capture List* 
+를 적용한 코드다.
+
+```swift
+class HTMLElement {
+    let name: String
+    let text: String?
+
+    lazy var asHTML: () -> String = {
+        [unowned self] in
+        if let text = self.text {
+            return "<\(self.name)>\(text)</\(self.name)>"
+        } else {
+            return "<\(self.name) />"
+        }
+    }
+
+    init(name: String, text: String? = nil) {
+        self.name = name
+        self.text = text
+    }
+
+    deinit { print("\(name) is being deinitialized") }
+}
+```
+
+```swift
+var headingWithText: HTMLElement? = HTMLElement(name: "p", text: "Hello~")
+
+headingWithText = nil
+```
+
+```console
+p is being deinitialized
+```
+
+deallocated 까지 정상적으로 처리된다.
+
 
 <br><br>
 
