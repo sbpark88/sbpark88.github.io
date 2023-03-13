@@ -108,6 +108,120 @@ print(myNumber) // 2
 
 ### 2. Conflicting Access to In-Out Parameters 👩‍💻
 
+
+함수는 모든 *In-Out Parameters* 에 *Long-term Write Access* 를 갖고 있다. *In-Out Parameters* 에 대한 *Write Access* 는
+나머지 모든 *Non-In-Out Parameters* 가 평가된 후에 시작되어 함수가 호출되는 동안 지속된다. *In-Out Parameters* 가 여러 개인 경우
+*Write Access* 는 Parameters 의 순서와 동일하게 이루어진다.
+<br>
+
+- *Read Access* 와 *Write Access* 가 동시에 이루어지지 않는 경우
+
+```swift
+var someNumber = 7
+
+func incrementByTen(_ number: inout Int) {
+    number += 10
+}
+
+incrementByTen(&someNumber)
+print(someNumber) // 7
+```
+
+- *Long-term Write Access* 를 갖는 *In-Out Parameters* 와 함수 내부의 다른 *Read Access* 가 동시에 이루어진 경우(same duration)
+
+```swift
+var someNumber = 7
+
+func incrementByTen(_ number: inout Int) {
+    print(someNumber)   // error: simultaneous access
+    number += 10
+}
+
+incrementByTen(&someNumber) // error: Execution was interrupted, reason: signal SIGABRT.
+print(someNumber)
+```
+
+<br>
+
+다음과 같은 함수를 생각해보자.
+
+```swift
+var stepSize = 1
+
+func increment(_ number: inout Int) {
+    number += stepSize
+}
+
+increment(&stepSize)    // error: Execution was interrupted, reason: signal SIGABRT.
+```
+
+위에서 살펴본 것과 마찬가지로 *Read Access* 와 *Write Access* 가 동시에 이루어지므로 *Conflicts* 가 발생한다.
+
+![Memory Increment](/assets/images/posts/2023-03-13-memory-safety/memory_increment~dark@2x.png){: width="800"}
+
+<br>
+
+이 문제를 해결하는 방법 중 한 가지는 `In-Out Parameters`로 전달되는 원본 데이터가 재참조되지 않도록 명확하게 값을 복사해 전달하고,
+함수가 종료된 후 원본 값을 업데이트 하는 것이다.
+
+```swift
+var stepSize = 1
+
+// Make an explicit copy.
+var copyOfStepSize = stepSize
+
+func increment(_ number: inout Int) {
+    number += stepSize
+}
+
+increment(&copyOfStepSize)
+
+// Update the original.
+stepSize = copyOfStepSize
+
+print(stepSize) // 2
+```
+
+<br>
+
+그리고 `In-Out Parameters`를 전달할 때 추가로 주의해야 할 것은, 여러 개의 Parameters 에 동일한 변수를 전달하는 것이 가능한 일반
+Parameters 와 달리 동일한 변수를 전달할 수 없다는 것이다.
+
+- 일반 Parameters 는 동일한 변수를 2개의 Parameters 에 전달할 수 있다.
+
+```swift
+func balance(_ x: Int, _ y: Int) -> (Int, Int) {
+    let sum = x + y
+    return (sum / 2, sum - x)
+}
+var playerOneScore = 42
+var playerTwoScore = 30
+let (lhs1, rhs1): (Int, Int) = balance(playerOneScore, playerTwoScore)
+let (lhs2, rhs2): (Int, Int) = balance(playerOneScore, playerOneScore)
+
+print(lhs1, rhs1) // 36 30
+print(lhs2, rhs2) // 42 42
+```
+
+- `In-Out Parameters`는 동일한 변수를 전달할 수 없다.
+
+```swift
+func balance(_ x: inout Int, _ y: inout Int) {
+    let sum = x + y
+    x = sum / 2
+    y = sum - x
+}
+var playerOneScore = 42
+var playerTwoScore = 30
+balance(&playerOneScore, &playerTwoScore) // OK
+balance(&playerOneScore, &playerOneScore) // error: conflicting accesses to playerOneScore
+```
+
+`balance(&playerOneScore, &playerTwoScore)`는 두 개의 *Parameters* 가 모두 `Overlap` 되지만, 메모리의 다른 위치에 접근하므로
+*Conflicts* 가 발생하지 않는다.  
+반면, `balance(&playerOneScore, &playerOneScore)`는 두 개의 *Parameters* 가 동시에 메모리의 같은 위치에 *Write Access* 를
+수행하므로 *Conflicts* 가 발생한다.
+
 ---
 
 ### 3. Conflicting Access to self in Methods 👩‍💻
