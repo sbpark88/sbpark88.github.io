@@ -194,6 +194,7 @@ func balance(_ x: Int, _ y: Int) -> (Int, Int) {
     let sum = x + y
     return (sum / 2, sum - x)
 }
+
 var playerOneScore = 42
 var playerTwoScore = 30
 let (lhs1, rhs1): (Int, Int) = balance(playerOneScore, playerTwoScore)
@@ -211,6 +212,7 @@ func balance(_ x: inout Int, _ y: inout Int) {
     x = sum / 2
     y = sum - x
 }
+
 var playerOneScore = 42
 var playerTwoScore = 30
 balance(&playerOneScore, &playerTwoScore) // OK
@@ -225,6 +227,58 @@ balance(&playerOneScore, &playerOneScore) // error: conflicting accesses to play
 ---
 
 ### 3. Conflicting Access to self in Methods 👩‍💻
+
+*Structures* 의 `mutating methods`는 메서드를 호출하는 동안 `self`에 대한 *Write Access* 를 갖는다.
+
+각 플레이어는 데미지를 입으면 체력이 줄어들고, 특수 능력을 사용하면 에너지가 줄어드는 게임이 있다고 생각해보자.
+
+```swift
+struct Player {
+    var name: String
+    var health: Int
+    var energy: Int
+
+    static let maxHealth = 10
+    mutating func restoreHealth() {
+        health = Player.maxHealth
+    }
+}
+```
+
+`restoreHealth()` 메서드의 `self` 에 대한 *Write Access* 는 `메서드의 호출시 시작되어 반환될 때까지 유지`된다. 이 메서드는 내부에
+*Player* instance 의 Properties 에 `Overlapping Access(중복 접근)`하는 다른 코드는 없다.
+
+```swift
+extension Player {
+    mutating func shareHealth(with teammate: inout Player) {
+        balance(&teammate.health, &health)
+    }
+}
+```
+
+확장으로 추가한 `shareHealth(with:)` 메서드는 ***In-Out Parameters 로 다른 Player 의 Instance 를 가지고 있으며, 
+Overlapping Access 접근에 대한 가능성을 만든다***.
+
+```swift
+var oscar = Player(name: "Oscar", health: 10, energy: 10)
+var maria = Player(name: "Maria", health: 5, energy: 10)
+oscar.shareHealth(with: &maria) // OK
+
+print(oscar) // Player(name: "Oscar", health: 8, energy: 10)
+print(maria) // Player(name: "Maria", health: 7, energy: 10)
+```
+
+![Memory Share 1](/assets/images/posts/2023-03-13-memory-safety/memory_share_health_maria~dark@2x.png){: width="800"}
+
+위 코드에서 *oscar* 의 *mutating methods* `restoreHealth()`가 갖는 *Write Access* 의 대상은 `self`, 즉, *oscar* 자기 자신이고,
+*In-Out Parameters* 로 전달되는 *maria* 가 갖는 *Write Access* 의 대상은 *maria* 이기 때문에 *Conflicts* 가 발생하지 않는다.
+
+<br>
+
+그러나 `restoreHealth()`의 *In-Out Parameters* 로 *oscar* 를 전달하면 `mutating methods 의 self`와 `In-Out Parameters`가 동일한
+*oscar* 를 대상으로 *Write Access* 를 하기 때문에 동시에 같은 메모리를 참조하고 Overlap 되므로 *Conflicts* 가 발생한다.
+
+![Memory Share 2](/assets/images/posts/2023-03-13-memory-safety/memory_share_health_oscar~dark@2x.png){: width="800"}
 
 ---
 
