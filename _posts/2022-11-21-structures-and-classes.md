@@ -9,7 +9,7 @@ tags: [swift docs, structure, class, value type, reference type, memberwise init
 ### 1. Comparing Structures and Classes 👩‍💻
 
 일반적으로 프로그래밍 언어에서 `Class 하나에 파일 하나`가 필요하다. 
-하지만 Swift 는 `파일 하나에 여러 개의 **Class** 와 **Structure**를 정의`할 수 있으며, 외부 인터페이스는 다른 *Class* 나 
+하지만 Swift 는 `파일 하나에 여러 개의 Classes 와 Structures 를 정의`할 수 있으며, 외부 인터페이스는 다른 *Class* 나 
 *Structure* 가 사용할 수 있도록 자동으로 제공된다.
 
 이는 전통적으로 프로그래밍 언어에서 `Class`의 `instance`는 `Object`인 반면, *Swift* 의 `Structures`와

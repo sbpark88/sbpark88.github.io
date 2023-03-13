@@ -730,6 +730,9 @@ List<String> result = someFunction()  // return `ArrayList<String>` or `LinkedLi
 한 번 이것을 *Downcasting* 해보자.
 
 ```swift
+let downcastedFlippedTriangleA = protocolFlippedTriangleA as? FlippedShape<Triangle>
+let downcastedFlippedTriangleB = protocolFlippedTriangleB as? FlippedShape<Triangle>
+
 print(downcastedFlippedTriangleA == downcastedFlippedTriangleB) // true
 ```
 

@@ -186,7 +186,7 @@ Song: Never Gonna Give You Up, by Rick Astley
 
 ---
 
-### 4. Type Casting for Any and AnyObject 👩‍💻
+### 4. Type Casting for Any and AnyObject(Upcasting '`as`') 👩‍💻
 
 Swift 는 불특정 타입을 위한 두 가지의 특별한 타입을 제공한다.
 
@@ -209,7 +209,6 @@ enum CompassPoint {
     case east, west, south, north
 }
 ```
-
 
 #### 1. Any
 
@@ -250,7 +249,7 @@ func testAnyTypes(_ things: [Any]) {
 
 <br>
 
-`[Any]`에 여러 타입을 저장하고, 이를 `Downcasting`을 통해 다시 확인해보자.
+`[Any]`에 여러 타입을 저장하고, 이를 `Upcasting`을 통해 다시 확인해보자.
 
 - Int and Double
 
