@@ -278,15 +278,96 @@ print(maria) // Player(name: "Maria", health: 7, energy: 10)
 그러나 `restoreHealth()`의 *In-Out Parameters* 로 *oscar* 를 전달하면 `mutating methods 의 self`와 `In-Out Parameters`가 동일한
 *oscar* 를 대상으로 *Write Access* 를 하기 때문에 동시에 같은 메모리를 참조하고 Overlap 되므로 *Conflicts* 가 발생한다.
 
+```swift
+oscar.shareHealth(with: &oscar) // error: inout arguments are not allowed to alias each other
+```
+
 ![Memory Share 2](/assets/images/posts/2023-03-13-memory-safety/memory_share_health_oscar~dark@2x.png){: width="800"}
 
 ---
 
 ### 4. Conflicting Access to Properties 👩‍💻
 
+*Structures*, *Tuples*, *Enumerations* 와 같은 *Value Types* 는 `Structure 의 Properties` 또는 `Tuple 의 Elements`와 같은 개별
+구성 값(individual constituent values)으로 구성된다. 이것은 *Value Types* 이기 때문에 값의 일부가 변경되변 전체가 변경된다.  
+즉, Properties 중 하나에 *Read Access* 또는 *Write Access* 접근을 하는 것은 `self`를 통한 접근이기 때문에 실제로 `전체 값에 대한
+Read Access 또는 Write Access 를 요구`하는 것과 같다.
+
+```swift
+func balance(_ x: inout Int, _ y: inout Int) {
+    let sum = x + y
+    x = sum / 2
+    y = sum - x
+}
+
+var playerInformation = (health: 10, energy: 20)
+balance(&playerInformation.health, &playerInformation.energy)
+// error: conflicting access to properties of playerInformation
+```
+
+위 예제에서 `balance(_:_:)`를 호출하는 것은 *playerInformation* 에 *Overlapping Write Accesses* 를 하는 것이므로 *Conflicts* 가
+발생한다.
+
+만약, *Tuple* 이 다음과 같이 하나의 *In-Out Parameter* 로 전달되면 *Conflicts* 가 발생하지 않는다.
+
+```swift
+func balance(_ player: inout (health: Int, energy: Int)) {
+    let sum = player.health + player.energy
+    player.health = sum / 2
+    player.energy = sum - player.health
+}
+
+var playerInformation = (health: 10, energy: 20)
+balance(&playerInformation)
+print(playerInformation)    // (health: 15, energy: 15)
+```
+
+<br>
+
+아래 코드도 마찬가지의 이유로 *Conflicts* 가 발생한다.
+
+```swift
+var holly = Player(name: "Holly", health: 10, energy: 20)
+balance(&holly.health, &holly.energy)  // Error
+print(holly)
+```
+
+<br>
+이 문제를 해결하는 방법 중 한 가지는 `In-Out Parameters`로 전달되는 원본 데이터를 *Global Variable* 이 아닌 *Local Variable* 로
+변경하는 것이다. 그러면 Swift *compiler* 는 Structure 의 Stored Properties 에 대한 *Access* 가 다른 코드의 부분과 상호작용하지
+않으므로 안전하다는 것을 증명할 수 있게 되고, 2개의 *In-Out Parameters* 가 전달되지만 정상적으로 동작할 수 있다.
+
+```swift
+func someFunction() {
+    var holly = Player(name: "Holly", health: 10, energy: 20)
+    balance(&holly.health, &holly.energy)
+    print(holly)
+}
+
+someFunction()
+```
+
+```console
+Player(name: "Holly", health: 15, energy: 15)
+```
+
+> 위 코드에 대해 보충 설명을 하자면 다음과 같다.
+>
+> **Structure 의 Properties** 에 대한 중복 접근(Overlapping Access) 제한은 메모리 안전성을 위해 항상 필요한 것은 아니다.
+> 메모리 안전성은 보장되지만, `배타적 접근(exclusive access)`은 `메모리 안전성(memory safety)` 보다 더 엄격한 요구사항이다.
+>
+> 즉, 일부 코드는 메모리에 대한 `Exclusive Access`를 위반하더라도 `Memory Safety`를 유지한다는 것을 의미한다. 이는 위와 같이 Swift
+> **compiler** 가 메모리에 대한 `비배타적 접근(nonexclusive access)`가 여전히 안전하다는 것을 증명할 수 있는 `Memory Safety`를 허용한다.
+
+Swift *compiler* 에 의해 메모리에 대한 `Nonexclusive Access`가 `Memory Safety`를 가질 수 있는 조건은 다음과 같다.
+
+- 오직 Instance 의 `Stored Properties 에만 접근`한다(not Computed Properties or Class Properties).
+- Structure 가 `Local Variable`의 값이다(not Global Variable).
+- Structure 는 `Closures 에 의해 캡처되지 않거나` or `Nonescaping Closures 에 의해서만 캡처`된다.
+  (일반 Closures 또는 Escaping Closures 는 함수 context 외부와 상호작용을 하므로 완전히 격리 되지 않는다.)
+
 
 <br><br>
-
 
 ---
 Reference
