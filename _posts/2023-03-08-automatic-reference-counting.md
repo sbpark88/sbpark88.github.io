@@ -981,10 +981,10 @@ class HTMLElement {
 
     lazy var asHTML: () -> String = {
         [unowned self] in
-        if let text = self.text {
-            return "<\(self.name)>\(text)</\(self.name)>"
+        if let text = text {
+            return "<\(name)>\(text)</\(name)>"
         } else {
-            return "<\(self.name) />"
+            return "<\(name) />"
         }
     }
 
