@@ -171,7 +171,7 @@ __5 ) 앱 쓸어올리기__
 ```
 <br>
 
-__6 ) 앱 내리기__
+__6 ) 앱 내리기(Background 로 보내기)__
 
 ```console
 // Nothing
@@ -238,7 +238,7 @@ __5 ) 앱 쓸어올리기__
 ```
 <br>
 
-__6 ) 앱 내리기__
+__6 ) 앱 내리기(Background 로 보내기)__
 
 ```console
 // Nothing
@@ -252,7 +252,271 @@ __6 ) 앱 내리기__
 
 ### 2. App Lifecycle 👩‍💻
 
+#### 1. App Lifecycles
 
+앱의 현재 상태에 따라 언제든 수행할 수 있는 작업과 수행할 수 없는 작업이 결정된다. 예를 들면 `Foreground App`은 CPU 를 포함한 시스템 리소스보다 
+우선 순위가 높다. 반대로 `Background App`은 가능한 한 적은 작업을 수행해야하며, 화면 밖에 있기 때문에 가급적 아무 작업도 수행하지 않는 것이 좋다. 
+앱의 상태 변화를 감지하고 그에 따른 동작을 조정하기 위해 Swift 에서는 다음과 같은 방법을 제공한다.
+
+- [UISceneDelegate] : iOS 13 이상에서 App 의 Lifecycles 를 관리하기 위해 사용한다.
+- [UIApplicationDelegate] : iOS 12 이하에서 App 의 Lifecycles 를 관리하기 위해 사용한다.
+
+```javascript
+document.addEventListener('visibilitychange', (event) => {
+    if (document.hidden) {
+        console.log('not visible');
+    } else {
+        console.log('is visible');
+    }
+});
+```
+
+iOS 에서 앱의 상태에 따라 행동을 제어한다는 것은 Frontend 에서 브라우저와 그 탭의 활성 상태를 감지하고 이에 따른 동작을 조정하는 것과 같다.
+<br>
+
+__1 ) UISceneDelegate__
+
+![app-lifecycle-scene-state](/assets/images/posts/2023-03-16-swift-lifecycle/scene-state_dark@2x.png){: width="800"}
+
+<br>
+
+__2 ) UIApplicationDelegate__
+
+![app-lifecycle-app-state](/assets/images/posts/2023-03-16-swift-lifecycle/app-state_dark@2x.png){: width="800"}
+
+아래 코드에서 볼 수 있듯이 `UISceneDelegate`는 `UIApplicationDelegate`의 
+`application(_:didFinishLaunchingWithOptions:`) 메서드와 `application(_:configurationForConnecting:options:)` 메서드 사이에 
+위치한다.
+
+#### 2. Examples - Present Modally - Automatic
+
+- AppDelegate: UIResponder, UIApplicationDelegate
+
+```swift
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        print(#function)
+
+        return true
+    }
+
+    // MARK: UISceneSession Lifecycle
+
+    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        print(#function)
+
+        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    }
+
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
+        print(#function)
+    }
+
+}
+```
+
+- SceneDelegate: UIResponder, UIWindowSceneDelegate
+
+```swift
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+
+    var window: UIWindow?
+
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        print(#function)
+        guard let _ = (scene as? UIWindowScene) else { return }
+    }
+
+    func sceneDidDisconnect(_ scene: UIScene) {
+        print(#function)
+    }
+
+    func sceneDidBecomeActive(_ scene: UIScene) {
+        print(#function)
+    }
+
+    func sceneWillResignActive(_ scene: UIScene) {
+        print(#function)
+    }
+
+    func sceneWillEnterForeground(_ scene: UIScene) {
+        print(#function)
+    }
+
+    func sceneDidEnterBackground(_ scene: UIScene) {
+        print(#function)
+    }
+
+}
+```
+
+<br>
+
+![View-Controller-Life-Cycle-Modal](/assets/images/posts/2023-03-16-swift-lifecycle/view-controller-life-cycle-modal.png){: width="400"}
+
+__1 ) VC1 로딩__
+
+```console
+application(_:didFinishLaunchingWithOptions:)
+scene(_:willConnectTo:options:)
+VC1 viewDidLoad Called
+VC1 viewWillAppear Called
+sceneWillEnterForeground(_:)
+sceneDidBecomeActive(_:)
+VC1 viewDidAppear Called
+```
+
+앱을 시작함과 동시에 App Life Cycles `application(_:didFinishLaunchingWithOptions:)`과 `scene(_:willConnectTo:options:)`이 
+호출된다.
+
+그리고 첫 번째 View 가 뜨고 로드 되어 뜨기 전 앱이 `Foreground`로 진입하게 되고, *UISceneDelegate* 가 이를 감지하고 
+`sceneWillEnterForeground(_:)`와 `sceneDidBecomeActive(_:)`를 호출한다.
+
+<br>
+
+__2 ) VC2로 이동__
+
+```console
+VC2 viewDidLoad Called
+VC2 viewWillAppear Called
+VC2 viewDidAppear Called
+```
+
+앱은 계속해서 `Foreground`를 유지하므로, App Life Cycle 은 변화가 없다.
+
+<br>
+
+__3 ) VC1로 되돌아가기__
+
+`Back` 버튼을 눌러 이동시
+
+```console
+VC2 viewWillDisappear Called
+VC2 viewDidDisappear Called
+```
+
+마찬가지로 App Life Cycle 은 변화가 없다.
+
+<br>
+
+__4 ) 앱 쓸어올리기__
+
+```console
+sceneWillResignActive(_:)
+```
+<br>
+
+__5 ) 앱 내리기(Background 로 보내기)__
+
+```console
+sceneDidEnterBackground(_:)
+```
+
+<br>
+
+__6 ) 앱 다시 불러오기(Foreground 로 불러오기)__
+
+```console
+sceneWillEnterForeground(_:)
+sceneDidBecomeActive(_:)
+```
+
+<br>
+
+__7 ) 앱 위로 날려 종료하기__
+
+```console
+sceneWillResignActive(_:)
+```
+
+```console
+sceneDidDisconnect(_:)
+application(_:didDiscardSceneSessions:)
+VC1 viewWillDisappear Called
+VC1 viewDidDisappear Called
+```
+
+#### 3. Examples - Present Modally - Full Screen
+
+![View-Controller-Life-Cycle-Full-Screen](/assets/images/posts/2023-03-16-swift-lifecycle/view-controller-life-cycle-full-screen.png){: width="400"}
+
+__1 ) VC1 로딩__
+
+```console
+application(_:didFinishLaunchingWithOptions:)
+scene(_:willConnectTo:options:)
+VC1 viewDidLoad Called
+VC1 viewWillAppear Called
+sceneWillEnterForeground(_:)
+sceneDidBecomeActive(_:)
+VC1 viewDidAppear Called
+```
+
+<br>
+
+__2 ) VC2로 이동__
+
+```console
+VC2 viewDidLoad Called
+VC1 viewWillDisappear Called
+VC2 viewWillAppear Called
+VC2 viewDidAppear Called
+VC1 viewDidDisappear Called
+```
+
+<br>
+
+__3 ) VC1로 되돌아가기__
+
+`Back` 버튼을 눌러 이동시
+
+```console
+VC2 viewWillDisappear Called
+VC1 viewWillAppear Called
+VC1 viewDidAppear Called
+VC2 viewDidDisappear Called
+```
+
+<br>
+
+__4 ) 앱 쓸어올리기__
+
+```console
+sceneWillResignActive(_:)
+```
+<br>
+
+__5 ) 앱 내리기(Background 로 보내기)__
+
+```console
+sceneDidEnterBackground(_:)
+```
+
+<br>
+
+__6 ) 앱 다시 불러오기(Foreground 로 불러오기)__
+
+```console
+sceneWillEnterForeground(_:)
+sceneDidBecomeActive(_:)
+```
+
+<br>
+
+__7 ) 앱 위로 날려 종료하기__
+
+```console
+sceneWillResignActive(_:)
+```
+
+```console
+sceneDidDisconnect(_:)
+application(_:didDiscardSceneSessions:)
+VC1 viewWillDisappear Called
+VC1 viewDidDisappear Called
+```
 
 <br><br>
 
@@ -262,3 +526,6 @@ Reference
 1. Angela Yu, "iOS & Swift - The Complete iOS App Development Bootcamp, Section 15." Udemy.com. last modified Nov. 2021, [https://www.udemy.com/course/ios-13-app-development-bootcamp/](https://www.udemy.com/course/ios-13-app-development-bootcamp/).
 2. "UIViewController." Apple Developer Documentation. accessed Mar. 16, 2023, [UIViewController Life Cycle](https://developer.apple.com/documentation/uikit/uiviewcontroller).
 3. "Managing your app's life cycle." Apple Developer Documentation. accessed Mar. 16, 2023, [App Life Cycle](https://developer.apple.com/documentation/uikit/app_and_environment/managing_your_app_s_life_cycle).
+
+[UISceneDelegate]:https://developer.apple.com/documentation/uikit/uiscenedelegate
+[UIApplicationDelegate]:https://developer.apple.com/documentation/uikit/uiapplicationdelegate
