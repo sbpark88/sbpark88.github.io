@@ -108,6 +108,155 @@ let someInternalConstant = 0            // implicitly internal
 
 ---
 
+### 5. Custom Types 👩‍💻
+
+#### 1. Custom Types
+
+User Custom Types 를 정의할 때 Access Levels 정의하고 싶다면 Types 를 정의할 때 지정한다. Types 자체에 대한 Access Levels 는 해당
+Types 가 갖는 Members(Properties, Methods, Initializers, Subscripts) 의 default Access Levels 에도 영향을 미친다.
+
+- Types 를 `fileprivate`으로 정의하면, 그 Members 역시 `fileprivate`이 된다.
+- 단, <span style="color: red;">Types 를 `public`으로 정의하더라도 그 Members 는 `internal`</span>이다. 이는 실수로 모듈의 API 가
+  아닌 코드 부분이 노출되는 것을 예방하기 위함이다.
+
+> __<span style="color: orange;">Access Levels</span>__
+> 
+> - (open, public) Types = <span style="color: red;">internal</span> Members
+> - (internal, fileprivate, private) Types = Members 
+
+```swift
+public class SomePublicClass {                      // explicitly public class
+    public var somePublicProperty = 0               // explicitly public class member
+    var someInternalProperty = 0                    // implicitly internal class member
+    fileprivate func someFilePrivateMethod() {}     // explicitly file-private class member
+    private func somePrivateMethod() {}             // explicitly private class member
+}
+
+class SomeInternalClass {                           // implicitly internal class
+    var someInternalProperty = 0                    // implicitly internal class member
+    fileprivate func someFilePrivateMethod() {}     // explicitly file-private class member
+    private func somePrivateMethod() {}             // explicitly private class member
+}
+
+fileprivate class SomeFilePrivateClass {            // explicitly file-private class
+    func someFilePrivateMethod() {}                 // implicitly file-private class member
+    private func somePrivateMethod() {}             // explicitly private class member
+}
+
+private class SomePrivateClass {                    // explicitly private class
+    func somePrivateMethod() {}                     // implicitly private class member
+}
+```
+
+#### 2. Tuple Types
+
+- Tuples 는 *Classes, Structures, Enumerations, Functions* 와 달리 ***독립적인 정의가 없다***
+- Tuples 의 Access Levels 는 구성된 Types 로부터 <span style="color: orange;">자동</span>으로 정해지며, 
+  ***명시적으로 지정할 수 없다***.
+- Tuples 의 Access Levels 는 ***<span style="color: red;">구성된 Types 중 가장 낮은 수준의 Access Levels</span> 로 자동으로 
+  정해진다***.
+
+> __<span style="color: orange;">Access Levels</span>__
+> 
+> - Tuples <= min(Types1, Types2)
+
+따라서 `internal`과 `private`으로 구성된 Tuples 의 Access Levels 는 `private`이 된다.
+
+#### 3. Function Types
+
+- Functions 의 Access Levels 는 ***<span style="color: red;">Parameter Types 와 Return Types 중 가장 낮은 수준의 
+  Access Levels</span> 로 계산***되며, context 의 Access Levels 와 일치하지 않는다면 <span style="color: orange;">명시적</span>으로 지정해야한다.
+
+> __<span style="color: orange;">Access Levels</span>__
+> 
+> - Functions <= min(Parameters, Returns)
+
+<br>
+
+__1 ) Context 의 Access Levels 와 일치하는 경우__
+
+```swift
+struct SomeInternalStructure {
+    func someFunction() -> (SomeInternalClass, SomeInternalClass) {
+        (SomeInternalClass(), SomeInternalClass())
+    }
+}
+```
+
+> **context** 의 Access Levels 가 `internal`, **Function Parameter Types 와 Return Types** 의 Access Levels 가 
+> `internal` 이므로 함수는 암시적으로 `internal`로 정의된다.
+<br>
+
+```swift
+private struct SomePrivateStructure {
+    func someFunction() -> (SomePrivateClass, SomePrivateClass) {
+        (SomePrivateClass(), SomePrivateClass())
+    }
+}
+```
+
+> **context** 의 Access Levels 가 `private`, **Function Parameter Types 와 Return Types** 의 Access Levels 가 
+> `private` 이므로 함수는 암시적으로 `private`으로 정의된다.
+
+<br>
+__2 ) Context 의 Access levels 와 일치하지 않는 경우__
+
+```swift
+struct SomeInternalStructure {
+    func someFunction() -> (SomeInternalClass, SomePrivateClass) {
+        (SomeInternalClass(), SomePrivateClass())
+    }  // error: method must be declared fileprivate because its result uses a private type
+}
+```
+
+> **context** 의 Access Levels 는 `internal`인데, **Function Parameter Types 와 Return Types** 중 낮은 Access Levels 가 
+> `private`이므로 Access Levels 을 다음과 같이 명시적으로 **fileprivate** 또는 **private** 으로 지정해야한다.
+
+```swift
+struct SomeInternalStructure {
+    fileprivate func someFunctionFirst() -> (SomeInternalClass, SomePrivateClass) {
+        (SomeInternalClass(), SomePrivateClass())
+    }
+    private func someFunctionSecond() -> (SomeInternalClass, SomePrivateClass) {
+        (SomeInternalClass(), SomePrivateClass())
+    }
+}
+
+let some = SomeInternalStructure()
+some.someFunctionFirst()
+some.someFunctionSecond()   // 'someFunctionSecond' is inaccessible due to 'private' protection level
+```
+
+> 가장 낮은 Access Levels 는 **private** 이지만 **fileprivate** 까지는 허용이 되는 것으로 보인다.
+
+#### 4. Enumeration Types
+
+- Enumerations 의 Cases 역시 Enumerations 의 Access Levels 를 자동으로 받는다.
+- Enumerations 의 Cases 는 Classes 나 Structures 의 Members 와 달리 <span style="color: red;">Access Levels 를 지정할 
+  수 없다</span>.
+- Enumerations 에 사용된 [Associated Values], [Raw Values] 는 **Enumerations 의 Access Levels 과 같거나 높은 수준의 
+  Access Levels 를 가져야 한다**.
+
+> __<span style="color: orange;">Access Levels</span>__
+>
+> - <span style="color: red;">Cases 의 Access Levels 수정 불가</span>
+> - Enumerations = Cases
+> - Enumerations <= Associated Values
+> - Enumerations <= Raw Values
+
+#### 5. Nested Types
+
+- Nested Types 역시 context 의 Access Levels 를 자동으로 받는다.
+- 단, Public Types 의 Nested Types 는 `internal`이다. (cf. [Custom Types](#h-1-custom-types))
+
+> __<span style="color: orange;">Access Levels</span>__
+> 
+> - (open, public) Context Types = <span style="color: red;">internal</span> Nested Types
+> - (internal, fileprivate, private) Context Types = Nested Types
+
+---
+
+
 <br><br>
 
 ---
