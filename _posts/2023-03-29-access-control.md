@@ -300,6 +300,212 @@ internal class B: A {
 ---
 
 
+### 7. Constants, Variables, Properties, and Subscripts 👩‍💻
+
+#### 1. Constants, Variables, Properties, and Subscripts
+
+- 선언되는 Constants, Variables, Properties 는 할당하려는 Types 보다 높은 수준의 Access Levels 를 가질 수 없다.
+- 유사하게 Subscripts 는 *Index Types* 또는 *Return Types* 보다 높은 수준의 Access Levels 를 가질 수 없다.
+
+> __<span style="color: orange;">Access Levels</span>__
+> 
+> - Constants, Variables, Properties <= Types to assignment
+> - Subscripts <= min(Index, Return)
+
+<br>
+
+```swift
+var internalInstance = SomePrivateClass()   // Variable must be declared private or fileprivate because its type 'SomePrivateClass' uses a private type
+fileprivate var fileprivateInstance = SomePrivateClass()
+private var privateInstance = SomePrivateClass()
+```
+
+> `Private Types`를 할당하므로 선언되는 Variables 는 `private` 보다 높은 수준의 Access Levels 를 가질 수 없으므로 반드시
+> `private`으로 선언되어야 한다.
+
+> [Function Types](#h-3-function-types) 에서 본 것과 마찬가지로 **private** 이 예상되는 곳에 **fileprivate** 까지는 허용이 
+> 되는 것으로 보인다.  
+
+#### 2. Getters and Setters
+
+- Constants, Variables, Properties, Subscripts 에 대한 `Getters`와 `Setters`는 속해 있는 대상의 Access Levels 를 자동으로 받는다.
+- `Setters`의 Access Levels 를 `Getters`의 Access Levels 보다 낮게 제한하기 위해 `fileprivate(set)`, `private(set)` 또는
+  `inernal(set)`을 작성해 더 낮은 접근 수준을 할당할 수 있다.
+
+> Stored Properties 에 대해 명시적으로 **Getters** 와 **Setters** 를 작성하지 않아도 Swift 는 내부적으로 Stored Properties 의
+> `Backing Storage`에 대한 접근을 제공하기 위해 암시적으로 **Getters** 와 **Setters** 를 제공한다.
+
+> __<span style="color: orange;">Access Levels</span>__
+> 
+> - Getters, Setters of (Constants, Variables, Properties, Subscripts) <= Constants, Variables, Properties, Subscripts
+> - Getters = Constants, Variables, Properties, Subscripts
+> - Setters <= Setters
+
+> [Function Types](#h-3-function-types), 
+> [Constants, Variables, Properties, and Subscripts](#h-1-constants-variables-properties-and-subscripts) 에서 
+> 암시적으로 **private** 이 요구되는 곳에 **fileprivate** 을 사용하는 것이 허용되었으나 Setter 의 경우 좀 더 엄격하게 이를 지킨다. 
+> 즉, <span style="color: red;">private 에 fileprivate 'Setters' 는 허용되지 않는다</span>.
+
+<br>
+
+`fileprivate(set)`, `private(set)`, `inernal(set)` 이 제공하는 기능이 어떤식으로 동작하는지 살펴보자.
+
+<br>
+
+__1 ) Getters: internal, Setters: internal__
+
+```swift
+class SomeClass {
+    var id: String = ""
+}
+```
+
+위와 같이 정의된 SomeClass 는 내부적으로 다음과 같은 방식으로 동작한다.
+
+```swift
+class SomeClass {
+    private var _id: String = ""
+    var id: String {
+        get {
+            _id
+        }
+        set {
+            _id = newValue
+        }
+    }
+}
+```
+
+```swift
+let someClass = SomeClass()
+
+someClass.id = "A"
+print(someClass.id)  // A
+```
+
+<br>
+
+__2 ) Getters: internal, Setters: private__
+
+따라서 우리는 Getters 는 internal 의 Access Levels 를 갖고, Setters 는 private 의 Access Levels 를 갖도록 하기 위해 다음과 같이
+직접 구현할 수 있다.
+
+
+```swift
+class SomeClass {
+    private var _id: String = ""
+    var id: String {
+        get {
+            _id
+        }
+    }
+    func setId(_ id: String) {
+        self._id = id
+    }
+}
+```
+
+```swift
+let someClass = SomeClass()
+
+someClass.id = "A"   // error: cannot assign to property: 'id' is a get-only property
+someClass.setId("A")
+print(someClass.id)  // A
+```
+
+Getters 는 internal 의 Access Levels 를 갖기 때문에 외부에서 접근이 가능하지만, Setters 는 private 의 Access Levels 를 갖기 때문에
+내부에서만 접근이 가능해 `setId(_:)`메서드를 이용한 접근만 허용된다.
+
+<br>
+
+__3 ) internal private(set)__
+
+Swift 에서는 위와 같이 동작되는 서로 다른 Access Levels 를 갖는 Properties 에 대한 정의를 다음과 같이 정의할 수 있다.
+
+```swift
+class SomeClass {
+    internal private(set) var id: String = ""
+
+    func setId(_ id: String) {
+        self.id = id
+    }
+}
+```
+
+`internal` Variables 에 Setters 의 Access Levels 를 `private`으로 선언하면 Swift 가 이에 맞게 Compile 한다.  
+(internal Variables 의 Getters 는 internal 이다.)
+
+```swift
+let someClass = SomeClass()
+
+someClass.id = "A"   // error: cannot assign to property: 'id' is a get-only property
+someClass.setId("A")
+print(someClass.id)  // A
+```
+
+<br>
+
+__4 ) private(set)__
+
+그런데 `SomeClass` Types 의 Access Levels 가 internal 이다.
+
+앞에서 설명했듯이 Types 의 Access Levels 가 *Open* 또는 *Public* 일 경우 Properties 가 암시적으로 *Internal* 이 되지만 Types 의
+Access Levels 가 *Internal* 이하일 경우 Properties 는 암시적으로 Types 의 Access Levels 를 받게 된다.  
+따라서 이 경우 Properties 가 암시적으로 Types 의 Access Levels 를 받도록 생략해 다음과 같이 Setters 의 Access Levels 만 지정해 
+짧은 형태로 정의할 수 있다.
+
+`internal private(set)` -> `private(set)`
+
+```swift
+class SomeClass {
+    private(set) var id: String = ""
+
+    func setId(_ id: String) {
+        self.id = id
+    }
+}
+```
+
+```swift
+let someClass = SomeClass()
+
+someClass.id = "A"   // error: cannot assign to property: 'id' is a get-only property
+someClass.setId("A")
+print(someClass.id)  // A
+```
+
+결국 Stored Properties 는 Backing Storage 에 대한 접근을 Access Levels 에 따라 제공하기 위해 Computed Properties 와 유사한
+형태의 구현을 암시적으로 제공하고 있다는 것을 알 수 있다.
+
+> 즉, Access Levels 를 관리하기 위해 사용되는 `Getters`와 `Setters`는 명시적으로 구현을 하든 암시적으로 구현이 되든 
+> **Stored Properties** 와 **Computed Properties** 모두에 적용된다.
+
+```swift
+struct TrackedString {
+    private(set) var numberOfEdits = 0
+    var value: String = "" {
+        didSet {
+            numberOfEdits += 1
+        }
+    }
+}
+```
+
+'value' 가 바뀔 때마다 변경 횟수를 카운트 하는 'numberOfEdits' 가 1씩 증가하도록 'value' 자신에게 Observer 를 사용한다.
+
+```swift
+var tracking = TrackedString()
+print(tracking.numberOfEdits)   // 0
+tracking.value = "A"
+print(tracking.numberOfEdits)   // 1
+tracking.value = "B"
+print(tracking.numberOfEdits)   // 2
+tracking.value += "C"
+print(tracking.numberOfEdits)   // 3
+```
+
+---
+
 
 <br><br>
 
