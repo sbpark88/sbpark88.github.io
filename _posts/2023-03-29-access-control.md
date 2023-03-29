@@ -256,6 +256,50 @@ some.someFunctionSecond()   // 'someFunctionSecond' is inaccessible due to 'priv
 
 ---
 
+### 6. Subclassing 👩‍💻
+
+- **동일 모듈**일 경우 현재 *context* 가 접근 가능한 ***어떤 Class 든 Subclassing*** 해 Members 를 Overriding 할 수 있다.
+- **다른 모듈**의 경우 대상이 ***Open Class 라면 Subclassing*** 해 Members 를 Overriding 할 수 있다..
+- Subclass 는 상위 Class 보다 높은 Access Levels 를 가질 수 없다.
+
+> __<span style="color: orange;">Access Levels</span>__
+> 
+> - Subclass <= Superclass
+> - Overriding 을 이용해 Subclass Members 의 Access Levels 를 Superclass 보다 높게 설정이 가능하다.
+
+<br>
+
+_**Overriding** 을 이용해 해당 Class Member 를 보다 액세스 하기 쉽도록 만들 수 있다._
+
+```swift
+public class A {
+    fileprivate func someMethod() {}
+}
+
+internal class B: A {
+    override internal func someMethod() {}
+}
+```
+
+```swift
+public class A {
+    fileprivate func someMethod() {}
+}
+
+internal class B: A {
+    override internal func someMethod() {
+        super.someMethod()
+    }
+}
+```
+
+> - Subclassing 된 `Subclass B`는 `Superclass A` 보다 높지 않은 Access Levels 를 가져야 한다는 조건을 만족한다.
+> - Subclassing 을 통해 Subclass B 는 `fileprivate`으로 정의된 `someMethod()`의 Access Levels 를 Overriding 을 통해
+    `internal`로 높여 보다 엑세스 하기 쉽게 만들었다.
+
+---
+
+
 
 <br><br>
 
