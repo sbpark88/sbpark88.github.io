@@ -506,6 +506,45 @@ print(tracking.numberOfEdits)   // 3
 
 ---
 
+### 8. Initializers 👩‍💻
+
+#### 1. Initializers
+
+- Custom Initializers 는 Types 보다 높은 수준의 Access Levels 를 가질 수 없다.
+- 단, Required Initializers 는 Types 는 자신이 속한 Class 와 동일한 Access Level 을 가져야한다.
+- Functions 와 마찬가지로 *Parameters* 보다 높은 수준의 Access Levels 를 가질 수 없다.
+  (e.g. [Guiding Principle of Access Levels](#h-2-guiding-principle-of-access-levels),
+  [Function Types](#h-3-function-types))
+
+> __<span style="color: orange;">Access Levels</span>__
+>
+> - Custom Initializers <= Types
+> - [Required Initializers] = Types
+> - Initializers <= Parameters
+
+#### 2. Default Initializers
+
+[Default Initializers] 가 생성되는 조건을 만족할 경우 다음과 같은 Access Levels 를 갖는다.
+
+> __<span style="color: orange;">Access Levels</span>__
+>
+> - (internal, fileprivate, private) Default Initializers == Types
+> - (open, public) Default Initializers = internal
+
+> (open, public) Types 에 의해 생성되는 Default Initializers 는 `internal`이다. 따라서 외부 모듈에 arguments 가 없는
+> (open, public) Initializers 를 제공해야 하는 경우 **명시적으로 `no-argument Initializer`를 정의**해야한다.
+
+#### 3. Default Memberwise Initializers for Structure
+
+> __<span style="color: orange;">Access Levels</span>__
+>
+> - Structures 의 모든 Stored Properties 가 private -> Default Memberwise Initializers 는 private
+> - Structures 의 모든 Stored Properties 가 fileprivate -> Default Memberwise Initializers 는 fileprivate
+> - 그 외 -> Default Memberwise Initializers 는 internal
+
+> Default Initializers 와 마찬가지로 외부 모듈에 Memberwise Initializers 를 제공해야 하는 경우 **명시적으로
+> `Public Memberwise Initializers`를 정의**해야한다.
+
 
 <br><br>
 
