@@ -605,6 +605,77 @@ Setters 를 제외한 다른 경우와 마찬가지로 Protocols 가 private 이
 > Objective-C 와 마찬가지로 Protocols 의 `Conformance`는 Global 이다. 한 프로그램 내에서 서로 다른 방법으로 Protocol 을 준수하는
 > 것은 불가능하다.
 
+---
+
+### 10. Extensions 👩‍💻
+
+#### 1. Extensions
+
+Classes, Structures, Enumerations 를 확장하면 *기존 Types 의 Members 가 갖는 default Access Levels 를 동일*하게 갖는다.  
+Extensions 에 Access Levels 를 정의하면, Extensions 에 의해 추가되는 기능에 대해 암시적으로 정의되는 Access Levels 를 변경할 수 있다.
+
+> __<span style="color: orange;">Access Levels</span>__
+>
+> - Extensions <= Types
+> - (open, public) Types 를 Extensions -> internal Members
+> - (internal, fileprivate, private) Types 를 Extensions -> (internal, fileprivate, private) Members
+
+```swift
+struct SomeStruct {
+    var number: Int
+    func double() -> Int { self.number * 2 }
+}
+
+private extension SomeStruct {
+    func triple() -> Int { self.number * 3 }
+}
+
+
+var some = SomeStruct(number: 5)
+some.number     // 5
+some.double()   // 10
+some.triple()   // 15
+```
+
+Extensions 를 private 으로 정의하면, Extensions 에 의해 추가되는 기능은 private 으로 정의된다(물론 위 다른 경우와 마찬가지로 
+fileprivate 은 허용이 되는 것으로 보인다).
+
+#### 2. Private Members in Extensions
+
+*Extensions 이 Classes, Structures, Enumerations 와 `같은 파일에 존재`할 경우*, 
+<span style="color: red;">Original 과 Extensions 는 처음부터 단일 Original Types 에 정의된 것처럼 동작</span>한다.
+
+```swift
+struct Origin {
+    private let originNumber = 5
+    func printExtensionNumber() { print(doubleNumber) }
+}
+
+extension Origin {
+    private var doubleNumber: Int { originNumber * 2 }
+    func printAnotherExtensionNumber() { print(tripleNumber) }
+}
+
+extension Origin {
+    private var tripleNumber: Int { originNumber * 3 }
+    func printOriginNumber() { print(originNumber) }
+}
+
+var someStructure = Origin()
+someStructure.printExtensionNumber()        // 10
+someStructure.printAnotherExtensionNumber() // 15
+someStructure.printOriginNumber()           // 5
+```
+
+---
+
+### 11. Generics 👩‍💻
+
+
+
+---
+
+### 12. Type Aliases 👩‍💻
 
 
 <br><br>
