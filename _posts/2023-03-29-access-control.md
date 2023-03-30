@@ -616,7 +616,7 @@ Extensions 에 Access Levels 를 정의하면, Extensions 에 의해 추가되�
 
 > __<span style="color: orange;">Access Levels</span>__
 >
-> - Extensions <= Types
+> - Extensions ≤ Types
 > - (open, public) Types 를 Extensions -> internal Members
 > - (internal, fileprivate, private) Types 를 Extensions -> (internal, fileprivate, private) Members
 
@@ -671,12 +671,49 @@ someStructure.printOriginNumber()           // 5
 
 ### 11. Generics 👩‍💻
 
+Generic Types 또는 Generic Functions 의 Access Levels 는 자기 자신 또는 [Type Parameters] 의 Constraints 중 최솟값으로 
+정해진다.
 
+> __<span style="color: orange;">Access Levels</span>__
+> 
+> Generic Types, Generic Functions = min(itself, Type Parameters)
 
 ---
 
 ### 12. Type Aliases 👩‍💻
 
+`Type Aliases` 역시 Swift 의 다른 Types 와 마찬가지로 고유한 Types 가 된다. 따라서 Type Aliases 를 사용해 기존 Types 의 
+Access Levels 를 Original 과 같거나 낮게 변경해 고유의 Types 를 만들 수 있다.
+
+> __<span style="color: orange;">Access Levels</span>__
+> 
+> Type Aliases ≤ Types
+
+```swift
+struct SomeStruct {
+    var number: Int
+    func double() -> Int { self.number * 2 }
+}
+
+private typealias PrivateStruct = SomeStruct
+public typealias PublicStruct = SomeStruct  // Type alias cannot be declared public because its underlying
+```
+
+Original Types 가 internal 이기 때문에 public 으로 Access Levels 를 더 개방하는 것은 불가능하다.
+
+```swift
+var privateStruct = PrivateStruct(number: 5) // error: variable must be declared private or fileprivate because its type 'PrivateStruct' (aka 'SomeStruct') uses a private type
+```
+
+Private Types 이므로 Internal Variables 에 할당할 수 없다.
+
+```swift
+private var privateStruct = PrivateStruct(number: 5)
+privateStruct.number    // 5
+privateStruct.double()  // 10
+```
+
+> 이 Rule 은 Protocols 의 준수성(conformances)를 충족하도록 하는데 사용되는 [Associated Types] 에도 적용된다.
 
 <br><br>
 
@@ -689,3 +726,5 @@ Reference
 [Raw Values]:/swift/2022/11/01/enumerations.html#h-5-raw-values-
 [Required Initializers]:/swift/2022/12/01/initialization.html#h-7-required-initializers--
 [Default Initializers]:/swift/2022/12/01/initialization.html#h-3-default-initializers-
+[Type Parameters]:/swift/2023/02/23/generics.html#h-3-type-parameters-t
+[Associated Types]:/swift/2023/02/23/generics.html#h-5-associated-types-
