@@ -158,7 +158,7 @@ private class SomePrivateClass {                    // explicitly private class
 
 > __<span style="color: orange;">Access Levels</span>__
 > 
-> - Tuples <= min(Types1, Types2)
+> - Tuples ≤ min(Types1, Types2)
 
 따라서 `internal`과 `private`으로 구성된 Tuples 의 Access Levels 는 `private`이 된다.
 
@@ -169,7 +169,7 @@ private class SomePrivateClass {                    // explicitly private class
 
 > __<span style="color: orange;">Access Levels</span>__
 > 
-> - Functions <= min(Parameters, Returns)
+> - Functions ≤ min(Parameters, Returns)
 
 <br>
 
@@ -227,9 +227,11 @@ some.someFunctionFirst()
 some.someFunctionSecond()   // 'someFunctionSecond' is inaccessible due to 'private' protection level
 ```
 
-> 가장 낮은 Access Levels 는 **private** 이지만 **fileprivate** 까지는 허용이 되는 것으로 보인다.
+> 가장 낮은 Access Levels 는 **private** 이지만 **fileprivate** 까지는 허용이 되는 것으로 보인다. 물론, 함수를 정의할 때 
+> **Function Parameter Types 와 Return Types** 에 대해 private 보다 높은 fileprivate 이 허용된다는 것을 의미하는 것일 뿐 
+> fileprivate 으로 선언하면 같은 파일에서 접근이 가능하므로 해당 Types 외부에서 볼 때는 private 과 다른 Access Levels 를 갖게 된다. 
 
-#### 4. Enumeration Types
+#### 4. Enumeration Types이
 
 - Enumerations 의 Cases 역시 Enumerations 의 Access Levels 를 자동으로 받는다.
 - Enumerations 의 Cases 는 Classes 나 Structures 의 Members 와 달리 <span style="color: red;">Access Levels 를 지정할 
@@ -241,8 +243,8 @@ some.someFunctionSecond()   // 'someFunctionSecond' is inaccessible due to 'priv
 >
 > - <span style="color: red;">Cases 의 Access Levels 수정 불가</span>
 > - Enumerations = Cases
-> - Enumerations <= Associated Values
-> - Enumerations <= Raw Values
+> - Enumerations ≤ Associated Values
+> - Enumerations ≤ Raw Values
 
 #### 5. Nested Types
 
@@ -264,7 +266,7 @@ some.someFunctionSecond()   // 'someFunctionSecond' is inaccessible due to 'priv
 
 > __<span style="color: orange;">Access Levels</span>__
 > 
-> - Subclass <= Superclass
+> - Subclass ≤ Superclass
 > - Overriding 을 이용해 Subclass Members 의 Access Levels 를 Superclass 보다 높게 설정이 가능하다.
 
 <br>
@@ -309,8 +311,8 @@ internal class B: A {
 
 > __<span style="color: orange;">Access Levels</span>__
 > 
-> - Constants, Variables, Properties <= Types to assignment
-> - Subscripts <= min(Index, Return)
+> - Constants, Variables, Properties ≤ Types to assignment
+> - Subscripts ≤ min(Index, Return)
 
 <br>
 
@@ -337,9 +339,9 @@ private var privateInstance = SomePrivateClass()
 
 > __<span style="color: orange;">Access Levels</span>__
 > 
-> - Getters, Setters of (Constants, Variables, Properties, Subscripts) <= Constants, Variables, Properties, Subscripts
+> - Getters, Setters of (Constants, Variables, Properties, Subscripts) ≤ Constants, Variables, Properties, Subscripts
 > - Getters = Constants, Variables, Properties, Subscripts
-> - Setters <= Setters
+> - Setters ≤ Setters
 
 > [Function Types](#h-3-function-types), 
 > [Constants, Variables, Properties, and Subscripts](#h-1-constants-variables-properties-and-subscripts) 에서 
@@ -518,9 +520,9 @@ print(tracking.numberOfEdits)   // 3
 
 > __<span style="color: orange;">Access Levels</span>__
 >
-> - Custom Initializers <= Types
+> - Custom Initializers ≤ Types
 > - [Required Initializers] = Types
-> - Initializers <= Parameters
+> - Initializers ≤ Parameters
 
 #### 2. Default Initializers
 
@@ -544,6 +546,65 @@ print(tracking.numberOfEdits)   // 3
 
 > Default Initializers 와 마찬가지로 외부 모듈에 Memberwise Initializers 를 제공해야 하는 경우 **명시적으로
 > `Public Memberwise Initializers`를 정의**해야한다.
+
+---
+
+### 9. Protocols 👩‍💻
+
+#### 1. Protocols
+
+- Protocols 의 기본 Access Levels 는 internal 이다.
+- Protocols 의 Types 에 명시적으로 Access Levels 를 제한해 특정 context 내에서만 채택(adoption)될 수 있도록 할 수 있다.
+
+> __<span style="color: orange;">Access Levels</span>__
+>
+> - Requirements = Protocols
+> - <span style="color: red;">Requirements 의 Access Levels 를 Protocols 와 다르게 변경할 수 없다</span>.
+> - 다른 Types 와 다르게 Protocols 가 <span style="color: red;">(open, public) 이더라도 Requirements 역시 동일한
+    (open, public)</span> Access Levels 를 갖는다.
+
+#### 2. Protocol Inheritance
+
+> __<span style="color: orange;">Access Levels</span>__
+>
+> - Sub Protocols ≤ Super Protocols
+
+#### 3. Protocol Conformance
+
+> __<span style="color: orange;">Access Levels</span>__
+>
+> - Protocols ≤ Types
+> - Requirements = min(Types, Protocols)
+
+```swift
+protocol SomeProtocol {
+    var protocolProperty: Int { get }
+}
+
+protocol SomePrivateProtocol {
+    var privateProtocolProperty: Int { get }
+}
+
+struct SomeStructure: SomeProtocol, SomePrivateProtocol {
+    var protocolProperty: Int
+    var privateProtocolProperty: Int
+}
+
+var some = SomeStructure(protocolProperty: 10, privateProtocolProperty: 30)
+print(some.protocolProperty)  // 10
+some.protocolProperty = 5
+print(some.protocolProperty)  // 5
+
+print(some.privateProtocolProperty) // 30
+some.privateProtocolProperty = 50
+print(some.privateProtocolProperty) // 50
+```
+
+Setters 를 제외한 다른 경우와 마찬가지로 Protocols 가 private 이어도 실제 Requirements 는 fileprivate 까지는 허용이 되는 것으로 보인다.
+
+> Objective-C 와 마찬가지로 Protocols 의 `Conformance`는 Global 이다. 한 프로그램 내에서 서로 다른 방법으로 Protocol 을 준수하는
+> 것은 불가능하다.
+
 
 
 <br><br>
