@@ -16,6 +16,26 @@ tags: [cs, memory, kernel space, user space, stack, heap, bss, data, text, stack
 > 대부분의 시스템은 `Wroking Memory(RAM)`과 `Non-volatile Memory(Flash)`에 RTOS(Real-time Operating System)가 추가적인 
 > 복잡성을 더하게 된다. Embedded 개발자가 아니라면 대부분의 SW 개발자가 신경 써야 하는 영역은 RAM 이라 불리는 메모리 공간, 즉 작업 영역이다.
 
+---
+
+### 2. Working Memory Layout 👩‍💻
+
+![Memory Layout](/assets/images/posts/2023-04-05-memory-layout/Memory%20Layout.webp){: width="600"}
+
+System 전체로 보면 Memory Layout 은 `6개의 Segments`로 나눌 수 있다.
+
+가장 높은 메모리 주소에 Kernel Space 가 할당되고, 그 아래 Stack 이 할당된다. 이들은 높은 메모리 주소부터 채워나가는 구조를 갖는다.
+
+반대로 메모리 영역의 반대편, 즉, 낮은 메모리 주소부터 할당되는 데이터들이 있다. 우선 가장 낮은 메모리 주소에는 Text 가 위치한다. 그 위로는 
+Data, BSS, Heap 이 순서대로 할당된다.
+
+이 중 OS 가 동작하기 위한 Kernel Space 를 제외한 나머지 5개 Segments(Stack 을 포함하는)를 `User Space`라 한다.
+
+---
+
+
+
+
 <br><br>
 
 ---
