@@ -151,6 +151,55 @@ BSS 상태에서 초기화 된 `값을 변수에 할당해 변수의 초기화�
 
 ### 4. Stack vs. Heap
 
+인터넷에 돌아다니면 Value Types 는 Stack, Reference Types 는 Heap 에 저장된다는 글을 자주 보게 된다. 또는 Value Types 인데 왜 
+Heap 에 저장되었지? 알다가도 모르겠다 하는 글도 많고...
+
+물론, compiler 가 판단하기 때문에 예상과 다른 결과를 보이는 것은 언제나 가능하다. 하지만 대부분의 문제는 다음 두 가지 명확한 기준만 알고 있다면 
+예측이 가능하다.
+
+- Compile-time 에 크기를 알 수 있는가? (= Dynamic Allocation 이 필요한가?)
+- Context 가 제한되는가? (= Global 하게 접근이 가능한가?)
+- Stack 에 담길 수 있는 크기인가?
+
+<br>
+
+그렇다면 한 번 생각해보자. 
+
+__Q1 ) Value Types 는 Stack, Reference Types 는 Heap 에 저장된다?__
+
+👉🏻기본적으로 Value Types 는 Stack, Reference Types 에 저장되는 것이 맞다. 하지만 Value Types 라 하더라도 Compile-time 에 
+  크기를 알 수 없는 경우, 전역 변수와 같이 Context 가 제한되지 않는 경우, 또는 Stack 에 담기 너무 큰 데이터의 경우는 Heap 에 저장된다.
+<br>
+
+__Q2 ) Collection 은 항상 Heap 에 저장된다?__
+
+👉🏻일반적으로 Collection 을 사용하는 경우는 크기를 미리 알 수 없는 경우에 해당한다. 그렇기 때문에 경우 Compile-time 에 크기를 미리 알 수 
+  없어 Runtime 에 Dynamic Allocation 을 해야하만 한다. 그래서 Heap 에 저장된다. 하지만 크기를 미리 정할 수 있고 그 크기가 작은 경우라면 
+  Stack 에 저장되는 것도 가능하다.
+<br>
+
+__Q3 ) Structures 는 Value Types 인데 여기에 Reference Types 가 저장되는 경우는 어떻게 되는가?__
+
+👉🏻Swift 는 First-Class Citizens 을 지원하는 언어로 Functions, Closures 를 포함해 모든 것을 변수/상수에 할당할 수 있다. 따라서 
+  어떤 Classes 를 할당할 수 있을 뿐 아니라 Functions, Closures 모두 할당이 가능하다. 그리고 이들은 Reference Types 다. 그러므로 
+  Swift 에서 Structures 가 Value Types 이더라도 그 내부에 저장된 데이터 역시 Value Types 인 것은 아니다.  
+  Array 와 같은 Collection, String Types 를 예로 들 수 있다. Swift 에서 String Types 는 Structures 로 정의되어있지만 이것은 
+  내부에 Characters 를 Collection 으로 저장한다. 따라서 String Types 자체는 일반적으로 Stack 에 저장되지만, 그 안의 Characters 는 
+  Heap 에 저장되고, String Types 는 이 Characters 의 Pointer 를 저장한다.
+<br>
+
+__Q4 ) Structures 를 Value Types 로 만들어 놓고 안에 Heap 에 저장되는 데이터가 있다면 Value Types 라는 것이 의미가 있는가?__
+
+👉🏻물론 Structures 내부에 모든 데이터가 Value Types 일 경우에만 ARC 가 동작하지 않는다. 하지만 그렇다고 해서 Types 자체가 Value Types 
+  인 것이 의미가 없는 것은 아니다. 비록 내부에 존재하는 Reference Types 로 인해 ARC 가 필요하고 Allocation, Deallocation 에 비용이 
+  수반됨은 물론, Heap 을 사용하는데서 오는 성능 저하도 발생할 수 밖에 없음에도 Structures 를 사용하는 것은 많은 이점을 가져다준다.
+
+  Apple 은 Swift 대부분의 Types 를 Structures 를 이용해 Value Types 로 구현했을 뿐 아니라 WWDC 에서도 성능 특성을 보여줌과 함께 
+  Structures 를 선호하라고 했다. 즉, 이것은 Apple 의 철학이 담겨있을 뿐 아니라 많은 부분에서 이점이 있음을 표현하는 것이다.
+  내부에 ARC 가 작동하더라도 Structures 를 Value Types 로 정의하고 선호하라는 의미는 언제나 `복사가 되도록 하겠다는 의미`이다. 따라서 
+  Swift Compiler 에 의해 Class 로 선언할 때보다 더 경량화된 메모리 사용을 보장할 뿐 아니라 `Arguments 로 전달될 때 Copy`되어 전달된다는 
+  것을 의미한다. <span style="color: red;">Structures 는 더 안정적이고 예측 가능하며 다루기가 쉽다</span>는 것이 Swift 에서 
+  Structures 가 갖는 최고의 장점이다.
 
 ---
 
