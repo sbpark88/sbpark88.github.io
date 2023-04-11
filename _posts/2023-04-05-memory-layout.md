@@ -139,13 +139,14 @@ Block Started by Symbol 의 약어다.
 
 BSS 상태에서 초기화 된 `값을 변수에 할당해 변수의 초기화가 완료된 상태`를 나타내는 Segment 다.
 
-이 Segment 는 `Read-only Space`와 `Read/Write Space`로 나뉘며 저장되는 이 레벨부터 저장되는 코드는 `Machine Code`다.
+이 Segment 는 `Read-only Space`와 `Read/Write Space`로 나뉜다.
 
 #### 5. Text
 
 `Read-only Space`로 `앱의 코드를 저장`하는 Segment 다.
 
-여기서 저장하는 코드는 [Data](#h-4-data) 와 마찬가지로 compile 되어 컴퓨터가 이해할 수 있는 low-level 언어인 `Machine Code`다.
+여기에 저장되는 코드는 우리가 작성한 코드 자체가 아니다. 컴퓨터가 이해하고 바로 실행할 수 있도록 Compile 된 가장 낮은 low-level 언어인 
+`Machine Code` 형태로 저장된다.
 
 ---
 
