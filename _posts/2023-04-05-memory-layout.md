@@ -201,6 +201,21 @@ __Q4 ) Structures 를 Value Types 로 만들어 놓고 안에 Heap 에 저장되
   것을 의미한다. <span style="color: red;">Structures 는 더 안정적이고 예측 가능하며 다루기가 쉽다</span>는 것이 Swift 에서 
   Structures 가 갖는 최고의 장점이다.
 
+<br>
+
+Stack 과 Heap 을 표로 비교하면 다음과 같다.
+
+|                           |                  Stack                  |        Heap         |
+|---------------------------|:---------------------------------------:|:-------------------:|
+| Speed                     |                  Fast                   |        Slow         |
+| Empty Memory Tracing List |                    X                    |          O          |
+| Fragmentation State       |                    X                    |          O          |
+| Size Decision             |              Compile-time               |       Runtime       |
+| Size Restriction          | 1 ~ 8 MB (Difference by OS and Devices) |   Non-limitation    |
+| Input/Output Model        |                  LIFO                   |        FIFO         |
+| Allocation                |                Automatic                |  Explicit/Dynamic   |
+| Deallocation              |     Immediately after function exit     | Manual or GC or ARC |
+
 ---
 
 ### 5. Stack/Heap Overflow 👩‍💻
