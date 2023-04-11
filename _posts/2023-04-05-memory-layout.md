@@ -149,7 +149,7 @@ BSS 상태에서 초기화 된 `값을 변수에 할당해 변수의 초기화�
 
 ---
 
-### 4. Stack vs. Heap
+### 4. Stack vs. Heap 👩‍💻
 
 인터넷에 돌아다니면 Value Types 는 Stack, Reference Types 는 Heap 에 저장된다는 글을 자주 보게 된다. 또는 Value Types 인데 왜 
 Heap 에 저장되었지? 알다가도 모르겠다 하는 글도 많고...
@@ -203,7 +203,26 @@ __Q4 ) Structures 를 Value Types 로 만들어 놓고 안에 Heap 에 저장되
 
 ---
 
-### 5. Stack Overflow
+### 5. Stack/Heap Overflow 👩‍💻
+
+#### 1. Stack Overflow
+
+일반적으로 Recursive Functions 가 너무 깊게 들어가거나 Local Variables 의 크기가 너무 큰 경우 발생할 수 있다. Stack 은 Heap 과 달리 
+크기가 작기 때문에 Overflow 가 발생되기 쉽다. 실수로 함수가 순환하는 일이 없도록 해야하며, Tail Recursive Functions 를 지원하는 언어의 
+경우 Optimization 을 켜고, 그렇지 않은 경우 Loops 로 변경하도록 한다.
+
+#### 2. Heap Overflow
+
+최근에는 시스템 메모리가 충분히 커졌을 뿐 아니라 대부분 GC 가 있기 때문에 Heap Overflow 는 Stack Overflow 와 달리 쉽게 일어나지는 않는다. 
+주의해야 하는 것은 Heap 에 할당한 메모리 공간보다 더 큰 데이터를 저장하려 하는 경우인데, 가장 쉽게 발생하는 경우는 Initializers 에 의해 
+생성된 객체가 할당된 것보다 너무 크거나 Array 의 Index 가 잘못되었을 때 발생하기 쉽다. 특히 Array 의 Index 접근에 의한 문제는 반드시 
+Error Handling 을 해줘야한다.
+
+#### 3. Security Vulnerability
+
+Stack Overflow 와 Heap Overflow 는 모두 메모리 취약점으로 해커의 공격 타겟이 된다. 따라서 적절한 방어책을 마련하는 것이 중요한데, 입력 
+데이터의 크기를 검증하고, 메모리 할당 및 해제에 대한 주의를 기울여야한다. 특히 Strong Reference Cycles 는 절대 일어나서는 안 되며, 
+Error Handling 을 반드시 하고, 안전한 함수를 사용해야한다.
 
 
 <br><br>
