@@ -550,10 +550,10 @@ __1 ) Attach Observers__
 *Property* 에 `Observers`를 붙일 수 있는 곳은 다음과 같다.
 
 - *Stored Properties*
-- 상속한 *Stored Properties*
-- 상속한 *Computed Properties*
+- 상속된 *Stored Properties*
+- 상속된 *Computed Properties*
 
-> 상속한 *Properties* 에 Property Observers 를 붙일 때는 `overriding` 을 이용한다.
+> 상속된 *Properties* 에 Property Observers 를 붙일 때는 `overriding` 을 이용한다.
 
 > 상속되지 않은 **Computed Properties** 는 **Property Observers** 를 사용할 수 없으므로, 대안으로 
 > **Computed Properties** 의 **setter** 를 사용해 일정 부분 유사하게 구현하는 방법이 있다. 
@@ -639,15 +639,18 @@ class SomeClass {
 
 __3 ) Initializer of subclass__
 
-> *initializer* 는 호출되기 전 *Properties* 의 속성을 설정한다.  
-> `Superclass`에 정의된 *willSet*, *didSet*, *Observers* 는 상속으로 인한 충돌을 피하기 위해 `Superclass 가
-> 초기화 될 때는 설정을 보류`하게된다.
+> <span style="color: red;">
+>   Property Observers 의 willSet, didSet 은 Initializers 에 의해 Instance 가 생성될 때는 동작하지 않는다.
+> </span>
+> Initializers 에 의해 Instance 가 생성되고 난 이후에 Observers 가 동작한다.
 > 
-> 즉, 다음과 같은 과정을 거치게 된다.
-> 1. *Superclass* 의 *Properties* 의 속성을 설정한다(*willSet*, *didSet* 같은 *Observers* 는 보류한다).
-> 2. *Superclass* 의 *initializer* 를 호출한다.
-> 3. *Subclass* 의 *Properties* 의 속성을 설정한다(1에서 보류한 속성을 포함한다).
-> 4. *Subclass* 의 *initializer* 를 호출한다.
+> 따라서 다음과 같은 과정을 거치게 된다.
+> 
+> 1. Subclass 가 자신의 Properties 의 속성을 모두 설정한 후 Superclass 의 Initializers 를 호출한다.
+> 2. Superclass 가 자신의 Designated Initializers 를 이용해 Initialization 을 수행한다. 이때 Superclass 자신이 갖고 있는 
+>    Observers 는 동작하지 않는다. 이로써 Phase 1 이 종료된다.
+> 3. 이제 `Phase 2`가 진행되고 Subclass 의 Initializers 가  Superclass 의 Properties 를 수정한다. 이때 해당 Properties 
+>    에 Observers 가 붙어있다면 **`willSet`, `didSet`이 동작**한다.
 
 #### 2. Property Observer Examples
 
