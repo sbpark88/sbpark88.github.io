@@ -3,7 +3,7 @@ layout: post
 title: JavaScript Prototype & ES6 Class
 subtitle: Deep dive into JavaScript prototype
 categories: javascript
-tags: [javascript, prototype, es6 class, javascript inheritance, javascript superclass, javascript subclass, object.defineProperty]
+tags: [javascript, prototype, es6 class, javascript inheritance, javascript superclass, javascript subclass, object.defineProperty, proxy, reflect]
 ---
 
 ### 1.Prototype 👩‍💻
@@ -643,7 +643,251 @@ counter.#reset()  // caught SyntaxError: Private field '#reset' must be declared
 console.log(counter)  // Counter {#count: 3, #reset: ƒ, next: ƒ}
 ```
 
+> Closures 를 이용하면 가능하지 않을까?
+> 
+> 객체를 출력했을 때 private 이 구현될 수 있는 유일한 방법이다. 단, Closures 를 사용한 객체 생성을 사용할 경우 매번 새 객체가 생성되는데 
+> GC가 제대로 동작하지 않아 Memory Leak 이 생길 수 있다고 한다.
+> 
+> JavaScript 의 `built-in objects` 중 Map, Set, WeakMap, WeakSet 등을 이용하는 방법을 소개하는 블로그도 존재했지만 단순히 
+> `dot syntax`로 접근이 안 되는 것 뿐이다. 원래 `set`, `get` 메서드로 관리하는 객체들이라 일 뿐 private 이 아니다.
 
+---
 
+### 6. Rect Examples 👩‍💻
+
+#### 1. ES6 Class Getter/Setter
+
+```swift
+struct Size {
+    var width = 0.0, height = 0.0
+}
+
+struct Point {
+    var x = 0.0, y = 0.0
+}
+
+struct Rect {
+    var origin = Point()
+    var size = Size()
+    var center: Point {
+        get {
+            Point(x: origin.x + (size.width / 2),
+                  y: origin.y + (size.height / 2))
+        }
+        set {
+            origin.x = newValue.x - (size.width / 2)
+            origin.y = newValue.y - (size.height / 2)
+        }
+    }
+}
+```
+
+위 코드를 JavaScript 의 ES6 Class 를 이용해 구현해보자.
+
+```javascript
+class Point {
+  constructor(x = 0, y = 0) {
+    this.x = x
+    this.y = y
+  }
+}
+
+class Size {
+  constructor(width = 0, height = 0) {
+    this.width = width
+    this.height = height
+  }
+}
+
+class Rect {
+  constructor(origin = new Point(), size = new Size()) {
+    this.origin = origin
+    this.size = size
+  }
+
+  get center() {
+    const centerX = this.origin.x + (this.size.width / 2)
+    const centerY = this.origin.y + (this.size.height / 2)
+    return new Point(centerX, centerY)
+  }
+
+  set center(newCenter) {
+    this.origin.x = newCenter.x - (this.size.width / 2)
+    this.origin.y = newCenter.y - (this.size.height / 2)
+  }
+}
+```
+
+```javascript
+const square = new Rect(new Point(), new Size(10, 10))
+console.log(square.origin)                    // Point {x: 0, y: 0}
+console.log(square.center)                    // Point {x: 5, y: 5}
+
+square.center = new Point(17.5, 17.5)
+console.log('square.origin', square.origin)   // Point {x: 12.5, y: 12.5}
+console.log('square.center', square.center)   // Point {x: 17.5, y: 17.5}
+```
+
+#### 2. Object.defneProperty()
+
+`Object.defineProperty()`로 바꿔보자.
+
+```javascript
+class Rect {
+  constructor(origin = new Point(), size = new Size()) {
+    this.origin = origin
+    this.size = size
+
+    Object.defineProperty(this, 'center', {
+      get: function () {
+        const centerX = this.origin.x + (this.size.width / 2)
+        const centerY = this.origin.y + (this.size.height / 2)
+        return new Point(centerX, centerY)
+      },
+      set: function (newCenter) {
+        this.origin.x = newCenter.x - (this.size.width / 2)
+        this.origin.y = newCenter.y - (this.size.height / 2)
+      }
+    });
+  }
+}
+```
+
+```javascript
+const square = new Rect(new Point(), new Size(10, 10))
+console.log(square.origin)                    // Point {x: 0, y: 0}
+console.log(square.center)                    // Point {x: 5, y: 5}
+
+square.center = new Point(17.5, 17.5)
+console.log('square.origin', square.origin)   // Point {x: 12.5, y: 12.5}
+console.log('square.center', square.center)   // Point {x: 17.5, y: 17.5}
+```
+
+#### 3. Use Object.defineProperty() likes Swift extensions
+
+```javascript
+class Rect {
+  constructor(origin = new Point(), size = new Size()) {
+    this.origin = origin
+    this.size = size
+  }
+}
+
+Object.defineProperty(Rect.prototype, 'center', {
+  get: function () {
+    const centerX = this.origin.x + (this.size.width / 2)
+    const centerY = this.origin.y + (this.size.height / 2)
+    return new Point(centerX, centerY)
+  },
+  set: function (newCenter) {
+    this.origin.x = newCenter.x - (this.size.width / 2)
+    this.origin.y = newCenter.y - (this.size.height / 2)
+  }
+})
+```
+
+> `Object.defineProperty()`를 Class 선언과 분리시켜 Swift 의 extensions 를 사용하듯 분리해 다룰 수 있다.
+
+```javascript
+const square = new Rect(new Point(), new Size(10, 10))
+console.log(square.origin)                    // Point {x: 0, y: 0}
+console.log(square.center)                    // Point {x: 5, y: 5}
+
+square.center = new Point(17.5, 17.5)
+console.log('square.origin', square.origin)   // Point {x: 12.5, y: 12.5}
+console.log('square.center', square.center)   // Point {x: 17.5, y: 17.5}
+```
+
+#### 4. Use Object.prototype likes Swift extensions
+
+위 3번이 가능하다는 것을 보았으니 prototype 을 직접 이용하는 것도 가능해보인다. <span style="color: red;">결론부터 말하자면 이 방법은 
+실패한다</span>.
+
+prototype 을 이용한 확장은 단순한 Properties 나 Methods 정도만 확장이 가능하다. `Getter/Setter`와 같은 것들을 등록하려면 반드시 
+`Object.defineProperty()`를 사용해야한다.
+
+```javascript
+class Rect {
+  constructor(origin = new Point(), size = new Size()) {
+    this.origin = origin
+    this.size = size
+  }
+}
+
+Rect.prototype.center = {
+  get: function () {
+    const centerX = this.origin.x + (this.size.width / 2)
+    const centerY = this.origin.y + (this.size.height / 2)
+    return new Point(centerX, centerY)
+  },
+  set: function (newCenter) {
+    this.origin.x = newCenter.x - (this.size.width / 2)
+    this.origin.y = newCenter.y - (this.size.height / 2)
+  }
+}
+```
+
+```javascript
+const square = new Rect(new Point(), new Size(10, 10))
+console.log(square.origin)                    // Point {x: 0, y: 0}
+console.log(square.center)                    // {get: ƒ, set: ƒ}
+
+square.center = new Point(17.5, 17.5)
+console.log('square.origin', square.origin)   // Point {x: 0, y: 0}
+console.log('square.center', square.center)   // Point {x: 17.5, y: 17.5}
+```
+
+`Object.prototype`을 이용한 방법은 `Getter/Setter`와 같은 것들을 처리할 수 없어 위와 같이 예상과 달리 잘못된 결과를 도출하게된다.
+
+#### 5. Proxy and Reflect
+
+위 로직을 Proxy 와 Reflect 를 사용하는 방법으로 변경해보자.
+
+```javascript
+class Rect {
+  constructor(origin = new Point(), size = new Size()) {
+    this.origin = origin
+    this.size = size
+  }
+}
+
+const squareProxyHandler = {
+  get(target, property, receiver) {
+    switch (property) {
+      case 'center':
+        const centerY = target.origin.y + (target.size.height / 2)
+        const centerX = target.origin.x + (target.size.width / 2)
+        return new Point(centerX, centerY)
+      default:
+        // return Reflect.get(target, property, receiver)
+        return Reflect.get(...arguments)
+    }
+  },
+  set(target, property, newValue, receiver) {
+    switch (property) {
+      case 'center':
+        target.origin.x = newValue.x - (target.size.width / 2)
+        target.origin.y = newValue.y - (target.size.height / 2)
+        break
+      default:
+        return Reflect.set(...arguments)
+    }
+  }
+}
+```
+
+```javascript
+const square = new Rect(new Point(), new Size(10, 10))
+const squareProxy = new Proxy(square, squareProxyHandler)
+console.log('squareProxy.origin', squareProxy.origin)   // Point {x: 0, y: 0}
+console.log('squareProxy.center', squareProxy.center)   // Point {x: 5, y: 5}
+
+squareProxy.center = new Point(17.5, 17.5)
+console.log('squareProxy.origin', squareProxy.origin)   // Point {x: 12.5, y: 12.5}
+console.log('squareProxy.center', squareProxy.center)   // Point {x: 17.5, y: 17.5}
+```
+
+- 장점: Proxy 를 사용하면 동일한 형태의 서로 다른 케이스를 하나의 정의로 재사용할 수 있다
+- 단점: Reflection 은 비용이 많이 드는 비즈니스 로직이고 코드량이 늘어난다.
 
 [Two Phase Initialization]:/swift/2022/12/01/initialization.html#h-4-two-phase-initialization
