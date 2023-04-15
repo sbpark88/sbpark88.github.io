@@ -363,3 +363,231 @@ student1.study() // "I'm studying in grade 2."
 > 
 > 단, 반대의 경우 Parent 가 Constructor Function 을 사용했더라도 Children 은 ES6 Class Syntax 를 사용해 상속하는 것이 가능하다. 
 
+### 4. Two Phase Initialization 👩‍💻
+
+#### 1. Constructor Function
+
+__1 ) Super 의 Constructor 호출 시점이 중요하지 않은 경우__
+
+```javascript
+function Person(name, age) {
+  this.name = name
+  this.age = age
+
+  this.greet = function () {
+    console.log(`Hello, my name is ${this.name}, I'm ${this.age} years old.`)
+  }
+}
+```
+
+Parent 객체의 값이 Constructor 를 통해 초기화가 가능하다면, Children 객체의 Constructor 가 Super 의 Constructor 를 호출하는 
+시점이 값을 저장한 후던 호출 후 저장을 하던 Prototype 에 의해 아무런 영향을 미치지 않는다.
+
+```javascript
+function Student(name, age, grade) {
+  this.name = name
+  this.age = age
+  this.grade = grade
+  Person.call(this, name, age)
+
+  this.study = function () {
+    console.log(`I'm studying in grade ${this.grade}.`)
+  }
+}
+
+const student = new Student("Jane", 20, 2)
+
+console.log(student)    // Student {name: 'Jane', age: 20, grade: 2, greet: ƒ, study: ƒ}
+```
+
+```javascript
+function Student(name, age, grade) {
+  Person.call(this, name, age)
+  this.name = name
+  this.age = age
+  this.grade = grade
+
+  this.study = function () {
+    console.log(`I'm studying in grade ${this.grade}.`)
+  }
+}
+
+const student = new Student("Jane", 20, 2)
+
+console.log(student)  // Student {name: 'Jane', age: 20, grade: 2, greet: ƒ, study: ƒ}
+```
+
+<br>
+
+__2 ) Super 의 Constructor 호출 시점이 중요한 경우__
+
+```javascript
+function Person() {
+  this.name = '홍길동'
+  this.age = 25
+
+  this.greet = function () {
+    console.log(`Hello, my name is ${this.name}, I'm ${this.age} years old.`)
+  }
+}
+```
+
+하지만 위와 같이 Parent 객체의 값이 Constructor 를 통해 초기화가 가능한 값이 아닐 경우 Super 의 Constructor 를 호출하는 시점이 
+중요해진다.
+
+```javascript
+function Student(name, age, grade) {
+  this.name = name
+  this.age = age
+  this.grade = grade
+  Person.call(this, name, age)
+
+  this.study = function () {
+    console.log(`I'm studying in grade ${this.grade}.`)
+  }
+}
+
+const student = new Student("Jane", 20, 2)
+
+console.log(student)  // Student {name: '홍길동', age: 25, grade: 2, greet: ƒ, study: ƒ}
+```
+
+> `Jane`이 아닌 `홍길동`이 생성되는 것을 볼 수 있다!!
+
+```javascript
+function Student(name, age, grade) {
+  Person.call(this, name, age)
+  this.name = name
+  this.age = age
+  this.grade = grade
+
+  this.study = function () {
+    console.log(`I'm studying in grade ${this.grade}.`)
+  }
+}
+
+const student = new Student("Jane", 20, 2)
+
+console.log(student)  // Student {name: 'Jane', age: 20, grade: 2, greet: ƒ, study: ƒ}
+```
+
+<br>
+
+__3 Recommend Way__
+
+<span style="color: red;">
+  JavaScript 에서 Subclass 의 Constructor 는 항상 Superclass 의 Constructor 를 생성한 후 값을 수정 또는 정의하도록 한다!!
+</span>
+
+```javascript
+function Student(name, age, grade) {
+  Person.call(this, name, age)
+  this.name = name
+  this.age = age
+  this.grade = grade
+
+  this.study = function () {
+    console.log(`I'm studying in grade ${this.grade}.`)
+  }
+}
+
+const student = new Student("Jane", 20, 2)
+
+console.log(student)  // Student {name: 'Jane', age: 20, grade: 2, greet: ƒ, study: ƒ}
+```
+
+#### 2. ES6 Class Syntax
+
+단, ES6 Class Syntax 를 사용했을 경우는 좀 더 엄격하게 규칙이 적용된다.
+
+```javascript
+class Person {
+  constructor(name, age) {
+    this.name = name
+    this.age = age
+  }
+
+  greet() {
+    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`)
+  }
+}
+```
+<br>
+
+따라서 다음은 에러가 발생한다.
+
+```javascript
+class Student extends Person {
+  constructor(name, age, grade) {
+    this.name = name    // error, 'this' is not allowed before superclass constructor invocation.
+    this.age = age      // error, 'this' is not allowed before superclass constructor invocation. 
+    this.grade = grade  // error, 'this' is not allowed before superclass constructor invocation.
+    super(name, age)
+  }
+
+  study() {
+    console.log(`I'm studying in grade ${this.grade}.`)
+  }
+}
+```
+
+따라서 다음과 같이 정의해야만 에러가 발생하지 않는다.
+
+```javascript
+class Student extends Person {
+  constructor(name, age, grade) {
+    super(name, age)
+    this.name = name
+    this.age = age
+    this.grade = grade
+  }
+
+  study() {
+    console.log(`I'm studying in grade ${this.grade}.`)
+  }
+}
+```
+
+Swift 의 [Two Phase Initialization] 와 다른 점은 Subclass 에서 정의하는 Properties 역시 Superclass 의 Constructor 를 
+호출 한 이후 Phase 2에서 함께 정의해야한다는 것이다.
+
+```javascript
+class Student extends Person {
+  constructor(name, age, grade) {
+    this.grade = grade
+    super(name, age)
+    this.name = name
+    this.age = age
+  }
+
+  study() {
+    console.log(`I'm studying in grade ${this.grade}.`)
+  }
+}
+```
+
+따라서 위와 같은 문법 역시 잘못되었다.
+
+```javascript
+class Student extends Person {
+  constructor(name, age, grade) {
+    super(name, age)
+    this.name = name
+    this.age = age
+    this.grade = grade
+  }
+
+  study() {
+    console.log(`I'm studying in grade ${this.grade}.`)
+  }
+}
+```
+
+<span style="color: red;">반드시 Super 의 Constructor 를 호출한 이후 이루어져야한다!!</span>
+
+
+
+
+
+
+[Two Phase Initialization]:/swift/2022/12/01/initialization.html#h-4-two-phase-initialization
