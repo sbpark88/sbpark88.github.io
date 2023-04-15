@@ -203,3 +203,74 @@ something1.something2 = something2
 > Arrow Functions 는 단지 Syntax 만 다른 것이 아닌 <span style="color: red;">기존의 함수와는 다른 기능을 갖는 새로운 함수</span>
 > 라는 점을 잊어서는 안 된다.
 
+---
+
+### 2. Prototype Chain 👩‍💻
+
+이번에는 위에서 살펴본 Prototype 이 실제로 어떻게 Chaining 되는지 확인해본다.
+
+#### 1. Constructor Function
+
+```javascript
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+
+  this.greet = function () {
+    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`);
+  }
+}
+```
+
+```javascript
+console.dir(Person.prototype)
+```
+
+![Prototype Chain 1](/assets/images/posts/2023-04-14-prototype/prototype-chain-1.png){: width="500"}
+
+> - constructor: f Person(name, age)
+> - Prototype Chain: self -> Base Object
+
+#### 2. ES6 Class Syntax
+
+```javascript
+class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`);
+  }
+}
+```
+
+```javascript
+console.dir(Person.prototype)
+```
+
+![Prototype Chain 2](/assets/images/posts/2023-04-14-prototype/prototype-chain-2.png){: width="500"}
+
+> - constructor: class Person
+> - Prototype Chain: self -> Base Object
+
+#### 3. Object Literal
+
+```javascript
+const person = {
+  name: '홍길동',
+  age: 25,
+  greet: () => console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`)
+}
+```
+
+```javascript
+console.dir(person.__proto__)
+```
+
+![Prototype Chain 3](/assets/images/posts/2023-04-14-prototype/prototype-chain-3.png){: width="500"}
+
+> - constructor: none
+> - Prototype Chain: Base Object
+
