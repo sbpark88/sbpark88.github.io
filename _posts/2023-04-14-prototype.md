@@ -20,11 +20,11 @@ Language 라 부르며, 이들간의 관계를 Prototype Chain 이라 한다.
 
 ```javascript
 function Person(name, age) {
-  this.name = name;
-  this.age = age;
+  this.name = name
+  this.age = age
 
   this.greet = function () {
-    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`);
+    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`)
   }
 }
 ```
@@ -34,12 +34,12 @@ function Person(name, age) {
 
 ```javascript
 function Person(name, age) {
-  this.name = name;
-  this.age = age;
+  this.name = name
+  this.age = age
 }
 
 Person.prototype.greet = function () {
-  console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`);
+  console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`)
 }
 ```
 
@@ -50,12 +50,12 @@ Person.prototype.greet = function () {
 ```javascript
 class Person {
   constructor(name, age) {
-    this.name = name;
-    this.age = age;
+    this.name = name
+    this.age = age
   }
 
   greet() {
-    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`);
+    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`)
   }
 }
 ```
@@ -82,7 +82,7 @@ const person = {
   name: '홍길동',
   age: 25,
   greet: function () {
-    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`);
+    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`)
   }
 }
 ```
@@ -213,17 +213,17 @@ something1.something2 = something2
 
 ```javascript
 function Person(name, age) {
-  this.name = name;
-  this.age = age;
+  this.name = name
+  this.age = age
 
   this.greet = function () {
-    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`);
+    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`)
   }
 }
 ```
 
 ```javascript
-console.dir(Person.prototype)
+console.dir(Person)
 ```
 
 ![Prototype Chain 1](/assets/images/posts/2023-04-14-prototype/prototype-chain-1.png){: width="500"}
@@ -236,12 +236,12 @@ console.dir(Person.prototype)
 ```javascript
 class Person {
   constructor(name, age) {
-    this.name = name;
-    this.age = age;
+    this.name = name
+    this.age = age
   }
 
   greet() {
-    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`);
+    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`)
   }
 }
 ```
@@ -273,4 +273,93 @@ console.dir(person.__proto__)
 
 > - constructor: none
 > - Prototype Chain: Base Object
+
+---
+
+### 3. Inheritance 👩‍💻
+
+#### 1. Constructor Function
+
+__1 ) Superclass__
+
+```javascript
+function Person(name, age) {
+  this.name = name
+  this.age = age
+
+  this.greet = function () {
+    console.log(`Hello, my name is ${this.name}, I'm ${this.age} years old.`)
+  }
+}
+```
+
+<br>
+
+__2 ) Subclass__
+
+```javascript
+function Student(name, age, grade) {
+  Person.call(this, name, age)
+  this.grade = grade
+
+  this.study = function () {
+    console.log(`I'm studying in grade ${this.grade}.`)
+  }
+}
+```
+
+```javascript
+const student = new Student("Jane", 20, 2)
+student.greet() // Hello, my name is Jane, I'm 20 years old.
+student.study() // I'm studying in grade 2.
+```
+
+상속으로 잘 동작하는 것을 볼 수 있다.
+
+student Instance -> Student Object -> Person Object -> Base Object
+
+#### 2. ES6 Class Syntax
+
+__1 ) Superclass__
+
+```javascript
+class Person {
+  constructor(name, age) {
+    this.name = name
+    this.age = age
+  }
+
+  greet() {
+    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`)
+  }
+}
+```
+
+<br>
+
+__2 ) Subclass__
+
+```javascript
+class Student extends Person {
+  constructor(name, age, grade) {
+    super(name, age)
+    this.grade = grade
+  }
+
+  study() {
+    console.log(`I'm studying in grade ${this.grade}.`)
+  }
+}
+```
+
+```javascript
+const student1 = new Student("Jane", 20, 2)
+student1.greet() // "Hello, my name is Jane and I'm 20 years old."
+student1.study() // "I'm studying in grade 2."
+```
+
+> <span style="color: red;">Parent 가 ES6 Class Syntax 를 사용했다면, Children 역시 ES6 Class Syntax 를 사용해야한다!!</span>  
+> 👉🏻 이 경우 Children 에서 Parent 의 `Person.call(this, name, age)`를 호출할 수 없다. 
+> 
+> 단, 반대의 경우 Parent 가 Constructor Function 을 사용했더라도 Children 은 ES6 Class Syntax 를 사용해 상속하는 것이 가능하다. 
 
