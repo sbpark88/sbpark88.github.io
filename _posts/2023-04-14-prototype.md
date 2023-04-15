@@ -363,6 +363,8 @@ student1.study() // "I'm studying in grade 2."
 > 
 > 단, 반대의 경우 Parent 가 Constructor Function 을 사용했더라도 Children 은 ES6 Class Syntax 를 사용해 상속하는 것이 가능하다. 
 
+---
+
 ### 4. Two Phase Initialization 👩‍💻
 
 #### 1. Constructor Function
@@ -585,7 +587,61 @@ class Student extends Person {
 
 <span style="color: red;">반드시 Super 의 Constructor 를 호출한 이후 이루어져야한다!!</span>
 
+---
 
+### 5. ES6 Class Private 👩‍💻
+
+#### 1. ES6 Class Support Private Properties and Methods
+
+```javascript
+class Counter {
+  #count = 0
+
+  next = function () {
+    return ++this.#count
+  }
+
+  #reset = function () {
+    this.#count = 0
+  }
+}
+```
+
+```javascript
+const counter = new Counter()
+
+console.log(counter.next())   // 1
+console.log(counter.next())   // 2
+console.log(counter.next())   // 3
+```
+
+```javascript
+console.log(counter.count)    // undefined
+console.log(counter.reset())  // caught TypeError: counter.reset is not a function
+```
+
+Private 으로 선언된 Properties 와 Methods 는 외부에서 접근할 수 없다.
+
+#### 2. ES6 Class Private cannot be hidden
+
+문제는 해당 이름으로 접근을 막겠다는 것이지 정말로 은닉화를 하는 것은 아니다.
+
+```javascript
+console.log(counter.count)  // undefined
+console.log(counter.#count) // caught SyntaxError: Private field '#count' must be declared in an enclosing class
+```
+
+```javascript
+counter.reset()   // caught TypeError: counter.reset is not a function
+counter.#reset()  // caught SyntaxError: Private field '#reset' must be declared in an enclosing class
+```
+
+은닉화가 동작하는 것 같지만 개발자가 작성하는 코드 작성 방식에서 private 으로 동작한다는 것이지 
+<span style="color: red;">정말로 객체의 Properties 자체가 hiding 되는 것은 아니다</span>.
+
+```javascript
+console.log(counter)  // Counter {#count: 3, #reset: ƒ, next: ƒ}
+```
 
 
 
