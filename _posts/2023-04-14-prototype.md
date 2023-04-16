@@ -728,7 +728,7 @@ console.log('square.origin', square.origin)   // Point {x: 12.5, y: 12.5}
 console.log('square.center', square.center)   // Point {x: 17.5, y: 17.5}
 ```
 
-#### 2. Object.defneProperty()
+#### 2. Object.defineProperty()
 
 `Object.defineProperty()`로 바꿔보자.
 
