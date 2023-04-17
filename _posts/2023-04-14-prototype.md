@@ -6,7 +6,7 @@ categories: javascript
 tags: [javascript, prototype, es6 class, javascript inheritance, javascript superclass, javascript subclass, object.defineProperty, proxy, reflect]
 ---
 
-### 1.Prototype 👩‍💻
+### 1. Prototype 👩‍💻
 
 객체 생성 과정을 통해 JavaScript Object 의 Prototype 을 이해하고 ES6 에 추가된 ES6 Class Syntax 와 비교해보자.
 
