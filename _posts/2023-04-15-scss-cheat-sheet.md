@@ -29,6 +29,25 @@ SCSS 와 SASS 는 모두 CSS 전처리기로 같은 역할을 한다. 실제로 
 
 ---
 
+### 2. Installation and Watch 👩‍💻
+
+기존의 Ruby 나 Node 버전의 SASS 는 오류로 인해 Dart 버전의 SCSS 설치를 권장하고있다.
+
+```shell
+npm i -g sass
+
+sass --version
+1.59.3 compiled with dart2js 2.19.4
+```
+
+SCSS 파일을 변화가 있을 때마다 CSS 파일로 변환되도록 Watch 설정을 해주도록 하자.
+
+```shell
+# 서로 다른 디렉토리를 사용하는 경우
+sass --watch scss/style.scss:css/style.css
+# 같은 디렉토리를 사용하는 경우
+sass --watch css/style.scss:css/style.css
+```
 
 
 
