@@ -49,7 +49,222 @@ sass --watch scss/style.scss:css/style.css
 sass --watch css/style.scss:css/style.css
 ```
 
+---
 
+### 3. SCSS Variable Declaration and Scope 👩‍💻
+
+여기서 소개하는 모든 내용은 SCSS 가 트랜스파일 되어 어떻게 CSS 로 변환되는지를 보여준다.
+
+#### 1. Nesting
+
+```scss
+.enlarge {
+  font-size: 14px;
+  transition: {
+    property: font-size;
+    duration: 4s;
+    delay: 2s;
+  }
+
+  &:hover { font-size: 36px; }
+}
+```
+
+```css
+.enlarge {
+  font-size: 14px;
+  transition-property: font-size;
+  transition-duration: 4s;
+  transition-delay: 2s;
+}
+.enlarge:hover {
+  font-size: 36px;
+}
+```
+
+<br>
+
+```scss
+.info-page {
+  margin: auto {
+    bottom: 10px;
+    top: 2px;
+  }
+}
+```
+
+```css
+.info-page {
+  margin: auto;
+  margin-bottom: 10px;
+  margin-top: 2px;
+}
+```
+
+#### 2. Hidden Declarations
+
+다음과 같이 조건을 주어 CSS 로 트랜스파일 할지, 하지 않을지 조건을 줄 수 있다.
+
+```scss
+$rounded-corners: false;
+
+.button {
+  border: 1px solid black;
+  border-radius: if($rounded-corners, 5px, null);
+}
+```
+
+```css
+.button {
+  border: 1px solid black;
+}
+```
+
+#### 3. Custom Properties
+
+다음과 같이 SCSS 변수를 CSS 의 `:root`에 전역화 할 수 있다.
+
+```scss
+$primary: #81899b;
+$accent: #302e24;
+$warn: #dfa612;
+
+:root {
+  --primary: #{$primary};
+  --accent: #{$accent};
+  --warn: #{$warn};
+
+  // Even though this looks like a Sass variable, it's valid CSS so it's not
+  // evaluated.
+  --consumed-by-js: $primary;
+}
+```
+
+```css
+:root {
+  --primary: #81899b;
+  --accent: #302e24;
+  --warn: #dfa612;
+  --consumed-by-js: $primary;
+}
+```
+
+#### 4. Variable Scope
+
+```scss
+$global-variable: global value;
+
+.content {
+  $local-variable: local value;
+  global: $global-variable;
+  local: $local-variable;
+}
+
+.sidebar {
+  global: $global-variable;
+
+  // This would fail, because $local-variable isn't in scope:
+  // local: $local-variable;
+}
+```
+
+```css
+.content {
+  global: global value;
+  local: local value;
+}
+
+.sidebar {
+  global: global value;
+}
+```
+
+<br>
+
+```scss
+$variable: global value;
+
+.content {
+  $variable: local value;
+  value: $variable;
+}
+
+.sidebar {
+  value: $variable;
+}
+```
+
+```css
+.content {
+  value: local value;
+}
+
+.sidebar {
+  value: global value;
+}
+
+```
+
+<br>
+
+```scss
+@use "sass:map";
+
+$theme-colors: (
+  "success": #28a745,
+  "info": #17a2b8,
+  "warning": #ffc107,
+);
+
+.alert {
+  // Instead of $theme-color-#{warning}
+  background-color: map.get($theme-colors, "warning");
+}
+```
+
+```css
+.alert {
+  background-color: #ffc107;
+}
+```
+
+#### 5. Flow Control Scope
+
+```scss
+$dark-theme: true !default;
+$primary-color: #f8bbd0 !default;
+$accent-color: #6a1b9a !default;
+
+@if $dark-theme {
+  $primary-color: darken($primary-color, 60%);
+  $accent-color: lighten($accent-color, 60%);
+}
+
+.button {
+  background-color: $primary-color;
+  border: 1px solid $accent-color;
+  border-radius: 3px;
+}
+```
+
+```css
+.button {
+  background-color: #750c30;
+  border: 1px solid #f5ebfc;
+  border-radius: 3px;
+}
+```
+---
+
+### 4.  👩‍💻
+
+---
+
+### 5.  👩‍💻
+
+---
+
+### 6.  👩‍💻
 
 
 
