@@ -256,7 +256,181 @@ $accent-color: #6a1b9a !default;
 ```
 ---
 
-### 4.  👩‍💻
+### 4. SCSS Basic @Rules 👩‍💻
+
+#### 1. @use
+
+> @import 가 동일한 역할을 한다. 단 Deprecated 상태다 마찬가지이므로 `@use`를 선호하라고 말하고 있다.
+
+`@use`는 JavaScript 의 `import`와 유사하다. 단, 파일 단위로만 가져올 수 있다.
+
+- foundation/_code.scss
+
+```scss
+code {
+  padding: .25em;
+  line-height: 0;
+}
+```
+
+- foundation/_lists.scss
+
+```scss
+ul, ol {
+  text-align: left;
+
+  & & {
+    padding: {
+      bottom: 0;
+      left: 0;
+    }
+  }
+}
+```
+
+이제 위 두 파일을 style.scss 에 합쳐보자.
+
+- style.scss
+
+```scss
+@use 'foundation/code';
+@use 'foundation/lists';
+```
+
+그리고 다음과 같이 트랜스파일 될 것이다.
+
+```css
+code {
+  padding: .25em;
+  line-height: 0;
+}
+
+ul, ol {
+  text-align: left;
+}
+ul ul, ol ol {
+  padding-bottom: 0;
+  padding-left: 0;
+}
+```
+
+#### 2. @mixin and @include vs. @extend
+
+스타일을 재사용 할 수 있는 방법은 크게 두 가지로 나눌 수 있다.
+
+__1 ) `@mixin` and `@include`__
+
+다음과 같이 재사용 할 스타일을 정의해보자.
+
+```scss
+@mixin text-style {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+```
+
+이제 이 `@mixin`을 다음과 같이 `@include`를 이용해 재사용 할 수 있다.
+
+```scss
+.heading {
+  @include text-style;
+  font-weight: bold;
+}
+
+.paragraph {
+  @include text-style;
+}
+```
+
+트랜스파일 결과는 다음과 같다.
+
+```css
+.heading {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  font-weight: bold;
+}
+
+.paragraph {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+```
+
+<br>
+
+__2 ) `@extend`__
+
+```scss
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: center;
+  color: #fff;
+  background-color: #333;
+}
+
+.btn-primary {
+  @extend .btn;
+  background-color: #007bff;
+}
+```
+
+트랜스파일 결과는 다음과 같다.
+
+```css
+.btn, .btn-primary {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-align: center;
+  color: #fff;
+  background-color: #333;
+}
+
+.btn-primary {
+  background-color: #007bff;
+}
+```
+
+<br>
+
+style red 도?
+<span class="center">어떤 것을 써야 할까?</span>
+
+__1 ) `@mixin` and `@include`__
+
+- 목적: 스타일 Text 정의 자체를 재사용하기 위함.
+- 장점: `@mixin`과 `@include`의 사용 목적은 코드 자체의 재사용성이다. 한 번만 정의하고, 필요한 곳에서 `@include`를 사용해 주입만 하면 된다.
+  `@mixin`를 통해 키값이 명시적으로 제공되기 때문에 사용이 쉽고 가독성이 좋다.
+- 단점: 스타일 Text 자체가 복사되어 매번 주입되기 때문에 SCSS 를 작성할 때는 코드의 중복이 줄어들지만 최종 결과물인 CSS 트랜스파일의 중복이
+  발생한다. 즉, `DRY(Don't repeat yourself)` 원칙에 위배된다. 따라서 너무 많은 `@mixin`의 사용은 좋지 않다.
+
+<br>
+
+__2 ) `@extend`__
+
+- 목적: 스타일 Text 정의가 아닌 CSS 선택자를 재사용하기 위함.
+- 장점: 결과적으로 상속을 처리한다. 트랜스파일의 결과물만 보면 DRY 원칙에 위배되지 않아 매우 좋은 결과물을 보여준다.
+- 단점: 스타일 Text 정의 자체를 재사용하지는 않기 때문에 CSS 정의 자체를 잘 하는 것이 중요하다. 즉, SCSS 를 기준으로 CSS 를 만드는 느낌
+  보다 CSS 를 기준으로 재사용 할 부분을 공통 부분으로 추출해 상속을 통해 처리하는 느낌에 가깝다. 따라서 SCSS 파일의 가독성이
+  `@mixin` and `@include` 대비 부족하다.
+
+---
+
+### 5.  👩‍💻
+
+---
+
+### 6.  👩‍💻
+
 
 ---
 
