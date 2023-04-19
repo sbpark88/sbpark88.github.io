@@ -425,26 +425,297 @@ __2 ) `@extend`__
 
 ---
 
-### 5.  👩‍💻
+### 5. @if and @else 👩‍💻
+
+```scss
+$light-background: #f2ece4;
+$light-text: #036;
+$dark-background: #6b717f;
+$dark-text: #d2e1dd;
+
+@mixin theme-colors($light-theme: true) {
+  @if $light-theme {
+    background-color: $light-background;
+    color: $light-text;
+  } @else {
+    background-color: $dark-background;
+    color: $dark-text;
+  }
+}
+
+.banner {
+  @include theme-colors($light-theme: true);
+  body.dark & {
+    @include theme-colors($light-theme: false);
+  }
+}
+```
+
+```css
+.banner {
+  background-color: #f2ece4;
+  color: #036;
+}
+body.dark .banner {
+  background-color: #6b717f;
+  color: #d2e1dd;
+}
+```
 
 ---
 
-### 6.  👩‍💻
+### 6. Loops 👩‍💻
 
+SCSS 를 통해 for, forEach, while 을 모두 사용할 수 있다. 우선 가장 간단한 기본 형태를 확인한 후 실제로 어떤식으로 
+사용될 수 있는지 자세히 확인해보도록 하자.
+
+```scss
+$colors: red, green, blue;
+
+// for loop
+@for $i from 1 through length($colors) {
+  .color-#{$i} {
+    color: nth($colors, $i);
+  }
+}
+
+// for loop (1부터 5 미만까지)
+@for $i from 1 to 4 {
+  .color-#{$i} {
+    color: nth($colors, $i);
+  }
+}
+
+// each loop
+@each $color in $colors {
+  .color-#{index($colors, $color)} {
+    color: $color;
+  }
+}
+
+// while loop
+$i: 1;
+@while $i <= length($colors) {
+  .color-#{$i} {
+    color: nth($colors, $i);
+  }
+  $i: $i + 1;
+}
+```
+
+#### 1. @each with List or Map
+
+__1 ) `@each` with `List`__
+
+```scss
+$sizes: 40px, 50px, 80px;
+
+@each $size in $sizes {
+  .icon-#{$size} {
+    font-size: $size;
+    height: $size;
+    width: $size;
+  }
+}
+```
+
+```css
+.icon-40px {
+  font-size: 40px;
+  height: 40px;
+  width: 40px;
+}
+
+.icon-50px {
+  font-size: 50px;
+  height: 50px;
+  width: 50px;
+}
+
+.icon-80px {
+  font-size: 80px;
+  height: 80px;
+  width: 80px;
+}
+```
+
+<br>
+
+__2 ) `@each` with `Map`__
+
+```scss
+$icons: ("eye": "\f112", "start": "\f12e", "stop": "\f12f");
+
+@each $name, $glyph in $icons {
+  .icon-#{$name}:before {
+    display: inline-block;
+    font-family: "Icon Font";
+    content: $glyph;
+  }
+}
+```
+
+```css
+.icon-eye:before {
+  display: inline-block;
+  font-family: "Icon Font";
+  content: "\f112";
+}
+
+.icon-start:before {
+  display: inline-block;
+  font-family: "Icon Font";
+  content: "\f12e";
+}
+
+.icon-stop:before {
+  display: inline-block;
+  font-family: "Icon Font";
+  content: "\f12f";
+}
+```
+
+#### 2. @for
+
+```scss
+$base-color: #036;
+
+@for $i from 1 through 3 {
+  ul:nth-child(3n + #{$i}) {
+    background-color: lighten($base-color, $i * 5%);
+  }
+}
+```
+
+```css
+ul:nth-child(3n + 1) {
+  background-color: #004080;
+}
+
+ul:nth-child(3n + 2) {
+  background-color: #004d99;
+}
+
+ul:nth-child(3n + 3) {
+  background-color: #0059b3;
+}
+```
 
 ---
 
-### 5.  👩‍💻
+### 7. Use `&` Operator 👩‍💻
 
----
+`&` 연산자를 사용하면 `@if`와 같은 조건문 없이 특정 CSS 조건을 토글하도록 할 수 있다.
 
-### 6.  👩‍💻
+```scss
+main {
+  figure {
+    em {
+      opacity: 0;
 
+      &.on {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+```
 
+```css
+main figure em {
+  opacity: 0;
+}
+main figure em.on {
+  opacity: 0.8;
+}
+```
 
+<br>
 
+```scss
+main {
+  &.dark_text {
+    header h1,
+    header #gnb a {
+      color: #555;
+    }
+  }
 
+  header {
+    h1 {
+      color: #fff;
+    }
 
+    #gnb {
+      font-weight: bold;
+      a {
+        color: #fff;
+      }
+    }
+  }
+}
+```
+
+```css
+main.dark_text header h1,
+main.dark_text header #gnb a {
+  color: #555;
+}
+main header h1 {
+  color: #fff;
+}
+main header #gnb {
+  font-weight: bold;
+}
+main header #gnb a {
+  color: #fff;
+}
+```
+
+<br>
+
+```scss
+$times: morning, afternoon, evening, night;
+
+.container {
+  @each $time in $times {
+    &.#{$time} {
+      background-image: url('../img/bg_#{$time}.jpg');
+
+      figure {
+        background-image: url('../img/phone_#{$time}.png');
+      }
+    }
+  }
+}
+```
+
+```css
+.container.morning {
+  background-image: url("../img/bg_morning.jpg");
+}
+.container.morning figure {
+  background-image: url("../img/phone_morning.png");
+}
+.container.afternoon {
+  background-image: url("../img/bg_afternoon.jpg");
+}
+.container.afternoon figure {
+  background-image: url("../img/phone_afternoon.png");
+}
+.container.evening {
+  background-image: url("../img/bg_evening.jpg");
+}
+.container.evening figure {
+  background-image: url("../img/phone_evening.png");
+}
+.container.night {
+  background-image: url("../img/bg_night.jpg");
+}
+.container.night figure {
+  background-image: url("../img/phone_night.png");
+}
+```
 
 ---
 Reference
