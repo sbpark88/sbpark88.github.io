@@ -717,6 +717,30 @@ $times: morning, afternoon, evening, night;
 }
 ```
 
+### 8.keyframes 👩‍💻
+
+단순 CSS 지만 SCSS 가 이런식의 중첩 구조를 깔끔하게 처리하는 데서 강점을 갖는다.
+
+```scss
+@keyframes cloud {
+  0% {
+    opacity: 0;
+    left: -50%;
+  }
+  5% {
+    opacity: 0.5;
+  }
+  95% {
+    opacity: 0.5; /* 얘가 있어야 5 ~ 95% 구간의 opacity 가 0.5 로 유지가 된다 */
+  }
+  100% {
+    left: 80%;
+    opacity: 0;
+  }
+}
+```
+
+
 ---
 Reference
 
