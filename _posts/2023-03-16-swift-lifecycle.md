@@ -18,6 +18,43 @@ tags: [swift docs, view controller lifecycle, app lifecycle, viewDidLoad, ]
 *View Components* 를 관리하는 것이 Frontend 에서의 Lifecycle Hooks 인데 Swift 의 UIViewController Lifecycle 역시 이와 
 동일하게 앱 자체의 화면 관리가 아닌, *UIStoryboard* 라는 것의 Life Cycle 을 관리한다.
 
+<br>
+
+__1 ) viewDidLoad__
+
+- View Instance 가 메모리에 로드된 직후 호출.
+- View 가 destroyed 되지 않는 한 1번만 호출.
+- View 와 관련된 1회성의 초기화 작업, 네트워크 호출 등을 처리.
+
+<br>
+
+__2 ) viewWillAppear__
+
+- View 가 화면에 보이기 직전 매번 호출.
+- View 가 destroyed 되지 않더라도 다른 View 가 보여지다 새롭게 보여질 때마다 호출.
+- View 가 보일 때마다 매번 실행되어야하는 초기화 작업, 네트워크 호출 등을 처리.
+
+<br>
+
+__3 ) viewDidAppear__
+
+- View 가 화면에 보이기 시작할 때 호출.
+- View 가 화면에 보여지기 시작하는 시점에 동작할 애니메이션 등을 처리.
+
+<br>
+
+__4 ) viewWillDisappear__
+
+- View 가 화면에서 사라지기 시작할 때 호출.
+- View 가 사라지기 직전 초기화 작업, 네트워크 호출, 데이터 저장 등을 처리.
+
+<br>
+
+__5 ) viewDidDisappear__
+
+- View 가 사라진 다음 호출.
+- View Instance 가 메모리에서 제거된 이후 추가적인 작업 필요시 처리.
+
 #### 2. Examples - Present Modally - Automatic
 
 - ViewController1
