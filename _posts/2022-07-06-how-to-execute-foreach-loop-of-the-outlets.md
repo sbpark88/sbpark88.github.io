@@ -200,6 +200,87 @@ class ViewController: UIViewController {
 ```
 이렇게 하면 Swift 에서도 `forEach`에서 `index`를 함께 사용할 수 있다.
 
+---
+
+### 4. Event 대상이 Collection 대상과 일치하는지를 확인해보자 🧐
+
+아래와 같이 특정 Stack 안에 모아놓은 여러 개의 버튼이 있다. 각각의 색상을 설정하는 버튼 3개는 하나의 Horizontal Stack 으로 묶여있다. 
+그리고 이 버튼들은 모두 하나의 Action 함수에 의해 Event Listening 되고 있다.
+
+![Foreach Examples 1](/assets/images/posts/2022-07-06-how-to-execute-foreach-loop-of-the-outlets/foreach-examples-1.png){: width="500"}
+
+![Foreach Examples 2](/assets/images/posts/2022-07-06-how-to-execute-foreach-loop-of-the-outlets/foreach-examples-2.png){: width="500"}
+
+이때 선택된 버튼은 Opacity 를 1.0 으로 바꿔주고 나머지는 0.2 로 바꾸려 한다.
+
+```swift
+import UIKit
+
+class SettingViewController: UIViewController {
+
+    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var textColorButtons: UIStackView!
+    @IBOutlet var backgroundColorButtons: [UIButton]!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+    @IBAction func textColorButtonTouch(_ sender: UIButton) {
+        textColorButtons.arrangedSubviews.forEach { button in
+            button.layer.opacity = button.restorationIdentifier == sender.restorationIdentifier ? 1.0 : 0.2
+        }
+    }
+
+    @IBAction func backgroundColorButtonTouch(_ sender: UIButton) {
+        backgroundColorButtons.forEach { button in
+            button.layer.opacity = button.accessibilityIdentifier == sender.accessibilityIdentifier ? 1.0 : 0.2
+        }
+    }
+}
+```
+
+우선 Collection 을 정의하는 방법은 2가지를 활용할 수 있다. 첫 번째는 위와 버튼 색상을 설정할때와 같이 `Stack 자체를 IBOutlet 변수로 지정`해 
+해당 Stack 이 갖고 있는 하위 View Elements(여기서는 3개의 Button 이 해당)를 `arrangedSubviews`로 접근하는 것이다.
+
+또 다른 방법으로는 위에서와 같이 아예 `여러 개의 Buttons 를 하나의 IBOutlet Collection 변수에 지정`하는 것이다. 이렇게 하면 위에서 
+`Stack.arrangedSubviews`을 통해 접근해 얻은 배열 객체와 동일한 객체를 미리 생성해두게 된다.
+
+그리고 이것을 sender 즉, 버튼 터치가 일어난 대상과 비교하면 되는 것이다.
+
+처음에는 무언가 Identifier 가 반드시 있어야 할 것 같아서 Restoration ID 나 Accessibility 의 Identifier 를 사용했다. 하지만 본래의 존재 
+목적과 다르게 Identifier 를 사용하는 것 같아서 단순히 동일 객체니까 객체 비교를 할 수 있지 않을까? 해서 해당 Identifier 비교를 제거하고 
+객체 비교를 사용했는데 정상적으로 동작한다.
+
+```swift
+import UIKit
+
+class SettingViewController: UIViewController {
+
+    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var textColorButtons: UIStackView!
+    @IBOutlet var backgroundColorButtons: [UIButton]!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+
+    @IBAction func textColorButtonTouch(_ sender: UIButton) {
+        textColorButtons.arrangedSubviews.forEach { button in
+            button.layer.opacity = button == sender ? 1.0 : 0.2
+        }
+    }
+
+    @IBAction func backgroundColorButtonTouch(_ sender: UIButton) {
+        backgroundColorButtons.forEach { button in
+            button.layer.opacity = button == sender ? 1.0 : 0.2
+        }
+    }
+}
+```
+
+가급적 Storyboard 를 사용하지 않는 것이 좋겠지만... 사용해야하는 상황에서는 이렇게 최대한 코드를 활용할 수 있다.
+
 
 <br><br>
 
