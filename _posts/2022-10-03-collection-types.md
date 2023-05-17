@@ -428,7 +428,7 @@ print(favoriteGenres)   // []
 #### 6. Iterating Over a Set
 
 ```swift
-let fruits = [
+let fruits: Set = [
     "Apple",
     "Pear",
     "Persimmon",
@@ -1005,7 +1005,7 @@ The milk is not exist any more.
 
 <br>
 
-__4 ) `removeAll(forKey:)` 메서드 또는 `[:]`을 이용해 딕셔너리를 완전히 비울 수 있다__
+__4 ) `removeAll()` 메서드 또는 `[:]`을 이용해 딕셔너리를 완전히 비울 수 있다__
 
 ```swift
 var shoppingList: [String: Int] = ["Eggs": 4500, "Milk": 3200]
@@ -1081,7 +1081,7 @@ Orange's price is 4300won.
 <br>
 
 하지만 `Key`, `Value`라고 쓰는 것은 가독성 측명에서 좋지 않다.   
-다음과 같이 element 를 `tuple`로 받는 방법을 사용하면 가독성도 높이고 더욱 쉽게 접근이 가능하다.
+다음과 같이 element 를 `tuple`로 비구조화(destructuring) 시키면 가독성도 높이고 더욱 쉽게 접근이 가능하다.
 
 ```swift
 for (goods, price) in fruits {
