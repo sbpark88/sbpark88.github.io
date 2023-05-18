@@ -420,6 +420,8 @@ for (goods, price) in fruits.sorted(by: {$0.1 > $1.1}) {
 }
 ```
 
+---
+
 ## 3. Control Flow 👩‍💻
 
 ### For-In & While
@@ -848,4 +850,349 @@ case let (x, y):
 if 를 개별적으로 풀고 조건을 부정값으로 만들어 return 하도록 만들어 처리가 가능하지만 Swift 는 `guard`라는 키워드를 통해 더 높은 
 가독성을 보장한다.
 
+---
+
+## 4. Functions 👩‍💻
+
+### Syntax
+
+```swift
+func name (parameters) -> return type {
+    function body
+}
+```
+
+### Function without Return Values
+
+```swift
+func greetVoid(person: String) -> Void {
+    print("Hello, \(person)!")
+}
+```
+
+`Void`는 명시적으로 적을 수도 생략(Implicitly returns Void)할 수도 있다. 엄밀히 말하면 `Void` 라틑 타입의 특수한 값을 반환하는
+것이고, 이 값은 `()` 으로 쓰여진 `Empty Tubple`이다.
+
+> 명시적으로 반환 값이 있는 함수를 호출할 때는 반드시 let, var 로 받아야 한다. 그렇지 않으면 compile-time error 가 발생하므로,
+> 값이 필요 없을 경우 간단히 `_`로 받는다.
+
+```swift
+func printAndCount(string: String) -> Int {
+    print(string)
+    return string.count
+}
+func printWithoutCounting(string: String) {
+    let _ = printAndCount(string: string)
+}
+
+print(printWithoutCounting(string: "hello, world"))
+```
+
+```console
+hello, world
+()
+```
+
+### Function with Multiple Return Values
+
+Swift 는 `Tuple`을 이용해 하나의 Compound 로 여러 변수에 값을 할당할 수 있다.
+
+```swift
+let (alphabetA: String, alphabetB: String) = ("A", "B")
+let (alphabetC, alphabetD) = ("C", "D")
+```
+
+따라서 함수의 return 역시 Tuple 을 이용하면 한 번에 여러 값을 return 하도록 할 수 있다.
+
+```swift
+let intArray: [Int] = [31, 6, 43, 13, 6, 1, 56, 5, 88, 24]
+
+func minMax(array: [Int]) -> (Int, Int) {
+    var currentMin = array[0]
+    var currentMax = array[0]
+    for value in array[1..<array.count] {
+        if value < currentMin {
+            currentMin = value
+        } else if value > currentMax {
+            currentMax = value
+        }
+    }
+    return (currentMin, currentMax)
+}
+```
+
+<br>
+
+- 각각의 변수 또는 상수로 받을 수 있다.
+
+```swift
+let (minNumber, maxNumber): (Int, Int) = minMax(array: intArray)
+```
+
+<br>
+
+- Tuple 타입의 단일 변수 또는 상수로 받을 수 있다.
+
+```swift
+let bounds: (min: Int, max: Int) = minMax(array: intArray)
+print("min is \(bounds.min) and max is \(bounds.max)")
+```
+
+> 그리고 bounds 라는 tuple 에 각각 min, max 라는 label 을 붙여주었다.
+
+<br>
+
+- 함수의 return 을 정의할 때 Tuple type 에 label 을 붙일 수 있다.
+
+```swift
+func minMax(array: [Int]) -> (min: Int, max: Int) {
+    var currentMin = array[0]
+    var currentMax = array[0]
+    for value in array[1..<array.count] {
+        if value < currentMin {
+            currentMin = value
+        } else if value > currentMax {
+            currentMax = value
+        }
+    }
+    return (currentMin, currentMax)
+}
+```
+
+```swift
+let bounds = minMax(array: intArray)
+print("min is \(bounds.min) and max is \(bounds.max)")
+```
+
+<br>
+
+물론... 이런 형태가 Swift 만 되는건 아니고 TypeScript 도 된다.
+
+```typescript
+const [alphabetA, alphabetB]: [string, string] = ["A", "B"];
+const [alphabetC, alphabetD] = ["C", "D"];
+```
+
+```typescript
+const intArray: number[] = [31, 6, 43, 13, 6, 1, 56, 5, 88, 24];
+
+function minMax(array: number[]): [number, number] {
+  let currentMin = array[0];
+  let currentMax = array[0];
+  for (let i = 1; i < array.length; i++) {
+    const value = array[i];
+    if (value < currentMin) {
+      currentMin = value;
+    } else if (value > currentMax) {
+      currentMax = value;
+    }
+  }
+  return [currentMin, currentMax];
+}
+
+const result: [number, number] = minMax(intArray);
+console.log(result);
+```
+
+### Optional Tuple Return Types
+
+- `(String, Int, Bool)?` : Tuple 자체가 Optional 이므로 nil 일 가능성이 있다. 각각의 elements 는 자동으로 Optional Types 가 된다.
+- `(String?, Int?, Bool?)` : Optional String, Optional Int, Optional Bool 을 포함하하지만 Tuple 은 Optional 이 아니다.
+
+### Default Parameter Values
+
+```swift
+func add(a num1: Int, b num2: Int = 10) -> Int {
+    num1 + num2
+}
+```
+
+Swift 역시 Parameters 의 default values 를 정의할 수 있다.
+
+```swift
+print(add(a: 5, b: 20))     // 25
+print(add(a: 5))            // 15
+```
+
+하나의 값이 고정된 default value 를 갖는다면 별도의 Overloading 없이도 2가지 호출 방식을 사용할 수 있다.
+
+### Variadic Parameters
+
+```swift
+func arithmeticMean(_ numbers: Double...) -> Double {
+    var total: Double = 0
+    for number in numbers {
+        total += number
+    }
+    return total / Double(numbers.count)
+}
+```
+
+다음과 같이 n 개의 Parameters 를 받아 내부에서 Array 로 동작시킬 수 있다.
+
+```swift
+print(arithmeticMean(2))                    // 2.0
+print(arithmeticMean(1, 2, 3, 4, 5))        // 3.0
+print(arithmeticMean(3, 8.25, 18.75))       // 10.0
+```
+
+### In-Out Parameters
+
+Swift 의 경우 Parameters 는 함수가 호출될 때 전달된 Arguments 를 복사해 constants 로 정의된다. 즉, 기본적으로 함수의 context
+내부에서 임의로 Global/Static 에 접근하지 않는다면 Parameters 자체는 함수형을 위한 조건을 만족하는 상태가 된다.
+
+여기에 `inout` keyword 를 사용하면 TypeScript 의 기본값과 마찬가지로 variables 로 선언되어 함수의 context 내에서 수정을 할 수
+있음은 물론, `inout` 의 경우 ***함수가 종료될 때 arguments 의 Pointer 에 접근해 수정된 값으로 변경***한다.
+
+```swift
+func swapTwoInts(_ a: inout Int, _ b: inout Int) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+```
+
+```swift
+var someInt = 3
+var anotherInt = 107
+swapTwoInts(&someInt, &anotherInt)
+
+print("someInt is now \(someInt), and anotherInt is now \(anotherInt)")
+```
+
+> - Parameters 의 앞에 `inout` keyword 를 사용해 정의한다.
+> - Arguments 의 앞에 `&` keyword 를 사용해 호출한다.
+
+> 1. 함수가 호출될 때 `arguments`의 값이 parameters 에 `복사`된다.
+> 2. 복사된 arguments 의 값이 함수의 `body`에서 `수정`된다.
+> 3. 함수가 종료될 때 `arguments`의 Pointer 를 이용해 값을 `수정`한다.
+
+### Function Types
+
+First-Class Citizen 이므로 `값으로 취급`될 수 있음은 물론 `함수의 Signature 를 Types 로 취급`하는 것 역시 가능하다.
+
+```swift
+func addTwoInts(_ a: Int, _ b: Int) -> Int {
+    a + b
+}
+func multiplyTwoInts(_ a: Int, _ b: Int) -> Int {
+    a * b
+}
+```
+
+위 두 함수는 다음과 같은 하나의 Signature 로 Types 를 정의할 수 있다.
+
+```swift
+var mathFunction: (Int, Int) -> Int
+```
+
+```swift
+mathFunction = addTwoInts(_:_:)
+```
+
+`(Int, Int) -> Int` Types 와 일치하는 함수 `addTwoInts(_:_:)`를 변수 mathFunction 에 할당할 수 있다.
+
+<br>
+
+또한 Parameters 또는 Return Types 로써 사용되는 것이 가능하다.
+
+- Function Types as Parameter Types
+
+```swift
+func printMathResult(mathFunction function: (Int, Int) -> Int, _ a: Int, _ b: Int) {
+    print("Result: \(function(a, b))")
+}
+
+printMathResult(mathFunction: addTwoInts, 5, 7)       // Result: 12
+printMathResult(mathFunction: multiplyTwoInts, 5, 7)  // Result: 35
+```
+
+함수 `printMathResult(mathFunction)`은 `(Int, Int) -> Int` Types 를 Parameters 로 받는다.
+
+<br>
+
+- Function Types as Return Types
+
+```swift
+func stepForward(_ input: Int) -> Int {
+    print(#function)
+    return input + 1
+}
+func stepBackward(_ input: Int) -> Int {
+    print(#function)
+    return input - 1
+}
+
+func chooseStepFunction(backward: Bool) -> (Int) -> Int {
+    backward ? stepBackward(_:) : stepForward(_:)
+}
+```
+
+함수 `chooseStepFunction(backward:)`는 `(Int) -> Int`를 Return Types 로 가지며, `stepBackward(_:)` 또는
+`stepForward(_:)`를 반환한다.
+
+### Type Alias
+
+그리고 함수의 Types 는 `typealias` keyword 를 사용해 정의 후 재사용이 가능하다.
+
+```swift
+func addTwoInts(_ a: Int, _ b: Int) -> Int {
+    a + b
+}
+```
+
+```swift
+typealias arithmeticCalc = (Int, Int) -> Int
+let sum: arithmeticCalc = addTwoInts(_:_:)
+
+print(addTwoInts(5, 7))         // 12
+print(sum(5, 7))                // 12
+```
+
+### Function Expressions
+
+TypeScript 에서는 일반적으로 this 및 가독성을 이유로 Function Declarations 보다 Function Expressions 를 더 많이 사용한다.
+
+```typescript
+// With Function Types
+const addTwoInts: (num1: number, num2: number) => number
+    = (a, b) => a + b
+
+// Without Function Types
+const multiplyTwoInts = (a: number, b: number): number => a * b
+```
+<br>
+
+Swift 역시 같은 방식으로 Closures 를 이용해 정의가 가능하다.
+
+```swift
+// With Function Types
+let addTwoInts: (Int, Int) -> Int = { (a: Int, b: Int) in
+    a + b
+}
+
+// Without Function Types
+let multiplyTwoInts = { (a: Int, b: Int) in
+    a * b
+}
+```
+
+게다가 Swift 의 Type Inference 를 사용하면 다음과 같이 간략히 사용하는 것도 가능하다.
+
+```swift
+typealias arithmeticCalc = (Int, Int) -> Int
+
+let addTwoInts = { (a: Int, b: Int) in a + b }
+let multiplyTwoInts: (Int, Int) -> Int = { $0 * $1 }
+let subtractTwoInts: arithmeticCalc = { $0 - $1 }
+
+
+print(addTwoInts(5, 7))         // 12
+print(multiplyTwoInts(5, 7))    // 35
+print(subtractTwoInts(5, 7))    // -2
+```
+
+
+물론, Swift 에서는 일반적으로 함수를 이렇게 정의하지는 않는 것 같다. 하지만 위와 정의하는 경우 바로 Inline 으로 Closure 를 
+실행할 수 있기 때문에 함수로 인식시키고 처리하기 위한 Overhead 를 없앨 수 있다는 장점이 존재한다.
 
