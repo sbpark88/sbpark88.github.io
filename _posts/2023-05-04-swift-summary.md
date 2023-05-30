@@ -1192,7 +1192,370 @@ print(multiplyTwoInts(5, 7))    // 35
 print(subtractTwoInts(5, 7))    // -2
 ```
 
-
 물론, Swift 에서는 일반적으로 함수를 이렇게 정의하지는 않는 것 같다. 하지만 위와 정의하는 경우 바로 Inline 으로 Closure 를 
 실행할 수 있기 때문에 함수로 인식시키고 처리하기 위한 Overhead 를 없앨 수 있다는 장점이 존재한다.
 
+---
+
+## 5. Closures 👩‍💻
+
+### Closure Expressions
+
+Closures 는 다음 세 가지 형태 중 하나를 갖는다.
+
+- Global Functions : <span style="color: orange;">이름이 있고</span>,
+                     어떤 값도 <span style="color: red;">캡처하지 않는</span> *Closures*
+- Nested Functions : <span style="color: orange;">이름이 있고</span>, 자신이 속한 `function context`의 값을
+                     <span style="color: orange;">캡처할 수 있는</span> *Closures*
+- Closure Expressions : <span style="color: red;">이름이 없고</span>, 자신이 속한 `context`의 값을
+                        <span style="color: orange;">캡처할 수 있는</span> 경량화된 *Closures*
+
+### Syntax
+
+```swift
+{ (parameters) -> return type in
+    statements
+}
+```
+
+|                          | Global Functions |              Closures              |
+|--------------------------|:----------------:|:----------------------------------:|
+| Variadic Parameters      |        O         |                 O                  |
+| In-Out Parameters        |        O         |                 O                  |
+| Tuple Type Parameters    |        O         |                 O                  |
+| Tuple Type Returns       |        O         |                 O                  |
+| Default Parameter Values |        O         | <span style="color: red;">X</span> |
+
+#### Shorthand Syntax
+
+Swift 의 Closures 는 Type Inference(Parameters, Return Type)와 Shorthand Argument Names,
+Trailing Closures 를 사용해 코드를 간략하게 바꿀 수 있다.
+
+```swift
+let names = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+```
+
+메서드 `sorted(by:)`에 전달할 함수를 기존의 Function Syntax 를 사용하면 다음과 같이 정의할 수 있었다.
+
+```swift
+func forward(_ s1: String, _ s2: String) -> Bool {
+    return s1 < s2
+}
+
+let ascendingOrder = names.sorted(by: forward(_:_:))
+```
+
+이 함수를 Closure Syntax 를 사용해 바꿔보자.
+
+```swift
+{ (s1: String, s2: String) -> Bool in
+    return s1 < s2
+}
+```
+
+`sorted(by:)`메서드에 전달할 arguments 를 inline 으로 작성해보자.
+
+```swift
+let ascendingOrder = names.sorted(by: { (s1: String, s2: String) -> Bool in return s1 < s2 })
+```
+
+<br>
+
+Type Inference 를 사용해 Parameter Types 와 Return Types 를 생략하고, 함수와 마찬가지로 Body 부분이 Single-line
+이므로 Return keyword 를 생략해보자.
+
+```swift
+let ascendingOrder = names.sorted(by: { s1, s2 in s1 < s2 })
+```
+
+Swift 는 여기에 Shorthand Argument Names 를 사용해 더욱 축약시킬 수 있다.
+
+```swift
+let ascendingOrder = names.sorted(by: { $0 < $1 })
+```
+
+추가로 2개의 Arguments 와 그들 사이의 Operator 만 존재하는 경우 `Operator Methods`만 남긴 채 모두 생략하는 것도 가능하다.
+
+```swift
+let ascendingOrder = names.sorted(by: <)
+```
+
+### Trailing Closures
+
+#### Single Trailing Closures
+
+마지막 Closures 를 메서드의 `( )` 밖으로 분리시킬 수 있고 이를 Trailing Closures 라 한다. 위 Closures 를 모두 
+Trailing Closures 로 바꾸면 다음과 같이 작성할 수 있다.
+
+```swift
+let ascendingOrder = names.sorted { (s1: String, s2: String) -> Bool in return s1 < s2 }
+let ascendingOrder = names.sorted { s1, s2 in s1 < s2 }
+let ascendingOrder = names.sorted { $0 < $1 }
+```
+
+<span style="color: red;">단, `Operator Methods`만 단독으로 남은 경우 Trailing Closures 로 분리시킬 수 없다</span>.
+
+```swift
+let ascendingOrder = names.sorted { < }   // error: unary operator cannot be separated from its operand
+```
+
+#### Multiple Trailing Closures
+
+만약 함수가 여러 개의 *Trailing Closures* 를 가질 경우, `첫 번째 Trailing Closure`의 `argument labels`는 생략될 수 있다.
+<span style="color: red;">그 외 나머지 *Trailing Closures* 는 *argument labels* 을 지정</span>해야한다.
+
+```swift
+func loadPicture(from server: Server, completion: (Picture) -> Void, onFailure: () -> Void) {
+    if let picture = download("photo.jpg", from: server) {
+        completion(picture)
+    } else {
+        onFailure()
+    }
+}
+```
+
+`loadPicture(from:completion:onFailure:)` 함수는 completion, onFailure 라는 2개의 Closures 를 가지고 있다.  
+둘 다 Trailing Closures 로 분리시킬 경우, <span style="color: orange;">첫 번째 Trailing Closures 는 completion 
+이 되므로 Argument Labels 를 생략할 수 있다.</span> 반면, 두 번째 Trailing Closures 에 해당하는 onFailure 는 두 번째 Trailing Closures 에 해당하므로
+Argument Labels 를 명시해야한다.
+
+```swift
+loadPicture(from: someServer) { picture in
+    someView.currentPicture = picture
+} onFailure: {
+    print("Couldn't download the next picture.")
+}
+```
+
+> 위 함수 예제는 결과에 따른 성공/실패라는 2개의 completion handlers 만 가지고 있으며 이를 Trailing Closures 로 호출하고있다.
+> 만약 completion handlers 가 여러 개 중첩된다면 어떻게 될까? 이것들을 모두 Trailing Closures 로 분리시키면 오히려 코드를 읽기
+> 어려워 질 것이다. 이런 경우 [Concurrency - Asynchronous Functions] 를 사용해 대체하도록 한다.
+
+### Capturing Values
+
+Closures 는 정의될 때 context 에 값을 Capturing 할 수 있으며, 캡쳐할 때는 물론이고 더 이상 필요하지 않아 제거할 때 역시 모든 메모리
+관리를 알아서 처리한다.
+
+### Reference Types
+
+Closures 는 Functions 와 마찬가지로 Reference Types 다. 즉, Closures 를 다른 변수 또는 상수에 복사하면 
+Reference Types 이므로 Properties 들의 Pointer 가 복사되므로 캡쳐한 값 역시 공유하게된다.
+
+```swift
+func makeIncrementer(forIncrement amount: Int) -> () -> Int {
+    var runningTotal = 0
+    func incrementer() -> Int {
+        runningTotal += amount
+        return runningTotal
+    }
+    return incrementer
+}
+
+let incrementByTen = makeIncrementer(forIncrement: 10)
+let anotherIncrementByTen = makeIncrementer(forIncrement: 10)
+let referToIncrementByTen = incrementByTen
+```
+
+```swift
+print(incrementByTen())         // 10
+print(anotherIncrementByTen())  // 10
+print(referToIncrementByTen())  // 20
+```
+
+- `anotherIncrementByTen()`은 `incrementByTen()`와 다른 instances 이므로 캡쳐한 변수 `runningTotal`을 
+  각자의 scope 에 저장한다.
+- `referToIncrementByTen()`은 할당될 때 `incrementByTen()`의 Pointer 를 복사하므로 캡쳐한 변수 `runningTotal`를 공유한다.
+
+### Escaping Closures
+
+Arguments 로 전달되는 Closures 는 `Trigger 시점에 따라 두 가지로 구분`할 수 있다.
+
+1. 함수가 종료되기 전 함수 context 내에서 호출.
+2. 함수가 종료된 후 함수 context 밖에서 호출.
+
+Swift 는 context 내부의 무언가를 escaping 하는 것이 disable 상태이므로 이를 위해서는 `@escaping` keyword 를 명시해야한다.
+
+#### Store in a Variable
+
+```swift
+var completionHandlers: [() -> Void] = []
+func someFunctionWithEscapingClosure(completionHandler: @escaping () -> Void) {
+    completionHandlers.append(completionHandler)
+}
+```
+
+Closures 를 escaping 시키는 가장 쉬운 방법은 함수 `context 외부 변수에 저장`하는 것이다.
+
+#### Escaping Closures in Classes
+
+```swift
+var completionHandlers: [() -> Void] = []
+func someFunctionWithEscapingClosure(completionHandler: @escaping () -> Void) {
+    completionHandlers.append(completionHandler)
+}
+func someFunctionWithNonescapingClosure(closure: () -> Void) {
+    closure()
+}
+```
+
+Non-escaping Closures 를 하나 더 추가하고 이를 이용해 Classes 를 하나 만들어보자.
+
+```swift
+class SomeClass {
+    var x = 10
+    func doSomething() {
+        someFunctionWithEscapingClosure { self.x = 100 }
+        someFunctionWithNonescapingClosure { x = 200 }
+    }
+}
+```
+
+```swift
+let instance = SomeClass()
+instance.doSomething()      // `someFunctionWithNonescapingClosure` is called in `doSomething` function's body
+print(instance.x)   // 200
+
+completionHandlers.first?() // `someFunctionWithEscapingClosure ` is not called in `doSomething()` function's body
+print(instance.x)   // 100
+```
+
+*Escaping Closures* 가 *Class Instances* 의 `self`를 참조하는 경우 주의해야한다. *self* 를 캡처할 경우 너무도 쉽게
+`Strong Reference Cycle`(강한 순환 참조)가 생기기 쉽기 때문이다. `Reference Cycles`에 대해 좀 더 자세한 내용은
+[Automatic Reference Counting]을 참고한다.
+
+따라서 *Closures*는 **implicit(암시적)** 으로 *Closure* 내부 변수를 이용해 `외부 변수를 캡처`하지만,
+<span style="color: red;">
+  **Escaping Closures**는 `self` 키워드 이용해 **explicit(명시적)** 으로 코드를 작성
+</span>하도록한다. 이는 개발자에게 순환 참조가 없음을 확인하도록 상기시킨다.
+
+#### Escaping Closures in Structures
+
+```swift
+struct SomeStruct {
+    var x = 10
+    mutating func doSomething() {
+        someFunctionWithEscapingClosure { self.x = 100 }    // error: escaping closure captures mutating 'self' parameter
+        someFunctionWithNonescapingClosure { x = 200 }      // Ok
+    }
+}
+```
+
+Structures 는 Classes 와 달리 Value Types 다. 그리고 Swift 에서 Value Types 는 `immutable`을 보장하기 위해 내부에서 
+값을 수정할 수 없다. 수정을 위해서는 `mutating`을 명시해야한다.
+
+문제는 ***Escaping Closures 의 Trigger 가 동작되는 시점은 이미 `mutating context` 밖이라는 것***이다. 
+따라서 위와 같은 코드는 *compile-time error* 가 발생된다.
+<br>
+
+하지만 이것이 Structures 에서 Escaping Closures 를 사용할 수 없음을 의미하는 것은 아니다.  
+아래와 같이 `mutating` 키워드가 필요한 코드를 제외하면 `Escaping Closures`는 `Value Types`에서도 사용 가능하다.
+
+```swift
+struct SomeStruct {
+    func anotherDoSomething() {
+        someFunctionWithEscapingClosure { print("It's OK") }
+    }
+}
+```
+
+```swift
+var valueTypeInstance = SomeStruct()
+
+valueTypeInstance.anotherDoSomething()
+completionHandlers.first?()  // It's OK
+```
+
+> Value Types 에서 <span style="color: red;">Escaping Closures 는 mutating 을 일으켜서는 안 된다.</span>
+
+### Autoclosures
+
+#### Closures Evaluated when Called
+
+- Code
+
+```swift
+var customersInLine = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+
+let returned = customersInLine.remove(at: 0)
+print(returned)         // Chris
+print(customersInLine)  // ["Alex", "Ewa", "Barry", "Daniella"]
+```
+
+line 내에 작성된 코드는 코드를 읽은 즉시 평가(evaluated)된다.
+<br>
+
+- Closures
+
+```swift
+var customersInLine = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+let customerProvider = { customersInLine.remove(at: 0) }
+
+print(customersInLine)  // ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+
+customerProvider()
+print(customersInLine)  // ["Alex", "Ewa", "Barry", "Daniella"]
+```
+
+`{ }` 블럭으로 감싸 Closures 로 만들면 코드를 읽은 시점이 아니라 Closures 의 Trigger 가 동작된 시점에 평가된다.
+
+#### Autoclosure Type Parameters
+
+위에서 본 것처럼 `{ }` 블럭으로 감싸 Closures 로 만들면 평가를 지연시킬 수 있기 때문에 Closures 를 Parameters 로 전달하는 것이 
+가능하다.
+
+```swift
+var customersInLine = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+
+func serve(customer customerProvider: () -> String) {
+    print("Now serving \(customerProvider())!")
+}
+
+serve(customer: { customersInLine.remove(at: 0) })  // Now serving Chris!
+```
+
+함수를 정의할 때 Parameters 에 `@autoclosure` keyword 를 사용하면 `{ }` 블럭으로 감싸는 Closure Wrapping 을 자동으로
+처리할 수 있다.
+
+```swift
+func serve(customer customerProvider: @autoclosure () -> String) {
+    print("Now serving \(customerProvider())!")
+}
+
+serve(customer: customersInLine.remove(at: 0))      // Now serving Chris!
+```
+
+> 단, <span style="color: red;">Autoclosures 의 남용은 코드를 이해하기 어렵게 만든다</span>.
+
+#### Autoclosures with Escaping Closures
+
+`@autoclosure` 와 `@escaping`을 함께 사용할 수 있다.
+
+```swift
+var customersInLine = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+var customerProviders: [() -> String] = []
+
+func collectCustomerProviders(_ customerProvider: @autoclosure @escaping () -> String) {
+    customerProviders.append(customerProvider)
+}
+
+collectCustomerProviders(customersInLine.remove(at: 0))
+collectCustomerProviders(customersInLine.remove(at: 0))
+
+print("Collected \(customerProviders.count) closures.")
+print("customerProviders: \(customerProviders)")
+
+for customerProvider in customerProviders {
+    print("Now serving \(customerProvider())!")
+}
+```
+
+```console
+Collected 2 closures.
+[(Function), (Function)]
+Now serving Chris!
+Now serving Alex!
+```
+
+
+[Concurrency - Asynchronous Functions]:/swift/2023/01/05/concurrency.html#h-2-asynchronous-functions-
+[Automatic Reference Counting]:/swift/2023/03/08/automatic-reference-counting.html
