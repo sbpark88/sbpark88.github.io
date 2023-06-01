@@ -2,7 +2,7 @@
 layout: post
 title: Let's learn about git
 subtitle: Learn about the git concept, control, and flow
-categories: javascript
+categories: git
 tags: [git, merge, rebase, revert, reset, cherry pick, interactive rebase]
 ---
 
