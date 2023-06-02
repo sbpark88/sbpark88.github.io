@@ -8,19 +8,19 @@ tags: [swift docs, shortbook, cheatsheet, summary, grammar]
 
 ## 1. String 👩‍💻
 
-### Type (타입)
+### Type
 
 Swift 의 String 은 Struct 기반의 Value 타입이다.
 Objective-C 의 NSString 은 Class 기반의 Reference 타입이다.
 Foundation 은 Swift 의 String 에서 캐스팅 없이 NSString 의 메서드를 사용할 수 있게 해준다.
 
-### Optimization (최적화)
+### Optimization
 
 Value 타입이라는 말은 상수나 변수에 할당하거나 함수나 메서드에 전달될 때 값이 복사된다는 것을 의미한다.  
 하지만 실제로는 컴파일러가 실제 복사가 필요할 때까지는 값의 복사 자체를 지연시켜 값 타입을 유지하면서 성능을 향상시킨다.
 자세한 내용은 하단 Substring 참고.
 
-### String 은 Character 의 집합
+### String is the set of Characters
 
 Swift 의 String 은 Character 의 집합이다.
 
@@ -53,7 +53,7 @@ let exclamationMark: Character = "!"
 string1.append(exclamationMark)         // hello!
 ```
 
-### 특수 문자열
+### Special Characters
 
 - Unicode Scalar Value
 
@@ -86,7 +86,7 @@ let sparklingHeart = "\u{1F496}" // 💖, Unicode scalar U+1F496
 // 하세요
 ```
 
-### Sting Interpolation (문자열 삽입)
+### Sting Interpolation
 
 ```swift
 let name = "홍길동"
@@ -97,7 +97,7 @@ let name = "홍길동"
 
 물론 Extended String Delimiters `#` 이 우선권을 갖는다.
 
-### Extended Grapheme Clusters (자모 그룹의 확장)
+### Extended Grapheme Clusters
 
 Swift 의 문자열은 자모 그룹의 확장으로 표현된다.
 
@@ -120,7 +120,7 @@ print("\(word2), \(word2.count)")        // 한, 1
 하지만 Swift 의 String 은 동일한 문자열 길이(count)를 반환한다.  
 단, `Extended Grapheme Clusters`로 인해 NSString 이 반환하는 count 의 값은 다를 수 있다.
 
-### Accessing and Modifying a String (문자열 접근과 수정)
+### Accessing and Modifying a String
 
 - String 메서드 이용
 
@@ -143,7 +143,7 @@ print(greeting[..<greeting.endIndex])       // Guten Tag!
 
 <span style="color: red;">endIndex 가 out of bounds 임에 유의</span>하자
 
-### Subscript (부분 문자열)
+### Subscript
 
 Substring 은 Swift 의 String 이 Value Type 임에도 불구하고 메모리 공간 및 복사에 대한 성능 최적화를 가능케 하는 핵심으로
 Subscript 또는 `prefix(upTo:)`, `prefix(_ maxLength:)`메서드를 사용해 만들 수 있다.
@@ -162,7 +162,7 @@ print(type(of: beginning))  // Substring
   메모리 공간을 재사용</span>한다.
 - Substring 은 수정이 종료되고 <span style="color: red;">장기 저장이 필요할 경우 String Instance 로 변환</span>되어야 한다.
 
-### Comparing String (문자열 비교)
+### Comparing String
 
 - 전체 비교
 
@@ -1555,6 +1555,278 @@ Collected 2 closures.
 Now serving Chris!
 Now serving Alex!
 ```
+
+---
+
+## 6. Enumerations 👩‍💻
+
+### Syntax
+
+```swift
+enum SomeEnumeration {
+    case one
+    case two
+    case three
+}
+```
+
+```swift
+enum SomeEnumeration {
+    case one, two, three
+}
+```
+
+- Enumeration 은 새 `Type`을 만드는 것이므로 **대문자로 시작**한다.
+- `Singleton`을 기반으로 하므로 **단수형**을 사용한다.
+
+### Iterating
+
+`CaseIterable` protocol 을 채택하면 Collection 을 생성해 순환시킬 수 있다.
+
+```swift
+enum Beverage: CaseIterable {
+    case coffee, tea, juice
+}
+
+for beverage in Beverage.allCases {
+    print(beverage)
+}
+```
+
+### Associated Values
+
+Enumerations 의 cases 가 ***자기 자신의 값 외에 다른 값을 가질 수 있는 방법***으로 `Associated Values`와 `Raw Values`가 있다.
+
+#### Syntax
+
+Enumeration 의 cases 가 값이 아닌 `Type 을 저장`하도록 할 수 있다.
+이렇게 하면 <span style="color: red;">서로 다른 Types 의 값을 하나의 Enumeration 에 저장</span>할 수 있다.
+
+```swift
+enum Barcode {
+    case upc(Int, Int, Int, Int)
+    case qrCode(String)
+}
+```
+
+위에서는 `Beverage` Type 이 cases 로 *coffee, tea, juice* 라는 값을 가졌다.  
+반면 `Barcode` Type 은 cases 로 `upc(Int, Int, Int, Int)` 또는 `qrCode(String)` 라는 Type 을 갖는다.
+<br>
+
+따라서 Beverage 는 다음과 같이 case 자체를 값으로 정의할 수 있지만
+
+```swift
+var myBeverage: Beverage
+myBeverage = .coffee
+```
+
+Beverage 는 다음과 같이 해당 Types 에 해당하는 값의 instance 를 생성해야한다.
+
+```swift
+var productBarcode: Barcode
+productBarcode = .upc(8, 85909, 51226, 3)
+productBarcode = .qrCode("ABCDEFGHIJKLMNOP")
+```
+
+#### Switch Statements with Associated Values
+
+Associated Vales 가 정의하는 Types 의 실제 instance values 를 Switch 에서 사용하기 위해 다음과 같이 `let` 또는 `var`를
+사용할 수 있다.
+
+```swift
+func printBarcode (_ productBarcode: Barcode) {
+    switch productBarcode {
+    case .upc(let numberSystem, let manufacturer, let product, let check):
+        print("UPC: \(numberSystem), \(manufacturer), \(product), \(check).")
+    case .qrCode(let productCode):
+        print("QR code: \(productCode).")
+    }
+}
+```
+
+만약 모든 값이 필요할 경우 Types 앞에 `let` 또는 `var` keyword 를 작성하는 것으로 대신할 수 있다.
+
+```swift
+func printBarcode (_ productBarcode: Barcode) {
+    switch productBarcode {
+    case let .upc(numberSystem, manufacturer, product, check):
+        print("UPC : \(numberSystem), \(manufacturer), \(product), \(check).")
+    case let .qrCode(productCode):
+        print("QR code: \(productCode).")
+    }
+}
+```
+
+### Raw Values
+
+#### Syntax
+
+Enumerations 를 정의할 때 Primitive Types 를 채택하면 `RawRepresentable`에 의해 각 cases 가 다른 값을 `Raw Values`로 
+갖는다.
+
+```swift
+enum ASCIIControlCharacter: Character {
+    case tab = "\t"
+    case lineFeed = "\n"
+    case carriageReturn = "\r"
+}
+```
+
+```swift
+enum SomeEnumeration: Int {
+    case one = 1
+    case two = 2
+    case three = 3
+}
+
+print(SomeEnumeration.one)          // One
+print(SomeEnumeration.one.rawValue) // 1
+```
+
+```swift
+enum SomeEnumeration: String {
+    case one = "하나"
+    case two = "둘"
+    case three = "셋"
+}
+
+print(SomeEnumeration.one)          // One
+print(SomeEnumeration.one.rawValue) // 하나
+```
+
+- Raw Values 는 `String`, `Character`, `Integer`, `Floating-Point Number` Types 를 가질 수 있다.
+- Raw Values 는 `Unique` 해야한다.
+
+> Associated Values 와 다른 점은 Associated Values 는 cases 가 다른 값을 가질 수 있도록 함은 물론이고, 2가지 이상의
+> Types 를 저장하는 것이 가능하지만 Raw Values 는 cases 가 다른 값을 가질 수 있도록 할 수는 있지만 하나의 Types 만 가질 수 있다.
+
+#### Implicitly Assigned Raw Values
+
+- Integer
+
+```swift
+enum Planet: Int {
+    case mercury, venus, earth, mars, jupiter, saturn, uranus, neptune
+}
+
+print(Planet.mercury.rawValue)  // 0
+print(Planet.venus.rawValue)    // 1
+print(Planet.neptune.rawValue)  // 7
+```
+
+```swift
+enum Planet: Int {
+    case mercury = 10, venus = 20, earth, mars, jupiter, saturn, uranus, neptune
+}
+
+print(Planet.mercury.rawValue)  // 10
+print(Planet.venus.rawValue)    // 20
+print(Planet.neptune.rawValue)  // 26
+```
+<br>
+
+- String
+
+```swift
+enum CompassPoint: String {
+    case east, west, south, north
+}
+
+print(CompassPoint.east)            // east
+print(CompassPoint.east.rawValue)   // east
+```
+
+```swift
+print(type(of: CompassPoint.east))          // CompassPoint
+print(type(of: CompassPoint.east.rawValue)) // String
+```
+
+#### Initializing from a Raw Value
+
+- With specific cases
+
+```swift
+enum Planet {
+    case mercury, venus, earth, mars, jupiter, saturn, uranus, neptune
+}
+
+let possiblePlanet = Planet.uranus
+print(possiblePlanet)   // uranus
+```
+
+- With Raw Values
+
+```swift
+enum Planet: Int {
+    case mercury, venus, earth, mars, jupiter, saturn, uranus, neptune
+}
+
+let possiblePlanet = Planet(rawValue: 7)
+print(possiblePlanet as Any)    // Optional(__lldb_expr_18.Planet.neptune)
+
+let impossiblePlanet = Planet(rawValue: 8)
+print(impossiblePlanet as Any)  // nil
+```
+
+### Recursive Enumerations
+
+*Enumeration* 의 *case* 가 다시 *자기 자신을 Associated Values 로 가질 때* 이를 `Recursive Enumerations`라 하며,
+반드시 `indirect` 키워드를 명시해야한다.
+
+```swift
+enum ArithmeticExpression {
+    case number(Int)
+    indirect case addition(ArithmeticExpression, ArithmeticExpression)
+    indirect case multiplication(ArithmeticExpression, ArithmeticExpression)
+}
+```
+
+```swift
+indirect enum ArithmeticExpression {
+    case number(Int)
+    case addition(ArithmeticExpression, ArithmeticExpression)
+    case multiplication(ArithmeticExpression, ArithmeticExpression)
+}
+```
+
+위 *Enumeration* `ArithmeticExpression.Type`은 다음 3 가지의 `arithmetic expressions`(산술 표현식)을
+저장할 수 있다.
+
+- a plain number
+- the addition of two expressions
+- the multiplication of two expressions
+
+<br>
+
+`(5 + 4) * 2`를 *ArithmeticExpression.Type* 를 이용해 선언해보자. `데이터가 중첩(nested)`되므로,
+`Enumeration 역시 중첩(nested)`이 가능해야한다.
+
+```swift
+let five = ArithmeticExpression.number(5)
+let four = ArithmeticExpression.number(4)
+let sum = ArithmeticExpression.addition(five, four)
+let product = ArithmeticExpression.multiplication(sum, ArithmeticExpression.number(2))
+```
+
+<br>
+
+**`Recursive Structure`를 가진 데이터를 다루는 가장 직관적인 방법은 `Recursive Function`을 이용하는 것**이다.
+
+```swift
+func evaluate(_ expression: ArithmeticExpression) -> Int {
+    switch expression {
+    case let .number(value): return value
+    case let .addition(left, right): return evaluate(left) + evaluate(right)
+    case let .multiplication(left, right): return evaluate(left) * evaluate(right)
+    }
+}
+
+print(evaluate(five))       // 5
+print(evaluate(four))       // 4
+print(evaluate(sum))        // 9
+print(evaluate(product))    // 18
+```
+
 
 
 [Concurrency - Asynchronous Functions]:/swift/2023/01/05/concurrency.html#h-2-asynchronous-functions-
