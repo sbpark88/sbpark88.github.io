@@ -1,9 +1,9 @@
 ---
 layout: post
-title: What is Functional Programing?
+title: Functional Programing & Monad
 subtitle: Deep Dive into Functional Programing
 categories: cs
-tags: [cs, javascript, swift, pure function, referential transparency, idempotent, unary, unitary, monadic, composition, lambda, pipe, currying, mutating, immutable]
+tags: [cs, javascript, swift, pure function, referential transparency, idempotent, unary, unitary, functor, applicative functor, monad, composition, lambda, pipe, currying, mutating, immutable]
 ---
 
 ### 1. Idempotence (멱등 법칙) 👩‍💻
@@ -43,7 +43,7 @@ f(𝑥) = a
 #### 1. Satisfying Referential Transparency
 
 - 산술 연산은 참조 상 투명하다. y = a x b 는 여러 번 실행하더라도 a, b 가 동일하다면 매번 동일한 y 를 갖는다. 
-- 표현식과 관련된 모든 함수가 순수 함수라면 표현식은 참조 상 투명하다. 이는 어떠한 `side effect`도 존재하지 않음을 의미힌다.
+- 표현식과 관련된 모든 함수가 순수 함수라면 표현식은 참조 상 투명하다. 이는 어떠한 `Side Effect`도 존재하지 않음을 의미힌다.
 
 **선언형 프로그램밍**, **함수형 프로그래밍**은 <span style="color: red;">참조 투명성을 만족</span>시키는 방향으로 동작한다.
 
@@ -167,17 +167,107 @@ Bijection 이다.
 
 ### 5. Functional Programming 👩‍💻
 
+#### 1. Why Functional Programming?
+
+순수 함수는 Side Effect 가 없고 결정론적이다. 따라서 이런 함수를 선언형으로 사용하고 함수를 합성하면 그 결과 합성 함수 역시 Side Effect 가 
+없으며 테스트가 쉽다는 장점을 갖는다.
+
+또한 함수를 작은 단위로 쪼개 놓았기 때문에 재사용이 쉬우므로 작은 함수들을 합성해 새로운 함수를 만드는데 사용할 수 있다.
+
+#### 2. Pure Function
+
+순수 함수는 다음 특징을 갖는다.
+
+- 함수의 Context 는 Isolation 되어야 한다.
+- 함수의 Parameters 는 Immutable 해야 한다.
+- 함수는 Asynchronous 동작 없이 결과를 즉시 반환해야 한다.
+- 함수가 예외를 발생시키지 않아야 한다.
+
+<br>
+
+__1 ) 함수의 Context 는 Isolation 되어야 한다__
+
+함수가 Static/Global Variables 와 같은 context 외부와 상호작용 할 수 없음을 의미한다. 함수 context 외부의 변수는 함수가 제어할 수 
+없기 때문에 외부 요인에 의해 함수의 결과가 달라지거나 에러가 발생할 수 있기 때문이다. 따라서 순수 함수의 context 는 외부 요인으로부터 
+격리되어야 한다.
+
+또한, 함수가 Escaping Closures, Callback Functions 와 같은 context 가 종료된 후 동작을 허용하지 않아야 한다. 함수 context 가 
+종료된 후 동작한다는 것 자체가 context 외부와 상호작용 한다는 것을 의미한다. 따라서 순수 함수는 context 가 종료된 후 동작하는 코드가 없어야 
+한다.
+
+<br>
+
+__2 ) 함수의 Parameters 는 Immutable 해야 한다__
+
+즉, 함수의 Parameters 는 Constants 로 동작해야한다.
+
+Swift 의 경우 기본적으로 Parameters 는 Copy 되어 전달되며, `inout`으로 선언하지 않는 한 Constants 로 선언되므로 자동으로 순수 함수의 
+조건을 만족한다.
+
+반면 TypeScript 역시 Parameters 가 Copy 되어 전달되는 것은 동일하나, Variables 로 선언되어 수정이 가능하다. TypeScript 에서 
+Parameters 의 Immutable 을 처리하기 위해서는 다음과 같은 방법을 사용할 수 있다.
+
+- Parameters 가 Array 또는 Tuple Literal Types 인 경우 `readonly` modifier 를 사용할 수 있다.
+
+```typescript
+function square(arr: readonly number[]): number[] {
+  return arr.map(n => n ** 2)
+}
+```
+
+- 그 외 Types 또는 JavaScript 인 경우 내부에 새 Constants 를 선언하고 Deep Copy 한다.
+
+```typescript
+function greeting(_name: string, _age: number) {
+  const [name, age] = [_name, _age]
+  console.log(`Hello~ My name is ${name} and I amd ${age} years old.`)
+}
+```
+
+<br>
+
+__3 ) 함수는 Asynchronous 동작 없이 결과를 즉시 반환해야 한다__
+
+함수가 Future, Promise, DispatchQueue, setTimeout 과 같은 비동기 처리를 하지 않고 결과를 즉시 반환해야한다.
+
+> 여기서 즉시 반환해야한다는 것 때문에 Lazy Evaluation 을 오해할 수 있으나, Evaluation 이 지연되는 것일 뿐 Closure 를 즉시 
+> 반환한다.
+
+<br>
+
+__4 ) 함수가 예외를 발생시키지 않아야 한다__
+
+에러를 throw 한다는 것은 내부 코드에 Side Effect 가 존재한다는 것을 의미한다. 예를 들어 어떤 함수가 계산을 하는데 값이 nil 일 
+가능성이 있다고 해보자. 이 경우 우리는 Monad 를 이용해 순수 함수가 되도록 만들 수 있다. Optional Monad 를 사용해 Wrapping 
+시키면 값의 nil 유무와 관계 없이 함수는 순수해진다.
+
+<br>
+
+> 물론, 실제로 개발할 때 위 조건을 모두 만족하는 순수 함수는 많지 않다.  
+> 가장 흔한 예로 비동기 문제만 해도 그렇다. 파일 입출력이나 데이터 통신 없이 순수하게 코드만으로 돌아가는 경우는 거의 없기 때문이다. 
+> 최대한 Side Effect 를 줄이기 위해 데이터 통신을 하는 로직에 async/await 를 사용해 context 밖으로 나가지 않도록 가급적 
+> 동기 코드인 것 처럼 동작하도록 하거나 파일 복사와 같은 작업에서 불변성 위반을 최소화 하기 위해 하나의 동기 함수에 로직을 정의하는 
+> 것과 같은 노력을 할 수 있지만 엄밀히 말해 순수 함수라 할 수는 없다.
+> 
+> 실제로 개발할 때 초점을 두고 고민해야할 것은 <span style="color: red;">예측 가능한가</span>이다. 에러가 예측 가능하고 
+> 이를 컨트롤 및 테스트 가능하다면 이는 순수 함수의 조건을 만족하도록 Monad 를 이용해 처리하거나 그렇지 못하더라도 순수 함수 조건에 
+> 근접하다고 볼 수 있다.
+
 ---
 
-### 6. Examples 👩‍💻
+### 6. Monad 👩‍💻
 
 ---
 
-### 7. Pipe & Compose 👩‍💻
+### 7. Examples 👩‍💻
 
 ---
 
-### 8. Currying 👩‍💻
+### 8. Pipe & Compose 👩‍💻
+
+---
+
+### 9. Currying 👩‍💻
 
 
 <br><br>
