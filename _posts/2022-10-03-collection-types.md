@@ -941,7 +941,7 @@ print(shoppingList)     // ["Milk": 3200, "Flour": 3600, "Eggs": 4500]
 
 위에서 Subscript Syntax 로 값을 추가한 것과 다른 점은 `updateValue(_:forKey:)` 메서드는 
 <span style="color: red;">nil</span>을 반환한다는 것이다
-(만약 이미 존재한다면 추가가 아닌 수정으로 동작하고 _Optional(Old Value)_ 를 반환).
+(만약 이미 존재한다면 추가가 아닌 수정으로 작동하고 _Optional(Old Value)_ 를 반환).
 
 ```swift
 var shoppingList: [String: Int] = ["Eggs": 4500, "Milk": 3200]

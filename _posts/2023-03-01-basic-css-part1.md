@@ -435,7 +435,7 @@ strong, em {
 }
 ```
 
-`display` 속성값을 `inline-block`으로 주면 기본적으로 `inline`으로 동작하고,
+`display` 속성값을 `inline-block`으로 주면 기본적으로 `inline`으로 작동하고,
 
 ![Inline 1](/assets/images/posts/2023-03-01-basic-css/inline-1.png){: width="700"}
 
@@ -452,7 +452,7 @@ strong, em {
 
 ![Inline 2](/assets/images/posts/2023-03-01-basic-css/inline-2.png){: width="700"}
 
-만약, `display`의 속성값을 `block`으로 주게되면 `inline` 요소는 무시되고 `block` 요소처럼 동작한다.
+만약, `display`의 속성값을 `block`으로 주게되면 `inline` 요소는 무시되고 `block` 요소처럼 작동한다.
 
 ```css
 strong, em {

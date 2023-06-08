@@ -14,7 +14,7 @@ tags: [swift docs, optional chaining, forced unwrapping, accessing subscripts, l
 *Optional 이 값을 가지고 있을 경우, Property, Method, Subscript 호출은 성공*하고, *`nil`일 경우 `nil`을 반환*한다.
 `Multiple queries`는 서로 `chaining` 될 수 있으며, ***어느 하나라도 `nil`을 포함한다면 전체 `chain`은 실패***한다.
 
-> **Optional Chaining in Swift** 는 **Messaging nil in Objective-C** 와 유사하지만 `모든 타입에 동작`하며,
+> **Optional Chaining in Swift** 는 **Messaging nil in Objective-C** 와 유사하지만 `모든 타입에 작동`하며,
 > `success or failure 를 확인`할 수 있다.
 
 ### 1. Alternative to Forced Unwrapping 👩‍💻

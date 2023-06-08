@@ -250,7 +250,7 @@ class SettingViewController: UIViewController {
 
 처음에는 무언가 Identifier 가 반드시 있어야 할 것 같아서 Restoration ID 나 Accessibility 의 Identifier 를 사용했다. 하지만 본래의 존재 
 목적과 다르게 Identifier 를 사용하는 것 같아서 단순히 동일 객체니까 객체 비교를 할 수 있지 않을까? 해서 해당 Identifier 비교를 제거하고 
-객체 비교를 사용했는데 정상적으로 동작한다.
+객체 비교를 사용했는데 정상적으로 작동한다.
 
 ```swift
 import UIKit

@@ -1131,7 +1131,7 @@ protocol SomeClassOnlyProtocol: AnyObject, SomeInheritedProtocol {
 
 > **Class-Only Protocols** 를 채택한 **Class** 는 반드시 `delegate 를 Week Reference 로 선언`해야한다.
 
-> Protocol 의 요구사항에 정의된 동작이 `Value Semantics`가 아닌 `Reference Semantics`임을 가정하거나 요구하는 경우 
+> Protocol 의 요구사항에 정의된 작동이 `Value Semantics`가 아닌 `Reference Semantics`임을 가정하거나 요구하는 경우 
 > `Class-Only Protocols`를 사용한다.
 >
 > [Which one choose Structures or Classes] 에서 애플은 `Inheritance` 관계를 설계할 때 처음부터 `Protocol`을 
@@ -1147,7 +1147,7 @@ protocol SomeClassOnlyProtocol: AnyObject, SomeInheritedProtocol {
 동시에 여러 Protocols 를 준수하는 경우, 이것을 단일 요구사항으로 결합하는 것이 유용할 수 있다.
 
 `Protocol Composition`은 `SomeProtocol & Another Protocol`과 같이 `&` 를 이용해 결합하며, 이것은 
-`Temporary Local Protocol`인 것처럼 동작한다.
+`Temporary Local Protocol`인 것처럼 작동한다.
 
 다음은 *Named* 와 *Aged* Protocols 의 두 요구사항을 하나로 결합한다.
 
@@ -1498,7 +1498,7 @@ class Student: Member {
 ````
 
 *Teacher* 는 optional 을 포함해 *name, age, address* 를 모두 member 로 갖는다. 
-반면, *Student* 는 optional 을 제외하고 *name, age* 만 member 로 갖는다. 실제 객체가 정상적으로 동작되는지 확인해보자.
+반면, *Student* 는 optional 을 제외하고 *name, age* 만 member 로 갖는다. 실제 객체가 정상적으로 작동되는지 확인해보자.
 
 ```swift
 let jamie = Teacher(name: "Jamie", age: 42, address: "서울시 강남구")

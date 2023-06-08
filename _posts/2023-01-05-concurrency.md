@@ -185,7 +185,7 @@ show(photo)
 
 #### 4. Encapsulation the Code within an Asynchronous Code
 
-비동기 함수 내에서 `await` keyword 사이의 다른 코드는 *Synchronous 로 동작하며 코드를 순차적으로 실행*한다. 하지만 이것 만으로는 
+비동기 함수 내에서 `await` keyword 사이의 다른 코드는 *Synchronous 로 작동하며 코드를 순차적으로 실행*한다. 하지만 이것 만으로는 
 충분하지 않은 케이스가 존재한다. 다음 코드는 사진을 *Road Trip* 갤러리에 추가하고, *Summer Vacation* 갤러리에서 삭제하는 코드다.
 
 ```swift
@@ -212,7 +212,7 @@ move(firstPhoto, from: "Summer Vacation", to: "Road Trip")
 ```
 
 이로써 `move(_:from:to:)` 함수는 `await` 중단점을 추가할 경우 *Swift's language-level support 애 의해 compile-time error 가
-발생*하므로(*async* 가 명시되어 있지 않으므로 *Synchronous Function* 이다), `Synchronous 동작을 보장` 받을 수 있다.
+발생*하므로(*async* 가 명시되어 있지 않으므로 *Synchronous Function* 이다), `Synchronous 작동을 보장` 받을 수 있다.
 
 ---
 
@@ -248,7 +248,7 @@ for try await line in handle.bytes.lines {
 
 ### 4. Calling Asynchronous Functions in Parallel 👩‍💻
 
-`downloadPhoto(named:)` 함수는 *Fetching data* 를 하는 함수로 *Asynchronous* 로 동작한다.
+`downloadPhoto(named:)` 함수는 *Fetching data* 를 하는 함수로 *Asynchronous* 로 작동한다.
 
 따라서 `await` 중단점을 만나 코드가 중단된 동안 다른 *Concurrent code* 가 실행될 수 있지만 다음과 같은 경우는 `다른 Concurrent code 가 
 아닌 동일한 Asynchronous Functions/Methods` 에 속해있으므로 매번 `await`를 만날 때마다 *'코드 실행을 중단하고 다운로드하고 재개하는 
@@ -492,7 +492,7 @@ print(logger.getMax())  // 25
 
 #### 5. Actor with private property
 
-그렇다면 *Actor* 에서의 `private`은 어떻게 동작할까?
+그렇다면 *Actor* 에서의 `private`은 어떻게 작동할까?
 
 ```swift
 actor TemperatureLogger {
@@ -570,7 +570,7 @@ Task {
 
 > 이번엔 모든 케이스에 대해 살펴보며 *Actor* 의 `mutable state`와 `immutable`의 차이도 함께 살펴본다.
 
-- await logger.label : `let`으로 선언한 상수이므로 비동기로 동작하지 않는다. 따라서 정상 작동하지만 `await`는 무시되고 
+- await logger.label : `let`으로 선언한 상수이므로 비동기로 작동하지 않는다. 따라서 정상 작동하지만 `await`는 무시되고 
                        컴파일러는 `await`을 지울 것을 요구한다.
 - logger.label : `let`으로 선언되어 `immutable`이므로 `await` 없이도 *Actor 의 값에 정상적으로 접근*할 수 있다.  
                  (단, *Actor* 자체에 대한 접근은 반드시 *Task* 안에서 이루어져야한다)
@@ -580,7 +580,7 @@ Task {
                *Class* 와 마찬가지로 getter 메서드 없이 외부에서 접근이 가능*하다. 하지만 `var` 이기 때문에 `await` 없이 
                접근하는 것은 불가능하다.
 - logger.max / logger.getMax() : `print(_:)` argument 에 `await`을 걸든, `print(_:)` 호출에 `await`을 걸든 
-                                 모두 정상적으로 동작한다. 
+                                 모두 정상적으로 작동한다. 
 
 #### 7. Extensions of Actor
 

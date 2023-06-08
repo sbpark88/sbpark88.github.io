@@ -640,17 +640,17 @@ class SomeClass {
 __3 ) Initializer of subclass__
 
 > <span style="color: red;">
->   Property Observers 의 willSet, didSet 은 Initializers 에 의해 Instance 가 생성될 때는 동작하지 않는다.
+>   Property Observers 의 willSet, didSet 은 Initializers 에 의해 Instance 가 생성될 때는 작동하지 않는다.
 > </span>
-> Initializers 에 의해 Instance 가 생성되고 난 이후에 Observers 가 동작한다.
+> Initializers 에 의해 Instance 가 생성되고 난 이후에 Observers 가 작동한다.
 > 
 > 따라서 다음과 같은 과정을 거치게 된다.
 > 
 > 1. Subclass 가 자신의 Properties 의 속성을 모두 설정한 후 Superclass 의 Initializers 를 호출한다.
 > 2. Superclass 가 자신의 Designated Initializers 를 이용해 Initialization 을 수행한다. 이때 Superclass 자신이 갖고 있는 
->    Observers 는 동작하지 않는다. 이로써 Phase 1 이 종료된다.
+>    Observers 는 작동하지 않는다. 이로써 Phase 1 이 종료된다.
 > 3. 이제 `Phase 2`가 진행되고 Subclass 의 Initializers 가  Superclass 의 Properties 를 수정한다. 이때 해당 Properties 
->    에 Observers 가 붙어있다면 **`willSet`, `didSet`이 동작**한다.
+>    에 Observers 가 붙어있다면 **`willSet`, `didSet`이 작동**한다.
 
 #### 2. Property Observer Examples
 
@@ -1164,10 +1164,10 @@ print(hugeRectangle.$width)     // true
 값이 초과되었고, `setter`에 정의한대로 *width* 는 *maximum* 값으로 보정해 저장되었다. 그리고 `projectedValue`는
 `true`로 변경되었다.
 
-> `Projecting`은 **Initializers** 에서는 동작하지 않는다. `@LengthOfSide(maximum: 20) var width: Int = 25` 
-> 코드를 보면 마치 *25* 라는 값이 *Property Wrapper* 의 `set` 을 호출해 동작할 것 같지만 이것은 
-> `@LengthOfSide(wrappedValue: 25, maximum: 20)`와 완전히 동일하게 동작할 뿐이다. 즉, *Instance* 가 생성된 
-> 이후 정상적으로 동작한다.
+> `Projecting`은 **Initializers** 에서는 작동하지 않는다. `@LengthOfSide(maximum: 20) var width: Int = 25` 
+> 코드를 보면 마치 *25* 라는 값이 *Property Wrapper* 의 `set` 을 호출해 작동할 것 같지만 이것은 
+> `@LengthOfSide(wrappedValue: 25, maximum: 20)`와 완전히 동일하게 작동할 뿐이다. 즉, *Instance* 가 생성된 
+> 이후 정상적으로 작동한다.
 
 <br>
 

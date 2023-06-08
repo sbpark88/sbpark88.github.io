@@ -350,7 +350,7 @@ private var privateInstance = SomePrivateClass()
 
 <br>
 
-`fileprivate(set)`, `private(set)`, `inernal(set)` 이 제공하는 기능이 어떤식으로 동작하는지 살펴보자.
+`fileprivate(set)`, `private(set)`, `inernal(set)` 이 제공하는 기능이 어떤식으로 작동하는지 살펴보자.
 
 <br>
 
@@ -362,7 +362,7 @@ class SomeClass {
 }
 ```
 
-위와 같이 정의된 SomeClass 는 내부적으로 다음과 같은 방식으로 동작한다.
+위와 같이 정의된 SomeClass 는 내부적으로 다음과 같은 방식으로 작동한다.
 
 ```swift
 class SomeClass {
@@ -422,7 +422,7 @@ Getters 는 internal 의 Access Levels 를 갖기 때문에 외부에서 접근�
 
 __3 ) internal private(set)__
 
-Swift 에서는 위와 같이 동작되는 서로 다른 Access Levels 를 갖는 Properties 에 대한 정의를 다음과 같이 정의할 수 있다.
+Swift 에서는 위와 같이 작동되는 서로 다른 Access Levels 를 갖는 Properties 에 대한 정의를 다음과 같이 정의할 수 있다.
 
 ```swift
 class SomeClass {
@@ -643,7 +643,7 @@ fileprivate 은 허용이 되는 것으로 보인다).
 #### 2. Private Members in Extensions
 
 *Extensions 이 Classes, Structures, Enumerations 와 `같은 파일에 존재`할 경우*, 
-<span style="color: red;">Original 과 Extensions 는 처음부터 단일 Original Types 에 정의된 것처럼 동작</span>한다.
+<span style="color: red;">Original 과 Extensions 는 처음부터 단일 Original Types 에 정의된 것처럼 작동</span>한다.
 
 ```swift
 struct Origin {

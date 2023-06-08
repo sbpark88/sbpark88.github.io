@@ -39,7 +39,7 @@ __2 ) viewWillAppear__
 __3 ) viewDidAppear__
 
 - View 가 화면에 보이기 시작할 때 호출.
-- View 가 화면에 보여지기 시작하는 시점에 동작할 애니메이션 등을 처리.
+- View 가 화면에 보여지기 시작하는 시점에 작동할 애니메이션 등을 처리.
 
 <br>
 
@@ -293,7 +293,7 @@ __6 ) 앱 내리기(Background 로 보내기)__
 
 앱의 현재 상태에 따라 언제든 수행할 수 있는 작업과 수행할 수 없는 작업이 결정된다. 예를 들면 `Foreground App`은 CPU 를 포함한 시스템 리소스보다 
 우선 순위가 높다. 반대로 `Background App`은 가능한 한 적은 작업을 수행해야하며, 화면 밖에 있기 때문에 가급적 아무 작업도 수행하지 않는 것이 좋다. 
-앱의 상태 변화를 감지하고 그에 따른 동작을 조정하기 위해 Swift 에서는 다음과 같은 방법을 제공한다.
+앱의 상태 변화를 감지하고 그에 따른 작동을 조정하기 위해 Swift 에서는 다음과 같은 방법을 제공한다.
 
 - [UISceneDelegate] : iOS 13 이상에서 App 의 Lifecycles 를 관리하기 위해 사용한다.
 - [UIApplicationDelegate] : iOS 12 이하에서 App 의 Lifecycles 를 관리하기 위해 사용한다.
@@ -308,7 +308,7 @@ document.addEventListener('visibilitychange', (event) => {
 });
 ```
 
-iOS 에서 앱의 상태에 따라 행동을 제어한다는 것은 Frontend 에서 브라우저와 그 탭의 활성 상태를 감지하고 이에 따른 동작을 조정하는 것과 같다.
+iOS 에서 앱의 상태에 따라 행동을 제어한다는 것은 Frontend 에서 브라우저와 그 탭의 활성 상태를 감지하고 이에 따른 작동을 조정하는 것과 같다.
 <br>
 
 __1 ) UISceneDelegate__

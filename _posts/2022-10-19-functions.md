@@ -348,7 +348,7 @@ someFunction(1, secondParameterName: 2)
 
 #### 1. Default Parameter Values
 
-우선 _TypeScript_ 의 동작을 보자.
+우선 _TypeScript_ 의 작동을 보자.
 
 ```typescript
 const add = (num1: number, num2: number = 10): number => +num1 + +num2
@@ -361,7 +361,7 @@ console.log(add(5, NaN))        // NaN
 
 <br>
 
-_Swift_ 에서의 동작은 다음과 같다.
+_Swift_ 에서의 작동은 다음과 같다.
 
 ```swift
 func add(a num1: Int, b num2: Int = 10) -> Int {
@@ -459,7 +459,7 @@ print(arithmeticMean([1, 2, 3, 4, 5]))      // 3.0
 print(arithmeticMean([3, 8.25, 18.75]))     // 10.0
 ```
 
-> `Variadic Parameters`와 `Array Parameter`의 내부 동작은 `[Double]`로 같지만,  
+> `Variadic Parameters`와 `Array Parameter`의 내부 작동은 `[Double]`로 같지만,  
 > *Variadic Parameters*는 `Double n개`를 *arguments*로 받고,  
 > *Array Parameter*는 `[Double] 1개`를 *argument*로 받는다는 것이 다르다.
 

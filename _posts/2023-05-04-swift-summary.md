@@ -77,7 +77,7 @@ let sparklingHeart = "\u{1F496}" // 💖, Unicode scalar U+1F496
 // 안녕 \n 하세요
 ```
 
-만약 중간에 임시로 'Escaped Special Characters' 가 동작하도록 하려면 `\` 뒤에 동일한 개수의 `#`을 넣어준다.
+만약 중간에 임시로 'Escaped Special Characters' 가 작동하도록 하려면 `\` 뒤에 동일한 개수의 `#`을 넣어준다.
 
 ```swift
 #"안녕 \#n 하세요"#  
@@ -1028,7 +1028,7 @@ func arithmeticMean(_ numbers: Double...) -> Double {
 }
 ```
 
-다음과 같이 n 개의 Parameters 를 받아 내부에서 Array 로 동작시킬 수 있다.
+다음과 같이 n 개의 Parameters 를 받아 내부에서 Array 로 작동시킬 수 있다.
 
 ```swift
 print(arithmeticMean(2))                    // 2.0
@@ -1443,7 +1443,7 @@ struct SomeStruct {
 Structures 는 Classes 와 달리 Value Types 다. 그리고 Swift 에서 Value Types 는 `immutable`을 보장하기 위해 내부에서 
 값을 수정할 수 없다. 수정을 위해서는 `mutating`을 명시해야한다.
 
-문제는 ***Escaping Closures 의 Trigger 가 동작되는 시점은 이미 `mutating context` 밖이라는 것***이다. 
+문제는 ***Escaping Closures 의 Trigger 가 작동되는 시점은 이미 `mutating context` 밖이라는 것***이다. 
 따라서 위와 같은 코드는 *compile-time error* 가 발생된다.
 <br>
 
@@ -1496,7 +1496,7 @@ customerProvider()
 print(customersInLine)  // ["Alex", "Ewa", "Barry", "Daniella"]
 ```
 
-`{ }` 블럭으로 감싸 Closures 로 만들면 코드를 읽은 시점이 아니라 Closures 의 Trigger 가 동작된 시점에 평가된다.
+`{ }` 블럭으로 감싸 Closures 로 만들면 코드를 읽은 시점이 아니라 Closures 의 Trigger 가 작동된 시점에 평가된다.
 
 #### Autoclosure Type Parameters
 

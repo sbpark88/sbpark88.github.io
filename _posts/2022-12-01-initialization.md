@@ -478,7 +478,7 @@ var hugeSquare = Size(width: 100.0, height: 100.0)
 *Initializers* 는 *Instance* 를 생성할 때 코드가 중복되는 것을 방지하기 위해 다른 *Initializers* 를 호출할 수 있는데, 
 이것을 `Initializer Delegation`이라 한다.
 
-*Initializer Delegation* 이 동작하는 방식과 *Delegation* 을 허용하는 범위는 *Value Types* 와 *Class Types* 가 다르다.
+*Initializer Delegation* 이 작동하는 방식과 *Delegation* 을 허용하는 범위는 *Value Types* 와 *Class Types* 가 다르다.
 
 - Value Types: 상속을 허용하지 않으므로 `자신의 context 내 다른 Initializers`에만 *Delegation* 이 허용된다.
 - Class Types: 상속을 허용하므로, *Classes* 는 `상속한 모든 Stored Properties 에 정확한 값이 설정`되도록 하기 위한 
@@ -1640,7 +1640,7 @@ printTitle("emptyName", emptyName)
 > 그리고 마지막으로, 위 우회하는 케이스의 경우는 **Subclass** 에서 Phase 2에서 수정할 기회를 사용하기 때문에 
 > **Superclass 의 Stored Properties**가 반드시 `Variable`이어야 했지만, 이 경우는 `Constant`여도 
 > 문제 없이 Initialization 을 처리할 수 있다. 아래 예를 보면 **Document** 의 **name** 이 `let`으로 선언되어 
-> 있지만 정상적으로 동작함을 확인할 수 있다.
+> 있지만 정상적으로 작동함을 확인할 수 있다.
 
 ```swift
 class Document {
