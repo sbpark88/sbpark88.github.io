@@ -935,13 +935,91 @@ console.log(bazPrime) // Maybe {kind: 'some', value: '10'}
   을 적용하기 위해 `lift`와 `un-lift`를 해 단일 차원의 System 으로 다룰 수 있게 하는 것이다.
 </span>
 
-> 이제 우리는 Optional 뿐 아니라 `Array`, `Set`, 심지어 `Result` 같은 것들 모두 Functor 이며 Monad 라는 것을 이해할 수 있다. 
+> 이제 우리는 Swift 의 경우 Optional 뿐 아니라 `Array`, `Set`, 심지어 `Result` 같은 것들 모두 Functor 이며 Monad 라는 것을 
+> 이해할 수 있다.
+> 
+> 마찬가지로 TypeScript 역시 `Array`, `Set`와 같은 것들이 Functor 이며 Monad 라는 것을 이해할 수 있다.  
 
 ---
 
-### 7. Examples 👩‍💻
+### 7. Immutable 👩‍💻
 
-#### 1. Immutable
+Maybe(Optional) Monad, Just Monad, Nothing Monad, IO Monad 등 다양한 Monad 가 존재한다. 하지만 가장 많이 사용되는 것은 
+`Array`의 Monad 다.
+
+Functional Programming 을 할 때 가급적이면 `순수 함수`를 위해 원본 배열에 대한 mutation 을 허용하지 않아야 한다. 배열은 
+Functional Programming 을 쉽게 할 수 있도록 많은 내장 메서드를 제공한다. 이 중 immutability 를 훼손시키는 주요 메서드와 이를 해결하기 
+위한 방법을 알아본다.
+
+<br>
+
+- Bad Case
+
+```swift
+var foo = [1, 4, 6, 9, 13]
+foo.append(15)
+print(foo)  // [1, 4, 6, 9, 13, 15]
+```
+
+```typescript
+let foo = [1, 4, 6, 9, 13]
+foo.push(15)
+console.log(foo)  // [1, 4, 6, 9, 13, 15]
+```
+
+- Good Case
+
+```swift
+var foo = [1, 4, 6, 9, 13]
+var bar = foo + [15]
+print(foo)  // [1, 4, 6, 9, 13]
+print(bar)  // [1, 4, 6, 9, 13, 15]
+```
+
+```typescript
+let foo = [1, 4, 6, 9, 13]
+let bar = [...foo, 15]
+console.log(foo)  // [1, 4, 6, 9, 13]
+console.log(bar)  // [1, 4, 6, 9, 13, 15]_
+```
+
+주로 배열에 데이터를 추가/삭제할 때 어떤 메서드를 사용했냐에 따라 immutability 가 훼손될 수 있다. 일반적으로 기존 배열의 데이터를 
+Deep Copy 하는 방법으로 해결한다.
+
+<br>
+
+- Bad Case
+
+```swift
+var foo = [6, 2, 13, 1, 7, 15]
+foo.sort(by: >)
+print(foo)  // [15, 13, 7, 6, 2, 1]
+```
+
+```typescript
+let foo = [6, 2, 13, 1, 7, 15]
+foo.sort((a, b) => b - a)
+console.log(foo)  // [15, 13, 7, 6, 2, 1]
+```
+
+- Good Case
+
+```swift
+var foo = [6, 2, 13, 1, 7, 15]
+var bar = foo.sorted(by: >)
+print(foo)  // [6, 2, 13, 1, 7, 15]
+print(bar)  // [15, 13, 7, 6, 2, 1]
+```
+
+```typescript
+let foo = [6, 2, 13, 1, 7, 15]
+let bar = [...foo].sort((a, b) => b - a)
+console.log(foo)  // [6, 2, 13, 1, 7, 15]
+console.log(bar)  // [15, 13, 7, 6, 2, 1]
+```
+
+대부분 정렬을 할 때 원본 배열을 직접 정렬한다. 하지만 순수 함수를 위해서 이런 mutation 은 지양해야한다. 따라서 새 배열 인스턴스를 생성하도록 
+해 원본의 immutability 를 훼손시키지 않도록 한다.
 
 ---
 
