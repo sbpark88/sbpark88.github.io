@@ -1025,9 +1025,289 @@ console.log(bar)  // [15, 13, 7, 6, 2, 1]
 
 ### 8. Pipe & Compose 👩‍💻
 
+#### 1. What is the Pipe?
+
+```
+f: X ~> Y
+g: Y ~> Z
+h: Z ~> W
+```
+
+가 주어졌을 때 함수 f, g, h 를 합성해서 표현하면 다음과 같다.
+
+```
+X ~> Y ~> Z ~> W
+```
+
+함수 적용을 흐름상으로 보면 `f > g > h`인데 수학적으로 표현할 때는 괄호 안쪽이 먼전 계산되어야하므로 `h ◦ (g ◦ f)`로 표현된다.
+
+```
+h(g(f(x)))
+```
+
+라는 수식이 되어야 하기 때문이다.
+
+<br>
+
+따라서 `f > g > h` 흐름에 익숙한 개발자들이 선호하는 함수 합성 방식을 `pipe`라 부르며, 수학적 연산 순서를 그대로 표현하는 `h ◦ (g ◦ f)` 
+방식을 `compose`라 부른다. 즉, **pipe** 와 **compose** 는 함수 합성의 흐름만 반대 방향인 동일한 함수다.
+
+```
+f(x): X ~> Y = x + 5
+g(x): Y ~> Z = x * 4
+h(x): Z ~> W = x - 6
+```
+
+으로 주어졌을 때 각각 덧셈, 곱셈, 뺄셈 함수를 구현하고 이를 `pipe`를 사용해 함수 합성으로 표현해보자.
+
+#### 2. Pipe in JavaScript
+
+해당 섹션은 `compose`와 `pipe`를 모두 적용해 차이를 알아본다. JavaScript 를 사용해 **compose** 와 **pipe** 를 구현하면 다음과 같다.
+
+```javascript
+const compose = (...fns) => initValue => fns.reduceRight((acc, fn) => fn(acc), initValue)
+const pipe = (...fns) => initValue => fns.reduce((acc, fn) => fn(acc), initValue)
+```
+
+> 참고로 비동기 함수에 대해서도 `pipe`를 적용하고자 할 경우 `async pipe`를 만들어야한다.
+
+<br>
+
+함수를 합성하기 위해 덧셈, 곱셈, 뺄셈에 대한 순수 함수를 만든다.
+
+```javascript
+const add = (lhs, rhs) => lhs + rhs
+const multiply = (lhs, rhs) => lhs * rhs
+const subtract = (lhs, rhs) => lhs - rhs
+const toString = x => String(x)
+```
+
+```javascript
+const add5 = (x) => add(x, 5)
+const multiply4 = (x) => multiply(x, 4)
+const subtract6 = (x) => subtract(x, 6)
+const toString = x => String(x)
+```
+<br>
+
+- pipe
+
+```javascript
+const functionComposition = pipe(
+    add5,
+    multiply4,
+    subtract6,
+    toString
+)
+
+console.log(functionComposition(7))   // "42"
+```
+
+- compose
+
+```javascript
+const functionComposition = compose(
+    subtract6,
+    multiply4,
+    add5,
+    toString
+)
+
+console.log(functionComposition(7))   // "42"
+```
+
+<br>
+
+`map(_:)`함수를 이용해 배열에 적용해보자.
+
+```javascript
+const someArray = [1, 5, 7, 13, 23, 37]
+const newArray = someArray.map(functionComposition)
+console.log(newArray)   // ["18", "34", "42", "66", "106", "162"]
+```
+
+#### 3. Pipe in TypeScript
+
+```typescript
+type Primitive = number | string | boolean | undefined | null
+const compose = (...fns: Function[]) => (initValue: Primitive) => fns.reduceRight((acc, fn) => fn(acc), initValue)
+const pipe = (...fns: Function[]) => (initValue: Primitive) => fns.reduce((acc, fn) => fn(acc), initValue)
+```
+
+다른 방법으로는 TypeScript 에서 함수형 코딩을 가능하도록 돕는 라이브러리르 사용하는 것이다. 지원하는 라이브러리는 다음과 같다.
+
+- [lodash](https://www.npmjs.com/package/@types/lodash)
+- [fp-ts](https://www.npmjs.com/package/fp-ts)
+- [ramda](https://www.npmjs.com/package/@types/ramda)
+
+<br>
+
+함수를 합성하기 위해 덧셈, 곱셈, 뺄셈에 대한 순수 함수를 만든다.
+
+```typescript
+const add = (lhs: number, rhs: number): number => lhs + rhs
+const multiply = (lhs: number, rhs: number): number => lhs * rhs
+const subtract = (lhs: number, rhs: number): number => lhs - rhs
+const toString = (x: number): string => String(x)
+```
+
+```typescript
+const add5 = (x: number): number => add(x, 5)
+const multiply4 = (x: number): number => multiply(x, 4)
+const subtract6 = (x: number): number => subtract(x, 6)
+const toString = (x: number): string => String(x)
+```
+<br>
+
+- pipe
+
+```javascript
+const functionComposition = pipe(
+    add5,
+    multiply4,
+    subtract6,
+    toString
+)
+
+console.log(functionComposition(7))   // "42"
+```
+
+- compose
+
+```javascript
+const functionComposition = compose(
+    subtract6,
+    multiply4,
+    add5,
+    toString
+)
+
+console.log(functionComposition(7))   // "42"
+```
+
+<br>
+
+`map(_:)`함수를 이용해 배열에 적용해보자.
+
+```typescript
+const someArray: number[] = [1, 5, 7, 13, 23, 37]
+const newArray: Primitive[] = someArray.map(functionComposition)
+console.log(newArray)   // ["18", "34", "42", "66", "106", "162"]
+```
+
+#### 4. Pipe in Swift
+
+Swift 는 TypeScript 와 같이 모든 함수를 받을 수 있는 `Function`과 같은 Types 가 존재하지 않기 때문에 JavaScript 나 TypeScript 
+형식의 `pipe(_:)` 는 정의가 불가능하다.
+
+```swift
+func pipe<T>(_ fns: ((T) -> T)...) -> (T) -> T {
+    { initValue in
+        fns.reduce(initValue) { acc, fn in
+            fn(acc)
+        }
+    }
+}
+```
+
+`pipe(_:)` 함수에 전달되는 모든 Variadic Parameters 의 Types 가 동일해야한다. 예를 들어 **add**, **multiply**, **subtract** 
+는 모두 `(Int) -> Int` Types 이므로 상관 없지만 이후 **toString** 이 추가되면 이 함수는 `(Int) -> String` Types 이므로 처음 
+전달된 add 에 의해 이미 Generic Types 가 정해졌으므로 에러가 발생된다.
+
+```swift
+func pipe<T, R>(_ fns: ((T) -> R)...) -> (T) -> R {
+    { (initValue: T) in
+        fns.reduce(initValue) { acc, fn in
+            fn(acc) as! T
+        } as! R
+    }
+}
+```
+
+Generic Types 를 `<T, R>`로 정의해도 어차피 둘 다 `Int` 로 정해져 `fns`가 `[(Int) -> Int]` Types 로 정해져 의미가 없다.
+
+대신 Swift 에서는 [Elixir Pipe Operator] 스타일을 사용할 수 있다.
+
+```swift
+infix operator |>: AdditionPrecedence
+
+func |> <T, R>(value: T, function: (T) -> R) -> R {
+    return function(value)
+}
+```
+
+
+<br>
+
+함수를 합성하기 위해 덧셈, 곱셈, 뺄셈에 대한 순수 함수를 만든다.
+
+```swift
+func add(_ lhs: Int, _ rhs: Int) -> Int {
+    lhs + rhs
+}
+let multiply = { (lhs: Int, rhs: Int) in lhs * rhs }
+let subtract = { (lhs: Int, rhs: Int) in lhs - rhs }
+```
+
+```swift
+func add5(_ x: Int) -> Int {
+    add(x, 5)
+}
+let multiply4 = { (x: Int) in multiply(x, 4) }
+let subtract6 = { (x: Int) in subtract(x, 6) }
+let toString = { (x: Int) in String(x) }
+```
+<br>
+
+- pipe
+
+```swift
+func functionComposition(_ initValue: Int) -> String {
+    initValue
+    |> add5
+    |> multiply4
+    |> subtract6
+    |> toString
+}
+
+print(functionComposition(7))   // "42"
+```
+
+Closures 를 사용해 Inline 으로 작성하면 좀 더 pipe 답게 사용할 수 있다.
+
+```swift
+let functionComposition = {
+    $0
+    |> add5
+    |> multiply4
+    |> subtract6
+    |> toString
+}
+
+print(functionComposition(7))   // "42"
+```
+
+<br>
+
+`map(_:)`함수를 이용해 배열에 적용해보자.
+
+```swift
+let someArray: [Int] = [1, 5, 7, 13, 23, 37]
+let newArray: [String] = someArray.map(functionComposition)
+print(newArray)     // ["1", "5", "7", "13", "23", "37"]
+```
+
 ---
 
 ### 9. Currying 👩‍💻
+
+#### 1. What is the Currying?
+
+#### 2. Curry Function in JavaScript
+
+#### 3. Curry Function in TypeScript
+
+#### 4. Curry Function in Swift
 
 
 <br><br>
@@ -1042,3 +1322,6 @@ Reference
 5. Moon. "함수형 프로그래밍 - Pipe." Medium. Dec. 29, 2019, [함수형 프로그래밍](https://medium.com/오늘의-프로그래밍/함수형-프로그래밍-pipe-c80dc7b389de).
 6. 12 Math. "g∘f 가 “일대일 대응” 이면 f 와 g 도 “일대일 대응”?.", Youtube. Jan. 12, 2023, [Bijection 을 만족하는 합성 함수의 분해](https://www.youtube.com/watch?v=MJV0OfO6D_U).
 7. Dmitry Lupich. "Swift Monads, Functors and Applicatives with examples." Medium. Feb. 09, 2020, [Swift Monads](https://medium.com/@dmitrylupich/swift-monad-functor-applicative-806bb34c68c5).
+8. "Pipe Operator." Elixir School. Jun. 15, 2023, [Elixir Pipe Operator].
+
+[Elixir Pipe Operator]:https://elixirschool.com/en/lessons/basics/pipe_operator
