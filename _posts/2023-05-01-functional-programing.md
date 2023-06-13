@@ -1079,7 +1079,6 @@ const pipe = (...fns) => initValue => fns.reduce((acc, fn) => fn(acc), initValue
 const add = (lhs, rhs) => lhs + rhs
 const multiply = (lhs, rhs) => lhs * rhs
 const subtract = (lhs, rhs) => lhs - rhs
-const toString = x => String(x)
 ```
 
 ```javascript
@@ -1126,6 +1125,16 @@ const newArray = someArray.map(functionComposition)
 console.log(newArray)   // ["18", "34", "42", "66", "106", "162"]
 ```
 
+<br>
+
+`map(_:)`함수를 이용해 배열에 적용해보자.
+
+```javascript
+const someArray = [1, 5, 7, 13, 23, 37]
+const newArray = someArray.map(functionComposition)
+console.log(newArray) // [18, 34, 42, 66, 106, 162]
+```
+
 #### 3. Pipe in TypeScript
 
 ```typescript
@@ -1148,7 +1157,6 @@ const pipe = (...fns: Function[]) => (initValue: Primitive) => fns.reduce((acc, 
 const add = (lhs: number, rhs: number): number => lhs + rhs
 const multiply = (lhs: number, rhs: number): number => lhs * rhs
 const subtract = (lhs: number, rhs: number): number => lhs - rhs
-const toString = (x: number): string => String(x)
 ```
 
 ```typescript
@@ -1303,12 +1311,219 @@ print(newArray)     // ["1", "5", "7", "13", "23", "37"]
 
 #### 1. What is the Currying?
 
+`Pipe`는 함수의 Arguments 로 여러 개의 함수를 받아 이를 순차적으로 연결하기 위해 사용했다. 그리고 이것이 가능하도록 하기 위해 Monad 를 
+사용했다. Currying 은 이것의 반대다. 하나의 함수에 존재하는 여러 개의 Arguments 를 여러 단계로 나눈다. 이것이 수학적으로 가능한가에 
+대해서는 [4. Lambda Calculus](#h-4-lambda-calculus-람다-대수-) 에서 이미 확인했다.
+
+한 번에 모든 Arguments 를 받지 않고 나눠 받으므로 Evaluation 을 지연시킬 수 있다. 즉, Lazy Evaluation 이 가능하다. 이것은 무엇을 
+의미할까? 사전에 정의할 수 있는 부분까지 미리 정의해 둔 다음 필요한 것만 바꿔 사용할 수 있음을 의미한다. 다시 말하면 단계를 나눔으로써 뒤에 오는 
+Arguments 만 바꿈으로써 재사용이 가능한 서로 다른 함수를 만들어 낼 수 있다는 것을 의미한다.
+
+```
+((x, y, z) ~> 2x^2 + 5y + z)(3, 5, 2)
+```
+
+를
+
+```
+(x ~> (y ~> (z ~> 2x^2 + 5y + z)))(3)(5)(2)
+```
+
+로 다시 쓰는 것이 Currying 이다.
+
 #### 2. Curry Function in JavaScript
+
+```javascript
+const howMuch = (goods, price, count, unit) => `${goods} ${count} ${unit} = ${price * count}원`
+
+console.log(howMuch('사과', 1350, 5, '개'))  // 사과 5 개 = 6750원
+console.log(howMuch('참치', 2730, 3, '캔'))  // 참치 3 캔 = 8190원
+```
+
+위 함수에 Currying 을 적용해보자. 상품에 따라 단위가 정해지니 먼저 입력 받고, 그 다음 그 날의 가격에 따라 상품을 몇 개 샀냐에 따라 최종 
+가격이 정해지므로, 가격을 받은 다음 개수를 받으면 될 것이다.
+
+```javascript
+const howMuch = (goods, unit) => price => count => `${goods} ${count} ${unit} = ${price * count}원`
+
+const applePrice = howMuch('사과', '개')
+const tunaPrice = howMuch('참치', '캔')
+
+const todayApplePrice = applePrice(1350)
+const todayTunaPrice = tunaPrice(2730)
+
+console.log(todayApplePrice(5))   // 사과 5 개 = 6750원
+console.log(todayTunaPrice(3))    // 참치 3 캔 = 8190원
+```
+
+이렇게 Currying 을 적용하면 오늘 사과 n 개의 가격을 조회할 때마다 매번 전체 함수를 다시 평가하는 것이 아니라 `todayApplePrice(_:)`만 
+평가하면 동일한 결과를 얻을 수 있다.
+
+<br>
+
+- Curry Function
+
+사용자가 직접 Currying 을 적용한 함수를 만들 수도 있지만, 기존의 함수를 Curry Function 을 적용해 자동으로 Currying 이 적용된 새 
+함수를 만들도록 Factory Function 을 정의할 수 있다.
+
+```javascript
+const curry = (fn) => {
+  return function curryFn(...args1) {
+    if (args1.length >= fn.length) {
+      return fn(...args1);
+    } else {
+      return (...args2) => {
+        return curryFn(...args1, ...args2);
+      }
+    }
+  }
+}
+```
+
+Curry Function 을 적용해보자.
+
+```javascript
+const howMuch = (goods, unit, price, count) => `${goods} ${count} ${unit} = ${price * count}원`
+const curriedHowMuch = curry(howMuch)
+
+const applePrice = curriedHowMuch('사과', '개')
+const tunaPrice = curriedHowMuch('참치', '캔')
+
+const todayApplePrice = applePrice(1350)
+const todayTunaPrice = tunaPrice(2730)
+
+console.log(todayApplePrice(5))   // 사과 5 개 = 6750원
+console.log(todayTunaPrice(3))    // 참치 3 캔 = 8190원
+```
+
+> `Curry Function`을 적용할 때 주의해야할 것은 Currying 순서를 고려해서 Parameters 의 순서를 정의해야한다.  
+> 따라서 기존 함수의 Parameters 는 `(goods, price, count, unit)` 였으나 Curry Function 을 적용하기 위해 순서를 
+> `(goods, unit, price, count)`로 변경했다.
 
 #### 3. Curry Function in TypeScript
 
+위 코드를 TypeScript 로 다시 써보자.
+
+```typescript
+const howMuch = (goods: string,
+                 price: number,
+                 count: number,
+                 unit: string)
+    : string => `${goods} ${count} ${unit} = ${price * count}원`
+
+console.log(howMuch('사과', 1350, 5, '개'))  // 사과 5 개 = 6750원
+console.log(howMuch('참치', 2730, 3, '캔'))  // 참치 3 캔 = 8190원
+```
+
+Currying 을 적용해보자.
+
+```typescript
+const howMuch = (goods: string, unit: string) => (price: number) => (count: number)
+    : string => `${goods} ${count} ${unit} = ${price * count}원`
+
+const applePrice = howMuch('사과', '개')
+const tunaPrice = howMuch('참치', '캔')
+
+const todayApplePrice = applePrice(1350)
+const todayTunaPrice = tunaPrice(2730)
+
+console.log(todayApplePrice(5))   // 사과 5 개 = 6750원
+console.log(todayTunaPrice(3))    // 참치 3 캔 = 8190원
+```
+
+<br>
+
+- Curry Function
+
+```typescript
+type Primitive = number | string | boolean | undefined | null
+
+const curry = (fn: Function) => {
+  return function curryFn(...args1: Primitive[]) {
+    if (args1.length >= fn.length) {
+      return fn(...args1);
+    } else {
+      return (...args2: Primitive[]) => {
+        return curryFn(...args1, ...args2);
+      }
+    }
+  }
+}
+```
+
+Curry Function 을 적용해보자.
+
+```typescript
+const howMuch = (goods: string,
+                 unit: string,
+                 price: number,
+                 count: number)
+    : string => `${goods} ${count} ${unit} = ${price * count}원`
+const curriedHowMuch = curry(howMuch)
+
+const applePrice = curriedHowMuch('사과', '개')
+const tunaPrice = curriedHowMuch('참치', '캔')
+
+const todayApplePrice = applePrice(1350)
+const todayTunaPrice = tunaPrice(2730)
+
+console.log(todayApplePrice(5))   // 사과 5 개 = 6750원
+console.log(todayTunaPrice(3))    // 참치 3 캔 = 8190원
+```
+
+
 #### 4. Curry Function in Swift
 
+```swift
+func howMuch(goods: String, price: Int, count: Int, unit: String) -> String {
+    "\(goods) \(count) \(unit) = \(price * count)원"
+}
+
+print(howMuch(goods: "사과", price: 1350, count: 5, unit: "개"))   // 사과 5 개 = 6750원
+print(howMuch(goods: "참치", price: 2730, count: 3, unit: "캔"))   // 참치 3 캔 = 8190원
+```
+
+Currying 을 적용해보자.
+
+```swift
+func howMuch(goods: String, unit: String) -> (Int) -> (Int) -> String {
+    { price in { count in "\(goods) \(count) \(unit) = \(price * count)원" }}
+}
+
+let applePrice = howMuch(goods: "사과", unit: "개")
+let tunaPrice = howMuch(goods: "참치", unit: "캔")
+
+let todayApplePrice = applePrice(1350)
+let todayTunaPrice = tunaPrice(2730)
+
+print(todayApplePrice(5))   // 사과 5 개 = 6750원
+print(todayTunaPrice(3))    // 참치 3 캔 = 8190원
+```
+
+Swift 에서 Curring 은 TypeScript 와 마찬가지로 Function Expression 방식을 사용하는 것이 Parameters 와 Body 를 완전히 
+분리시켜 정의할 수 있어 가독성이 더 뛰어나다. 
+
+```swift
+let howMuch = { (goods: String, unit: String) in { (price: Int) in { (count: Int) in
+    "\(goods) \(count) \(unit) = \(price * count)원"
+}}}
+
+let applePrice = howMuch("사과", "개")
+let tunaPrice = howMuch("참치", "캔")
+
+let todayApplePrice = applePrice(1350)
+let todayTunaPrice = tunaPrice(2730)
+
+print(todayApplePrice(5)) // 사과 5 개 = 6750원
+print(todayTunaPrice(3)) // 참치 3 캔 = 8190원
+```
+
+<br>
+
+- Curry Function
+
+아쉽게도 Swift 는 TypeScript 의 `Function` 과 같은 Types 가 존재하지 않기 때문에 기존 함수를 자동으로 Currying 을 적용해 새 
+함수를 만들어주는 함수를 정의하는 것이 불가능하므로 함수를 정의할 때 커링을 고려해 정의해야한다.
 
 <br><br>
 
