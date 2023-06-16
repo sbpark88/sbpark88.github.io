@@ -387,19 +387,19 @@ print(SomeEnumeration.one.rawValue) // 하나
 ```
 
 > `Raw Values`는 `String`, `Character`, `Integer`, `Floating-Point Number` 타입이 가능하다.  
-> `Raw Values`는 `unique`해야한다.
+> `Raw Values`는 `Unique`해야한다.
 
 #### 1. Implicitly Assigned Raw Values
 
 *Enumerations* 는 `Raw Values` 를 별도로 지정하지 않으면 *첫 case* 에 암시적(implicit) `0`을 할당한다. 
 만약, `Integer` 또는 `String` Types 의 데이터를 명시적(explicit)으로 지정해 저장할 경우 모든 *cases* 에 
-값을 명시할 필요 없이 하나의 값을 명시하면 이후 값은 그 값일 기반으로 자동으로 암시적으로 할당된다.
+값을 명시할 필요 없이 하나의 값을 명시하면 이후 값은 그 값을 기반으로 자동으로 암시적으로 할당된다.
 
 - Integer Raw Value
 
 *Raw Values* 를 *Integer* Type 으로 지정 후 아무란 값도 명시하지 않을 경우 Swift 는 암시적으로 `첫 case` 를 
 `0` 으로 할당된다.
-
+우
 ```swift
 enum Planet: Int {
     case mercury, venus, earth, mars, jupiter, saturn, uranus, neptune
@@ -473,12 +473,13 @@ print(type(of: CompassPoint.east.rawValue)) // String
 
 #### 2. Initializing from a Raw Value
 
-*Enumeration* 을 *Raw Value* 를 이용해 정의하면, *Raw Value* 를 받아 일치하는 *Enumeration* 의 `Instance` 
-또는 `nil`을 반환하는 `initializer`를 이용할 수 있다.
-
-- Cases: Creating `instance of the enumeration`
+- With specific cases
 
 ```swift
+enum Planet {
+    case mercury, venus, earth, mars, jupiter, saturn, uranus, neptune
+}
+
 let possiblePlanet = Planet.uranus
 print(possiblePlanet)   // uranus
 ```
@@ -487,23 +488,21 @@ print(possiblePlanet)   // uranus
 
 <br>
 
-- Raw Values: Creating `instance of the enumeration` or `nil`
+- With Raw Values
+
+*Raw Value* 를 받아 일치하는 *Enumeration* 의 *Enumeration* 의 *case* 를 `Optional Instance`로 생성한다.
 
 ```swift
+enum Planet: Int {
+    case mercury, venus, earth, mars, jupiter, saturn, uranus, neptune
+}
+
 let possiblePlanet = Planet(rawValue: 7)
-print(type(of: possiblePlanet))     // Optional<Planet>
-print(possiblePlanet as Any)        // Optional(__lldb_expr_41.Planet.uranus)
-print(possiblePlanet!)              // uranus
+print(possiblePlanet as Any)    // Optional(__lldb_expr_18.Planet.neptune)
 
-let impossiblePlanet = Planet(rawValue: 9)
-print(type(of: impossiblePlanet))   // Optional<Planet>
-print(impossiblePlanet as Any)      // nil
+let impossiblePlanet = Planet(rawValue: 8)
+print(impossiblePlanet as Any)  // nil
 ```
-
-> `Raw Value` 를 이용하는 것은 명시적으로 *case* 를 지정하는 것이 아니므로 `Optional Instance` 또는 `nil` 을 
-> 생성한다(Dictionaries 에서 Key 로 Value 를 조회할 때 Optional 인 것과 유사하다).
-
-<br>
 
 따라서 다음과 같이 `Optional Binding`을 이용해 안전하게 처리하는 것이 좋다.
 
@@ -574,7 +573,7 @@ safe: false
 
 ### 6. Recursive Enumerations 👩‍💻
 
-*Enumeration* 의 *case* 가 다시 `자기 자신`을 `Associated Values`로 가질 때 이를 `Recursive`라 하며, 
+*Enumeration* 의 *case* 가 다시 *자기 자신을 Associated Values 로 가질 때* 이를 `Recursive Enumerations`라 하며, 
 반드시 `indirect` 키워드를 명시해야한다.
 
 <br>
@@ -640,9 +639,9 @@ let product = ArithmeticExpression.multiplication(sum, ArithmeticExpression.numb
 ```swift
 func evaluate(_ expression: ArithmeticExpression) -> Int {
     switch expression {
-    case let .number(value): return value
-    case let .addition(left, right): return evaluate(left) + evaluate(right)
-    case let .multiplication(left, right): return evaluate(left) * evaluate(right)
+    case .number(let value): return value
+    case let .addition(lhs, rhs): return evaluate(lhs) + evaluate(rhs)
+    case let .multiplication(lhs, rhs): return evaluate(lhs) * evaluate(rhs)
     }
 }
 ```

@@ -754,7 +754,6 @@ Canada's capital city is called Ottawa
 
 __2 ) Unowned References and Implicitly Unwrapped Optional Properties__
 
-
 ```swift
 class Country {
     let name: String
@@ -967,8 +966,7 @@ lazy var someClosure = {
 - Week References : 캡처한 self 가 `nil`이 될 가능성이 있는 경우(*Short Lifetime*) 사용한다. 즉, Week References 는 항상 
                     `Optional`이다.
 - Unowned References : 캡처한 self 가 `nil`이 될 가능성이 없고 항상 서로를 참조하는 경우(*Same Lifetime*) 사용한다. 
-                       즉, 
-
+                       즉, Unowned References 는 `Forced Unwrapping` 또는 `Non-Optional`이다.
 <br>
 
 다음은 [Strong Reference Cycles for Closures](#h-6-strong-reference-cycles-for-closures-) 에 *Capture List* 

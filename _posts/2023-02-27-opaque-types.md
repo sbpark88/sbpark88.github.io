@@ -52,7 +52,7 @@ print(smallTriangle)            // Triangle(size: 3)
 ```
 
 그리고 이 `Triangle(size: 3)`이 `draw()` 메서드를 호출하면 *result* 에는 `["*", "**", "***"]`가 담기게 될 것이다. `draw()` 
-메서드를 호출하기 전 `joined(separator:)` 메서드의 동작을 먼저 살펴보자.
+메서드를 호출하기 전 `joined(separator:)` 메서드의 작동을 먼저 살펴보자.
 
 ```swift
 var arr = ["*", "**", "***"]
@@ -298,7 +298,7 @@ struct SomeStructure: Shape {
 > <span style="color: red;">Return Type `some Type`은 여전히 **Single Type** 이어야 함</span>을 의미한다.
 
 *Opaque Types* `some Shape`를 *return type* 으로 갖는 `flip(_:)`, `join(_:)` 함수를 추가로 구현해보자. 이번에는 
-`Generics`를 결합해도 *Opaque Types* 가 정상적으로 동작하는지 확인해본다.
+`Generics`를 결합해도 *Opaque Types* 가 정상적으로 작동하는지 확인해본다.
 
 ```swift
 func flip<T: Shape>(_ shape: T) -> some Shape {
@@ -807,7 +807,7 @@ func makeProtocolContainer<T>(item: T) -> Container {
 ```
 
 Array 는 *Associated Types* 를 사용해 무엇이든 저장할 수 있고, Array 는 Container Protocol 을 준수하므로 이제 
-`makeProtocolContainer(item:)`은 동작이 가능하다.
+`makeProtocolContainer(item:)`은 작동이 가능하다.
 
 ```swift
 let emptyContainer = makeProtocolContainer(item: 10)
@@ -815,7 +815,7 @@ print(type(of: emptyContainer)) // Array<Int>
 print(emptyContainer)           // [10]
 ```
 
-반면, Array<Int> Type 임에도 불구하고 Container 로 반환하도록 했기 때문에 Subscript 는 동작하지 않는다.
+반면, Array<Int> Type 임에도 불구하고 Container 로 반환하도록 했기 때문에 Subscript 는 작동하지 않는다.
 
 ```swift
 print(emptyContainer[0])        // error: value of type 'any Container' has no subscripts
@@ -831,7 +831,7 @@ protocol Container {
 extension Array: Container { }
 ```
 
-Array 는 모든 Types 를 저장할 수 있으므로, Container 역시 Array 가 저장한 모든 Types 에 대해 Subscript 가 동작하도록 하기 
+Array 는 모든 Types 를 저장할 수 있으므로, Container 역시 Array 가 저장한 모든 Types 에 대해 Subscript 가 작동하도록 하기 
 위해 Associated Type 을 이용해 위와 같이 적합성을 준수하도록 하면 다음과 같은 문제가 발생한다.
 
 ```swift
@@ -881,7 +881,7 @@ print(type(of: eleven))         // Int
 print(eleven)                   // 11
 ```
 
-정상적으로 동작한다. 위 경우는 Array 가 실제로 `Any` Types 에 대해 동작할 수 있지만 `Any`나 `AnyObject`는 명확히 필요한 상황이 
+정상적으로 작동한다. 위 경우는 Array 가 실제로 `Any` Types 에 대해 동작할 수 있지만 `Any`나 `AnyObject`는 명확히 필요한 상황이 
 아니면 앱의 코드를 `Type-Safe`하지 않게 만들기 때문에 사용을 지양해야한다.
 
 <br>

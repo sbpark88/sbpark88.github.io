@@ -18,6 +18,43 @@ tags: [swift docs, view controller lifecycle, app lifecycle, viewDidLoad, ]
 *View Components* 를 관리하는 것이 Frontend 에서의 Lifecycle Hooks 인데 Swift 의 UIViewController Lifecycle 역시 이와 
 동일하게 앱 자체의 화면 관리가 아닌, *UIStoryboard* 라는 것의 Life Cycle 을 관리한다.
 
+<br>
+
+__1 ) viewDidLoad__
+
+- View Instance 가 메모리에 로드된 직후 호출.
+- View 가 destroyed 되지 않는 한 1번만 호출.
+- View 와 관련된 1회성의 초기화 작업, 네트워크 호출 등을 처리.
+
+<br>
+
+__2 ) viewWillAppear__
+
+- View 가 화면에 보이기 직전 매번 호출.
+- View 가 destroyed 되지 않더라도 다른 View 가 보여지다 새롭게 보여질 때마다 호출.
+- View 가 보일 때마다 매번 실행되어야하는 초기화 작업, 네트워크 호출 등을 처리.
+
+<br>
+
+__3 ) viewDidAppear__
+
+- View 가 화면에 보이기 시작할 때 호출.
+- View 가 화면에 보여지기 시작하는 시점에 작동할 애니메이션 등을 처리.
+
+<br>
+
+__4 ) viewWillDisappear__
+
+- View 가 화면에서 사라지기 시작할 때 호출.
+- View 가 사라지기 직전 초기화 작업, 네트워크 호출, 데이터 저장 등을 처리.
+
+<br>
+
+__5 ) viewDidDisappear__
+
+- View 가 사라진 다음 호출.
+- View Instance 가 메모리에서 제거된 이후 추가적인 작업 필요시 처리.
+
 #### 2. Examples - Present Modally - Automatic
 
 - ViewController1
@@ -256,7 +293,7 @@ __6 ) 앱 내리기(Background 로 보내기)__
 
 앱의 현재 상태에 따라 언제든 수행할 수 있는 작업과 수행할 수 없는 작업이 결정된다. 예를 들면 `Foreground App`은 CPU 를 포함한 시스템 리소스보다 
 우선 순위가 높다. 반대로 `Background App`은 가능한 한 적은 작업을 수행해야하며, 화면 밖에 있기 때문에 가급적 아무 작업도 수행하지 않는 것이 좋다. 
-앱의 상태 변화를 감지하고 그에 따른 동작을 조정하기 위해 Swift 에서는 다음과 같은 방법을 제공한다.
+앱의 상태 변화를 감지하고 그에 따른 작동을 조정하기 위해 Swift 에서는 다음과 같은 방법을 제공한다.
 
 - [UISceneDelegate] : iOS 13 이상에서 App 의 Lifecycles 를 관리하기 위해 사용한다.
 - [UIApplicationDelegate] : iOS 12 이하에서 App 의 Lifecycles 를 관리하기 위해 사용한다.
@@ -271,7 +308,7 @@ document.addEventListener('visibilitychange', (event) => {
 });
 ```
 
-iOS 에서 앱의 상태에 따라 행동을 제어한다는 것은 Frontend 에서 브라우저와 그 탭의 활성 상태를 감지하고 이에 따른 동작을 조정하는 것과 같다.
+iOS 에서 앱의 상태에 따라 행동을 제어한다는 것은 Frontend 에서 브라우저와 그 탭의 활성 상태를 감지하고 이에 따른 작동을 조정하는 것과 같다.
 <br>
 
 __1 ) UISceneDelegate__

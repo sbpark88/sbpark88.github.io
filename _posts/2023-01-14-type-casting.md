@@ -193,7 +193,7 @@ Swift 는 불특정 타입을 위한 두 가지의 특별한 타입을 제공한
 - Any : Closure, Function, Class, Structure, Enumeration Types 를 포함한 모든 타입의 instance 를 대신할 수 있다.
 - AnyObject : Class Types 를 대신할 수 있다.
 
-> `Any`와 `AnyObject`는 ***이것이 제공하는 동작 및 기능이 명시적으로 필요한 경우에만 사용***해야한다. 그 외 경우는 언제나 명확한 타입을 
+> `Any`와 `AnyObject`는 ***이것이 제공하는 작동 및 기능이 명시적으로 필요한 경우에만 사용***해야한다. 그 외 경우는 언제나 명확한 타입을 
 > 지정하는 것이 더 좋다.
 > 
 > `Any`는 `Optional 을 포함한 모든 타입을 대신`할 수 있다.
@@ -322,7 +322,7 @@ __lldb_expr_92.Movie : a movie called Avatar, dir. James Francis Cameron
 
 #### 3. Do Explicit Casting Optional to Any
 
-다음 코드를 보자. *Optional* 을 그대로 사용하면 동작은 되지만 Swift 는 이를 해결할 것을 경고한다.
+다음 코드를 보자. *Optional* 을 그대로 사용하면 작동은 되지만 Swift 는 이를 해결할 것을 경고한다.
 
 ```swift
 let optionalNumber3: Int? = 3
@@ -356,7 +356,7 @@ testAnyTypes(things)
 <br>
 
 사실 <span style="color: red;">Error</span> 가 아닌 <span style="color: orange;">Warning</span>
-이므로 동작에 문제는 없다. 하지만 *경고는 제거하고, Unwrapping 은 하지 않은 채 Optional 상태를 유지*할 수는 없을까? 
+이므로 작동에 문제는 없다. 하지만 *경고는 제거하고, Unwrapping 은 하지 않은 채 Optional 상태를 유지*할 수는 없을까? 
 
 `Any` casting 은 이를 가능하게 한다.
 

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Swift Control Flow
-subtitle: Control Flow - For-IN Loops, While Loops, Conditional Statements
+subtitle: Control Flow - For-In Loops, While Loops, Conditional Statements
 categories: swift
 tags: [swift docs, control flow, loop, for, while, if, switch, condition, conditional statement, control transfer statement]
 ---
@@ -419,7 +419,7 @@ default:
 
 #### 2. No Implicit Fallthrough
 
-Objective-C 를 포함한 대부분의 언어에서 switch 의 동작은 처음 일치하는 case 를 실행한 후 아래 case 를 
+Objective-C 를 포함한 대부분의 언어에서 switch 의 작동은 처음 일치하는 case 를 실행한 후 아래 case 를 
 계속 실행해 내려간다(`fallthrough` the bottom of each case).
 
 ```typescript
@@ -923,7 +923,7 @@ default:
 print(description)  // The number 5 is a prime number, and also an integer.
 ```
 
-> Swift 의 Switch 문은 case 매칭시 `break`가 기본 동작 순서이므로 다른 언어와 달리 `fallthrough`가 필요할 경우 명시해야한다.
+> Swift 의 Switch 문은 case 매칭시 `break`가 기본 작동 순서이므로 다른 언어와 달리 `fallthrough`가 필요할 경우 명시해야한다.
 
 #### 4. return
 

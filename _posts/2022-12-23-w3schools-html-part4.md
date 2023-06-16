@@ -14,7 +14,7 @@ tags: [w3school, class, id, iframe, file path]
 - `class` attribute 는 *동일한 class 가 여러 HTML elements 에 존재*하거나 *하나의 HTML element 에 여러 classes 가 
   존재*할 수 있다.
 - `class` name 은 `case sensitive` 하다.
-- `CSS`로 동일한 속성을 주거나, `JavaScript`를 이용해 iterator 를 사용해 동일한 동작을 하기 위해 사용한다.
+- `CSS`로 동일한 속성을 주거나, `JavaScript`를 이용해 iterator 를 사용해 동일한 작동을 하기 위해 사용한다.
 
 <p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="LYBGxWQ" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
   <span>See the Pen <a href="https://codepen.io/sbpark88/pen/LYBGxWQ">

@@ -698,7 +698,7 @@ pm.test("Get /test JSON data is correct", function () {
 
 <br>
 
-`Collection`의 `∙∙∙` 를 누르고 `Run collection`을 통해 `Mock API`가 정상 동작하는지 확인한다.
+`Collection`의 `∙∙∙` 를 누르고 `Run collection`을 통해 `Mock API`가 정상 작동하는지 확인한다.
 
 ![Postman - test result](/assets/images/posts/2022-12-29-vue-starter-part3/postman-run-collection.png)
 

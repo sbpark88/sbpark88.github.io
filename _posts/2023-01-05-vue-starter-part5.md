@@ -229,7 +229,7 @@ export default {
 
 > - reactive : Options API 의 `data()` 에 해당한다.
 > - computed : Options API 의 `computed` 에 해당한다.
-> - toRefs : `reactive`로 작성된 데이터를 정상 동작하도록 하기 위해 `Object`를 이용한 `Reference Types`로 변환한다.  
+> - toRefs : `reactive`로 작성된 데이터를 정상 작동하도록 하기 위해 `Object`를 이용한 `Reference Types`로 변환한다.  
 >   (하나의 `Value`만 `Reference Type`으로 바꿔주는 `ref()`, `Object` 내 하나의 `Field`만 `Reference Types`로 
 >    바꿔주는 `toRef()`도 있다. 따라서 실제 값에 접근할 때는 `.value`를 이용한다.)
 
@@ -935,7 +935,7 @@ createApp(App)
 #### 4. Function Shorthand
 
 대부분의 `Directives 는 기본적으로 mounted 와 updated 일 때 동일하게 작동`한다. 만약, *mounted 와 updated Hooks 의 
-동작이 동일하며, 다른 Hooks 이 필요 없을 경우* 다른 설정값과 마찬가지로 *APP 의 `mount()` 메서드를 분리시킨 후 
+작동이 동일하며, 다른 Hooks 이 필요 없을 경우* 다른 설정값과 마찬가지로 *APP 의 `mount()` 메서드를 분리시킨 후 
 Custom Directives 를 다음과 같이 `함수형으로 작성`할 수 있다*.
 
 ```javascript

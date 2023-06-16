@@ -48,7 +48,7 @@ print(greet(person: "Anna"))    // Hello, Anna!
 
 ### 2. Function Parameters and Return Values 👩‍💻
 
-#### 1. Functions Without Parameters
+#### 1. Functions without Parameters
 
 ```swift
 func sayHelloWorld() -> String {
@@ -58,7 +58,7 @@ func sayHelloWorld() -> String {
 print(sayHelloWorld())  // hello, world
 ```
 
-#### 2. Functions With Multiple Parameters
+#### 2. Functions with Multiple Parameters
 
 ```swift
 func greet(person: String) -> String {
@@ -89,7 +89,7 @@ print(greet(person: "Tim", alreadyGreeted: true))   // Hello again, Tim!
 > 함수 `name`이 같더라도 `parameters`가 다르면, 다른 함수로 구분된다. 이를 `Polymorphism`(다형성)이라고 한다.  
 > 단, 이러한 구분에 `return type`은 영향을 주지 않는다.
 
-#### 3. Functions Without Return Values
+#### 3. Functions without Return Values
 
 _Return Type_ 이 없을 때는 `Void`를 _Return Type_ 으로 정의한다.
 
@@ -273,7 +273,7 @@ input array is empty.
 min is 1 and max is 88
 ```
 
-#### 6. Function With an Implicit Return
+#### 6. Function with an Implicit Return
 
 함수의 전체 본문이 단일 표현식인 경우 함수는 암시적으로 해당 표현식을 반환한다.
 
@@ -348,7 +348,7 @@ someFunction(1, secondParameterName: 2)
 
 #### 1. Default Parameter Values
 
-우선 _TypeScript_ 의 동작을 보자.
+우선 _TypeScript_ 의 작동을 보자.
 
 ```typescript
 const add = (num1: number, num2: number = 10): number => +num1 + +num2
@@ -361,7 +361,7 @@ console.log(add(5, NaN))        // NaN
 
 <br>
 
-_Swift_ 에서의 동작은 다음과 같다.
+_Swift_ 에서의 작동은 다음과 같다.
 
 ```swift
 func add(a num1: Int, b num2: Int = 10) -> Int {
@@ -459,7 +459,7 @@ print(arithmeticMean([1, 2, 3, 4, 5]))      // 3.0
 print(arithmeticMean([3, 8.25, 18.75]))     // 10.0
 ```
 
-> `Variadic Parameters`와 `Array Parameter`의 내부 동작은 `[Double]`로 같지만,  
+> `Variadic Parameters`와 `Array Parameter`의 내부 작동은 `[Double]`로 같지만,  
 > *Variadic Parameters*는 `Double n개`를 *arguments*로 받고,  
 > *Array Parameter*는 `[Double] 1개`를 *argument*로 받는다는 것이 다르다.
 
@@ -519,9 +519,9 @@ someInt is now 107, and anotherInt is now 3
 > - *In-Out Parameters* 를 사용한 함수를 호출할 때 `arguments` 앞에 `&` 키워드를 붙여 호출한다.
 > 
 > 작동 순서는 다음과 같다.
-> 1. 함수가 호출될 때 `arguments`의 값이 `복사`된다.
+> 1. 함수가 호출될 때 `arguments`의 값이 parameters 에 `복사`된다.
 > 2. 복사된 arguments 의 값이 함수의 `body`에서 `수정`된다.
-> 3. 함수가 종료될 때 위 값이 함수를 호출할 때 전달된 `original variable`의 주소값을 찾아가 값을 `할당`한다.
+> 3. 함수가 종료될 때 `arguments`의 Pointer 를 이용해 값을 `수정`한다.
 
 ---
 
@@ -578,7 +578,8 @@ print(mathFunction(5, 7))   // 35
 __2 ) Function Expressions__
 
 다음 예제는 `Function Types`를 이용해 변수나 상수의 타입을 지정하고, `Closures`를 할당해 함수를 선언한다.  
-이것은 위 `Function Declarations`와 동일한 결과를 갖는다(<span style="color: red;">단, *Hoisting* 은 작동하지 않는다</span>).
+이것은 위 `Function Declarations`와 동일한 결과를 갖는다.  
+(이 경우 <span style="color: red;">TDZ 로 인한 *Hoisting*</span>개념도 동일하게 적용된다.)
 
 ```swift
 // With Function Types
@@ -617,7 +618,7 @@ console.log((multiplyTwoInts(5, 7)))    // 35
 
 <br>
 
-__3 ) Define Function Types from Typealias__
+__3 ) Define Function Types from Type Alias__
 
 `Protocols`를 이용해 Classes, Structures 등과 같은 타입에 `Blueprint`를 제공하듯 함수 역시 `typealias`를 이용해 `Type`을 
 강제할 수 있다.

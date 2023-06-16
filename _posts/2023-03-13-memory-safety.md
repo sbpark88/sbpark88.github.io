@@ -10,7 +10,7 @@ tags: [swift docs, memory safety, compile-time error, runtime error, conflict, m
 
 #### 1. Memory Safety
 
-기본적으로 Swift 는 코드에서 안전하지 않은 동작이 발생하는 것을 방지한다. 예를 들면, *Initialization 이전에 Variables 에 접근하기*,
+기본적으로 Swift 는 코드에서 안전하지 않은 작동이 발생하는 것을 방지한다. 예를 들면, *Initialization 이전에 Variables 에 접근하기*,
 *Deallocated 이후 메모리에 접근하기*, *Array 의 범위 체크(out-of-bounds)*와 같은 것들이다.
 
 또한 Swift 는 동일한 메모리 공간에 대한 *Multiple Accesses* 발생시, *해당 메모리를 수정중인 코드에게 
@@ -22,7 +22,7 @@ Swift 는 메모리를 자동으로 관리하기 때문에 대부분의 경우�
 
 #### 2. Understanding Conflicting Access to Memory
 
-메모리에 접근하는 것은 *변수에 값을 설정*하거나 *함수에 arguments 를 전달*하는 것과 같은 동작을 할 때 발생한다. 다음 코드는 메모리 접근의
+메모리에 접근하는 것은 *변수에 값을 설정*하거나 *함수에 arguments 를 전달*하는 것과 같은 작동을 할 때 발생한다. 다음 코드는 메모리 접근의
 `Read Access`와 `Write Access`에 대한 예다.
 
 ```swift
@@ -33,7 +33,7 @@ var one = 1
 print("We're number \(one)!")
 ```
 
-코드의 서로 다른 부분이 메모리의 동일 위치에 동시에 접근하려는 경우 예측할 수 없거나 일관성 없는 동작이 발생할 수 있고, 이로 인해
+코드의 서로 다른 부분이 메모리의 동일 위치에 동시에 접근하려는 경우 예측할 수 없거나 일관성 없는 작동이 발생할 수 있고, 이로 인해
 `Conflicting Access`가 발생할 수 있다. Swift 에는 코드의 여러 라인에 걸쳐 있는 값을 수정하는 방법이 있어, 자체 수정 중에 값에 접근을
 시도할 수 있다. 다음 코드는 이런 상황에 대한 예시를 보여준다.
 
@@ -49,7 +49,7 @@ print("We're number \(one)!")
 
 하지만 올바르지 않은 값을 얻는다는 것은 그림상 'During' 조각 하나만 보았을 때 이야기일 뿐이다. 프로그래밍 관점에서 보면 이와 같은 문제를 
 해결하는 방법은 여러 가지가 존재하는데, 기존 *Total* 과 업데이트 된 *Total* 중 어떤 값을 원하는지에 따라 '$5' 가 정답이 될 수도 있고, 
-'$320' 이 정답이 될 수도 있다. 따라서 `Conflicting Access`를 고치기 전에 동작이 수행하고자 하는 의도를 명확히 파악하는 것이 중요하다.
+'$320' 이 정답이 될 수도 있다. 따라서 `Conflicting Access`를 고치기 전에 작동이 수행하고자 하는 의도를 명확히 파악하는 것이 중요하다.
 
 > *Concurrent Code* 또는 *Multithreaded Code* 를 작성할 경우 `Conflicting Access to Memory`를 자주 접할 수 있다.
 > 하지만 *Conflicting Access* 는 `Single Thread`에서도 발생할 수 있다. 이 글에서 설명하는 *Conflicts* 가 이에 해당한다.
@@ -335,7 +335,7 @@ print(holly)
 <br>
 이 문제를 해결하는 방법 중 한 가지는 `In-Out Parameters`로 전달되는 원본 데이터를 *Global Variable* 이 아닌 *Local Variable* 로
 변경하는 것이다. 그러면 Swift *compiler* 는 Structure 의 Stored Properties 에 대한 *Access* 가 다른 코드의 부분과 상호작용하지
-않으므로 안전하다는 것을 증명할 수 있게 되고, 2개의 *In-Out Parameters* 가 전달되지만 정상적으로 동작할 수 있다.
+않으므로 안전하다는 것을 증명할 수 있게 되고, 2개의 *In-Out Parameters* 가 전달되지만 정상적으로 작동할 수 있다.
 
 ```swift
 func someFunction() {

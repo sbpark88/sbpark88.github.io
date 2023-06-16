@@ -321,14 +321,14 @@ case zero
 }
 ```
 
-아래 3개의 케이스는 모두 동일한 동작을 한다.
+아래 3개의 케이스는 모두 동일한 작동을 한다.
 
 <br>
 
 __1 ) Optional Functions__
 
 `throws`를 사용하지 않고 함수의 `return type` 자체를 `Optional`로 만들고, 에러 발생 조건에 대해 명시적으로 `nil`을 return 
-시켜 다음과 같이 동작시킬 수 있다.
+시켜 다음과 같이 작동시킬 수 있다.
 
 ```swift
 func someOptionalFunction(_ input: Int) -> Int? {

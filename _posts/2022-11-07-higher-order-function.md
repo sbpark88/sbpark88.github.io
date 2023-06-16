@@ -399,7 +399,7 @@ Link: [Apple Developer Documentation](https://developer.apple.com/documentation/
 
 <br>
 
-다음은 가장 기본적인 *map* 함수의 동작이다. `Original Collection`의 모든 *elements*에 2를 곱한 다음
+다음은 가장 기본적인 *map* 함수의 작동이다. `Original Collection`의 모든 *elements*에 2를 곱한 다음
 `new Collection`을 반환한다.
 
 ```swift

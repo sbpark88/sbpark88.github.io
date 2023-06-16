@@ -35,7 +35,7 @@ VPN 이 Proxy 의 차이점을 정리하면 다음과 같다.
 |   Proxy    |      VPN       |
 |:----------:|:--------------:|
 | 가상 IP 를 사용 |   가상 IP 를 사용   |
-| 앱 수준에서 동작  |   OS 수준에서 동작   |
+| 앱 수준에서 작동  |   OS 수준에서 작동   |
 | 앱 트래픽 라우팅  |   모든 트래픽 라우팅   |
 | 트래픽 암호화 불가 |    트래픽 암호화     |
 | 비교적 빠른 속도  | 암호화로 인해 다소 느려짐 |
@@ -97,7 +97,7 @@ Origin 을 변경해 줄 것이다.
 
 그리고 이렇게 Proxy 를 사용하는 것의 장점 중 하나는 CORS 를 사용하지 않고 우회할 수 있는 것 뿐 아니라 하나의 소스 코드로 
 `NODE_ENV`를 이용해 각 환경을 구분하고, 환경에 따라 `Local`, `Development Server`, `Production Server` 환경에 
-맞게 동작하도록 할 수 있다는 점이다.
+맞게 작동하도록 할 수 있다는 점이다.
 
 #### 5. Access-Control-Allow-Origin
 
@@ -514,11 +514,11 @@ p { color: red; }
 > mutations 를 사용하지 않고 외부에서 직접 state 의 값을 변경하는 것이 가능하다(i.e. `this.$store.state.count++`).  
 > 이것이 가능한 것으로 보아 member 가 private 으로 관리되서 내부에서 변경하도록 setter 를 사용하듯 mutations methods 를 
 > 사용할 수 밖에 없던 것은 아닌 것 같다. 뒤에서 `actions`를 설명하면서 다시 이야기 하겠지만 아마 `mutations`가 `Synchronous`로 
-> 동작하기 때문인 것 같다. 그렇기 때문에 Vuex 공식 문서를 보면 Vuex 는 상태 변화시 mutations 를 사용해 상태를 변경하도록 
+> 작동하기 때문인 것 같다. 그렇기 때문에 Vuex 공식 문서를 보면 Vuex 는 상태 변화시 mutations 를 사용해 상태를 변경하도록 
 > 안내했던 것으로 보인다. 또한 공식 문서의 mutations 항목을 보면 devTool 이 상태 변화를 스냅샷을 이용해 추적할 수 있다고 한다. 
 > 
 > Vuex 컨테이너 자체는 Reference Types 의 Singleton 을 모델로 하고 있다는 것만 제외하면 Vuex 의 member 의 성질은 
-> Swift 에서 [Structures][Swift - mutating in Structures] 의 동작과 유사해보인다.
+> Swift 에서 [Structures][Swift - mutating in Structures] 의 작동과 유사해보인다.
 > 
 > 하지만, Vuex 는 이제 deprecated 된 것이나 마찬가지고 Pinia 는 mutations 가 없으니 추후 migration 을 위해서라도 
 > mutations 를 사용하는 것은 지양하는 것이 좋을 것 같다.
@@ -751,7 +751,7 @@ p { color: blue; }
 {% endraw %}
 
 > Vue 3.0 버전에서 Getters 의 결과가 Computed Properties 에 의해 캐싱 되지 않는 문제가 보고되었다. 해당 문제를 제기한 
-> 깃의 PR 을 보면 Vue 3.1 부터 정상 동작하는 것으로 보인다.
+> 깃의 PR 을 보면 Vue 3.1 부터 정상 작동하는 것으로 보인다.
 
 #### 8. Mutations and Actions
 
@@ -760,8 +760,8 @@ Pinia 는 mutations 가 존재하지 않으므로 더 이상 필요한 개념은
 Vuex 에서 mutations 없이도 컴포넌트에서 state 수정이 가능했음에도 불구하고 mutations 를 사용한 이유는 Vuex 의 Actions 설명을 
 보면 다음으로 추측된다.
 
-- Mutations : Synchronous 로 동작.
-- Actions : Asynchronous 로 동작하며 여러 개의 mutations 를 실행할 수 있다.
+- Mutations : Synchronous 로 작동.
+- Actions : Asynchronous 로 작동하며 여러 개의 mutations 를 실행할 수 있다.
 
 
 Action handlers 는 Store instance 와 동일한 `context` object 를 노출시킴으로써 작동하며 Store 의 4가지 기능을 사용할 
@@ -914,7 +914,7 @@ p { color: blue; }
 {% endraw %}
 
 > 근데 막상 mutations 의 increment 를 `setTimeout(() => state.count++, 3000)` 로 바꿔 테스트 해보니 Mutations 에서도 
-> setTimout 이 문제 없이 동작했다. 결국 싱글 스레드인 JavaScript 에서 둘은 차이가 없는 것 아닌가 생각되는데 이 부분은 좀 더 깊게 
+> setTimout 이 문제 없이 작동했다. 결국 싱글 스레드인 JavaScript 에서 둘은 차이가 없는 것 아닌가 생각되는데 이 부분은 좀 더 깊게 
 > 살펴봐야 할 것으로 보인다.
 
 #### 9. Account Examples

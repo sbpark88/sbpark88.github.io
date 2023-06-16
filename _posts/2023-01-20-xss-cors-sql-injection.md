@@ -280,7 +280,7 @@ Dashboard for <script>alert("LEAVE THIS PAGE! YOU ARE BEING HACKED!");</script>
   DOM Based XSS 를 방지하기 위한 가장 첫 번째는 `eval`과 `execScript`를 허용하지 않는 것이다.
 </span>  
 그리고 `innerHtml`과 같이 안전하지 않은 방법으로 HTML 에 삽입하지 않고 `innerText` 또는 `textContent` 과 같이 
-안전한 `Sink`를 사용해 스크립트가 동작하지 않도록 하는 것이다.
+안전한 `Sink`를 사용해 스크립트가 작동하지 않도록 하는 것이다.
 
 따라서 위 예제를 `div` element 와 `textContent`를 사용해 다음과 같이 고칠 수 있다.
 

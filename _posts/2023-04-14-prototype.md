@@ -314,7 +314,7 @@ student.greet() // Hello, my name is Jane, I'm 20 years old.
 student.study() // I'm studying in grade 2.
 ```
 
-상속으로 잘 동작하는 것을 볼 수 있다.
+상속으로 잘 작동하는 것을 볼 수 있다.
 
 student Instance -> Student Object -> Person Object -> Base Object
 
@@ -636,7 +636,7 @@ counter.reset()   // caught TypeError: counter.reset is not a function
 counter.#reset()  // caught SyntaxError: Private field '#reset' must be declared in an enclosing class
 ```
 
-은닉화가 동작하는 것 같지만 개발자가 작성하는 코드 작성 방식에서 private 으로 동작한다는 것이지 
+은닉화가 작동하는 것 같지만 개발자가 작성하는 코드 작성 방식에서 private 으로 작동한다는 것이지 
 <span style="color: red;">정말로 객체의 Properties 자체가 hiding 되는 것은 아니다</span>.
 
 ```javascript
@@ -646,7 +646,7 @@ console.log(counter)  // Counter {#count: 3, #reset: ƒ, next: ƒ}
 > Closures 를 이용하면 가능하지 않을까?
 > 
 > 객체를 출력했을 때 private 이 구현될 수 있는 유일한 방법이다. 단, Closures 를 사용한 객체 생성을 사용할 경우 매번 새 객체가 생성되는데 
-> GC가 제대로 동작하지 않아 Memory Leak 이 생길 수 있다고 한다.
+> GC가 제대로 작동하지 않아 Memory Leak 이 생길 수 있다고 한다.
 > 
 > JavaScript 의 `built-in objects` 중 Map, Set, WeakMap, WeakSet 등을 이용하는 방법을 소개하는 블로그도 존재했지만 단순히 
 > `dot syntax`로 접근이 안 되는 것 뿐이다. 원래 `set`, `get` 메서드로 관리하는 객체들이라 일 뿐 private 이 아니다.
@@ -728,7 +728,7 @@ console.log('square.origin', square.origin)   // Point {x: 12.5, y: 12.5}
 console.log('square.center', square.center)   // Point {x: 17.5, y: 17.5}
 ```
 
-#### 2. Object.defneProperty()
+#### 2. Object.defineProperty()
 
 `Object.defineProperty()`로 바꿔보자.
 

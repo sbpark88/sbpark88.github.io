@@ -6,7 +6,7 @@ categories: javascript
 tags: [javascript null check, null coalescing operator]
 ---
 
-### JavaScript 에는 유독 null 체크 방법이 다양하고, 예상 외의 동작이 존재한다 👩‍💻
+### JavaScript 에는 유독 null 체크 방법이 다양하고, 예상 외의 작동이 존재한다 👩‍💻
 
 색상 표를 위해 스크린샷과 첨부 파일로 대체한다. 😯😯
 편의상 default value 는 `'default'`라는 string 으로 통일합니다. TypeScript 에서는 동일 타입으로 지정해줘야한다.
