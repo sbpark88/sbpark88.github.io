@@ -6,7 +6,7 @@ categories: javascript
 tags: [javascript, prototype, es6 class, javascript inheritance, javascript superclass, javascript subclass, object.defineProperty, proxy, reflect]
 ---
 
-### 1. Prototype 👩‍💻
+### 1. How to create the Object 👩‍💻
 
 객체 생성 과정을 통해 JavaScript Object 의 Prototype 을 이해하고 ES6 에 추가된 ES6 Class Syntax 와 비교해보자.
 
@@ -29,8 +29,13 @@ function Person(name, age) {
 }
 ```
 
-만약 이것을 Properties 와 Methods 를 분리시켜 생성하고자 할 경우 다음과 같이 Constructor 만 정의한 후 Methods 를 Prototype Chain 
-을 이용해 추가하는 것으로 변경할 수 있다.
+하지만 위 방법은 <span style="color: red;">메모리를 과도하게 사용할 수 있는 문제점</span>을 갖는다. Class 를 사용하겠다는 것은 
+재사용을 하기 위함이다. 그런데 위와 같이 생성자 함수에 메서드가 포함되는 경우, 2개의 instance 를 생성하면 각각 instance 가 메서드 
+역시 각각 생성한다. 일반적으로 Class 객체가 메서드를 공유하지만 Properties 와 Closures 만 자신의 instance 에 저장하는 것과 달리 
+이 방법은 모든 것을 각각 자신의 instance 에 저장하는 문제점을 갖는 것이다.
+
+따라서 이 문제를 해결하기 위해 다음과 같이 Constructor 만 정의한 후 Methods 를 Prototype Chain 을 이용해 추가하는 것으로 변경할 
+수 있다.
 
 ```javascript
 function Person(name, age) {
@@ -42,6 +47,8 @@ Person.prototype.greet = function () {
   console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`)
 }
 ```
+
+이렇게 작성하면 여러 개의 instance 를 생성하더라도 Prototype 을 통해 메서드를 공유할 수 있다.
 
 #### 2. Object (ES6 Class Syntax)
 
@@ -65,20 +72,22 @@ const person = new Person('홍길동', 25)
 person.greet()  // Hello, my name is 홍길동 and I'm 25 years old.
 ```
 
-ES6 의 Class Syntax 는 내부적으로는 'Function 을 이용한 생성자와 그 결과로 Object 가 생성되는 구조'를 그대로 따른다. ES6 의
-Class Syntax 를 사용하더라도 실제로 생성되는 것은 다른 언어에서 보는 것과 같은 Class 객체가 아닌 ES5 이하에서 보던  Object 객체라는 뜻이다. 
-그렇기 때문에 이를 단순히 Syntactic Sugar 로 치부하기도 하지만 보다 높은 가독성과 타 언어와의 Syntax 유사성을 확보할 수 있는 것은 큰 
-장점이라고 생각한다.
+ES6 의 Class Syntax 는 내부적으로는 `1. 생성자 함수를 생성`하고, `2. Prototype 에 메서드를 등록`하는 분리된 로직을 자동화 시켜주는
+***Syntactic Sugar*** 에 가까운 문법이다.
 
 > 단, 타 언어에서 생각하는 Class 와는 구조적으로, 기능적으로 많은 차이를 갖는다. 이는 JavaScript 의 문법적 특성이니 이를 명확히
 > 이해하고 사용하는 것이 중요하다.
 
 #### 3. Object Literal
 
-마지막으로 재사용 할 가능성이 없다면 Object Literal 을 이용한 Shorthand Syntax 를 사용할 수 있다.
+Class 를 사용하는 이유는 instance 생성을 재사용 하기 위함이다. 그런데 instance 생성을 재사용 할 필요가 없는 하드코딩된 객체라던가 
+instance 생성을 한 번만 하는 Singleton 객체와 같은 것들은 손쉽게 Object Literal 을 이용해 생성할 수 있다.
+<br>
+
+- 하드코딩 된 객체
 
 ```javascript
-const person = {
+const Person = {
   name: '홍길동',
   age: 25,
   greet: function () {
@@ -87,11 +96,75 @@ const person = {
 }
 ```
 
-```javascript
+- Singleton 객체
+
+```typescript
+const Person = {
+  name: '',
+  age: 0,
+
+  init(name: string, age: number) {
+    this.name = name
+    this.age = age
+  },
+
+  greet() {
+    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`)
+  }
+}
+```
+
+```typescript
+Person.init('홍길동', 25)
+console.log(Person.greet())  // Hello, my name is 홍길동 and I'm 25 years old.
+```
+
+JavaScript 의 Class 는 Object 의 Prototype 객체에 생성자 함수를 다른 언어의 Class 문법과 유사하게 만들어 사용하기 쉽게 해주는 
+***Syntactic Sugar*** 에 가깝기 때문에 이런식의 생성이 가능하다.
+
+> Object Literal 방식은 `Singleton` 객체를 생성한다. 다른 언어에서 Singleton Class 를 구현하기 위해 사용하는
+> `private initializer`와 Instance 를 생성하는 메서드, Synchronous 처리와 같은 것들 없이 손쉽게 Singleton 을 구현할 수 있다.
+
+#### 4. Closures (Functional Programming)
+
+마지막으로 완전히 함수형으로 Closures 를 사용한 객체 생성 방법이다.
+
+```typescript
+function Person(name: string, age: number) {
+  let _name = name
+  let _age = age
+
+  function getName(): string {
+    return _name
+  }
+
+  function setName(name: string) {
+    _name = name
+  }
+
+  function getAge(): number {
+    return _age
+  }
+
+  function setAge(age: number) {
+    _age = age
+  }
+  function greet() {
+    console.log(`Hello, my name is ${_name} and I'm ${_age} years old.`)
+  }
+
+  return {
+    getName, setName, getAge, setAge, greet
+  }
+}
+```
+
+```typescript
+const person = Person('홍길동', 25)
 person.greet()  // Hello, my name is 홍길동 and I'm 25 years old.
 ```
 
-#### 4. Do not use Arrow Functions for Methods
+#### 5. Do not use Arrow Functions for Methods
 
 ES6 에서 Arrow Functions 가 소개된 이후로 기존의 Functions 문법을 빠르게 대체하고 있다. Arrow Functions 가 갖는 장점은 다음과 같다.
 
@@ -258,15 +331,17 @@ console.dir(Person.prototype)
 #### 3. Object Literal
 
 ```javascript
-const person = {
+const Person = {
   name: '홍길동',
   age: 25,
-  greet: () => console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`)
+  greet() {
+    console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`)
+  }
 }
 ```
 
 ```javascript
-console.dir(person.__proto__)
+console.dir(Person.__proto__)
 ```
 
 ![Prototype Chain 3](/assets/images/posts/2023-04-14-prototype/prototype-chain-3.png){: width="500"}
