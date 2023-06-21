@@ -2,8 +2,8 @@
 layout: post
 title: Remove if-else repetition
 subtitle: Clean Code - Part 1
-categories: cs
-tags: [cs, clean code, switch, enum-switch]
+categories: [cs, swift, typescript, javascript]
+tags: [cs, swift, typescript, clean code, switch, enum-switch]
 ---
 
 ### 1. If-Else Repetition 👩‍💻
