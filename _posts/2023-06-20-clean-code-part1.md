@@ -88,6 +88,9 @@ print(beverage(3)) // Wine
 print(beverage(5)) // Water
 ```
 
+아까보다 가독성이 훨씬 좋아졌을 뿐 아니라, <span style="color: red;">Hashable Key 를 이용해 Jump Table</span> 을 하므로 
+성능 또한 좋아졌다.
+
 #### 2. TypeScript
 
 ```typescript
@@ -113,9 +116,21 @@ console.log(beverage(3))  // Wine
 console.log(beverage(5))  // Water
 ```
 
-아까보다 가독성이 훨씬 좋아졌을 뿐 아니라, Hashable Key 를 이용하므로 성능 또한 좋아졌다. 개인적으로 대부분의 IDE 는 물론이고 Prettier 
-가 case 와 body 를 강제 줄바꿈 하는 것이 마음에 들지 않는다. 오히려 Dirty Code 가 되는 느낌이랄까? 그래서 Clean Code 에서 
-Key-Value Types 를 권장하는 것인가 싶기도 하다. 아무튼 다음 섹션에서 **Switch-Case** 마저도 제거해보도록 하자.
+개인적으로 대부분의 IDE 는 물론이고 Prettier 가 case 와 body 를 강제 줄바꿈 하는 것이 마음에 들지 않는다. 오히려 Dirty Code 가 되는 
+느낌이랄까? 그래서 Clean Code 에서 Key-Value Types 를 권장하는 것인가 싶기도 하다. 
+
+> **Caution**
+> 
+> [JavaScript language overview] 를 보면 다음과 같이 나온다.
+> 
+> Similar to C, case clauses are conceptually the same as labels, so if you don't add a break statement, 
+> execution will "fall through" to the next level. However, they are not actually jump tables — any expression 
+> can be part of the case clause, not just string or number literals, and they would be evaluated one-by-one 
+> until one equals the value being matched. Comparison takes place between the two using the `===` operator.
+> 
+> 즉, JavaScript 에서 Switch 는 Hash Table 을 이용한 Jump 를 하지 않으므로 성능상 이점은 없는 것으로 보인다.
+
+마지막으로 다음 섹션에서 **Switch-Case** 마저도 제거해보도록 하자.
 
 ---
 
@@ -435,3 +450,13 @@ console.log(directionToHead("East"))  // Where the sun rises
 `const Object as const`를 **Enumeration** 으로 사용할 경우 이미 Object 가 정의되어 있기 때문에 별도로 정의할 필요가 없다. 
 이 경우 오히려 **Switch-Case** 를 사용하는 것이 불필요한 코드를 생성하고 불필요한 로직을 추가하는 셈이 된다.  
 마찬가지로 Key-Value 를 따로 정의할 필요가 없으므로 **Curry Function** 역시 필요가 없다.
+
+
+<br><br>
+
+---
+Reference
+
+1. "JavaScript language overview." MDN, May. 04, 2023, [JavaScript language overview]
+
+[JavaScript language overview]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Language_overview#control_structures
