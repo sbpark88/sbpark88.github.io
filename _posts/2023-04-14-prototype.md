@@ -164,7 +164,7 @@ const person = Person('홍길동', 25)
 person.greet()  // Hello, my name is 홍길동 and I'm 25 years old.
 ```
 
-#### 5. Do not use Arrow Functions for Methods
+#### 5. Arrow Functions are not equal to Functions
 
 ES6 에서 Arrow Functions 가 소개된 이후로 기존의 Functions 문법을 빠르게 대체하고 있다. Arrow Functions 가 갖는 장점은 다음과 같다.
 
