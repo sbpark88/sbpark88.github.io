@@ -1827,8 +1827,740 @@ print(evaluate(sum))        // 9
 print(evaluate(product))    // 18
 ```
 
+---
+
+## 7. Structures and Classes 👩‍💻
+
+### Syntax
+
+#### Definition
+
+```swift
+struct SomeStructure {
+    // structure definition goes here
+}
+class SomeClass {
+    // class definition goes here
+}
+```
+
+#### Instances
+
+```swift
+let someStructure = SomeStructure()
+let someClass = SomeClass()
+```
+
+### Characteristic
+
+일반적으로 프로그래밍 언어에서 `Class 하나에 파일 하나`가 필요하다.
+하지만 Swift 는 `파일 하나에 여러 개의 Classes 와 Structures 를 정의`할 수 있으며, 외부 인터페이스는 다른 *Class* 나
+*Structure* 가 사용할 수 있도록 자동으로 제공된다.
+
+이는 전통적으로 프로그래밍 언어에서 `Class`의 `instance`는 `Object`인 반면, *Swift* 의 `Structures`와
+`Classes`는 다른 언어와 비교해 `Functionality`에 가깝다.
+
+#### Commonalities Between Structures and Classes
+
+- Define **properties** : 값을 저장
+- Define **methods** : 기능을 제공
+- Define **subscripts** : `Subscript Syntax`를 이용해 값에 접근
+- Define **initializers** : 초기 상태를 설정
+- Be **extended** : 기본 구현 이상으로 확장
+- Conform to **protocols** : 특정 종류의 표준 기능을 제공
+
+#### Class Only Features
+
+- **inheritance** : 다른 *Class*의 특성을 *inherit*
+  (*Structure* 와 *Protocol* 은 다른 *Protocol* 을 *adopt* 하는 것만 가능하다.)
+- *Runtime* 때 *class instance* 의 **타입을 해석(interpret)**하고, **type casting** 이 가능하다.
+- **deinitializers** : *class instance* 에 할당된 *자원을 해제*
+- **Reference counting** : *class instance* 에 *참조를 허용*
+  (*Structure* 는 *Value Types* 로 항상 *Copy* 되므로, *Reference counting* 을 사용하지 않는다.)
+
+> `Class`가 제공하는 추가 기능은 복잡성을 증가시킨다.
+> 따라서 *general guideline* 에 따르면, *Class* 를 사용하는 것이 꼭 필요하거나 더 적합한 경우가 아니면
+> 일반적으로 추론하기 쉬운 `Structure`를 선호해야한다고 말한다. 이는 우리가 만드는 대부분의 *Custom Data Types* 는
+> *Structure* 또는 *Enumeration* 으로 되어야 함을 의미한다.
+
+#### Choosing Between Structures and Classes
+
+[Choosing Between Structures and Classes] 를 참고하도록 한다.
+
+1. 기본적으로 *Structure* 를 써라
+2. Objective-C와 상호 운용이 필요하면 *Class* 를 써라
+3. 앱 전체에서 데이터의 *identity* 를 제어해야한다면 *Class* 를 써라  
+   (i.e. file handles, network connections, *CBCenterManager 와 같은 shared hardware intermediaries*)
+4. 공유 *implementation(구현체)* 를 적용하기 위해 *Structure* 와 *Protocol* 을 써라  
+   (Inheritance 없이도 **Structure** 와 **Protocol** 의 Adopt Protocol 만으로도 충분히 계층 구현이 가능하다. 
+    만약 `Class 에서만 유효해야하는 상속`을 구현해야할 때, ***Class Inheritance*** 대신 
+    [Class-Only Protocols] 를 사용할 수 있다.)
+
+### Structures and Enumerations Are Value Types
+
+> Swift 의 모든 기본 타입들, **integers**, **floating-point Numbers**, **Booleans**, **strings**,
+> **arrays**, **dictionaries** 는 모두 `Value Types`으로 `Structures 로 구현`되어있다.
+
+> `Standard Library`에 의해 정의된 **Array**, **Dictionary** 그리고 **String** 과 같은 `Collections` 역시
+> **Structures** 로 구현되어 있으므로 `Value Types`다.
+>
+> 하지만 다른 **Value Types** 와 다르게 `performance cost of copying`을 줄이기 위해 `optimiaztion`을 사용한다.
+> 따라서, **Value Types** 가 즉시 **copy** 를 하는 것과 다르게 **copies** 에 수정이 발생되기 전에는 `Reference Types`
+> 처럼 `original instance`와 `copies`가 **메모리를 공유**한다.
+>
+> 이후 **copies** 중 하나에 수정이 발생하면, 수정이 되기 직전에 실제 `copy`가 이루어진다.
+> 즉, `copies`에 수정이 발생되기 이전에는 `Reference Types`처럼 작동하고, 수정이 발생되는 순간 `Value Types`처럼 작동하기
+> 때문에 코드상으로는 즉시 `copy`가 이뤄지는 것처럼 보인다.
+
+[Standard Library - Array]
+
+
+> 반면, `Foundation`에 의해 정의된 **NSArray**, **NSDictionary** 그리고 **NSString** 과 같은
+> `Classes Bridged to Swift Standard Library Value Types`는 **Classes** 로 구현되어 있으므로
+> `Reference Types`다.
+
+[Foundation - NSArray], [Classes Bridged to Swift Standard Library Value Types]
+
+### Classes Are Reference Types
+
+#### Identity in Value Types
+
+```swift
+// Equal to(==)
+print(5 == 5)       // true
+print(5 == 7)       // false
+
+// Not equal to(!=)
+print(5 != 7)       // true
+```
+
+#### Identity in Reference Types
+
+`Reference Types`를 위한 `Identity Operators`는 `==`, `!=`가 아닌 `===`, `!==`를 사용한다.
+
+```swift
+let jamie = Person()
+let student = jamie
+
+// Equal to(===)
+print(jamie === student)    // true
+print(jamie !== student)    // false
+```
+
+#### Pointers
+
+*C*, *C++*, *Objective-C* 같은 언어는 메모리 주소를 참조하기 위해 `pointer`를 사용한다.  
+이것은 Swift 에서 `Reference Types`의 `instance`를 참조하기 위한 상수 또는 변수 역시 이와 유사하다.
+하지만, *Swift* 가 가리키는 주소값은 *C* 언어에서의 *pointer* 와 달리 메모리 주소를 가리키는`direct pointer`가
+아니며, *reference* 를 만들기 위해 `asterisk(*)`를 필요로 하지 않는다.
+
+Swift 에서 *references*는 다른 *constants* 또는 *variables*를 정의하듯 사용하면 된다.
+
+만약, `pointer`를 직접적으로 다뤄야 하는 경우를 위해 `Standard Library`는 `pointer types`와 `buffer types`를
+제공한다. [Manual Memory Management]
+
+---
+
+## 8. Properties 👩‍💻
+
+### Stored Properties
+
+#### Syntax
+
+*Class*, *Structure*, *Enumeration*의 *instance* 일부로써 `constant values` 또는 `variable values`를
+저장한다.
+
+*FixedLengthRange* instance 는 1개의 variable *firstValue* 와 1개의 constant *length* 를 가지고 있다.
+
+```swift
+struct FixedLengthRange {
+    var firstValue: Int
+    let length: Int
+}
+```
+
+#### Stored Properties of Constant Structure Instances
+
+만약 *Structure* 의 instance 를 생성해 `let` 키워드에 할당하면, *instance* 자체가 *constant* 가 되므로
+*properties*가 *variable* 이더라도 수정이 불가능하다.
+
+```swift
+let rangeOfFourItems = FixedLengthRange(firstValue: 0, length: 4)
+rangeOfFourItems.firstValue = 3 // Cannot assign to property: 'rangeOfFourItems' is a 'let' constant
+```
+
+<br>
+
+그러나 이것은 `Structures`가 `Value Types`여서 발생하는 현상으로, `Reference Types`인 `Classes`는
+*instance* 를 `let` 키워드를 이용해 *constant* 로 선언해도, *properties* 가 *variable* 이면 여전히 수정 가능하다.
+
+```swift
+class FixedVolumeRange {
+    var firstValue: Int
+    let volume: Int
+    
+    init(firstValue: Int, volume: Int) {
+        self.firstValue = firstValue
+        self.volume = volume
+    }
+}
+```
+
+```swift
+let rangeOfFiveVolumes = FixedVolumeRange(firstValue: 0, volume: 5)
+print("rangeOfFiveVolumes(firstValue: \(rangeOfFiveVolumes.firstValue), volume: \(rangeOfFiveVolumes.volume))")
+
+rangeOfFiveVolumes.firstValue = 1
+print("rangeOfFiveVolumes(firstValue: \(rangeOfFiveVolumes.firstValue), volume: \(rangeOfFiveVolumes.volume))")
+```
+
+```console
+rangeOfFiveVolumes(firstValue: 0, volume: 5)
+rangeOfFiveVolumes(firstValue: 1, volume: 5)
+```
+
+#### Lay Stored Properties
+
+*Property* 선언 앞에 `lazy` *modifier* 붙여 만들며, 반드시 `var` 키워드와 함께 사용해야한다. *constant* 는 
+*initialization* 이 종료되기 전에 반드시 값을 가져야 하기 때문이다(= 선언과 동시에 값을 저장해야한다).
+
+```swift
+struct SomeStructure {
+    lazy var someProperty = {
+        return // property definition goes here
+    }()
+    
+    lazy var anotherProperty = SomeClass()  // or SomeStructure()
+}
+```
+
+*Lazy Stored Properties* 는 다음 경우 유용하다
+
+- 초기값이 외부 요인에 의존하는 경우
+- 필요할 때까지 수행하면 안 되는 경우
+- 초기값을 저장하는데 비용이 많이 드는 경우
+- 초기값이 필요하지 않은 경우
+
+#### Stored Properties and Instance Variables
+
+*Objective-C* 는 *Class instance* 의 *Properties* 로 *Values* 와 *References* 를 저장하는 두 가지
+방법을 제공했다. 또한 *Properties* 를 `Backing Store(백업 저장소)`로 사용할 수 있었다.
+
+하지만 Swift 는 `Backing Store`에 *직접 접속할 수 없도록 하고*, `Properties`를 *저장하는 방식을 통합*했다.
+따라서 선언하는 방법에 따른 혼동을 피하고 명확한 문장으로 단순화되었으며, 이는 `Properties`의 `이름`, `타입`,
+`메모리 관리 특성`을 포함하는 모든 정보를 유형을 한 곳에서 정의한다.
+
+### Computed Properties
+
+#### Syntax
+
+*Class*, *Structure*, *Enumeration* 의 일부로써 `값을 저장하는 대신 계산`하며, `getter`와
+`optional setter`를 제공한다. *Lazy Stored Properties* 와 마찬가지로 반드시 `var` 키워드와 함께 사용해야하며,
+*Lazy Stored Properties* 와 다르게 반드시 데이터 타입을 명시(*explicit type*)해야한다.
+
+또한, 값을 할당(저장)하는 것이 아니므로, `=`를 사용하지 않고, *explicit type* 다음 바로 *getter* 와 *setter* 를
+갖는 `Closure`를 작성한다. 또한 *setter* 의 *parameter* 는 반드시 명시된 *explicit type* 과 동일한 `SomeType`
+이어야하므로, 별도의 `type`을 명시할 수 없다.
+
+```swift
+struct SomeStructure {
+    var someProperty: SomeType {
+        get {
+            return // property definition for getter goes here
+        }
+        set (parameterName) {
+            // property definition for setter goes here
+        }
+    }
+}
+```
+
+> 단!! `Computed Properties`는 절대 <span style="color: red;">자기 자신을 대상</span>으로 해서는 안 된다.  
+> 강한 참조가 생성되기 때문이다.
+> 
+> ![Infinite Recursion](/assets/images/posts/2022-11-22-properties/do-not-use-computed-properties-for-self.png)
+
+#### Shorthand Getter/Setter Declaration
+
+- getter : 다른 *Closures* 와 마찬가지로 *single expression* 으로 작성되면 `return` 키워드를 생략할 수 있다.
+- setter : *Computed Properties* 의 *setter* 의 *Parameters* 를 생략하면 기본값으로 `newValue`와 
+           `oldValue`를 사용한다.
+
+```swift
+struct Rect {
+    var origin = Point()
+    var size = Size()
+    var center: Point {
+        get {
+            let centerX = origin.x + (size.width / 2)
+            let centerY = origin.y + (size.height / 2)
+            return Point(x: centerX, y: centerY)
+        }
+        set (newCenter) {
+            origin.x = newCenter.x - (size.width / 2)
+            origin.y = newCenter.y - (size.height / 2)
+        }
+    }
+}
+```
+
+따라서 위 코드는 다음과 같이 바꿀 수 있다.
+
+```swift
+struct Rect {
+    var origin = Point()
+    var size = Size()
+    var center: Point {
+        get {
+            Point(x: origin.x + (size.width / 2),
+                    y: origin.y + (size.height / 2))
+        }
+        set {
+            origin.x = newValue.x - (size.width / 2)
+            origin.y = newValue.y - (size.height / 2)
+        }
+    }
+}
+```
+
+#### Read-Only Computed Properties
+
+*setter* 가 필요 없고 *getter* 만 필요한 경우 이를 `Read-Only Computed Properties`라고 하며, `get` 키워드와 
+중괄호`{ }`를 생략할 수 있다.
+
+```swift
+struct Rect {
+    var origin = Point()
+    var size = Size()
+    var center: Point {
+        Point(x: origin.x + (size.width / 2),
+                y: origin.y + (size.height / 2))
+    }
+}
+```
+
+### Property Observers
+
+#### Syntax
+
+`Property Observers`는 *Property* 의 값에 `set`의 변화를 관찰하고 실행된다. 새 값이 기존의 값과 같더라도 *set* 이
+발생하는 것 자체로 *trigger* 되기 때문에 호출된다.
+
+*Property* 에 `Observers`를 붙일 수 있는 곳은 다음과 같다.
+
+- *Stored Properties*
+- 상속된 *Stored Properties*
+- 상속된 *Computed Properties*
+
+> 상속된 *Properties* 에 Property Observers 를 붙일 때는 `overriding` 을 이용한다.
+
+> 상속되지 않은 **Computed Properties** 는 **Property Observers** 를 사용할 수 없으므로, 대안으로
+> **Computed Properties** 의 **setter** 를 사용해 일정 부분 유사하게 구현하는 방법이 있다.
+
+```swift
+class SomeClass {
+    var someProperty: Type = defaultValue {
+        willSet {
+            // observer definition for willSet goes here
+        }
+        didSet {
+            // observer definition for didSet goes here
+        }
+    }
+}
+```
+
+> **Lazy Stored Properties** 또는 **Computed Properties** 와 마찬가지로 반드시 `var` 키워드와 함께 사용한다.
+> 또한 초기값을 반드시 정의해야하며, 로직은 **Trailing Closures** 를 이용해 정의한다.
+
+#### willSet & didSet
+
+- willSet : 값이 저장되기 직전에 호출되며, *Parameters* 를 생략하면 기본값으로 `newValue`를 사용한다. willSet 에서 
+            주의해야 할 것은 값을 저장하기 직전의 행동을 정의할 수 있을 뿐 <span style="color: red;">값을 저장하는 
+            행위 자체를 제어하지는 못한다!!
+- didSet : 값이 저장된 직후에 호출되며, *Parameters* 를 생략하면 기본값으로 `oldValue`를 사용한다.
+
+```swift
+class StepCounter {
+    var totalSteps: Int = 0 {
+        willSet {
+            if newValue > totalSteps {
+                print("About to set totalSteps to \(newValue)")
+            }
+        }
+        didSet {
+            if totalSteps > oldValue  {
+                print("Added \(totalSteps - oldValue) steps, totalStep is now \(totalSteps)")
+            } else {
+                print("Please check your step data")
+                totalSteps = oldValue
+            }
+        }
+    }
+}
+```
+
+#### Initializer of subclasses
+
+> <span style="color: red;">
+>   Property Observers 의 willSet, didSet 은 Initializers 에 의해 Instance 가 생성될 때는 작동하지 않는다.
+> </span>
+> Initializers 에 의해 Instance 가 생성되고 난 이후에 Observers 가 작동한다.
+>
+> 따라서 다음과 같은 과정을 거치게 된다.
+>
+> 1. Subclass 가 자신의 Properties 의 속성을 모두 설정한 후 Superclass 의 Initializers 를 호출한다.
+> 2. Superclass 가 자신의 Designated Initializers 를 이용해 Initialization 을 수행한다. 이때 Superclass 자신이 갖고 있는
+>    Observers 는 작동하지 않는다. 이로써 Phase 1 이 종료된다.
+> 3. 이제 `Phase 2`가 진행되고 Subclass 의 Initializers 가  Superclass 의 Properties 를 수정한다. 이때 해당 Properties
+>    에 Observers 가 붙어있다면 **`willSet`, `didSet`이 작동**한다.
+
+### Property Wrappers
+
+#### Syntax
+
+`Property Wrappers`는 *Properties* 를 정의하는 코드와 저장되는 방법을 관리하는 코드 사이에 분리된 `layer(계층)`을
+추가한다.
+
+예를 들어 `Thread-Safe` 검사를 제공하는 *Properties*, 또는 기본 데이터를 `Database 에 저장`하는 *Properties* 가
+있는 경우 해당 코드를 모든 *Properties* 에 작성해야한다. 이때 `Property Wrappers`를 사용하면 코드를 한 번만 작성하고
+재사용 할 수 있다.
+
+```swift
+@propertyWrapper
+struct SomeStructure {
+    private var someProperty: SomeType
+    var wrappedValue: SomeType {
+        get { someProperty }
+        set { someProperty = newValue }
+    }
+}
+```
+
+> - `Class`, `Structure`, `Enumeration`를 이용해 정의하며 3가지 부분으로 나뉜다
+>
+> - `@propertyWrapper` Annotation 을 선언
+> - `private var` 변수 선언
+> - `wrappedValue` 라는 이름을 갖는 [Computed Property](./properties.html#h-1-computed-properties)를 정의
+
+```swift
+@propertyWrapper
+struct OneToNine {
+    private var number = 1
+    var wrappedValue: Int {
+        get { number }
+        set { number = max(min(newValue, 9), 1) }
+    }
+}
+```
+
+```swift
+struct MultiplicationTable {
+    @OneToNine var left: Int
+    @OneToNine var right: Int
+}
+```
+
+위 코드를 풀어서 `@propertyWrppaer` 없이 직접 구현하면 다음과 같이 구현할 수 있다.
+
+```swift
+struct OneToNine {
+    private var number = 1
+    var wrappedValue: Int {
+        get { number }
+        set { number = max(min(newValue, 9), 1) }
+    }
+}
+```
+
+```swift
+// Explicit Wrapping
+struct MultiplicationTable {
+    private var _left = OneToNine()
+    private var _right = OneToNine()
+    var left: Int {
+        get { _left.wrappedValue }
+        set { _left.wrappedValue = newValue }
+    }
+    var right: Int {
+        get { _right.wrappedValue }
+        set { _right.wrappedValue = newValue }
+    }
+}
+```
+
+참고로 `Observers`와 `Wrappers`는 동시에 사용하지 못하는 것으로 보인다.
+
+[Can I implement a property observer in a property wrapper structure?]
+
+#### Setting Initial Values for Wrapped Properties
+
+위와 같이 *Property Wrappers* 의 초기값을 하드코딩하면 유연성이 떨어진다. 
+*Property Wrappers* 는 `Structure`에 정의하므로 `Initializer`를 사용할 수 있고, 이는 *Property Wrappers* 를 
+더욱 유연하게 만든다.
+
+```swift
+@propertyWrapper
+struct LengthOfSide {
+    private var maximum: Int
+    private var length: Int
+
+    var wrappedValue: Int {
+        get { length }
+        set { length = min(newValue, maximum) }
+    }
+
+    init() {
+        maximum = 10
+        length = 0
+    }
+
+    init(wrappedValue: Int) {
+        maximum = 10
+        length = min(wrappedValue, maximum)
+    }
+
+    init(wrappedValue: Int, maximum: Int) {
+        self.maximum = maximum
+        length = min(wrappedValue, maximum)
+    }
+}
+```
+
+*Property Wrappers* 의 Initializers 를 사용하는 방법은 두 가지가 있다.
+
+__1 ) Property Wrappers 의 Initializers 를 사용해 초기화__
+
+```swift
+struct NarrowRectangle {
+    @LengthOfSide(wrappedValue: 15, maximum: 20) var height: Int
+    @LengthOfSide(wrappedValue: 3, maximum: 5) var width: Int
+}
+```
+
+__2 ) Properties 의 Initial Values 를 사용해 초기화__
+
+```swift
+struct HugeRectangle {
+    @LengthOfSide(maximum: 20) var height: Int = 20
+    @LengthOfSide(maximum: 20) var width: Int = 25
+}
+```
+
+#### Projecting a Value From a Property Wrapper
+
+*Property Wrapper* 는 `Projected Value` 라는 숨겨진 값을 하나 추가할 수 있다. 다음은 `LengthOfSide`라는 
+*Property Wrapper* 가 유효성 검사에 의해 값이 보정되었는지를 *Projected Value* 라는 숨겨진 값에 저장하도록 할 
+것이다.
+
+```swift
+@propertyWrapper
+struct LengthOfSide {
+    private var maximum: Int
+    private var length: Int
+    private(set) var projectedValue: Bool = false
+    
+    var wrappedValue: Int {
+        get { length }
+        set {
+            if newValue > maximum {
+                length = maximum
+                projectedValue = true
+            } else {
+                length = newValue
+                projectedValue = false
+            }
+        }
+    }
+    
+    init() {
+        maximum = 10
+        length = 0
+    }
+    
+    init(wrappedValue: Int) {
+        maximum = 10
+        length = min(wrappedValue, maximum)
+    }
+    
+    init(wrappedValue: Int, maximum: Int) {
+        self.maximum = maximum
+        length = min(wrappedValue, maximum)
+    }
+}
+```
+
+이 숨겨진 값은 겉으로 노출되지 않는다. 이 값을 보려면 `$` 를 붙여주면 숨겨진 값에 접근할 수 있다.
+
+```swift
+struct HugeRectangle {
+    @LengthOfSide(wrappedValue: 20, maximum: 20) var height: Int
+    @LengthOfSide(maximum: 20) var width: Int = 25
+}
+
+var hugeRectangle = HugeRectangle()
+
+print(hugeRectangle.height)     // 20
+print(hugeRectangle.$height)    // false
+
+hugeRectangle.width = 30
+print(hugeRectangle.width)      // 20
+print(hugeRectangle.$width)     // true
+```
+
+> `Projecting`은 **Initializers** 에서는 작동하지 않는다.
+
+### Global and Local Variables
+
+#### Definition
+
+- Global Variables: *Functions*, *Methods*, *Closures*, *Type* Context 외부에 정의된 변수를 의미
+- Local Variables: *Functions*, *Methods*, *Closures* Context 내부에 정의되 변수를 의미
+
+#### Stored Variables
+
+`Stored Variables`는 `Stored Properties` 처럼 값을 저장하고 검색하는 것을 제공한다.
+
+> *Global Constants* 와 *Global Variables* 는 항상 `lazily`하게 계산된다. 이는 *Lazy Stored Properties* 와
+> 유사하다. 단, *Lazy Stored Properties* 와 다른 점은 `lazy` modifier 를 붙일 필요가 없다.
+>
+> 반면에 *Local Constants* 와 *Local Variables* 는 절대 `lazily`하게 계산되지 않는다.
+
+#### Computed Variables
+
+*Global Variables* 와 *Local Variables* 모두 `Computed`를 사용할 수 있다.
+
+#### Variable Observers
+
+*Global Variables* 와 *Local Variables* 모두 `Observer`를 사용할 수 있다.
+
+#### Variable Wrappers
+
+`Property Wrappers`는 `Local Stored Variables`에만 적용 가능하다.  
+*Global Variables* 또는 *Computed Variables* 에는 적용할 수 없다.
+
+### Type Properties
+
+#### Syntax
+
+*C* 나 *Objective-C* 에서 *static constants*, *static variables* 를 정의하기 위해 `Global Static Variables`
+를 사용했다. 하지만 Swift 는 불필요하게 전역으로 생성되는 *Global Static Variables* 의 전역 변수 오염 문제를 해결하기 
+위해 `Type Properties`를 제공한다.
+
+*Type Properties* 는 *Swift Types* 가 정의되는 `{ }` 내부 `context` 범위 내에 정의되며, 그 `Scope` 범위 
+내에서만 사용 가능하다. *Global Static Variables* 와 마찬가지로 *Properties* 앞에 `static` 키워드를 사용해 
+정의하며, 단, *Classes* 의 경우 *Computed Properties* 를 *Subclass* 에서 `overriding` 을 허용하려면 
+*Superclass* 에서 `static` keyword 대신 `class` keyword 를 사용한다.
+
+> `Type Properties`는 정의할 때 반드시 `Initiate Value`를 함께 정의해야한다.
+
+<br>
+
+- Structures
+
+```swift
+struct SomeStructure {
+    static var someTypeProperty = "Initiate Value"
+    static var computedTypeProperty: Int {
+        return 1
+    }
+}
+```
+
+<br>
+
+- Enumerations
+
+```swift
+enum SomeEnumeration {
+    static var someTypeProperty = "Initiate Value"
+    static var computedTypeProperty: Int {
+        return 6
+    }
+}
+```
+
+<br>
+
+- Classes
+
+```swift
+class SomeClass {
+    static var someTypeProperty = "Initiate Value"
+    static var computedTypeProperty: Int {
+        return 27
+    }
+    class var overrideableComputedTypeProperty: Int {
+        return 107
+    }
+}
+```
+
+> computedTypeProperties 는 `static` keyword 를 사용헸지만 overrideableComputedTypeProperty 는
+> `class` keyword 를 사용해 Subclass 에서 overriding 하는 것을 허용했다.
+
+#### Type Properties and Instance Properties
+
+*Type Properties* 는 *Instance Properties* 와 달리 단 하나만 존재하므로, 언제나 전역에서 공유된다. 따라서 단 하나의 
+값을 앱 전역에서 공유하기 위해 사용한다.
+
+```swift
+struct AudioChannel {
+    static let thresholdLevel = 10
+    static var maxInputLevelForAllChannels = 0
+    var currentLevel: Int = 0 {
+        didSet {
+            if currentLevel > AudioChannel.thresholdLevel {
+                currentLevel = AudioChannel.thresholdLevel
+            }
+            if currentLevel > AudioChannel.maxInputLevelForAllChannels {
+                AudioChannel.maxInputLevelForAllChannels = currentLevel
+            }
+        }
+    }
+}
+```
+
+- thresholdLevel : 오디오가 가질 수 있는 볼륨 최대값을 정의 (상수 10)
+- maxInputLevelForAllChannels : *AudioChannel Instance* 가 받은 최대 입력값을 추적(0에서 시작)
+- currentLevel : 현재의 오디오 볼륨을 계산을 통해 정의
+
+<br>
+
+```swift
+var leftChannel = AudioChannel()
+var rightChannel = AudioChannel()
+```
+
+좌우 채널을 각각 *Instnace* 로 생성한다.
+
+```swift
+leftChannel.currentLevel = 7
+print(leftChannel.currentLevel)     // 7
+print(AudioChannel.maxInputLevelForAllChannels) // 7
+```
+
+왼쪽 볼륨을 7로 올리자 왼쪽 채널의 볼륨이 7로, *Type Property* *maxInputLevelForAllChannels* 역시
+7로 저장되었다.
+
+```swift
+rightChannel.currentLevel = 11
+print(rightChannel.currentLevel)    // 10
+print(AudioChannel.maxInputLevelForAllChannels) // 10
+```
+
+이번엔 오른쪽 볼륨을 11로 올리자 최대 레벨 제한에 의해 10으로 저장되고, 이에 따라 그 다음 *if statement* 에서
+*maxInputLevelForAllChannels*가 10으로 저장되었다.
+
 
 
 
 [Concurrency - Asynchronous Functions]:/swift/2023/01/05/concurrency.html#h-2-asynchronous-functions-
 [Automatic Reference Counting]:/swift/2023/03/08/automatic-reference-counting.html
+[Choosing Between Structures and Classes]:https://developer.apple.com/documentation/swift/choosing-between-structures-and-classes
+[Class-Only Protocols]:/swift/2023/02/20/protocols.html#h-9-class-only-protocols-
+[Standard Library - Array]:https://developer.apple.com/documentation/swift/array
+[Foundation - NSArray]:https://developer.apple.com/documentation/foundation/nsarray
+[Classes Bridged to Swift Standard Library Value Types]:https://developer.apple.com/documentation/foundation/object_runtime/classes_bridged_to_swift_standard_library_value_types
+[Manual Memory Management]:https://developer.apple.com/documentation/swift/manual-memory-management
+[Can I implement a property observer in a property wrapper structure?]:https://developer.apple.com/forums/thread/653894
