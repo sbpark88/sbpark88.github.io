@@ -1892,9 +1892,9 @@ let someClass = SomeClass()
 3. 앱 전체에서 데이터의 *identity* 를 제어해야한다면 *Class* 를 써라  
    (i.e. file handles, network connections, *CBCenterManager 와 같은 shared hardware intermediaries*)
 4. 공유 *implementation(구현체)* 를 적용하기 위해 *Structure* 와 *Protocol* 을 써라  
-   (Inheritance 없이도 **Structure** 와 **Protocol** 의 Adopt Protocol 만으로도 충분히 계층 구현이 가능하다. 
-    만약 `Class 에서만 유효해야하는 상속`을 구현해야할 때, ***Class Inheritance*** 대신 
-    [Class-Only Protocols] 를 사용할 수 있다.)
+   (Inheritance 없이도 **Structure** 와 **Protocol** 의 Adopt Protocol 만으로도 충분히 계층 구현이 가능하다.
+   만약 `Class 에서만 유효해야하는 상속`을 구현해야할 때, ***Class Inheritance*** 대신
+   [Class-Only Protocols] 를 사용할 수 있다.)
 
 ### Structures and Enumerations Are Value Types
 
@@ -2019,9 +2019,9 @@ rangeOfFiveVolumes(firstValue: 0, volume: 5)
 rangeOfFiveVolumes(firstValue: 1, volume: 5)
 ```
 
-#### Lay Stored Properties
+#### Lazy Stored Properties
 
-*Property* 선언 앞에 `lazy` *modifier* 붙여 만들며, 반드시 `var` 키워드와 함께 사용해야한다. *constant* 는 
+*Property* 선언 앞에 `lazy` *modifier* 붙여 만들며, 반드시 `var` 키워드와 함께 사용해야한다. *constant* 는
 *initialization* 이 종료되기 전에 반드시 값을 가져야 하기 때문이다(= 선언과 동시에 값을 저장해야한다).
 
 ```swift
@@ -2077,14 +2077,14 @@ struct SomeStructure {
 
 > 단!! `Computed Properties`는 절대 <span style="color: red;">자기 자신을 대상</span>으로 해서는 안 된다.  
 > 강한 참조가 생성되기 때문이다.
-> 
+>
 > ![Infinite Recursion](/assets/images/posts/2022-11-22-properties/do-not-use-computed-properties-for-self.png)
 
 #### Shorthand Getter/Setter Declaration
 
 - getter : 다른 *Closures* 와 마찬가지로 *single expression* 으로 작성되면 `return` 키워드를 생략할 수 있다.
-- setter : *Computed Properties* 의 *setter* 의 *Parameters* 를 생략하면 기본값으로 `newValue`와 
-           `oldValue`를 사용한다.
+- setter : *Computed Properties* 의 *setter* 의 *Parameters* 를 생략하면 기본값으로 `newValue`와
+  `oldValue`를 사용한다.
 
 ```swift
 struct Rect {
@@ -2125,7 +2125,7 @@ struct Rect {
 
 #### Read-Only Computed Properties
 
-*setter* 가 필요 없고 *getter* 만 필요한 경우 이를 `Read-Only Computed Properties`라고 하며, `get` 키워드와 
+*setter* 가 필요 없고 *getter* 만 필요한 경우 이를 `Read-Only Computed Properties`라고 하며, `get` 키워드와
 중괄호`{ }`를 생략할 수 있다.
 
 ```swift
@@ -2175,9 +2175,9 @@ class SomeClass {
 
 #### willSet & didSet
 
-- willSet : 값이 저장되기 직전에 호출되며, *Parameters* 를 생략하면 기본값으로 `newValue`를 사용한다. willSet 에서 
-            주의해야 할 것은 값을 저장하기 직전의 행동을 정의할 수 있을 뿐 <span style="color: red;">값을 저장하는 
-            행위 자체를 제어하지는 못한다!!
+- willSet : 값이 저장되기 직전에 호출되며, *Parameters* 를 생략하면 기본값으로 `newValue`를 사용한다. willSet 에서
+  주의해야 할 것은 값을 저장하기 직전의 행동을 정의할 수 있을 뿐 <span style="color: red;">값을 저장하는
+  행위 자체를 제어하지는 못한다!!
 - didSet : 값이 저장된 직후에 호출되며, *Parameters* 를 생략하면 기본값으로 `oldValue`를 사용한다.
 
 ```swift
@@ -2211,9 +2211,9 @@ class StepCounter {
 >
 > 1. Subclass 가 자신의 Properties 의 속성을 모두 설정한 후 Superclass 의 Initializers 를 호출한다.
 > 2. Superclass 가 자신의 Designated Initializers 를 이용해 Initialization 을 수행한다. 이때 Superclass 자신이 갖고 있는
->    Observers 는 작동하지 않는다. 이로써 Phase 1 이 종료된다.
+     >    Observers 는 작동하지 않는다. 이로써 Phase 1 이 종료된다.
 > 3. 이제 `Phase 2`가 진행되고 Subclass 의 Initializers 가  Superclass 의 Properties 를 수정한다. 이때 해당 Properties
->    에 Observers 가 붙어있다면 **`willSet`, `didSet`이 작동**한다.
+     >    에 Observers 가 붙어있다면 **`willSet`, `didSet`이 작동**한다.
 
 ### Property Wrappers
 
@@ -2295,8 +2295,8 @@ struct MultiplicationTable {
 
 #### Setting Initial Values for Wrapped Properties
 
-위와 같이 *Property Wrappers* 의 초기값을 하드코딩하면 유연성이 떨어진다. 
-*Property Wrappers* 는 `Structure`에 정의하므로 `Initializer`를 사용할 수 있고, 이는 *Property Wrappers* 를 
+위와 같이 *Property Wrappers* 의 초기값을 하드코딩하면 유연성이 떨어진다.
+*Property Wrappers* 는 `Structure`에 정의하므로 `Initializer`를 사용할 수 있고, 이는 *Property Wrappers* 를
 더욱 유연하게 만든다.
 
 ```swift
@@ -2349,8 +2349,8 @@ struct HugeRectangle {
 
 #### Projecting a Value From a Property Wrapper
 
-*Property Wrapper* 는 `Projected Value` 라는 숨겨진 값을 하나 추가할 수 있다. 다음은 `LengthOfSide`라는 
-*Property Wrapper* 가 유효성 검사에 의해 값이 보정되었는지를 *Projected Value* 라는 숨겨진 값에 저장하도록 할 
+*Property Wrapper* 는 `Projected Value` 라는 숨겨진 값을 하나 추가할 수 있다. 다음은 `LengthOfSide`라는
+*Property Wrapper* 가 유효성 검사에 의해 값이 보정되었는지를 *Projected Value* 라는 숨겨진 값에 저장하도록 할
 것이다.
 
 ```swift
@@ -2444,12 +2444,12 @@ print(hugeRectangle.$width)     // true
 #### Syntax
 
 *C* 나 *Objective-C* 에서 *static constants*, *static variables* 를 정의하기 위해 `Global Static Variables`
-를 사용했다. 하지만 Swift 는 불필요하게 전역으로 생성되는 *Global Static Variables* 의 전역 변수 오염 문제를 해결하기 
+를 사용했다. 하지만 Swift 는 불필요하게 전역으로 생성되는 *Global Static Variables* 의 전역 변수 오염 문제를 해결하기
 위해 `Type Properties`를 제공한다.
 
-*Type Properties* 는 *Swift Types* 가 정의되는 `{ }` 내부 `context` 범위 내에 정의되며, 그 `Scope` 범위 
-내에서만 사용 가능하다. *Global Static Variables* 와 마찬가지로 *Properties* 앞에 `static` 키워드를 사용해 
-정의하며, 단, *Classes* 의 경우 *Computed Properties* 를 *Subclass* 에서 `overriding` 을 허용하려면 
+*Type Properties* 는 *Swift Types* 가 정의되는 `{ }` 내부 `context` 범위 내에 정의되며, 그 `Scope` 범위
+내에서만 사용 가능하다. *Global Static Variables* 와 마찬가지로 *Properties* 앞에 `static` 키워드를 사용해
+정의하며, 단, *Classes* 의 경우 *Computed Properties* 를 *Subclass* 에서 `overriding` 을 허용하려면
 *Superclass* 에서 `static` keyword 대신 `class` keyword 를 사용한다.
 
 > `Type Properties`는 정의할 때 반드시 `Initiate Value`를 함께 정의해야한다.
@@ -2501,7 +2501,7 @@ class SomeClass {
 
 #### Type Properties and Instance Properties
 
-*Type Properties* 는 *Instance Properties* 와 달리 단 하나만 존재하므로, 언제나 전역에서 공유된다. 따라서 단 하나의 
+*Type Properties* 는 *Instance Properties* 와 달리 단 하나만 존재하므로, 언제나 전역에서 공유된다. 따라서 단 하나의
 값을 앱 전역에서 공유하기 위해 사용한다.
 
 ```swift
@@ -2552,7 +2552,100 @@ print(AudioChannel.maxInputLevelForAllChannels) // 10
 이번엔 오른쪽 볼륨을 11로 올리자 최대 레벨 제한에 의해 10으로 저장되고, 이에 따라 그 다음 *if statement* 에서
 *maxInputLevelForAllChannels*가 10으로 저장되었다.
 
+---
 
+## 9. Methods 👩‍💻
+
+### Compare with Objective-C
+
+`Methods`는 *Functions* 중에서 특정 *Type* 과 연관된 *Functions* 를 말한다.
+
+*Classes*, *Structures*, *Enumerations* 모두 *Instance* 의 작동을 위한 `Instance Methods`를 정의하고,
+`Encapsulate(캡슐화)` 할 수 있다. 또한 `Type`을 위한 `Type Methods` 역시 정의할 수 있는데, 이것은 *Objective-C* 의
+*Class Methods* 와 유사하다.
+
+> **Objective-C** 에서 **Classes** 는 **Methods** 를 정의할 수 있는 유일한 타입인 반면,
+> **Swift** 는 **Classes** 뿐만 아니라 **Structures** 와 **Enumerations** 에서도 정의할 수 있도록 유연성을 높였다.
+
+### Instance Methods
+
+*Instance Methods* 는 *Classes*, *Structures*, *Enumerations* 의 *Instance* 에 속해 있는 함수로,
+*Instance* 의 *Properties* 에 접근, 수정하거나 *Instance* 의 작동을 위한 기능을 제공한다.
+
+*Instance Methods* 는 그것이 정의된 `context` 내의 다른 모든 *Instance Methods* 와 *Instance Properties* 에 대해
+`암시적인 접근 권한`을 갖는다. 그리고 *Instance Methods* 는 *Instance Properties* 와 마찬가지로 *Instance* 없이
+독립적으로 호출이 불가능하다.
+
+#### The self Property
+
+*Instance* 는 `self`라고 불리는 `Instance 자기 자신과 동일한 Property`를 암시적으로 갖는다(implicit self property).
+
+#### Mutating of Value Types
+
+> **Structures** 와 **Enumerations** 는 `Value Types`다. 기본적으로 **Value Type** 의 **Properties** 는
+> **Instance Methods** 에 의해 수정될 수 없다(immutable).
+>
+> 수정이 필요할 경우 `mutating` 키워드를 사용해 수정을 허용하도록 명시해야하며, **mutating** 을 하는 방법에는 
+> **Properties** 를 수정하는 방법과 **new Instance** 를 생성하는 방법이 있다.
+
+<br>
+
+__1 ) Modifying Value Types from Within Instance Methods__
+
+부분적으로 수정할 때는 *Mutating Methods 가 종료될 때 Properties 를 변경*하는 방법을 사용한다.
+
+```swift
+struct Point {
+    var x = 0.0, y = 0.0
+    mutating func moveBy(x deltaX: Double, y deltaY: Double) {
+        x += deltaX
+        y += deltaY
+    }
+}
+```
+
+> `mutating` 키워드를 이용해 *Structures* 의 *Properties* 를 수정하는 것은 *Structure Instance* 를
+> `var`로 선언한 경우에만 가능하다.  
+> [Stored Properties of Constant Structure Instances][Constant Structure Instances]
+
+<br>
+__2 ) Assigning to self Within a Mutating Method__
+
+전체를 수정할 때는 *Mutating Methods 가 종료될 때 new Instance 를 할당해 original Instance 를 대체*하는 방법을 
+사용한다.
+
+```swift
+struct Point {
+    var x = 0.0, y = 0.0
+    mutating func anotherMoveBy(x deltaX: Double, y deltaY: Double) {
+        self = Point(x: x + deltaX, y: y + deltaY)
+    }
+}
+```
+
+### Type Methods
+
+[Type Property Syntax] 와 마찬가지로 *Methods* 앞에 `static` 키워드를 사용한다.
+
+```swift
+struct SomeStructure {
+    static func someTypeMethod() {
+        // type method implementation goes here
+    }
+}
+```
+
+> **Type Methods** 에서 `self`는 **Instance** 가 아닌 `Type itself`, 즉 `Type 자체`를 가리킨다.
+>
+> 그리고 *Instance Methods* 와 마찬가지로, `self`를 암시적으로 처리하므로 *Type* 의 *context* 에 정의된
+> *Type Properties* 나 *Type Methods* 에 접근하기 위한 `self`를 생략할 수 있다.
+>
+> 차이점이 있다면 다음과 같다.
+> - `Instance Methods`는 `context` 내부에 정의된 `Instance Properties`와 `Instance Methods`에 접근 가능하다.   
+    >   또한 Type Methods 접근도 가능한데, `Type 의 full name`을 붙여 접근 가능하다.
+> - `Type Methods`는 `context` 내부에 정의된 `Type Properties`와 `Type Methods`에 접근 가능하다.
+
+자세한 코드는 [Type Method Examples] 를 참고한다.
 
 
 [Concurrency - Asynchronous Functions]:/swift/2023/01/05/concurrency.html#h-2-asynchronous-functions-
@@ -2564,3 +2657,6 @@ print(AudioChannel.maxInputLevelForAllChannels) // 10
 [Classes Bridged to Swift Standard Library Value Types]:https://developer.apple.com/documentation/foundation/object_runtime/classes_bridged_to_swift_standard_library_value_types
 [Manual Memory Management]:https://developer.apple.com/documentation/swift/manual-memory-management
 [Can I implement a property observer in a property wrapper structure?]:https://developer.apple.com/forums/thread/653894
+[Constant Structure Instances]:/swift/2022/11/22/properties.html#h-2-stored-properties-of-constant-structure-instances
+[Type Property Syntax]:/swift/2022/11/22/properties.html#h-1-type-property-syntax
+[Type Method Examples]:/swift/2022/11/27/methods.html#h-2-type-method-examples
