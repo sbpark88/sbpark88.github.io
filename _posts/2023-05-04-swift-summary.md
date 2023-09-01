@@ -1998,7 +1998,7 @@ rangeOfFourItems.firstValue = 3 // Cannot assign to property: 'rangeOfFourItems'
 class FixedVolumeRange {
     var firstValue: Int
     let volume: Int
-    
+
     init(firstValue: Int, volume: Int) {
         self.firstValue = firstValue
         self.volume = volume
@@ -2029,7 +2029,7 @@ struct SomeStructure {
     lazy var someProperty = {
         return // property definition goes here
     }()
-    
+
     lazy var anotherProperty = SomeClass()  // or SomeStructure()
 }
 ```
@@ -2359,7 +2359,7 @@ struct LengthOfSide {
     private var maximum: Int
     private var length: Int
     private(set) var projectedValue: Bool = false
-    
+
     var wrappedValue: Int {
         get { length }
         set {
@@ -2372,17 +2372,17 @@ struct LengthOfSide {
             }
         }
     }
-    
+
     init() {
         maximum = 10
         length = 0
     }
-    
+
     init(wrappedValue: Int) {
         maximum = 10
         length = min(wrappedValue, maximum)
     }
-    
+
     init(wrappedValue: Int, maximum: Int) {
         self.maximum = maximum
         length = min(wrappedValue, maximum)
@@ -2585,7 +2585,7 @@ print(AudioChannel.maxInputLevelForAllChannels) // 10
 > **Structures** 와 **Enumerations** 는 `Value Types`다. 기본적으로 **Value Type** 의 **Properties** 는
 > **Instance Methods** 에 의해 수정될 수 없다(immutable).
 >
-> 수정이 필요할 경우 `mutating` 키워드를 사용해 수정을 허용하도록 명시해야하며, **mutating** 을 하는 방법에는 
+> 수정이 필요할 경우 `mutating` 키워드를 사용해 수정을 허용하도록 명시해야하며, **mutating** 을 하는 방법에는
 > **Properties** 를 수정하는 방법과 **new Instance** 를 생성하는 방법이 있다.
 
 <br>
@@ -2611,7 +2611,7 @@ struct Point {
 <br>
 __2 ) Assigning to self Within a Mutating Method__
 
-전체를 수정할 때는 *Mutating Methods 가 종료될 때 new Instance 를 할당해 original Instance 를 대체*하는 방법을 
+전체를 수정할 때는 *Mutating Methods 가 종료될 때 new Instance 를 할당해 original Instance 를 대체*하는 방법을
 사용한다.
 
 ```swift
@@ -2647,6 +2647,133 @@ struct SomeStructure {
 
 자세한 코드는 [Type Method Examples] 를 참고한다.
 
+---
+
+## 10. Subscripts 👩‍💻
+
+### Syntax
+
+```swift
+subscript(index: Int) -> Int {
+    get {
+        // Return an appropriate subscript value here.
+    }
+    set(newValue) {
+        // Perform a suitable setting action here.
+    }
+}
+```
+
+> **Computed Properties** 와 마찬가지로 `getter`와 `optional setter`를 제공하며, **setter** 의
+> **Parameter** 를 생략하고 기본값으로 `newValue`를 사용할 수 있다.  
+> 또한 **Computed Properties** 와 마찬가지로 **setter** 의 **Parameter** 는 반드시
+> **Return Type 과 동일**해야하므로 **별도의 `Type`을 명시할 수 없으며**,
+> **Read-Only Computed Properties**와 마찬가지로 `Read-Only Subscripts`는 `get` 키워드와 중괄호를
+> 생략할 수 있다.
+
+### Custom Subscripts Example
+
+다음은 정수의 `n-times-table`을 표시하기 위해 `TimesTable Structure`를 정의한다. *Subscripts* 는
+`Read-Only Subsscripts`로 구현되었다.
+
+```swift
+struct TimesTable {
+    let multiplier: Int
+    subscript(index: Int) -> Int {
+        multiplier * index
+    }
+}
+```
+
+```swift
+let threeTimesTable = TimesTable(multiplier: 3)
+(0...10).forEach { print(threeTimesTable[$0], terminator: "  ") }
+```
+
+```console
+0  3  6  9  12  15  18  21  24  27  30  
+```
+
+### Subscripts in Dictionary
+
+*Subscripts* 는 구현하려는 *Classes*, *Structures*, *Enumerations* 에 적합한 형태로 자유롭게 구현이 가능하다.   
+따라서, *Subscripts* 의 정확한 의미는 `context`에 따라 달라진다. 일반적으로 *Subscripts* 는 *Collection*,
+*List*, *Sequence*의 `member elements`에 접근하기 위한 용도로 사용되며 Dictionary 가 그 예다.
+
+<br>
+
+- *Subscripts* 를 이용해 값을 조회하기
+
+```swift
+var numberOfLegs = ["spider": 8, "ant": 6, "cat": 4]
+print("The number of legs of ant is \(numberOfLegs["ant"]!).")
+// The number of legs of ant is 6.
+```
+
+- *Subscripts* 를 이용해 값을 저장하기
+
+```swift
+numberOfLegs["bird"] = 2
+print(numberOfLegs)  // ["spider": 8, "ant": 6, "cat": 4, "bird": 2]
+```
+
+> `Dictionary`의 `key-value`는 모든 **keys 가 values 를 갖지 않는 것**을 모델로 하기 때문에
+> `Optional Return Type`을 취하므로 `Optional Subscripts`를 사용한다.
+
+### Subscripts Options
+
+> **Subscripts** 는 **Parameters** 의 타입이나 개수, **Return Type** 을 자유롭게 정의할 수 있다.  
+> 심지어 함수와 마찬가지로 [Variadic Parameters] 와
+> [Default Parameter Values] 역시 가능하다.
+>
+> 단, [In-Out Parameters] 는 사용할 수 없다.
+
+<br>
+
+```swift
+struct Matrix {
+    let rows: Int, columns: Int
+    var grid: [Double]
+    init(rows: Int, columns: Int) {
+        self.rows = rows
+        self.columns = columns
+        grid = Array(repeating: 0.0, count: rows * columns)
+    }
+    func indexIsValid(row: Int, column: Int) -> Bool {
+        row >= 0 && row < rows && column >= 0 && column < columns
+    }
+    subscript(row: Int, column: Int) -> Double {
+        get {
+            assert(indexIsValid(row: row, column: column), "Index out of range")
+            return grid[(row * columns) + column]
+        }
+        set {
+            assert(indexIsValid(row: row, column: column), "Index out of range")
+            grid[(row * columns) + column] = newValue
+        }
+    }
+}
+```
+
+### Type Subscripts
+
+*Subscripts* 역시 *Properties*, *Methods* 와 마찬가지로 *Instance* 뿐만 아니라 `Type` 자체의
+`Subscripts`를 정의할 수 있다.
+
+```swift
+enum Planet: Int {
+    case mercury = 1, venus, earth, mars, jupiter, saturn, uranus, neptune
+    static subscript(n: Int) -> Planet {
+        Planet(rawValue: n)!
+    }
+}
+```
+
+```swift
+let earth = Planet(rawValue: 3)!
+print(earth)    // earth
+```
+
 
 [Concurrency - Asynchronous Functions]:/swift/2023/01/05/concurrency.html#h-2-asynchronous-functions-
 [Automatic Reference Counting]:/swift/2023/03/08/automatic-reference-counting.html
@@ -2660,3 +2787,6 @@ struct SomeStructure {
 [Constant Structure Instances]:/swift/2022/11/22/properties.html#h-2-stored-properties-of-constant-structure-instances
 [Type Property Syntax]:/swift/2022/11/22/properties.html#h-1-type-property-syntax
 [Type Method Examples]:/swift/2022/11/27/methods.html#h-2-type-method-examples
+[Variadic Parameters]:/swift/2022/10/19/functions.html#h-2-variadic-parameters
+[Default Parameter Values]:/swift/2022/10/19/functions.html#h-1-default-parameter-values
+[In-Out Parameters]:/swift/2022/10/19/functions.html#h-3-in-out-parameters
