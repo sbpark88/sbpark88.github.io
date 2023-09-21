@@ -2774,6 +2774,157 @@ let earth = Planet(rawValue: 3)!
 print(earth)    // earth
 ```
 
+---
+
+## 11. Inheritance 👩‍💻
+
+### Base Class
+
+다른 *Classes* 를 상속하지 않은 *Class* 를 `Base Class`라 한다.
+
+```swift
+class Vehicle {
+    var currentSpeed = 0.0
+    var description: String {
+        return "traveling at \(currentSpeed) miles per hour"
+    }
+    func makeNoise() {
+        // do nothing - an arbitrary vehicle doesn't necessarily make a noise
+    }
+}
+```
+
+> `Universal Base Class`를 하나 만들어 모든 **Classes** 가 기본적으로 이것을 상속하도록 하는 일부 언어와 달리
+> Swift 는 명시적으로 상속을 하지 않은 **Class** 는 `build`할 때 자동으로 `Base Class`가 된다.
+
+### Subclassing
+
+`Subclassing`은 존재하는 다른 *Class* 를 기반으로 *new Class* 를 생성하는 행위를 말한다.  
+기존의 *Class* 를 `Superclass`, *기존의 Class 를 상속해 새로 생성된 Class* 를 `Subclass`라 하며,
+*Subclass* 는 새로운 것을 ***추가***하는 것은 물론이고, 기존의 것을 ***수정***할 수 있다.
+
+### Overriding
+
+*Subclass* 는 *Superclass* 의 *Instance Methods*, *Type Methods*, *Instance Properties*,
+*Type Properties*, *Subscripts* 를 다시 구현할 수 있다. 이것을 `Overriding`이라 한다.
+
+*Overriding* 을 위해서 앞에 `override` modifier 를 붙여준다.  
+이렇게 하는 것은 재정의를 명확히 하고, 실수로 재정의하는 것을 방지하기 위한 것으로, `override` modifier 없이 재정의하면
+Swift 는 이를 확인하고 `compile error`를 발생시킨다.
+
+> `Overriding` 가능한 `characteristics`는 `mutable`한 것으로 제한된다. 예를 들어 `let` 키워드로 선언된
+> 경우 `immutable`이기 때문에 <span style="color: red;">**Overriding** 할 수 없다</span>.
+
+```swift
+class TimesTable {
+    let multiplier: Int
+    subscript(index: Int) -> Int { multiplier * index }
+    func printMultiplier() {
+        print(multiplier)
+    }
+    init(multiplier: Int) {
+        self.multiplier = multiplier
+    }
+}
+
+class ArithmeticSequenceTable: TimesTable {
+    var superMultiplier: Int { super.multiplier }
+    override func printMultiplier() {
+        super.printMultiplier()
+    }
+    override subscript(index: Int) -> Int { super[index] + 1 }
+}
+```
+
+#### Overriding Property Getters and Setters
+
+```swift
+class Car: Vehicle {
+    var gear = 1
+    override var description: String {
+        super.description + " in gear \(gear)"
+    }
+}
+```
+
+#### Overriding Property Observers
+
+```swift
+class AutomaticCar: Car {
+    override var currentSpeed: Double {
+        didSet {
+            gear = Int(currentSpeed / 10.0) + 1
+        }
+    }
+}
+```
+
+#### Overriding Stored Properties
+
+**Stored Properties** 는 `Overriding 하는 것이 불가능`하다. 이를 Overriding 하려 하면 `compile error`를 
+발생시킨다. *Subclass* 에서 Stored Properties 를 수정하기 위해서는  [Initialization Phase 2의 수정할 기회] 를 
+이용한다.
+
+```swift
+class Vehicle {
+    var tag = "Vehicle"
+}
+
+class Bicycle: Vehicle {
+    override init() {
+        super.init()
+        tag = "Bicycle"
+    }
+}
+
+class Tandem: Bicycle {
+    convenience init(tag: String) {
+        self.init()
+        self.tag = tag
+    }
+}
+```
+
+```swift
+var vehicle = Vehicle()
+var bicycle = Bicycle()
+var tandem = Tandem(tag: "Tandem")
+
+print(vehicle.tag)  // Vehicle
+print(bicycle.tag)  // Bicycle
+print(tandem.tag)   // Tandem
+```
+
+### Preventing Overrides
+
+`Overriding`을 막기 위해 `final` modifier 를 추가할 수 있다. 만약 *Subclass* 에서 재정의 할 경우
+Swift 는 이를 확인하고 `compile error`를 발생시킨다.
+
+```swift
+class AutomaticCar: Car {
+    override final var currentSpeed: Double {
+        didSet {
+            gear = Int(currentSpeed / 10.0) + 1
+        }
+    }
+}
+```
+
+```swift
+class ElectricMotorCar: AutomaticCar {
+    override var currentSpeed: Double { // error: Property overrides a 'final' property
+        
+    }
+}
+```
+
+*AutomaticCar* 의 *currentSpeed* 를 *Overriding* 하면서 `final` modifier 를 붙여주었기 때문에
+*AutomaticCar* 를 상속한 *ElectricMotorCar* 는 이것을 재정의 할 수 없다.
+
+> **Properties, Methods, Subscripts** 가 아닌 ***Classes 정의에 `final` modifier 를 작성***할 경우,
+> 이 **Class** 를 `Subclassing` 하려는 모든 시도는 **compile-time error** 가 발생한다.
+
+
 
 [Concurrency - Asynchronous Functions]:/swift/2023/01/05/concurrency.html#h-2-asynchronous-functions-
 [Automatic Reference Counting]:/swift/2023/03/08/automatic-reference-counting.html
@@ -2790,3 +2941,4 @@ print(earth)    // earth
 [Variadic Parameters]:/swift/2022/10/19/functions.html#h-2-variadic-parameters
 [Default Parameter Values]:/swift/2022/10/19/functions.html#h-1-default-parameter-values
 [In-Out Parameters]:/swift/2022/10/19/functions.html#h-3-in-out-parameters
+[Initialization Phase 2의 수정할 기회]:/swift/2022/12/01/initialization.html#h-4-two-phase-initialization
