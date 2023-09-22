@@ -433,7 +433,7 @@ Swift 가 자동으로 `Default Initializers`를 생성한다.
 
 - 존재하는 `Initializers 가 하나도 없다`
 
-*Default Initializers* 와 달리 `default value` 를 가지고 있어야 할 ***필요가 없다***.  
+*Default Initializers* 와 달리 `default value` 를 가지고 있어야 할 <span style="color: red;">***필요가 없다***</span>.  
 단지 이 *default value* 의 존재 유무에 따라 모든 *Member Properties* 를 설정하기 위해 
 `자동 생성되는 'Initializers' 의 경우의 수만 달라질 뿐`이다.
 
@@ -652,8 +652,8 @@ __3 ) Two-Phase Initialization Process__
  
 그림을 보면 알 수 있듯이, *Convenience Initializers* 의 *Customizing* 이 사용되는 것은, 처음 호출을 시작한 
 *Convenience Initializers* 의 *Chaining* 경로에 있는 경우 뿐이다.  
-*Superclass* 가 가지고 있는 *Convenience Initializers* 는 *Subclass* 에서 직접 호출되거나 *Overriding* 
-되는 것이 불가능하기 때문이다.
+<span style="color: red;">*Superclass* 가 가지고 있는 *Convenience Initializers* 는 *Subclass* 에서 직접 호출되거나
+*Overriding* 되는 것이 불가능</span>하기 때문이다.
 
 하지만 *Superclass* 의 *Convenience Initializers* 가 항상 무시되는 것은 아니다. `특정 조건이 일치될 경우 Superclass 의 
 Convenience Initializers 는 Subclass 에 자동으로 상속`된다. 이것은 아래 
@@ -686,7 +686,7 @@ __2 ) Inherit Superclass's Initializers by Overriding__
 
 <br>
 
-__3 ) Initializer Inheritance Examples__
+__3 ) <span id="initializer-inheritance-example-1">Initializer Inheritance Examples</span>__
 
 - Base Class: Vehicle
 
@@ -765,7 +765,7 @@ class Bicycle: Vehicle {
 
 <br>
 
-__4 ) Another Examples having no 'Phase 2'__
+__4 ) <span id="initializer-inheritance-example-2">Another Examples having no 'Phase 2'</span>__
 
 *Vehicle* 의 또 다른 *Subclass* 인 *Hoverboard* 를 보자.
 
@@ -848,7 +848,7 @@ Swift 의 Subclass 는 *Superclass 의 Initializers 를* `기본으로 상속하
 
 > - **Designated Initializers** 의 자동 상속 : `Subclass 가 아무런 Designated Initializers 를 정의하지 않았다면`, 
 >   자동으로 `Superclass 의 모든 Designated Initializers 를 상속`한다.
-> - **Convenience Initializers** 의 자동 상속 : **Subclass 가 위 "Designated Initializers 의 자동 상속" 규칙에 따라 
+> - **Convenience Initializers** 의 자동 상속 : Subclass 가 위 "Designated Initializers 의 자동 상속" 규칙에 따라 
 >   생성 하든, 직접 구현을 해 생성 하든, `Superclass 와 매칭되는 모든 Designated Initializers 를 제공하면`, 자동으로 
 >   `Superclass 의 모든 Convenience Initializers 를 상속`한다.
 
@@ -1065,8 +1065,9 @@ class RecipeIngredient: Food {
 >   Designated Initializers(Custom Initializers)로 delegates`하고, 이 `Designated Initializers 가 다시
 >   Superclass 의 Designated Initializers 에 delegates up` 하도록 한다.
 > - Case 2에서 상속할 때 `override convenience` 를 붙였다고 *Superclass 의 convenience Initializers* 를 *override* 
->   한 것이 아니니 혼동하지 말고 *arguments* 를 자세히 보자. *Superclass* 가 가지고 있는 *Convenience Initializers* 는 *Subclass* 
->   에서 직접 호출되거나 *Overriding* 되는 것이 불가능함을 다시 상기하도록 하자.
+>   한 것이 아니니 혼동하지 말고 *arguments* 를 자세히 보자. <span style="color: red;">*Superclass* 가 가지고 있는 
+>   *Convenience Initializers* 는 *Subclass* 에서 직접 호출되거나 *Overriding* 되는 것이 불가능</span>함을 다시 
+>   상기하도록 하자.
 
 ```swift
 let oneMysteryItem = RecipeIngredient()
@@ -1108,7 +1109,7 @@ class ShoppingListItem: RecipeIngredient {
 - <span style="color: rgb(232,138,105);">**Convenience**</span> Initializers: `ShoppingListItem(name:quantity:)`
 
 > **RecipeIngredient 의 Subclass ShoppingListItem 은 자신의 Stored Property 에 default value 를 정의**했고, 
-> **Instance 는 해당 값을 항상 false** 로 시작하므로 **Initial Values** 를 위한 **Initializers** 가 필요하지 않디.
+> **Instance 는 해당 값을 항상 false** 로 시작하므로 **Initial Values** 를 위한 **Initializers** 가 필요하지 않다.
 > 
 >  따라서 **ShoppingListItem 은 아무런 Designated Initializers 도 정의하지 않았기 때문에 `Automatic Initializer Inheritance 가 
 > 발생해 Superclass 의 모든 Designated Initializers 를 상속`하고, 이로서 **Superclass 의 모든 Designated Initializers 를 
@@ -1313,9 +1314,8 @@ east is type of String
 Constant 'east' is type of Optional<CompassPoint>
 ```
 
-> [RawValues 를 갖는 Enumerations] 는 자동으로 **Failable Initializers** `init?(rawValue:)`를 생성한다.
-
-[Enumerations with RawValues]:/swift/2022/11/01/enumerations.html#h-2-initializing-from-a-raw-value
+> [RawValues 를 갖는 Enumerations](Initializing from a Raw Value) 는 자동으로 **Failable Initializers** 
+> `init?(rawValue:)`를 생성한다.
 
 <br>
 
@@ -1401,8 +1401,6 @@ Unable to initialize one unnamed product
 
 <br>
 
-
-
 __2 ) <span id="failableToNonfailable">*Failable Initializers* 를 *Nonfailable Initializers* 에 *delegates* 하는 경우</span>__
 
 - 달리 `실패하지 않는 기존의 Initialization 프로세스에 잠재적인 실패 상태를 추가해야하는 경우` `Failable Initializers 를 
@@ -1412,16 +1410,9 @@ __2 ) <span id="failableToNonfailable">*Failable Initializers* 를 *Nonfailable 
 > 정확히는 `Failable Initializers`의 실패 처리를 하지 않고 `failur state`를 추가한다. 즉, 결과물만 보면 에러처리 후 
 > `Nonfailable Initializers`를 `Nonfailable Initializers`로 `delegates` 하는 것과 같다.
 
-이것은 아래 [6. Overriding a Failable Initializer 의 Case 3](#h-5-overriding-a-failable-initializer) 와 연결된다.
+이것은 아래 [Overriding a Failable Initializer 의 Case 3](#h-5-overriding-a-failable-initializer) 와 연결된다.
 
 ```swift
-class Product {
-    let name: String
-    init(name: String) {
-        self.name = name
-    }
-}
-
 class CartItem: Product {
     let quantity: Int
     init?(name: String, quantity: Int) {
@@ -1445,18 +1436,11 @@ if let zeroShirts = CartItem(name: "shirt", quantity: 0) {
 } else {
     print("Unable to initialize zero shirts")
 }
-
-if let oneUnnamed = CartItem(name: "", quantity: 1) {
-    print("Item: \(oneUnnamed.name), quantity: \(oneUnnamed.quantity)")
-} else {
-    print("Unable to initialize one unnamed product")
-}
 ```
 
 ```console
 Item: sock, quantity: 2
 Item: shirt, quantity: -1
-Item: , quantity: 1
 ```
 
 위 예제에서 확인할 수 있듯이 결론적으로 *Failable Initializers* 는 실패 처리를 하지 않았고, *delegates* 를 
@@ -1817,35 +1801,35 @@ printTitle("emptyName", emptyName)
     <td colspan="2">O</td>
     <td>init</td>
     <td>init?</td>
-    <td style="color: red;">X *</td>
+    <td style="color: red;">X ✶</td>
   </tr>
   <tr>
     <td>init ← init!</td>
     <td colspan="2">O</td>
     <td>init</td>
     <td>init!</td>
-    <td style="color: red;">X *</td>
+    <td style="color: red;">X ✶</td>
   </tr>
   <tr>
     <td>init? ← init</td>
-    <td colspan="2"><span style="color: red">△ **</span></td>
+    <td colspan="2"><span style="color: red">△ ✶✶</span></td>
     <td>init?</td>
     <td>init</td>
-    <td><span style="color: red">△ **</span></td>
+    <td><span style="color: red">△ ✶✶</span></td>
   </tr>
   <tr>
     <td>init! ← init</td>
-    <td colspan="2"><span style="color: red">△ **</span></td>
+    <td colspan="2"><span style="color: red">△ ✶✶</span></td>
     <td>init!</td>
     <td>init</td>
-    <td><span style="color: red">△ **</span></td>
+    <td><span style="color: red">△ ✶✶</span></td>
   </tr>
 </tbody>
 </table>
 
-<span style="color: red">*</span> [Overriding - Case 4][Overriding a Failable Initializer] : 
+<span style="color: red">✶</span> [Overriding - Case 4][Overriding a Failable Initializer] : 
   `Nonfailable Initializers`를 `Failable Initializers`로 `Overriding`하는 것은 허용되지 않는다.  
-<span style="color: red">**</span> [Overriding - Case 3][Overriding a Failable Initializer] : 
+<span style="color: red">✶✶</span> [Overriding - Case 3][Overriding a Failable Initializer] : 
   `Failable Initializers`를 `Nonfailable Initializers`로 `Overriding`하는 방법은 *Superclass 의 Failable 
   Initializers 가 실패하지 않도록* `예외 처리`를 한 후, *생성된 Optional Instance 를 Subclass* 에서 `Forced Unwrapping`하는 것이다.
 
