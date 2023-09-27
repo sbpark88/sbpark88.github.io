@@ -2645,7 +2645,7 @@ struct SomeStructure {
     >   또한 Type Methods 접근도 가능한데, `Type 의 full name`을 붙여 접근 가능하다.
 > - `Type Methods`는 `context` 내부에 정의된 `Type Properties`와 `Type Methods`에 접근 가능하다.
 
-자세한 코드는 [Type Method Examples] 를 참고한다.
+예제 코드는 [Type Method Examples] 를 참고한다.
 
 ---
 
@@ -2862,7 +2862,7 @@ class AutomaticCar: Car {
 #### Overriding Stored Properties
 
 **Stored Properties** 는 `Overriding 하는 것이 불가능`하다. 이를 Overriding 하려 하면 `compile error`를
-발생시킨다. *Subclass* 에서 Stored Properties 를 수정하기 위해서는 
+발생시킨다. *Subclass* 에서 Stored Properties 를 수정하기 위해서는
 [Initialization Phase 2의 수정할 기회](#h-two-phase-initialization-in-classes) 를 이용한다.
 
 ```swift
@@ -2924,7 +2924,9 @@ class ElectricMotorCar: AutomaticCar {
 > **Properties, Methods, Subscripts** 가 아닌 ***Classes 정의에 `final` modifier 를 작성***할 경우,
 > 이 **Class** 를 `Subclassing` 하려는 모든 시도는 **compile-time error** 가 발생한다.
 
-## 12. Initialization / Deinitialization 👩‍💻
+---
+
+## 12. Initialization 👩‍💻
 
 ### Initialization
 
@@ -2983,7 +2985,7 @@ class SomeClass {
 
 #### Initialization Parameters
 
-Swift 는 다른 언어와 달리 Parameters 의 **개수**와 **Types** 가 같더라도 `Argument Labels`가 다르면 구별이 가능하기 
+Swift 는 다른 언어와 달리 Parameters 의 **개수**와 **Types** 가 같더라도 `Argument Labels`가 다르면 구별이 가능하기
 때문에 다음과 같이 **initializer** 를 `overload` 할 수 있다.
 
 ```swift
@@ -3023,7 +3025,7 @@ class SurveyQuestion {
 
 #### Assigning Constant Properties During Initialization
 
-*Initialization* 이 종료되기 전까지 어느 시점에서든 `let` 키워드로 선언한 `Constant Properties`에 ***값을 할당할 수 있다***. 
+*Initialization* 이 종료되기 전까지 어느 시점에서든 `let` 키워드로 선언한 `Constant Properties`에 ***값을 할당할 수 있다***.
 주의해야 할 것은 이것이 *Initialization* 이 종료되기 전까지 *여러 번 할당해 수정할 수 있다는 뜻은 아니다*.
 
 > **Initialization** 이 종료되기 전 이라도 한 번 할당된 값은 `immutable` 속성을 갖기 때문에 **수정할 수 없다**.  
@@ -3274,7 +3276,7 @@ __2 ) `Phase 2`: `Customizing` 할 기회를 처리한다__
 
 그림을 보면 알 수 있듯이, *Convenience Initializers* 의 *Customizing* 이 사용되는 것은, 처음 호출을 시작한
 *Convenience Initializers* 의 *Chaining* 경로에 있는 경우 뿐이다.  
-<span style="color: red;">*Superclass* 가 가지고 있는 *Convenience Initializers* 는 *Subclass* 에서 직접 호출되거나 
+<span style="color: red;">*Superclass* 가 가지고 있는 *Convenience Initializers* 는 *Subclass* 에서 직접 호출되거나
 *Overriding* 되는 것이 불가능</span>하기 때문이다.
 
 하지만 *Superclass* 의 *Convenience Initializers* 가 항상 무시되는 것은 아니다. `특정 조건이 일치될 경우 Superclass 의
@@ -3297,18 +3299,18 @@ Subclass 의 `new Instance`를 생성하기 위해 사용되는 상황을 방지
 *Properties*, *Methods* 와 마찬가지로 반드시 `override` modifier 를 사용해야한다.
 
 > - **Subclass** 에서 구현하는 **Initializers** 가 **Designated Initializers** 든, **Convenience Initializers** 든
->   상관 없이 `Superclass 의 Designated Initializers 를 재정의 하는 경우`라면 반드시 `override modifier 를 사용해야한다`.
+    >   상관 없이 `Superclass 의 Designated Initializers 를 재정의 하는 경우`라면 반드시 `override modifier 를 사용해야한다`.
 > - 반면, **Subclass** 에서 구현하는 **Initializers** 가 `Superclass 의 Convenience Initializers 와 일치하는 경우`는
->   `override modifier 를 사용하지 않는다`.  
->   [Initializer Delegation for Class Types](#h-initializer-delegation-rule) 에서 설명한 규칙에 따라
->   `Superclass 의 Convenience Initializers`는 `Subclass 에 의해 직접 호출되거나 Overriding 되는 것이 불가능`하기
->   때문에 새롭게 구현하는 것이므로 `override modifier 를 사용하지 않는다`.
+    >   `override modifier 를 사용하지 않는다`.  
+    >   [Initializer Delegation for Class Types](#h-initializer-delegation-rule) 에서 설명한 규칙에 따라
+    >   `Superclass 의 Convenience Initializers`는 `Subclass 에 의해 직접 호출되거나 Overriding 되는 것이 불가능`하기
+    >   때문에 새롭게 구현하는 것이므로 `override modifier 를 사용하지 않는다`.
 
 #### Implicit Delegates Up
 
 *Subclass* 에 `Phase 2`가 존재하지 않는다면 *delegates up* 을 하기 위한 `super.init()`을 생략 하는 것이 가능하다.
 
-예제 코드는 [Initializer Inheritance and Overriding Example 1], 
+예제 코드는 [Initializer Inheritance and Overriding Example 1],
 [Initializer Inheritance and Overriding Example 2] 를 참고한다.
 
 ###  Automatic Initializer Inheritance
@@ -3319,10 +3321,10 @@ Swift 의 Subclass 는 *Superclass 의 Initializers 를* `기본으로 상속하
 
 
 > - **Designated Initializers** 의 자동 상속 : `Subclass 가 아무런 Designated Initializers 를 정의하지 않았다면`,
->   자동으로 `Superclass 의 모든 Designated Initializers 를 상속`한다.
+    >   자동으로 `Superclass 의 모든 Designated Initializers 를 상속`한다.
 > - **Convenience Initializers** 의 자동 상속 : Subclass 가 위 "Designated Initializers 의 자동 상속" 규칙에 따라
->   생성 하든, 직접 구현을 해 생성 하든, `Superclass 와 매칭되는 모든 Designated Initializers 를 제공하면`, 자동으로
->   `Superclass 의 모든 Convenience Initializers 를 상속`한다.
+    >   생성 하든, 직접 구현을 해 생성 하든, `Superclass 와 매칭되는 모든 Designated Initializers 를 제공하면`, 자동으로
+    >   `Superclass 의 모든 Convenience Initializers 를 상속`한다.
 
 - Case 1
 
@@ -3496,14 +3498,14 @@ class RecipeIngredient: Food {
 > 하므로써 **Initializers** 가 3개가 되고, 모두 동일한 **Instance** 결과물을 얻는다는 것은 동일하지만 다음과 같은 차이를 갖는다.
 >
 > - Case 1은 서로 다른 2개의 **Designated Initializers**(Custom Initializers 와 Overriding Initializers)가
->   `Superclass 의 Designated Initialziers 에 독립적으로 delegates up` 한다.
+    >   `Superclass 의 Designated Initialziers 에 독립적으로 delegates up` 한다.
 > - Case 2는 **Overriding Initializers** 를 **Convenience Initializers** 로 만들어, `context 내 존재하는
->   Designated Initializers(Custom Initializers)로 delegates`하고, 이 `Designated Initializers 가 다시
->   Superclass 의 Designated Initializers 에 delegates up` 하도록 한다.
+    >   Designated Initializers(Custom Initializers)로 delegates`하고, 이 `Designated Initializers 가 다시
+    >   Superclass 의 Designated Initializers 에 delegates up` 하도록 한다.
 > - Case 2에서 상속할 때 `override convenience` 를 붙였다고 *Superclass 의 convenience Initializers* 를 *override*
->   한 것이 아니니 혼동하지 말고 *arguments* 를 자세히 보자. <span style="color: red;">*Superclass* 가 가지고 있는
->   *Convenience Initializers* 는 *Subclass* 에서 직접 호출되거나 *Overriding* 되는 것이 불가능</span>함을 다시
->   상기하도록 하자.
+    >   한 것이 아니니 혼동하지 말고 *arguments* 를 자세히 보자. <span style="color: red;">*Superclass* 가 가지고 있는
+    >   *Convenience Initializers* 는 *Subclass* 에서 직접 호출되거나 *Overriding* 되는 것이 불가능</span>함을 다시
+    >   상기하도록 하자.
 
 
 ```swift
@@ -3831,7 +3833,7 @@ __1 ) Case 3의 첫 번째 방법 - without *Forced Unwrapping*__
 >
 > - **Superclass** 에 `Nonfailable Initializers`가 존재할 것.
 > - **Superclass 의 Failable Initializers 가 Stored Properties 에 값을 저장하는 경우**,
->   **Phase 2 에서 Customizing 할 기회를 이용해 처리할 수 있도록** `Superclass 의 Properties`가 `Variable`일 것.
+    >   **Phase 2 에서 Customizing 할 기회를 이용해 처리할 수 있도록** `Superclass 의 Properties`가 `Variable`일 것.
 
 ```swift
 class Document {
@@ -4101,6 +4103,48 @@ class SomeSubclass: SomeClass {
 }
 ```
 
+---
+
+## 13. Deinitialization 👩‍💻
+
+### Deinitializer on Class Types
+
+`Deinitializer`는 `class instance 의 할당이 해제(deallocate)되기 직전에 호출`되며, `deinit` keyword 를 이용해 작성한다.
+*Deinitializer*는 *class* 타입에서만 사용될 수 있다.
+
+> 일반 코드 블럭을 탈출하기 직전에 호출되는 코드는 [defer][Specifying Cleanup Actions] keyword 를 사용해 정의한다.
+
+
+### How Deinitialization Works
+
+Swift 는 *리소스 확보를 위해 자동으로 더 이상 필요하지 않은 `instances`를 `deallocate`한다*. 이를 위해 Swift 는
+*`ARC`([Automatic Reference Counting])를 이용해 instances 의 메모리를 관리*한다.
+
+일반적으로 *instances* 의 *deallocate* 를 수동으로 할 필요는 없다. 하지만 `자기 자신의 리소스를 이용하는 경우 직접 cleanup 을
+수행`해줘야한다. 예를 들어, *파일을 열고 데이터를 쓰기 위해* `custom class`를 생성하는 경우 `class instance 가 deallocated 되기
+전 반드시 파일을 닫아 리소스를 정리`해야한다.
+
+<br>
+
+```swift
+deinit {
+    // perform the deinitialization
+}
+```
+
+> `Deinitializer 는 Class 에 하나만 존재`하며, `파라미터가 존재하지 않으므로`, **별도의 괄호 없이 작성**한다.  
+> **Deinitializer 는 instance 가 deallocation 되기 전 자동으로 호출**되며, `명시적으로 호출할 수 없다`.
+>
+> `Superclasses 의 Deinitializer 는 Subclasses 에 상속`되며, **Superclasses 의 Deinitializer** 는 `Subclasses 의
+> Deinitializer 의 마지막에 자동으로 호출`된다. **Superclasses 의 Deinitializer 는 Subclasses 가 자신의 Deinitializer 를
+> 제공하지 않더라도 항상 호출**된다.
+>
+> **Class Instance 는 Deinitializer 가 호출되기 전까지 deallocated 되지 않기 때문에**, `Deinitializer 는
+> instance 의 모든 Properties 에 접근 및 수정`할 수 있다.
+
+에제 코드는 [Deinitializers Examples] 를 참고한다.
+
+
 
 [Concurrency - Asynchronous Functions]:/swift/2023/01/05/concurrency.html#h-2-asynchronous-functions-
 [Automatic Reference Counting]:/swift/2023/03/08/automatic-reference-counting.html
@@ -4119,3 +4163,5 @@ class SomeSubclass: SomeClass {
 [In-Out Parameters]:/swift/2022/10/19/functions.html#h-3-in-out-parameters
 [Initializer Inheritance and Overriding Example 1]:/swift/2022/12/01/initialization.html#initializer-inheritance-example-1
 [Initializer Inheritance and Overriding Example 2]:/swift/2022/12/01/initialization.html#initializer-inheritance-example-2
+[Specifying Cleanup Actions]:/swift/2022/12/22/error-handling.html#h-3-specifying-cleanup-actions-
+[Deinitializers Examples]:/swift/2022/12/19/deinitialization.html#h-3-deinitializers-in-action-

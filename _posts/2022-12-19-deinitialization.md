@@ -36,14 +36,14 @@ deinit {
 }
 ```
 
-> `Deinitializer 는 클래스에 하나만 존재`하며, `파라미터가 존재하지 않으므로`, **별도의 괄호 없지 작성**한다.  
+> `Deinitializer 는 Class 에 하나만 존재`하며, `파라미터가 존재하지 않으므로`, **별도의 괄호 없이 작성**한다.  
 > **Deinitializer 는 instance 가 deallocation 되기 전 자동으로 호출**되며, `명시적으로 호출할 수 없다`.
 > 
 > `Superclasses 의 Deinitializer 는 Subclasses 에 상속`되며, **Superclasses 의 Deinitializer** 는 `Subclasses 의 
 > Deinitializer 의 마지막에 자동으로 호출`된다. **Superclasses 의 Deinitializer 는 Subclasses 가 자신의 Deinitializer 를 
 > 제공하지 않더라도 항상 호출**된다.
 > 
-> **class instance 는 Deinitializer 가 호출되기 전까지 deallocated 되지 않기 때문에**, `Deinitializer 는 
+> **Class Instance 는 Deinitializer 가 호출되기 전까지 deallocated 되지 않기 때문에**, `Deinitializer 는 
 > instance 의 모든 Properties 에 접근 및 수정`할 수 있다.
 
 ---
