@@ -206,7 +206,7 @@ john.residence?.address = createAddress()
 
 ### 4. Calling Methods Through Optional Chaining 👩‍💻
 
-*Optional Classes* 또는 *Optional Structures* 의 `메서드 호출의 success or failure 여부를 확인`할 수 있다. 
+*Optional Channing* 을 *Methods* 에 사용하면 `메서드 호출의 success or failure 여부를 확인`할 수 있다. 
 이것은 위 *Residence* class 의 `printNumberOfRooms()` 메서드와 같은 `반환 값이 없는 메서드에 대해서도 유효`하다.
 
 > 반환 값이 없는 메서드에서도 메서드 호출의 **success or failure** 여부를 확인할 수 있는 이유는 

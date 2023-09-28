@@ -4144,6 +4144,97 @@ deinit {
 
 에제 코드는 [Deinitializers Examples] 를 참고한다.
 
+---
+
+## 14. Optional Chaining 👩‍💻
+
+### What is Optional Chaining?
+
+`Optional Chaining`은 Properties, Methods, Subscripts 가 `nil`일 *가능성이 있는 경우에 안전하게 조회(querying)하고
+호출(calling)하기 위한 프로세스*다.
+
+*Optional 이 값을 가지고 있을 경우, Property, Method, Subscript 호출은 성공*하고, *`nil`일 경우 `nil`을 반환*한다.
+`Multiple queries`는 서로 `chaining` 될 수 있으며, ***어느 하나라도 `nil`을 포함한다면 전체 `chain`은 실패***한다. 
+
+그리고 <span style="color: red;">Optional Chaining 의 return type 은 언제나 **Optional** 이다</span>.
+
+> **Optional Chaining in Swift** 는 **Messaging nil in Objective-C** 와 유사하지만 `모든 타입에 작동`하며,
+> `success or failure 를 확인`할 수 있다.
+
+### Alternative to Forced Unwrapping
+
+Property, Method, Subscript 를 `non-nil` 값으로 얻고싶을 때 할 수 있는 가장 쉬운 방법은 `Forced Unwrapping(!)`이다.
+하지만 `Forced Unwrapping`은 Optional 이 *nil* 일 때 `Runtime Error`를 발생시키는 반면, `Optional Chaining`은
+프로세스를 실패하고 `nil`을 반환한다.
+
+> 단, `Optional Chaining 을 통해 얻은 값`은 'nil' 이 발견되지 않아 **프로세스를 성공적으로 진행**했더라도 `Optional`이다.
+
+### Accessing Properties
+
+- Get
+
+```swift
+let john = Person()
+if let roomCount = john.residence?.numberOfRooms {
+    print("John's residence has \(roomCount) room(s).")
+} else {
+    print("john.residence? is nil")
+}
+```
+
+<br>
+
+- Set
+
+*Optional Chaining* 은 `call` 하기 위한 접근 뿐 아니라, <span style="color: red;">`set`을 하기 위한 접근에도 
+사용</span>할 수 있다.
+
+```swift
+john.residence?.address = createAddress()
+```
+
+### Calling Methods
+
+*Optional Channing* 을 *Methods* 에 사용하면 `메서드 호출의 success or failure 여부를 확인`할 수 있다.
+이것은 `반환 값이 없는 메서드에 대해서도 유효`하다.
+
+> 반환 값이 없는 메서드에서도 메서드 호출의 **success or failure** 여부를 확인할 수 있는 이유는
+> [Functions Without Return Values](#h-function-without-return-values) 에서 살펴본 것처럼, 암시적으로
+> `Void`라는 타입의 특수한 값(`()` 로 쓰여진 `Empty Tuple`)을 반환하기 때문이다. 따라서 *return type* 은 `Void`가 
+> 아닌 `Void?`가 된다.
+
+### Accessing Subscripts
+
+*Subscripts* 역시 *Optional Chaining* 을 사용해 `john.residence[237].name`이 아닌 
+`john.residence?[237].name`와 같이 접근할 수 있다.
+
+```swift
+let john = Person()
+if let firstRoomName = john.residence?[0].name {
+    print("The first room name is \(firstRoomName).")
+} else {
+    print("Unable to retrieve the first room name.")
+}
+```
+
+### Linking Multiple Levels of Chaining
+
+*Optional Chaining 을 이용하면 `Subproperties`에 대한 접근* 역시 간결한 코드로 안전하게 접근
+(drill down into subproperties more than one level deep) 할 수 있으며 다음 규칙을 따른다.
+
+> - 조회하려는 타입이 `Non-Optional`이더라도 `Optional Chaining`에 의해 항상 `Optional`이 된다.
+> - `Optional` wrapping 은 중복되지 않는다.
+
+```swift
+let john = Person()
+if let johnsStreet = john.residence?.address?.street {
+    print("John's street name is \(johnsStreet).")
+} else {
+    print("Unable to retrieve the address.")
+}
+```
+
+
 
 
 [Concurrency - Asynchronous Functions]:/swift/2023/01/05/concurrency.html#h-2-asynchronous-functions-
