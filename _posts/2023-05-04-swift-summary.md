@@ -4154,7 +4154,7 @@ deinit {
 호출(calling)하기 위한 프로세스*다.
 
 *Optional 이 값을 가지고 있을 경우, Property, Method, Subscript 호출은 성공*하고, *`nil`일 경우 `nil`을 반환*한다.
-`Multiple queries`는 서로 `chaining` 될 수 있으며, ***어느 하나라도 `nil`을 포함한다면 전체 `chain`은 실패***한다. 
+`Multiple queries`는 서로 `chaining` 될 수 있으며, ***어느 하나라도 `nil`을 포함한다면 전체 `chain`은 실패***한다.
 
 그리고 <span style="color: red;">Optional Chaining 의 return type 은 언제나 **Optional** 이다</span>.
 
@@ -4186,7 +4186,7 @@ if let roomCount = john.residence?.numberOfRooms {
 
 - Set
 
-*Optional Chaining* 은 `call` 하기 위한 접근 뿐 아니라, <span style="color: red;">`set`을 하기 위한 접근에도 
+*Optional Chaining* 은 `call` 하기 위한 접근 뿐 아니라, <span style="color: red;">`set`을 하기 위한 접근에도
 사용</span>할 수 있다.
 
 ```swift
@@ -4200,12 +4200,12 @@ john.residence?.address = createAddress()
 
 > 반환 값이 없는 메서드에서도 메서드 호출의 **success or failure** 여부를 확인할 수 있는 이유는
 > [Functions Without Return Values](#h-function-without-return-values) 에서 살펴본 것처럼, 암시적으로
-> `Void`라는 타입의 특수한 값(`()` 로 쓰여진 `Empty Tuple`)을 반환하기 때문이다. 따라서 *return type* 은 `Void`가 
+> `Void`라는 타입의 특수한 값(`()` 로 쓰여진 `Empty Tuple`)을 반환하기 때문이다. 따라서 *return type* 은 `Void`가
 > 아닌 `Void?`가 된다.
 
 ### Accessing Subscripts
 
-*Subscripts* 역시 *Optional Chaining* 을 사용해 `john.residence[237].name`이 아닌 
+*Subscripts* 역시 *Optional Chaining* 을 사용해 `john.residence[237].name`이 아닌
 `john.residence?[237].name`와 같이 접근할 수 있다.
 
 ```swift
@@ -4234,6 +4234,261 @@ if let johnsStreet = john.residence?.address?.street {
 }
 ```
 
+---
+
+## 15. Error Handling 👩‍💻
+
+### Representing and Throwing Errors
+
+*Swift 의 에러 처리는* `Cocoa 와 Objective-C 에서 'NSError class'를 사용하는 에러 처리 패턴과 상호 운용` 된다.
+[Handling Cocoa Errors in Swift]
+
+Swift 에서 에러는 `Error protocol 을 따르는 Types 의 값`으로 표현된다. 그러기 위해서 `Error protocol 을 채택`하도록 해야한다.
+Swift 의 *Enumerations 는 연관된 Error conditions 를 그룹화*하는데 적합하다.
+
+```swift
+enum VendingMachineError: Error {
+    case invalidSelection
+    case insufficientFunds(coinsNeeded: Int)
+    case outOfStock
+}
+```
+
+에러를 던지기 위해 `throw` statement 를 사용할 수 있다. 다음 예제는 자판기가 동전이 5개 더 필요하다는 에러를 발생시키는 경우다.
+
+```swift
+throw VendingMachineError.insufficientFunds(coinsNeeded: 5)
+```
+
+에러가 발생하면 에러는 주변 코드에 의해 `문제를 수정`하거나, `대안 접근 방식`을 시도하거나, `사용자에게 알림` 등의 방법을 통해
+반드시 처리되어야한다.
+
+함수에서 에러가 발생하면 프로그램의 흐름이 변경되므로, 코드에서 에러가 발생한 위치를 빠르게 찾는 것이 매우 중요하다. 이를 위해
+*Functions*, *Methods*, *Initializers* 를 호출하는 코드 앞에 `try`(or `try?` or `try!`) keyword 를 작성해
+*try expression* 으로 코드를 작성한다.
+
+> Swift 의 에러 처리는 다른 언어의 `try-catch & throw`와 유사하다. 하지만 **Objective-C** 를 포함한 많은 언어와 달리
+> Swift 의 에러 처리는 **계산 비용이 많이 드는 `Call Stack 해제(unwinding)`을 포함하지 않는다**.  
+> Swift 의 **`throw statement` 의 성능 특성은 `return statement` 와 유사**하다.
+
+
+### Propagating Errors
+
+- Using Throwing Functions
+
+```swift
+func canThrowErrors() throws -> String
+```
+
+<br>
+
+- Using Throwing Initializers
+
+```swift
+struct PurchasedSnack {
+    let name: String
+    init(name: String, vendingMachine: VendingMachine) throws {
+        try vendingMachine.vend(itemNamed: name)
+        self.name = name
+    }
+}
+```
+
+### Catching Errors
+
+```swift
+do {
+    try expression
+    statements
+} catch pattern 1(let errorConstant) {
+    statements
+} catch pattern 2 where condition {
+    statements
+} catch pattern 3, pattern 4 where condition {
+    statements
+} catch {
+    statements
+}
+```
+
+#### Catch, Catch, Catch...
+
+```swift
+let favoriteSnacks = [
+    "Alice": "Chips",
+    "Queen": "Licorice",
+    "Eve": "Pretzels"
+]
+
+func buyFavoriteSnack(person: String, vendingMachine: VendingMachine) throws {
+    let snackName = favoriteSnacks[person] ?? "Candy Bar"
+    try vendingMachine.vend(itemNamed: snackName)
+}
+```
+
+```swift
+var vendingMachine = VendingMachine()
+vendingMachine.coinsDeposited = 8
+do {
+    try buyFavoriteSnack(person: "Alice", vendingMachine: vendingMachine)
+    print("Success! Yum.")
+} catch VendingMachineError.invalidSelection {
+    print("Invalid Selection.")
+} catch VendingMachineError.outOfStock {
+    print("Out of Stock.")
+} catch VendingMachineError.insufficientFunds(let coinsNeeded) {
+    print("Insufficient funds. Please insert an additional \(coinsNeeded) coins.")
+} catch {
+    print("Unexpected error: \(error).")
+}
+```
+
+#### Catch Is
+
+`catch is`를 이용해 연관된 에러를 한 번에 처리할 수 있다.
+
+```swift
+func buySnack(with item: String) throws {
+    do {
+        try vendingMachine.vend(itemNamed: item)
+    } catch is VendingMachineError {
+        print("Couldn't buy that from the vending machine.")
+    }
+}
+
+do {
+    try buySnack(with: "Beat-Flavored Chips")
+} catch {
+    print("Unexpected non-vending-machine-related error: \(error)")
+}
+```
+
+#### Catch with Comma
+
+`catch is` 대신 연관된 에러를 필요한 만큼 `,` 를 이용해 나열해 처리할 수 있다.
+
+
+```swift
+func buySnack(with item: String) throws {
+    do {
+        try vendingMachine.vend(itemNamed: item)
+    } catch VendingMachineError.invalidSelection,
+            VendingMachineError.insufficientFunds,
+            VendingMachineError.outOfStock {
+        print("""
+              Couldn't buy that from the vending machine
+              because of invalid selection, out of stock, or not enough money.
+              """)
+    }
+}
+
+do {
+    try buySnack(with: "Beat-Flavored Chips")
+} catch {
+    print("Unexpected non-vending-machine-related error: \(error)")
+}
+```
+
+### Converting Errors to Optional Values
+
+`Throwing Functions 의 return types`는 항상 `Error protocol 을 따르는 Types 의 값` 또는 `Optional`이라고 했다.
+따라서 에러가 발생할 경우 이를 처리하기 위한 `do-catch` statement 가 반드시 필요하다.
+
+[Optional Chaining always returns Optional Types] 을 다시 떠올려보자. `Optional Chaining`은 `?`을 이용해
+*Instance* 또는 *Value* 가 존재하지 않는 경우에도 별도의 에러 처리 없이 코드를 간결하게 처리했다. *Swift* 가 알아서
+에러가 발생하는 상황에 실행을 중단하고 `nil`을 반환하기 때문이다.
+
+*Optional Chaining* 과 마찬가지로 *Throwing Functions* 역시 `try` 대신 `try?`를 이용하면
+`Throwing Functions 의 return types`이 항상 `Optional Types` 또는 `nil`을 반환하도록 할 수 있다.
+
+그러면 에러가 발생할 경우 *Swift* 가 알아서 실행을 중단하고 `nil`을 반환하므로 `Optional Chaining`을 할 때와 마찬가지로
+일반 코드를 작성하듯 처리할 수 있다.
+
+<br>
+
+`try?`를 사용함으로써 얻는 장점은 `모든 에러를 같은 방식으로 처리하는 경우` `do-catch 없이` 짧고 간결한 코드로 작성할 수 있다는 것이고,   
+단점은 *모든 에러를 같은 방식으로 처리*하므로 *cases* 별로 자세한 *에러 처리*를 하는 것이 *불가능*하다는 것이다.
+
+> - `try?` 는 `Optional Chaining`의 `?`와 마찬가지로 항상 Optional Types 를 반환한다.
+> - `try!` 는 `Optional Chaining`의 `!`와 마찬가지로 항상 반환값을 Forced Unwrapping 한다.
+
+<br>
+
+`try?` keyword 를 사용하면 `EAFP` 방식으로 코드를 작성하면서 위 가독성 문제도 해결할 수 있다.
+
+```swift
+let p = try? someThrowingFunction(0)
+print(p as Any)                         // nil
+let q = try? someThrowingFunction(1)
+print(q as Any)                         // Optional(1)
+```
+
+<br>
+
+따라서 `fetch`와 같은 함수는 `try?`를 이용해 다음과 같이 간결하게 작성할 수 있다.
+
+```swift
+func fetchData() -> Data? {
+    if let data = try? fetchDataFromDisk() { return data }
+    if let data = try? fetchDataFromServer() { return data }
+    return nil
+}
+```
+
+### Disabling Error Propagation
+
+절대로 에러가 발생하지 않는다는 것을 알고 있는 경우, *Throwing Functions* 를 호출할 때 `try!` 를 이용할 수 있다.
+이 경우 다음 두 가지가 작동하지 않는다.
+
+- Error Propagation
+- 반환 값의 Optional Wrapping
+
+```swift
+let x = try? someThrowingFunction(1)
+print(x as Any)                         // Optional(1)
+let y = try! someThrowingFunction(1)
+print(y)                                // 1
+```
+
+`try?`를 이용한 호출과 달리 `Unwrapped`된 값을 얻을 수 있다.
+
+> 단, 이 때 주의해야할 것이 `throws -> Int`가 아닌 `throws -> Int?`일 경우
+>
+> ```swift
+> func someThrowingFunction(_ input: Int) throws -> Int? {
+>     if input == 0 {
+>         throw SomeError.zero
+>     } else {
+>         return input
+>     }
+> }
+> ```
+>
+> `throw`에 한 번, `Int?`에 한 번 => 총 2번의 `Optional Wrapping`이 이루어진다.  
+> 따라서 `throw`에 의해 **Wrapping 된 Optional 을 해제**하더라도 다시 **Int? 에 의해 Optional Wrapping**
+> 된 값을 얻는다. 함수가 반환한 값이 `Optional(Optional(1))`이기 때문이다.
+>
+> ```swift
+> let y = try! someThrowingFunction(1)
+> print(y)                                // Optional(1)
+> ```
+>
+
+<br>
+
+로컬 경로에서 이미지를 가져오는 코드를 생각해보자.
+
+```swift
+let photo = try! loadImage(atPath: "./Resources/John Appleseed.jpg")
+```
+
+이미지가 존재할 것이라 확신하고 `try!`를 사용했는데 이미지가 존재하지 않거나 가져오는 데 실패했다면
+<span style="color: red;">Runtime Error</span> 가 발생한다. 따라서 `try!`를 사용할 때는
+<span style="color: red;">
+절대 에러가 발생하지 않는다는 것에 대한 보증을 개발자가 해야하므로 신중한 판단이 필요
+</span>하다.
+
+
 
 
 
@@ -4256,3 +4511,5 @@ if let johnsStreet = john.residence?.address?.street {
 [Initializer Inheritance and Overriding Example 2]:/swift/2022/12/01/initialization.html#initializer-inheritance-example-2
 [Specifying Cleanup Actions]:/swift/2022/12/22/error-handling.html#h-3-specifying-cleanup-actions-
 [Deinitializers Examples]:/swift/2022/12/19/deinitialization.html#h-3-deinitializers-in-action-
+[Handling Cocoa Errors in Swift]:https://developer.apple.com/documentation/swift/cocoa_design_patterns/handling_cocoa_errors_in_swift
+[Optional Chaining always returns Optional Types]:/swift/2022/12/20/optional-chaining.html#h-7-chaining-on-methods-with-optional-return-values-

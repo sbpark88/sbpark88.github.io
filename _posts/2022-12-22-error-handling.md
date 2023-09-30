@@ -317,7 +317,7 @@ because of invalid selection, out of stock, or not enough money.
 
 ```swift
 enum SomeError: Error {
-case zero
+    case zero
 }
 ```
 
@@ -482,7 +482,7 @@ let photo = try! loadImage(atPath: "./Resources/John Appleseed.jpg")
 `Classes` 타입은 `class instance 의 할당이 해제(deallocate)되기 직전에 호출`될 코드를 정의할 수 있는 
 [Deinitializer] 라는 특별한 코드블럭이 있고 이것은 `deinit` keyword 를 이용해 정의했다. 
 
-[Deinitialization]:/swift/2022/12/19/deinitialization.html#h-2-how-deinitialization-works-
+[Deinitializer]:/swift/2022/12/19/deinitialization.html#h-2-how-deinitialization-works-
 
 그리고 이러한 `context 를 탈출할 때 호출`되는 코드는 `Classes` 보다 더 작은 단위인 어떠한 `Block scope`에 
 대해서도 정의할 수 있는데 `Defer Statement`라 하며, `defer` keyword 를 이용해 정의한다.
