@@ -185,7 +185,7 @@ show(photo)
 
 #### 4. Encapsulation the Code within an Asynchronous Code
 
-비동기 함수 내에서 `await` keyword 사이의 다른 코드는 *Synchronous 로 작동하며 코드를 순차적으로 실행*한다. 하지만 이것 만으로는 
+비동기 함수 내에서 `await` keyword 외 다른 코드는 *Synchronous 로 작동하며 코드를 순차적으로 실행*한다. 하지만 이것 만으로는 
 충분하지 않은 케이스가 존재한다. 다음 코드는 사진을 *Road Trip* 갤러리에 추가하고, *Summer Vacation* 갤러리에서 삭제하는 코드다.
 
 ```swift
@@ -212,7 +212,7 @@ move(firstPhoto, from: "Summer Vacation", to: "Road Trip")
 ```
 
 이로써 `move(_:from:to:)` 함수는 `await` 중단점을 추가할 경우 *Swift's language-level support 애 의해 compile-time error 가
-발생*하므로(*async* 가 명시되어 있지 않으므로 *Synchronous Function* 이다), `Synchronous 작동을 보장` 받을 수 있다.
+발생*하므로(*async* 가 명시되어 있지 않으므로 *Synchronous Function* 이다), `Synchronous 작동을 보장`받을 수 있다.
 
 ---
 
@@ -224,7 +224,7 @@ move(firstPhoto, from: "Summer Vacation", to: "Road Trip")
 그리고 이와 다른 접근 방법으로, `Asynchronous Sequence`가 있다. 이것은 *Collection 이 모두 준비될 때까지 기다리지 않고, 준비 되는 
 `elements`를 지속적으로 return* 하는 것이다. 즉, *Collection* 이 모두 준비될 때까지 기다리지 않고 `Iterating`을 할 수 있다.
 
-`Iterating Over an Asynchronous Sequence`는 `for-await-in`를 이용해 접근한다.
+`Iterating Over an Asynchronous Sequence`는 `for-await-in`을 이용해 접근한다.
 
 ```swift
 import Foundation
@@ -368,7 +368,7 @@ Swift 의 *Concurrency* 는 `협동 취소 모델(Cooperative Cancellation Model
 
 그리고 취소가 확인된다면, 현재의 코드에서 취소를 처리(handle)해야한다. 예를 들어, `downloadPhoto(named:)`이 취소된 경우, 
 `1. 부분 다운로드를 삭제`하고, `2. 네트워크 접속을 닫음`을 처리해야한다. 그리고 취소를 수동으로 전파하려면 
-Instance Method [Task.cancel()][Apple Developer Documentation - cancel] 를 호출한다.
+Instance Method [Task.cancel()][Apple Developer Documentation - cancel] 을 호출한다.
 
 ---
 
@@ -422,6 +422,11 @@ Swift 는 *Actor 의 `local state`에 접근할 수 있는 것은 Actor 의 `con
 
 잠시 후에 자세히 살펴보겠지만, 이 보장성으로 *Actor* 의 `let` properties 를 제외한 모든 `var` properties 와 `Methods`는 
 반드시 `await` keyword 를 이용해 접근해야하며, 그렇지 않으면 에러가 발생한다.
+
+```swift
+let logger = TemperatureLogger(label: "Outdoors", measurement: 25)
+print(await logger.max)    // 25
+```
 
 Swift 의 이런 보장성을 `Actor Isolation`이라 한다. 
 
@@ -577,7 +582,7 @@ Task {
 - logger.measurements[0] = 0 : `var`로 선언되었지만 *measurements* 는 `actor-isolated property` 이므로 
                                *Actor 의 context 외부에서 수정이 불가능*하다.
 - logger.max : `private(set)`이므로 **get** 은 `internal`, **set** 은 `private`*의 Access Level 을 갖기 때문에 
-               *Class* 와 마찬가지로 getter 메서드 없이 외부에서 접근이 가능*하다. 하지만 `var` 이기 때문에 `await` 없이 
+               **Class** 와 마찬가지로 getter 메서드 없이 외부에서 접근이 가능*하다. 하지만 `var` 이기 때문에 `await` 없이 
                접근하는 것은 불가능하다.
 - logger.max / logger.getMax() : `print(_:)` argument 에 `await`을 걸든, `print(_:)` 호출에 `await`을 걸든 
                                  모두 정상적으로 작동한다. 
@@ -640,7 +645,7 @@ Swift 의 [Extensions](/swift/2023/01/17/extensions.html) 는 `extension` keywor
 
 <br>
 
-[Apple Developer Documentation][Apple Developer Documentation - Sendable] 의 설명을 다시 읽어보자.
+[Sendable][Apple Developer Documentation - Sendable] 의 설명을 다시 읽어보자.
 
 *Sendable Types* 의 값은 하나의 *Concurrency domain* 에서 다른 *Concurrency domain* 으로 안전하게 보낼 수 있다. 
 예를 들어, ***Sendable Values 는 Actor 의 메서드를 호출할 때 arguments 로 전달될 수 있다***. 
