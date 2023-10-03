@@ -269,6 +269,8 @@ testAnyTypes(things)
 3.14159 : a positive double value of 3.14159
 ```
 
+<br>
+
 - String, Tuple and Closure
 
 ```swift
@@ -284,6 +286,8 @@ hello : a string value of "hello"
 (3.0, 5.0) : an (x, y) point at 3.0, 5.0
 (Function) : Hello, Michael
 ```
+
+<br>
 
 - Class, Structure and Enumeration
 

@@ -2211,9 +2211,9 @@ class StepCounter {
 >
 > 1. Subclass 가 자신의 Properties 의 속성을 모두 설정한 후 Superclass 의 Initializers 를 호출한다.
 > 2. Superclass 가 자신의 Designated Initializers 를 이용해 Initialization 을 수행한다. 이때 Superclass 자신이 갖고 있는
-     >    Observers 는 작동하지 않는다. 이로써 Phase 1 이 종료된다.
+>    Observers 는 작동하지 않는다. 이로써 Phase 1 이 종료된다.
 > 3. 이제 `Phase 2`가 진행되고 Subclass 의 Initializers 가  Superclass 의 Properties 를 수정한다. 이때 해당 Properties
-     >    에 Observers 가 붙어있다면 **`willSet`, `didSet`이 작동**한다.
+>    에 Observers 가 붙어있다면 **`willSet`, `didSet`이 작동**한다.
 
 ### Property Wrappers
 
@@ -2642,7 +2642,7 @@ struct SomeStructure {
 >
 > 차이점이 있다면 다음과 같다.
 > - `Instance Methods`는 `context` 내부에 정의된 `Instance Properties`와 `Instance Methods`에 접근 가능하다.   
-    >   또한 Type Methods 접근도 가능한데, `Type 의 full name`을 붙여 접근 가능하다.
+>   또한 Type Methods 접근도 가능한데, `Type 의 full name`을 붙여 접근 가능하다.
 > - `Type Methods`는 `context` 내부에 정의된 `Type Properties`와 `Type Methods`에 접근 가능하다.
 
 자세한 코드는 [Type Method Examples] 를 참고한다.
@@ -2913,7 +2913,7 @@ class AutomaticCar: Car {
 ```swift
 class ElectricMotorCar: AutomaticCar {
     override var currentSpeed: Double { // error: Property overrides a 'final' property
-        
+
     }
 }
 ```
@@ -2991,7 +2991,7 @@ Swift 는 다른 언어와 달리 Parameters 의 **개수**와 **Types** 가 같
 ```swift
 struct Celsius {
     var temperatureInCelsius: Double
-    
+
     init(fromFahrenheit fahrenheit: Double) {
         temperatureInCelsius = (fahrenheit - 32.0) / 1.8
     }
@@ -3252,12 +3252,12 @@ __1 ) `Phase 1`: 0, nil, Custom Initial Values 등의 값을 할당해 `Instance
 > - **Designated Initializers** 또는 **Convenience Initializers** 가 **Class** 에서 호출된다.
 > - `new Instance 를 위한 메모리가 할당`된다(초기화는 하기 전).
 > - **Designated Initializers 가 context 내 모든 Stored Properties 가 값을 가지고 있는지 확인**한다
-    >   (이때 `Stored Properties 에 대한 메모리가 초기화`된다).
+>   (이때 `Stored Properties 에 대한 메모리가 초기화`된다).
 > - **Designated Initializers** 는 **Superclass** 의 **Initializers** 가 자신의 **Stored Properties** 에
-    >   동일한 일을 수행하도록 내버려둔다.
+>   동일한 일을 수행하도록 내버려둔다.
 > - 위 과정은 `Base Class`(최상위 Class)에 도달할 때까지 `Chaining`된다.
 > - `delegates up 이 Base Class 에 도달`하고, `Final Class(최하위 Class)가 모든 값을 저장했다고 확인`하면,
-    >   **Instance 의 메모리는 완벽히 초기화 되었다고 간주**하고, `Phase 1이 완료`된다.
+>   **Instance 의 메모리는 완벽히 초기화 되었다고 간주**하고, `Phase 1이 완료`된다.
 
 <br>
 
@@ -3266,11 +3266,11 @@ __2 ) `Phase 2`: `Customizing` 할 기회를 처리한다__
 ![Initialization Phase 2](/assets/images/posts/2022-12-01-initialization/twoPhaseInitialization02_2x.png)
 
 > - Phase 1이 **Final Class 에서 Base Class 까지 delegates up 을 하며 Chaining** 을 했다면 이번에는
-    >   반대로 **Base Class 에서 Final Class 까지** `working back down`을 하며 내려간다. `Phase 2`는 Phase1 이
-    >   **Instance** 의 메모리를 초기화 했기 때문에 **Instance Methods** 나 **Instance Properties** 에
-    >   `접근하거나 'self' 참조를 할 수 있다`.
+>   반대로 **Base Class 에서 Final Class 까지** `working back down`을 하며 내려간다. `Phase 2`는 Phase1 이
+>   **Instance** 의 메모리를 초기화 했기 때문에 **Instance Methods** 나 **Instance Properties** 에
+>   `접근하거나 'self' 참조를 할 수 있다`.
 > - **Superclass** 의 **Designated Initializers** 에게 주어진 **Customizing** 할 기회를 모두 처리하면
-    >   **Subclass** 의 **Designated Initializers** 에게 **Customizing** 할 기회가 주어진다.
+>   **Subclass** 의 **Designated Initializers** 에게 **Customizing** 할 기회가 주어진다.
 > - 위 과정은 `Phase 1의 Chaining 의 역순`으로 일어나며 `마지막으로 원래 호출되었던 Convenience Initializers 에 도달`한다.
 > - **이 과정을 모두 완료하면 Initialization 이 종료되고, 의도한 Instance 를 얻게 된다**.
 
@@ -3299,12 +3299,12 @@ Subclass 의 `new Instance`를 생성하기 위해 사용되는 상황을 방지
 *Properties*, *Methods* 와 마찬가지로 반드시 `override` modifier 를 사용해야한다.
 
 > - **Subclass** 에서 구현하는 **Initializers** 가 **Designated Initializers** 든, **Convenience Initializers** 든
-    >   상관 없이 `Superclass 의 Designated Initializers 를 재정의 하는 경우`라면 반드시 `override modifier 를 사용해야한다`.
+>   상관 없이 `Superclass 의 Designated Initializers 를 재정의 하는 경우`라면 반드시 `override modifier 를 사용해야한다`.
 > - 반면, **Subclass** 에서 구현하는 **Initializers** 가 `Superclass 의 Convenience Initializers 와 일치하는 경우`는
-    >   `override modifier 를 사용하지 않는다`.  
-    >   [Initializer Delegation for Class Types](#h-initializer-delegation-rule) 에서 설명한 규칙에 따라
-    >   `Superclass 의 Convenience Initializers`는 `Subclass 에 의해 직접 호출되거나 Overriding 되는 것이 불가능`하기
-    >   때문에 새롭게 구현하는 것이므로 `override modifier 를 사용하지 않는다`.
+>   `override modifier 를 사용하지 않는다`.  
+>   [Initializer Delegation for Class Types](#h-initializer-delegation-rule) 에서 설명한 규칙에 따라
+>   `Superclass 의 Convenience Initializers`는 `Subclass 에 의해 직접 호출되거나 Overriding 되는 것이 불가능`하기
+>   때문에 새롭게 구현하는 것이므로 `override modifier 를 사용하지 않는다`.
 
 #### Implicit Delegates Up
 
@@ -3321,10 +3321,10 @@ Swift 의 Subclass 는 *Superclass 의 Initializers 를* `기본으로 상속하
 
 
 > - **Designated Initializers** 의 자동 상속 : `Subclass 가 아무런 Designated Initializers 를 정의하지 않았다면`,
-    >   자동으로 `Superclass 의 모든 Designated Initializers 를 상속`한다.
+>   자동으로 `Superclass 의 모든 Designated Initializers 를 상속`한다.
 > - **Convenience Initializers** 의 자동 상속 : Subclass 가 위 "Designated Initializers 의 자동 상속" 규칙에 따라
-    >   생성 하든, 직접 구현을 해 생성 하든, `Superclass 와 매칭되는 모든 Designated Initializers 를 제공하면`, 자동으로
-    >   `Superclass 의 모든 Convenience Initializers 를 상속`한다.
+>   생성 하든, 직접 구현을 해 생성 하든, `Superclass 와 매칭되는 모든 Designated Initializers 를 제공하면`, 자동으로
+>   `Superclass 의 모든 Convenience Initializers 를 상속`한다.
 
 - Case 1
 
@@ -3363,7 +3363,7 @@ class Vehicle {
     var description: String {
         "\(numberOfWheels) wheels(s)"
     }
-    
+
     init(numberOfWheels: Int) {
         self.numberOfWheels = numberOfWheels
     }
@@ -3498,14 +3498,14 @@ class RecipeIngredient: Food {
 > 하므로써 **Initializers** 가 3개가 되고, 모두 동일한 **Instance** 결과물을 얻는다는 것은 동일하지만 다음과 같은 차이를 갖는다.
 >
 > - Case 1은 서로 다른 2개의 **Designated Initializers**(Custom Initializers 와 Overriding Initializers)가
-    >   `Superclass 의 Designated Initialziers 에 독립적으로 delegates up` 한다.
+>   `Superclass 의 Designated Initialziers 에 독립적으로 delegates up` 한다.
 > - Case 2는 **Overriding Initializers** 를 **Convenience Initializers** 로 만들어, `context 내 존재하는
-    >   Designated Initializers(Custom Initializers)로 delegates`하고, 이 `Designated Initializers 가 다시
-    >   Superclass 의 Designated Initializers 에 delegates up` 하도록 한다.
+>   Designated Initializers(Custom Initializers)로 delegates`하고, 이 `Designated Initializers 가 다시
+>   Superclass 의 Designated Initializers 에 delegates up` 하도록 한다.
 > - Case 2에서 상속할 때 `override convenience` 를 붙였다고 *Superclass 의 convenience Initializers* 를 *override*
-    >   한 것이 아니니 혼동하지 말고 *arguments* 를 자세히 보자. <span style="color: red;">*Superclass* 가 가지고 있는
-    >   *Convenience Initializers* 는 *Subclass* 에서 직접 호출되거나 *Overriding* 되는 것이 불가능</span>함을 다시
-    >   상기하도록 하자.
+>   한 것이 아니니 혼동하지 말고 *arguments* 를 자세히 보자. <span style="color: red;">*Superclass* 가 가지고 있는
+>   *Convenience Initializers* 는 *Subclass* 에서 직접 호출되거나 *Overriding* 되는 것이 불가능</span>함을 다시
+>   상기하도록 하자.
 
 
 ```swift
@@ -3833,7 +3833,7 @@ __1 ) Case 3의 첫 번째 방법 - without *Forced Unwrapping*__
 >
 > - **Superclass** 에 `Nonfailable Initializers`가 존재할 것.
 > - **Superclass 의 Failable Initializers 가 Stored Properties 에 값을 저장하는 경우**,
-    >   **Phase 2 에서 Customizing 할 기회를 이용해 처리할 수 있도록** `Superclass 의 Properties`가 `Variable`일 것.
+>   **Phase 2 에서 Customizing 할 기회를 이용해 처리할 수 있도록** `Superclass 의 Properties`가 `Variable`일 것.
 
 ```swift
 class Document {
@@ -4756,7 +4756,7 @@ move(firstPhoto, from: "Summer Vacation", to: "Road Trip")
 
 ### Asynchronous Sequences(for-await-in)
 
-`Iterating Over an Asynchronous Sequence`는 `for-await-in`을 이용해 접근하며, `Collection`이 모두 준비되는 것을 
+`Iterating Over an Asynchronous Sequence`는 `for-await-in`을 이용해 접근하며, `Collection`이 모두 준비되는 것을
 기다리지 않고 `elements`가 준비되는대로 `Iterating`한다.
 
 ```swift
@@ -4788,7 +4788,7 @@ let photos = [firstPhoto, secondPhoto, thirdPhoto]
 show(photos)
 ```
 
-위와 같은 코드는 첫 번째 다운로드가 완료된 후 두 번째 다운로드를 진행한다. 네트워크를 통한 다운로드는 멀티 다운로드를 하는 것이 더 효율적이다. 
+위와 같은 코드는 첫 번째 다운로드가 완료된 후 두 번째 다운로드를 진행한다. 네트워크를 통한 다운로드는 멀티 다운로드를 하는 것이 더 효율적이다.
 따라서 위 3개의 *Asynchronous Function* 은 다음과 같이 하나의 중단점으로 묶어 관리할 수 있다.
 
 ```swift
@@ -4800,7 +4800,7 @@ let photos = await [firstPhoto, secondPhoto, thirdPhoto]
 show(photos)
 ```
 
-이렇게 하면 *Asynchronous Property* 가 담긴 `Array`에 `await` 중단점이 걸려 있기 때문에 *Array 에 모든 값이 assign 되는 
+이렇게 하면 *Asynchronous Property* 가 담긴 `Array`에 `await` 중단점이 걸려 있기 때문에 *Array 에 모든 값이 assign 되는
 것을 기다린 후 재개*된다.
 
 > **Swift** 의 `await [func1, func2]`은  **JavaScript** 의
@@ -4934,7 +4934,7 @@ actor TemperatureLogger {
 Swift 는 *Actor 의 `local state`에 접근할 수 있는 것은 Actor 의 `context`로 제한*함으로써 `Asynchronous work`에서도
 `mutable state`를 ***안전하게 공유할 수 있음을 보장(guarantee)***한다.
 
-이 보장성으로 *Actor* 의 `let` properties 를 제외한 모든 `var` properties 와 `Methods`는 반드시 `await` keyword 를 
+이 보장성으로 *Actor* 의 `let` properties 를 제외한 모든 `var` properties 와 `Methods`는 반드시 `await` keyword 를
 이용해 접근해야하며, 그렇지 않으면 에러가 발생한다.
 
 ```swift
@@ -5135,6 +5135,325 @@ struct Box<Val: Sendable> {
     var abc: Val
 }
 ```
+
+---
+
+## 17. Type Casting 👩‍💻
+
+### What is Type Casting?
+
+`Type Casting`은 단순히 타입을 다른 타입으로 변경하는 것만을 의미하는 것이 아니다. `Instance 의 타입을 확인`하거나,
+해당 *Instance 를 자신의 `Class Hierarchy` 구조 안에서 `Superclass` 또는 `Subclass`로 다루기 위해 사용*한다.
+
+Swift 에서 Type Casting 은 `is`와 `as` operators 를 이용해 구현된다. 이 두 operators 는 간단하면서 문장을 표현하는 것과
+같은 자연스러운 방법으로 `Value`에 대한 `Checking Type`과 `Casting Another Types`을 지원한다.
+
+그리고 *Checking Type*은 해당 `Instance 의 타입을 확인`하는 것 뿐 아니라 그 타입이 특정 `Protocols 를 따르고 있는지 확인`하는
+데 사용되기도 한다.
+
+### Casting Operators
+
+Swift 는 *Instance 의 타입을 확인*하거나 *Class Hierarchy 구조 안에서 Downcasting, Upcasting* 을 하기 위해 
+`is`, `as` 그리고 `as?` 또는 `as!` 와 같은 Operators 를 제공한다.
+
+```swift
+class MediaItem {
+    var name: String
+    init(name: String) {
+        self.name = name
+    }
+}
+
+class Movie: MediaItem {
+    var director: String
+    init(name: String, director: String) {
+        self.director = director
+        super.init(name: name)
+    }
+}
+
+class Song: MediaItem {
+    var artist: String
+    init(name: String, artist: String) {
+        self.artist = artist
+        super.init(name: name)
+    }
+}
+```
+
+**MediaItem** 이라는 Base Class 와 이를 상속하는 **Movie**, **Song** Classes 를 이용해 사용 방법을 확인해보자. 
+
+#### Checking Type (Type Check Operator '`is`')
+
+`Type Check Operator(is)`는 일치하는 타입인지 확인 후 `Bool`을 반환한다.
+
+```swift
+let aMedia = MediaItem(name: "Avatar")
+let aMovie = Movie(name: "Casablanca", director: "Michael Curtiz")
+```
+
+```swift
+print(aMedia is MediaItem)  // true
+print(aMedia is Movie)      // false
+print(aMedia is Song)       // false
+
+print(aMovie is MediaItem)  // true
+print(aMovie is Movie)      // true
+print(aMovie is Song)       // false
+```
+
+Superclass 의 instance 는 Subclass 의 *Members* 를 모두 갖지 못하므로 Subclass 타입이 될 수 없다.  
+반면 Subclass 의 instance 는 Superclass 의 모든 *Members* 를 모두 갖고 있으므로, Superclass 타입이 될 수 있다.
+
+<br>
+
+위 *library* 에 각 타입이 몇 개씩 저장되어 있는지 `Type Check Operator`를 사용해 확인해보자.
+
+```swift
+var (movieCount, songCount) = (0, 0)
+
+library.forEach {
+    switch $0 {
+    case is Movie: movieCount += 1
+    case is Song: songCount += 1
+    default: break
+    }
+}
+
+print("Media library contains \(movieCount) movies and \(songCount) songs")
+```
+
+```console
+Media library contains 2 movies and 3 songs
+```
+
+#### Downcasting (Type Cast Operator '`as?`, `as!`')
+
+특정 *Class Type 의 상수나 변수*는 겉으로 보이는 것과 달리 실제로는 `Subclass Instance 를 참조`하고 있는 경우도 있다.
+위에서 *library* 가 그런 경우다. 이때 이것의 Type 을 *Subclass Type* 으로 `Downcasting` 할 수 있다.
+
+*Downcasting* 은 실패할 수 있기 때문에 2가지의 Operators 가 제공된다. 조건부 형식(conditional form)인 `as?`는
+`Optional`을 반환하므로 `Downcasting 의 성공 여부를 확인`하는 용도로 사용한다. 만약 *Downcasting* 성공 여부를 확신할 수 있을
+경우는 강제 형식(forced form)인 `as!`를 사용해 `Forced Unwrapping`된 타입을 얻을 수 있다. 단, *Downcasting* 이 유효하지
+않을 경우 *Runtime Error* 가 trigger 되므로 반드시 성공함을 확신할 수 있을 때만 사용해야한다.
+
+> `Casting`은 `실제 instance 를 수정하거나 값을 바꾸지 않는다`.
+> **instance 는 그대로 유지하면서, 단지 casting 된 타입의 instance 로 다루고 접근**할 수 있도록 한다.
+
+```swift
+library.forEach {
+    if let movie = $0 as? Movie {
+        print("Movie: \(movie.name), dir. \(movie.director)")
+    } else if let song = $0 as? Song {
+        print("Song: \(song.name), by \(song.artist)")
+    }
+}
+```
+
+```console
+Movie: Casablanca, dir. Michael Curtiz
+Song: Blue Suede Shoes, by Elvis Presley
+Movie: Citizen Kane, dir. Orson Welles
+Song: The One And Only, by Chesney Hawkes
+Song: Never Gonna Give You Up, by Rick Astley
+```
+
+#### Type Casting for Any and AnyObject(Upcasting '`as`')
+
+Swift 는 불특정 타입을 위한 두 가지의 특별한 타입을 제공한다.
+
+- Any : Closure, Function, Class, Structure, Enumeration Types 를 포함한 모든 타입의 instance 를 대신할 수 있다.
+- AnyObject : Class Types 를 대신할 수 있다.
+
+> `Any`와 `AnyObject`는 ***이것이 제공하는 작동 및 기능이 명시적으로 필요한 경우에만 사용***해야한다. 그 외 경우는 언제나 명확한 타입을
+> 지정하는 것이 더 좋다.
+>
+> `Any`는 `Optional 을 포함한 모든 타입을 대신`할 수 있다.
+
+예제를 위해 Structure 와 Enumeration 을 하나씩 추가하자.
+
+```swift
+struct Point {
+    var x = 0.0, y = 0.0
+}
+
+enum CompassPoint {
+    case east, west, south, north
+}
+```
+
+<br>
+
+__1 ) Any__
+
+```swift
+var things: [Any] = []
+
+func testAnyTypes(_ things: [Any]) {
+    for thing in things {
+        switch thing {
+        case 0 as Int:
+            print("\(thing) : zero as an Int")
+        case 0 as Double:
+            print("\(thing) : zero as a Double")
+        case let someInt as Int:
+            print("\(thing) : an integer value of \(someInt)")
+        case let someDouble as Double where someDouble > 0:
+            print("\(thing) : a positive double value of \(someDouble)")
+        case is Double:
+            print("some other double value that I don't want to print")
+        case let someString as String:
+            print("\(thing) : a string value of \"\(someString)\"")
+        case let (x, y) as (Double, Double):
+            print("\(thing) : an (x, y) point at \(x), \(y)")
+        case let stringConverter as (String) -> String:
+            print("\(thing) : \(stringConverter("Michael"))")
+        case let movie as Movie:
+            print("\(thing) : a movie called \(movie.name), dir. \(movie.director)")
+        case let point as Point:
+            print("\(thing) : a point is at (\(point.x), \(point.y))")
+        case let direction as CompassPoint:
+            print("\(thing) : a direction is \(direction)")
+        default:
+            print("\(thing) : something else")
+        }
+    }
+}
+```
+
+<br>
+
+`[Any]`에 여러 타입을 저장하고, 이를 `Upcasting`을 통해 다시 확인해보자.
+
+- Int and Double
+
+```swift
+things.append(0)            // Int
+things.append(0.0)          // Double
+things.append(42)           // Int
+things.append(3.14159)      // Double
+
+testAnyTypes(things)
+```
+
+```console
+0 : zero as an Int
+0.0 : zero as a Double
+42 : an integer value of 42
+3.14159 : a positive double value of 3.14159
+```
+
+<br>
+
+- String, Tuple and Closure
+
+```swift
+things.append("hello")      // String
+things.append((3.0, 5.0))   // Tuple of type (Double, Double)
+things.append({ (name: String) -> String in "Hello, \(name)" }) // Closure of type (name: Stirng) -> String
+
+testAnyTypes(things)
+```
+
+```console
+hello : a string value of "hello"
+(3.0, 5.0) : an (x, y) point at 3.0, 5.0
+(Function) : Hello, Michael
+```
+
+<br>
+
+- Class, Structure and Enumeration
+
+```swift
+things.append(Movie(name: "Avatar", director: "James Francis Cameron")) // Class
+things.append(Point(x: 5.2, y: 3.0))                                    // Structure
+things.append(CompassPoint.east)                                        // Enumeration
+
+testAnyTypes(things)
+```
+
+```console
+__lldb_expr_81.Movie : a movie called Avatar, dir. James Francis Cameron
+Point(x: 5.2, y: 3.0) : a point is at (5.2, 3.0)
+east : a direction is east
+```
+
+<br>
+
+__2 ) AnyObject__
+
+![AnyObject only represent class types](/assets/images/posts/2023-01-14-type-casting/any-object-only-can-store-class-type.png)
+
+`AnyObject`는 `Any`와 달리 오직 `Class Types`만 대신할 수 있다.
+
+```swift
+var things: [AnyObject] = []
+things.append(Movie(name: "Avatar", director: "James Francis Cameron")) // Class
+
+if let aMovie = things[0] as? Movie {
+    print("\(aMovie) : a movie called \(aMovie.name), dir. \(aMovie.director)")
+}
+```
+
+```console
+__lldb_expr_92.Movie : a movie called Avatar, dir. James Francis Cameron
+```
+
+<br>
+
+__3 ) Do Explicit Casting Optional to Any__
+
+다음 코드를 보자. *Optional* 을 그대로 사용하면 작동은 되지만 Swift 는 이를 해결할 것을 경고한다.
+
+```swift
+let optionalNumber3: Int? = 3
+
+things.append(optionalNumber3)          // Warning: Expression implicitly coerced from 'Int?' to 'Any'
+
+testAnyTypes(things)
+```
+
+```console
+Optional(3) : an integer value of 3
+```
+
+이때 경고를 제거하기 위해 `Nil-Coalescing Operator(??)`나 `Forced Unwrapping(!)`을 사용할 수 있다.
+
+```swift
+let optionalNumber5: Int? = 5
+let optionalNumber7: Int? = 7
+
+things.append(optionalNumber5 ?? 0)
+things.append(optionalNumber7!)
+
+testAnyTypes(things)
+```
+
+```console
+5 : an integer value of 5
+7 : an integer value of 7
+```
+
+<br>
+
+사실 <span style="color: red;">Error</span> 가 아닌 <span style="color: orange;">Warning</span>
+이므로 작동에 문제는 없다. 하지만 *경고는 제거하고, Unwrapping 은 하지 않은 채 Optional 상태를 유지*할 수는 없을까?
+
+`Any` casting 은 이를 가능하게 한다.
+
+```swift
+let optionalNumber9: Int? = 9
+
+things.append(optionalNumber9 as Any)
+
+testAnyTypes(things)
+```
+
+```console
+Optional(9) : an integer value of 9
+```
+
 
 
 
