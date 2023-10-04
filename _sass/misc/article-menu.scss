@@ -4,8 +4,17 @@
 
 .post-menu {
   padding-left: 20px;
-  min-width: 200px;
-  max-width: 600px;
+  width: 200px;
+
+  @media screen and (min-width: 1000px) {
+    width: 250px;
+  }
+  @media screen and (min-width: 1200px) {
+    width: 300px;
+  }
+  @media screen and (min-width: 1600px) {
+    width: 400px;
+  }
 
   .post-menu-title {
     font-size: $base-font-size * 1.5;
