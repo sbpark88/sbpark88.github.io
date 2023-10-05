@@ -2642,7 +2642,7 @@ struct SomeStructure {
 >
 > 차이점이 있다면 다음과 같다.
 > - `Instance Methods`는 `context` 내부에 정의된 `Instance Properties`와 `Instance Methods`에 접근 가능하다.   
->   또한 Type Methods 접근도 가능한데, `Type 의 full name`을 붙여 접근 가능하다.
+   또한 Type Methods 접근도 가능한데, `Type 의 full name`을 붙여 접근 가능하다.
 > - `Type Methods`는 `context` 내부에 정의된 `Type Properties`와 `Type Methods`에 접근 가능하다.
 
 자세한 코드는 [Type Method Examples] 를 참고한다.
@@ -3252,12 +3252,12 @@ __1 ) `Phase 1`: 0, nil, Custom Initial Values 등의 값을 할당해 `Instance
 > - **Designated Initializers** 또는 **Convenience Initializers** 가 **Class** 에서 호출된다.
 > - `new Instance 를 위한 메모리가 할당`된다(초기화는 하기 전).
 > - **Designated Initializers 가 context 내 모든 Stored Properties 가 값을 가지고 있는지 확인**한다
->   (이때 `Stored Properties 에 대한 메모리가 초기화`된다).
+   (이때 `Stored Properties 에 대한 메모리가 초기화`된다).
 > - **Designated Initializers** 는 **Superclass** 의 **Initializers** 가 자신의 **Stored Properties** 에
->   동일한 일을 수행하도록 내버려둔다.
+   동일한 일을 수행하도록 내버려둔다.
 > - 위 과정은 `Base Class`(최상위 Class)에 도달할 때까지 `Chaining`된다.
 > - `delegates up 이 Base Class 에 도달`하고, `Final Class(최하위 Class)가 모든 값을 저장했다고 확인`하면,
->   **Instance 의 메모리는 완벽히 초기화 되었다고 간주**하고, `Phase 1이 완료`된다.
+   **Instance 의 메모리는 완벽히 초기화 되었다고 간주**하고, `Phase 1이 완료`된다.
 
 <br>
 
@@ -3266,11 +3266,11 @@ __2 ) `Phase 2`: `Customizing` 할 기회를 처리한다__
 ![Initialization Phase 2](/assets/images/posts/2022-12-01-initialization/twoPhaseInitialization02_2x.png)
 
 > - Phase 1이 **Final Class 에서 Base Class 까지 delegates up 을 하며 Chaining** 을 했다면 이번에는
->   반대로 **Base Class 에서 Final Class 까지** `working back down`을 하며 내려간다. `Phase 2`는 Phase1 이
->   **Instance** 의 메모리를 초기화 했기 때문에 **Instance Methods** 나 **Instance Properties** 에
->   `접근하거나 'self' 참조를 할 수 있다`.
+   반대로 **Base Class 에서 Final Class 까지** `working back down`을 하며 내려간다. `Phase 2`는 Phase1 이
+   **Instance** 의 메모리를 초기화 했기 때문에 **Instance Methods** 나 **Instance Properties** 에
+   `접근하거나 'self' 참조를 할 수 있다`.
 > - **Superclass** 의 **Designated Initializers** 에게 주어진 **Customizing** 할 기회를 모두 처리하면
->   **Subclass** 의 **Designated Initializers** 에게 **Customizing** 할 기회가 주어진다.
+   **Subclass** 의 **Designated Initializers** 에게 **Customizing** 할 기회가 주어진다.
 > - 위 과정은 `Phase 1의 Chaining 의 역순`으로 일어나며 `마지막으로 원래 호출되었던 Convenience Initializers 에 도달`한다.
 > - **이 과정을 모두 완료하면 Initialization 이 종료되고, 의도한 Instance 를 얻게 된다**.
 
@@ -3299,12 +3299,12 @@ Subclass 의 `new Instance`를 생성하기 위해 사용되는 상황을 방지
 *Properties*, *Methods* 와 마찬가지로 반드시 `override` modifier 를 사용해야한다.
 
 > - **Subclass** 에서 구현하는 **Initializers** 가 **Designated Initializers** 든, **Convenience Initializers** 든
->   상관 없이 `Superclass 의 Designated Initializers 를 재정의 하는 경우`라면 반드시 `override modifier 를 사용해야한다`.
+   상관 없이 `Superclass 의 Designated Initializers 를 재정의 하는 경우`라면 반드시 `override modifier 를 사용해야한다`.
 > - 반면, **Subclass** 에서 구현하는 **Initializers** 가 `Superclass 의 Convenience Initializers 와 일치하는 경우`는
->   `override modifier 를 사용하지 않는다`.  
->   [Initializer Delegation for Class Types](#h-initializer-delegation-rule) 에서 설명한 규칙에 따라
->   `Superclass 의 Convenience Initializers`는 `Subclass 에 의해 직접 호출되거나 Overriding 되는 것이 불가능`하기
->   때문에 새롭게 구현하는 것이므로 `override modifier 를 사용하지 않는다`.
+   `override modifier 를 사용하지 않는다`.  
+   [Initializer Delegation for Class Types](#h-initializer-delegation-rule) 에서 설명한 규칙에 따라
+   `Superclass 의 Convenience Initializers`는 `Subclass 에 의해 직접 호출되거나 Overriding 되는 것이 불가능`하기
+   때문에 새롭게 구현하는 것이므로 `override modifier 를 사용하지 않는다`.
 
 #### Implicit Delegates Up
 
@@ -3321,10 +3321,10 @@ Swift 의 Subclass 는 *Superclass 의 Initializers 를* `기본으로 상속하
 
 
 > - **Designated Initializers** 의 자동 상속 : `Subclass 가 아무런 Designated Initializers 를 정의하지 않았다면`,
->   자동으로 `Superclass 의 모든 Designated Initializers 를 상속`한다.
+   자동으로 `Superclass 의 모든 Designated Initializers 를 상속`한다.
 > - **Convenience Initializers** 의 자동 상속 : Subclass 가 위 "Designated Initializers 의 자동 상속" 규칙에 따라
->   생성 하든, 직접 구현을 해 생성 하든, `Superclass 와 매칭되는 모든 Designated Initializers 를 제공하면`, 자동으로
->   `Superclass 의 모든 Convenience Initializers 를 상속`한다.
+   생성 하든, 직접 구현을 해 생성 하든, `Superclass 와 매칭되는 모든 Designated Initializers 를 제공하면`, 자동으로
+   `Superclass 의 모든 Convenience Initializers 를 상속`한다.
 
 - Case 1
 
@@ -3498,14 +3498,14 @@ class RecipeIngredient: Food {
 > 하므로써 **Initializers** 가 3개가 되고, 모두 동일한 **Instance** 결과물을 얻는다는 것은 동일하지만 다음과 같은 차이를 갖는다.
 >
 > - Case 1은 서로 다른 2개의 **Designated Initializers**(Custom Initializers 와 Overriding Initializers)가
->   `Superclass 의 Designated Initialziers 에 독립적으로 delegates up` 한다.
+   `Superclass 의 Designated Initialziers 에 독립적으로 delegates up` 한다.
 > - Case 2는 **Overriding Initializers** 를 **Convenience Initializers** 로 만들어, `context 내 존재하는
->   Designated Initializers(Custom Initializers)로 delegates`하고, 이 `Designated Initializers 가 다시
->   Superclass 의 Designated Initializers 에 delegates up` 하도록 한다.
+   Designated Initializers(Custom Initializers)로 delegates`하고, 이 `Designated Initializers 가 다시
+   Superclass 의 Designated Initializers 에 delegates up` 하도록 한다.
 > - Case 2에서 상속할 때 `override convenience` 를 붙였다고 *Superclass 의 convenience Initializers* 를 *override*
->   한 것이 아니니 혼동하지 말고 *arguments* 를 자세히 보자. <span style="color: red;">*Superclass* 가 가지고 있는
->   *Convenience Initializers* 는 *Subclass* 에서 직접 호출되거나 *Overriding* 되는 것이 불가능</span>함을 다시
->   상기하도록 하자.
+   한 것이 아니니 혼동하지 말고 *arguments* 를 자세히 보자. <span style="color: red;">*Superclass* 가 가지고 있는
+   *Convenience Initializers* 는 *Subclass* 에서 직접 호출되거나 *Overriding* 되는 것이 불가능</span>함을 다시
+   상기하도록 하자.
 
 
 ```swift
@@ -3833,7 +3833,7 @@ __1 ) Case 3의 첫 번째 방법 - without *Forced Unwrapping*__
 >
 > - **Superclass** 에 `Nonfailable Initializers`가 존재할 것.
 > - **Superclass 의 Failable Initializers 가 Stored Properties 에 값을 저장하는 경우**,
->   **Phase 2 에서 Customizing 할 기회를 이용해 처리할 수 있도록** `Superclass 의 Properties`가 `Variable`일 것.
+   **Phase 2 에서 Customizing 할 기회를 이용해 처리할 수 있도록** `Superclass 의 Properties`가 `Variable`일 것.
 
 ```swift
 class Document {
@@ -4903,11 +4903,11 @@ Instance Method [Task.cancel()][Apple Developer Documentation - cancel] 을 호�
 
 > - `let`으로 선언한 상수에 접근할 때는 `await` keyword 를 명시하지 않아도 된다. `immutable`이기 때문이다.
 > - `var`로 선언한 변수라 하더라도 이 변수는 `actor-isolated properties`이므로 외부 `context`에서 임의로 값을 수정하는
->   것은 불가능하다. `mutable`이기 때문에 반드시 `await` keyword 를 이용해 접근해야한다.
+   것은 불가능하다. `mutable`이기 때문에 반드시 `await` keyword 를 이용해 접근해야한다.
 > - 메서드는 반환값이 없는 메서드라 하더라도 암시적으로 `Void`라는 타입 특수한 값(`()` 로 쓰여진 `Empty Tuple`)을 반환한다.  
->   그리고 단순히 메서드의 타입만으로는 이 메서드가 `Actor`의 `mutable state`와 상호작용을 하지 않는다는 것을 보장할 수 없다.
->   예를 들어 따라서 `Dictionaries`의 값을 조회시 항상 `Optional`로 반환하는 것처럼 `Actor`의 모든 메서드는 호출시
->   항상 `await` keyword 를 이용해 접근해야한다.
+   그리고 단순히 메서드의 타입만으로는 이 메서드가 `Actor`의 `mutable state`와 상호작용을 하지 않는다는 것을 보장할 수 없다.
+   예를 들어 따라서 `Dictionaries`의 값을 조회시 항상 `Optional`로 반환하는 것처럼 `Actor`의 모든 메서드는 호출시
+   항상 `await` keyword 를 이용해 접근해야한다.
 
 다음 예제는 온도를 기록하는 `Actor`다.
 
@@ -4969,7 +4969,7 @@ extension TemperatureLogger {
 }
 ```
 
-Swift 의 [Extensions](#h-19-extensions) 는 `extension` keyword 를 이용해 *Class*, *Structure*,
+Swift 의 [Extensions](#h-20-extensions-) 는 `extension` keyword 를 이용해 *Class*, *Structure*,
 *Enumeration*, *Protocol* 을 확장한다. 이는 *Objective-C* 의 *Categories* 와 유사하다.
 
 즉, `update(with:)` 메서드는 *이미 Actor 내부에 있는 것이기 때문에 Actor 의 `context`에 포함*되므로 `await` keyword
@@ -5153,7 +5153,7 @@ Swift 에서 Type Casting 은 `is`와 `as` operators 를 이용해 구현된다.
 
 ### Casting Operators
 
-Swift 는 *Instance 의 타입을 확인*하거나 *Class Hierarchy 구조 안에서 Downcasting, Upcasting* 을 하기 위해 
+Swift 는 *Instance 의 타입을 확인*하거나 *Class Hierarchy 구조 안에서 Downcasting, Upcasting* 을 하기 위해
 `is`, `as` 그리고 `as?` 또는 `as!` 와 같은 Operators 를 제공한다.
 
 ```swift
@@ -5181,7 +5181,7 @@ class Song: MediaItem {
 }
 ```
 
-**MediaItem** 이라는 Base Class 와 이를 상속하는 **Movie**, **Song** Classes 를 이용해 사용 방법을 확인해보자. 
+**MediaItem** 이라는 Base Class 와 이를 상속하는 **Movie**, **Song** Classes 를 이용해 사용 방법을 확인해보자.
 
 #### Checking Type (Type Check Operator '`is`')
 
@@ -5454,8 +5454,146 @@ testAnyTypes(things)
 Optional(9) : an integer value of 9
 ```
 
+---
 
+## 19. Nested Types 👩‍💻
 
+### Nested Types
+
+*Enumerations* 는 주로 특정 *Classes* 또는 *Structures* 의 기능을 지원하기 위해 사용된다. 유사하게 더 복잡한 타입의
+*context* 에서 사용하기 위해 순수하게 `Utility Classes or Structures`를 정의하는 것이 편리할 수도 있다.  
+이를 위해 Swift 의 Classes, Structures, Enumerations 는 모두 `Nested Types`를 지원한다. 이를 통해 `scope`를
+제한할 수 있다. Nested Types 는 지원하는 타입의 내부 중괄호 내에 작성해야하며, Nested Types 는 필요한 만큼 중첩이 가능하다.
+
+```swift
+struct BlackjackCard {
+
+    // nested Suit enumeration
+    enum Suit: Character {
+        case spades = "♠", hearts = "♡", diamonds = "♢", clubs = "♣"
+    }
+
+    // nested Rank enumeration
+    enum Rank: Int {
+        case two = 2, three, four, five, six, seven, eight, nine, ten
+        case jack, queen, king, ace
+        struct Values {
+            let first: Int, second: Int?
+        }
+        var values: Values {
+            switch self {
+            case .ace:
+                return Values(first: 1, second: 11)
+            case .jack, .queen, .king:
+                return Values(first: 10, second: nil)
+            default:
+                return Values(first: self.rawValue, second: nil)
+            }
+        }
+    }
+
+    // BlackjackCard properties and methods
+    let rank: Rank, suit: Suit
+    var description: String {
+        var output = "suit is \(suit.rawValue),"
+        output += " value is \(rank.values.first)"
+        if let second = rank.values.second {
+            output += " or \(second)"
+        }
+        return output
+    }
+}
+```
+
+```swift
+let aceOfSpades = BlackjackCard(rank: .ace, suit: .spades)
+let kingOfHearts = BlackjackCard(rank: .king, suit: .hearts)
+let sixOfDiamonds = BlackjackCard(rank: .six, suit: .diamonds)
+
+print("The ace of spades : \(aceOfSpades.description)")
+print("The king of hearts : \(kingOfHearts.description)")
+print("The six of diamonds : \(sixOfDiamonds.description)")
+```
+
+```console
+The ace of spades : suit is ♠, value is 1 or 11
+The king of hearts : suit is ♡, value is 10
+The six of diamonds : suit is ♢, value is 6
+```
+
+### Nested Functions
+
+Swift 는 First-Class Citizens 를 지원하는 언어로 Classes, Structures, Enumerations Types 의 중첩뿐 아니라
+*Function Types* 를 중첩하는 것 역시 가능하다.
+
+```swift
+func chooseStepFunction(backward: Bool) -> (Int) -> Int {
+    func stepForward(_ input: Int) -> Int {
+        print(#function)
+        return input + 1
+    }
+    func stepBackward(_ input: Int) -> Int {
+        print(#function)
+        return input - 1
+    }
+    
+    return backward ? stepBackward(_:) : stepForward(_:)
+}
+```
+
+`chooseStepFunction(backward:)` 함수를 위해 사용되는 `stepForward(_:)`, `stepBackward(_:)` 함수를
+`chooseStepFunction(backward:)` 함수의 `body`에 중첩해 접근을 제한하고 가독성읖 높였다.
+
+```swift
+func movingStart(initialValue: Int) {
+    var currentValue = initialValue
+    let moveNearToZero = chooseStepFunction(backward: currentValue > 0)
+    
+    print("Counting to zero:")
+    while currentValue != 0 {
+        print("\(currentValue)... Call ", terminator: "")
+        currentValue = moveNearToZero(currentValue)
+    }
+    print("zero!\n")
+}
+
+movingStart(initialValue: 4)
+movingStart(initialValue: -3)
+```
+
+```console
+Conting to zero:
+4... Call stepBackward(_:)
+3... Call stepBackward(_:)
+2... Call stepBackward(_:)
+1... Call stepBackward(_:)
+zero!
+
+Conting to zero:
+-3... Call stepForward(_:)
+-2... Call stepForward(_:)
+-1... Call stepForward(_:)
+zero!
+```
+
+### Referring to Nested Types
+
+`Nested Types`는 기본적으로 이것이 `정의된 context 의 내부로 범위가 제한`된다. 이렇게 캡슐화 함으로써 전역에서 접근할 필요가 없는
+Types 를 숨겨 코드를 더욱 안전하고 가독성 높게 만들 수 있다. 하지만 *Nested Types 는 Closures 의 Capturing Values 와 다르게
+완전히 격리되는 것은 아니다*.
+
+만약 2~3개의 타입에서만 사용할 어떤 `Nested Types`가 있다고 해보자. 이를 전역으로 만들면 2~3개의 타입에서 공유가 가능하다. 하지만 이런
+타입이 많아지면 `전역 scope 오염`이 일어나 불필요하게 복잡해질 가능성이 높다. 이를 피하기 위해 2~3개의 타입마다 동일한 Nested Types 를
+만들면 전역 scope 오염은 되지 않겠지만, 코드의 중복이 발생하고 유지보수 시 코드의 변경 사항을 놓쳐 Human Errors 를 만드는 원인이 될 수 있다.
+
+이런 경우 가장 연관성이 높은 곳에 하나의 Nested Types 를 정의하고, 외부 타입에서 접근할 경우 해당 Nested Types 가 정의된 가장 외부
+Types 에 접근해 `Hierarchy 구조를 타고 내려가 명시적으로 접근`할 수 있다. 이렇게 *명시적인 접근을 허용함으로써 Nested Types 는
+전역 scope 의 오염을 예방*하며 `필요에 따라 명시적 접근을 통한 코드의 재사용성을 동시에 확보`할 수 있다.
+
+```swift
+let heartsSymbol = BlackjackCard.Suit.hearts.rawValue
+print(heartsSymbol)     // ♡
+```
 
 [Concurrency - Asynchronous Functions]:/swift/2023/01/05/concurrency.html#h-2-asynchronous-functions-
 [Automatic Reference Counting]:/swift/2023/03/08/automatic-reference-counting.html
