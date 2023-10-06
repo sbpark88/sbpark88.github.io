@@ -91,8 +91,6 @@ print("A marathon is \(aMarathon) meters long") // A marathon is 42195.0 meters 
 
 ### 4. Initializers 👩‍💻
 
-#### 1. Initializer Extensions
-
 기존의 `Value Types`가 모든 Stored Properties 에 default values 를 제공하고, Initializers 를 구현하지 않아
 [Default Initializers & Memberwise Initializers][Default Initializers & Memberwise Initializers for Structure Types] 의 
 조건을 모두 만족하면, Extension 의 Initializer 에서 `Default Initializers`와 `Memberwise Initializers`를 사용하는 것이 가능하다.
@@ -128,7 +126,9 @@ let memberwiseRect = Rect(origin: Point(x: 2.0, y: 2.0), size: Size(width: 5.0, 
 > [Designated Initializers][Designated and Convenience Initializers] 나
 > [Deinitializers] 를 추가하는 것은 불가능하다.
 
-#### 2. Without Initializer Extensions
+<br>
+
+__1 ) Without Initializer Extensions__
 
 위 `Rect`에 중심점과 크기를 받아 Rect instance 를 생성하는 새 Initializers 를 추가해보자. 그 Initializers 는 다음과 같을 것이다.
 
@@ -195,7 +195,9 @@ func printRect(_ rect: Rect) {
 }
 ```
 
-#### 3. With Initializer Extensions
+<br>
+
+__2 ) With Initializer Extensions__
 
 이제 `Rect`에 Extensions 를 이용해 Initializers 를 추가해보자.
 
@@ -262,13 +264,13 @@ func printRect(_ rect: Rect) {
                        Memberwise Initializers 는 자동 생성되는 조건을 만족하지 않게 된다. 따라서 *필요한 만큼 
                        Default Initializers 와 Memberwise Initializers 를 명시적으로 생성*해야한다.
 - With Extensions : `Original implementation`은 *Default Initializers 와 Memberwise Initializers 
-                    의 조건을 만족하므로 자동으로 해당 Initializers 를 생성*한다.  
-                    따라서 `Default Initializers 와 Memberwise Initializers 의 생성 조건을 유지한 채 
-                    Custom Initializers 를 추가하는 것을 가능`하게 한다.
+                    의 조건을 만족하므로 자동으로 해당 Initializers 를 생성*한다. 따라서 `Default Initializers 와 
+                    Memberwise Initializers 의 생성 조건을 유지한 채 Custom Initializers 를 추가하는 것을 가능`
+                    하게 한다.
 
 ### 5. Methods 👩‍💻
 
-#### 1. Add Instance Methods
+#### 1. With Method Extensions
 
 Extensions 를 이용해 `Instance Methods`와 `Type Methods`를 확장하는 것이 가능하다. 이것은 
 [Computed Property Extensions](#h-3-computed-properties-) 와 마찬가지로 사용자가 정의한 타입 뿐 아니라 
@@ -310,13 +312,13 @@ Hello!
 Hello!
 ```
 
-#### 2. Mutating Instance Methods
+#### 2. Mutating Method of Value Types
 
 Swift 에서 *Structures* 와 *Enumerations* 는 *Value Types* 로 instance 자기 자신의 Properties 수정하기 
 위해서는 반드시 메서드 앞에 `mutating` keyword 를 적어야한다. 
 
-Swift 에서 `Double` 또는 `Int` 와 같은 자료형은 *Structure* 로 구현되었다. 따라서 자신의 Properties 를 수정하려면 
-`mutating`이 필요하다.
+Swift 에서 `Double` 또는 `Int` 와 같은 자료형은 *Structure* 로 구현되었다. 따라서 *Extensions* 를 사용할 때 역시 자신의 
+Properties 를 수정하려면 `mutating`이 필요하다.
 
 ```swift
 var someDouble: Double = 3.342

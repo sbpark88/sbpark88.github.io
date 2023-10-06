@@ -2211,9 +2211,9 @@ class StepCounter {
 >
 > 1. Subclass 가 자신의 Properties 의 속성을 모두 설정한 후 Superclass 의 Initializers 를 호출한다.
 > 2. Superclass 가 자신의 Designated Initializers 를 이용해 Initialization 을 수행한다. 이때 Superclass 자신이 갖고 있는
->    Observers 는 작동하지 않는다. 이로써 Phase 1 이 종료된다.
+    Observers 는 작동하지 않는다. 이로써 Phase 1 이 종료된다.
 > 3. 이제 `Phase 2`가 진행되고 Subclass 의 Initializers 가  Superclass 의 Properties 를 수정한다. 이때 해당 Properties
->    에 Observers 가 붙어있다면 **`willSet`, `didSet`이 작동**한다.
+    에 Observers 가 붙어있다면 **`willSet`, `didSet`이 작동**한다.
 
 ### Property Wrappers
 
@@ -2642,7 +2642,7 @@ struct SomeStructure {
 >
 > 차이점이 있다면 다음과 같다.
 > - `Instance Methods`는 `context` 내부에 정의된 `Instance Properties`와 `Instance Methods`에 접근 가능하다.   
-   또한 Type Methods 접근도 가능한데, `Type 의 full name`을 붙여 접근 가능하다.
+    또한 Type Methods 접근도 가능한데, `Type 의 full name`을 붙여 접근 가능하다.
 > - `Type Methods`는 `context` 내부에 정의된 `Type Properties`와 `Type Methods`에 접근 가능하다.
 
 자세한 코드는 [Type Method Examples] 를 참고한다.
@@ -3252,12 +3252,12 @@ __1 ) `Phase 1`: 0, nil, Custom Initial Values 등의 값을 할당해 `Instance
 > - **Designated Initializers** 또는 **Convenience Initializers** 가 **Class** 에서 호출된다.
 > - `new Instance 를 위한 메모리가 할당`된다(초기화는 하기 전).
 > - **Designated Initializers 가 context 내 모든 Stored Properties 가 값을 가지고 있는지 확인**한다
-   (이때 `Stored Properties 에 대한 메모리가 초기화`된다).
+    (이때 `Stored Properties 에 대한 메모리가 초기화`된다).
 > - **Designated Initializers** 는 **Superclass** 의 **Initializers** 가 자신의 **Stored Properties** 에
-   동일한 일을 수행하도록 내버려둔다.
+    동일한 일을 수행하도록 내버려둔다.
 > - 위 과정은 `Base Class`(최상위 Class)에 도달할 때까지 `Chaining`된다.
 > - `delegates up 이 Base Class 에 도달`하고, `Final Class(최하위 Class)가 모든 값을 저장했다고 확인`하면,
-   **Instance 의 메모리는 완벽히 초기화 되었다고 간주**하고, `Phase 1이 완료`된다.
+    **Instance 의 메모리는 완벽히 초기화 되었다고 간주**하고, `Phase 1이 완료`된다.
 
 <br>
 
@@ -3266,11 +3266,11 @@ __2 ) `Phase 2`: `Customizing` 할 기회를 처리한다__
 ![Initialization Phase 2](/assets/images/posts/2022-12-01-initialization/twoPhaseInitialization02_2x.png)
 
 > - Phase 1이 **Final Class 에서 Base Class 까지 delegates up 을 하며 Chaining** 을 했다면 이번에는
-   반대로 **Base Class 에서 Final Class 까지** `working back down`을 하며 내려간다. `Phase 2`는 Phase1 이
-   **Instance** 의 메모리를 초기화 했기 때문에 **Instance Methods** 나 **Instance Properties** 에
-   `접근하거나 'self' 참조를 할 수 있다`.
+    반대로 **Base Class 에서 Final Class 까지** `working back down`을 하며 내려간다. `Phase 2`는 Phase1 이
+    **Instance** 의 메모리를 초기화 했기 때문에 **Instance Methods** 나 **Instance Properties** 에
+    `접근하거나 'self' 참조를 할 수 있다`.
 > - **Superclass** 의 **Designated Initializers** 에게 주어진 **Customizing** 할 기회를 모두 처리하면
-   **Subclass** 의 **Designated Initializers** 에게 **Customizing** 할 기회가 주어진다.
+    **Subclass** 의 **Designated Initializers** 에게 **Customizing** 할 기회가 주어진다.
 > - 위 과정은 `Phase 1의 Chaining 의 역순`으로 일어나며 `마지막으로 원래 호출되었던 Convenience Initializers 에 도달`한다.
 > - **이 과정을 모두 완료하면 Initialization 이 종료되고, 의도한 Instance 를 얻게 된다**.
 
@@ -3299,12 +3299,12 @@ Subclass 의 `new Instance`를 생성하기 위해 사용되는 상황을 방지
 *Properties*, *Methods* 와 마찬가지로 반드시 `override` modifier 를 사용해야한다.
 
 > - **Subclass** 에서 구현하는 **Initializers** 가 **Designated Initializers** 든, **Convenience Initializers** 든
-   상관 없이 `Superclass 의 Designated Initializers 를 재정의 하는 경우`라면 반드시 `override modifier 를 사용해야한다`.
+    상관 없이 `Superclass 의 Designated Initializers 를 재정의 하는 경우`라면 반드시 `override modifier 를 사용해야한다`.
 > - 반면, **Subclass** 에서 구현하는 **Initializers** 가 `Superclass 의 Convenience Initializers 와 일치하는 경우`는
-   `override modifier 를 사용하지 않는다`.  
-   [Initializer Delegation for Class Types](#h-initializer-delegation-rule) 에서 설명한 규칙에 따라
-   `Superclass 의 Convenience Initializers`는 `Subclass 에 의해 직접 호출되거나 Overriding 되는 것이 불가능`하기
-   때문에 새롭게 구현하는 것이므로 `override modifier 를 사용하지 않는다`.
+    `override modifier 를 사용하지 않는다`.  
+    [Initializer Delegation for Class Types](#h-initializer-delegation-rule) 에서 설명한 규칙에 따라
+    `Superclass 의 Convenience Initializers`는 `Subclass 에 의해 직접 호출되거나 Overriding 되는 것이 불가능`하기
+    때문에 새롭게 구현하는 것이므로 `override modifier 를 사용하지 않는다`.
 
 #### Implicit Delegates Up
 
@@ -3321,10 +3321,10 @@ Swift 의 Subclass 는 *Superclass 의 Initializers 를* `기본으로 상속하
 
 
 > - **Designated Initializers** 의 자동 상속 : `Subclass 가 아무런 Designated Initializers 를 정의하지 않았다면`,
-   자동으로 `Superclass 의 모든 Designated Initializers 를 상속`한다.
+    자동으로 `Superclass 의 모든 Designated Initializers 를 상속`한다.
 > - **Convenience Initializers** 의 자동 상속 : Subclass 가 위 "Designated Initializers 의 자동 상속" 규칙에 따라
-   생성 하든, 직접 구현을 해 생성 하든, `Superclass 와 매칭되는 모든 Designated Initializers 를 제공하면`, 자동으로
-   `Superclass 의 모든 Convenience Initializers 를 상속`한다.
+    생성 하든, 직접 구현을 해 생성 하든, `Superclass 와 매칭되는 모든 Designated Initializers 를 제공하면`, 자동으로
+    `Superclass 의 모든 Convenience Initializers 를 상속`한다.
 
 - Case 1
 
@@ -3498,14 +3498,14 @@ class RecipeIngredient: Food {
 > 하므로써 **Initializers** 가 3개가 되고, 모두 동일한 **Instance** 결과물을 얻는다는 것은 동일하지만 다음과 같은 차이를 갖는다.
 >
 > - Case 1은 서로 다른 2개의 **Designated Initializers**(Custom Initializers 와 Overriding Initializers)가
-   `Superclass 의 Designated Initialziers 에 독립적으로 delegates up` 한다.
+    `Superclass 의 Designated Initialziers 에 독립적으로 delegates up` 한다.
 > - Case 2는 **Overriding Initializers** 를 **Convenience Initializers** 로 만들어, `context 내 존재하는
-   Designated Initializers(Custom Initializers)로 delegates`하고, 이 `Designated Initializers 가 다시
-   Superclass 의 Designated Initializers 에 delegates up` 하도록 한다.
+    Designated Initializers(Custom Initializers)로 delegates`하고, 이 `Designated Initializers 가 다시
+    Superclass 의 Designated Initializers 에 delegates up` 하도록 한다.
 > - Case 2에서 상속할 때 `override convenience` 를 붙였다고 *Superclass 의 convenience Initializers* 를 *override*
-   한 것이 아니니 혼동하지 말고 *arguments* 를 자세히 보자. <span style="color: red;">*Superclass* 가 가지고 있는
-   *Convenience Initializers* 는 *Subclass* 에서 직접 호출되거나 *Overriding* 되는 것이 불가능</span>함을 다시
-   상기하도록 하자.
+    한 것이 아니니 혼동하지 말고 *arguments* 를 자세히 보자. <span style="color: red;">*Superclass* 가 가지고 있는
+    *Convenience Initializers* 는 *Subclass* 에서 직접 호출되거나 *Overriding* 되는 것이 불가능</span>함을 다시
+    상기하도록 하자.
 
 
 ```swift
@@ -3833,7 +3833,7 @@ __1 ) Case 3의 첫 번째 방법 - without *Forced Unwrapping*__
 >
 > - **Superclass** 에 `Nonfailable Initializers`가 존재할 것.
 > - **Superclass 의 Failable Initializers 가 Stored Properties 에 값을 저장하는 경우**,
-   **Phase 2 에서 Customizing 할 기회를 이용해 처리할 수 있도록** `Superclass 의 Properties`가 `Variable`일 것.
+    **Phase 2 에서 Customizing 할 기회를 이용해 처리할 수 있도록** `Superclass 의 Properties`가 `Variable`일 것.
 
 ```swift
 class Document {
@@ -4903,11 +4903,11 @@ Instance Method [Task.cancel()][Apple Developer Documentation - cancel] 을 호�
 
 > - `let`으로 선언한 상수에 접근할 때는 `await` keyword 를 명시하지 않아도 된다. `immutable`이기 때문이다.
 > - `var`로 선언한 변수라 하더라도 이 변수는 `actor-isolated properties`이므로 외부 `context`에서 임의로 값을 수정하는
-   것은 불가능하다. `mutable`이기 때문에 반드시 `await` keyword 를 이용해 접근해야한다.
+    것은 불가능하다. `mutable`이기 때문에 반드시 `await` keyword 를 이용해 접근해야한다.
 > - 메서드는 반환값이 없는 메서드라 하더라도 암시적으로 `Void`라는 타입 특수한 값(`()` 로 쓰여진 `Empty Tuple`)을 반환한다.  
-   그리고 단순히 메서드의 타입만으로는 이 메서드가 `Actor`의 `mutable state`와 상호작용을 하지 않는다는 것을 보장할 수 없다.
-   예를 들어 따라서 `Dictionaries`의 값을 조회시 항상 `Optional`로 반환하는 것처럼 `Actor`의 모든 메서드는 호출시
-   항상 `await` keyword 를 이용해 접근해야한다.
+    그리고 단순히 메서드의 타입만으로는 이 메서드가 `Actor`의 `mutable state`와 상호작용을 하지 않는다는 것을 보장할 수 없다.
+    예를 들어 따라서 `Dictionaries`의 값을 조회시 항상 `Optional`로 반환하는 것처럼 `Actor`의 모든 메서드는 호출시
+    항상 `await` keyword 를 이용해 접근해야한다.
 
 다음 예제는 온도를 기록하는 `Actor`다.
 
@@ -5595,6 +5595,325 @@ let heartsSymbol = BlackjackCard.Suit.hearts.rawValue
 print(heartsSymbol)     // ♡
 ```
 
+---
+
+## 20. Extensions 👩‍💻
+
+### Extension vs. Inheritance
+
+기존의 *Types* 를 확장하기 위한 방법 중 하나인 [Inheritance](#h-11-inheritance-) 는
+Class 에서만 사용할 수 있다.  
+Inheritance 는 ***기존 Class 는 그대로 둔 채 별도의 Class 를 생성***하며, 이들은 Superclass/Subclass 라는 관계로 연결된
+`Hierarchy 구조`를 갖는다. Subclass 는 기존의 Superclass 에 `기능을 추가해 확장`하는 것 뿐 아니라
+`이미 존재하는 기능을 Overriding` 하는 것도 가능하다.
+
+`Extension`은 Class, Structure, Enumeration, Protocol 타입에서 사용이 가능하며 Extensions 가 할 수 있는 것은 다음과 같다.
+
+- Add [computed instance properties][Computed Instance Properties] and [computed type properties][Computed Type Properties]
+- Define [instance methods] and [type methods]
+- Provide new initializers
+- Define subscripts
+- Define and use new nested types
+- Make an existing type conform to a protocol
+
+<br>
+
+Extension 은 Inheritance 와 마찬가지로 기존에 존재하는 타입에 기능을 추가할 수 있다. 그리고 Extension 이 갖는 특징으로 Inheritance
+와 다른점은 다음과 같다.
+
+- <span style="color: red;">**Original source code 에 접근 권한이 없는 경우에도 Extension 이 가능**</span>하다.
+  이를 `Retroactive Modeling`(소급 모델링) 이라 한다.
+- Extension 은 Inheritance 와 달리 **Stored Properties, Property Observers 는 확장이 불가능**하다.  
+  오직 **Computed Instance Properties** 와 **Computed Type Properties** 만 확장 가능하다.
+- Extension 은 기능을 추가만 가능할 뿐 Inheritance 와 달리 `Overriding 이 불가능`하다.
+
+> Swift 의 **Extensions** 는 Objective-C 의 **Categories** 와 유사하다.
+> 단, ***Extensions 는 이름을 갖지 않는다***.
+
+### Syntax
+
+```swift
+extension SomeType {
+    // new functionality to add to SomeType goes here
+}
+```
+
+Extension 은 하나 이상의 `Protocol`*을 채택해 기존의 타입을 확장*할 수 있다.
+
+```swift
+extension SomeType: SomeProtocol, AnotherProtocol {
+    // implementation of protocol requirements goes here
+}
+```
+
+이뿐 아니라 `Generic Type`*을 확장하는 것 역시 가능*하다.
+
+### Computed Properties
+
+Extensions 를 이용해 `Computed Instance Properties` 또는 `Computed Type Properties`를 확장하는 것이 가능하다. 이것은
+사용자가 정의한 타입 뿐 아니라 `Built-in Types 를 확장하는 것을 포함`한다.
+
+다음 예제는 TypeScript 가 Prototype 을 이용해 Built-in Types 에 기능을 추가하듯 다양한 길이 단위를 *'meter'* 단위로 변경하기
+위해 Double 에 5개의 Computed Instance Properties 를 추가한다.
+
+```swift
+extension Double {
+    var km: Double { return self * 1_000.0 }
+    var m: Double { return self }
+    var cm: Double { return self / 100.0 }
+    var mm: Double { return self / 1_000.0 }
+    var ft: Double { return self / 3.28084 }
+}
+```
+
+```swift
+let oneInch = 25.4.mm
+print("One inch is \(oneInch) meters")          // One inch is 0.0254 meters
+
+let threeFeet = 3.ft
+print("Three feet is \(threeFeet) meters")      // Three feet is 0.914399970739201 meters
+
+let aMarathon = 42.km + 195.m
+print("A marathon is \(aMarathon) meters long") // A marathon is 42195.0 meters long
+```
+
+> Extensions 는 [Computed Instance Properties] 나 [Computed Type Properties] 를 추가하는 것만 가능하다.  
+> [Stored Properties](#h-stored-properties) 를 추가하거나, 이미 존재하는 Properties 에 
+> [Property Observers](#h-property-observers) 를 추가하는 것은 불가능하다.
+
+### Initializers
+
+> Extensions 는 [Convenience Initializers][Designated and Convenience Initializers] 를 추가하는 것만 가능하다.  
+> [Designated Initializers][Designated and Convenience Initializers] 나
+> [Deinitializers](#h-13-deinitialization-) 를 추가하는 것은 불가능하다.
+
+<br>
+
+__1 ) Without Initializer Extensions__
+
+```swift
+struct Size {
+    var width = 0.0, height = 0.0
+}
+struct Point {
+    var x = 0.0, y = 0.0
+}
+
+struct Rect {
+    var origin = Point()
+    var size = Size()
+    init() {}
+    init(origin: Point, size: Size) {
+        self.origin = origin
+        self.size = size
+    }
+    init(center: Point, size: Size) {
+        let originX = center.x - (size.width / 2)
+        let originY = center.y - (size.height / 2)
+        self.init(origin: Point(x: originX, y: originY), size: size)
+    }
+}
+```
+
+<br>
+
+__2 ) With Initializer Extensions__
+
+```swift
+struct Size {
+    var width = 0.0, height = 0.0
+}
+struct Point {
+    var x = 0.0, y = 0.0
+}
+struct Rect {
+    var origin = Point()
+    var size = Size()
+}
+
+extension Rect {
+    init(center: Point, size: Size) {
+        let originX = center.x - (size.width / 2)
+        let originY = center.y - (size.height / 2)
+        self.init(origin: Point(x: originX, y: originY), size: size)
+    }
+}
+```
+
+- Without Extensions : 사용자 정의 Initializers 를 추가하는 순간 Default Initializers 와
+  Memberwise Initializers 는 자동 생성되는 조건을 만족하지 않게 된다. 따라서 *필요한 만큼
+  Default Initializers 와 Memberwise Initializers 를 명시적으로 생성*해야한다.
+- With Extensions : `Original implementation`은 *Default Initializers 와 Memberwise Initializers
+  의 조건을 만족하므로 자동으로 해당 Initializers 를 생성*한다. 따라서 `Default Initializers 와
+  Memberwise Initializers 의 생성 조건을 유지한 채 Custom Initializers 를 추가하는 것을 가능`
+  하게 한다.
+
+### Methods
+
+#### With Method Extensions
+
+Extensions 를 이용해 `Instance Methods`와 `Type Methods`를 확장하는 것이 가능하다. 이것은
+[Computed Property Extensions](#h-computed-properties-1) 와 마찬가지로 사용자가 정의한 타입 뿐 아니라
+`Built-in Types 를 확장하는 것을 포함`한다.
+
+```swift
+extension Int {
+    func repetitions(task: () -> Void) {
+        for _ in 0..<self {
+            task()
+        }
+    }
+}
+```
+
+```swift
+3.repetitions { print("Hello!") }
+```
+
+```console
+Hello!
+Hello!
+Hello!
+```
+
+#### Mutating Method of Value Types
+
+Swift 에서 *Structures* 와 *Enumerations* 는 *Value Types* 로 instance 자기 자신의 Properties 수정하기
+위해서는 반드시 메서드 앞에 `mutating` keyword 를 적어야한다.
+
+Swift 에서 `Double` 또는 `Int` 와 같은 자료형은 *Structure* 로 구현되었다. 따라서 *Extensions* 를 사용할 때 역시 자신의
+Properties 를 수정하려면 `mutating`이 필요하다.
+
+```swift
+var someDouble: Double = 3.342
+
+let rounded = someDouble.rounded()
+print(rounded)          // 3
+print(someDouble)       // 3.342
+
+someDouble.round()
+print(someDouble)       // 3
+```
+
+`rounded()` 메서드는 `func rounded() -> Self`로 자신의 타입을 반환하는 메서드다. 반면 `round()` 메서드는
+`mutating func round()`로 자시 자신의 Properties 를 변경하는, 즉, *mutating* 메서드다.
+
+<br>
+Int Structure 에 자기 자신을 제곱해 값을 변경하는(mutating) 메서드를 Extensions 를 이용해 추가해보자.
+
+```swift
+extension Int {
+    func squared() -> Self {
+        self * self
+    }
+    mutating func square() {
+        self = self * self
+    }
+}
+```
+
+```swift
+var someInt: Int = 3
+
+let squared = someInt.squared()
+print(squared)          // 9
+print(someInt)          // 3
+
+someInt.square()
+print(someInt)          // 9
+```
+
+### Subscripts
+
+`Subscripts` 역시 `Built-in Types 를 확장하는 것을 포함`한다.
+
+다음은 10진법에서 해당 자릿수의 숫자를 구하는 알고리즘이다.
+
+```swift
+(3782 / 1) % 10     // 2
+(3782 / 10) % 10    // 8
+(3782 / 100) % 10   // 7
+(3782 / 1000) % 10  // 3
+```
+
+- `3782`를 10으로 나눈 `나머지는 2`가 되므로 `1의 자리`는 2다.
+- `3782`를 10으로 나누면 `Int / Int` 이므로 결과 역시 Int 가 되어야한다. 따라서 결과는 `378`이 되고, 이제 378을 10으로 나눈
+  `나머지는 8`이 되므로 `10의 자리는 8`이다.
+
+이 로직을 Built-in Types `Int`에 Subscripts 를 이용해 확장해보자.
+
+```swift
+extension Int {
+    subscript(digitIndex: Int) -> Int {
+        var decimalBase = 1
+        for _ in 0..<digitIndex {
+            decimalBase *= 10
+        }
+        return (self / decimalBase) % 10
+    }
+}
+```
+
+```swift
+3782[0] // 2, 10^0 의 자릿수는 2다.
+3782[1] // 8, 10^1 의 자릿수는 8이다.
+3782[2] // 7, 10^2 의 자릿수는 7이다.
+3782[3] // 3, 10^3 의 자릿수는 3이다.
+3782[4] // 0, 10^4 의 자릿수는 존재하지 않으므로 0이다.
+```
+
+### Nested Types
+
+Extensions 를 이용해 이미 존재하는 Classes, Structures, Enumerations 에 `Nested Types` 를 추가할 수 있으며,
+이것 역시 `Built-in Types 를 확장하는 것을 포함`한다.
+
+```swift
+extension Int {
+    enum Kind {
+        case negative, zero, positive
+    }
+    var kind: Kind {
+        switch self {
+        case 0:
+            return .zero
+        case let x where x > 0:
+            return .positive
+        default:
+            return .negative
+        }
+    }
+}
+```
+
+```swift
+0.kind      // zero
+1.kind      // positive
+(-2).kind   // negative
+```
+
+Extensions 를 이용해 `Built-in Types`를 확장하면 다음과 같은 로직을 좀 더 우아하게 구현할 수 있다.
+
+```swift
+func printIntegerKinds(_ numbers: Int...) {
+    for number in numbers {
+        switch number.kind {
+        case .negative:
+            print("- ", terminator: "")
+        case .zero:
+            print("0 ", terminator: "")
+        case .positive:
+            print("+ ", terminator: "")
+        }
+    }
+    print("")
+}
+```
+
+```swift
+printIntegerKinds(1, 3, 0, -7, 9, 2, 0, -3) // + + 0 - + + 0 -
+```
+
+
 [Concurrency - Asynchronous Functions]:/swift/2023/01/05/concurrency.html#h-2-asynchronous-functions-
 [Automatic Reference Counting]:/swift/2023/03/08/automatic-reference-counting.html
 [Choosing Between Structures and Classes]:https://developer.apple.com/documentation/swift/choosing-between-structures-and-classes
@@ -5624,3 +5943,8 @@ print(heartsSymbol)     // ♡
 [Apple Developer Documentation - isCancelled]:https://developer.apple.com/documentation/swift/task/iscancelled-swift.type.property
 [Apple Developer Documentation - cancel]:https://developer.apple.com/documentation/swift/task/cancel()
 [Apple Developer Documentation - Sendable]:https://developer.apple.com/documentation/swift/sendable
+[Computed Instance Properties]:/swift/2022/11/22/properties.html#h-2-computed-properties-
+[Computed Type Properties]:/swift/2022/11/22/properties.html#h-6-type-properties-
+[instance methods]:/swift/2022/11/27/methods.html#h-2-instance-methods-
+[type methods]:/swift/2022/11/27/methods.html#h-3-type-methods-
+[Designated and Convenience Initializers]:/swift/2022/12/01/initialization.html#h-2-syntax-for-designated-and-convenience-initializers
