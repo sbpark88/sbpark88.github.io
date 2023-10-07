@@ -78,7 +78,7 @@ protocol SomeProtocol {
 ```
 
 > `get set`을 모두 정의할 경우 자동으로 [Constant Stored Properties][Stored Properties] 와 
-> [Read-Only Computed Properties] 는 자연스레 준수하는 것이 불가능하다.
+> [Read-Only Computed Properties] 는 준수하는 것이 불가능하다.
 > 
 > 반면 `get`만 정의할 경우 모든 종류의 [Properties][Swift Properties] 에 대해 Protocol 을 준수할 수 있다. 
 > 그리고 이것이 유효할 때 `set`이 유효한 타입이라면 `set`은 자동으로 유효하다.
@@ -89,12 +89,12 @@ protocol SomeProtocol {
 
 <br>
 
-__You cannot define__
+__You <span style="color: red;">cannot</span> define__
 
 - `let` keyword
 - What type of properties (i.e. stored properties or computed properties)
 
-> Protocol 이 Properties 요구사항을 정의할 때 반드시 `var` keyword 만 사용하며, Properties 의 유형은 정의할 수 없다.
+> Protocol 이 Properties 요구사항을 정의할 때는 반드시 `var` keyword 만 사용하며, Properties 의 유형은 정의할 수 없다.
 
 <br>
 
@@ -196,7 +196,7 @@ protocol SomeProtocol {
 
 <br>
 
-__You cannot define__
+__You <span style="color: red;">cannot</span> define__
 
 - parameter default value
 - method `body`
@@ -297,7 +297,6 @@ light switch is off now.
 
 #### 4. Initializer Requirements
 
-
 *Methods* 에 대한 요구사항 역시 *Properties* 와 유사하다.
 
 __1 ) Syntax__
@@ -306,7 +305,7 @@ __You can define__
 
 - parameter
 
-Methods 와 유사하다. 하지만 *Initializers* 는 *name* 과 *Explicit return type* `static` 이 허용되지 않기 
+Methods 와 유사하다. 하지만 *Initializers* 는 *name* 과 *explicit return type*, *static* 이 허용되지 않기 
 때문에 당연히 Protocol 역시 불가능하다. 즉, ***어떤 `Custom Initializrer`를 구현해야 하는지 그 Type 만 정의***한다.
 
 
@@ -318,7 +317,7 @@ protocol SomeProtocol {
 
 <br>
 
-__You cannot define__
+__You <span style="color: red;">cannot</span> define__
 
 - parameter default value
 - method `body`
@@ -370,7 +369,7 @@ My name is [Unknown] and I am 22 years old
 
 __3 ) Class Implementations of Protocol Initializer Requirements__
 
-위에서 *Structures* 를 이용한 예제를 살펴보았다. 그런데 ***Protocol 의 Initializers 를 `Classes` 에 채택***하려면 
+위에서 *Structures* 를 이용한 예제를 살펴보았다. 그런데 ***Protocol 의 Initializers 를 `Classes`에 채택***하려면 
 반드시 [Required Initializers](/swift/2022/12/01/initialization.html#h-7-required-initializers--) 
 를 사용해 이 *Class 의 Subclasses* 가 반드시 이를 구현하도록 강제해야한다.
 
@@ -471,14 +470,16 @@ Types 로 Protocols 를 사용하는 것은 “there exists a type T such that T
 
 > **Protocols** 역시 `Swift Types`이므로 이름은 `대문자로 시작`한다.
 
-> Superclass 에서 Subclasss 로 [Downcasting] 하던 것처럼 `Protocol Type`에서 이것을 준수하는 `Underlying Type`으로 
-> **Downcasting** 할 수 있다.
+> Superclass 에서 Subclasss 로 [Downcasting](#h-downcasting-type-cast-operator-as-as) 하던 것처럼 
+> `Protocol Type`에서 이것을 준수하는 `Underlying Type`으로 **Downcasting** 할 수 있다.
 
 #### 2. Examples
 
-주사위를 정의한다.
-
 ```swift
+protocol RandomNumberGenerator {
+    func random() -> Double
+}
+
 class Dice {
     let sides: Int
     let generator: RandomNumberGenerator
@@ -494,9 +495,19 @@ class Dice {
 }
 ```
 
-Initializer 에 *Protocol* 이 Type 으로 사용되었다.
-
 ```swift
+class LinearCongruentialGenerator: RandomNumberGenerator {
+    var lastRandom = 42.0
+    let m = 139968.0
+    let a = 3877.0
+    let c = 29573.0
+
+    func random() -> Double {
+        lastRandom = ((lastRandom + a + c).truncatingRemainder(dividingBy: m))
+        return lastRandom / m
+    }
+}
+
 var d6 = Dice(sides: 6, generator: LinearCongruentialGenerator())
 
 Array(1...5).forEach { _ in print("Random dice roll is \(d6.roll())") }
@@ -665,8 +676,8 @@ The game lasted for 30 turns
 
 #### 1. Adding Protocol Conformance with an Extension
 
-기존 타입에 대해 소스 코드에서 접근할 수 없지만 새로운 프로토콜을 채택하고 준수하도록 해 확장할 수 있다. 이를 이용해 기존 타입에 새로운 
-Properties, Methods, Subscripts 를 추가할 수 있다. 
+기존 타입에 대해 소스 코드에 직접 접근할 수 없더라도 새로운 프로토콜을 채택하고 준수하도록 해 확장할 수 있다. 이를 이용해 기존 타입에 
+새로운 Properties, Methods, Subscripts 를 추가할 수 있다. 
 
 이전의 [Swift Extensions] 에서 `extension` keyword 만 이용해 확장을 했는데 이번 챕터에서는 `extension`을 확장할 때 
 `Protocol`을 채택시켜 확장하도록 해본다.
@@ -697,8 +708,9 @@ print(d12.textualDescription)   // A 12-sided dice
 
 #### 2. Extending Primitive Types using Protocols
 
-이번에는 [Swift Strings and Characters] 챕터에서 사용해본 Swift 의 불편한 문자열 접근과 [Extensions - Subscripts] 
-챕터에서 확장할 때 사용했던 *Subscripts* 를 *Protocol* 을 이용해 확장해보자.
+이번에는 [Swift Strings and Characters] 챕터에서 사용해본 Swift 의 불편한 문자열 접근과 
+[Extensions - Subscripts][Swift Extensions - Subscripts] 챕터에서 확장할 때 사용했던 *Subscripts* 를 
+*Protocol* 을 이용해 확장해보자.
 
 공통으로 사용할 Protocol 을 하나 정의한다.
 
@@ -1142,7 +1154,7 @@ protocol SomeClassOnlyProtocol: AnyObject, SomeInheritedProtocol {
 
 ### 10. Protocol Composition 👩‍💻
 
-#### 1. Protocol Composition
+#### 1. Protocol Composition between Protocols
 
 동시에 여러 Protocols 를 준수하는 경우, 이것을 단일 요구사항으로 결합하는 것이 유용할 수 있다.
 
@@ -1179,7 +1191,7 @@ let birthdayPerson = Person(name: "Harry", age: 11)
 wishHappyBirthday(to: birthdayPerson)   // Happy birthday, Harry, you're 11!
 ```
 
-#### 2. Protocol Composition with Class
+#### 2. Protocol Composition with Classes
 
 *Named* Protocol 과 *Location* Class 를 정의한다.
 
@@ -1425,8 +1437,10 @@ __Syntax__
 > 있다는 장점을 갖는다.
 > 
 > Optional Protocols 의 구현 의무 면제가 왜 위험하고 주의해야하는지 잠시 후 
-> [4. Optional Protocols as Types](#h-4-optional-protocols-as-types) 에서 소개한다. 이것을 기억한채로 
-> 다음 챕터인 `Protocol Extensions`와 비교해보자.
+> [4. Optional Protocols as Types](#h-4-optional-protocols-as-types) 에서 소개한다.
+> 
+> 단순히 Protocol 의 일부를 `Optional`로 정의하는 것이 목적이라면 다음 챕터인 
+> [Protocol Extensions](#h-13-protocol-extensions-) 를 사용하는 것이 좋은 대안이 될 수 있다.
 
 #### 2. Examples
 
@@ -1473,7 +1487,8 @@ struct Teacher: Member {    // Non-class type 'Teacher' cannot conform to class 
 }
 ````
 
-*Objective-C 와 상호 운용한다는 것*은 이것이 `Class`이어야 함을 의미한다. 따라서 Structure 로 정의할 수 없다. 
+<span style="color: red;">*Objective-C 와 상호 운용한다는 것*은 이것이 `Class`이어야 함을 의미한다. 
+따라서 Structure 로 정의할 수 없다.</span>
 
 ````swift
 class Teacher: Member {
@@ -1531,8 +1546,9 @@ Protocol 은 직접 채택하는 것 뿐 아니라 [Protocol 을 Type 으로 사
 
 ![Optional Members are Optional Types](/assets/images/posts/2023-02-20-protocols/optional-memebrs-make-them-optional-types.png){: width="800"}
 
-> <span style="color: red;">Optional Members 는 구현 의무가 없기 때문에</span> 이것을 Types 로 사용할 때,
-> <span style="color: red;">Members 의 Type 은 항상 Optional</span> 이다.
+> <span style="color: red;">Optional Members 는 구현 의무가 없기 때문에</span> 이것을 Types 로 사용할 때, 
+> <span style="color: red;">해당하는 Members 의 Type 은 항상 Optional</span> 이다(Member protocol 의 경우 
+> **address** member 가 항상 Optional 이다).
 
 즉, `@objc optional var something: Int { get }`의 Type 은 `Int`가 아니라 `Int?`다.  
 마찬가지로 `@objc optional func someFunc(num: Int) -> String`의 Type 은 `(Int) -> String`이 아니라 
@@ -1561,12 +1577,14 @@ Mike
 nil
 ```
 
-> - 위 예제에서 Teacher, Student 는 `Member Protocol 을 채택한 Teacher, Student Types`다. 즉, Member Type 이 
->   아니므로, Teacher 나 Student Types 는 `address 의 존재의 유무를 명확`하게 알 수 있다. 따라서 Teacher Class 는 
->   address 를 `String` Type 으로 갖고 있으므로 Optional 이 아니다. 또한, Student Class 는 address 를 갖고 있지 않다.
-> - 이번 예제에서 Member 를 Type 으로 사용할 경우, 이 `Protocol 을 채택한 어떤 Class 가 그것을 구현 했는지 여부를 알 수 없다`. 
->   그렇기 때문에 `Optional`인 것이다. 따라서 Type 으로 사용할 때는 적절한 Type 으로 `Downcasting`하거나 
->   `Optional Chaining`으로 접근해야한다.
+> - [위 예제](#h-2-examples-4)에서 Teacher, Student 는 **switch** 를 통해 `Type Casting`을 했기 때문에 
+>   `Member Protocol 을 채택한 Teacher, Student Types`임을 명확히 알 수 있다. 따라서 Teacher Class 는 
+>   address 를 `String` Type 을 명백히 갖고 있으므로 Optional 이 아니다. 또한, Student Class 는 address 를 
+>   갖고 있지 않음을 확힐히 알 수 있다.
+> - 하지만 [이번 예제](#h-3-optional-members-make-them-optional-types)는 Member 를 Type 으로 사용했다. 
+>   즉, Member Protocol 을 따르지만 `Optional 이기 때문에 Class 가 구현 했는지 여부를 알 수 없다`. 그렇기 때문에 
+>   `Optional("서울시 강남구")`가 출력되는 것이다. 따라서 Optional Protocol 을 채택하는 Classes 를 사용할 때는 
+>   Protocols 를 Type 으로 사용하는 대신 적절한 Type 으로 `Downcasting`하거나 `Optional Chaining`으로 접근해야한다.
 
 #### 4. Optional Protocols as Types
 
@@ -1734,11 +1752,10 @@ Protocol 은 이것을 준수하는 Type 에 기능을 제공하기 위해 [Exte
 > 이는 Global Function 을 추가하거나 추가된 Protocol 채택으로 인해 개별 Type 마다 적합성을 다시 추가하는 대신 
 > `Protocol Extensions`를 사용해 기능을 제공할 수 있다.
 
-> `Protocol Extensions` 으로 확장된 기능은 기존의 Protocol 을 채택할 때 이 Extensions 은 기본 구현을 제공하기만 할 뿐 
-> 채택하는 <span style="color: red;">Type 에 적합성을 만족하기 위한 구현을 강요하지 않는다</span>. 
-> 
-> 또한 기능의 구현이 보장되므로 [Optional Protocols](#h-3-optional-members-make-them-optional-types) 와 다르게 
-> `Optional Chaining` 없이 호출될 수 있다.
+> `Protocol Extensions`이 <span style="color: green;">기본 구현을 반드시 제공</span>하기 때문에 이 Protocols 를 
+> 채택하는 <span style="color: red;">Types 는 적합성을 만족하기 위한 구현을 강요받지 않으며</span>, 기능의 구현이 
+> 보장되므로 [Optional Protocols](#h-3-optional-members-make-them-optional-types) 와 다르게 
+> <span style="color: green;">Optional Chaining 없이 호출될 수 있다</span>.
 
 <br>
 
@@ -1810,11 +1827,11 @@ Here's a random Boolean: false
 2. Extension 을 이용해 LinearCongruentialGenerator Class 에 RandomBoolGenerator 를 추가로 채택.
 3. 채택된 RandomBoolGenerator Protocol 을 준수하도록 정의.
 
-그런데 LinearCongruentialGenerator Class 는 이미 RandomNumberGenerator Protocol 을 준수하고있다.
-
 <br>
 
-`Protocol Extensions`는 이미 `Protocol 을 준수하는 Type 에 Protocol 자체를 확장`함으로써 쉽게 기능을 추가할 수 있다.
+그런데 LinearCongruentialGenerator Class 는 이미 RandomNumberGenerator Protocol 을 준수하고있다. 
+따라서 `Protocol Extensions`를 사용하면 `Protocol 을 준수하는 Type 에 Protocol 자체를 확장`함으로써 기능을 
+쉽게 추가할 수 있다.
 
 ```swift
 extension RandomNumberGenerator {
@@ -1939,8 +1956,7 @@ class LinearCongruentialGenerator: RandomNumberGenerator {
 ```
 
 그러면 Extensions 은 기본 구현을 제공할 뿐 어떠한 구현도 강요하지 않기 때문에 Protocol 의 기능을 직접적으로 수행하지 않는다.
-따라서 위에서 `randomBool()`은 LinearCongruentialGenerator Class 가 자체적으로 정의한 것이 되고,
-RandomNumberGenerator 가 Extensions 으로써 제공한 기능은 Class 의 구현에 의해 무시된다.
+따라서 `randomBool()`은 LinearCongruentialGenerator Class 의 구현에 의해 *Overriding* 된다.
 
 ```swift
 let generator = LinearCongruentialGenerator()
@@ -1963,7 +1979,7 @@ func randomBool() -> Bool {
 }
 ```
 
-를 기본 구현으로 사용할 수 있으며, 필요시 이를 직접 구현해 사용할 수 있다.
+를 기본 구현으로 사용할 수 있으며, 필요시 이를 직접 구현해 Overriding 시켜 사용할 수 있다.
 
 #### 3. Adding Constraints to Protocol Extensions (where)
 
