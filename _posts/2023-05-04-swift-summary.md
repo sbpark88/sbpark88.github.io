@@ -5079,7 +5079,7 @@ __2 ) Verify conform to sendable protocol manually__
 ```swift
 class Abc: @unchecked Sendable {
     let x: String
-    
+
     init(x: String) { self.x = x }
 }
 ```
@@ -5541,7 +5541,7 @@ func chooseStepFunction(backward: Bool) -> (Int) -> Int {
         print(#function)
         return input - 1
     }
-    
+
     return backward ? stepBackward(_:) : stepForward(_:)
 }
 ```
@@ -5553,7 +5553,7 @@ func chooseStepFunction(backward: Bool) -> (Int) -> Int {
 func movingStart(initialValue: Int) {
     var currentValue = initialValue
     let moveNearToZero = chooseStepFunction(backward: currentValue > 0)
-    
+
     print("Counting to zero:")
     while currentValue != 0 {
         print("\(currentValue)... Call ", terminator: "")
@@ -6016,7 +6016,7 @@ protocol AnotherProtocol {
 }
 ```
 
-또한 Protocol 이 [Type Properties](l#h-type-properties) 를 정의할 때는 마찬가지로 `static` keyword 를 반드시 
+또한 Protocol 이 [Type Properties](l#h-type-properties) 를 정의할 때는 마찬가지로 `static` keyword 를 반드시
 작성해야한다(이 규칙은 *Classes* 에의해 구현될 때 `class` 또는 `static` keyword 를 요구하는 경우 모두 적용된다).
 
 <br>
@@ -6177,7 +6177,7 @@ protocol Toggleable {
 ```swift
 enum OnOffSwitch: Toggleable {
     case off, on
-    
+
     mutating func toggle() {
         switch self {
         case .off: self = .on
@@ -6239,7 +6239,7 @@ __2 ) Examples__
 protocol Human {
     var name: String { get set }
     var age: Int { get set }
-    
+
     init(name: String, age: Int)
 }
 ```
@@ -6247,14 +6247,14 @@ protocol Human {
 ```swift
 struct Student: Human {
     var name: String
-    
+
     var age: Int
-    
+
     init(name: String = "[Unknown]", age: Int) {
         self.name = name
         self.age = age
     }
-    
+
     func identification() {
         print("My name is \(self.name) and I am \(self.age) years old")
     }
@@ -6279,20 +6279,20 @@ My name is [Unknown] and I am 22 years old
 __3 ) Class Implementations of Protocol Initializer Requirements__
 
 위에서 *Structures* 를 이용한 예제를 살펴보았다. 그런데 ***Protocol 의 Initializers 를 `Classes`에 채택***하려면
-반드시 [Required Initializers](#h-required-initializers)를 사용해 이 *Class 의 Subclasses* 가 반드시 이를 
+반드시 [Required Initializers](#h-required-initializers)를 사용해 이 *Class 의 Subclasses* 가 반드시 이를
 구현하도록 강제해야한다.
 
 ```swift
 class Student: Human {
     var name: String
-    
+
     var age: Int
-    
+
     required init(name: String = "[Unknown]", age: Int) {
         self.name = name
         self.age = age
     }
-    
+
     func identification() {
         print("My name is \(self.name) and I am \(self.age) years old")
     }
@@ -6353,7 +6353,7 @@ class SomeSubClass: SomeSuperClass, SomeProtocol {
 
 __5 ) Failable Initializer Requirements__
 
-[Failable Initializers](#h-failable-initializers) 역시 해당 *Protocol* 을 채택항 Types 가 이를 준수하도록 
+[Failable Initializers](#h-failable-initializers) 역시 해당 *Protocol* 을 채택항 Types 가 이를 준수하도록
 정의할 수 있다.
 
 - `Failable Initializer Requirements`는 *Failable Initializer* 또는 *Nonfailable Initializer*
@@ -6375,7 +6375,7 @@ Types 로 Protocols 를 사용하는 것은 “there exists a type T such that T
 
 > **Protocols** 역시 `Swift Types`이므로 이름은 `대문자로 시작`한다.
 
-> Superclass 에서 Subclasss 로 [Downcasting](#h-downcasting-type-cast-operator-as-as) 하던 것처럼 
+> Superclass 에서 Subclasss 로 [Downcasting](#h-downcasting-type-cast-operator-as-as) 하던 것처럼
 > `Protocol Type`에서 이것을 준수하는 `Underlying Type`으로 **Downcasting** 할 수 있다.
 
 ```swift
@@ -6386,12 +6386,12 @@ protocol RandomNumberGenerator {
 class Dice {
     let sides: Int
     let generator: RandomNumberGenerator
-    
+
     init(sides: Int, generator: RandomNumberGenerator) {
         self.sides = sides
         self.generator = generator
     }
-    
+
     func roll() -> Int {
         return Int(generator.random() * Double(sides)) + 1
     }
@@ -6442,12 +6442,12 @@ Random dice roll is 2
 class Dice {
     let sides: Int
     let generator: RandomNumberGenerator
-    
+
     init(sides: Int, generator: RandomNumberGenerator) {
         self.sides = sides
         self.generator = generator
     }
-    
+
     func roll() -> Int {
         return Int(generator.random() * Double(sides)) + 1
     }
@@ -6532,7 +6532,7 @@ print(greeting[greeting.count - 1]) // !
 만족할 수 있다. 따라서 *Generic Type* 을 확장할 때 `where`를 이용해 `constraints`를 나열해 조건부로 준수하도록 만들어야한다.
 이것은 추후 [Generic Where Clauses](#h-generic-where-clauses) 에서 자세히 다룬다.
 
-> [Switch Value Binding with Where](#h-where) 에서 본 것 처럼 조건을 매칭시킬 때 `where`는 주로 추가적인 조건을 
+> [Switch Value Binding with Where](#h-where) 에서 본 것 처럼 조건을 매칭시킬 때 `where`는 주로 추가적인 조건을
 > `constraints`로 추가하기 위해 사용된다.
 
 <br>
@@ -6749,7 +6749,7 @@ expert(stars: 5)
 
 ### Collections of Protocol Types
 
-[Protocols as Types]#h-protocols-as-types 이미 살펴보았듯이 *Protocols* 역시 [First-Class Citizen] 으로 
+[Protocols as Types]#h-protocols-as-types 이미 살펴보았듯이 *Protocols* 역시 [First-Class Citizen] 으로
 다룰 수 있으므로 이것을 *Collections* 에 저장하는 것 역시 가능하다.
 
 ```swift
@@ -6843,7 +6843,7 @@ protocol SomeClassOnlyProtocol: AnyObject, SomeInheritedProtocol {
 }
 ```
 
-[Delegation Examples] 에서 본 것처럼, *Class* 의 채택만 허용하려면, `AnyObject`를 상속시킴으로써 
+[Delegation Examples] 에서 본 것처럼, *Class* 의 채택만 허용하려면, `AnyObject`를 상속시킴으로써
 `Class-Only Protocols`로 marking 된다.
 
 > **Class-Only Protocols** 를 채택한 **Class** 는 반드시 `delegate 를 Week Reference 로 선언`해야한다.
@@ -7062,9 +7062,9 @@ Protocol 의 *Requirements* 를 정의할 때 *Optional* 을 사용할 수 있�
 > 기본 구현을 제공하며, 사용자 정의 구현도 가능하게 할 뿐 아니라 Class 가 아닌 Structure 나 Enumeration 에서도 사용할 수
 > 있다는 장점을 갖는다.
 >
-> Optional Protocols 의 구현 의무 면제가 왜 위험하고 주의해야하는지 잠시 후 
+> Optional Protocols 의 구현 의무 면제가 왜 위험하고 주의해야하는지 잠시 후
 > [Optional Protocols as Types](#h-optional-protocols-as-types) 에서 소개한다.
-> 
+>
 > 단순히 Protocol 의 일부를 `Optional`로 정의하는 것이 목적이라면 다음 챕터인
 > [Protocol Extensions](#h-protocol-extensions) 를 사용하는 것이 좋은 대안이 될 수 있다.
 
@@ -7078,7 +7078,7 @@ Protocol 의 *Requirements* 를 정의할 때 *Optional* 을 사용할 수 있�
 }
 ```
 
-> Swift 만 사용해 코드를 작성하더라도 Optional Requirements 를 사용하려면 반드시 `Optional Reuirements`와 
+> Swift 만 사용해 코드를 작성하더라도 Optional Requirements 를 사용하려면 반드시 `Optional Reuirements`와
 > `Protocols` 모두 `@objc`로 정의해야한다.
 
 <br>
@@ -7143,7 +7143,7 @@ Student name is Mike, he(she) is 20 years old.
 
 #### Optional Members make them Optional Types
 
-위 [예제](#h-optional-protocol-requirements-in-action) 만 보면 굉장히 유용해 보인다. 하지만 Optional Protocols 를 
+위 [예제](#h-optional-protocol-requirements-in-action) 만 보면 굉장히 유용해 보인다. 하지만 Optional Protocols 를
 사용하는 것은 매우 조심해야한다.
 
 Protocol 은 직접 채택하는 것 뿐 아니라 [Protocol 을 Type 으로 사용](#h-protocols-as-types)할 수 있음을 앞에서 확인했다.
@@ -7181,14 +7181,14 @@ Mike
 nil
 ```
 
-> - 위 [예제](#h-optional-protocol-requirements-in-action)에서 Teacher, Student 는 **switch** 를 통해 
-   `Type Casting`을 했기 때문에 `Member Protocol 을 채택한 Teacher, Student Types`임을 명확히 알 수 있다. 
-   따라서 Teacher Class 는 address 를 `String` Type 을 명백히 갖고 있으므로 Optional 이 아니다. 
-   또한, Student Class 는 address 를 갖고 있지 않음을 확힐히 알 수 있다.
+> - 위 [예제](#h-optional-protocol-requirements-in-action)에서 Teacher, Student 는 **switch** 를 통해
+    `Type Casting`을 했기 때문에 `Member Protocol 을 채택한 Teacher, Student Types`임을 명확히 알 수 있다.
+    따라서 Teacher Class 는 address 를 `String` Type 을 명백히 갖고 있으므로 Optional 이 아니다.
+    또한, Student Class 는 address 를 갖고 있지 않음을 확힐히 알 수 있다.
 > - 하지만 [이번 예제](#h-optional-members-make-them-optional-types)는 Member 를 Type 으로 사용했다.
-   즉, Member Protocol 을 따르지만 `Optional 이기 때문에 Class 가 구현 했는지 여부를 알 수 없다`. 그렇기 때문에
-   `Optional("서울시 강남구")`가 출력되는 것이다. 따라서 Optional Protocol 을 채택하는 Classes 를 사용할 때는
-   Protocols 를 Type 으로 사용하는 대신 적절한 Type 으로 `Downcasting`하거나 `Optional Chaining`으로 접근해야한다.
+    즉, Member Protocol 을 따르지만 `Optional 이기 때문에 Class 가 구현 했는지 여부를 알 수 없다`. 그렇기 때문에
+    `Optional("서울시 강남구")`가 출력되는 것이다. 따라서 Optional Protocol 을 채택하는 Classes 를 사용할 때는
+    Protocols 를 Type 으로 사용하는 대신 적절한 Type 으로 `Downcasting`하거나 `Optional Chaining`으로 접근해야한다.
 
 #### Optional Protocols as Types
 
@@ -7618,6 +7618,1637 @@ console.log(equalNumbers.some(v => v === 200))                  // false
 console.log(differentNumbers.some(v => v === 200))              // true 
 ```
 
+---
+
+## 22. Generics 👩‍💻
+
+### Generic Functions
+
+#### Syntax
+
+`Generic code`는 정의한 요구사항에 맞는 `모든 타입에서 작동(work with any type)`할 수 있는 유연하고 재사용 가능한 
+함수와 타입을 작성할 수 있다.
+
+*Generic* 은 Swift 의 강력한 특징 중 하나로 대부분의 `Swift stardard library`는 *Generic code* 로 작성되었다.
+예를 들어 Swift 의 *Array* 와 *Dictionary* Types 는 `Generic Collections`다. Array 를 이용해 우리는
+Int 를 저장할 수도 있고, String 을 저장할 수도 있고, Swift 에서 생성될 수 있는 모든 Type 을 저장할 수 있다.
+
+다음은 `Swift stardard library`에 이미 built-in 된 `swap(_:_:)` 이라는 함수가 어떤 식으로 정의되었는지를 보여준다.
+
+```swift
+func swap<T>(_ a: inout T, _ b: inout T) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+```
+
+```swift
+var someDouble = 6.2
+var anotherDouble = 20.2
+swap(&someDouble, &anotherDouble)
+
+print("someDouble is now \(someDouble), and anotherDouble is now \(anotherDouble)")
+// someDouble is now 20.2, and anotherDouble is now 6.2
+```
+
+```swift
+var someString = "Apple"
+var anotherString = "Pear"
+swap(&someString, &anotherString)
+
+print("someString is now '\(someString)', and anotherString is now '\(anotherString)'")
+// someString is now 'Pear', and anotherString is now 'Apple'
+```
+
+위 `swap(_:_:)` 함수는 Parameter Types 에 따라 `(Int, Int) -> Void`, `(Double, Double) -> Void`, 
+`(String, String) -> Void` 로 작동하는 하나의 함수로 정의된다. *Generic Functions* 없이 정의한다면 위 함수는 
+3개를 만들어 *Overloading* 처리를 해야 한다.
+
+#### Placeholder Type `T`
+
+```swift
+func swap(_ a: inout Int, _ b: inout Int)
+func swap<T>(_ a: inout T, _ b: inout T)
+```
+
+*Nongeneric Function* 와 *Generic Function* 를 비교해보자.
+
+- `swap<T>` : Swift 에게 *swap* 함수를 정의할 때 `＜T＞`라는 `Type Parameters`를 사용할 것임을 알린다.
+- (_ a: inout T, _ b: inout T) : 이 함수 내에서 함수의 호출 시점에 Types 가 정해지는 Generic Types `T`를 사용할
+  수 있다.
+
+> `T`라는 Type 은 Swift 내에 존재하지 않는다. 이것은 미리 정의되지 않은 함수가 호출될 때 `Type Inference`에 의해 Type 이
+> 정해짐을 의미한다.
+>
+> 따라서 **Generic Function** `swap(_:_:)`은 위에서 정의한 Int, Double, String 3가지 타입에 대해 모두 작동한다.
+
+#### Type Parameters `＜T＞`
+
+위 `swap(_:_:)`에서 *Placeholder Type* `T`는 `Type Parameters`의 한가지 예시를 보여준다. *Type Parameters* 는 함수의
+이름 뒤에 위치하며 `<T>`와 같이 *angle brackets* `< >`로 감싸 정의한다.
+
+*Type Parameters* 를 정의하면, 함수의 정의에서 *Parameters* 에 이것을 *Placeholder Type* 으로 사용할 수 있게 한다.
+바로 `(_ a: inout T, _ b: inout T)` 부분이다. `Type Parameter <T> 를 정의`했기 때문에 함수 정의에서 *Parameters*
+`a`, `b`에 `Type Parameter T 를 Placeholder Type 으로 사용`할 수 있는 것이다.
+
+#### Naming Type Parameters
+
+위에서는 Type Parameters 의 이름으로 `T`를 사용했지만 이것은 반드시 `T`를 쓰도록 정해진 것은 아니다. 다만 의도를 내치비기 위해 보통
+다음과 같이 정의한다.
+
+- 구분되는 관계가 있는 경우 : `Dictionary<Key, Value>`, `<Key, Value>`, `<K, V>`, `Array<Element>`, `<E>`와 같이
+  이름을 통해 관계를 유추할 수 있도록 사용한다.
+- 별다른 관계가 없는 경우 : 정해진 규칙은 없지만 전통적으로 `T`, `U`, `V`와 같은 단일 대문자를 사용하는 것이 일반적이다.
+
+> **Type Parameters** 를 정의할 때는 이것이 `Placeholder Type 으로 사용`된다는 것을 나타내기 위해 `Upper Camel Case`를
+> 사용한다. (i.e. T, U, Key, Value, MyTypeParameter)
+
+### Generic Types
+
+#### Syntax
+
+Swift 의 *Array* 와 *Dictionary* Types 는 `Generic Collections`라고 설명했다. 이렇듯 Swift 는 `Generic Functions`
+외에도 `Generic Types`를 정의할 수 있으며, *Array*, *Dictionary* 와 유사하게 모든 타입에서 작동할 수 있는 *Custom Classes,
+Structures, Enumerations* 다.
+
+`Stack` 은 `Pushing`과 `Popping`을 통해 작동하며 `LIFO` 로 작동한다. 이 *Stack* 을 이용해 *Generic Types* 를 설명한다.
+
+```swift
+struct Stack<Element> {
+    var items: [Element] = []
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    mutating func pop() -> Element {
+        items.removeLast()
+    }
+}
+```
+
+```swift
+var intStack = Stack(items: [3, 2, 5])
+print(intStack)             // Stack<Int>(items: [3, 2, 5])
+
+intStack.push(8)
+print(intStack)             // Stack<Int>(items: [3, 2, 5, 8])
+
+intStack.pop()
+print(intStack)             // Stack<Int>(items: [3, 2, 5])
+```
+
+Stack 을 이번엔 String 을 저장하는데 사용해보자.
+
+![Stack 2](/assets/images/posts/2023-02-23-generics/stackPushedFourStrings~dark@2x.png){: width="800"}
+
+```swift
+var stringStack = Stack<String>()
+stringStack.push("uno")
+stringStack.push("dos")
+stringStack.push("tres")
+stringStack.push("cuatro")
+print(stringStack)          // Stack<String>(items: ["uno", "dos", "tres", "cuatro"])
+```
+
+![Stack 3](/assets/images/posts/2023-02-23-generics/stackPoppedOneString~dark@2x.png){: width="480"}
+
+```swift
+print(stringStack.pop())    // cuatro
+print(stringStack)          // Stack<String>(items: ["uno", "dos", "tres"])
+```
+
+#### Extending a Generic Type
+
+*Generic Type* 을 확장할 때는 다른 Types 를 확장할 때와 마찬가지로 정의할 때 *Type* 을 정의하지 않는다. 따라서 `Extension`은
+별도의 정의 없이 `Original Type Parameters`를 그대로 사용한다.
+
+위 Stack 을 확장해 *Element* 를 제거하지 않고 가장 마지막 *Element* 를 반환하는 *Read-Only Computed Properties* 를
+추가해보자.
+
+```swift
+extension Stack {
+    var topItem: Element? {
+        items.last
+    }
+}
+```
+
+```swift
+var stringStack = Stack<String>()
+stringStack.push("uno")
+stringStack.push("dos")
+stringStack.push("tres")
+stringStack.push("cuatro")
+print(stringStack)          // Stack<String>(items: ["uno", "dos", "tres", "cuatro"])
+
+if let topItem = stringStack.topItem {
+    print(topItem)          // cuatro
+}
+print(stringStack)          // Stack<String>(items: ["uno", "dos", "tres", "cuatro"])
+```
+
+### Type Constraints
+
+#### Syntax
+
+위에서 정의한 [`swap(_:_:)`](#h-generic-functions) 함수와 [Stack](#h-generic-types) 은 모든 타입에서 작동한다.
+하지만 때로는 Generic 으로 사용할 수 있는 Types 에 `type constraints`를 강제하는 것이 유용할 수 있다. *Type constraints* 는
+`Type Parameters 가 특정 Class 를 상속하거나 Protocol 을 준수해야함`을 지정한다.
+
+예를 들어 *Dictionary* Type 은 `Key 의 Type 은 Hashable 을 준수`하는 것으로 제한한다. 그래야만 특정 키에 값이 이미 포함되어 있는지 확인
+후 삽입할지 대체할지 판단할 수 있기 때문이다(Swift 의 모든 기본 타입 *String, Int, Double, Bool* 은 모두 *Hashable* 을 준수한다).
+
+따라서 사용자는 사용자 정의 Generic Types 를 정의할 때 *constraints* 를 제공하는 것은 *Generic Programming* 을 더욱 강력하게 한다.
+예를 들어 Hashable 과 같은 추상적 개념을 사용하는 것은 구체적인 유형이 아닌 개념적 특성에서 Type 의 특성을 강화한다.
+
+```swift
+func someFunction<T: SomeClass, U: SomeProtocol>(someT: T, someU: U) {
+    // function body goes here
+}
+```
+
+위 함수는 2개의 `Type Parameters`를 갖는다. `T 는 SomeClass 의 Subclass`이어야하고, `U 는 SomeProtocol 을 준수`해야한다는
+*constraints* 를 추가한다.
+
+#### Type Constraints in Action
+
+__1 ) Nongeneric Function__
+
+다음은 찾아야 할 `String`과 찾아야 하는 대상 `[String]`을 받는 `findIndex(ofString:in:)`이라는 *Nongeneric Function* 이다.
+
+```swift
+func findIndex(ofString valueToFind: String, in array: [String]) -> Int? {
+    for (index, value) in array.enumerated() {
+        if value == valueToFind {
+            return index
+        }
+    }
+    return nil
+}
+```
+
+```swift
+let strings = ["cat", "dog", "llama", "parakeet", "terrapin"]
+
+if let dogIndex = findIndex(ofString: "dog", in: strings) {
+    print("The index of dog is \(dogIndex).")
+} else {
+    print("The dog is not in the array.")
+}
+
+if let bearIndex = findIndex(ofString: "bear", in: strings) {
+    print("The index of bear is \(bearIndex).")
+} else {
+    print("The bear is not in the array.")
+}
+```
+
+```console
+The index of dog is 1.
+The bear is not in the array.
+```
+
+<br>
+
+__2 ) Generic Function__
+
+이제 이 함수를 *Generic Function* 으로 바꿔보자.
+
+![Generic Function Define Error](/assets/images/posts/2023-02-23-generics/generic-function-define-error.png){: width="800"}
+
+예상과 달리 *compile-error* 가 발생한다. `==` operator 를 사용하기 위해서는 [Equatable] 을 준수해야 하기 때문이다.
+
+따라서 우리는 ***Type Parameter `<T>`에 Equatable Protocol 을 준수(confirm)하는 것으로 `constraints`를 추가***해
+문제를 해결할 수 있다.
+
+```swift
+func findIndex<T: Equatable>(of valueToFind: T, in array: [T]) -> Int? {
+    for (index, value) in array.enumerated() {
+        if value == valueToFind {
+            return index
+        }
+    }
+    return nil
+}
+```
+
+```swift
+if let doubleIndex = findIndex(of: 9.3, in: [3.14159, 0.1, 0.25]) {
+    print("The index of 9.3 is \(doubleIndex).")
+} else {
+    print("The 9.3 is not in the array.")
+}
+
+if let stringIndex = findIndex(of: "Andrea", in: ["Mike", "Malcolm", "Andrea"]) {
+    print("The index of Andrea is \(stringIndex).")
+} else {
+    print("Andrea is not in the array.")
+}
+```
+
+```console
+The 9.3 is not in the array.
+The index of Andrea is 2.
+```
+
+### Associated Types
+
+#### Syntax
+
+Protocol 을 정의할 때 때로는 `Associated Type`을 사용하는 것이 유용할 때가 있다. *Associated Type* 은 `Protocol 에서
+사용될 Type 의 이름을 제공`한다. 반면 `실제 Type 은 Protocol 이 채택될 때 정해진다`는 점에서 
+[Type Parameter](#h-type-parameters-t) 를 이용해 Generic Types 를 정의하는 것과 유사하다.
+
+> Classes, Structures, Enumerations 에서 Types 에 대한 판단을 보류하고 Type Inference 를 사용하기 위해
+> **Generic Types** 를 사용했다.  
+> Protocols 는 Types 에 대한 판단을 보류하고 Type Inference 를 사용하기 위해 Associated Types 를 사용한다.
+
+> 만약, Generic Types 를 사용하지 않는다면 `n`개의 Types 에 대한 Structures 를 위해
+> `n 개의 서로 다른 Structures 를 정의`해야했다.  
+> 마찬가지로, Associated Types 를 사용하지 않는다면 `n`개의 Types 에 대한 Protocols 를 위해
+> `n 개의 서로 다른 Protocols 를 정의`해야한다.  
+> 즉, 3가지 Types 를 정의하고자 할 경우 `n + n`개가 필요하므로 `6개의 정의와 3번의 Protocols 채택과 준수`가 필요하다.
+>
+> Generic Types 와 Associated Types 는 이런 문제를 해결하고 코드를 유연하게 만든다.
+
+```swift
+protocol SomeProtocol {
+    associatedtype Item
+    // protocol body goes here
+}
+```
+
+위에서 `Item`은 [Type Parameter] 의 `Dictionary<Key, Value>`, `Array<Element>`, `<T>`와 같이
+Protocol 을 정의할 때 사용할 *이름을 제공*하는 반면 *Type 은 실제 채택될 때 정해지도록 판단을 미룬다*.
+
+> Protocol 은 함수의 return type 으로 사용될 수 있지만, Associated Types 를 갖고 있는 Protocol 은 return type 으로
+> 사용될 수 없다. 이에 대해서는 다음 챕터의 
+> [Protocol Has an Associated Type Cannot Use as the Return Types](#h-protocol-has-an-associated-type-cannot-use-as-the-return-types)
+> 에서 설명한다. 이 문제를 해결하기 위해 우리는 잠시 후 
+> [Using a Protocol in Its Associated Type’s Constraints](#h-using-a-protocol-in-its-associated-types-constraints)
+> 와 같이 명확한 Type 을 반환하도록 함수의 로직을 변경하거나, 이것이 불가능할 경우, 
+> [Opaque Types](#h-opaque-type-resolve-the-problem-that-protocol-has-an-associated-types) 
+> 를 사용할 수 있다.
+
+따라서 Associated Types 역시 Generic Types 와 마찬가지로
+
+```swift
+protocol IntContainer {
+    mutating func append(_ item: Int)
+    var count: Int { get }
+    subscript(i: Int) -> Int { get }
+}
+
+protocol StringContainer {
+    mutating func append(_ item: String)
+    var count: Int { get }
+    subscript(i: Int) -> String { get }
+}
+```
+
+<span id="simpleContainer">와 같은 문제를 해결해 <span style="color: red;">하나의 정의로 재사용</span> 할 수 있게 한다.<span>
+
+```swift
+protocol Container {
+    associatedtype Item
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+}
+```
+
+#### Associated Types in Action
+
+이번에는 위에서 정의한 [Container](#simpleContainer) Protocol 을 실제로 채택하는 것을 살펴보자.
+<br>
+
+__1 ) Nongeneric IntStack Type adopts and conforms to the Container Protocol__
+
+```swift
+struct IntStack {
+    var items: [Int] = []
+    mutating func push(_ item: Int) {
+        items.append(item)
+    }
+    mutating func pop() -> Int {
+        items.removeLast()
+    }
+}
+```
+
+[Generic Types](#h-generic-types) 에서 정의한 *Nongeneric IntStack Type* 에
+[Container](#simpleContainer) Protocol 을 채택하고 준수하도록 만들어보자.
+
+```swift
+struct IntStack: Container {
+    // original IntStack implementation
+    var items: [Int] = []
+    mutating func push(_ item: Int) {
+        items.append(item)
+    }
+    mutating func pop() -> Int {
+        items.removeLast()
+    }
+    
+    // conformance to the Container protocol
+    typealias Item = Int
+    mutating func append(_ item: Int) {
+        self.push(item)
+    }
+    var count: Int {
+        items.count
+    }
+    subscript(i: Int) -> Int {
+        items[i]
+    }
+}
+```
+
+> `typealias Item = Int`는 Swift 의 Type Inference 에 의해 유추 가능하기 때문에 생략 가능하다.
+
+<br>
+
+__2 ) Generic Stack Type adopts and conforms to the Container Protocol__
+
+```swift
+struct Stack<Element> {
+    var items: [Element] = []
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    mutating func pop() -> Element {
+        items.removeLast()
+    }
+}
+```
+
+이번에는 [Container](#simpleContainer) Protocol 을 위에서 정의했던 Generic Stack 에 채택해보자.
+
+```swift
+struct Stack<Element>: Container {
+    // original Stack<Element> implementation
+    var items: [Element] = []
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    mutating func pop() -> Element {
+        items.removeLast()
+    }
+
+    // conformance to the Container protocol
+    mutating func append(_ item: Element) {
+        self.push(item)
+    }
+    var count: Int {
+        items.count
+    }
+    subscript(i: Int) -> Element {
+        items[i]
+    }
+}
+```
+
+```swift
+var intStack = Stack(items: [3, 2, 5])
+intStack.push(8)
+print(intStack)         // Stack<Int>(items: [3, 2, 5, 8])
+
+intStack.append(7)
+print(intStack)         // Stack<Int>(items: [3, 2, 5, 8, 7])
+
+print(intStack.count)   // 5
+print(intStack[3])      // 8
+
+
+var stringStack = Stack<String>()
+stringStack.push("uno")
+stringStack.append("dos")
+stringStack.push("tres")
+stringStack.append("cuatro")
+
+print(stringStack)      // Stack<String>(items: ["uno", "dos", "tres", "cuatro"])
+print(stringStack[1])   // dos
+```
+
+이제 Stack 은 Int, String 두 타입 모두에서 Associated Types 를 이용한 Container Protocol 까지 준수한다.
+
+#### Extending an Existing Type to Specify an Associated Type
+
+[Adding Protocol Conformance with an Extension](#h-adding-protocol-conformance-with-an-extension) 
+에서 설명한 것처럼 Protocols 에 준수성(conformance)를 추가하기 위해 기존 Type 을 확장할 수 있는데 이때 
+*Associated Types* 가 있는 Protocols 를 포함한다.
+
+Swift 의 `Array`는 이미 `append(_:)` method, `count` property, Int index 로 Element 를 조회하는 `[i]` subscript
+를 제공한다. 이것은 위에서 [Container](#simpleContainer) protocol 을 통해 적합성을 추가한 것과 일치한다.
+즉, [Declaring Protocol Adoption with an Extension](#h-declaring-protocol-adoption-with-an-extension) 
+에서 설명한 것처럼 `Array 에 이미 적합성을 준수하는 구현이 존재하기 때문에 Extension 을 이용해 Protocols 를 채택하고 
+비워두는 것 만으로 Array 에 Container Protocol 적합성을 추가`할 수 있다.
+
+```swift
+var numbers = [1, 2, 5, 7, 8, 14]
+
+numbers.append(99)
+print(numbers)          // [1, 2, 5, 7, 8, 14, 99]
+print(numbers.count)    // 7
+print(numbers[2])       // 5
+```
+
+Array 는 이미 [Container](#simpleContainer) Protocol 의 구현을 제공하고있다.
+
+<br>
+
+```swift
+if numbers is any Container {
+    print("numbers conforms the Container protocol.")
+} else {
+    print("numbers do not conform the Container protocol.")
+}
+```
+
+```console
+numbers do not conform the Container protocol.
+```
+
+하지만 [Container](#simpleContainer) Protocol 을 채택하지 않았기 때문에 [Container](#simpleContainer) Protocol
+을 준수하지는 않는다.
+
+<br>
+
+Array 를 확장해 [Container](#simpleContainer) Protocol 을 채택하는 것 만으로 적합성을 추가할 수 있다.
+
+```swift
+extension Array: Container {}
+
+if let _ = numbers as? any Container {
+    print("numbers conforms the Container protocol.")
+} else {
+    print("numbers do not conform the Container protocol.")
+}
+```
+
+```console
+numbers conforms the Container protocol.
+```
+
+#### Adding Constraints to an Associated Type
+
+Protocols 를 채택한 Types 에 특정 요구사항을 준수하도록 하기 위해 *constraints* 를 추가할 수 있다.
+
+__Syntax__
+
+```swift
+protocol SomeProtocol {
+    associatedtype Item: Equatable
+    // protocol body goes here
+}
+```
+
+<br>
+
+우선 Swift 의 기본 Array Type 의 작동을 살펴보자.
+
+```swift
+var arrayA = [1, 5, 6]
+var arrayB = [1, 5, 6]
+
+print(arrayA == arrayB) // true
+
+var arrayC = ["A", "B", "C"]
+var arrayD = ["A", "C", "B"]
+
+print(arrayC == arrayD) // false
+```
+
+Array Type 은 *Equatable* 을 준수하기 때문에 위와 같은 비교가 가능하다.
+
+그렇다면 이 Array 를 담은 Structure 는 어떨까?
+
+```swift
+struct Some<Element> {
+    var items: [Element] = []
+}
+```
+
+![Structure Stored Array](/assets/images/posts/2023-02-23-generics/structure-stored-array.png){: width="800"}
+
+Structure 가 저장하고 있는 Array 는 Equatable 을 준수하더라도 Structure 는 이를 준수하지 않기 때문에 Equatable 을 준수하도록
+해야한다.
+
+![Structure Conform Equatable](/assets/images/posts/2023-02-23-generics/structure-conform-equatable.png){: width="800"}
+
+Structure 에 Equatable 을 추가했다. 이로써 Structure 는 Equatable 을 준수할 수 있어야하지만, Element 가 이미 Equatable
+을 준수하는 Int, Double, String 같은 Swift 의 Basic Types 가 아닌 Generic Types 이므로, 이에 대한 Equatable 준수
+또한 필요하다.
+
+```swift
+struct Some<Element: Equatable>: Equatable {
+    var items: [Element] = []
+
+    static func == (lhs: Some<Element>, rhs: Some<Element>) -> Bool {
+        lhs.items == rhs.items
+    }
+}
+```
+
+이로써 우리는 ***Generic Types Element 에 Equatable 을 준수***하도록 하고,
+***Structure 역시 Equatable 을 준수***하도록 함으로써 `==` operator 를 사용할 수 있게 된다.
+
+```swift
+var structureA = Some(items: [1, 5, 6])
+var structureB = Some(items: [1, 5, 6])
+
+print(structureA == structureB) // true
+
+var structureC = Some(items: ["A", "B", "C"])
+var structureD = Some(items: ["A", "C", "B"])
+
+print(structureC == structureD) // false
+```
+
+<br>
+
+이번에는 위에서 정의한 Container Protocol
+
+```swift
+protocol Container {
+    associatedtype Item
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+}
+```
+
+의 <span style="color: red;">**Associated Types** 에 *constraints* 를 추가</span>해 다음과 같이 바꿔보자.
+
+```swift
+protocol Container {
+    associatedtype Item: Equatable
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+}
+```
+
+이제 이 Protocol 을 준수하려면 ***Item Type 은 Equatable 을 준수***해야한다. Stack 이 Container Protocol 을
+준수하도록 해보자.
+
+```swift
+struct Stack<Element: Equatable>: Container {
+    // original Stack<Element> implementation
+    var items: [Element] = []
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    mutating func pop() -> Element {
+        items.removeLast()
+    }
+    
+    // conformance to the Container protocol
+    mutating func append(_ item: Element) {
+        self.push(item)
+    }
+    var count: Int {
+        items.count
+    }
+    subscript(i: Int) -> Element {
+        items[i]
+    }
+    
+    // conformance to the Equatable protocol
+    static func == (lhs: Stack<Element>, rhs: Stack<Element>) -> Bool {
+        lhs.items == rhs.items
+    }
+}
+```
+
+```swift
+var someStack = Stack(items: [3, 2, 5])
+var anotherStack = Stack(items: [3, 2, 5])
+
+print(someStack == anotherStack)    // true
+```
+
+이로써 Container Protocol 의 Item 에 Equatable constraints 를 추가해 채택하는 Types 가 이를 준수하도록 구현을 강제한다.
+
+<br>
+
+참고로 위 Container 준수는 다음과 같이 Protocols 채택을 Extensions 로 분리해 코드를 더 명확히 구분지을 수 있다.
+
+```swift
+struct Stack<Element: Equatable> {
+    // original Stack<Element> implementation
+    var items: [Element] = []
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    mutating func pop() -> Element {
+        items.removeLast()
+    }
+}
+
+extension Stack: Container {
+    // conformance to the Container protocol
+    mutating func append(_ item: Element) {
+        self.push(item)
+    }
+    var count: Int {
+        items.count
+    }
+    subscript(i: Int) -> Element {
+        items[i]
+    }
+
+    // conformance to the Equatable protocol
+    static func == (lhs: Stack<Element>, rhs: Stack<Element>) -> Bool {
+        lhs.items == rhs.items
+    }
+}
+```
+
+#### Using a Protocol in Its Associated Type’s Constraints
+
+Protocols 를 정의할 때 자기 자신의 일부로 존재할 수 있다.
+
+```swift
+protocol SuffixableContainer: Container {
+    associatedtype Suffix: SuffixableContainer where Suffix.Item == Item
+    func suffix(_ size: Int) -> Suffix
+    func last() -> Suffix.Item
+}
+```
+
+`SuffixableContainer` Protocol 은 내부 정의에 자기 자신을 포함(`Suffix: SuffixableContainer`)하고있다. 이 Protocol
+에서 `Suffix`는 2개의 *constraints* 를 갖고 있다.
+
+1. Suffix 는 `SuffixableContainer` protocol 을 준수해야한다.
+2. Suffix 의 `Item` type 은 `Container's Item` type 과 동일해야한다
+
+> 여기서 주의해야 할 것이 `Suffix.Item == Item`이 **Item 의 값이 같음을 의미하는 것이 아니라는 것**이다. 이것은 어디까지나
+> `associatedtype`을 정의하는 것이므로 `Type 의 일치`를 의미한다.
+
+Item 에 대한 *constraints* 는 아래 
+[Associated Types with a Generic Where Clause](#h-associated-types-with-a-generic-where-clause)
+에서 설명할 *Generic where* clause 다.
+
+<br>
+
+SuffixableContainer 를 채택하도록 Stack 을 한 번 더 확장해보자.
+
+```swift
+extension Stack: SuffixableContainer {
+    func suffix(_ size: Int) -> some SuffixableContainer {
+        // code
+    }
+    func last() -> (some SuffixableContainer).Item {
+        // code
+    }
+}
+```
+
+> `func suffix(_ size: Int) -> Suffix`의 **return type** 은 [Opaque Types](#h-returning-an-opaque-type)
+> `some SuffixableContainer`으로써, 이 Protocol 의 일부여야한다.  
+> `func last() -> Suffix.Item`의 **return type** 은 [Opaque Types](#h-returning-an-opaque-type)
+> `(some SuffixableContainer).Item`으로써, 이 Protocol 의 일부의 Item 이어야한다.
+>
+> 그리고 `Container Protocol 과 이것을 채택한 Stack<Element> 의 관계`를 보자.
+>
+> `Container Type 은 곧 이것을 준수하는 Stack<Element>: Container Type 을 의미`하고,   
+> `Item 은 Element Type 을 의미`한다.
+>
+> 따라서 `SuffixableContainer 의 Type 은 곧 Stack<Element>: Container, SuffixableContainer Type 을 의미`하고,  
+> `Suffix.Item 은 Element Type 을 의미`한다.
+
+이제 확장을 이용해 Stack 이 이를 준수하도록 `Default Implementations`를 작성해 완성시켜보자.
+
+```swift
+extension Stack: SuffixableContainer {
+    func suffix(_ size: Int) -> Stack<Element> {
+        var result = Stack()
+        for index in (count - size)..<count {
+            result.append(self[index])
+        }
+        return result
+    }
+    func last() -> Element {
+        self[count - 1]
+    }
+    // Inferred that Suffix is Stack.
+}
+```
+
+반환할 Type 이 명확하므로 자동 완성된 [Opaque Types](#h-returning-an-opaque-type) 대신 반환 Type 을 명시적으로 변경했다.
+
+```swift
+var someStack = Stack<Int>()
+someStack.push(3)
+someStack.append(5)
+someStack.push(7)
+someStack.append(9)
+
+print(someStack.suffix(2))  // Stack<Int>(items: [7, 9])
+print(someStack.last())     // 9
+```
+
+### Generic Where Clauses
+
+#### Syntax
+
+[Type Constraints](#h-type-constraints) 에서 Type 에 *constraints* 를 추가하는 것이 유용할 수 있음을 보았다.
+마찬가지로 *Associated Types* 역시 `Generic Where Clauses`를 정의해 Types 에 *constraints* 를 추가할 수 있다.  
+위에서 살펴본 것처럼 `where` keyword 뒤에 작성하며, `Associated Types 자체에 대한 constraints` 또는
+`Types 와 Associated Types 의 equality 관계에 대한 constraints`가 따른다.
+
+> **Associated Types** 는 **Generic Types** 의 Protocols 버전과 같았다.   
+> [Adding Constraints to an Associated Type](#h-adding-constraints-to-an-associated-type) 이
+> Protocols 를 정의할 때 Associated Types 에 **constraints** 를 추가하는 것이었다면, **Generic Where Clauses**
+> 는 <span style="color: red;">Generic Types 에 채택된 Protocols 의 Associated Types 에
+> **constraints** 를 추가하는 것</span>이다.
+
+<br>
+
+*Generic Where Clauses* 는 Type 또는 Function's Body 의 curly brace `{ }` 앞에 온다.
+
+```swift
+protocol Container {
+    associatedtype Item
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+}
+```
+
+```swift
+func allItemsMatch<C1: Container, C2: Container>(_ containerA: C1, _ containerB: C2) -> Bool
+where C1.Item: Equatable, C1.Item == C2.Item
+{
+    // Check that both containers contain the same number of items.
+    if containerA.count != containerB.count {
+        return false
+    }
+
+    // Check each pair of items to see if they're euivalent.
+    for i in 0..<containerA.count {
+        if containerA[i] != containerB[i] {
+            return false
+        }
+    }
+
+    // All items match, so return true.
+    return true
+}
+```
+
+> Type Parameters 에 정의된 요구사항은 다음과 같다.
+>
+> - C1 은 Container Protocol 을 준수해야한다.
+> - C2 는 Container Protocol 을 준수해야한다.
+>
+> Generic Where Clauses 에 정의된 요구사항은 다음과 같다.
+>
+> - C1.Item 은 Equatable Protocol 을 준수해야한다.
+> - C1.Item 은 C2.Item 과 동일 Type 이어야한다.  
+   (위에서 where clauses 의 Suffix.Item 의 경우와 마찬가지로, 값의 일치가 아닌 Item 이라는 Types 의 일치를 의미한다)
+
+이는 C1 과 C2 모두 Container Protocol 을 준수하고 있고, Items 가 Equatable Protocol 을 준수하고 두 Types 가 같다면
+작동한다는 것이다. 즉, C1 과 C2 가 동일 Types 이어야 한다는 조건은 없다는 말이다!
+
+따라서 위에서 정의한
+
+```swift
+static func == (lhs: Stack<Element>, rhs: Stack<Element>) -> Bool {
+    lhs.items == rhs.items
+}
+```
+
+와 달리 `allItemsMatch(_:_:)` 메서드는 서로 다른 Types 간의 비교가 가능하다.
+
+우선 Swift Array 를 우리가 정의한 `Container` protocol 을 준수하도록 확장해야한다. 그런데 `Array 의 Element 는
+Equatable 을 준수하지 않는다`. 따라서 다음 두 가지 방법으로 정의를 할 수 있다.
+
+#### Generic Where Clauses in Action
+
+__1 ) Case 1 - Swift 의 Built-in Type 인 Array 의 Element 를 Equatable Protocol 을 준수하도록 제한__
+
+위에서 우리가 만든 Container 를 그대로 사용하기 위한 방법이다.
+
+- Protocols
+
+```swift
+protocol Container {
+    associatedtype Item: Equatable
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+}
+
+protocol SuffixableContainer: Container {
+    associatedtype Suffix: SuffixableContainer where Suffix.Item == Item
+    func suffix(_ size: Int) -> Suffix
+    func last() -> Suffix.Item
+}
+```
+
+- Stack
+
+```swift
+struct Stack<Element: Equatable> {
+    // original Stack<Element> implementation
+    var items: [Element] = []
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    mutating func pop() -> Element {
+        items.removeLast()
+    }
+}
+
+extension Stack: Container {
+    // conformance to the Container protocol
+    mutating func append(_ item: Element) {
+        self.push(item)
+    }
+    var count: Int {
+        items.count
+    }
+    subscript(i: Int) -> Element {
+        items[i]
+    }
+
+    // conformance to the Equatable protocol
+    static func == (lhs: Stack<Element>, rhs: Stack<Element>) -> Bool {
+        lhs.items == rhs.items
+    }
+}
+
+extension Stack: SuffixableContainer {
+    func suffix(_ size: Int) -> Stack<Element> {
+        var result = Stack()
+        for index in (count - size)..<count {
+            result.append(self[index])
+        }
+        return result
+    }
+    func last() -> Element {
+        self[count - 1]
+    }
+    // Inferred that Suffix is Stack.
+}
+```
+
+Stack 은 Container Protocol 의 Item 이 Equatable Protocol 을 준수하도록 하기 위해 반드시 `==(lhs:rhs:) -> Bool`
+메서드를 구현해야한다.
+
+- Array
+
+```swift
+extension Array: Container where Element: Equatable  {}
+```
+
+Swift 의 Built-in Type Array 에 `Element 가 Equatable Protocol 을 준수해야한다는 constraints 가 Global 로
+추가`되었다.
+
+<br>
+
+__2 ) Case 2 - Swift 의 Built-in Type 인 Array 의 Element 에 constraints 추가 없이 준수하도록 Container Protocol 을 수정__
+
+위 Case 1 이 갖는 문제점은 Swift 의 Element 에 *constraints* 를 추가함으로써 결국 `Swift Array 에 대한 Global
+constraints 가 추가`된다는 것이다. 확장을 이용해 *Built-in Types 의 기능을 추가하는 것은 별로 문제가 되지 않지만*
+위와 같이 ***제약 조건을 추가해서 기능을 제한시키는 것은 `코드의 유연성을 떨어뜨리며` 이를 예상하지 못한 앱의 다른 부분의 코드나
+외부 라이브러리에서 에러가 발생되는 `side effect` 의 원인***이 될 수 있으므로 좋은 방법이 아니다.
+
+따라서 우리는 위에서 *Container 의 Item 에 추가했던 Equatable Protocol 제약 사항을 다시 제거*하고 Stack 에서 필요한 메서드를
+`Protocol 에 의한 강제성 없이 구현`하는 방법으로 코드를 유연하게 만들 수 있다.
+
+- Protocols
+
+```swift
+protocol Container {
+    associatedtype Item
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+}
+
+protocol SuffixableContainer: Container {
+    associatedtype Suffix: SuffixableContainer where Suffix.Item == Item
+    func suffix(_ size: Int) -> Suffix
+    func last() -> Suffix.Item
+}
+```
+
+이제 더 이상 Container 는 Item 에 Equatable Protocol 을 준수하도록 강요하지 않는다.
+
+- Stack
+
+```swift
+struct Stack<Element: Equatable> {
+    // original Stack<Element> implementation
+    var items: [Element] = []
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    mutating func pop() -> Element {
+        items.removeLast()
+    }
+    static func == (lhs: Stack<Element>, rhs: Stack<Element>) -> Bool {
+        lhs.items == rhs.items
+    }
+}
+
+extension Stack: Container {
+    // conformance to the Container protocol
+    mutating func append(_ item: Element) {
+        self.push(item)
+    }
+    var count: Int {
+        items.count
+    }
+    subscript(i: Int) -> Element {
+        items[i]
+    }
+}
+
+extension Stack: SuffixableContainer {
+    func suffix(_ size: Int) -> Stack<Element> {
+        var result = Stack()
+        for index in (count - size)..<count {
+            result.append(self[index])
+        }
+        return result
+    }
+    func last() -> Element {
+        self[count - 1]
+    }
+    // Inferred that Suffix is Stack.
+}
+```
+
+이제 Stack 의 `==(lhs:rhs:) -> Bool` 메서드는 더 이상 Protocol 의 요구사항을 준수하기 위해 구현을 강요받지 않는다. 따라서
+기능 제공을 위해 Stack 이 자체적으로 이 메서드를 제공하도록 구현했다.
+
+- Array
+
+```swift
+extension Array: Container {}
+```
+
+Array 에 우리가 정의한 Container 를 준수하는 Types 로 사용할 수 있도록 기능이 추가되었을 뿐
+기존 `Built-in Type Array 에 어떠한 constraints 도 추가하지 않는다`.
+
+
+<br>
+
+이제 `==` 메서드와 `allItemsMatch(_:_:)` 함수를 테스트해보자.
+
+```swift
+var someStack = Stack(items: [3, 2, 5])
+var anotherStack = Stack(items: [3, 2, 5])
+var someArray = [3, 2, 5]
+
+print(someStack == anotherStack)            // true
+print(someStack == someArray)               // error: Cannot convert value of type 'Stack<Int>' to expected argument type '[Int]'
+
+print(allItemsMatch(someStack, someArray))  // true
+```
+
+#### Extensions with a Generic Where Clause
+
+위에서 `extension Array: Container where Element: Equatable  {}`와 같이 *Generic Where Clauses* 는
+*Extensions* 의 일부로 사용될 수 있다.
+
+위 Case 2 에서 정의한 Stack 이다.
+
+```swift
+struct Stack<Element: Equatable> {
+    // original Stack<Element> implementation
+    var items: [Element] = []
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    mutating func pop() -> Element {
+        items.removeLast()
+    }
+    static func == (lhs: Stack<Element>, rhs: Stack<Element>) -> Bool {
+        lhs.items == rhs.items
+    }
+}
+```
+
+위 Stack 을 *Extension* 에 *Generic Where Clauses* 를 이용해 다음과 같이 코드의 관심사를 분리시킬 수 있다.
+
+```swift
+struct Stack<Element> {
+    // original Stack<Element> implementation
+    var items: [Element] = []
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    mutating func pop() -> Element {
+        items.removeLast()
+    }
+}
+
+extension Stack where Element: Equatable {
+    static func == (lhs: Stack<Element>, rhs: Stack<Element>) -> Bool {
+        lhs.items == rhs.items
+    }
+}
+```
+
+<br>
+
+이제 분리된 관심사에 *Element 가 Equatable 을 준수하는 것에 대한 코드만 따로 정의*해보자.
+
+```swift
+extension Stack where Element: Equatable {
+    static func == (lhs: Stack<Element>, rhs: Stack<Element>) -> Bool {
+        lhs.items == rhs.items
+    }
+
+    func startsWith(_ item: Element) -> Bool {
+        guard let startItem = items.first else { return false }
+        return startItem == item
+    }
+
+    func isTop(_ item: Element) -> Bool {
+        guard let topItem = items.last else { return false }
+        return topItem == item
+    }
+}
+```
+
+위 코드는 Stack 이 Container Protocol 을 채택하는 것과 무관하게 작동한다. 위 확장이 추가하는 3개의 메서드를 보면
+`==(lhs:rhs:)`와 달리 `startsWith(_:)` 메서드와 `isTop(_:)` 메서드는 Stack 에 대해 몰라도 Element 만으로 작동할
+수 있다. 만약 이 *두 메서드를 Container Protocol 쪽에서 정의하도록 관심사를 옮기고 싶다면* Container Protocol 의 Item 에
+Equatable Protocol 준수성을 추가하는 대신 *Container Protocol 에 Extensions 를 이용해 다음과 같이 분리*시킬 수 있다.
+
+```swift
+extension Stack where Element: Equatable {
+    static func == (lhs: Stack<Element>, rhs: Stack<Element>) -> Bool {
+        lhs.items == rhs.items
+    }
+}
+
+extension Container where Item: Equatable {
+    func startsWith(_ item: Item) -> Bool {
+        count >= 1 && self[0] == item
+    }
+    
+    func isTop(_ item: Item) -> Bool {
+        count >= 1 && self[count - 1] == item
+    }
+}
+```
+
+위 2개를 각각 Case 3 과 Case 4 이라 부르도록 하자. 코드를 정리하면 다음과 같다.
+
+__3 ) Case 3__
+
+- Protocols
+
+```swift
+protocol Container {
+    associatedtype Item
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+}
+
+protocol SuffixableContainer: Container {
+    associatedtype Suffix: SuffixableContainer where Suffix.Item == Item
+    func suffix(_ size: Int) -> Suffix
+    func last() -> Suffix.Item
+}
+```
+
+- Stack
+
+```swift
+struct Stack<Element> {
+    // original Stack<Element> implementation
+    var items: [Element] = []
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    mutating func pop() -> Element {
+        items.removeLast()
+    }
+}
+
+extension Stack where Element: Equatable {
+    static func == (lhs: Stack<Element>, rhs: Stack<Element>) -> Bool {
+        lhs.items == rhs.items
+    }
+
+    func startsWith(_ item: Element) -> Bool {
+        guard let startItem = items.first else { return false }
+        return startItem == item
+    }
+
+    func isTop(_ item: Element) -> Bool {
+        guard let topItem = items.last else { return false }
+        return topItem == item
+    }
+}
+
+extension Stack: Container {
+    // conformance to the Container protocol
+    mutating func append(_ item: Element) {
+        self.push(item)
+    }
+    var count: Int {
+        items.count
+    }
+    subscript(i: Int) -> Element {
+        items[i]
+    }
+}
+
+extension Stack: SuffixableContainer {
+    func suffix(_ size: Int) -> Stack<Element> {
+        var result = Stack()
+        for index in (count - size)..<count {
+            result.append(self[index])
+        }
+        return result
+    }
+    func last() -> Element {
+        self[count - 1]
+    }
+    // Inferred that Suffix is Stack.
+}
+```
+
+- Array
+
+```swift
+extension Array: Container {}
+```
+
+<br>
+
+__4 ) Case 4__
+
+- Protocols
+
+```swift
+protocol Container {
+    associatedtype Item
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+}
+
+extension Container where Item: Equatable {
+    func startsWith(_ item: Item) -> Bool {
+        count >= 1 && self[0] == item
+    }
+
+    func isTop(_ item: Item) -> Bool {
+        count >= 1 && self[count - 1] == item
+    }
+}
+
+protocol SuffixableContainer: Container {
+    associatedtype Suffix: SuffixableContainer where Suffix.Item == Item
+    func suffix(_ size: Int) -> Suffix
+    func last() -> Suffix.Item
+}
+```
+
+`extension Stack where Element: Equatable`의 일부로 존재하던 `startWith(_:)` 메서드와 `isTop(_:)` 메서드가 이제
+`extension Container where Item: Equatable`의 일부로 존재한다.
+
+- Stack
+
+```swift
+struct Stack<Element> {
+    // original Stack<Element> implementation
+    var items: [Element] = []
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    mutating func pop() -> Element {
+        items.removeLast()
+    }
+}
+
+extension Stack where Element: Equatable {
+    static func == (lhs: Stack<Element>, rhs: Stack<Element>) -> Bool {
+        lhs.items == rhs.items
+    }
+}
+
+extension Stack: Container {
+    // conformance to the Container protocol
+    mutating func append(_ item: Element) {
+        self.push(item)
+    }
+    var count: Int {
+        items.count
+    }
+    subscript(i: Int) -> Element {
+        items[i]
+    }
+}
+
+extension Stack: SuffixableContainer {
+    func suffix(_ size: Int) -> Stack<Element> {
+        var result = Stack()
+        for index in (count - size)..<count {
+            result.append(self[index])
+        }
+        return result
+    }
+    func last() -> Element {
+        self[count - 1]
+    }
+    // Inferred that Suffix is Stack.
+}
+
+```
+
+- Array
+
+```swift
+extension Array: Container {}
+```
+
+
+<br>
+
+`startsWith(_:)` 메서드와 `isTop(_:)` 메서드를 사용해보자.
+
+```swift
+var someStack = Stack<Int>()
+var anotherStack = Stack(items: [3, 2, 5])
+
+print(someStack.startsWith(3))      // false
+print(anotherStack.startsWith(2))   // false
+print(anotherStack.startsWith(3))   // true
+
+print(someStack.isTop(5))           // false
+print(anotherStack.isTop(4))        // false
+print(anotherStack.isTop(5))        // true
+```
+
+#### Contextual Where Clauses
+
+Contextual Where Clauses
+
+우리는 위 `Case 3`과 `Case 4`에서 *Generic Where Clauses* 를 이용해 *constraints* 를 이용해 조건에 일치할 경우에만
+작동하는 *Extensions* 를 정의했다.
+
+Case 4 에서 Container Protocol 에 사용한 확장을 다시 한 번 보자.
+
+```swift
+extension Container where Item: Equatable {
+    func startsWith(_ item: Item) -> Bool {
+        count >= 1 && self[0] == item
+    }
+
+    func isTop(_ item: Item) -> Bool {
+        count >= 1 && self[count - 1] == item
+    }
+}
+```
+
+이 코드는 `Container Protocol 을 채택한 Types 중 Item 이 Equatable 을 준수하는 경우에만 적용되는 Extension`이다.
+
+그리고 우리는 이런 *constraints* 를 이용해 조건부로 적용할 요구사항을 Extensions 이 아닌 Context 내에 정의할 수도 있다.
+이것을 `Contextual Where Clauses`라 한다.
+
+<br>
+
+- [Extensions with a Generic Where Clause](#h-extensions-with-a-generic-where-clause)
+
+```swift
+extension Container where Item == Double {
+    func average() -> Double {
+        var sum = 0.0
+        for index in 0..<count {
+            sum += Double(self[index])
+        }
+        return sum / Double(count)
+    }
+}
+```
+
+- [Contextual Where Clauses](#h-contextual-where-clauses)
+
+```swift
+extension Container {
+    func average() -> Double where Item == Int {
+        var sum = 0.0
+        for index in 0..<count {
+            sum += Double(self[index])
+        }
+        return sum / Double(count)
+    }
+}
+```
+
+위에서 Container Protocol 을 준수하는 Types 중
+
+- Item 이 Double 인 경우, `Extensions with a Generic Where Clause`를 이용해 기능을 추가하고,
+- Item 이 Int 인 경우, `Contextual Where Clauses`를 이용해 기능을 추가한다.
+
+그리고 이 둘은 동일하게 작동한다.
+
+```swift
+var intStack = Stack(items: [3, 2, 5])
+var doubleArray = [3.0, 2.0, 5.0]
+
+print(intStack.average())       // 3.3333333333333335
+print(doubleArray.average())    // 3.3333333333333335
+```
+
+#### Associated Types with a Generic Where Clause
+
+위에서 우리는 이미 *SuffixableContainer* Protocol 을 정의할 때 *Associated Types 에 Generic Where Clause 를
+사용*한 적이 있다.  
+(i.e. `associatedtype Suffix: SuffixableContainer where Suffix.Item == Item`)
+
+다만 위에서는 자기 자신의 일부로써 Associated Type 을 정의해 Container Protocol 과의 연결을 위해 사용했다. 이번에는
+Associated Type 에 *Generic Where Clauses* 를 적용하는 좀 더 일반적인 예를 하나 추가해보자.
+
+```swift
+var someStack = Stack(items: [9, 2, 5, 7, 3, 4, 2])
+
+for element in someStack {  // error: For-in loop requires 'Stack<Int>' to conform to 'Sequence'
+    print(element)
+}
+```
+
+사용자 정의 Type 인 Stack 은 Structure 를 기반으로 하기 때문에 Iterator 를 준수하지 않아 반복을 사용할 수 없다. 우리가
+정의한 Stack 이 반복을 할 수 있도록 만들어보자.
+
+```swift
+protocol Container {
+    associatedtype Item
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+
+    associatedtype Iterator: IteratorProtocol where Iterator.Element == Item
+    func makeIterator() -> Iterator
+}
+```
+
+새로 추가된 Associated Type 인 *Iterator* 는 `IteratorProtocol 을 준수하며, 이것의 Element 의 Type 은 Item 의
+Type 과 동일`해야한다.
+
+이제 Container Protocol 을 준수하는 Stack 은 `makeIterator()`를 구현해 준수하도록 해야한다.
+
+```swift
+extension Stack: Container {
+    // conformance to the Container protocol
+    mutating func append(_ item: Element) {
+        self.push(item)
+    }
+    var count: Int {
+        items.count
+    }
+    subscript(i: Int) -> Element {
+        items[i]
+    }
+    func makeIterator() -> IndexingIterator<[Element]> {
+        items.makeIterator()
+    }
+}
+```
+
+```swift
+var iteratorStack = someStack.makeIterator()
+print(iteratorStack)
+
+print("")
+
+for element in iteratorStack {
+    print(element, terminator: ", ")
+}
+
+print("")
+
+while let element = iteratorStack.next() {
+    print(element, terminator: ", ")
+}
+```
+
+```console
+IndexingIterator<Array<Int>>(_elements: [9, 2, 5, 7, 3, 4, 2], _position: 0)
+
+9, 2, 5, 7, 3, 4, 2, 
+9, 2, 5, 7, 3, 4, 2, 
+```
+
+이제 Stack 은 `makeIterator()` 메서드를 사용해 `Container 의 Iterator 에 대한 접근을 제공`한다.
+
+<br>
+
+__Separate Code__
+
+이제 위 코드를 다시 관심사를 분리시켜보도록 하자. Container 에서 Iterable 관련된 코드를 분리할 것이다.
+
+```swift
+protocol Container {
+    associatedtype Item
+    mutating func append(_ item: Item)
+    var count: Int { get }
+    subscript(i: Int) -> Item { get }
+}
+
+protocol IterableContainer: Container where Iterator.Element == Item {
+    associatedtype Iterator: IteratorProtocol
+    func makeIterator() -> Iterator
+}
+```
+
+*Container* Protocol 에서 Iterable 관련 요구사항을 분리해 별도의 *IterableContainer* Protocol 로 만들고,
+[Contextual Where Clauses](#h-contextual-where-clauses) 대신 
+[Extensions with a Generic Where Clause](#h-extensions-with-a-generic-where-clause) 를 사용하도록 
+변경했다.
+
+따라서 Stack 은 Protocol 각각 Protocol 별로 채택하거나
+
+```swift
+extension Stack: Container {
+    // conformance to the Container protocol
+    mutating func append(_ item: Element) {
+        self.push(item)
+    }
+    var count: Int {
+        items.count
+    }
+    subscript(i: Int) -> Element {
+        items[i]
+    }
+}
+
+extension Stack: IterableContainer {
+    // conformance to the IterableContainer protocol
+    func makeIterator() -> IndexingIterator<[Element]> {
+        items.makeIterator()
+    }
+}
+```
+
+Stack 이 반드시 *IterableContainer* Protocol 을 준수해야할 경우 이는 *Container* Protocol 을 준수성을 포함하므로
+*IterableContainer* Protocol 을 채택할 때 한 번에 구현하는 것도 가능하다.
+
+```swift
+extension Stack: IterableContainer {
+    // conformance to the Container protocol
+    mutating func append(_ item: Element) {
+        self.push(item)
+    }
+    var count: Int {
+        items.count
+    }
+    subscript(i: Int) -> Element {
+        items[i]
+    }
+
+    // conformance to the IterableContainer protocol
+    func makeIterator() -> IndexingIterator<[Element]> {
+        items.makeIterator()
+    }
+}
+```
+
+위와 마찬가지로
+
+```swift
+protocol SuffixableContainer: Container {
+    associatedtype Suffix: SuffixableContainer where Suffix.Item == Item
+    func suffix(_ size: Int) -> Suffix
+    func last() -> Suffix.Item
+}
+```
+
+역시 다음과 같이 [Extensions with a Generic Where Clause](#h-extensions-with-a-generic-where-clause) 로 
+변경할 수 있다.
+
+```swift
+protocol SuffixableContainer: Container where Suffix.Item == Item {
+    associatedtype Suffix: SuffixableContainer
+    func suffix(_ size: Int) -> Suffix
+    func last() -> Suffix.Item
+}
+```
+
+> **IterableContainer** Protocol 을 정의한 것처럼 다양한 요구사항을 Container Protocol 을 준수하는 다양한 하위
+> Protocols 를 정의할 수 있다. 다음은 Comparable 을 준수하도록 하는 **ComparableContainer** Protocol 을 정의하기
+> 위해 다음과 같이 추가할 수 있다.
+>
+> ```swift
+> protocol ComparableContainer: Container where Item: Comparable { }
+> ```
+
+
+#### Generic Subscripts
+
+*Subscripts* 는 Generic 일 수 있고, 이것은 *Generic Where Clauses* 를 포함할 수 있다. 기존에 *Container* Protocol
+의 요구사항을 준수하도록 하기 위해 *Stack* 은 Int Type 의 단일 index 를 받아 반환하는 코드를 구현했다.
+
+```swift
+var stringStack = Stack(items: ["A", "D", "C", "K", "G", "B", "O", "Q"])
+var intStack = Stack(items: [7, 23, 3, 17, 62, 5, 13, 34])
+
+print(stringStack[2])       // C
+print(stringStack[5])       // B
+print(stringStack[2...5])   // error: Cannot convert value of type 'ClosedRange<Int>' to expected argument type 'Int'
+
+print(intStack[3])          // 17
+print(intStack[5])          // 5
+print(intStack[3..<6])      // error: Cannot convert value of type 'Range<Int>' to expected argument type 'Int'
+```
+
+*Container* Protocol 의 요구사항은 `subscript(i: Int) -> Item { get }`이었기 때문에 *subscript*는 `Int` Type
+만 Parameters 로 허용된다. 따라서 `[2...5]`와 같은 `Sequence`는 사용할 수가 없다.
+
+`Parameters 를 Int Type 의 Sequence 로 받는 subscript`를
+[Protocol Extensions - Providing Default Implementations](#h-providing-default-implementations) 를 
+이용해 추가적으로 제공해보자.
+
+```swift
+extension Container {
+    subscript<Indices: Sequence>(indices: Indices) -> [Item]
+    where Indices.Iterator.Element == Int {
+        var result: [Item] = []
+        for index in indices {
+            result.append(self[index])
+        }
+        return result
+    }
+}
+```
+
+- Generic Parameter `Indices` 는 Standard Library `Sequence` Protocol 을 준수해야한다.
+- Parameter 는 `Indices` Type 의 *Single Parameter* `indices`를 받는다.
+- *Generic Where Clauses* 에 의해 `Sequence 의 Iterator 의 Element`는 `Int` Type 과 동일해야한다.
+- Subscripts 구현에 의해 `Sequence 의 Iterator 는 indices 로 주어진 Int Type 의 Element 를 통과(traverse)`해야한다.
+
+<br>
+
+이제 단일 index 및 연속된 indices 모두에서 작동한다.
+
+```swift
+var stringStack = Stack(items: ["A", "D", "C", "K", "G", "B", "O", "Q"])
+var intStack = Stack(items: [7, 23, 3, 17, 62, 5, 13, 34])
+
+print(stringStack[2])       // C
+print(stringStack[5])       // B
+print(stringStack[2...5])   // ["C", "K", "G", "B"]
+
+print(intStack[3])          // 17
+print(intStack[5])          // 5
+print(intStack[3..<6])      // [17, 62, 5]
+```
+
+지금까지 *Generic*, *Associated* 와 *Extensions* 를 사용해 코드를 관심사별로 분리하고, 재사용성을 고려해 유연한 코드를 
+만들어보았다. 이것을 한 번에 정리해둔 코드는 [Generic, Associated, Where and Subscripts Summary] 을 참고한다.
+
 
 [Concurrency - Asynchronous Functions]:/swift/2023/01/05/concurrency.html#h-2-asynchronous-functions-
 [Automatic Reference Counting]:/swift/2023/03/08/automatic-reference-counting.html
@@ -7656,3 +9287,5 @@ console.log(differentNumbers.some(v => v === 200))              // true
 [First-Class Citizen]:/swift/2022/11/07/higher-order-function.html#h-1-first-class-citizen
 [Delegation Examples]:/swift/2023/02/20/protocols.html#h-2-examples-1
 [Which one choose Structures or Classes]:/swift/2022/11/21/structures-and-classes.html#h-3-structure-와-class-무엇을-선택할까
+[Equatable]:/swift/2023/02/20/protocols.html#h-1-synthesized-implementation-of-equatable
+[Generic, Associated, Where and Subscripts Summary]:/swift/2023/02/23/generics.html#h-7-summary-
