@@ -102,7 +102,7 @@ print(flippedTriangle.draw())
 ```
 
 모듈 사용자가 알아야 하는 것은 모듈 사용자가 제공받기로 한 `Shape` protocol 의 무언가 (이 경우 `draw()` 메서드)뿐이다.   
-그런데 *Shape* Protocol 을 준수한다고 `draw()`를 제공하기 위해 Structure *flippedTriangle* 를 그대로 노출하면 여기 사용된 
+그런데 *Shape* Protocol 을 준수하도록 `draw()`를 제공하기 위해 Structure *flippedTriangle* 를 그대로 노출하면 여기 사용된 
 `Wrapper` 인 `FlippedShape`가 그대로 노출된다(= 뒤집힌 결과를 생성하는데 사용된 Exact Generic Type 을 노출시킨다).
 
 ```swift
@@ -152,11 +152,11 @@ print(joinedTriangles.top)          // Triangle(size: 3)
 print(joinedTriangles.bottom)       // FlippedShape<Triangle>(shape: __lldb_expr_38.Triangle(size: 3))
 ```
 
-*모듈 내의 코드는 다양한 방법으로 같은 모양을 만들 수 있으며, 모듈 외부의 다른 코드는 이 모듈의 구현 목록과 같은 세부 정보를 알 필요가 없다*. 
-
-따라서 [FlippedShape](#h-2-flippedshape), [JoinedShape](#h-3-joinedshape) 와 같은 `Wrapper Types`는 모듈 사용자에게 
-중요하지 않으며, `표시되지 않아야한다`. 모듈의 public interface 는 *shape* 을 결합하거나 뒤집는 것과 같은 작업으로 구성되며, 이러한 
-작업은 또 다른 `Shape` 값을 반환한다.
+> **모듈 내의 코드는 다양한 방법으로 같은 모양을 만들 수 있으며, 모듈 외부의 다른 코드는 이 모듈의 구현 목록과 같은 세부 정보를 알 필요가 없다**. 
+> 
+> 따라서 [FlippedShape](#h-2-flippedshape), [JoinedShape](#h-3-joinedshape) 와 같은 `Wrapper Types`는 모듈 사용자에게 
+> 중요하지 않으며, `표시되지 않아야한다`. 모듈의 public interface 는 **shape** 을 결합하거나 뒤집는 것과 같은 작업으로 구성되며, 이러한 
+> 작업은 또 다른 `Shape` 값을 반환한다.
 
 ---
 
@@ -241,7 +241,8 @@ print(trapezoid.draw())
 
 <br>
 
-그렇다면 정의한 [JoinedShape](#h-3-joinedshape) 와 뭐가 다를까? 한번 비교해보도록 하자.
+그렇다면 [Nonopaque Types](#h-nonopaque-types) 에서 정의한 [JoinedShape](#h-3-joinedshape) 와 뭐가 다를까? 
+한번 비교해보도록 하자.
 
 ![Nonopaque Return Type](/assets/images/posts/2023-02-27-opaque-types/nonopaque-return-type.png){: width="800"}
 
@@ -359,7 +360,7 @@ struct Square: Shape {
 }
 ```
 
-의 특수한 경우를 
+`Square: Shape` 라는 특수한 경우를
 
 ```swift
 struct FlippedShape<T: Shape>: Shape {
@@ -371,7 +372,8 @@ struct FlippedShape<T: Shape>: Shape {
 }
 ```
 
-의 내부로 옮겨 `invalidFlip(_:)` 함수가 언제나 `FlippedShape 의 some Shape 를 return`하도록 하는 것이다.
+`FlippedShape: Shape`의 내부로 옮겨 `invalidFlip(_:)` 함수가 언제나 
+`FlippedShape 의 some Shape 를 return`하도록 하는 것이다.
 
 ```swift
 struct FlippedShape<T: Shape>: Shape {
@@ -390,7 +392,7 @@ struct FlippedShape<T: Shape>: Shape {
 
 변경된 코드를 모아 비교해보면 다음과 같다.
 
-- `flip(_:)`
+- `flip(_:)` & `join(_:_:)`
 
 ```swift
 struct FlippedShape<T: Shape>: Shape {
@@ -500,7 +502,8 @@ func `repeat`<T: Shape>(_ shape: T, count: Int) -> some Collection {
 
 <br>
 
-이는 [`flip(_:)` & `join(_:_:)`](l#h-2-flip_--join__-with-generics)
+
+이는 [flip\(\_\:\) & join\(\_\:\_\:\)](#h-2-flip_--join__-with-generics) 함수
 
 ```swift
 func flip<T: Shape>(_ shape: T) -> some Shape {
@@ -564,6 +567,11 @@ tripleSquare.forEach { shape in
 ***
 ***
 ```
+
+> **Opaque Return Types** 를 **Generic** 과 함께 사용하면 
+> [`flip(_:)` & `join(_:_:)`](#h-2-flip_--join__-with-generics) 처럼 Return Type 을 `Single Type`으로 
+> 만들기 위해 하나의 Type 이 다른 Types 를 포함하도록 만들 필요 없이 `some Type`을 `Generic`을 사용해 반환하므로 각각의 
+> 코드를 명확히 분리시킬 수 있다.
 
 ---
 
@@ -673,6 +681,10 @@ extension FlippedShape: Equatable where T == Triangle {
 
 이제 *Triangle* 과 *FlippedShape* 은 `==` operator 를 사용할 수 있다.
 
+<br>
+
+__1 ) Returning Opaque Types__
+
 ```swift
 let smallTriangle = Triangle(size: 3)
 let anotherSmallTriangle = Triangle(size: 3)
@@ -685,7 +697,7 @@ print(flippedTriangle == anotherFlippedTriangle)  // true
 
 <br>
 
-그렇다면 `Protocol Return Type`은 어떨까?
+__2 ) Returning Protocol Types__
 
 ```swift
 let protocolFlippedTriangleA = protocolFlip(smallTriangle)
@@ -840,7 +852,7 @@ func makeProtocolContainer<T>(item: T) -> Container {   // error: Use of protoco
 }
 ```
 
-그리고 Swift *compiler* 는 `Replace 'Container' with 'any Container'` 하도록 경고를 띄운다.
+그리고 Swift *compiler* 는 `Replace 'Container' with 'any Container'` 라며 경고를 띄운다.
 <span style="color: red;">Associated Types 를 갖고 있는 Protocols 는 Return Types 로 사용될 수 없기 때문이다</span>. 
 이는 앞에서 맞닥뜨린 
 
@@ -852,7 +864,7 @@ func makeProtocolContainer<T, C: Container>(item: T) -> C {
 
 와 유사한 케이스라 할 수 있다.
 
-#### 7. Opaque Type Resolve The Problem That Protocol Has an Associated Type
+#### 7. Opaque Type Resolve The Problem That Protocol Has an Associated Types
 
 Container Protocol 은 다시 처음 정의하려던대로 바꾸고 Swift *compiler* 가 시키는대로 따라가보자.
 
@@ -905,7 +917,8 @@ print(type(of: twelve))             // Int
 print(twelve)                       // 12
 ```
 
-`Opaque Return Types`를 사용하면 *Any* 를 사용하지 않고 `Associated Types 를 갖는 Protocol 을 return 할 떼의 문제를 해결`할 수 있다.
+`Opaque Return Types`를 사용하면 *Any* 를 사용하지 않고 
+<span style="color: red;">Associated Types 를 갖는 Protocol 을 return 할 떼의 문제를 해결</span>할 수 있다.
 
 
 <br><br>
