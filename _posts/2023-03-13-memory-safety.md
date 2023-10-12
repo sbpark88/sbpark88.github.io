@@ -8,8 +8,6 @@ tags: [swift docs, memory safety, compile-time error, runtime error, conflict, m
 
 ### 1. Memory Safety 👩‍💻
 
-#### 1. Memory Safety
-
 기본적으로 Swift 는 코드에서 안전하지 않은 작동이 발생하는 것을 방지한다. 예를 들면, *Initialization 이전에 Variables 에 접근하기*,
 *Deallocated 이후 메모리에 접근하기*, *Array 의 범위 체크(out-of-bounds)*와 같은 것들이다.
 
@@ -20,7 +18,9 @@ Swift 는 메모리를 자동으로 관리하기 때문에 대부분의 경우�
 있는 경우에 대해 알아야 메모리 접근에 대한 *Conflicting Access* 를 피할 수 있으므로 이것을 이해하는 것은 중요하다. 만약 이를 피하지 못해 
 *Conflicts* 을 일으킬 수 있는 코드가 포함되어 있다면, `Compile-time Error` 또는 `Runtime Error`가 발생한다.
 
-#### 2. Understanding Conflicting Access to Memory
+### 2. Memory Access 👩‍💻
+
+#### 1. Understanding Conflicting Access to Memory
 
 메모리에 접근하는 것은 *변수에 값을 설정*하거나 *함수에 arguments 를 전달*하는 것과 같은 작동을 할 때 발생한다. 다음 코드는 메모리 접근의
 `Read Access`와 `Write Access`에 대한 예다.
@@ -59,7 +59,7 @@ print("We're number \(one)!")
 > - Conflicting Access to Memory (Multithread) : [Thread Sanitizer] 를 사용해 *Threads* 사이에 발생하는 **Conflicts** 을 감지한다.
 
 
-#### 3. Characteristics of Memory Access
+#### 2. Characteristics of Memory Access
 
 *Conflicting Access* 에서 고려해야 할 *Memory Access* 의 3가지 특성이 있다.
 
@@ -106,7 +106,7 @@ print(myNumber) // 2
 
 ---
 
-### 2. Conflicting Access to In-Out Parameters 👩‍💻
+### 3. Conflicting Access to In-Out Parameters 👩‍💻
 
 
 함수는 모든 *In-Out Parameters* 에 *Long-term Write Access* 를 갖고 있다. *In-Out Parameters* 에 대한 *Write Access* 는
@@ -226,7 +226,7 @@ balance(&playerOneScore, &playerOneScore) // error: conflicting accesses to play
 
 ---
 
-### 3. Conflicting Access to self in Methods 👩‍💻
+### 4. Conflicting Access to self in Methods 👩‍💻
 
 *Structures* 의 `mutating methods`는 메서드를 호출하는 동안 `self`에 대한 *Write Access* 를 갖는다.
 
@@ -270,13 +270,15 @@ print(maria) // Player(name: "Maria", health: 7, energy: 10)
 
 ![Memory Share 1](/assets/images/posts/2023-03-13-memory-safety/memory_share_health_maria~dark@2x.png){: width="800"}
 
-위 코드에서 *oscar* 의 *mutating methods* `restoreHealth()`가 갖는 *Write Access* 의 대상은 `self`, 즉, *oscar* 자기 자신이고,
-*In-Out Parameters* 로 전달되는 *maria* 가 갖는 *Write Access* 의 대상은 *maria* 이기 때문에 *Conflicts* 가 발생하지 않는다.
+위 코드에서 *oscar* 의 *mutating methods* `shareHealth(with:)`가 갖는 *Write Access* 의 대상은 `self`, 
+즉, *oscar* 자기 자신이고, *In-Out Parameters* 로 전달되는 *maria* 가 갖는 *Write Access* 의 대상은 *maria* 
+이기 때문에 *Conflicts* 가 발생하지 않는다.
 
 <br>
 
-그러나 `restoreHealth()`의 *In-Out Parameters* 로 *oscar* 를 전달하면 `mutating methods 의 self`와 `In-Out Parameters`가 동일한
-*oscar* 를 대상으로 *Write Access* 를 하기 때문에 동시에 같은 메모리를 참조하고 Overlap 되므로 *Conflicts* 가 발생한다.
+그러나 `shareHealth(with:)`의 *In-Out Parameters* 로 *oscar* 를 전달하면 `mutating methods 의 self`와 
+`In-Out Parameters`가 동일한 *oscar* 를 대상으로 *Write Access* 를 하기 때문에 동시에 같은 메모리를 참조하고 
+Overlap 되므로 *Conflicts* 가 발생한다.
 
 ```swift
 oscar.shareHealth(with: &oscar) // error: inout arguments are not allowed to alias each other
@@ -286,12 +288,14 @@ oscar.shareHealth(with: &oscar) // error: inout arguments are not allowed to ali
 
 ---
 
-### 4. Conflicting Access to Properties 👩‍💻
+### 5. Conflicting Access to Properties 👩‍💻
 
-*Structures*, *Tuples*, *Enumerations* 와 같은 *Value Types* 는 `Structure 의 Properties` 또는 `Tuple 의 Elements`와 같은 개별
-구성 값(individual constituent values)으로 구성된다. 이것은 *Value Types* 이기 때문에 값의 일부가 변경되변 전체가 변경된다.  
-즉, Properties 중 하나에 *Read Access* 또는 *Write Access* 접근을 하는 것은 `self`를 통한 접근이기 때문에 실제로 `전체 값에 대한
-Read Access 또는 Write Access 를 요구`하는 것과 같다.
+*Structures*, *Tuples*, *Enumerations* 와 같은 `Value Types`는 **Structure 의 Properties** 또는
+**Tuple 의 Elements**와 같은 개별 구성 값(individual constituent values)으로 구성된다.
+이것은 *Value Types* 이기 때문에 값의 일부가 변경되변 전체가 변경된다.    
+즉, <span style="color: red;">Properties 중 하나의 *Read Access* 또는 *Write Access* 접근을 하는 것</span>은 
+`self`를 통한 접근이기 때문에 실제로 <span style="color: red;">**전체 값에 대한 Read Access 또는 Write Access 를 
+요구**하는 것</span>과 같다.
 
 ```swift
 func balance(_ x: inout Int, _ y: inout Int) {
@@ -308,7 +312,8 @@ balance(&playerInformation.health, &playerInformation.energy)
 위 예제에서 `balance(_:_:)`를 호출하는 것은 *playerInformation* 에 *Overlapping Write Accesses* 를 하는 것이므로 *Conflicts* 가
 발생한다.
 
-만약, *Tuple* 이 다음과 같이 하나의 *In-Out Parameter* 로 전달되면 *Conflicts* 가 발생하지 않는다.
+만약, 다음과 같이 <span style="color: green;">*Tuple* 을 이용해 하나의 *In-Out Parameter* 로 전달되면 *Conflicts* 가 
+발생하지 않는다</span>.
 
 ```swift
 func balance(_ player: inout (health: Int, energy: Int)) {
@@ -333,9 +338,10 @@ print(holly)
 ```
 
 <br>
-이 문제를 해결하는 방법 중 한 가지는 `In-Out Parameters`로 전달되는 원본 데이터를 *Global Variable* 이 아닌 *Local Variable* 로
-변경하는 것이다. 그러면 Swift *compiler* 는 Structure 의 Stored Properties 에 대한 *Access* 가 다른 코드의 부분과 상호작용하지
-않으므로 안전하다는 것을 증명할 수 있게 되고, 2개의 *In-Out Parameters* 가 전달되지만 정상적으로 작동할 수 있다.
+이 문제를 해결하는 방법 중 한 가지는 <span style="color: green;">*In-Out Parameters* 로 전달되는 원본 데이터를 
+*Global Variable* 이 아닌 *Local Variable* 로 변경하는 것</span>이다. 그러면 Swift *compiler* 는 Structure 의 
+Stored Properties 에 대한 *Access* 가 다른 코드의 부분과 상호작용하지 않으므로 안전하다는 것을 증명할 수 있게 되고, 
+2개의 *In-Out Parameters* 가 전달되지만 정상적으로 작동할 수 있다.
 
 ```swift
 func someFunction() {
@@ -359,12 +365,12 @@ Player(name: "Holly", health: 15, energy: 15)
 > 즉, 일부 코드는 메모리에 대한 `Exclusive Access`를 위반하더라도 `Memory Safety`를 유지한다는 것을 의미한다. 이는 위와 같이 Swift
 > **compiler** 가 메모리에 대한 `비배타적 접근(nonexclusive access)`가 여전히 안전하다는 것을 증명할 수 있는 `Memory Safety`를 허용한다.
 
-Swift *compiler* 에 의해 메모리에 대한 `Nonexclusive Access`가 `Memory Safety`를 가질 수 있는 조건은 다음과 같다.
-
-- 오직 Instance 의 `Stored Properties 에만 접근`한다(not Computed Properties or Class Properties).
-- Structure 가 `Local Variable`의 값이다(not Global Variable).
-- Structure 는 `Closures 에 의해 캡처되지 않거나` or `Nonescaping Closures 에 의해서만 캡처`된다.
-  (일반 Closures 또는 Escaping Closures 는 함수 context 외부와 상호작용을 하므로 완전히 격리 되지 않는다.)
+> Swift **compiler** 에 의해 메모리에 대한 `Nonexclusive Access`가 `Memory Safety`를 가질 수 있는 조건은 다음과 같다.
+> 
+> - 오직 Instance 의 `Stored Properties 에만 접근`해야한다(not Computed Properties or Class Properties).
+> - Structure 가 `Local Variable`의 값어야한다(not Global Variable).
+> - Structure 는 `어떤 Closures 에도 캡처되지 않거나` or `Nonescaping Closures 에 의해서만 캡처`되어야한다.
+>   (일반 Closures 또는 Escaping Closures 는 함수 context 외부와 상호작용을 하므로 완전히 격리 되지 않는다.)
 
 
 <br><br>
