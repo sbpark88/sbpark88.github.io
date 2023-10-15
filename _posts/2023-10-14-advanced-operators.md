@@ -11,12 +11,12 @@ tags: [swift docs, advanced operators, bitwise, overflow, precedence, associativ
 Swift 는 `C`나 `Objective-C`와 유사한 `Bitwise Operators`를 포함해 여러 고급 연산자를 제공한다. *Swift* 는 
 **C** 의 *Arithmetic Operators* 와 달리 기본적으로 <span style="color: red;">*Overflow* 되지 않는다</span>.
 *Overflow* 는 `trapped`되어 에러로 보고된다.  
-Swift 에서 *Overflow* 동작을 하도록 하려면 `Overflow Addition Operator($+)`와 같은 연산자를 사용해야한다
+Swift 에서 *Overflow* 행동을 하도록 하려면 `Overflow Addition Operator($+)`와 같은 연산자를 사용해야한다
 (모든 `Overflow Operators`는 `&`로 시작한다).
 
 Custom *Classes*, *Structures*, *Enumerations* 를 정의할 때, Custom Types 에 대해 **Standard Swift 
 Operators** 의 구현을 제공하는 것이 유용할 수 있다. Swift 는 Custom Types 에 대해 **Custom Operators** 를 손쉽게 
-제공할 수 있도록 하며, 각 Types 에 대한 동작이 정확히 무엇인지 결정할 수 있다.
+제공할 수 있도록 하며, 각 Types 에 대한 행동이 정확히 무엇인지 결정할 수 있다.
 
 **Custom Operators** 는 사전에 정의된 Operators 로 제한되지 않으며, Swift 는 자신만의 `Infix`, `Prefix`, 
 `Assignment Operators`를 정의함은 물론, 자신만의 `우선순위`를 자유롭게 정의할 수 있다. 이러한 **Custom Operators** 
@@ -29,15 +29,197 @@ Operators** 의 구현을 제공하는 것이 유용할 수 있다. Swift 는 Cu
 
 #### 1. Bitwise Operators
 
-#### 2. Bitwise NOT Operator
+*Bitwise Operators* 는 *Data Structure* 내에서 개별 `Raw Bits`를 조작할 수 있게 해준다. 이것은 **Graphics 
+Programming** 이나 디바이스 드라이버 생성 같은 **Low-Level Programming** 에서 주로 사용된다. 또한 외부 소스로부터 
+*Custom Protocol* 을 사용해 통신하는 데이터 **Encoding/Decoding** 작업에 사용하기도 한다. Swift 는 **C** 가 
+갖고 있는 모든 *Bitwise Operators* 를 지원한다.
 
-#### 3. Bitwise AND Operator
+```swift
+func printToBinary(number: UInt8) {
+    print(toBinary(number))
 
-#### 4. Bitwise OR Operator
+    func toBinary(_ number: UInt8) -> String {
+        let binary = String(number, radix: 2)
+        if binary.count < 8 {
+            return String(repeating: "0", count: 8 - binary.count) + binary
+        } else {
+            return binary
+        }
+    }
+}
+```
 
-#### 5. Bitwise XOR Operator
+위 함수를 만들고 비트 연산 결과를 확인해보자.
 
-#### 6. Bitwise Left and Right Operators
+#### 2. Bitwise NOT Operator `~`
+
+*Bitwise NOT Operator* `~`는 `Prefix Operator`로 `공백 없이` 값 바로 앞에 위치해 숫자의 모든 비트를 반전시킨다.
+
+![Bitwise NOT Operator](/assets/images/posts/2023-10-14-advanced-operators/bitwiseNOT~dark@2x.png){: width="600"}
+
+```swift
+let initialBits: UInt8 = 0b00001111
+let invertedBits = ~initialBits
+printToBinary(number: invertedBits) // 11110000
+```
+
+`UInt8` 정수는 8비트를 가지며 0 ~ 255 사이의 숫자를 저장할 수 있으며, 2진수 `00001111`로 이루어진 8비트 데이터
+(10진수로 15와 같음)에 `~` Operator 를 적용해 2진수 `11110000`(10진수로 240과 같음)이 되었다.
+
+#### 3. Bitwise AND Operator `&`
+
+*Bitwise AND Operator* `&`는 두 값 사이에 위치해 연산된 값을 반환한다. 비트의 각 자릿수가 모두 1이면 1을, 그 외에는 
+0을 반환한다.
+
+![Bitwise AND Operator](/assets/images/posts/2023-10-14-advanced-operators/bitwiseAND~dark@2x.png){: width="600"}
+
+```swift
+let firstSixBits: UInt8 = 0b11111100
+let lastSixBits: UInt8 = 0b00111111
+let middleFourBits = firstSixBits & lastSixBits
+printToBinary(number: middleFourBits)   // 00111100
+```
+
+2진수 `11111100`과 `00111111`에 `&` Operator 를 적용해 2진수 `00111100`이 되었다.
+
+#### 4. Bitwise OR Operator `|`
+
+*Bitwise OR Operator* `|`는 두 값 사이에 위치해 연산된 값을 반환한다. 비트의 각 자릿수가 모두 0이면 0을, 그 외에는 
+1을 반환한다.
+
+![Bitwise OR Operator](/assets/images/posts/2023-10-14-advanced-operators/bitwiseOR~dark@2x.png){: width="600"}
+
+```swift
+let someBits: UInt8 = 0b10110010
+let moreBits: UInt8 = 0b01011110
+let combinedBits = someBits | moreBits
+printToBinary(number: combinedBits) // 11111110
+```
+
+2진수 `10110010`과 `01011110`에 `|` Operator 를 적용해 2진수 `11111110`이 되었다.
+
+#### 5. Bitwise XOR Operator `^`
+
+*Bitwise XOR Operator*(=*Exclusive OR Operator*) `^`는 두 값 사이에 위치해 연산된 값을 반환한다. 비트의 각 자릿수가 
+서로 같으면 0을, 다르면 1을 반환한다.
+
+![Bitwise XOR Operator](/assets/images/posts/2023-10-14-advanced-operators/bitwiseXOR~dark@2x.png){: width="600"}
+
+```swift
+let firstBits: UInt8 = 0b00010100
+let otherBits: UInt8 = 0b00000101
+let outputBits = firstBits ^ otherBits
+printToBinary(number: outputBits)   // 00010001
+```
+
+2진수 `00010100`과 `00000101`에 `^` Operator 를 적용해 2진수 `00010001`이 되었다.
+
+#### 6. Bitwise Left and Right Shift Operators `<<` `>>`
+
+*Bitwise Left Shift Operator* `<<`는 모든 비트를 왼쪽으로 이동시키며 정수를 2배로 곱하는 효과가 있고, *Bitwise Right 
+Shift Operator* `>>`는 모든 비트를 오른쪽으로 이동시키며 정수를 반으로 나누는 효과가 있다.
+
+부호없는 정수에 대한 이동 행동 (Shifting Behavior for Unsigned Integers)
+부호없는 정수에 대해 비트 이동 행동은 아래와 같습니다:
+기존 비트는 요청된 숫자만큼 왼쪽 또는 오른쪽으로 이동됩니다.
+정수의 저장소 범위를 넘어 이동된 모든 비트는 삭제됩니다.
+원래 비트가 왼쪽 또는 오른쪽으로 이동한 후 뒤에 남겨진 공백에 0이 삽입됩니다.
+이 접근방식을 논리적 이동 (logical shift) 이라고 합니다.
+아래 그림은 11111111 을 왼쪽으로 1 자리 이동한 11111111 << 1 의 결과와 11111111 을 오른쪽으로 1 자리 이동한 11111111 >> 1 의 결과를 보여줍니다. 초록 숫자는 이동되고 회색 숫자는 삭제되고 핑크 0이 삽입됩니다:
+
+
+<br>
+
+__1 ) Shifting Behavior for Unsigned Integers__
+
+부호 없는 정수의 *Bit-Shifting* 행동은 다음과 같다.
+
+- 기존의 비트를 요청된 숫자만큼 왼쪽 또는 오른쪽으로 이동시킨다.
+- 정수의 저장 범위(UInt8 정수는 8비트를 가지며 0 ~ 255 사이의 숫자를 저장)를 넘는 비트는 **제거**된다.
+- 비트 이동으로 *빈 공간에 `0`이 삽입*된다.
+
+![Bit-Shift Unsigned](/assets/images/posts/2023-10-14-advanced-operators/bitshiftUnsigned~dark@2x.png){: width="600"}
+
+```swift
+let shiftBits: UInt8 = 4
+printToBinary(number: shiftBits)        // 00000100
+printToBinary(number: shiftBits << 1)   // 00001000
+printToBinary(number: shiftBits << 2)   // 00010000
+printToBinary(number: shiftBits << 5)   // 10000000
+printToBinary(number: shiftBits << 6)   // 00000000
+printToBinary(number: shiftBits >> 2)   // 00000001
+```
+
+<br>
+
+다음 예제는 16진수 *Cascading Style Sheets* 색상값을 각각 RGB 로 분리하는 연산을 수행한다.
+
+```swift
+let pink: UInt32 = 0xCC6699
+let redComponent = (pink & 0xFF0000) >> 16    // redComponent is 0xCC, or 204
+let greenComponent = (pink & 0x00FF00) >> 8   // greenComponent is 0x66, or 102
+let blueComponent = pink & 0x0000FF           // blueComponent is 0x99, or 153
+```
+
+> 16진수 *Cascading Style Sheets* 색상값을 저장하기 위해 `UInt32` 상수를 사용했고 저장된 색상은 분홍색이다.
+> 
+> - 빨간색을 분리하기 위해 분홍색에 빨강색의 자릿값 `0xFF0000`을 `&` 연산한 다음 오른쪽으로 16비트를 이동시킨다.
+> - 녹색을 분리하기 위해 분홍색에 녹색의 자릿값 `0x00FF00`을 `&` 연산한 다음 오른쪽으로 8비트를 이동시킨다.
+> - 파란색을 분리하기 위해 파랑색의 자릿값 `0x0000FF`을 `&` 연산했고 자릿값 이동이 필요 없어 그대로 종료했다.
+
+<br>
+
+__2 ) Shifting Behavior for Signed Integers__
+
+부호 있는 정수의 *Bit-Shifting* 행동은 <span style="color: red;">이진으로 표현되는 방법 때문에</span> 부호 없는 
+정수보다 <span style="color: red;">더 복잡하다</span>(다음 예제는 단순화를 위해 8비트의 부호 있는 정수를 사용하지만 
+동일한 원칙이 모든 부호 있는 정수에 적용된다).
+
+부호 있는 정수는 첫 번째 비트를 부호로 사용한다. 이를 `Sign Bit`로 *0은 양수*를, *1은 음수*를 표현한다. 그리고 나머지 
+비트는 `Value Bits`로 실제 값을 저장한다. 양수일 때는 부호 없는 정수와 동일한 방식을 사용한다.
+
+![Bit Shift Signed Four](/assets/images/posts/2023-10-14-advanced-operators/bitshiftSignedFour~dark@2x.png){: width="600"}
+
+<p class="center">부호 있는 정수의 <code>+4</code></p>
+
+<br>
+
+하지만 음수의 경우 우리가 직관적으로 사용하는 `부호 + 절대값 숫자`의 형태를 띄지 않는다. `+4`, `-4` 이런 식의 표현은 사람에게 
+쉽고 익숙한 것이지 컴퓨터 친화적이지 않기 때문이다. 컴퓨터는 **Binary** 로 데이터를 다루기 때문에 2의 보수를 사용해 표현한다.
+
+![Bit Shift Signed Minus Four](/assets/images/posts/2023-10-14-advanced-operators/bitshiftSignedMinusFour~dark@2x.png){: width="600"}
+
+<p class="center">부호 있는 정수의 <code>-4</code></p>
+
+> 2진수가 가질 수 있는 보수는 2의 보수와 1의 보수다.
+> 
+> 1. 2진수 양수 `+4`는 `00000100`이다.
+> 2. `+4`의 1의 보수는 `11111111 - 00000100` = `111110110`이다.
+> 3. `+4`의 2의 보수는 1의 보수에 1을 더해 `111110110 + 00000001` = `11111100`이 된다.
+
+부호 있는 정수의 `-4`는 *Sign Bit* 1과 *Value Bits* `1111100`으로 이루어진다. 2진수에서 이 값은 124를 갖는다. 
+따라서, 부호 있는 정수의 음수 표현은 2의 보수를 사용해 음수를 표현하는 *Sign Bit*와 2의 보수로 표현되는 *Value Bits* 
+`128 - 4`를 표현 방식으로 사용하고 있음을 확인할 수 있다. 이를 `Two's Complement Representation(2의 보수 표현)`이라 
+부른다.
+
+2의 보수 표현을 사용하면 컴퓨터 연산에 여러 장점을 가질 수 있다.
+
+- `-1` + `-4`와 같은 연산을 단순히 표준 이진 덧셈으로 다룰 수 있다.
+
+![Bit Shift Signed Addition](/assets/images/posts/2023-10-14-advanced-operators/bitshiftSignedAddition~dark@2x.png){: width="600"}
+
+2의 보수로 표현된 `-4`와 `-1`을 표준 이진 덧셈 연산을 한 후 정수의 저장소 범위를 넘어 이동된 모든 비트를 삭제하면 손쉽게 `-5`의 
+2의 보수 표현을 얻는다.
+
+<br>
+
+- Bitwise Shift Operators 를 Unsigned Integers 와 유사하게 다룰 수 있다.
+
+![Bit Shift Signed](/assets/images/posts/2023-10-14-advanced-operators/bitshiftSigned~dark@2x.png){: width="800"}
+
+부호 있는 정수의 Bitwise Left Shift Operator 는 부호 없는 정수와 동일하게 행동하며 값을 2배로 늘린다.  
+부호 있는 정수의 Bitwise Right Shift Operator 는 부호 없는 정수와 유사하나, 비트 이동으로 빈 공간을 `0`으로 채우는 것이 
+아닌 <span style="color: red;">*Sign Bit 로 빈 자리를 채운다*</span>. 이것을 `Arithmetic Shift`라 한다.
 
 ---
 
