@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Swift Advanced Operators
-subtitle: Define custom operators, perform bitwise operations, and use builder syntax. 
+subtitle: Define custom operators, perform bitwise operations, and use builder syntax.
 categories: swift
 tags: [swift docs, advanced operators, bitwise, overflow, precedence, associativity, prefix, postfix, compound, equivalence, custom operators, infix, result builders]
 ---
@@ -9,7 +9,7 @@ tags: [swift docs, advanced operators, bitwise, overflow, precedence, associativ
 ### 1. Advanced Operators 👩‍💻
 
 Swift 는 `C`나 `Objective-C`와 유사한 `Bitwise Operators`를 포함해 여러 고급 연산자를 제공한다. *Swift* 는
-**C** 의 *Arithmetic Operators* 와 달리 기본적으로 <span style="color: red;">*Overflow* 되지 않는다</span>.
+*C* 의 *Arithmetic Operators* 와 달리 기본적으로 <span style="color: red;">*Overflow* 되지 않는다</span>.
 *Overflow* 는 `trapped`되어 에러로 보고된다.  
 Swift 에서 *Overflow* 행동을 하도록 하려면 `Overflow Addition Operator($+)`와 같은 연산자를 사용해야한다
 (모든 `Overflow Operators`는 `&`로 시작한다).
@@ -31,7 +31,7 @@ Operators** 의 구현을 제공하는 것이 유용할 수 있다. Swift 는 Cu
 
 *Bitwise Operators* 는 *Data Structure* 내에서 개별 `Raw Bits`를 조작할 수 있게 해준다. 이것은 **Graphics
 Programming** 이나 디바이스 드라이버 생성 같은 **Low-Level Programming** 에서 주로 사용된다. 또한 외부 소스로부터
-*Custom Protocol* 을 사용해 통신하는 데이터 **Encoding/Decoding** 작업에 사용하기도 한다. Swift 는 **C** 가
+*Custom Protocol* 을 사용해 통신하는 데이터 **Encoding/Decoding** 작업에 사용하기도 한다. Swift 는 *C* 가
 갖고 있는 모든 *Bitwise Operators* 를 지원한다.
 
 ```swift
@@ -227,10 +227,10 @@ __2 ) Shifting Behavior for Signed Integers__
 
 #### 1. Overflow Operators
 
-Swift 는 정수 상수 또는 변수에 *저장할 수 없는 값을 삽입하려고 하면, 유효하지 않은 값을 생성을 허용하지 않으며 에러를 
+Swift 는 정수 상수 또는 변수에 *저장할 수 없는 값을 삽입하려고 하면, 유효하지 않은 값을 생성을 허용하지 않으며 에러를
 발생*시킨다. 이러한 행동은 너무 크거나 작은 값을 다룰 때 추가적인 **Safety** 를 제공한다.
 
-예를 들어 `Int16` 정수는 2^16 = 65,536 개의 값을 0을 기준으로 저장하므로 -32,768 ~ 32,767 의 값을 저장할 수 있으므로 
+예를 들어 `Int16` 정수는 2^16 = 65,536 개의 값을 0을 기준으로 저장하므로 -32,768 ~ 32,767 의 값을 저장할 수 있으므로
 이 범위를 초과하는 숫자를 저장하려고 하면 에러를 발생시킨다.
 
 ```swift
@@ -238,7 +238,7 @@ var potentialOverflow = Int16.max   // 32,767
 potentialOverflow += 1  //  error, Swift runtime failure: arithmetic overflow
 ```
 
-따라서 경계값 조건을 코딩할 때 에러 처리를 제공해 유연성을 높일 수 있다. 하지만 에러를 발생시키는 대신 `&`를 붙여 `Overflow 
+따라서 경계값 조건을 코딩할 때 에러 처리를 제공해 유연성을 높일 수 있다. 하지만 에러를 발생시키는 대신 `&`를 붙여 `Overflow
 Operators`를 사용할 수도 있다. Swift 는 3가지 *Arithmetic Overflow Operators* 를 제공한다.
 
 - Overflow addition `&+`
@@ -339,18 +339,44 @@ Binary: 01111111, Decimal: 127
 > - Overflow Subtraction Operator `&-`를 사용해 값을 1 감소시킨다.
 > - 결과값은 부호 비트가 토글되어 양수가 되어 `01111111`을 저장한다.
 
-> <span style="color: red;">Signed Intergers, Unsigned Integers 는 동일하게 **최댓값을 넘어서면 최솟값으로, 
+> <span style="color: red;">Signed Intergers, Unsigned Integers 는 동일하게 **최댓값을 넘어서면 최솟값으로,
 > 최솟값을 넘어서면 최댓값으로 순환**</span>된다.
 
 ---
 
 ### 4. Precedence and Associativity 👩‍💻
 
+연산자 우선순위(precedence)는 다른 연산자보다 높은 우선순위를 갖도록 해 먼저 적용되게 한다. 연산자 연관성(associativity)은
+동일한 우선순위를 갖는 연산자들이 왼쪽과 그룹화 될지, 오른쪽과 그룹화 될지를 정의한다.
+
+Swift 는 *C* 처럼 *Multiplication Operator* `*`, *Division Operator* `/`, *Remainder Operator* `%` 같은
+것들은 *Addition Operator* `+`, *Subtraction Operator* `-` 같은 것들보다 더 높은 우선순위를 갖는다. 동일한 우선순위
+사이에서는 왼쪽으로 그룹화 된다. 즉, 수학적 사칙연산 우선순위를 그대로 따른다.
+
+```swift
+2 + 3 % 4 * 5
+```
+
+따라서 위 연산은 괄호를 사용해 우선순위를 명시적으로 표현하면 다음과 같다.
+
+```swift
+2 + ((3 % 4) * 5)
+```
+
+`(3 % 4)`는 3 이므로 다음 연산은 `2 + (3 * 5)`가 되고, 또 다시 `(3 * 5)`는 15 이므로 다음 연산은 `2 + 15`가 되어
+연산 결과는 **17** 이 된다.
+
+> Swift 의 `Operator Precedences`와 `Operator Associativity Rules`는 **C** 나 **Objective-C** 보다 더
+> 간단하고 예측 가능하다. 이것은 **C-based** 언어와 완전히 일치하지 않음을 의미하므로, 기존 코드를 Swift 로 전환할 때
+> 연산자 상호작용이 의도한대로 작동하는지 확인해야한다. Swift Standard Library 가 제공하는 Operators 는 
+> [Operator Declarations] 에서 확인할 수 있다.
+
 ---
 
 ### 5. Operator Methods 👩‍💻
 
 #### 1. Operator Methods
+
 
 #### 2. Prefix and Postfix Operators
 
@@ -378,3 +404,6 @@ Binary: 01111111, Decimal: 127
 Reference
 
 1. "Advanced Operators." The Swift Programming Language Swift 5.9. accessed Oct. 14, 2023, [Swift Docs Chapter 27 - Advanced Operators](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/advancedoperators).
+2. "Operator Declarations." Apple Developer Documentation. accessed Oct. 17, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Operator Declarations][Operator Declarations]
+
+[Operator Declarations]:https://developer.apple.com/documentation/swift/operator-declarations
