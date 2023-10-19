@@ -368,7 +368,7 @@ Swift 는 *C* 처럼 *Multiplication Operator* `*`, *Division Operator* `/`, *Re
 
 > Swift 의 `Operator Precedences`와 `Operator Associativity Rules`는 **C** 나 **Objective-C** 보다 더
 > 간단하고 예측 가능하다. 이것은 **C-based** 언어와 완전히 일치하지 않음을 의미하므로, 기존 코드를 Swift 로 전환할 때
-> 연산자 상호작용이 의도한대로 작동하는지 확인해야한다. Swift Standard Library 가 제공하는 Operators 는 
+> 연산자 상호작용이 의도한대로 작동하는지 확인해야한다. Swift Standard Library 가 제공하는 Operators 는
 > [Operator Declarations] 에서 확인할 수 있다.
 
 ---
@@ -377,12 +377,151 @@ Swift 는 *C* 처럼 *Multiplication Operator* `*`, *Division Operator* `/`, *Re
 
 #### 1. Operator Methods
 
+*Classes* 와 *Structures* 는 기존 연산자를 *Overloading* 시켜 자체 구현을 제공할 수 있다.
+
+*Arithmetic Addition Operator* 는 두 타겟에 작동하므로 `Binary Operator`이며, 두 타겟 사이에 위치하므로 
+`Infix Operator`다. 아래 예제는 *Custom Structure* 에서 *Overloading* 을 통해 *Arithmetic Addition 
+Operator* `+`가 어떻게 구현되는지를 보여준다.
+
+```swift
+struct Vector2D {
+    var x = 0.0, y = 0.0
+}
+
+extension Vector2D {
+    static func + (lhs: Vector2D, rhs: Vector2D) -> Vector2D {
+        Vector2D(x: lhs.x + rhs.x, y: lhs.y + rhs.y)
+    }
+}
+```
+
+`Vector2D`의 *Type Method* 로 정의된 연산자 `+`는 이름이 *Arithmetic Addition Operator* 와 일치하기 때문에 
+Overloading 된다. *Arithmetic Addition Operator* 가 **Binary Operator** 이며, **Infix Operator** 이므로 
+이 연산자 역시 동일한 형태로 작성되었다. 또한 덧셈 연산은 벡터의 필수 동작이 아니므로 *Structures* 정의 자체에 포함시키지 않고 
+*Extensions* 를 이용해 분리시켜 정의했다. 
+
+```swift
+let vector = Vector2D(x: 3.0, y: 1.0)
+let anotherVector = Vector2D(x: 2.0, y: 4.0)
+let combinedVector = vector + anotherVector
+print("Combined Vector is (\(combinedVector.x), \(combinedVector.y)).")
+// Combined Vector is (5.0, 5.0).
+```
+
+![Vector Addition](/assets/images/posts/2023-10-14-advanced-operators/vectorAddition~dark@2x.png){: width="1000"}
 
 #### 2. Prefix and Postfix Operators
 
+위 예제는 `Binary Infix Operator`의 *Custom Implementation* 을 보여주었다. *Classes* 와 *Structures* 는 
+*Standard `Unary Operators`* 와 같은 것들도 구현할 수 있다.
+
+> **Unary Operators**
+> - Single Target 을 대상으로 작동한다.
+> - Operator 가 타겟 앞에 위치하는 `Prefix Operators`, 타겟 뒤에 위치하는 `Postfix Operators` 2가지로 나뉜다. 
+> 
+> **Binary Operators**
+> - Two Target 을 대상으로 작동한다.
+> - Operator 가 두 타겟 사이에 위치한다.
+
+<br>
+
+`Unary Operators`는 `func` keyword 앞에 `prefix` 또는 `posfix` modifier 를 작성해 정의한다. 다음 Operator 는 
+*Unary Minus Operator* 로 *Prefix Operator* 로 정의되었다.
+
+```swift
+extension Vector2D {
+    static prefix func - (vector: Vector2D) -> Vector2D {
+        Vector2D(x: -vector.x, y: -vector.y)
+    }
+}
+```
+
+```swift
+let positive = Vector2D(x: 3.0, y: 4.0)
+let negative = -positive
+print("Negative Vector is (\(negative.x), \(negative.y)).")
+// Negative Vector is (-3.0, -4.0).
+let alsoPosotive = -negative
+print("Also Positive Vector is (\(alsoPosotive.x), \(alsoPosotive.y)).")
+// Also Positive Vector is (3.0, 4.0).
+```
+
 #### 3. Compound Assignment Operators
 
+`Compound Assignment Operators`는 연산자와 *Combine Assignment* `=`를 결합해 만든다. 예를 들어 *Addition 
+Assignment Operator* `+=`는 단일 연산으로 덧셈과 할당을 결합한다.
+
+> `Compound Assignment Operators`의 **left input parameter** 는 Operator Method 로부터 값이 직접 수정되므로 
+> `inout`이 되어야 한다.
+
+다음은 Vector2D 의 *Addition Assignment Operator* 의 구현이다. 여기서 *Arithmetic Addition Operator* 는 
+[Operator Methods](#h-1-operator-methods)에서 정의된 것을 사용한다.
+
+```swift
+extension Vector2D {
+    static func += (lhs: inout Vector2D, rhs: Vector2D) {
+        lhs = lhs + rhs
+    }
+}
+```
+
+```swift
+var original = Vector2D(x: 1.0, y: 2.0)
+let vectorToAdd = Vector2D(x: 3.0, y: 4.0)
+original += vectorToAdd
+print("Original Vector is (\(original.x), \(original.y)) now.")
+// Original Vector is (4.0, 6.0) now.
+```
+
 #### 4. Equivalence Operators
+
+기본적으로 Custom *Classes* 와 *Structures* 는 *Equivalence Operators* `==`와 `!=`를 구현을 갖지 않는다. 따라서 
+이를 구현할 때는 일반적으로 `==` 연산자를 구현하고, `!=`는 Swift Standard Library 의 기본 구현이 `==`의 부정임을 
+이용한다.
+
+위 Vector2D 에 *Custom Equal to Operator* `==`를 구현하는 방법은 두 가지가 있다.
+
+<br>
+
+__1 ) Infix Operator 를 직접 구현하기__
+
+```swift
+extension Vector2D: Equatable {
+    static func == (lhs: Vector2D, rhs: Vector2D) -> Bool {
+        lhs.x == rhs.x && lhs.y == rhs.y
+    }
+}
+```
+
+<br>
+
+__2 ) Protocol 채택으로 Swift 가 구현을 자동으로 합성하도록 하기__
+
+```swift
+extension Vector2D: Equatable {}
+```
+
+우리는 Swift Protocols 의 [Adopting a Protocol Using a Synthesized Implementation] 에서 단순히 Protocol 을
+채택하는 것 만으로 Protocols 가 제공하는 *Default Implementations* 를 Swift 가 자동으로 합성해 구현하도록 할 수 있음을 
+확인했다.
+
+```swift
+let alpha = Vector2D(x: 2.0, y: 3.0)
+let beta = Vector2D(x: 2.0, y: 3.0)
+if alpha == beta {
+    print("These two vectors are equivalent.")
+}
+```
+
+```console
+These two vectors are equivalent.
+```
+
+#### 5. Impossible Operators to Overload
+
+*Classes* 와 *Structures* 를 구현할 때 모든 Operators 가 *Overloading* 가능한 것은 아니다. *Default Assignment
+ Operator* `=` 또는 *Ternary Conditional Operator* `a ? b : c`와 같이 *Overloading* 이 허용되지 않는 
+연산자가 존재한다.
 
 ---
 
@@ -407,3 +546,4 @@ Reference
 2. "Operator Declarations." Apple Developer Documentation. accessed Oct. 17, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Operator Declarations][Operator Declarations]
 
 [Operator Declarations]:https://developer.apple.com/documentation/swift/operator-declarations
+[Adopting a Protocol Using a Synthesized Implementation]:/swift/2023/02/20/protocols.html#h-6-adopting-a-protocol-using-a-synthesized-implementation-
