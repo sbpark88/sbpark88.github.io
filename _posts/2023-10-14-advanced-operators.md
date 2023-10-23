@@ -286,13 +286,11 @@ func printToBinary<T: BinaryInteger>(number: T) {
 ```swift
 var unsignedOverflow = UInt8.max
 printToBinary(number: unsignedOverflow)
+// Binary: 11111111, Decimal: 255
+
 unsignedOverflow = unsignedOverflow &+ 1
 printToBinary(number: unsignedOverflow)
-```
-
-```console
-Binary: 11111111, Decimal: 255
-Binary: 00000000, Decimal: 0
+// Binary: 00000000, Decimal: 0
 ```
 
 > - 변수 unsignedOverflow 는 `UInt8`의 최댓값 `11111111`을 초깃값으로 저장한다.
@@ -308,13 +306,11 @@ Binary: 00000000, Decimal: 0
 ```swift
 var anotherUnsignedOverflow = UInt8.min
 printToBinary(number: anotherUnsignedOverflow)
+// Binary: 00000000, Decimal: 0
+
 anotherUnsignedOverflow = anotherUnsignedOverflow &- 1
 printToBinary(number: anotherUnsignedOverflow)
-```
-
-```console
-Binary: 00000000, Decimal: 0
-Binary: 11111111, Decimal: 255
+// Binary: 11111111, Decimal: 255
 ```
 
 <br>
@@ -326,13 +322,11 @@ Binary: 11111111, Decimal: 255
 ```swift
 var signedOverflow = Int8.min
 printToBinary(number: signedOverflow)
+// Binary: 10000000, Decimal: -128
+
 signedOverflow = signedOverflow &- 1
 printToBinary(number: signedOverflow)
-```
-
-```console
-Binary: 10000000, Decimal: -128
-Binary: 01111111, Decimal: 127
+// Binary: 01111111, Decimal: 127
 ```
 
 > - 변수 signedOverflow 는 `Int8`의 최솟값 `10000000`을 초깃값으로 저장한다.
@@ -521,7 +515,8 @@ These two vectors are equivalent.
 
 *Classes* 와 *Structures* 를 구현할 때 모든 Operators 가 *Overloading* 가능한 것은 아니다. *Default Assignment
  Operator* `=` 또는 *Ternary Conditional Operator* `a ? b : c`와 같이 *Overloading* 이 허용되지 않는 
-연산자가 존재한다.
+연산자가 존재한다. *Overloading* 이 불가능한 모든 연산자 목록은 다음 섹션의 
+[Custom Operators 로 사용할 수 없는 연산자](#reservedOperators) 에서 확인할 수 있다.
 
 ---
 
@@ -529,7 +524,125 @@ These two vectors are equivalent.
 
 #### 1. Custom Operators
 
+Swift 가 제공하는 *Standard Operators* 외에 *Custom Operators* 를 선언하고 구현할 수 있다. *Custom Operators* 
+는 `operator` keyword 를 사용하며 `prefix`, `infix`, `postfix` modifiers 를 가지며 `Global Level`로 정의된다. 
+다음 예제는 `+++`라는 ***새로운 Prefix Operator 를 정의***한다.
+
+```swift
+prefix operator +++
+```
+
+이 `+++` 연산자는 Swift 에 존재하는 Operators 가 아니므로 Protocols 를 채택하도록 해 구현을 합성하도록 할 수 없다. 이 
+새 Operators 를 사용해 정의하려는 작업을 사용자가 직접 구현해야하며, 그 구현은 사용자가 정의한 특정 *context* 내에 의미가 
+부여된다.
+
+```swift
+prefix operator +++
+
+extension Vector2D {
+    static prefix func +++ (vector: inout Vector2D) -> Vector2D {
+        vector += vector
+        return vector
+    }
+}
+```
+
+이제 Vector2D 는 기존재 존재하지 않는 사용자 정의 연산자 `+++`를 사용해 값을 2배로 만드는 연산을 수행할 수 있다.
+
+```swift
+var toBeDoubled = Vector2D(x: 1.0, y: 4.0)
+let afterDoubling = +++toBeDoubled
+print("After Doubling Vector is (\(afterDoubling.x), \(afterDoubling.y)).")
+// After Doubling Vector is (2.0, 8.0).
+```
+
+<br>
+
+__1 ) Custom Operators 로 사용할 수 있는 연산자__
+
+- ASCII 문자 `/`, `=`, `-`, `+`, `!`, `*`, `%`, `<`, `>`, `&`, `|`, `^`, `?`
+- 다음 문법과 일치하는 연산자
+
+> __Grammar of operators__
+> 
+> operator → operator-head operator-characters?  
+> operator → dot-operator-head dot-operator-characters  
+> operator-head → / | = | - | + | ! | * | % | < | > | & | | | ^ | ~ | ?  
+> operator-head → U+00A1–U+00A7  
+> operator-head → U+00A9 or U+00AB  
+> operator-head → U+00AC or U+00AE  
+> operator-head → U+00B0–U+00B1  
+> operator-head → U+00B6, U+00BB, U+00BF, U+00D7, or U+00F7  
+> operator-head → U+2016–U+2017  
+> operator-head → U+2020–U+2027  
+> operator-head → U+2030–U+203E  
+> operator-head → U+2041–U+2053  
+> operator-head → U+2055–U+205E  
+> operator-head → U+2190–U+23FF  
+> operator-head → U+2500–U+2775  
+> operator-head → U+2794–U+2BFF  
+> operator-head → U+2E00–U+2E7F  
+> operator-head → U+3001–U+3003  
+> operator-head → U+3008–U+3020  
+> operator-head → U+3030  
+> operator-character → operator-head  
+> operator-character → U+0300–U+036F  
+> operator-character → U+1DC0–U+1DFF  
+> operator-character → U+20D0–U+20FF  
+> operator-character → U+FE00–U+FE0F  
+> operator-character → U+FE20–U+FE2F  
+> operator-character → U+E0100–U+E01EF  
+> operator-characters → operator-character operator-characters?  
+> dot-operator-head → .  
+> dot-operator-character → . | operator-character  
+> dot-operator-characters → dot-operator-character dot-operator-characters?  
+> infix-operator → operator  
+> prefix-operator → operator  
+> postfix-operator → operator
+
+<br>
+
+<span id="reservedOperators">
+__2 ) Custom Operators 로 사용할 수 없는 연산자__
+</span>
+
+다음 연산자들은 **예약**되어있으며, <span style="color: red;">*Overloading* 하거나 *Custom Operators* 로 
+사용할 수 없다.</span>
+
+- *Tokens* 로 사용할 수 없는 연산자: `=`, `->`, `//`, `/*`, `*/`, `.`
+- *Prefix Operators* 로 사용할 수 없는 연산자: `<`, `&`, `?`
+- *Infix Operators* 로 사용할 수 없는 연산자: `?`
+- *Postfix Operators* 로 사용할 수 없는 연산자: `>`, `!`, `?`
+
 #### 2. Precedence for Custom Infix Operators
+
+모든 `Custom Infix Operators`는 기본 *Infix Operators* 와 마찬가지로 특정 우선순위 그룹에 속하게 된다. *선언할 때 
+우선순위 그룹을 명시*할 수 있으며, 명시되지 않은 연산자는 *Default Precedence Group* 에 속하게 되는데 이것은 *Ternary 
+Conditional Operator* 의 바로 위에 위치하게된다.
+
+다음 예제는 *New Custom Infix Operator* `+-`를 선언 및 정의한다. 이 연산자는 산술연산을 하므로 *Addition 
+Precednece* 그룹에 속하도록 선언되었다.
+
+```swift
+infix operator +-: AdditionPrecedence
+
+extension Vector2D {
+    static func +- (lhs: Vector2D, rhs: Vector2D) -> Vector2D {
+        Vector2D(x: lhs.x + rhs.x, y: lhs.y - rhs.y)
+    }
+}
+```
+
+```swift
+let firstVector = Vector2D(x: 1.0, y: 2.0)
+let secondVector = Vector2D(x: 3.0, y: 4.0)
+let plusMinusVector = firstVector +- secondVector
+print("Plus Minus Vector is (\(plusMinusVector.x), \(plusMinusVector.y)).")
+// Plus Minus Vector is (4.0, -2.0).
+```
+
+> `Prefix Operators` 또는 `Postfix Operators`를 정의할 때는 우선순위를 지정하지 않는다. 만약 피연산자(operand)에 둘을 
+> 모두 적용할 경우 `Postfix Operators`가 **더 높은 우선순위를 가져 먼저 적용**된다.
 
 ---
 
@@ -544,6 +657,7 @@ Reference
 
 1. "Advanced Operators." The Swift Programming Language Swift 5.9. accessed Oct. 14, 2023, [Swift Docs Chapter 27 - Advanced Operators](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/advancedoperators).
 2. "Operator Declarations." Apple Developer Documentation. accessed Oct. 17, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Operator Declarations][Operator Declarations]
+3. "Lexical Structure." The Swift Programming Language Swift 5.9. accessed Oct. 23, 2023, [Swift Lexical Structure](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/lexicalstructure)
 
 [Operator Declarations]:https://developer.apple.com/documentation/swift/operator-declarations
 [Adopting a Protocol Using a Synthesized Implementation]:/swift/2023/02/20/protocols.html#h-6-adopting-a-protocol-using-a-synthesized-implementation-
