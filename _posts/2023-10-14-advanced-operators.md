@@ -119,15 +119,6 @@ printToBinary(number: outputBits)   // 00010001
 *Bitwise Left Shift Operator* `<<`는 모든 비트를 왼쪽으로 이동시키며 정수를 2배로 곱하는 효과가 있고, *Bitwise Right
 Shift Operator* `>>`는 모든 비트를 오른쪽으로 이동시키며 정수를 반으로 나누는 효과가 있다.
 
-부호없는 정수에 대한 이동 행동 (Shifting Behavior for Unsigned Integers)
-부호없는 정수에 대해 비트 이동 행동은 아래와 같습니다:
-기존 비트는 요청된 숫자만큼 왼쪽 또는 오른쪽으로 이동됩니다.
-정수의 저장소 범위를 넘어 이동된 모든 비트는 삭제됩니다.
-원래 비트가 왼쪽 또는 오른쪽으로 이동한 후 뒤에 남겨진 공백에 0이 삽입됩니다.
-이 접근방식을 논리적 이동 (logical shift) 이라고 합니다.
-아래 그림은 11111111 을 왼쪽으로 1 자리 이동한 11111111 << 1 의 결과와 11111111 을 오른쪽으로 1 자리 이동한 11111111 >> 1 의 결과를 보여줍니다. 초록 숫자는 이동되고 회색 숫자는 삭제되고 핑크 0이 삽입됩니다:
-
-
 <br>
 
 __1 ) Shifting Behavior for Unsigned Integers__
@@ -812,7 +803,7 @@ Now serving Chris!
   Builders* 는 <span style="color: red;">*List* 나 *Tree* 와 같은 *Nested Data* 를 자연스럽고 선언적으로 
   생성하기 위한 **Syntax** 를 정의하는 **Type**</span> 이라고 했다. 즉, 이것은 *Swift* 가 언어 레벨에서 지원하는 
   [Monad] 라 볼 수 있다. 이것은 *pipe* 와 *reduce* 의 특성들을 조금씩 섞어 놓은 것처럼 보이기도 한다. 한가지 확실한 것은 
-  *Result Builders* 는 결국 *Monad* 로 데이터를 쉽게 다루기 위한 `Container` 역할을 한다는 것이다.
+  *Result Builders* 는 결국 [Monad] 로 데이터를 쉽게 다루기 위한 `Container` 역할을 한다는 것이다.
 
 <br>
 
@@ -889,7 +880,7 @@ print(capsDrawing.draw())   // HOGWARTS!
 ```
 
 여기서 `caps(content:)`가 실행하고자 하는 코드 블럭을 보자. `if-else` 구문을 `buildEither(first:)`와 
-`buildEither(second:)` 메서드에 대한 호출로 변환한다. 즉, *Monad* 의 일종이므로 모든 데이터를 `Drawable`로 다루게 
+`buildEither(second:)` 메서드에 대한 호출로 변환한다. 즉, [Monad] 의 일종이므로 모든 데이터를 `Drawable`로 다루게 
 하는 것이다. 현재 코드에서 `buildEither(first:)`와 `buildEither(second:)`가 하는 일이 동일하기 때문에 위에서 
 *Ternary Operator* 를 사용해 처리했지만 서로 다른 로직을 추가해 고유의 동작을 하도록 선언할 수 있음을 의미한다.
 

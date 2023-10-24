@@ -12921,7 +12921,7 @@ Now serving Chris!
   Builders* 는 <span style="color: red;">*List* 나 *Tree* 와 같은 *Nested Data* 를 자연스럽고 선언적으로
   생성하기 위한 **Syntax** 를 정의하는 **Type**</span> 이라고 했다. 즉, 이것은 *Swift* 가 언어 레벨에서 지원하는
   [Monad] 라 볼 수 있다. 이것은 *pipe* 와 *reduce* 의 특성들을 조금씩 섞어 놓은 것처럼 보이기도 한다. 한가지 확실한 것은
-  *Result Builders* 는 결국 *Monad* 로 데이터를 쉽게 다루기 위한 `Container` 역할을 한다는 것이다.
+  *Result Builders* 는 결국 [Monad] 로 데이터를 쉽게 다루기 위한 `Container` 역할을 한다는 것이다.
 
 <br>
 
