@@ -37,10 +37,11 @@ Swift 의 Access Control 은 `Modules`와 `Source Files`의 개념을 기초로 
 Swift 는 코드 내에서 *Entities* 에 대해 5개의 다른 Access Levels 를 제공한다. 이 Access Levels 는 
 `Modules > Source Files > Entities`의 Hierarchy 구조와 관련된다.
 
-- Open : Framework Level, Framework 를 공개된 인터페이스로 지정할 때 사용한다. <span style="color: red;">Classes 와 
-  Class Members 에만 사용 가능하며, 다른 모듈에서 **Subclassing**, **Overriding** 하는 것이 가능하다.</span>
-- Public : Framework Level, open 과 유사한 접근 레벨을 가지며 App 또는 Framework 를 공개된 인터페이스로 지정할 때 사용한다.  
-  (단, 위 빨간색으로 설명한 open 에서만 적용되는 것에 대해서는 제한된다.)
+- Open : Framework Level, App 또는 Framework 를 공개된 인터페이스로 지정할 때 사용한다.  
+  (**Public** 과 유사하지만 Open 은 <span style="color: red;">Classes 와 
+  Class Members 에만 사용 가능</span>하며, <span style="color: red;">다른 모듈에서</span> Open 으로 정의된 Classes 와 
+  Class Members 를 <span style="color: red;">**Subclassing**, **Overriding** 하는 것을 허용</span>한다.)
+- Public : Framework Level, App 또는 Framework 를 공개된 인터페이스로 지정할 때 사용한다.   
 - Internal : Application Level, 생략시 적용되는 기본 접근 레벨로, 동일 모듈 내에서 자유로운 접근이 가능하지만 외부 모듈의 접근은 제한된다. 
   따라서 App 또는 Framework 의 내부 구조를 정의할 때 사용한다.
 - File-private : Application Level, Source File 내부로 접근을 제한한다.
@@ -112,8 +113,8 @@ let someInternalConstant = 0            // implicitly internal
 
 #### 1. Custom Types
 
-User Custom Types 를 정의할 때 Access Levels 정의하고 싶다면 Types 를 정의할 때 지정한다. Types 자체에 대한 Access Levels 는 해당
-Types 가 갖는 Members(Properties, Methods, Initializers, Subscripts) 의 default Access Levels 에도 영향을 미친다.
+User Custom Types 를 정의할 때 Access Levels 정의하고 싶다면 Types 를 정의할 때 지정해야한다. Types 자체에 대한 Access Levels 는
+해당 Types 가 갖는 Members(Properties, Methods, Initializers, Subscripts) 의 default Access Levels 에도 영향을 미친다.
 
 - Types 를 `fileprivate`으로 정의하면, 그 Members 역시 `fileprivate`이 된다.
 - 단, <span style="color: red;">Types 를 `public`으로 정의하더라도 그 Members 는 `internal`</span>이다. 이는 실수로 모듈의 API 가
@@ -231,7 +232,7 @@ some.someFunctionSecond()   // 'someFunctionSecond' is inaccessible due to 'priv
 > **Function Parameter Types 와 Return Types** 에 대해 private 보다 높은 fileprivate 이 허용된다는 것을 의미하는 것일 뿐 
 > fileprivate 으로 선언하면 같은 파일에서 접근이 가능하므로 해당 Types 외부에서 볼 때는 private 과 다른 Access Levels 를 갖게 된다. 
 
-#### 4. Enumeration Types이
+#### 4. Enumeration Types
 
 - Enumerations 의 Cases 역시 Enumerations 의 Access Levels 를 자동으로 받는다.
 - Enumerations 의 Cases 는 Classes 나 Structures 의 Members 와 달리 <span style="color: red;">Access Levels 를 지정할 
@@ -262,12 +263,13 @@ some.someFunctionSecond()   // 'someFunctionSecond' is inaccessible due to 'priv
 
 - **동일 모듈**일 경우 현재 *context* 가 접근 가능한 ***어떤 Class 든 Subclassing*** 해 Members 를 Overriding 할 수 있다.
 - **다른 모듈**의 경우 대상이 ***Open Class 라면 Subclassing*** 해 Members 를 Overriding 할 수 있다..
-- Subclass 는 상위 Class 보다 높은 Access Levels 를 가질 수 없다.
+- <span style="color: red;">Subclass 는 상위 Class 보다 높은 Access Levels 를 가질 수 없다</span>.
 
 > __<span style="color: orange;">Access Levels</span>__
 > 
 > - Subclass ≤ Superclass
-> - Overriding 을 이용해 Subclass Members 의 Access Levels 를 Superclass 보다 높게 설정이 가능하다.
+> - <span style="color: green">Overriding 을 이용해 Subclass Members 의 Access Levels 를 Superclass 보다 높게 
+>   설정이 가능</span>하다.
 
 <br>
 
@@ -302,7 +304,7 @@ internal class B: A {
 ---
 
 
-### 7. Constants, Variables, Properties, and Subscripts 👩‍💻
+### 7. Members 👩‍💻
 
 #### 1. Constants, Variables, Properties, and Subscripts
 
@@ -392,7 +394,6 @@ __2 ) Getters: internal, Setters: private__
 따라서 우리는 Getters 는 internal 의 Access Levels 를 갖고, Setters 는 private 의 Access Levels 를 갖도록 하기 위해 다음과 같이
 직접 구현할 수 있다.
 
-
 ```swift
 class SomeClass {
     private var _id: String = ""
@@ -422,7 +423,7 @@ Getters 는 internal 의 Access Levels 를 갖기 때문에 외부에서 접근�
 
 __3 ) internal private(set)__
 
-Swift 에서는 위와 같이 작동되는 서로 다른 Access Levels 를 갖는 Properties 에 대한 정의를 다음과 같이 정의할 수 있다.
+Swift 는 위와 같이 작동되는 서로 다른 Access Levels 를 갖는 Properties 를 다음과 같이 정의할 수 있다.
 
 ```swift
 class SomeClass {
@@ -453,7 +454,7 @@ __4 ) private(set)__
 
 앞에서 설명했듯이 Types 의 Access Levels 가 *Open* 또는 *Public* 일 경우 Properties 가 암시적으로 *Internal* 이 되지만 Types 의
 Access Levels 가 *Internal* 이하일 경우 Properties 는 암시적으로 Types 의 Access Levels 를 받게 된다.  
-따라서 이 경우 Properties 가 암시적으로 Types 의 Access Levels 를 받도록 생략해 다음과 같이 Setters 의 Access Levels 만 지정해 
+따라서 Properties 가 암시적으로 Types 의 Access Levels 를 받도록 생략하고 Setters 의 Access Levels 만 지정해 
 짧은 형태로 정의할 수 있다.
 
 `internal private(set)` -> `private(set)`
@@ -482,6 +483,11 @@ print(someClass.id)  // A
 > 즉, Access Levels 를 관리하기 위해 사용되는 `Getters`와 `Setters`는 명시적으로 구현을 하든 암시적으로 구현이 되든 
 > **Stored Properties** 와 **Computed Properties** 모두에 적용된다.
 
+<br>
+
+다음 예제는 'value' 가 바뀔 때마다 변경 횟수를 카운트 하는 'numberOfEdits' 가 1씩 증가하도록 'value' 자신에게 Observer 를 사용하고, 
+numberOfEdits 는 내부에서만 접근이 가능하도록 `private(set)`을 이용해 정의하였다.
+
 ```swift
 struct TrackedString {
     private(set) var numberOfEdits = 0
@@ -492,8 +498,6 @@ struct TrackedString {
     }
 }
 ```
-
-'value' 가 바뀔 때마다 변경 횟수를 카운트 하는 'numberOfEdits' 가 1씩 증가하도록 'value' 자신에게 Observer 를 사용한다.
 
 ```swift
 var tracking = TrackedString()
@@ -560,7 +564,7 @@ print(tracking.numberOfEdits)   // 3
 >
 > - Requirements = Protocols
 > - <span style="color: red;">Requirements 의 Access Levels 를 Protocols 와 다르게 변경할 수 없다</span>.
-> - 다른 Types 와 다르게 Protocols 가 <span style="color: red;">(open, public) 이더라도 Requirements 역시 동일한
+> - 다른 Types 와 다르게 Protocols 가 <span style="color: red;">(open, public) 일 때 Requirements 역시 동일한
     (open, public)</span> Access Levels 를 갖는다.
 
 #### 2. Protocol Inheritance
@@ -617,7 +621,7 @@ Extensions 에 Access Levels 를 정의하면, Extensions 에 의해 추가되�
 > __<span style="color: orange;">Access Levels</span>__
 >
 > - Extensions ≤ Types
-> - (open, public) Types 를 Extensions -> internal Members
+> - <span style="color: red;">(open, public) Types 를 Extensions -> internal Members</span>
 > - (internal, fileprivate, private) Types 를 Extensions -> (internal, fileprivate, private) Members
 
 ```swift

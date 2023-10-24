@@ -151,7 +151,7 @@ train.makeNoise()   // 칙칙폭폭
 
 #### 4. Overriding Properties
 
-__1 )Overriding Property Getters and Setters__
+__1 ) Overriding Property Getters and Setters__
 
 ```swift
 class Car: Vehicle {
