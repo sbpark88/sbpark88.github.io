@@ -648,6 +648,310 @@ print("Plus Minus Vector is (\(plusMinusVector.x), \(plusMinusVector.y)).")
 
 ### 7. Result Builders 👩‍💻
 
+#### 1. The Problem That Result Builders Solve
+
+결과 빌더 (result builder) 는 리스트 (list) 나 트리 (tree) 와 같은 중첩된 데이터를 자연스럽고 선언적인 방식으로 생성하기 위한 구문을 추가하는 타입입니다. 결과 빌더를 사용하는 코드는 조건적이거나 반복되는 데이터의 조각을 처리하기 위해 if 와 for 와 같은 Swift 구문을 포함할 수 있습니다.
+아래 코드는 별과 텍스트를 사용하여 한줄로 그리기 위해 몇가지 타입을 정의합니다.
+
+`Result Builder`는 하나의 **Type** 으로, <span style="color: red;">*List* 나 *Tree* 와 같은 *Nested Data*
+를 자연스럽고 선언적으로 생성하기 위한 **Syntax** 를 정의</span>한다. 
+
+다음 에제는 한 줄에 *별*과 *문자*를 그리기 위해 몇 가지 *Types* 를 정의한다.
+
+```swift
+protocol Drawable {
+    func draw() -> String
+}
+
+struct Line: Drawable {
+    var elements: [Drawable]
+    func draw() -> String {
+        elements.map { $0.draw() }.joined(separator: "")
+    }
+}
+
+struct Text: Drawable {
+    var content: String
+    init(_ content: String) {
+        self.content = content
+    }
+    func draw() -> String {
+        content
+    }
+}
+
+struct Space: Drawable {
+    func draw() -> String {
+        " "
+    }
+}
+
+struct Stars: Drawable {
+    var length: Int
+    func draw() -> String {
+        String(repeating: "*", count: length)
+    }
+}
+
+struct AllCaps: Drawable {
+    var content: Drawable
+    func draw() -> String {
+        content.draw().uppercased()
+    }
+}
+```
+
+- `Drawable` protocol 은 `draw()` 메서드를 구현하도록 강제함으로써 선이나 모양과 같은 그릴 수 있는 항목에 대한 요구사항을 
+정의한다.
+- `Line` structure 는 다른 *Drawable* 을 자신의 property 에 배열로 저장함으로써 대부분의 그리는 것에 대해 최상위 
+  컨테이너의 역할을 한다. *Line* structure 는 줄을 그리기 위해 `draw()`를 호출하고 이 메서드는 컨테이너 내 다른 
+  *Drawable* 이 자신의 `draw()`를 호출해 그림을 그리도록 한 뒤 `joined(separator:)` 메서드를 이용해 문자열 결과를 
+  단일 String 으로 만든다.
+- `Text` structure 는 문자열을 하나의 그리기로 wrapping 시키고, `Space` structure 는 하나의 공백을 그리고, 
+  `Stars` structure 는 주어진 갯수 만큼 별을 그린다.
+- `AllCaps` structure 는 다른 *Drawable* 을 대문자로 변경하는 역할을 한다.
+
+<br>
+
+이 *Structures* 를 사용해 다음과 같이 *One Line String* 을 그릴 수 있다.
+
+```swift
+let name: String? = "Hogwarts"
+let manualDrawing = Line(elements: [
+    Stars(length: 3),
+    Text("Hello"),
+    Space(),
+    AllCaps(content: Text("\(name ?? "World")!")),
+    Stars(length: 2)
+])
+
+print(manualDrawing.draw()) // ***Hello HOGWARTS!**
+```
+
+코드는 잘 작동하지만 AllCaps 안에 또 다른 괄호를 포함하는 인스턴스 생성 구문이 들어가는 것은 코드를 읽기 어렵게 만든다.
+
+#### 2. Define Result Builders
+
+`Result Builder`는 코드를 좀 더 Swift 스럽고 읽기 쉽게 만들어준다. *Result Builder* 는 타입 선언에 `@resultBuilder`
+Attribute 를 작성해 정의한다. 다음 예제는 *Declarative Syntax* 를 사용해 `drawing` 작업을 묘사하는 `DrawingBuilder`
+를 정의한다.
+
+```swift
+@resultBuilder
+struct DrawingBuilder {
+    static func buildBlock(_ components: Drawable...) -> Drawable {
+        Line(elements: components)
+    }
+    static func buildEither(first: Drawable) -> Drawable {
+        first
+    }
+    static func buildEither(second: Drawable) -> Drawable {
+        second
+    }
+}
+```
+
+__`DrawingBuilder` structure 는 *Result Builder Syntax* 의 일부를 구현하는 3개의 메서드를 정의한다.__
+
+- `buildBlock(_:)` 메서드는 코드 블럭에 `Line`을 그리기 위한 지원을 추가한다.
+- `buildEither(first:)` 메서드와 `buildEither(second:)` 메서드는 `if-else`에 대한 지원을 추가한다.
+
+#### 3. Result Builders in Action
+
+위에서 정의한 `DrawingBuilder`를 사용하기 위해 함수의 *Parameter* 에 `@DrawingBuilder` attribute 를 적용할 수 
+있으며, 이는 함수에 전달된 *Closure* 를 *Result Builder* 가 해당 ***Closure 에서 생성하는 값으로 변환***한다.
+
+```swift
+func draw(@DrawingBuilder content: () -> Drawable) -> Drawable {
+    content()
+}
+
+func caps(@DrawingBuilder content: () -> Drawable) -> Drawable {
+    AllCaps(content: content())
+}
+
+func makeGreeting(for name: String? = nil) -> Drawable {
+    let greeting = draw(content: {
+        Stars(length: 3)
+        Text("Hello")
+        Space()
+        caps(content: {
+            Text("\(name ?? "World")!")
+        })
+        Stars(length: 2)
+    })
+    return greeting
+}
+```
+
+- `draw(_:)`와 `caps(_:)` 함수는 둘 다 `@DrawingBuilder` attribute 가 적용된 *Single Closure* 를 
+  *arguemnt* 로 받는다. 이것은 일반 함수에서 *Parameter Type* 이 *Closure* 일 때의 사용법과 동일하다. 
+  우리는 이것을 이미 [Autoclosure Type Parameters] 에서 *Autoclosure* 를 사용하지 않은 일반 함수의 *Parameter* 가 
+  *Closure* 일 때 사용해본 적이 있다. 
+
+```swift
+var customersInLine = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
+
+func serve(customer customerProvider: () -> String) {
+    print("Now serving \(customerProvider())!")
+}
+
+// serve(customer: { customersInLine.remove(at: 0) })  // Now serving Chris!
+
+// with trailing closure
+serve {
+    customersInLine.remove(at: 0)
+}
+```
+
+```console
+Now serving Chris!
+```
+
+- `makeGreeting(for:)` 함수는 *name* 을 parameter 로 받아 개인화 인사말을 그리는 데 사용한다. 앞에서 *Result
+  Builders* 는 <span style="color: red;">*List* 나 *Tree* 와 같은 *Nested Data* 를 자연스럽고 선언적으로 
+  생성하기 위한 **Syntax** 를 정의하는 **Type**</span> 이라고 했다. 즉, 이것은 *Swift* 가 언어 레벨에서 지원하는 
+  [Monad] 라 볼 수 있다. 이것은 *pipe* 와 *reduce* 의 특성들을 조금씩 섞어 놓은 것처럼 보이기도 한다. 한가지 확실한 것은 
+  *Result Builders* 는 결국 *Monad* 로 데이터를 쉽게 다루기 위한 `Container` 역할을 한다는 것이다.
+
+<br>
+
+이제 `makeGreeting(for:)` 함수를 *Trailing Closures* 를 사용해 좀 더 간략하게 표현해보자.
+
+```swift
+func draw(@DrawingBuilder content: () -> Drawable) -> Drawable {
+    content()
+}
+
+func caps(@DrawingBuilder content: () -> Drawable) -> Drawable {
+    AllCaps(content: content())
+}
+
+func makeGreeting(for name: String? = nil) -> Drawable {
+    draw {
+        Stars(length: 3)
+        Text("Hello")
+        Space()
+        caps {
+            Text("\(name ?? "World")!")
+        }
+        Stars(length: 2)
+    }
+}
+```
+
+기존의 
+
+```swift
+let manualDrawing = Line(elements: [
+    Stars(length: 3),
+    Text("Hello"),
+    Space(),
+    AllCaps(content: Text("\(name ?? "World")!")),
+    Stars(length: 2)
+])
+```
+
+와 비교해보면 훨씬 *선언적*인 문법이 되었다. 잘 작동하는지 확인해보자.
+
+```swift
+let genericGreeting = makeGreeting()
+print(genericGreeting.draw())   // ***Hello WORLD!**
+```
+
+함수를 사용해 선언적으로 변경했기 때문에 가독성이 좋아졌을 뿐 아니라 재사용성도 좋아졌다.
+
+```swift
+let personGreeting = makeGreeting(for: "Hogwarts")
+print(personGreeting.draw())    // ***Hello Hogwarts!**
+```
+
+<br>
+
+`@DrawingBuilder`를 attribute 로 사용한다는 것은 *DrawingBuilder* 가 정의한 **Syntax** 를 사용한다는 것이므로 
+*Closure* 에 실행시키길 원하는 코드를 모아 하나의 코드 블럭으로 Wrapping 시키고, 이것을 `do` 명령으로 *evalution* 하는 
+것과 같다고 볼 수 있다. 따라서 `draw(content:)` 함수에 *Trailing Closures* 를 사용해 여러 코드를 하나의 블럭으로 묶은 
+것 처럼 `caps(content:)` 함수 역시 동일하게 여러 코드를 하나의 블럭으로 묶을 수 있다.
+
+```swift
+let name: String? = "Hogwarts"
+let capsDrawing = caps {
+    let partialDrawing: Drawable
+    if let name = name {
+        partialDrawing = DrawingBuilder.buildEither(first: Text("\(name)!"))
+    } else {
+        partialDrawing = DrawingBuilder.buildEither(second: Text("World!"))
+    }
+    return partialDrawing
+}
+print(capsDrawing)          // AllCaps(content: __lldb_expr_156.Text(content: "Hogwarts!"))
+print(capsDrawing.draw())   // HOGWARTS!
+```
+
+여기서 `caps(content:)`가 실행하고자 하는 코드 블럭을 보자. `if-else` 구문을 `buildEither(first:)`와 
+`buildEither(second:)` 메서드에 대한 호출로 변환한다. 즉, *Monad* 의 일종이므로 모든 데이터를 `Drawable`로 다루게 
+하는 것이다. 현재 코드에서 `buildEither(first:)`와 `buildEither(second:)`가 하는 일이 동일하기 때문에 위에서 
+*Ternary Operator* 를 사용해 처리했지만 서로 다른 로직을 추가해 고유의 동작을 하도록 선언할 수 있음을 의미한다.
+
+<br>
+
+이번에는 *DrawingBuilder* 에 `buildArray(_:)` 메서드를 추가해보자.
+
+```swift
+extension DrawingBuilder {
+    static func buildArray(_ components: [Drawable]) -> Drawable {
+        Line(elements: components)
+    }
+}
+```
+
+이 메서드는 `Drawable` 데이터를 Collection 으로 만들어 `for-loop`를 사용 가능하게 만들어준다.
+
+```swift
+let manyStars = draw {
+    Text("Stars:")
+    for length in 1...3 {
+        Space()
+        Stars(length: length)
+    }
+}
+print(manyStars.draw()) // Stars: * ** ***
+```
+
+<br>
+
+현재 `Result Builders`를 통해 정의할 수 있는 메서드는 `buildBlock(_:)`과 `buildEither(first:)`, 
+`buildEither(second:)`를 포함해 10개가 존재한다.
+
+```swift
+@resultBuilder
+struct ArrayBuilder {
+    typealias Component = [Int]
+    typealias Expression = Int
+    static func buildExpression(_ element: Expression) -> Component {
+        return [element]
+    }
+    static func buildOptional(_ component: Component?) -> Component {
+        guard let component = component else { return [] }
+        return component
+    }
+    static func buildEither(first component: Component) -> Component {
+        return component
+    }
+    static func buildEither(second component: Component) -> Component {
+        return component
+    }
+    static func buildArray(_ components: [Component]) -> Component {
+        return Array(components.joined())
+    }
+    static func buildBlock(_ components: Component...) -> Component {
+        return Array(components.joined())
+    }
+    // ...
+}
+```
+
+*Result Builders* 문법의 전체 레퍼런스는 [Swift Docs Language Reference - Attributes/Result Builder] 를 참고한다.
 
 
 <br><br>
@@ -658,6 +962,10 @@ Reference
 1. "Advanced Operators." The Swift Programming Language Swift 5.9. accessed Oct. 14, 2023, [Swift Docs Chapter 27 - Advanced Operators](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/advancedoperators).
 2. "Operator Declarations." Apple Developer Documentation. accessed Oct. 17, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Operator Declarations][Operator Declarations]
 3. "Lexical Structure." The Swift Programming Language Swift 5.9. accessed Oct. 23, 2023, [Swift Lexical Structure](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/lexicalstructure)
+4. "Attributes." The Swift Programming Language Swift 5.9. accessed Oct. 24, 2023, [Swift Docs Language Reference - Attributes/Result Builder](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/attributes#resultBuilder)
 
 [Operator Declarations]:https://developer.apple.com/documentation/swift/operator-declarations
 [Adopting a Protocol Using a Synthesized Implementation]:/swift/2023/02/20/protocols.html#h-6-adopting-a-protocol-using-a-synthesized-implementation-
+[Autoclosure Type Parameters]:/swift/2022/10/24/closures.html#h-2-autoclosure-type-parameters
+[Monad]:/cs/swift/typescript/javascript/2023/05/01/functional-programing.html#h-6-monad-
+[Swift Docs Language Reference - Attributes/Result Builder]:https://docs.swift.org/swift-book/documentation/the-swift-programming-language/attributes#resultBuilder
