@@ -235,8 +235,9 @@ Hello, my name is  and I'm undefined years old.
 #### 3. Prototype & Arrow Function
 
 Arrow Function 은 `Lexical Scope`를 갖기 때문에 위에서 확인한 
-[Object Literal 에서는 메서드에 Arrow Function 을 사용하면 안 되는 이유] 와 같은 경우를 제외하면 다른 언어에서 사용하던 `this`, 
-`self`와 거의 동일하게 사용하는 것이 가능하다. 이번에는 Prototype 에 Arrow Function 을 함께 사용해보자.
+[Object Literal 에서는 메서드에 Arrow Function 을 사용하면 안 되는 이유](#h-2-arrow-functions-this-will-be-fixed-from-definition) 
+와 같은 경우를 제외하면 다른 언어에서 사용하던 `this`,`self`와 거의 동일하게 사용하는 것이 가능하다. 이번에는 Prototype 에 
+Arrow Function 을 함께 사용해보자.
 
 - ES5 Constructor Function
 
@@ -266,7 +267,7 @@ class Person {
     this.age = age
   }
 
-  greet() {
+  greet = () => {
     console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`)
   }
 }
