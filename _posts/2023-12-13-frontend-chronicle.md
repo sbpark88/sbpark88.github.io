@@ -480,9 +480,102 @@ ReactDOM.render(App, document.getElementById('root'));
 포함되어있다. 비슷하게 동작하지만 위 예제 코드에서 갖는 문제점은 웹이 커질수록 성능 저하가 심각하게 발생할 것임을 알 수 있다. 
 `리액트에 렌더링 최적화가 필요한 이유`다.
 
+---
 
+### 4. Render Optimization 👩‍💻
 
+#### 1. SCU and Virtual DOMs Equivalent
 
+![shouldComponentUpdate In Action](/assets/images/posts/2023-12-13-frontend-chronicle/should-component-update-in-action.png)
+
+위 그림에서 글씨나 그림의 녹색은 *true* 를 나타내며, 빨간색은 *false* 를 나타낸다. `SCU`와 `vDOMEq`라는 2개의 지표가 있다. 
+`SCU`는 *shouldComponentUpdate* 로 컴포넌트가 업데이트 되어야 하는지를 나타낸다. 따라서 
+<span style="color: green;">녹색</span>이면 컴포넌트를 업데이트 해야함을 나타낸다. 반면 `vDOMEq`는 *Virtual DOM* 이 
+이전과 같은지를 반환하므로 <span style="color:red">빨간색</span>이면 컴포넌트를 업데이트를 해야함을 나타낸다.
+
+- C1 : SCU 가 true 를, vDOMEs 가 false 를 반환했으므로 컴포넌트 업데이트를 해야한다.
+- C2 : SCU 가 false 를 반환했기 때문에 컴포넌트를 업데이트 하지 않는다.
+- C4, C5 : C2 의 SUC 가 false 이므로 더이상 탐색을 하지 않는다.
+- C3 : SCU 가 true 를, vDOMEs 가 false 를 반환했으므로 컴포넌트 업데이트를 해야한다.
+- C6 : SCU 가 true 를, vDOMEs 가 false 를 반환했으므로 컴포넌트 업데이트를 해야한다.
+- C7 : SCU 가 false 를 반환했기 때문에 컴포넌트를 업데이트 하지 않는다.
+- C8 : ***SCU 가 true 를 반환했지만 vDOMEs 가 true 를 반환했으므로 컴포넌트 업데이트 하지 않는다***.
+
+리액트의 렌더링 최적화에서 바로 이 C8 이 흥미로운 부분이다. 이로써 리액트는 C1, C3, C6 만 *re-render* 를 수행한다. 
+즉, `SCU && !vDOMEs`가 *true* 일 경우에만 최종적으로 컴포넌트의 *re-render* 를 수행한다는 것을 알 수 있다.
+
+#### 2. Prevent Unnecessary Reconciliation
+
+리액트나 뷰는 기본적으로 앵귤러보다도 빠르기 때문에 대부분의 최적화를 크게 고려하지 않아도 300ms 이하의 반응 속도로 잘 작동한다.
+
+하지만 최근 브라우저가 할 수 있는 일이 많아지며 `three.js`와 같은 데이터 시각화, Google Analytics 와 같은 대량의 데이터를 
+처리해야하고 기능이 많이 필요한 백오피스, 로그 데이터 시각화에서 Fiber 가 해당 라이브러리에 대한 최적화를 지원하지 못 할 경우 
+*reconciliation* 에 많은 시간이 소요될 수 있어 직접 최적화를 해야하는 경우가 발생할 수 있다.
+
+서비스 규모가 커지기 전에는 최적화에 문제가 있는 코드라 하더라도 빠르게 작동할 수 있다. 하지만 서비스가 커지고 문제가 생긴 후 이를 
+고칠 때 너무 많은 시간이 소요될 수 있다. 그렇기 때문에 가급적 리액트 렌더링 최적화를 이해하고 좋은 코드를 작성하도록 습관을 들이는 
+것이 중요하다.
+
+<br>
+
+__1 ) 하위 컴포넌트로 전달시 Reference 유지하기__
+
+`useMemo`, `useCallback`을 적용한다. 미적용시 하위 컴포넌트가 매번 새 *Reference* 를 받아 불필요한 렌더링이 발생할 
+수 있다. 특히 *Custom Input* 에 *onChange* 를 전달할 때, memoization 을 처리하지 않으면 re-rendering 될 필요가 
+없는 자식 컴포넌트 모두가 다시 렌더링된다.
+
+<br>
+
+__2 ) Object 상태 비교__
+
+비교해야할 대상의 타입이 *Reference Types* 일 경우 *Shallow Equality* 를 비교할건지, *Deep Equality* 를 
+비교할건지 잘 판단해야한다.
+
+__Bad Case__
+
+```javascript
+const { markers, mapConfig: { markerScale, markerTextScale: textScale }} = useSelector((state) => state);
+```
+<br>
+
+__Good Case 1__
+
+```javascript
+const markers = useSelector(state => state.markers);
+const markerScale = useSelector(state => state.mapConfig.markerScale);
+const textScale = useSelector(state => state.mapConfig.markerTextScale);
+```
+
+__Good Case 2__
+
+```javascript
+const { markers, markerScale, textScale } = useSelector((state) => ({
+  markers: state.markers,
+  markerScale: state.mapConfig.markerScale,
+  textScale: state.mapConfig.markerTextScale,
+}), shallowEqual);
+```
+
+`useSelector`에 Object 와 같은 Reference Types 를 사용할 때는 *Good Case 1* 처럼 `각 원시값별로 분리해 
+사용`하거나, *Good Case 2* 와 같이 `shallowEqual`를 적용해야한다. 그렇지 않으면 리스트와 같은 것을 렌더링 할 때 
+무조건 렌더링을 실행해 심각한 성능 저하를 야기할 수 있다.
+
+<br>
+
+__3 ) Redux 를 대체하는 다른 상태 라이브러리 도입을 고려__
+
+과도하게 늘어난 Redux 상태 트리는 불필요한 UI Elements 를 관ㄹ하고 있을 수 있으며, Popup, Toast, Toggle Button 
+과 같은 전역 UI 의 상태는 `Context`, `Atomic State` 등으로 분리한다.
+
+또한 Redux 를 다른 상태관리 라이브러리로 교체하는 것이 가능하다면, Recoil, Jotai, Zustand 와 같은 라이브러리를 도입해 
+전파 받는 상태를 줄이는 것이 좋다. 단, 상태 관리 라이브러리를 교체하는 것은 결코 쉬운 작업이 아니므로 신중해야한다.
+
+<br>
+
+__4 ) PureComponent, React.memo__
+
+- PureComponent 는 더이상 권장되지 않는다. 따라서 함수형 컴포넌트로 변경하는 것이 좋다.
+- React.memo 는 자주 업데이트 되는 컴포넌트에 적용시 오히려 성능이 저하된다. 따라서 반드시 필요한지를 검토해야한다.
 
 
 
