@@ -261,12 +261,235 @@ const MatchPage = () => {
 }
 ```
 
+---
+
+### 3. React Hooks Action 👩‍💻
+
+클래스 컴포넌트의 한계를 극복하는 과정에서 함수형 컴포넌트에 [React Hooks 가 도입되면서 해결한 문제점](#h-3-react-hooks-make-it-easy-to-create-stateless-components)
+에서 하나의 컴포넌트 코드를 작성하면서 상태관리를 분리시키고, 추상화 시킨 `useState` 훅은 살펴보았다. 이 과정에서 생겨난 
+React Hooks 가 어떤 방식으로 동작하는지 알아야 리액트 최적화를 이해하고 이에 방해되지 않도록 코드를 작성할 수 있다.
+
+```javascript
+const ReactDOM = (function () {
+  let _container;
+  let _elementOrComponent;
+
+  function _render() {
+    const elementTree = React.render();
+
+    const run = (reactElement, parent) => {
+      parent = parent ?? document.createElement('div');
+      Object.entries(reactElement).forEach(([key, value]) => {
+        // JSX 태그
+        if (
+            key.includes('div') ||
+            key.includes('button') ||
+            key.includes('input')
+        ) {
+          const _el = document.createElement(key.replace(/[0-9].?/, ''));
+          parent.appendChild(_el);
+          if (typeof value === 'object') {
+            run(value, _el);
+          }
+        } else if (key === 'text') {
+          parent.innerHTML = parent.innerHTML += value;
+        } else if (key === 'value') {
+          parent.value = value;
+        } else if (key === 'onClick') {
+          parent.addEventListener('click', value);
+        } else if (key === 'onChange') {
+          parent.addEventListener('change', value);
+        } else {
+          if (typeof value === 'function') {
+            // 함수형 컴포넌트일 경우
+            run(value(), parent);
+          }
+        }
+      });
+      return parent;
+    };
+
+    _container.innerHTML = '';
+    _container.appendChild(run(elementTree, null));
+  }
+
+  return {
+    render(elementOrComponent, container) {
+      if (!container instanceof Element)
+        throw new Error('ReactDOM should be rendered on DOM Element');
+
+      _container = container;
+      _elementOrComponent = elementOrComponent;
+      React._setRenderer(ReactDOM);
+      React._setElementOrComponent(elementOrComponent);
+
+      _render();
+    },
+    _render,
+  };
+})();
+
+const React = (function () {
+  let _currentIndex = 0;
+  let _hooks = []; // 특정 컴포넌트를 컨테이너로 states 들을 저장하는 배열을 closures 로 갖는다.
+
+  let _renderer = null;
+  let _elementOrComponent = null;
+
+  return {
+    _setRenderer(renderer) {
+      _renderer = renderer;
+    },
+    _setElementOrComponent(elementOrComponent) {
+      _elementOrComponent = elementOrComponent;
+    },
+    render() {
+      let result = null;
+      // 컴포넌트 인스턴스 또는 함수형 컴포넌트 실행 ...
+      if (typeof _elementOrComponent !== 'function') {
+        return _elementOrComponent;
+      }
+      const component = _elementOrComponent();
+
+      if (component.render !== undefined) {
+        result = component.render(); // 클래스 컴포넌트는 render 메서드를 실행
+      } else {
+        result = component; // 함수형 컴포넌트는 컴포넌트 자체가 render
+      }
+
+      // 컴포넌트를 새로 그릴 때마다 useState 를 다시 수행한다.
+      // 각 states 가 순서대로 자신의 _hooks 의 배열 index 를 갖도록 렌더링이 끝나면 인덱스를 초기화 해야한다.
+      _currentIndex = 0;
+
+      return result;
+    },
+    useState(initialValue) {
+      const currentIndex = _currentIndex;
+      _hooks[currentIndex] = _hooks[currentIndex] ?? initialValue; // 초기값 없을 경우 할당
+
+      const setState = (cbOrValue) => {
+        if (typeof cbOrValue === 'function') {
+          _hooks[currentIndex] = cbOrValue(_hooks[currentIndex]);
+        } else {
+          _hooks[currentIndex] = cbOrValue;
+        }
+        // state 가 변경되면 항상 render 를 호출하도록 한다.
+        // Observable 의 notify 역할을 하며 항상 render 에게 알리도록 내부적으로 정의를 하는 것이다.
+        _renderer._render();
+      };
+      _currentIndex++;
+
+      return [_hooks[currentIndex], setState];
+    },
+    useEffect(cb, dependencies) {
+      const prevDependencies = _hooks[_currentIndex];
+      const isChanged =
+          prevDependencies &&
+          !dependencies.every((el, i) => el === prevDependencies[i]);
+      // 최초 렌더링 || states 가 변한 경우
+      if (isChanged || !prevDependencies) {
+        cb();
+        // states 를 모두 _hooks 에 저장한 후 마지막 인덱스에 states 를 담은 dependency 배열을 저장한다.
+        _hooks[_currentIndex] = dependencies;
+      }
+      _currentIndex++; // useState 와 마찬가지로 useEffect 도 여러 개 선언할 수 있으니 index 를 증가시킨다.
+    },
+  };
+})();
+
+const Greeting = () => ({
+  div: {
+    text: 'Hello World!!!!!!!!!!',
+  },
+});
+
+const App = () => {
+  const [foo, setFoo] = React.useState(0);
+  const [bar, setBar] = React.useState(0);
+  const [baz, setBaz] = React.useState('');
+
+  React.useEffect(() => {
+    console.log('something changed!!?!?', foo, bar, baz);
+  }, [foo, baz]);
+  /*
+  useEffect 가 states foo, baz 를 배열로 갖는 [foo, baz] 를 
+  dependencies 로 추가하기 전 _hooks 는 다음과 같다.
+  _hooks = [foo, bar, baz];
+
+  useEffect 가 dependency [foo, baz] 를 추가하면 이제 _hooks 는 다음과 같다.
+  _hooks = [foo, bar, baz, [foo, baz]];      
+  */
+
+  /*
+  <div>
+    <div>
+      foo : {foo} + {"  "}
+      <button onclick={ () => setFoo((val) => val + 1) }>foo + 1</button>
+    </div>
+    <>
+      bar : {bar} + {"  "}
+      <button onclick={ () => setBar((val) => val + 1) }>bar + 1</button>
+    </div>
+    <div>
+      baz : {baz} + {"  "}
+      <input value={baz} onChange={ (event) => setBaz(event.target.value) } />
+    </div>
+    <Greeting />
+  </div>
+  */
+  const reactElement = {
+    div: {
+      div1: {
+        text: `foo : ${foo}  `,
+        button: {
+          onClick: () => setFoo((val) => val + 1),
+          text: 'foo + 1',
+        },
+      },
+      div2: {
+        text: `bar : ${bar}  `,
+        button: {
+          onClick: () => setBar(bar + 1),
+          text: 'bar + 1',
+        },
+      },
+      div3: {
+        text: 'onChange  ',
+        input: {
+          value: baz,
+          onChange: (event) => setBaz(event.target.value),
+        },
+      },
+      Greeting,
+    },
+  };
+
+  return reactElement;
+};
+
+ReactDOM.render(App, document.getElementById('root'));
+```
+
+여기서 중요한 것은 컴포넌트라는 함수 컨테이너 안에 *Closures* 를 사용해 *States* 를 관리한다는 것이다.
+
+하지만 위 예제 코드는 대략적인 개념일 뿐 실제 리액트는 위와 같이 단순하게 작동하지 않는다. 위 예제 코드는 항상 모든 리액트 트리를 
+다시 렌더링 할 뿐 아니라 값이 실제로 변하는지 상관 없이 이벤트가 발생할 경우 다시 렌더링을 하는 현상을 확인할 수 있다. 
+이전 값과의 비교는 오직 useEffect 에서만 처리되고 있는데, 이 마저도 root 컴포넌트 자체를 모두 새로 그려낸다.
+
+하지만 실제 리액트는 Fiber 와 같은 Reconciliation 엔진도 존재하고, 더 쉽게, 더 안전하게 코드 작성을 할 수 있도록 많은 기술들이 
+포함되어있다. 비슷하게 동작하지만 위 예제 코드에서 갖는 문제점은 웹이 커질수록 성능 저하가 심각하게 발생할 것임을 알 수 있다. 
+`리액트에 렌더링 최적화가 필요한 이유`다.
+
+
+
+
+
+
 
 
 
 
 ---
 Reference
-
 
 [JavaScript 'this']:/javascript/2023/05/24/javascript-this.html
