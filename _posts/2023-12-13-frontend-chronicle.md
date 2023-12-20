@@ -534,31 +534,127 @@ __2 ) Object 상태 비교__
 __Bad Case__
 
 ```javascript
-const { markers, mapConfig: { markerScale, markerTextScale: textScale }} = useSelector((state) => state);
+const {
+  markers,
+  mapConfig: { markerScale, markerTextScale: textScale },
+} = useSelector((state) => state);
 ```
 <br>
 
 __Good Case 1__
 
 ```javascript
-const markers = useSelector(state => state.markers);
-const markerScale = useSelector(state => state.mapConfig.markerScale);
-const textScale = useSelector(state => state.mapConfig.markerTextScale);
+const markers = useSelector((state) => state.markers);
+const markerScale = useSelector((state) => state.mapConfig.markerScale);
+const textScale = useSelector((state) => state.mapConfig.markerTextScale);
 ```
 
 __Good Case 2__
 
 ```javascript
-const { markers, markerScale, textScale } = useSelector((state) => ({
-  markers: state.markers,
-  markerScale: state.mapConfig.markerScale,
-  textScale: state.mapConfig.markerTextScale,
-}), shallowEqual);
+const { markers, markerScale, textScale } = useSelector(
+    (state) => ({
+      markers: state.markers,
+      markerScale: state.mapConfig.markerScale,
+      textScale: state.mapConfig.markerTextScale,
+    }),
+    shallowEqual,
+);
 ```
 
 `useSelector`에 Object 와 같은 Reference Types 를 사용할 때는 *Good Case 1* 처럼 `각 원시값별로 분리해 
-사용`하거나, *Good Case 2* 와 같이 `shallowEqual`를 적용해야한다. 그렇지 않으면 리스트와 같은 것을 렌더링 할 때 
-무조건 렌더링을 실행해 심각한 성능 저하를 야기할 수 있다.
+사용`하거나, *Good Case 2* 와 같이 각 원시값을 *Object* 로 추출한 다음 반환하고 `shallowEqual`를 적용해야한다. 
+그렇지 않으면 리스트와 같은 것을 렌더링 할 때 무조건 렌더링을 실행해 심각한 성능 저하를 야기할 수 있다.
+
+<br>
+
+또 다른 Bad Case 의 예는 다음과 같다.
+
+__Bad Case__
+
+```javascript
+const App = () => {
+  // ...
+  const { map, view, vectorSource } = useContext(OlContext);
+
+  useEffect(() => {
+    map.setTarget("map");
+
+    view.setZoom(12);
+    view.setCenter(transform(SEOUL_CITY_HALL_LONLAT, "EPSG:4326", "EPSG:3857"));
+  }, [map, view]);
+
+  markers.forEach((marker) => {
+    console.log(`render ${marker.id} marker`);
+    renderMarker(marker, vectorSource, { markerScale, textScale });
+  });
+  //...
+
+  return (
+      <>
+        <div id="map" style={styles.MapRoot}></div>
+      </>
+  );
+};
+```
+
+위 코드는 지도에 마커를 하나 추가할 때마다 컴포넌트가 re-rendering 되기 때문에 전체 마커를 새로 그린다. 
+마커가 500개 있는데 1개를 추가하면 501개를 새롭게 그리게 된다.
+
+<br>
+
+__Good Case__
+
+```javascript
+const Marker = ({ marker }) => {
+  const { vectorSource } = useContext(OlContext);
+  const { markerScale, textScale } = useSelector(
+      (state) => ({
+        markerScale: state.mapConfig.markerScale,
+        textScale: state.mapConfig.markerTextScale,
+      }),
+      shallowEqual,
+  );
+
+  useEffect(() => {
+    console.log(`render ${marker.id} marker`);
+    renderMarker(marker, vectorSource, { markerScale, textScale });
+  }, [marker, vectorSource, markerScale, textScale]);
+
+  return null;
+};
+
+const App = () => {
+  // ...
+  const { map, view } = useContext(OlContext);
+
+  useEffect(() => {
+    map.setTarget("map");
+
+    view.setZoom(12);
+    view.setCenter(transform(SEOUL_CITY_HALL_LONLAT, "EPSG:4326", "EPSG:3857"));
+  }, [map, view]);
+
+  // Good Case
+  const markerList = markers.map((marker) => (
+      <Marker key={marker.id} marker={marker} />
+  ));
+  
+  //...
+
+  return (
+      <>
+        <div id="map" style={styles.MapRoot}></div>
+        {markerList}
+      </>
+  );
+};
+```
+
+마커를 `Marker` 컴포넌트로 분리시키고, `useEffect`로 감싸 *Memoization* 처리했다. 따라서 마커의 렌더링을 전부 
+하위 컴포넌트에 위임하고, 상위 컴포넌트의 단순 새 reference 주소 변경에 대해 영향을 받지 않도록 처리했다. 이제 
+기존에 그려진 500개의 마커는 reference 만 바뀌고 값이 변경되지 않았기 때문에(=dependencies 에 있는 
+기존의 *marker* 는 그대로 유지) 새롭게 추가된 마커만 렌더링 하면 된다.
 
 <br>
 
@@ -577,12 +673,136 @@ __4 ) PureComponent, React.memo__
 - PureComponent 는 더이상 권장되지 않는다. 따라서 함수형 컴포넌트로 변경하는 것이 좋다.
 - React.memo 는 자주 업데이트 되는 컴포넌트에 적용시 오히려 성능이 저하된다. 따라서 반드시 필요한지를 검토해야한다.
 
+---
 
+### 5. Redux 👩‍💻
 
+#### 1. Classification of the State Management
 
+__1 ) Flux-based__
 
+전역, 단일 저장소를 사용하며 최상위 Provider 컴포넌트의 Action 실행을 제외한 상태 변경을 제한한다.  
+단일 Store 를 감시하므로 디버깅의 기준이 *Action 의 실행 => 전역 State 변경*으로 유일하다.
+
+- Redux: Flux + Reducer
+- Zustand: Flux + Context
+
+<br>
+
+__2 ) Context-based__
+
+지역 상태 전파를 사용해 Provider 의 위치라 최상위에 국한되지 않으며 자유롭다.  
+단일 Store 가 아니므로, *Key* 를 통해 어떤 state 인지를 표현해야하며, *디버깅 기준점을 별도로 제공*해야한다.
+
+- React Context API: id, displayName(optional)
+- Jotai: debugLabel(optional)
+- Recoil: State 생성 시점에 Key 강제
+
+<br>
+
+__3 ) Proxy-based__
+
+State 재할당 감지 및 전파를 직접 할당(state = newState)할지 *Action* 을 사용할지 선택할 수 있다.
+
+- MobX
+
+#### 2. Redux Middleware
+
+Redux Middleware 는 dispatch 를 감시하는 새 dispatch 함수를 확장한 새 함수를 만들어서 사용한다(기존의 함수를 
+수정하거나 재정의 할 경우 <span style="color: red;">Monkeypatching</span> 문제가 발생한다). 이를 위해서 
+Redux Middleware 는 *Currying* 을 적용해 문제를 해결한다.
+
+모든 *Action* 에 대해 *log* 를 남기는 공통 로직을 만드는 것을 가정해보자.
+
+<br>
+
+__Bad Case - Monkeypatching 이 발생한 dispatch__
+
+```javascript
+let next = store.dispatch;
+store.dispatch = function dispatchAndLog(action) {
+  console.log('dispatching', action);
+  let result = next(action);
+  console.log('next state', store.getState());
+  return result;
+};
+```
+
+<br>
+
+__Good Case - Currying 을 적용해 함수를 Chaining__
+
+```javascript
+const logger = store => next => action => {
+  console.log('dispatching', action);
+  let result = next(action);
+  console.log('next state', store.getState());
+  return result;
+};
+```
+
+이제 어떤식으로 Middleware 를 만들어야하는지 알았으니 모든 *Action* 에 대해 *에러를 리포트*하는 공통 로직을 만드는 것을 가정해보자.
+
+```javascript
+const crashReporter = store => next => action => {
+  try {
+    return next(action);
+  } catch (err) {
+    console.error('Caught an exception!', err);
+    Raven.captureException(err, {
+      extra: {
+        action,
+        state: store.getState()
+      }
+    });
+    throw err;
+  }
+}
+```
+
+<br>
+
+Redux 의 `applyMiddleware`는 `createStore()`에서 작동하므로 
+`(...middlewares) => (createStore) => createStore`의 흐름으로 작동한다. 위 두 Middlewares 를 적용해보자.
+
+```javascript
+
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+
+let createStoreWithMiddleware = applyMiddleware(logger, crashReporter)(createStore);
+
+let todoApp = combineReducers(reducers);
+let store = createStoreWithMiddleware(todoApp);
+```
+
+이제 *Store* 는 모든 *Action* 의 흐름이 `logger`와 `crashReporter`를 지나게 된다.
+
+```javascript
+store.dispatch(addTodo('Use Redux'));
+```
+
+다양한 Middleware 예시는 [Redux Middleware Examples] 에서 확인할 수 있다. 
+또한 [Redux Middleware 에 대한 Github 설명][Redux - applyMiddleware]을 보면 미들웨어는 잠재적으로 비동기적이기 때문에
+*Store* 에 기능을 추가하기 위해 *Composition Chain* 을 구성할 때 항상 앞에 위치해야한다(*First Store Enhancer*)는 
+규칙을 갖는다.
+
+#### 3. Redux Middleware Libraries
+
+Redux 는 동기 작업만 처리할 수 있다. 하지만 웹은 통신으로 작동하기 때문에 많은 API 는 비동기로 작동하고, 특히 
+서버와의 통신에 있어 비동기 작업은 필수다. 그리고 이러한 비동기 작업에 필요한 미들웨어를 라이브러리화 한 것들이 
+존재하는데 다음과 같은 특징을 갖는다.
+
+- Redux-Saga: Generator 기반의 Redux 비동기 미들웨어 라이브러리
+- Redux-Thunk: async/await 기반의 Redux 비동기 미들웨어 라이브러리로
+- Redux-Observable: Observable Sequence 로 구현된 RxJS 를 기반으로 하는 Redux 비동기 미들웨어 라이브러리
 
 ---
 Reference
 
+1. 강훈, "한 번에 끝내는 React의 모든 것 초격차 패키지, Part 5. 트러블슈팅" fastcampus.co.kr. last modified unknown, [Fast Campus](https://fastcampus.co.kr/)
+2. "미들웨어." Redux Docs. accessed Dec. 19, 2023, [Redux - 미들웨어](https://lunit.gitbook.io/redux-in-korean/advanced/middleware#5)
+3. "reduxjs/redux.", Redux Github. accessed Dec. 19, 2023, [Redux - applyMiddleware]
+
 [JavaScript 'this']:/javascript/2023/05/24/javascript-this.html
+[Redux Middleware Examples]:https://lunit.gitbook.io/redux-in-korean/advanced/middleware#undefined-6
+[Redux - applyMiddleware]:https://github.com/reduxjs/redux/blob/master/src/applyMiddleware.ts
