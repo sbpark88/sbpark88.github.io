@@ -186,7 +186,7 @@ Song: Never Gonna Give You Up, by Rick Astley
 
 ---
 
-### 4. Type Casting for Any and AnyObject(Upcasting '`as`') 👩‍💻
+### 4. Type Casting for Any and AnyObject(Upcasting Operator '`as`') 👩‍💻
 
 Swift 는 불특정 타입을 위한 두 가지의 특별한 타입을 제공한다.
 
