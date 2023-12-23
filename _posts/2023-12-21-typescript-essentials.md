@@ -458,7 +458,7 @@ type EmailMessageContent = MessageOf<Email>;
 위 코드에서 `MessageOf`가 아무 타입이나 받을 수 있도록 하려면 `never`타입을 사용해 다음과 같이 
 `Conditional Types`로 바꿀 수 있다.
 
- - Destructuring
+- Destructuring
 
 ```typescript
 type MessageOf<T> = T extends { message: unknown } ? T['message'] : never;
@@ -524,7 +524,7 @@ type ArrOfStrOrNum = ToArrayNonDist<string | number>;
 #### 14. void
 
 값을 반환하지 않는 함수의 `Return Type`으로 사용한다. 다른 언어와 문법적인 통일성을 위해 추가된 타입으로 *JavaScript* 에 
-이미 존재하는 `undefined`라는 타입과 동일하다. 함수의 *Return Type 으로 사용되는 undefined* 정도로 보면 된다. 
+이미 존재하는 `undefined`라는 타입과 동일하다. 함수의 *Return Type 으로 사용되는 undefined* 정도로 보면 된다.
 
 ```typescript
 function returnVoid(message: string) {
@@ -543,6 +543,175 @@ console.log(r); // undefined
 > ```
 > 
 > 이로써 TypeScript 의 `void` 역시 다른 언어의 `void`와 유사하게 작동한다.
+
+---
+
+### 3. Type System 👩‍💻
+
+#### 1. Make TypeScript more Strictly
+
+*TypeScript* 는 직접 실행할 수 있는 언어가 아니고 최종적으로 *JavaScript* 로 변환되어야 하는 언어이기 때문에 갖는 
+몇 가지 한계가 있다. 어떤 한계가 있는지, 그리고 어떻게 하면 이 문제를 *compile-error* 를 발생시켜  
+
+<br>
+
+__noImplicitAny__
+
+```typescript
+function foo(a) {
+  return a * 10
+}
+```
+
+`noImplicitAny` 옵션은 위와 같이 **입력값을 `any`로 받을 수 있는 상황**에 대해 *compile-error* 를 발생시켜 
+명시적으로 타입을 지정하도록 강제한다.
+
+<br>
+
+__strictNullChecks & noImplicitReturns__
+
+```typescript
+function foo(a: number) {
+  if (a > 0) {
+    return a * 10
+  }
+}
+```
+
+이 경우 *a* 의 타입이 지정되며 *Return Type* 이 *number* 로 추론된다. 하지만 *a* 가 양수가 아닐 경우 `void`를 
+반환하게된다. 즉, `foo(-5) + 10`을 하게 되면 `undefined + 5`가 되므로 `NaN`이 된다.
+
+이로써 *TypeScript* 의 `number`는 기본적으로 `undefined`를 포함하고 있음을 알 수 있다. 
+`strictNullChecks` 옵션은 모든 타입에 자동으로 포함되어있는 `null`과 `undefined`를 제거한다. 또한 
+`noImplicitReturns` 옵션은 위와 같은 리턴값 문제가 발생되지 않도록 *Return Type* 이 존재하는 경우 명시적으로 타입을 
+지정하도록 강제한다.
+
+```typescript
+function foo(a: number): number {
+  if (a > 0) {
+    return a * 10;
+  } else {
+    throw new Error("Input must be a positive number");
+  }
+}
+```
+
+#### 2. Structural Type System & Nominal Type System
+
+- Structural Type System: 구조가 같으면 같은 타입.
+- Nominal Type System: 
+
+<br>
+
+__Structural Type System__
+
+```typescript
+interface IPerson {
+  name: string;
+  age: number;
+  speak(): string;
+}
+
+type PersonType = {
+  name: string;
+  age: number;
+  speak(): string;
+}
+
+let personInterface: IPerson = {} as any;
+let  personType: PersonType = {} as any;
+```
+
+위 두 타입은 문법적 차이는 있지만 데이터를 할당할 때 동일한 타입으로 간주된다(타입을 확장하거나 할 때 문법적 차이는 존재한다).
+
+<br>
+
+__Nominal Type System__
+
+`C`와 같은 언어는 구조가 같아도 이름이 다르면 다른 타입이다. 즉, *TypeScript* 는 이러한 타입 시스템을 따르지 않는다. 
+만약, 이러한 타입이 필요할 경우 다음과 같이 `symbol`을 이용해 유사한 구현은 가능하다.
+
+```typescript
+type PersonId = string & { readonly brand: unique symbol }
+
+function PersonId(id: string): PersonId {
+  // id 검증 로직...
+  
+  return id as PersonId;
+}
+
+function getPersonById(id: PersonId) { }
+
+getPersonById(PersonId('id-327364'));
+getPersonById('id-327364');  // error TS2345
+```
+
+위와 같은 방법으로 같은 형태지만 다른 고유한 타입으로 만들 수 있다.
+
+#### 3. Type Compatibility
+
+```typescript
+// sub1 타입은 sup1 타입의 `Sub-Type`이다.
+let sub1: 1 = 1;
+let sup1: number = sub1;
+sub1 = sup1; // error
+
+// sub2 타입은 sup2 타입의 `Sub-Type`이다.
+let sub2: number[] = [1];
+let sup2: object = sub2;
+sup2 = sup2; // error
+
+// sub3 타입은 sup3 타입의 `Sub-Type`이다.
+let sub3: [number, number] = [1, 2];
+let sup3: number[] = sub3;
+sub3 = sup3; // error
+```
+
+*TypeScript* 의 타입 호환성은 위와 같이 다른 언어들과 크게 다르지 않다. 하지만 `function`의 타입에 대해서 하위 호환 뿐 
+아니라 상위 호한까지 된다, 최종 *Runtime Code* 인 *JavaScript* 에서 이런 것이 가능하기 때문이다.
+
+```typescript
+class Person {}
+class Developer extends Person { }
+class JuniorDeveloper extends Developer { }
+
+function tellMe(f: (d: Developer) => Developer) {}
+
+// Parameter 에 Developer => Developer 를 전달.
+tellMe((d: Developer): Developer => new Developer())  // OK
+
+// Parameter 에 Person => Developer 를 전달.
+tellMe((p: Person): Developer => new Developer())  // Super-Type 에 의한 Sub-Type 하위 호환
+
+// Parameter 에 JuniorDeveloper => Developer 를 전달.
+tellMe((j: JuniorDeveloper): Developer => new Developer())  // Sub-Type 이 Super-Type 을 상위 호환
+```
+
+`tellMe`의 3번째 호출은 다른 언어에서 보면 분명 잘못된 호출이다. 하지만 *TypeScript* 에서는 이것이 가능하며, 
+심지어 에러가 아니다. [Make TypeScript more Strictly](#h-1-make-typescript-more-strictly) 에서 본 것처럼 
+이것 역시 *compile-error* 를 발생시킬 수 있는데, `strictFunctionTypes` 옵션을 활성화 하면 된다.
+
+> 따라서 TypeScript 에서 `noImplicitAny`, `strictNullChecks`, `noImplicitReturns`, 
+> `strictFunctionTypes` 이 4개의 옵션은 안전한 코드 작성을 위해 활성화 해주도록 한다. 
+> 이 옵션들은 TypeScript 를 타입에 대해 엄격한 다른 언어들과 유사한 환경을 만들어준다.
+
+#### 4. Type Alias
+
+`interface`와 비슷하지만 다른 언어와 마찬가지로 만들어진 타입을 `refer`로 사용하는 것이지 직접 타입을 만드는 것은 아니다. 
+`interface`를 `Type Alias`로 대체하는 것이 가능한 이유는 *TypeScript* 가 `Object Literal` 그 자체를 타입으로 
+정의할 수 있기 때문이다.
+
+`interface`는 단지 *Object* 형태만 정의가 가능하지만, `type`은 더 유연하게 사용할 수 있다. 주로 *반복되는 타입*이나 
+*Union Types* 를 정의할 때 사용한다.
+
+> 명확히 이야기하면 `interface`와 `type`은 문법적으로도 기능적으로도 다르다. 하지만 대부분의 경우 **Object** 형태의 
+> 타입을 정의할 때 `interface`를 사용하는 것과 `type`을 사용하는 것 모두 가능하기 때문에 실제로 이 부분에 있어서 
+> 어떤 것을 사용하는 것이 더 적절한가에 대한 의견이 다양하다.
+> 
+> 어차피 **Structural Type System** 이기 때문에 반드시 `interface`를 써야 하거나, `type`을 써야하는 경우가 
+> 아니라면 해당 앱에 대한 코딩 컨벤션을 정의하고 이에 따르도록 하면 된다.
+
+
 
 ---
 Reference
