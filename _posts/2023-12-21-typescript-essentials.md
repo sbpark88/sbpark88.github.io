@@ -711,13 +711,558 @@ tellMe((j: JuniorDeveloper): Developer => new Developer())  // Sub-Type 이 Supe
 > 어차피 **Structural Type System** 이기 때문에 반드시 `interface`를 써야 하거나, `type`을 써야하는 경우가 
 > 아니라면 해당 앱에 대한 코딩 컨벤션을 정의하고 이에 따르도록 하면 된다.
 
+---
 
+### 4. TypeScript Compiler 👩‍💻
+
+#### 1. Compilation Context
+
+*TypeScript* 코드를 어떻게 *JavaScript* 코드로 변환할건지를 정의하는 방법으로 `tsconfig.json`을 사용하는 
+것이 권장된다.
+
+#### 2. tsconfig schema
+
+*TypeScript* 의 버전이 올라가며 새로운 기능이 생기거나 세분화 되며 이 스키마의 크기 역시 증가하고있다. 
+그 중 중요한 최상위 프로퍼티 일부를 소개하면 다음과 같다.
+
+- compileOnSave
+- extends
+- compileOptions
+- files
+- include
+- exclude
+- references
+
+`npx tsc --init`은 많이 사용되는 일부만 작성해주는 것이지 모든 것을 작성해주지는 않는다. 모든 옵션과 설명을 보려면 
+[TSConfig Reference] 를 통해 확인하도록 한다. 그리고 레퍼런스 페이지에 부족한 보총 설명은
+[TypeScript - tsconfig] 에 잘 정리되어 있으니 함께 참고한다.
+
+#### 3. compileOnSave
+
+```json
+{
+  "compileOnSave": true
+}
+```
+
+이 옵션은 *TypeScript* 자체 *Config* 옵션이 아니다. *VS Code* 의 `Atom TypeScript` 플러그인을 설치해야 
+사용할 수 있는 옵션으로 [Compile on save] 를 참고한다. 자동으로 컴파일과 저장을 수행해 문법적 에러를 발견하기 쉽도록 
+해준다.
+
+JetBrains 계열의 IDE 를 사용할 경우 IDE 설정에서 기본으로 지원한다. 
+
+#### 4. extends
+
+*TypeScript* 자체 *Config* 옵션이지만 기본값은 아니라 필요할 경우 작성해서 사용해야한다. 이것은 JSON 파일을 여러 
+개로 나누어 확장을 통해 관리할 수 있도록 해주는 옵션이다.
+
+- base.json
+
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true
+  }
+}
+
+```
+
+- tsconfig.json
+
+```json
+{
+  "extends": "./base",
+  "compilerOptions": {
+    
+  }
+}
+```
+
+이렇게 사용하면 `tsconfig.json`은 `base.json`의 내용을 확장을 통해 갖게 된다. [tsconfig / bases] 에 가면 
+여러 개발 환경별로 맞춘 기본으로 사용하면 좋은 `tsconfig` 설정을 제공한다. 다음은 *CRA* 을 사용할 경우의 예시다.
+
+```shell
+npm install --save-dev @tsconfig/create-react-app
+yarn add --dev @tsconfig/create-react-app
+```
+
+```json
+{
+  "extends": "@tsconfig/bun/tsconfig.json"
+}
+```
+
+#### 5. files, include, exclude
+
+__files__
+
+```json
+{
+  "files": [
+      "core.ts",
+      "sys.ts",
+      "types.ts",
+      "scanner.ts",
+      "parser.ts",
+      "utilities.ts",
+      "binder.ts",
+      "checker.ts",
+      "emitter.ts",
+      "program.ts",
+      "commandLineParser.ts",
+      "tsc.ts",
+      "diagnosticInformationMap.generated.ts"
+  ]
+}
+```
+
+와 같이 리스트 배열로 작성한다. 상대 경로와 절대 경로를 모두 지원하며 개별 파일 목록을 전부 입력해줘야한다. 이것은 파일의 
+갯수가 적고, 컴파일 하고자 하는 파일을 지정해야할 때 유용하다.
+
+<br>
+
+__include & exclude__
+
+```json
+{
+  "include": [
+      "src/**/*"
+  ],
+  "exclude": [
+      "node_modules",
+      "**/*.spec.ts"
+  ]
+}
+```
+
+꼭 함께 사용할 필요는 없으나 일반적으로 위와 같은 형태로 함께 사용한다. `.gitignore` 파일처럼 `glob` 패턴을 사용할 
+수 있어, 특정 경로나 패턴에 대해 전부 `include`, `exclude`를 적용할 수 있다.
+
+<br>
+
+__우선순위__
+
+1. 아무런 설정을 하지 않으면 기본적으로 `node_modules`, `bower_components`, `jspm_packages`, 
+   `<outDir>` 4개를 제외하고 모두 컴파일한다.
+2. `exclude` 설정을 하면 이것을 제외하고 모두 컴파일한다. **1번의 기본 제외 항목은 별도로 지정해주지 않아도 
+   기본적으로 제외**되기 때문에 위 경로 외 추가로 제외할 파일 또는 경로만 목록에 작성하면 된다.
+3. `include` 설정을 하면 이것만 컴파일한다. 단, `<outDir>`은 포함시키더라도 강제로 제외된다.  
+4. 우선순위는 `files` > `exclude` > `include` 이다. `files`에 존재하면, `exclude`에 포함되어 있더라도 
+   컴파일되며, `include`에 포함되어 있더라도 `exclude`에 포함되면 컴파일에서 제외된다.
+
+#### 6. compileOptions - typeRoots, types
+
+__typeRoots__
+
+*React* 라이브러리를 예로 들어보자.
+
+```shell
+npm i react
+npm i -D @types/react
+```
+
+*build* 를 위해 *React* 라이브러리와, 개발 환경에서의 *TypeScript* 지원을 위한 *React 의 TypeScript* 버전을 
+설치해 사용한다. 이렇듯 대부분의 라이브러리는 `@types/`를 붙여 *TypeScript* 를 지원한다.
+
+즉, `./node_modules/@types/` 디렉토리는 특별한 경로이며, `typeRoots`를 미지정시 기본값으로 사용되는 경로다. 만약, 
+이 `@types/`의 *root* 경로를 변경하고 싶다면 다음과 같이 `typeRoots` 옵션을 이용해 지정할 수 있다.
+
+```json
+{
+  "compilerOptions": {
+    "typeRoots": ["./typings", "./vendor/types"]
+  }
+}
+```
+
+이제 `./typings`와 `./vendor/types` 하위 디렉토리가 모두 *TypeScript* 라이브러리의 *root* 경로가 된다. 
+값을 지정했으니 이제 `./node_modules/@types`는 더이상 *TypeScript* 라이브러리의 *root* 경로가 아니다.
+
+이것은 `@types/` 규칙을 따르지 않는 라이브러리 또는 직접 만든 *TypeScript* 라이브러리를 지원할 때 유용하다. 
+
+```json
+{
+  "compilerOptions": {
+    "typeRoots": ["./node_modules/@types", "./typings", "./vendor/types"]
+  }
+}
+```
+
+와 같이 설정하면 기본값 경로에 추가적으로 타입 시스템을 사용할 경로를 지정할 수 있다.
+
+<br>
+
+__types__
+
+`types` 옵션은 기본값이든, 명시된 값이든 `typeRoots`의 라이브러리 중 *TypeScript* 시스템을 사용할 라이브러의 
+이름을 직접 명시적으로 지정하는 옵션이다.
+
+```json
+{
+   "compilerOptions": {
+       "types" : ["node", "lodash", "express"]
+   }
+}
+```
+
+이렇게 정의하면, `./node_modules/@types`에 있는 라이브러리 중 `node`, `lodash`, `express` 세 라이브러리만 
+타입 시스템을 사용하고 그 외 라이브러리는 디렉토리에 존재하더라도 이 시스템에 포함되지 않는다.
+
+만약, `[]`와 같이 빈 배열로 정의할 경우, 이 시스템을 이용하지 않겠다는 의미가 된다.
+
+#### 7. compileOptions - target, lib
+
+__target__
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES5"
+  }
+}
+```
+
+*JavaScript* 를 사용할 때는 배포를 하기 전 ES 레벨을 어디까지 내려 배포할지 `babel` 같은 라이브러리를 사용해 변환,
+배포했었다. 하지만 *TypeScript* 는 항상 배포 전 *JavaScript* 로 변환해야하기 때문에 `babel`과 같은 별도의
+라이브러리 없이 직접 변환할 타겟을 설정하고 컴파일한다. 이것을 설정하는 것이 바로 `target` 옵션이다.
+
+- ES3
+- ES5
+- ES6 / ES2015
+- ES2016
+- ...
+- ES2022
+- ESNext
+
+를 설정할 수 있으며, `ESNext`는 *latest*, *last* 와 같은 의미로 사용된다. 항상 최신 버전을 타겟으로 한다. 
+보통 *Node* 서버에서는 필요에 따라 버전을 올리지만 프론트엔드는 브라우저 호환성 문제로 버전을 낮추어 사용한다.
+
+<br>
+
+__lib__
+
+대부분 `target`에 따라 *default* 로 설정되는 `lib`가 있기 때문에 직접 설정할 필요는 없다.
+
+- ES3: `lib.d.ts`
+- ES5: `dom`, `es5`, `scripthost`
+- ES6: `dom`, `es6`, `dom.iterable`, `scripthost`
+
+를 기본으로 사용한다. 만약, 이걸 직접 설정하려면 배열에 `lib`를 적절히 선택해 입력해야한다.
+
+#### 8. compileOptions - outDir, outFile, rootDir
+
+__outFile__
+
+`module`이 `AMD` 또는 `System` 같은 형태일 때 모든 *JavaScript* 코드를 단일 파일로 컴파일할 수 있도록 하는 
+옵션으로 일반적으로 `CommonJS`, `ES6` 같은 형태로 사용할 때는 사용이 불가능하다.
+
+<br>
+
+__outDir__
+
+특정 디렉토리에 디렉토리 구조를 맞춰 빌드 결과물이 생성된다. 일반적으로 `dist`, `out`과 같은 이름을 붙여 사용한다.
+
+<br>
+
+__rootDir__
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true
+  }
+}
+```
+
+일반적으로 이런식으로 사용한다. `src` 디렉토리 하위의 모든 파일을 `dist` 하위에 구조를 그대로 만들어 컴파일한다. 
+만약, `include`와 `exclude` 옵션이 활성화 되어있다면 이에 따라 컴파일 대상이 영향을 받는다.
+
+#### 9. compileOptions - strict
+
+`strict`는 반드시 `true`로 설정하는 것을 기본으로 한다. 이것을 활성화 하면 컴파일 된 *JavaScript* 파일 
+상단에 `"use strict";`가 포함될 것이다. 이 옵션은 위 [Type System](#h-3-type-system-) 에서 살펴보았던, 
+*TypeScript* 가 좀 더 *Type-Safe* 한 코드를 작성하도록 돕는 모든 옵션을 켜는 것을 의미한다.
+
+- noImplicitAny
+- noImplicitThis
+- strictNullChecks
+- strictFunctionTypes
+- strictPropertyInitialization
+- strictBindCallApply
+- alwaysStrict
+
+이 모든 것을 다 활성화 하는 것이다.
+
+<br>
+
+__noImplicitAny__
+
+```typescript
+function noImplicitAny(x) {
+  return x;
+}
+```
+
+명시적인 `any`는 허용되지만, 타입 추론에 의한 `any`는 허용하지 않는다.
+
+```typescript
+function noImplicitAny(x: any) {
+  return x;
+}
+```
+
+<br>
+
+__noImplicitThis__
+
+```typescript
+function noImplicitThis(x: string, y: string) {
+  this.x = x;
+  this.y = y;
+
+  return this;
+}
+```
+
+이런식의 `this`가 없는 형태는 에러로 간주된다. *JavaScript* 의 `this`는 워낙 심오하기 때문에 변환시 잘못된 
+`this`를 사용하게 되는 것을 막기 위해 명시적으로 정확한 정보의 `this`를 제공해야한다.
+
+이것은 *Python* 의 문법과 유사하게 첫 번째 *Parameter* 로 자기 자신을 제공해야하며, 자기 자신의 타입 정보를 
+포함해야한다. 
+
+```typescript
+function noImplicitThis(this: { x: string; y: string }, x: string, y: string) {
+  this.x = x;
+  this.y = y;
+
+  return this;
+}
+```
+
+<br>
+
+따라서 [Constructor Function] 역시 타입만 붙여 사용하려 하면 에러가 발생하므로 명확한 `this`를 제공해야한다.
+
+```typescript
+interface IPerson {
+  name: string;
+  age: number;
+  greet(): void;
+}
+
+function Person(this: IPerson, name: string, age: number) {
+  this.name = name;
+  this.age = age;
+
+  this.greet = function () {
+    console.log(
+      `Hello, my name is ${this.name} and I'm ${this.age} years old.`
+    );
+  };
+}
+```
+
+**사실... 이정도로 *boiler-code* 를 많이 만들거면 차라리 `Class` 문법을 사용하거나 완전히 `함수형`으로 사용하는 것이 낫다.**
+
+```typescript
+class Person {
+  private name: string;
+  private age: number;
+
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    console.log(
+      `Hello, my name is ${this.name} and I'm ${this.age} years old.`
+    );
+  }
+}
+```
+
+또는
+
+```typescript
+function Person(name: string, age: number) {
+  let _name = name;
+  let _age = age;
+
+  function greet() {
+    console.log(`Hello, my name is ${_name} and I'm ${_age} years old.`);
+  }
+
+  return {
+    greet,
+  };
+}
+```
+
+<br>
+
+__strictNullChecks__
+
+위 [Make TypeScript more Strictly](#h-1-make-typescript-more-strictly) 에서 이미 한 번 살펴보았듯이 
+*TypeScript* 의 모든 타입이 기본적으로 `null`과 `undefined`를 포함하기 때문에 이것을 제외시켜주는 옵션이다.
+
+이걸 체크해주지 않으면 모든 타입이 사실상 `Optional` 타입이 되어버린다. 필요에 의해 `Union` 타입을 이용해 
+`Optional`을 만드는 것이 아닌 모든 타입이 *Optional* 이 되는 것은 결국 *JavaScript* 와 큰 차이가 없어지는 
+것이다.
+
+<br>
+
+__strictFunctionTypes__
+
+[Type Compatibility](#h-3-type-compatibility) 에서 살펴본 것처럼 *TypeScript* 는 다른 언어와 달리 
+기본적으로 *Sub-Type* 이 *Super-Type* 을 상위 호환하는 것이 가능한 문제를 제거하는 옵션이다.
+
+__strictPropertyInitialization__
+
+```typescript
+class Person {
+  private name: string;
+  private age: number;
+
+  constructor() { }
+
+  greet() {
+    console.log(
+      `Hello, my name is ${this.name} and I'm ${this.age} years old.`
+    );
+  }
+}
+```
+
+와 같이 *Class* 의 *Properties* 를 초기화 하지 않을 경우 에러를 발생시키는 옵션으로, *TypeScript* 의 
+*Class* 를 좀 더 *Class* 답게 만들어주는 옵션이다.
+
+반드시 생성자를 사용해 초기화를 시켜주거나
+
+```typescript
+class Person {
+  private name: string;
+  private age: number;
+
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    console.log(
+      `Hello, my name is ${this.name} and I'm ${this.age} years old.`
+    );
+  }
+}
+```
+
+기본값을 제공해야한다.
+
+```typescript
+class Person {
+  private name: string = 'John';
+  private age: number = 23;
+
+  constructor() {}
+
+  greet() {
+    console.log(
+      `Hello, my name is ${this.name} and I'm ${this.age} years old.`
+    );
+  }
+}
+```
+
+<br>
+
+*Classes* 의 초기화는 에러에 의해 실패할 수도 있지만, 의도적으로 지연시켜야 할 필요가 있는 경우도 있다. 초기화를 하는 
+동안 값을 설정할 수 없어 [Optional Property Types] 를 필요로 하는 경우다. *TypeScript* 역시 이를 지원하며, 
+`?` 또는 `!`를 적절히 사용해 *Classes* 를 생성하며, *Properties* 의 초기화를 지연시킬 수 있다. 물론, 이에 대한 
+책임이 개발자에게 주어진다.
+
+```typescript
+class Person {
+  private name!: string;
+  private age?: number;
+
+  constructor() {}
+
+  async init(name: string, age?: number) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    console.log(
+      `Hello, my name is ${this.name} and I'm ${this.age} years old.`
+    );
+  }
+}
+```
+
+<br>
+
+__strictBindCallApply__
+
+`Function`의 내장 함수인 `bind`, `call`, `apply`를 사용할 때 `this`를 좀 더 엄격하게 체크하도록 하는 옵션이다.
+
+```typescript
+class Person {
+  private name: string;
+  private age: number;
+
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    console.log(
+      `Hello, my name is ${this.name} and I'm ${this.age} years old.`
+    );
+  }
+}
+
+const jane = new Person('Jane', 30);
+const peterGreet = jane.greet.bind({ name: 'Peter', age: 36 });
+jane.greet.call({ name: 'Mike', age: 27 });
+peterGreet();
+```
+
+```console
+Hello, my name is Mike and I'm 27 years old.
+Hello, my name is Peter and I'm 36 years old.
+```
+
+근데 사실 이건 뭐가 더 엄격해지는건지 잘 모르겠다.
+
+__alwaysStrict__
+
+컴파일되는 모든 *JavaScript* 파일 상단에 `"use strict"`를 포함시켜 런타임 엔진이 코드를 `strict` 모드로 분석하도록 
+하는 옵션이다.
 
 ---
 Reference
 
 1. 이웅재, "한 번에 끝내는 React의 모든 것 초격차 패키지, Part 6. TypeScript Essentials" fastcampus.co.kr. last modified unknown, [Fast Campus](https://fastcampus.co.kr/)
-2. "Conditional Types." typescriptlang.org. accessed Dec. 23, 2023 [TypeScript - Conditional Types]
+2. "Conditional Types." typescriptlang.org. accessed Dec. 23, 2023, [TypeScript - Conditional Types]
+3. "Intro to the TSConfig Reference." typescriptlang.org. accessed Dec. 24, 2023, [TypeScript - TSConfig Reference][TSConfig Reference]
+4. "Compile on save." GitHub. Dec. 24, 2023, [https://github.com/TypeStrong/atom-typescript#compile-on-save][Compile on save]
+5. "tsconfig.json." TypeScript. access Dec. 24, 2023, [[TypeScript - tsconfig]]
 
 [Swift Upcasting 'as']:/swift/2023/01/14/type-casting.html#h-1-any
 [TypeScript - Conditional Types]:https://www.typescriptlang.org/docs/handbook/2/conditional-types.html
+[TSConfig Reference]:https://www.typescriptlang.org/tsconfig
+[Compile on save]:https://github.com/TypeStrong/atom-typescript#compile-on-save
+[tsconfig / bases]:https://github.com/tsconfig/bases
+[TypeScript - tsconfig]:https://typescript-v2-163.ortam.vercel.app/docs/handbook/tsconfig-json.html
+[Constructor Function]:/javascript/2023/04/14/prototype.html#h-1-object-constructor-function
+[Optional Property Types]:/swift/2022/12/01/initialization.html#h-4-optional-property-types
