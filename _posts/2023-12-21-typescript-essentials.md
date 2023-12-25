@@ -864,10 +864,10 @@ npm i react
 npm i -D @types/react
 ```
 
-*build* 를 위해 *React* 라이브러리와, 개발 환경에서의 *TypeScript* 지원을 위한 *React 의 TypeScript* 버전을 
+*build* 를 위해 *React* 라이브러리와, 개발 환경에서의 *TypeScript* 지원을 위한 *React 의 TypeScript* 버전을
 설치해 사용한다. 이렇듯 대부분의 라이브러리는 `@types/`를 붙여 *TypeScript* 를 지원한다.
 
-즉, `./node_modules/@types/` 디렉토리는 특별한 경로이며, `typeRoots`를 미지정시 기본값으로 사용되는 경로다. 만약, 
+즉, `./node_modules/@types/` 디렉토리는 특별한 경로이며, `typeRoots`를 미지정시 기본값으로 사용되는 경로다. 만약,
 이 `@types/`의 *root* 경로를 변경하고 싶다면 다음과 같이 `typeRoots` 옵션을 이용해 지정할 수 있다.
 
 ```json
@@ -878,10 +878,10 @@ npm i -D @types/react
 }
 ```
 
-이제 `./typings`와 `./vendor/types` 하위 디렉토리가 모두 *TypeScript* 라이브러리의 *root* 경로가 된다. 
+이제 `./typings`와 `./vendor/types` 하위 디렉토리가 모두 *TypeScript* 라이브러리의 *root* 경로가 된다.
 값을 지정했으니 이제 `./node_modules/@types`는 더이상 *TypeScript* 라이브러리의 *root* 경로가 아니다.
 
-이것은 `@types/` 규칙을 따르지 않는 라이브러리 또는 직접 만든 *TypeScript* 라이브러리를 지원할 때 유용하다. 
+이것은 `@types/` 규칙을 따르지 않는 라이브러리 또는 직접 만든 *TypeScript* 라이브러리를 지원할 때 유용하다.
 
 ```json
 {
@@ -897,7 +897,7 @@ npm i -D @types/react
 
 __types__
 
-`types` 옵션은 기본값이든, 명시된 값이든 `typeRoots`의 라이브러리 중 *TypeScript* 시스템을 사용할 라이브러의 
+`types` 옵션은 기본값이든, 명시된 값이든 `typeRoots`의 라이브러리 중 *TypeScript* 시스템을 사용할 라이브러의
 이름을 직접 명시적으로 지정하는 옵션이다.
 
 ```json
@@ -908,7 +908,7 @@ __types__
 }
 ```
 
-이렇게 정의하면, `./node_modules/@types`에 있는 라이브러리 중 `node`, `lodash`, `express` 세 라이브러리만 
+이렇게 정의하면, `./node_modules/@types`에 있는 라이브러리 중 `node`, `lodash`, `express` 세 라이브러리만
 타입 시스템을 사용하고 그 외 라이브러리는 디렉토리에 존재하더라도 이 시스템에 포함되지 않는다.
 
 만약, `[]`와 같이 빈 배열로 정의할 경우, 이 시스템을 이용하지 않겠다는 의미가 된다.
@@ -937,7 +937,7 @@ __target__
 - ES2022
 - ESNext
 
-를 설정할 수 있으며, `ESNext`는 *latest*, *last* 와 같은 의미로 사용된다. 항상 최신 버전을 타겟으로 한다. 
+를 설정할 수 있으며, `ESNext`는 *latest*, *last* 와 같은 의미로 사용된다. 항상 최신 버전을 타겟으로 한다.
 보통 *Node* 서버에서는 필요에 따라 버전을 올리지만 프론트엔드는 브라우저 호환성 문제로 버전을 낮추어 사용한다.
 
 <br>
@@ -956,7 +956,7 @@ __lib__
 
 __outFile__
 
-`module`이 `AMD` 또는 `System` 같은 형태일 때 모든 *JavaScript* 코드를 단일 파일로 컴파일할 수 있도록 하는 
+`module`이 `AMD` 또는 `System` 같은 형태일 때 모든 *JavaScript* 코드를 단일 파일로 컴파일할 수 있도록 하는
 옵션으로 일반적으로 `CommonJS`, `ES6` 같은 형태로 사용할 때는 사용이 불가능하다.
 
 <br>
@@ -981,13 +981,13 @@ __rootDir__
 }
 ```
 
-일반적으로 이런식으로 사용한다. `src` 디렉토리 하위의 모든 파일을 `dist` 하위에 구조를 그대로 만들어 컴파일한다. 
+일반적으로 이런식으로 사용한다. `src` 디렉토리 하위의 모든 파일을 `dist` 하위에 구조를 그대로 만들어 컴파일한다.
 만약, `include`와 `exclude` 옵션이 활성화 되어있다면 이에 따라 컴파일 대상이 영향을 받는다.
 
 #### 9. compileOptions - strict
 
-`strict`는 반드시 `true`로 설정하는 것을 기본으로 한다. 이것을 활성화 하면 컴파일 된 *JavaScript* 파일 
-상단에 `"use strict";`가 포함될 것이다. 이 옵션은 위 [Type System](#h-3-type-system-) 에서 살펴보았던, 
+`strict`는 반드시 `true`로 설정하는 것을 기본으로 한다. 이것을 활성화 하면 컴파일 된 *JavaScript* 파일
+상단에 `"use strict";`가 포함될 것이다. 이 옵션은 위 [Type System](#h-3-type-system-) 에서 살펴보았던,
 *TypeScript* 가 좀 더 *Type-Safe* 한 코드를 작성하도록 돕는 모든 옵션을 켜는 것을 의미한다.
 
 - noImplicitAny
@@ -1031,11 +1031,11 @@ function noImplicitThis(x: string, y: string) {
 }
 ```
 
-이런식의 `this`가 없는 형태는 에러로 간주된다. *JavaScript* 의 `this`는 워낙 심오하기 때문에 변환시 잘못된 
+이런식의 `this`가 없는 형태는 에러로 간주된다. *JavaScript* 의 `this`는 워낙 심오하기 때문에 변환시 잘못된
 `this`를 사용하게 되는 것을 막기 위해 명시적으로 정확한 정보의 `this`를 제공해야한다.
 
-이것은 *Python* 의 문법과 유사하게 첫 번째 *Parameter* 로 자기 자신을 제공해야하며, 자기 자신의 타입 정보를 
-포함해야한다. 
+이것은 *Python* 의 문법과 유사하게 첫 번째 *Parameter* 로 자기 자신을 제공해야하며, 자기 자신의 타입 정보를
+포함해야한다.
 
 ```typescript
 function noImplicitThis(this: { x: string; y: string }, x: string, y: string) {
@@ -1110,18 +1110,18 @@ function Person(name: string, age: number) {
 
 __strictNullChecks__
 
-위 [Make TypeScript more Strictly](#h-1-make-typescript-more-strictly) 에서 이미 한 번 살펴보았듯이 
+위 [Make TypeScript more Strictly](#h-1-make-typescript-more-strictly) 에서 이미 한 번 살펴보았듯이
 *TypeScript* 의 모든 타입이 기본적으로 `null`과 `undefined`를 포함하기 때문에 이것을 제외시켜주는 옵션이다.
 
-이걸 체크해주지 않으면 모든 타입이 사실상 `Optional` 타입이 되어버린다. 필요에 의해 `Union` 타입을 이용해 
-`Optional`을 만드는 것이 아닌 모든 타입이 *Optional* 이 되는 것은 결국 *JavaScript* 와 큰 차이가 없어지는 
+이걸 체크해주지 않으면 모든 타입이 사실상 `Optional` 타입이 되어버린다. 필요에 의해 `Union` 타입을 이용해
+`Optional`을 만드는 것이 아닌 모든 타입이 *Optional* 이 되는 것은 결국 *JavaScript* 와 큰 차이가 없어지는
 것이다.
 
 <br>
 
 __strictFunctionTypes__
 
-[Type Compatibility](#h-3-type-compatibility) 에서 살펴본 것처럼 *TypeScript* 는 다른 언어와 달리 
+[Type Compatibility](#h-3-type-compatibility) 에서 살펴본 것처럼 *TypeScript* 는 다른 언어와 달리
 기본적으로 *Sub-Type* 이 *Super-Type* 을 상위 호환하는 것이 가능한 문제를 제거하는 옵션이다.
 
 __strictPropertyInitialization__
@@ -1141,7 +1141,7 @@ class Person {
 }
 ```
 
-와 같이 *Class* 의 *Properties* 를 초기화 하지 않을 경우 에러를 발생시키는 옵션으로, *TypeScript* 의 
+와 같이 *Class* 의 *Properties* 를 초기화 하지 않을 경우 에러를 발생시키는 옵션으로, *TypeScript* 의
 *Class* 를 좀 더 *Class* 답게 만들어주는 옵션이다.
 
 반드시 생성자를 사용해 초기화를 시켜주거나
@@ -1183,9 +1183,9 @@ class Person {
 
 <br>
 
-*Classes* 의 초기화는 에러에 의해 실패할 수도 있지만, 의도적으로 지연시켜야 할 필요가 있는 경우도 있다. 초기화를 하는 
-동안 값을 설정할 수 없어 [Optional Property Types] 를 필요로 하는 경우다. *TypeScript* 역시 이를 지원하며, 
-`?` 또는 `!`를 적절히 사용해 *Classes* 를 생성하며, *Properties* 의 초기화를 지연시킬 수 있다. 물론, 이에 대한 
+*Classes* 의 초기화는 에러에 의해 실패할 수도 있지만, 의도적으로 지연시켜야 할 필요가 있는 경우도 있다. 초기화를 하는
+동안 값을 설정할 수 없어 [Optional Property Types] 를 필요로 하는 경우다. *TypeScript* 역시 이를 지원하며,
+`?` 또는 `!`를 적절히 사용해 *Classes* 를 생성하며, *Properties* 의 초기화를 지연시킬 수 있다. 물론, 이에 대한
 책임이 개발자에게 주어진다.
 
 ```typescript
@@ -1246,8 +1246,337 @@ Hello, my name is Peter and I'm 36 years old.
 
 __alwaysStrict__
 
-컴파일되는 모든 *JavaScript* 파일 상단에 `"use strict"`를 포함시켜 런타임 엔진이 코드를 `strict` 모드로 분석하도록 
+컴파일되는 모든 *JavaScript* 파일 상단에 `"use strict"`를 포함시켜 런타임 엔진이 코드를 `strict` 모드로 분석하도록
 하는 옵션이다.
+
+---
+
+### 5. Interfaces 👩‍💻
+
+*TypeScript* 의 *Interfaces* 는 *JavaScript* 에 존재하지 않기 때문에 다른 언어와 달리 *Runtime* 이 아닌 오직 
+*Compile-time* 에만 사용된다. 즉, 컴파일 과정에서 제거되어 실제 배포되는 코드에는 남지 않게 되는 것이다. 기본적으로 하고자 
+하는 역할이나 목적이 다른 프로그래밍 언어처럼 사용하기 위함이기 때문에 크게 다르지 않지만 *TypeScript* 만의 특징은 알아둬야한다.
+
+#### 1. Optional Properties
+
+흔히 접하기 쉬운 방법은 다른 언어와 동일하게 Properties 자체를 `Optional`로 설정하는 것이다.
+
+```typescript
+interface Person {
+  readonly country: string;
+  name: string;
+  age?: number
+}
+```
+
+그리고 다른 방법은 [Index Signatures] 를 사용하는 것이다.
+
+```typescript
+interface Person {
+  readonly country: string;
+  name: string;
+  age?: number;
+  [index: string]: any;
+}
+```
+
+생긴 것과 이름을 보면 [Swift Subscripts] 와 유사할 것 같지만 다르다. 일단 이것은 `interface`임을 명심하자. 
+즉, 구현체가 아니라는 의미이다.
+
+#### 2. Index Signatures
+
+우선, `Index Signature`는 `number`, `string`, `symbol`을 타입으로 *Index Type* 으로 가질 수 있다.
+
+__Number Index Signatures__
+
+`number`를 *index signature* 로 사용하면 이 *property* 는 *iterable* 이 가능한 타입을 의미한다.
+
+```typescript
+interface StringArray {
+  [index: number]: string;
+}
+
+const stringArray: StringArray = ['a', 'b', 'c', 'd'];
+const anotherStringArray: StringArray = 'qerty';
+
+console.log(stringArray[1], anotherStringArray[2]); // b r
+```
+
+```typescript
+interface NumberArray {
+  [index: number]: number;
+}
+
+const numberArray: NumberArray = [1, 2, 3, 4];
+console.log(numberArray[1], numberArray[2]); // 2 3
+```
+
+```typescript
+interface Dog extends Animal {
+  breed: string;
+}
+
+interface DogArray {
+  [index: number]: Dog;
+}
+
+const dog1: Dog = { name: '두부', breed: 'Labrador' };
+const dog2: Dog = { name: '치즈', breed: 'Husky' };
+const dog3: Dog = { name: '푸딩', breed: 'Poodle' };
+
+const dogArray: DogArray = [dog1, dog2, dog3];
+```
+
+> 여기서 중요한 것은 **Index Signature** 의 **key 타입**이 **number** 라는 것이지 해당 인터페이스의 
+> **parameter** 타입이 **number** 가 아니라는 것이다. 좀 더 자세한 이해를 위해 아래 
+> **String Index Signatures** 를 보자.
+
+<br>
+
+__String Index Signatures__
+
+```typescript
+interface NumberDictionary {
+  [index: string]: number;
+  volunteers: number;
+}
+```
+
+와 같이 *Index Signature* 로 생성한 *parameter* 의 타입이 **number** 이므로, 다른 *properties* 역시 
+**number** 타입이어야한다.
+
+```typescript
+interface NumberDictionary {
+  [index: string]: number;
+  programName: string;  // type error
+}
+```
+
+이것은 불가능한 정의다. `someDictionary['foo']`를 한 결과가 **number** 인데 *programName* 이 **string** 
+이 되는 것이 불가능하기 때문이다. 이것이 가능하려면 아래 같이 *Index Signature* 로 생성한 *parameter* 의 타입 역시 
+**string** 이 되어야 한다.
+
+```typescript
+interface StringDictionary {
+  [index: string]: string;
+  programName: string;
+}
+```
+
+<br>
+
+하지만, **Dictionary Type** 즉, *TypeScript* 에서 **Object** 는 string, number, etc... 와 같이 
+다양한 타입의 *properties* 를 저장할 수 있는 컨테이너다. 이것을 위해 우리는 *Index Signatures* 가 가질 수 있는 
+타입을 `Union Type`을 사용해 복수 허용을 할 수 있다.
+
+```typescript
+interface VolunteerRecruit {
+  [index: string]: number | string;
+  volunteers: number;
+  programName: string;
+}
+
+const africaRecruit: VolunteerRecruit = {
+  volunteers: 10,
+  programName: '2023 12월 아프리카 자원봉사',
+};
+
+console.log(
+    `${africaRecruit['programName']}의 지원자 수는 ${africaRecruit['volunteers']}명 입니다.`
+);
+```
+
+```console
+2023 12월 아프리카 자원봉사의 지원자 수는 10명 입니다.
+```
+
+> 여기서 중요한 것 역시 **Index Signature** 의 **key 타입**이 **string** 이라는 것이지 해당 인터페이스의 
+> **parameter** 타입이 **string** 이 아니라는 것이다.
+>
+> 즉, **Index Signatures** 가 **number** 라는 것은 `foo[3]`과 같이 사용하기 위한 것으로 **Array** 와 같은 
+> `Iterable` 타입을 정의하기 위한 것이라 보면 된다. 마찬가지로 **Index Signatures** 가 **string** 이라는 
+> 것은 `bar['baz']`와 같이 사용하기 위한 것으로 **Object** 와 같은 `Key-Value` 타입을 정의하기 위한 것이라 보면 된다.
+
+<br>
+
+__Symbol Index Signatures__
+
+**symbol** 을 *Index Signature* 에 사용할 일이 많을 것 같지는 않다. **string** 과 유사하게 사용할 수 있으며, 
+**string** 을 통한 접근을 막기 위해 사용할 수 있다.
+
+```typescript
+interface Member {
+  [index: symbol]: string; // for name
+  age: number;
+}
+
+const gildongId = Symbol('id8784');
+
+const member: Member = {
+  [gildongId]: '홍길동',
+  age: 28,
+};
+
+// console.log(member['id8784']);  // error
+console.log(member[gildongId]); // 홍길동
+```
+
+#### 3. Type Alias & Interface
+
+*TypeScript* 에서 `interface`와 `type`은 많은 곳에서 혼용되며 서로 바꾸어 사용해도 대부분 호환이 가능하다.
+
+__Functions__
+
+```typescript
+type ArithmeticCalc = (lhs: number, rhs: number) => number;
+
+let addTwoInts: ArithmeticCalc = (lhs: number, rhs: number) => lhs + rhs;
+let multiplyTwoInts: ArithmeticCalc = (a: number, b: number) => a * b;
+```
+
+```typescript
+interface ArithmeticCalc {
+  (lhs: number, rhs: number): number;
+}
+
+let addTwoInts: ArithmeticCalc = (lhs: number, rhs: number) => lhs + rhs;
+let multiplyTwoInts: ArithmeticCalc = (a: number, b: number) => a * b;
+```
+
+<br>
+
+__Array__
+
+```typescript
+type PersonList = string[];
+
+const students: PersonList = ['Alice', 'Bob', 'Charlie'];
+```
+
+`type`의 문법은 다른 언어와 크게 다르지 않다.
+
+```typescript
+interface PersonList {
+  [index: number]: string;
+}
+
+const students: PersonList = ['Alice', 'Bob', 'Charlie'];
+```
+
+`interface`는 이를 위해 위에서 본 [Index Signatures](#h-2-index-signatures) 의 **Number Index Signatures** 
+를 사용한다.
+
+<br>
+
+__Intersection__
+
+```typescript
+interface Breakfast {
+  breakfast: string;
+}
+
+interface Lunch {
+  lunch: string;
+}
+
+interface Dinner {
+  dinner: string;
+}
+```
+
+를 확장해 새 타입을 만들어보자.
+
+```typescript
+type DayMeal = Breakfast & Lunch & Dinner;
+
+const todayMeal: DayMeal = {
+  breakfast: 'hamburger',
+  lunch: 'pizza',
+  dinner: 'burger',
+};
+```
+
+```typescript
+interface DayMeal extends Breakfast, Lunch, Dinner {}
+
+const todayMeal: DayMeal = {
+  breakfast: 'hamburger',
+  lunch: 'pizza',
+  dinner: 'burger',
+};
+```
+
+<br>
+
+__Union Types__
+
+```typescript
+interface Bird {
+  fly(): void;
+  layEggs(): void;
+}
+
+interface Fish {
+  swim(): void;
+  layEggs(): void;
+}
+
+type PetType = Bird | Fish;
+
+interface Pet extends PetType {}  // error, TS2312
+class Pet implements PetType {}   // error, TS2422
+```
+
+- **Union Types**는 **Type Alias**로만 표현 가능하다.
+- **Union Types**는 인터페이스의 *extends* 나 클래스의 *implements* 에 사용될 수 없다.
+
+> `type`이 클래스 **implements** 에 사용 불가능한 것은 아니다.
+> 
+> ```typescript
+> type AnimalType = {
+>   name: string;
+>   color: string;
+>   kind: string;
+>   weight: number;
+> };
+> 
+> class Animal implements AnimalType {
+>   name: string = 'Swan';
+>   color: string = 'white';
+>   kind: string = 'bird';
+>   weight: number = 5;
+> }
+> ```
+> 
+> 오직 `Union Type`이 사용 불가능한 것이다.
+
+<br>
+
+__Declaration Merging__
+
+이번엔 `Union Types`와 반대로 인터페이스를 통해서만 가능한 것을 소개한다.
+
+```typescript
+interface MergingInterface {
+  foo: string;
+}
+
+interface MergingInterface {
+  bar: string;
+}
+
+const something: MergingInterface = {
+  foo: 'yellow',
+  bar: 'blue',
+};
+```
+
+동일한 이름으로 복수의 인터페이스를 선언할 수 있을 뿐 아니라 자동으로 머지가 된다. **Type Alias** 는 중복 선언을 허용하지 
+않아 에러가 발생한다.
+
+> 인터페이스의 머지는 HTML elements 를 확장하거나 할 때 기존에 있는 것도 사용하고, 내가 추가한 것도 사용하도록 합쳐야 
+> 할 때 유용하게 사용된다.
+
 
 ---
 Reference
@@ -1266,3 +1595,5 @@ Reference
 [TypeScript - tsconfig]:https://typescript-v2-163.ortam.vercel.app/docs/handbook/tsconfig-json.html
 [Constructor Function]:/javascript/2023/04/14/prototype.html#h-1-object-constructor-function
 [Optional Property Types]:/swift/2022/12/01/initialization.html#h-4-optional-property-types
+[Swift Subscripts]:/swift/2022/11/28/subscripts.html
+[Index Signatures]:https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures
