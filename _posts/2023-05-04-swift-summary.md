@@ -3581,7 +3581,7 @@ breakfastList.forEach { print($0.description) }
 유용할 수 있다. *Initialization 이 실패할 수 있는 경우*는 다음과 같다.
 
 - 유효하지 않은 초기화 파라미터 값
-- 필수 외보 리소스의 부재
+- 필수 외부 리소스의 부재
 - 초기화 성공을 방해하는 기타 다른 조건
 
 `Failable Initializers`는 `init?` 키워드를 사용해 만들며, *Parameters 의 개수와 Parameter Types, Argument Labels 가
