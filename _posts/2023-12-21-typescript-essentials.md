@@ -87,7 +87,7 @@ __TypeScript Types__
 
 <br>
 
-*Primitive Types* 는 `literal` 값으로 *Primitive Types* 의 `Sub Types* 를 나타낼 수 있다.
+*Primitive Types* 는 `literal` 값으로 *Primitive Types* 의 *Sub Types* 를 나타낼 수 있다.
 
 ```typescript
 true      // Primitive Type `boolean`의 `Sub Type` 
@@ -106,7 +106,7 @@ undefined
 > new Number (42)       // typeof new Number (42) : 'object'
 > ```
 
-> **Type Casing**
+> **Type Casting**
 > 
 > 다른 언어에서 String 과 같은 타입을 나타낼 때 대문자로 표현하는 것과 달리 TypeScript 는 Object Types 와 
 > 구분하기 위해 **Primitive Types** 를 모두 `Lower-case`로 표현한다.
@@ -311,6 +311,10 @@ let anyType: any = {};
 
 let alsoAny = anyType.a.b.c.d.e;
 ```
+
+> 이것은 **Optional Chaining** 과 유사하다는 것을 알 수 있다. 객체의 어떤 property 에 접근하기 위해 
+> 단 한 번이라도 Optional Chaining 을 하게 되면, 결과는 항상 **Optional** 인 것처럼, **Object** 에 
+> 단 한 번이라도 **any** 를 사용하면, 결과는 항상 **any** 가 된다. 
 
 <br>
 
@@ -551,7 +555,8 @@ console.log(r); // undefined
 #### 1. Make TypeScript more Strictly
 
 *TypeScript* 는 직접 실행할 수 있는 언어가 아니고 최종적으로 *JavaScript* 로 변환되어야 하는 언어이기 때문에 갖는 
-몇 가지 한계가 있다. 어떤 한계가 있는지, 그리고 어떻게 하면 이 문제를 *compile-error* 를 발생시켜  
+몇 가지 한계가 있다. 어떤 한계가 있는지, 그리고 어떻게 하면 이 문제를 *compile-error* 를 발생시켜 미리 예방할 수 
+있는지 알아보자.
 
 <br>
 
@@ -599,7 +604,7 @@ function foo(a: number): number {
 #### 2. Structural Type System & Nominal Type System
 
 - Structural Type System: 구조가 같으면 같은 타입.
-- Nominal Type System: 
+- Nominal Type System: 구조가 같아도 이름이 다르면 다른 타입.
 
 <br>
 
@@ -1253,8 +1258,8 @@ __alwaysStrict__
 
 ### 5. Interfaces 👩‍💻
 
-*TypeScript* 의 *Interfaces* 는 *JavaScript* 에 존재하지 않기 때문에 다른 언어와 달리 *Runtime* 이 아닌 오직 
-*Compile-time* 에만 사용된다. 즉, 컴파일 과정에서 제거되어 실제 배포되는 코드에는 남지 않게 되는 것이다. 기본적으로 하고자 
+*TypeScript* 의 *Interfaces* 는 *JavaScript* 에 존재하지 않기 때문에 다른 언어와 달리 *Runtime* 이 아닌 오직
+*Compile-time* 에만 사용된다. 즉, 컴파일 과정에서 제거되어 실제 배포되는 코드에는 남지 않게 되는 것이다. 기본적으로 하고자
 하는 역할이나 목적이 다른 프로그래밍 언어처럼 사용하기 위함이기 때문에 크게 다르지 않지만 *TypeScript* 만의 특징은 알아둬야한다.
 
 #### 1. Optional Properties
@@ -1280,14 +1285,16 @@ interface Person {
 }
 ```
 
-생긴 것과 이름을 보면 [Swift Subscripts] 와 유사할 것 같지만 다르다. 일단 이것은 `interface`임을 명심하자. 
+생긴 것과 이름을 보면 [Swift Subscripts] 와 유사할 것 같지만 다르다. 일단 이것은 `interface`임을 명심하자.
 즉, 구현체가 아니라는 의미이다.
 
 #### 2. Index Signatures
 
 우선, `Index Signature`는 `number`, `string`, `symbol`을 타입으로 *Index Type* 으로 가질 수 있다.
 
+<span id="number-index-signatures">
 __Number Index Signatures__
+</span>
 
 `number`를 *index signature* 로 사용하면 이 *property* 는 *iterable* 이 가능한 타입을 의미한다.
 
@@ -1327,13 +1334,14 @@ const dog3: Dog = { name: '푸딩', breed: 'Poodle' };
 const dogArray: DogArray = [dog1, dog2, dog3];
 ```
 
-> 여기서 중요한 것은 **Index Signature** 의 **key 타입**이 **number** 라는 것이지 해당 인터페이스의 
-> **parameter** 타입이 **number** 가 아니라는 것이다. 좀 더 자세한 이해를 위해 아래 
+> 여기서 중요한 것은 **Index Signature** 의 **key 타입**이 **number** 라는 것이지 해당 인터페이스의
+> **parameter** 타입이 **number** 가 아니라는 것이다. 좀 더 자세한 이해를 위해 아래
 > **String Index Signatures** 를 보자.
 
 <br>
-
+<span id="string-index-signatures">
 __String Index Signatures__
+</span>
 
 ```typescript
 interface NumberDictionary {
@@ -1342,7 +1350,7 @@ interface NumberDictionary {
 }
 ```
 
-와 같이 *Index Signature* 로 생성한 *parameter* 의 타입이 **number** 이므로, 다른 *properties* 역시 
+와 같이 *Index Signature* 로 생성한 *parameter* 의 타입이 **number** 이므로, 다른 *properties* 역시
 **number** 타입이어야한다.
 
 ```typescript
@@ -1352,8 +1360,8 @@ interface NumberDictionary {
 }
 ```
 
-이것은 불가능한 정의다. `someDictionary['foo']`를 한 결과가 **number** 인데 *programName* 이 **string** 
-이 되는 것이 불가능하기 때문이다. 이것이 가능하려면 아래 같이 *Index Signature* 로 생성한 *parameter* 의 타입 역시 
+이것은 불가능한 정의다. `someDictionary['foo']`를 한 결과가 **number** 인데 *programName* 이 **string**
+이 되는 것이 불가능하기 때문이다. 이것이 가능하려면 아래 같이 *Index Signature* 로 생성한 *parameter* 의 타입 역시
 **string** 이 되어야 한다.
 
 ```typescript
@@ -1365,8 +1373,8 @@ interface StringDictionary {
 
 <br>
 
-하지만, **Dictionary Type** 즉, *TypeScript* 에서 **Object** 는 string, number, etc... 와 같이 
-다양한 타입의 *properties* 를 저장할 수 있는 컨테이너다. 이것을 위해 우리는 *Index Signatures* 가 가질 수 있는 
+하지만, **Dictionary Type** 즉, *TypeScript* 에서 **Object** 는 string, number, etc... 와 같이
+다양한 타입의 *properties* 를 저장할 수 있는 컨테이너다. 이것을 위해 우리는 *Index Signatures* 가 가질 수 있는
 타입을 `Union Type`을 사용해 복수 허용을 할 수 있다.
 
 ```typescript
@@ -1390,18 +1398,18 @@ console.log(
 2023 12월 아프리카 자원봉사의 지원자 수는 10명 입니다.
 ```
 
-> 여기서 중요한 것 역시 **Index Signature** 의 **key 타입**이 **string** 이라는 것이지 해당 인터페이스의 
+> 여기서 중요한 것 역시 **Index Signature** 의 **key 타입**이 **string** 이라는 것이지 해당 인터페이스의
 > **parameter** 타입이 **string** 이 아니라는 것이다.
 >
-> 즉, **Index Signatures** 가 **number** 라는 것은 `foo[3]`과 같이 사용하기 위한 것으로 **Array** 와 같은 
-> `Iterable` 타입을 정의하기 위한 것이라 보면 된다. 마찬가지로 **Index Signatures** 가 **string** 이라는 
+> 즉, **Index Signatures** 가 **number** 라는 것은 `foo[3]`과 같이 사용하기 위한 것으로 **Array** 와 같은
+> `Iterable` 타입을 정의하기 위한 것이라 보면 된다. 마찬가지로 **Index Signatures** 가 **string** 이라는
 > 것은 `bar['baz']`와 같이 사용하기 위한 것으로 **Object** 와 같은 `Key-Value` 타입을 정의하기 위한 것이라 보면 된다.
 
 <br>
 
 __Symbol Index Signatures__
 
-**symbol** 을 *Index Signature* 에 사용할 일이 많을 것 같지는 않다. **string** 과 유사하게 사용할 수 있으며, 
+**symbol** 을 *Index Signature* 에 사용할 일이 많을 것 같지는 않다. **string** 과 유사하게 사용할 수 있으며,
 **string** 을 통한 접근을 막기 위해 사용할 수 있다.
 
 ```typescript
@@ -1463,8 +1471,7 @@ interface PersonList {
 const students: PersonList = ['Alice', 'Bob', 'Charlie'];
 ```
 
-`interface`는 이를 위해 위에서 본 [Index Signatures](#h-2-index-signatures) 의 **Number Index Signatures** 
-를 사용한다.
+`interface`는 이를 위해 위에서 본 [Number Index Signatures](#number-index-signatures) 를 사용한다.
 
 <br>
 
@@ -1531,7 +1538,7 @@ class Pet implements PetType {}   // error, TS2422
 - **Union Types**는 인터페이스의 *extends* 나 클래스의 *implements* 에 사용될 수 없다.
 
 > `type`이 클래스 **implements** 에 사용 불가능한 것은 아니다.
-> 
+>
 > ```typescript
 > type AnimalType = {
 >   name: string;
@@ -1547,7 +1554,7 @@ class Pet implements PetType {}   // error, TS2422
 >   weight: number = 5;
 > }
 > ```
-> 
+>
 > 오직 `Union Type`이 사용 불가능한 것이다.
 
 <br>
@@ -1571,11 +1578,264 @@ const something: MergingInterface = {
 };
 ```
 
-동일한 이름으로 복수의 인터페이스를 선언할 수 있을 뿐 아니라 자동으로 머지가 된다. **Type Alias** 는 중복 선언을 허용하지 
+동일한 이름으로 복수의 인터페이스를 선언할 수 있을 뿐 아니라 자동으로 머지가 된다. **Type Alias** 는 중복 선언을 허용하지
 않아 에러가 발생한다.
 
-> 인터페이스의 머지는 HTML elements 를 확장하거나 할 때 기존에 있는 것도 사용하고, 내가 추가한 것도 사용하도록 합쳐야 
+> 인터페이스의 머지는 HTML elements 를 확장하거나 할 때 기존에 있는 것도 사용하고, 내가 추가한 것도 사용하도록 합쳐야
 > 할 때 유용하게 사용된다.
+
+---
+
+### 6. Classes 👩‍💻
+
+#### 1. Initialization
+
+**Classes** 용도나 문법, 기능은 다른 언어와 유사하다. *TypeScript* 의 문법적 특징을 위주로 살펴보자.
+
+```typescript
+class Person {
+  name: string;
+  private age: number;
+
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+}
+```
+
+는 다음과 같이 축약해서 표현이 가능하다.
+
+```typescript
+class Person {
+  constructor(public name: string, private age: number) {}
+}
+```
+
+#### 2. Getters & Setters
+
+```typescript
+class Person {
+  constructor(public name: string, private age: number) {}
+
+  get name(): string { return this.name; }  // error, Duplicate identifier 'name'.
+}
+```
+
+기본적으로 *JavaScript* 의 ES6 Classes 문법에서 존재하는 *Properties* 에 대한 `Gatters`와 `Setters` 가 
+자동으로 생성된다. 따라서 개발자가 만들려고 하면 중복 에러가 발생된다. 메서드 형태로 정의하지만, 사실상 이것은
+[Computed Properties] 에 가까운 형태다.
+
+```typescript
+class Person {
+  constructor(
+    public _name: string,
+    private age: number,
+    private changeName = 0
+  ) {}
+
+  get name(): string {
+    console.log(`Log: ${this._name}이 조회되었습니다.`);
+    return this._name;
+  }
+
+  set name(value: string) {
+    console.log(`Log: 이름이 ${++this.changeName}번 개명되었습니다.`);
+    this._name = value;
+  }
+}
+
+const p: Person = new Person('John', 30);
+
+console.log(`안녕하세요. 제 이름은 ${p.name}입니다.`);
+
+p.name = 'Kevin';
+```
+
+```console
+Log: John이 조회되었습니다.
+안녕하세요. 제 이름은 John입니다.
+Log: 이름이 1번 개명되었습니다.
+```
+
+<br>
+
+또한 이를 잘 활용하면 `private(set)`과 같이 접근 제어를 다르게 설정할 수 있다.
+
+```swift
+class SomeClass {
+    private(set) var id: String = ""
+
+    func setId(_ id: String) {
+        self.id = id
+    }
+}
+```
+
+는 다음과 같이 구현할 수 있다.
+
+```typescript
+class SomeClass {
+  private _id: String = '';
+
+  get id(): String {
+    return this._id;
+  }
+
+  setId(id: String) {
+    this._id = id;
+  }
+}
+```
+
+```typescript
+const someClass = new SomeClass();
+
+someClass.id = 'A'; // error: Cannot assign to 'id' because it is a read-only property.
+someClass.setId('A');
+console.log(someClass.id);  // A
+```
+
+#### 3. Index Signatures in Classes
+
+일반적으로 프로그래밍 언어가 *Dynamic Types* 를 사용하는 *Dictionaries* 와 같은 타입을 갖고 있지만 *Classes* 
+와 같은 타입을 정의하고 사용할 때, 이러한 타입들은 자신의 *properties* 에 대한 동적 타입을 허용하지 않는다. 만약, 
+*Classes* 내부에 동적 타입을 가질 수 있는 *Dictionary Type Properties* 를 추가하고, 여기에 동적 데이터를 
+넣어야한다.
+
+```swift
+enum Sex: String {
+    case male, female
+}
+
+typealias MyClass = [String: Sex]
+
+var class1: MyClass = [:]
+class1["김철수"] = .male
+class1["이영희"] = .female
+class1["박흥수"] = .male
+
+var class2: MyClass = [:]
+class2["유소영"] = .female
+class2["김지은"] = .female
+class2["송영호"] = .male
+```
+
+위와 같이 *Dictionaries* 를 이용한 동적 타입을 사용할 수 있으나, *Classes* 와 같은 객체류 데이터는 정적 타입이기 
+때문에 다음과 같이 동적 타입의 *properties* 를 만들어 저장해야한다.
+
+```swift
+enum Sex: String {
+    case male, female
+}
+
+struct MyClass {
+    var student: [String: Sex] = [:]
+}
+
+var class1: MyClass = MyClass()
+class1.student["김철수"] = .male
+class1.student["이영희"] = .female
+class1.student["박흥수"] = .male
+
+var class2: MyClass = MyClass()
+class2.student["유소영"] = .female
+class2.student["김지은"] = .female
+class2.student["송영호"] = .male
+```
+
+하지만 *TypeScript* 의 *Classes* 는 사실 *Object* 고, 이것을 만드는 함수를 사용하기 쉽게 만든
+***Syntactic Sugar*** 에 가까운 *Dynamic Type Language* 이기 때문에
+[String Index Signatures](#string-index-signatures) 를 사용해 다음과 같이 *Classes* 에 
+동적으로 선언하는 것이 가능하다.
+
+```typescript
+type Sex = 'male' | 'female';
+
+class MyClass {
+  [index: string]: Sex;
+}
+
+const class1 = new MyClass();
+class1['김철수'] = 'male';
+class1['이영희'] = 'female';
+class1['박흥수'] = 'male';
+
+const class2 = new MyClass();
+class2['유소영'] = 'female';
+class2['김지은'] = 'female';
+class2['송명호'] = 'male';
+```
+
+#### 4. Inheritance
+
+*TypeScript* 의 상속 역시 *Override* 를 통해 메서드를 수정함은 물론, *properties* 의 *Access Levels* 를 
+변경하는 것 역시 가능하다. 또한, 부모에 접근할 때 `super` 키워드를 사용하는 것 역시 동일하다.
+
+```typescript
+class Vehicle {
+  protected currentSpeed = 0;
+
+  get description(): String {
+    return `traveling at ${this.currentSpeed} miles per hour`;
+  }
+
+  makeNoise() {
+    // do nothing - an arbitrary vehicle doesn't necessarily make a noise
+  }
+}
+```
+
+```typescript
+class Car extends Vehicle {
+  override get description(): String {
+    return `${super.description} in gear ${this.gear}`;
+  }
+
+  constructor(
+    public gear: number = 1,
+    public override currentSpeed: number = 0
+  ) {
+    super();
+    this.gear = gear;
+    this.currentSpeed = currentSpeed;
+  }
+}
+```
+
+```typescript
+const myCar = new Car();
+myCar.gear = 5;
+myCar.currentSpeed = 10;  // 상속을 통해 접근 가능하도록 Access Level 을 변경했다.
+console.log(myCar.description); // "traveling at 10 miles per hour in gear 5"
+```
+
+#### 5. Abstract Classes
+
+*Swift* 에서는 *Protocols* 에 [Default Implementations] 를 제공할 수 있다. 또한 *Java* 역시 
+Java 8 부터 *Interfaces* 에 *Default Methods* 를 구현하는 것이 가능하다.
+
+그럼에도 `Abstract Classes`가 의미를 갖는 것은 *Protocols* 나 *Interfaces* 가 의미를 갖는 것은 메서드에 
+대한 기본 구현일 뿐, *Instance Properties* 를 기본 구현으로 가질 수 있는 것은 아니기 때문이다. 
+그리고 우리에게 더욱 중요한 것은 <span style="color: red;">*TypeScript* 의 **Interfaces** 는 그 어떤 
+기본 구현도 제공할 수 없다</span>는 것 때문이다.
+
+```typescript
+abstract class AbstractPerson {
+  protected _name: string = 'Mark';
+  abstract setName(name: string): void;
+  sayHello(): void {
+    console.log(`Hello, I'm ${this._name}.`);
+  }
+}
+```
+
+```typescript
+interface IPerson {
+  _name: string;
+  setName(name: string): void;
+}
+```
 
 
 ---
@@ -1597,3 +1857,5 @@ Reference
 [Optional Property Types]:/swift/2022/12/01/initialization.html#h-4-optional-property-types
 [Swift Subscripts]:/swift/2022/11/28/subscripts.html
 [Index Signatures]:https://www.typescriptlang.org/docs/handbook/2/objects.html#index-signatures
+[Computed Properties]:/swift/2022/11/22/properties.html#h-2-computed-properties-
+[Default Implementations]:/swift/2023/02/20/protocols.html#h-2-providing-default-implementations
