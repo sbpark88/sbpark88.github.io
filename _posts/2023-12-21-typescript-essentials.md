@@ -1,21 +1,21 @@
 ---
 layout: post
-title: TypeScript Essentials 
-subtitle: 
+title: TypeScript Essentials
+subtitle:
 categories: [typescript, javascript]
 tags: [typescript]
 ---
 
 ### 1. TSC Transpiler 👩‍💻
 
-*JavaScript* 는 *Interpreter Language* 이다. 그리고 이것을 확장한 *TypeScript* 는 웹 브라우저가 
+*JavaScript* 는 *Interpreter Language* 이다. 그리고 이것을 확장한 *TypeScript* 는 웹 브라우저가
 *JavaScript* 만 이해할 수 있기 때문에 변환을 해야하는데 이 과정을 *Transpile* 이라 한다.
 
-*Compile Language* 가 아니기 때문에 *Transpile* 이라고 구분짓기도 하고, 다른 컴파일 언어와 마찬가지로 
-*Runtime* 이전에 오류를 찾아낼 수 있기 때문에 *Compile* 이라 부르는 경우도 존재한다. 아무튼 이때 사용되는 
+*Compile Language* 가 아니기 때문에 *Transpile* 이라고 구분짓기도 하고, 다른 컴파일 언어와 마찬가지로
+*Runtime* 이전에 오류를 찾아낼 수 있기 때문에 *Compile* 이라 부르는 경우도 존재한다. 아무튼 이때 사용되는
 것이 바로 `TSC`다.
 
-*TypeScript* 는 *Global* 로 설치하거나 *Local* 로 설치할 수 있다. *Global* 로 설치했을때와 다르게 
+*TypeScript* 는 *Global* 로 설치하거나 *Local* 로 설치할 수 있다. *Global* 로 설치했을때와 다르게
 *Local* 로 설치했을 경우 경로를 지정해줘야하며 다음 둘 중 하나를 이용해 실행할 수 있다.
 
 ```shell
@@ -34,7 +34,7 @@ tags: [typescript]
 npx tsc
 ```
 
-`package.json`파일을 사용해할 수 있는데, 이때는 **NPM Project** 로 만들었기 때문에`tsc`라고만 쳐도 
+`package.json`파일을 사용해할 수 있는데, 이때는 **NPM Project** 로 만들었기 때문에`tsc`라고만 쳐도
 *Local* 로 설치한 패키지 라이브러리를 인식할 수 있다.
 
 ```json
@@ -69,7 +69,7 @@ __TypeScript Types__
 
 #### 2. Primitive Types
 
-*Object* 와 *Reference* 형태가 아닌 `실제 값`을 저장하는 자료형을 말한다. 
+*Object* 와 *Reference* 형태가 아닌 `실제 값`을 저장하는 자료형을 말한다.
 
 - boolean
 - number
@@ -79,7 +79,7 @@ __TypeScript Types__
 - undefined
 
 > **JavaScript** 의 처리 방식으로 **Primitive Types** 에 내장 함수를 사용 가능하다.
-> 
+>
 > ```typescript
 > let name = 'Mark'
 > name.toString()
@@ -97,9 +97,9 @@ null
 undefined
 ```
 
-> `new`를 사용해 **Wrapper Object** 로 만든 **Types** 는 
+> `new`를 사용해 **Wrapper Object** 로 만든 **Types** 는
 > <span style="color: red;">Primitive Types 가 아니고 **Object**</span> 다.
-> 
+>
 > ```typescript
 > new Boolean(false)    // typeof new Boolean(false) : 'object'
 > new String( 'world')  // typeof new String('world') : 'object'
@@ -107,8 +107,8 @@ undefined
 > ```
 
 > **Type Casting**
-> 
-> 다른 언어에서 String 과 같은 타입을 나타낼 때 대문자로 표현하는 것과 달리 TypeScript 는 Object Types 와 
+>
+> 다른 언어에서 String 과 같은 타입을 나타낼 때 대문자로 표현하는 것과 달리 TypeScript 는 Object Types 와
 > 구분하기 위해 **Primitive Types** 를 모두 `Lower-case`로 표현한다.
 
 #### 3. boolean
@@ -157,9 +157,9 @@ I'll be 18 years old next month.
 
 #### 6. symbol
 
-- ECMAScript2015 의 Symbol 로 `new Symbol`로 사용할 수 없다. Symbol 을 함수로 사용해서 
+- ECMAScript2015 의 Symbol 로 `new Symbol`로 사용할 수 없다. Symbol 을 함수로 사용해서
   `symbol` Type 을 만들어 낼 수 있다.
-- Primitive Types 의 값을 담아서 사용하며, `Unique`하고, `Immutable`한 값을 만들어 
+- Primitive Types 의 값을 담아서 사용하며, `Unique`하고, `Immutable`한 값을 만들어
   주로 접근을 제어하는데 사용된다.
 
 ```typescript
@@ -188,7 +188,7 @@ let age: number = undefined;
 
 <br>
 
-컴파일 옵션에서 `--stringNullChecks`를 사용하면 `null`은 자기 자신에게만, `undefined`는 자기 자신과 
+컴파일 옵션에서 `--stringNullChecks`를 사용하면 `null`은 자기 자신에게만, `undefined`는 자기 자신과
 `void`에게만 할당할 수 있다. 만약 다른 타입이 할당할 수 있게 하려면 `Union Types`를 사용해야한다.
 
 ```typescript
@@ -233,11 +233,11 @@ console.log(typeof u); // undefined
 
 #### 8. object
 
-*TypeScript* 의 `object`는 우리가 *객체*라 부르는 것과는 조금 다르게 사용된다. *TypeScript* 에서 `object`는 
+*TypeScript* 의 `object`는 우리가 *객체*라 부르는 것과는 조금 다르게 사용된다. *TypeScript* 에서 `object`는
 <span style="color: red;">**Primitive Types** 가 아닌 것</span>을 나타내고 싶을 때 사용하는 타입이다.
 
 > **Non-Primitive Types**
-> 
+>
 > number, string, boolean, bigint, symbol, null, undefined 가 **아닌 것**
 
 ```typescript
@@ -254,13 +254,13 @@ const person2 = Object.create({
 });
 ```
 
-> 즉, `Object.create`는 Parameters 로 `object` 또는 `null`을 받을 수 있다. 또한 JavaScript 에서 
+> 즉, `Object.create`는 Parameters 로 `object` 또는 `null`을 받을 수 있다. 또한 JavaScript 에서
 > Array 는 Object 의 일종이기 때문에 Array 역시 넣을 수 있다.
 
 #### 9. Array
 
 - 같은 타입의 *elements* 를 모아 놓은 자료형을 의미한다.
-- 다른 언어와 달리 `any`타입을 사용하지 않고도 `union`타입을 사용해 서로 다른 타입의 *elements* 를 모아 
+- 다른 언어와 달리 `any`타입을 사용하지 않고도 `union`타입을 사용해 서로 다른 타입의 *elements* 를 모아
   배열을 만들 수 있다.
 
 ```typescript
@@ -286,10 +286,10 @@ const [name, age] = ['Mark', 25];
 
 #### 11. any
 
-- 타입이 정해지지 않아 불가능하다는 것이 아닌 어떤 타입이어도 상관 없는 타입으로 `any.toString()`같은 것을 해도 
+- 타입이 정해지지 않아 불가능하다는 것이 아닌 어떤 타입이어도 상관 없는 타입으로 `any.toString()`같은 것을 해도
   에러로 인식하지 않는다.
 - 따라서 *Compiler* 가 에러를 사전에 확인할 수 없기 때문에 최대한 사용하지 않아야 한다.
-- `noImplicitAny` 옵션은 `any`를 의도적으로 표현하거나 명확한 타입을 지정하도록 강제해 개발자가 안전한 코드를 
+- `noImplicitAny` 옵션은 `any`를 의도적으로 표현하거나 명확한 타입을 지정하도록 강제해 개발자가 안전한 코드를
   작성하도록 한다.
 
 ```typescript
@@ -298,7 +298,7 @@ function returnAny(message: any) {
 }
 ```
 
-위와 같은 경우 별다른 상호작용을 하거나 에러를 발생시키지 않으므로 개발자가 명시적으로 `any`를 사용할 수 있다. 
+위와 같은 경우 별다른 상호작용을 하거나 에러를 발생시키지 않으므로 개발자가 명시적으로 `any`를 사용할 수 있다.
 즉, `any`를 사용한다는 것은 이것이 에러를 발생시키지 않음에 대한 책임이 개발자에게 주어진다.
 
 <br>
@@ -312,9 +312,9 @@ let anyType: any = {};
 let alsoAny = anyType.a.b.c.d.e;
 ```
 
-> 이것은 **Optional Chaining** 과 유사하다는 것을 알 수 있다. 객체의 어떤 property 에 접근하기 위해 
-> 단 한 번이라도 Optional Chaining 을 하게 되면, 결과는 항상 **Optional** 인 것처럼, **Object** 에 
-> 단 한 번이라도 **any** 를 사용하면, 결과는 항상 **any** 가 된다. 
+> 이것은 **Optional Chaining** 과 유사하다는 것을 알 수 있다. 객체의 어떤 property 에 접근하기 위해
+> 단 한 번이라도 Optional Chaining 을 하게 되면, 결과는 항상 **Optional** 인 것처럼, **Object** 에
+> 단 한 번이라도 **any** 를 사용하면, 결과는 항상 **any** 가 된다.
 
 <br>
 
@@ -344,18 +344,18 @@ const something = leakingAny({ num: 10 });
 something.indexOf('0');  // error, Property 'indexOf' does not exist on type 'number'
 ```
 
-*a* 를 `number`로 타입을 지정하는 순간 *b* 와 *something* 역시 `number`타입으로 지정된다. 따라서 `number`는 
-`indexOf`를 가지고 있지 않기 때문에 컴파일러는 에러를 감지한다. 즉, `any` 누수를 막은 것이다. 하지만 이와 같은 
+*a* 를 `number`로 타입을 지정하는 순간 *b* 와 *something* 역시 `number`타입으로 지정된다. 따라서 `number`는
+`indexOf`를 가지고 있지 않기 때문에 컴파일러는 에러를 감지한다. 즉, `any` 누수를 막은 것이다. 하지만 이와 같은
 방식으로 `any` 누수를 막는 것은 좋은 방법이 아니다. *Type Guard* 를 사용해 `unknown`을 사용하는 것이 좋은 방법이다.
 
 #### 12. unknown
 
-앱을 만들다 보면 동적 콘텐츠와 같이 의도적으로 모든 값을 수락하기를 원하거나 작성할 때 모르는 변수의 타입을 묘사해야 할 수도 
-있다. 이 경우 `any`를 사용해 ***Any Leaking*** 위험을 감수하는 대신 *Compiler* 와 다른 사람에게 이를 
+앱을 만들다 보면 동적 콘텐츠와 같이 의도적으로 모든 값을 수락하기를 원하거나 작성할 때 모르는 변수의 타입을 묘사해야 할 수도
+있다. 이 경우 `any`를 사용해 ***Any Leaking*** 위험을 감수하는 대신 *Compiler* 와 다른 사람에게 이를
 <span style="color: red;">의도적으로 이 변수가 무엇이든 될 수 있음을 알려주는 타입</span>으로 `unknown`타입을 제공한다.
 
-`unknown`타입은 `any`와 비슷하지만 `Type-Safe`한 코드를 작성할 수 있도록 *Compiler* 가 이를 코드를 감시할 수 있다. 
-`unknown`타입은 사용하려면 *Type Guard* 를 사용해 
+`unknown`타입은 `any`와 비슷하지만 `Type-Safe`한 코드를 작성할 수 있도록 *Compiler* 가 이를 코드를 감시할 수 있다.
+`unknown`타입은 사용하려면 *Type Guard* 를 사용해
 
 ```typescript
 declare const maybe: unknown;
@@ -365,7 +365,7 @@ if (typeof maybe === 'number') {
 }
 ```
 
-*TypeScript* 의 `unknown`타입과 *Type Guard* 는 Swift 의 
+*TypeScript* 의 `unknown`타입과 *Type Guard* 는 Swift 의
 [Any 타입과 Upcating Operator 'as'][Swift Upcasting 'as'] 와 유사하다.
 
 ```swift
@@ -408,7 +408,7 @@ func testAnyTypes(_ things: [Any]) {
 보통 `return`에 사용된다.
 
 - [null, undefined](#h-7-null--undefined)와 마찬가지로 다른 모든 타입의 `subtypes`로 존재한다.
-- `never`는 주로 `return`에 사용되며, 모든 타입에 할당할 수 있다. 하지만 `never`에는 `any`를 포함해 
+- `never`는 주로 `return`에 사용되며, 모든 타입에 할당할 수 있다. 하지만 `never`에는 `any`를 포함해
   그 어느 것도 할당할 수 없다.
 - `never`의 이런 특성을 이용해 *Type Guard* 또는 *Conditional Types* 에 사용할 수 있다.
 
@@ -459,7 +459,7 @@ type EmailMessageContent = MessageOf<Email>;
 // type EmailMessageContent = string
 ```
 
-위 코드에서 `MessageOf`가 아무 타입이나 받을 수 있도록 하려면 `never`타입을 사용해 다음과 같이 
+위 코드에서 `MessageOf`가 아무 타입이나 받을 수 있도록 하려면 `never`타입을 사용해 다음과 같이
 `Conditional Types`로 바꿀 수 있다.
 
 - Destructuring
@@ -527,7 +527,7 @@ type ArrOfStrOrNum = ToArrayNonDist<string | number>;
 
 #### 14. void
 
-값을 반환하지 않는 함수의 `Return Type`으로 사용한다. 다른 언어와 문법적인 통일성을 위해 추가된 타입으로 *JavaScript* 에 
+값을 반환하지 않는 함수의 `Return Type`으로 사용한다. 다른 언어와 문법적인 통일성을 위해 추가된 타입으로 *JavaScript* 에
 이미 존재하는 `undefined`라는 타입과 동일하다. 함수의 *Return Type 으로 사용되는 undefined* 정도로 보면 된다.
 
 ```typescript
@@ -541,11 +541,11 @@ console.log(r); // undefined
 ```
 
 > `void`는 사실 `undefined`와 같다. 하지만 명시적으로 `undefined`에 할당하는 것은 불가능하다.
-> 
+>
 > ```typescript
 > const r: undefined = returnVoid('no return');  // error, Type 'void' is not assignable to type 'undefined'
 > ```
-> 
+>
 > 이로써 TypeScript 의 `void` 역시 다른 언어의 `void`와 유사하게 작동한다.
 
 ---
@@ -554,8 +554,8 @@ console.log(r); // undefined
 
 #### 1. Make TypeScript more Strictly
 
-*TypeScript* 는 직접 실행할 수 있는 언어가 아니고 최종적으로 *JavaScript* 로 변환되어야 하는 언어이기 때문에 갖는 
-몇 가지 한계가 있다. 어떤 한계가 있는지, 그리고 어떻게 하면 이 문제를 *compile-error* 를 발생시켜 미리 예방할 수 
+*TypeScript* 는 직접 실행할 수 있는 언어가 아니고 최종적으로 *JavaScript* 로 변환되어야 하는 언어이기 때문에 갖는
+몇 가지 한계가 있다. 어떤 한계가 있는지, 그리고 어떻게 하면 이 문제를 *compile-error* 를 발생시켜 미리 예방할 수
 있는지 알아보자.
 
 <br>
@@ -568,7 +568,7 @@ function foo(a) {
 }
 ```
 
-`noImplicitAny` 옵션은 위와 같이 **입력값을 `any`로 받을 수 있는 상황**에 대해 *compile-error* 를 발생시켜 
+`noImplicitAny` 옵션은 위와 같이 **입력값을 `any`로 받을 수 있는 상황**에 대해 *compile-error* 를 발생시켜
 명시적으로 타입을 지정하도록 강제한다.
 
 <br>
@@ -583,12 +583,12 @@ function foo(a: number) {
 }
 ```
 
-이 경우 *a* 의 타입이 지정되며 *Return Type* 이 *number* 로 추론된다. 하지만 *a* 가 양수가 아닐 경우 `void`를 
+이 경우 *a* 의 타입이 지정되며 *Return Type* 이 *number* 로 추론된다. 하지만 *a* 가 양수가 아닐 경우 `void`를
 반환하게된다. 즉, `foo(-5) + 10`을 하게 되면 `undefined + 5`가 되므로 `NaN`이 된다.
 
-이로써 *TypeScript* 의 `number`는 기본적으로 `undefined`를 포함하고 있음을 알 수 있다. 
-`strictNullChecks` 옵션은 모든 타입에 자동으로 포함되어있는 `null`과 `undefined`를 제거한다. 또한 
-`noImplicitReturns` 옵션은 위와 같은 리턴값 문제가 발생되지 않도록 *Return Type* 이 존재하는 경우 명시적으로 타입을 
+이로써 *TypeScript* 의 `number`는 기본적으로 `undefined`를 포함하고 있음을 알 수 있다.
+`strictNullChecks` 옵션은 모든 타입에 자동으로 포함되어있는 `null`과 `undefined`를 제거한다. 또한
+`noImplicitReturns` 옵션은 위와 같은 리턴값 문제가 발생되지 않도록 *Return Type* 이 존재하는 경우 명시적으로 타입을
 지정하도록 강제한다.
 
 ```typescript
@@ -633,7 +633,7 @@ let  personType: PersonType = {} as any;
 
 __Nominal Type System__
 
-`C`와 같은 언어는 구조가 같아도 이름이 다르면 다른 타입이다. 즉, *TypeScript* 는 이러한 타입 시스템을 따르지 않는다. 
+`C`와 같은 언어는 구조가 같아도 이름이 다르면 다른 타입이다. 즉, *TypeScript* 는 이러한 타입 시스템을 따르지 않는다.
 만약, 이러한 타입이 필요할 경우 다음과 같이 `symbol`을 이용해 유사한 구현은 가능하다.
 
 ```typescript
@@ -672,7 +672,7 @@ let sup3: number[] = sub3;
 sub3 = sup3; // error
 ```
 
-*TypeScript* 의 타입 호환성은 위와 같이 다른 언어들과 크게 다르지 않다. 하지만 `function`의 타입에 대해서 하위 호환 뿐 
+*TypeScript* 의 타입 호환성은 위와 같이 다른 언어들과 크게 다르지 않다. 하지만 `function`의 타입에 대해서 하위 호환 뿐
 아니라 상위 호한까지 된다, 최종 *Runtime Code* 인 *JavaScript* 에서 이런 것이 가능하기 때문이다.
 
 ```typescript
@@ -692,28 +692,28 @@ tellMe((p: Person): Developer => new Developer())  // Super-Type 에 의한 Sub-
 tellMe((j: JuniorDeveloper): Developer => new Developer())  // Sub-Type 이 Super-Type 을 상위 호환
 ```
 
-`tellMe`의 3번째 호출은 다른 언어에서 보면 분명 잘못된 호출이다. 하지만 *TypeScript* 에서는 이것이 가능하며, 
-심지어 에러가 아니다. [Make TypeScript more Strictly](#h-1-make-typescript-more-strictly) 에서 본 것처럼 
+`tellMe`의 3번째 호출은 다른 언어에서 보면 분명 잘못된 호출이다. 하지만 *TypeScript* 에서는 이것이 가능하며,
+심지어 에러가 아니다. [Make TypeScript more Strictly](#h-1-make-typescript-more-strictly) 에서 본 것처럼
 이것 역시 *compile-error* 를 발생시킬 수 있는데, `strictFunctionTypes` 옵션을 활성화 하면 된다.
 
-> 따라서 TypeScript 에서 `noImplicitAny`, `strictNullChecks`, `noImplicitReturns`, 
-> `strictFunctionTypes` 이 4개의 옵션은 안전한 코드 작성을 위해 활성화 해주도록 한다. 
+> 따라서 TypeScript 에서 `noImplicitAny`, `strictNullChecks`, `noImplicitReturns`,
+> `strictFunctionTypes` 이 4개의 옵션은 안전한 코드 작성을 위해 활성화 해주도록 한다.
 > 이 옵션들은 TypeScript 를 타입에 대해 엄격한 다른 언어들과 유사한 환경을 만들어준다.
 
 #### 4. Type Alias
 
-`interface`와 비슷하지만 다른 언어와 마찬가지로 만들어진 타입을 `refer`로 사용하는 것이지 직접 타입을 만드는 것은 아니다. 
-`interface`를 `Type Alias`로 대체하는 것이 가능한 이유는 *TypeScript* 가 `Object Literal` 그 자체를 타입으로 
+`interface`와 비슷하지만 다른 언어와 마찬가지로 만들어진 타입을 `refer`로 사용하는 것이지 직접 타입을 만드는 것은 아니다.
+`interface`를 `Type Alias`로 대체하는 것이 가능한 이유는 *TypeScript* 가 `Object Literal` 그 자체를 타입으로
 정의할 수 있기 때문이다.
 
-`interface`는 단지 *Object* 형태만 정의가 가능하지만, `type`은 더 유연하게 사용할 수 있다. 주로 *반복되는 타입*이나 
+`interface`는 단지 *Object* 형태만 정의가 가능하지만, `type`은 더 유연하게 사용할 수 있다. 주로 *반복되는 타입*이나
 *Union Types* 를 정의할 때 사용한다.
 
-> 명확히 이야기하면 `interface`와 `type`은 문법적으로도 기능적으로도 다르다. 하지만 대부분의 경우 **Object** 형태의 
-> 타입을 정의할 때 `interface`를 사용하는 것과 `type`을 사용하는 것 모두 가능하기 때문에 실제로 이 부분에 있어서 
+> 명확히 이야기하면 `interface`와 `type`은 문법적으로도 기능적으로도 다르다. 하지만 대부분의 경우 **Object** 형태의
+> 타입을 정의할 때 `interface`를 사용하는 것과 `type`을 사용하는 것 모두 가능하기 때문에 실제로 이 부분에 있어서
 > 어떤 것을 사용하는 것이 더 적절한가에 대한 의견이 다양하다.
-> 
-> 어차피 **Structural Type System** 이기 때문에 반드시 `interface`를 써야 하거나, `type`을 써야하는 경우가 
+>
+> 어차피 **Structural Type System** 이기 때문에 반드시 `interface`를 써야 하거나, `type`을 써야하는 경우가
 > 아니라면 해당 앱에 대한 코딩 컨벤션을 정의하고 이에 따르도록 하면 된다.
 
 ---
@@ -722,12 +722,12 @@ tellMe((j: JuniorDeveloper): Developer => new Developer())  // Sub-Type 이 Supe
 
 #### 1. Compilation Context
 
-*TypeScript* 코드를 어떻게 *JavaScript* 코드로 변환할건지를 정의하는 방법으로 `tsconfig.json`을 사용하는 
+*TypeScript* 코드를 어떻게 *JavaScript* 코드로 변환할건지를 정의하는 방법으로 `tsconfig.json`을 사용하는
 것이 권장된다.
 
 #### 2. tsconfig schema
 
-*TypeScript* 의 버전이 올라가며 새로운 기능이 생기거나 세분화 되며 이 스키마의 크기 역시 증가하고있다. 
+*TypeScript* 의 버전이 올라가며 새로운 기능이 생기거나 세분화 되며 이 스키마의 크기 역시 증가하고있다.
 그 중 중요한 최상위 프로퍼티 일부를 소개하면 다음과 같다.
 
 - compileOnSave
@@ -738,7 +738,7 @@ tellMe((j: JuniorDeveloper): Developer => new Developer())  // Sub-Type 이 Supe
 - exclude
 - references
 
-`npx tsc --init`은 많이 사용되는 일부만 작성해주는 것이지 모든 것을 작성해주지는 않는다. 모든 옵션과 설명을 보려면 
+`npx tsc --init`은 많이 사용되는 일부만 작성해주는 것이지 모든 것을 작성해주지는 않는다. 모든 옵션과 설명을 보려면
 [TSConfig Reference] 를 통해 확인하도록 한다. 그리고 레퍼런스 페이지에 부족한 보총 설명은
 [TypeScript - tsconfig] 에 잘 정리되어 있으니 함께 참고한다.
 
@@ -750,15 +750,15 @@ tellMe((j: JuniorDeveloper): Developer => new Developer())  // Sub-Type 이 Supe
 }
 ```
 
-이 옵션은 *TypeScript* 자체 *Config* 옵션이 아니다. *VS Code* 의 `Atom TypeScript` 플러그인을 설치해야 
-사용할 수 있는 옵션으로 [Compile on save] 를 참고한다. 자동으로 컴파일과 저장을 수행해 문법적 에러를 발견하기 쉽도록 
+이 옵션은 *TypeScript* 자체 *Config* 옵션이 아니다. *VS Code* 의 `Atom TypeScript` 플러그인을 설치해야
+사용할 수 있는 옵션으로 [Compile on save] 를 참고한다. 자동으로 컴파일과 저장을 수행해 문법적 에러를 발견하기 쉽도록
 해준다.
 
-JetBrains 계열의 IDE 를 사용할 경우 IDE 설정에서 기본으로 지원한다. 
+JetBrains 계열의 IDE 를 사용할 경우 IDE 설정에서 기본으로 지원한다.
 
 #### 4. extends
 
-*TypeScript* 자체 *Config* 옵션이지만 기본값은 아니라 필요할 경우 작성해서 사용해야한다. 이것은 JSON 파일을 여러 
+*TypeScript* 자체 *Config* 옵션이지만 기본값은 아니라 필요할 경우 작성해서 사용해야한다. 이것은 JSON 파일을 여러
 개로 나누어 확장을 통해 관리할 수 있도록 해주는 옵션이다.
 
 - base.json
@@ -786,7 +786,7 @@ JetBrains 계열의 IDE 를 사용할 경우 IDE 설정에서 기본으로 지�
 }
 ```
 
-이렇게 사용하면 `tsconfig.json`은 `base.json`의 내용을 확장을 통해 갖게 된다. [tsconfig / bases] 에 가면 
+이렇게 사용하면 `tsconfig.json`은 `base.json`의 내용을 확장을 통해 갖게 된다. [tsconfig / bases] 에 가면
 여러 개발 환경별로 맞춘 기본으로 사용하면 좋은 `tsconfig` 설정을 제공한다. 다음은 *CRA* 을 사용할 경우의 예시다.
 
 ```shell
@@ -824,7 +824,7 @@ __files__
 }
 ```
 
-와 같이 리스트 배열로 작성한다. 상대 경로와 절대 경로를 모두 지원하며 개별 파일 목록을 전부 입력해줘야한다. 이것은 파일의 
+와 같이 리스트 배열로 작성한다. 상대 경로와 절대 경로를 모두 지원하며 개별 파일 목록을 전부 입력해줘야한다. 이것은 파일의
 갯수가 적고, 컴파일 하고자 하는 파일을 지정해야할 때 유용하다.
 
 <br>
@@ -843,19 +843,19 @@ __include & exclude__
 }
 ```
 
-꼭 함께 사용할 필요는 없으나 일반적으로 위와 같은 형태로 함께 사용한다. `.gitignore` 파일처럼 `glob` 패턴을 사용할 
+꼭 함께 사용할 필요는 없으나 일반적으로 위와 같은 형태로 함께 사용한다. `.gitignore` 파일처럼 `glob` 패턴을 사용할
 수 있어, 특정 경로나 패턴에 대해 전부 `include`, `exclude`를 적용할 수 있다.
 
 <br>
 
 __우선순위__
 
-1. 아무런 설정을 하지 않으면 기본적으로 `node_modules`, `bower_components`, `jspm_packages`, 
+1. 아무런 설정을 하지 않으면 기본적으로 `node_modules`, `bower_components`, `jspm_packages`,
    `<outDir>` 4개를 제외하고 모두 컴파일한다.
-2. `exclude` 설정을 하면 이것을 제외하고 모두 컴파일한다. **1번의 기본 제외 항목은 별도로 지정해주지 않아도 
+2. `exclude` 설정을 하면 이것을 제외하고 모두 컴파일한다. **1번의 기본 제외 항목은 별도로 지정해주지 않아도
    기본적으로 제외**되기 때문에 위 경로 외 추가로 제외할 파일 또는 경로만 목록에 작성하면 된다.
-3. `include` 설정을 하면 이것만 컴파일한다. 단, `<outDir>`은 포함시키더라도 강제로 제외된다.  
-4. 우선순위는 `files` > `exclude` > `include` 이다. `files`에 존재하면, `exclude`에 포함되어 있더라도 
+3. `include` 설정을 하면 이것만 컴파일한다. 단, `<outDir>`은 포함시키더라도 강제로 제외된다.
+4. 우선순위는 `files` > `exclude` > `include` 이다. `files`에 존재하면, `exclude`에 포함되어 있더라도
    컴파일되며, `include`에 포함되어 있더라도 `exclude`에 포함되면 컴파일에서 제외된다.
 
 #### 6. compileOptions - typeRoots, types
@@ -1622,7 +1622,7 @@ class Person {
 }
 ```
 
-기본적으로 *JavaScript* 의 ES6 Classes 문법에서 존재하는 *Properties* 에 대한 `Gatters`와 `Setters` 가 
+기본적으로 *JavaScript* 의 ES6 Classes 문법에서 존재하는 *Properties* 에 대한 `Gatters`와 `Setters` 가
 자동으로 생성된다. 따라서 개발자가 만들려고 하면 중복 에러가 발생된다. 메서드 형태로 정의하지만, 사실상 이것은
 [Computed Properties] 에 가까운 형태다.
 
@@ -1698,9 +1698,9 @@ console.log(someClass.id);  // A
 
 #### 3. Index Signatures in Classes
 
-일반적으로 프로그래밍 언어가 *Dynamic Types* 를 사용하는 *Dictionaries* 와 같은 타입을 갖고 있지만 *Classes* 
-와 같은 타입을 정의하고 사용할 때, 이러한 타입들은 자신의 *properties* 에 대한 동적 타입을 허용하지 않는다. 만약, 
-*Classes* 내부에 동적 타입을 가질 수 있는 *Dictionary Type Properties* 를 추가하고, 여기에 동적 데이터를 
+일반적으로 프로그래밍 언어가 *Dynamic Types* 를 사용하는 *Dictionaries* 와 같은 타입을 갖고 있지만 *Classes*
+와 같은 타입을 정의하고 사용할 때, 이러한 타입들은 자신의 *properties* 에 대한 동적 타입을 허용하지 않는다. 만약,
+*Classes* 내부에 동적 타입을 가질 수 있는 *Dictionary Type Properties* 를 추가하고, 여기에 동적 데이터를
 넣어야한다.
 
 ```swift
@@ -1721,7 +1721,7 @@ class2["김지은"] = .female
 class2["송영호"] = .male
 ```
 
-위와 같이 *Dictionaries* 를 이용한 동적 타입을 사용할 수 있으나, *Classes* 와 같은 객체류 데이터는 정적 타입이기 
+위와 같이 *Dictionaries* 를 이용한 동적 타입을 사용할 수 있으나, *Classes* 와 같은 객체류 데이터는 정적 타입이기
 때문에 다음과 같이 동적 타입의 *properties* 를 만들어 저장해야한다.
 
 ```swift
@@ -1746,7 +1746,7 @@ class2.student["송영호"] = .male
 
 하지만 *TypeScript* 의 *Classes* 는 사실 *Object* 고, 이것을 만드는 함수를 사용하기 쉽게 만든
 ***Syntactic Sugar*** 에 가까운 *Dynamic Type Language* 이기 때문에
-[String Index Signatures](#string-index-signatures) 를 사용해 다음과 같이 *Classes* 에 
+[String Index Signatures](#string-index-signatures) 를 사용해 다음과 같이 *Classes* 에
 동적으로 선언하는 것이 가능하다.
 
 ```typescript
@@ -1769,7 +1769,7 @@ class2['송명호'] = 'male';
 
 #### 4. Inheritance
 
-*TypeScript* 의 상속 역시 *Override* 를 통해 메서드를 수정함은 물론, *properties* 의 *Access Levels* 를 
+*TypeScript* 의 상속 역시 *Override* 를 통해 메서드를 수정함은 물론, *properties* 의 *Access Levels* 를
 변경하는 것 역시 가능하다. 또한, 부모에 접근할 때 `super` 키워드를 사용하는 것 역시 동일하다.
 
 ```typescript
@@ -1812,12 +1812,12 @@ console.log(myCar.description); // "traveling at 10 miles per hour in gear 5"
 
 #### 5. Abstract Classes
 
-*Swift* 에서는 *Protocols* 에 [Default Implementations] 를 제공할 수 있다. 또한 *Java* 역시 
+*Swift* 에서는 *Protocols* 에 [Default Implementations] 를 제공할 수 있다. 또한 *Java* 역시
 Java 8 부터 *Interfaces* 에 *Default Methods* 를 구현하는 것이 가능하다.
 
-그럼에도 `Abstract Classes`가 의미를 갖는 것은 *Protocols* 나 *Interfaces* 가 의미를 갖는 것은 메서드에 
-대한 기본 구현일 뿐, *Instance Properties* 를 기본 구현으로 가질 수 있는 것은 아니기 때문이다. 
-그리고 우리에게 더욱 중요한 것은 <span style="color: red;">*TypeScript* 의 **Interfaces** 는 그 어떤 
+그럼에도 `Abstract Classes`가 의미를 갖는 것은 *Protocols* 나 *Interfaces* 가 의미를 갖는 것은 메서드에
+대한 기본 구현일 뿐, *Instance Properties* 를 기본 구현으로 가질 수 있는 것은 아니기 때문이다.
+그리고 우리에게 더욱 중요한 것은 <span style="color: red;">*TypeScript* 의 **Interfaces** 는 그 어떤
 기본 구현도 제공할 수 없다</span>는 것 때문이다.
 
 ```typescript
@@ -1834,6 +1834,202 @@ abstract class AbstractPerson {
 interface IPerson {
   _name: string;
   setName(name: string): void;
+}
+```
+
+---
+
+### 7. Generics 👩‍💻
+
+#### 1. Syntax
+
+다른 언어와 마찬가지로 *Generic Types* 를 사용한 함수 선언은 다음과 같이 한다.
+
+```typescript
+function hello<T>(message: T): T {
+  return message;
+}
+```
+
+```typescript
+const hello = <T>(message: T): T => message;
+```
+
+<br>
+
+그런데 사용할 때 주의해야할 것이 있다.
+
+```typescript
+hello('Hello World!');
+```
+
+보통 다른 언어에서 위와 같이 사용하면 문자열로 추론된다. 하지만 *TypeScript* 에선 이것을 `'Hello World!'`라는 
+타입으로 추론해버린다!!
+
+즉, `string`이 아닌 다음과 같은 `substring` 타입이 되는 것이다.
+
+```typescript
+type HelloWorld = 'Hello World!';
+```
+
+물론, 이렇게 하더라도 *substring* 역시 *string* 의 메서드를 사용할 수 있기 때문에 큰 문제는 없다. 하지마 
+이것의 타입이 *string* 이 아닌 `'Hello World!'`라는 *substring* 타입이라는 것을 인지하고 사용해야한다.
+
+만약, *string*, *number* 와 같은 일반화 된 타입을 사용하려면 반드시 아래와 같이
+<span style="color: red;">함수를 호출할 때 직접 타입을 설정</span>해줘야한다.
+
+```typescript
+hello<string>('Hello World!');
+hello<number>(123);
+```
+
+#### 2. Generics Array & Tuple
+
+__Array__
+
+```type
+function helloarray<T>(arr: T[]): T {
+  return arr[0];
+}
+
+helloarray([1, 2, 3]);
+helloarray(['a', 1, 'b', 2, 'c']);
+```
+
+위에서 본 것처럼 이 경우 타입은 `[1, 2, 3]`일 것 같지만 **Object** 타입에서는 다른 언어와 마찬가지로 그것의 
+타입이 추런된다. 즉, 
+
+```typescript
+number[] => number
+(string | number)[] => string | number
+```
+
+타입으로 추론된다.
+
+<br>
+
+__Tuple__
+
+반면 *Tuple* 은 Array 와 달리 이미 정해진 타입이기 때문에
+
+```typescript
+function hellotuple<T, U>(tuple: [T, U]): T {
+  return tuple[0];
+}
+
+hellotuple([1, 2]);
+hellotuple(['a', 1]);
+```
+
+의 타입은 각각
+
+```typescript
+[number, number] => number
+[string, number] => string
+```
+
+타입으로 정확히 추론된다.
+
+#### 3. Generic Function Type Alias & Interface
+
+[위에서](#h-1-syntax) *Generic Functions* 를 함수 *Function Declaration* 과 
+*Function Expressions* 으로 사용하는 방법을 보았다. *TypeScript* 이므로 함수가 어떤 모습을 취해야하는지를 
+표현할 수 있다.
+
+```typescript
+type HellloFunctionGeneric = <T>(message: T) => T;
+```
+
+```typescript
+interface HellloFunctionGeneric {
+  <T>(message: T): T;
+}
+```
+
+#### 4. keyof
+
+`keyof`를 사용하면 객체의 `keys`를 추출할 수 있다.
+
+```typescript
+const Hobbies = [
+  'Movie',
+  'Music',
+  'Reading',
+  'Cooking',
+  'Dancing',
+  'Swimming',
+] as const;
+
+type Hobby = (typeof Hobbies)[number];
+
+const oneHobby: Hobby = 'Reading';
+const myHobbies: Hobby[] = ['Movie', 'Music', 'Reading', 'Cooking'];
+```
+
+`keyof`를 사용하면 `Hobbies` 배열로부터 *One of Hobbies* 또는 *Some of Hobbies* 와 같은 방식으로 
+타입을 만들어 사용할 수 있다.
+
+<br>
+
+위에서 보았듯이 *TypeScript* 에서 `keyof`는 타입을 다루는 데 매우 강력한 도구로 사용된다. 그리고 이 키워드는 
+*Generics* 와 함께 사용하면 더 강력한 도구가 된다.
+
+```typescript
+interface IPerson {
+  name: string;
+  age: number;
+}
+
+const person: IPerson = {
+  name: 'John',
+  age: 36,
+};
+
+function getProp(obj: IPerson, key: keyof IPerson): IPerson[keyof IPerson] {
+  return obj[key];
+}
+```
+
+`keyof`를 사용해 하드코딩 없이 동적으로 타입을 설정했지만 반환 타입이 여전히 
+**IPerson["name"] | IPerson["age"]** 라는 *Union Types* 를 반환하는 문제가 존재한다.
+*Generics* 를 사용해보자.
+
+```typescript
+function getProp<T>(obj: T, key: keyof T): T[keyof T] {
+  return obj[key];
+}
+
+const prop1 = getProp<IPerson>(person, 'name');
+```
+
+이제 **IPerson["name"] | IPerson["age"]** 보다는 타입이 좀 더 정확하게 표현되지만 여전히 
+`string | number`라는 *Union Types* 를 반환한다. `keyof T`를 함수가 호출될 때 타입이 제한되도록 하면 범위를 
+더 좁힐 수 있을 것 같다. 
+`T`가 정해지면, 이 `T`로부터 제한된 `key`를 타입으로 갖도록 두 번째 변수 `K`를 도입해보자.
+
+```typescript
+function getProp<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key];
+}
+
+const prop1: string = getProp(person, 'name');
+const prop2: number = getProp(person, 'age');
+```
+
+함수가 호출되는 순간 각각
+
+```typescript
+function getProp<IPerson, "name">(obj: IPerson, key: "name"): string
+function getProp<IPerson, "age">(obj: IPerson, key: "age"): number
+```
+
+와 같이 타입이 명확히 정의되기 대문에 더이상 *Union Types* 를 반환하지 않는다.
+
+위와 같은 방법으로 `setProp`함수도 정의할 수 있다.
+
+```typescript
+function setProp<T, K extends keyof T>(obj: T, key: K, value: T[K]): void {
+  obj[key] = value;
 }
 ```
 
