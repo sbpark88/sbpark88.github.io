@@ -624,7 +624,7 @@ __3 ) Define Function Types from Type Alias__
 강제할 수 있다.
 
 ```swift
-typealias arithmeticCalc = (Int, Int) -> Int
+typealias ArithmeticCalc = (Int, Int) -> Int
 
 let addTwoInts: arithmeticCalc = { $0 + $1 }
 let multiplyTwoInts: arithmeticCalc = { $0 * $1 }

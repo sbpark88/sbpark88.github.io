@@ -152,7 +152,7 @@ func twice(_ f: @escaping (Int) -> Int) -> (Int) -> Int {
 위 *twice* 의 *parameter type* 과 *return type* 이 보기 힘들다면 `typealias`를 사용한 아래 코드를 보도록 하자.
 
 ```swift
-typealias intToInt = (Int) -> Int
+typealias IntToInt = (Int) -> Int
 
 func twice(_ f: @escaping intToInt) -> intToInt {
   { f(f($0)) }
@@ -205,7 +205,7 @@ let twice: (@escaping (Int) -> Int) -> (Int) -> Int = { f in
 마찬가지로 `typealias`를 사용해 다음과 같이 작성할 수 있다.
 
 ```swift
-typealias intToInt = (Int) -> Int
+typealias IntToInt = (Int) -> Int
 
 let twice = { (f: @escaping intToInt) in
     { f(f($0)) }
@@ -213,7 +213,7 @@ let twice = { (f: @escaping intToInt) in
 ```
 
 ```swift
-typealias intToInt = (Int) -> Int
+typealias IntToInt = (Int) -> Int
 
 let twice: (@escaping intToInt) -> intToInt = { f in
   { f(f($0)) }

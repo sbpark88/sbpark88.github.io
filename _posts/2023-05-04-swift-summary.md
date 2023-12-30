@@ -1142,7 +1142,7 @@ func addTwoInts(_ a: Int, _ b: Int) -> Int {
 ```
 
 ```swift
-typealias arithmeticCalc = (Int, Int) -> Int
+typealias ArithmeticCalc = (Int, Int) -> Int
 let sum: arithmeticCalc = addTwoInts(_:_:)
 
 print(addTwoInts(5, 7))         // 12
@@ -1180,7 +1180,7 @@ let multiplyTwoInts = { (a: Int, b: Int) in
 게다가 Swift 의 Type Inference 를 사용하면 다음과 같이 간략히 사용하는 것도 가능하다.
 
 ```swift
-typealias arithmeticCalc = (Int, Int) -> Int
+typealias ArithmeticCalc = (Int, Int) -> Int
 
 let addTwoInts = { (a: Int, b: Int) in a + b }
 let multiplyTwoInts: (Int, Int) -> Int = { $0 * $1 }
