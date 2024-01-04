@@ -66,7 +66,7 @@ var buttons: [UIButton] = []
 var buttons: [UIButton] = [choice1Button, choice2Button]
 ```
 
-뒤에 ` = [choice1Button, choice2Button]` 이 부분이 바로 property 를 생성 후 할당하는 것이다.
+뒤에 `= [choice1Button, choice2Button]` 이 부분이 바로 property 를 생성 후 할당하는 것이다.
 
 즉, `instance member`는 해당 `class`가 인스턴스화 되며 메모리에 실제 객체가 생성될 때 생성자를 통해 주입이 된다. 그렇다면 당연히 
 생성자가 실행된 후에 참조가 가능한데, property 초기화가 실행되는 시점이 `initializing instance member`보다 빠르기 때문에 
