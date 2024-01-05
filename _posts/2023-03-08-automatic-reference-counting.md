@@ -449,7 +449,7 @@ class CreditCard {
 - 그리고 Customer 의 *Lifetime* 이 CreditCard 의 *Lifetime* 보다 길거나 같으며, `CreditCard 는 Customer 에 종속적`이다.
 
 > 따라서 **Lifetime** 이 짧거나 같으며 Customer 에 종속성을 갖는 CreditCard 가 Long Lifetime 을 갖는 Customer 를 참조할 때
-> `ubowned`를 붙여 `unowned let customer: Customer`를 만들어 준다.
+> `unowned`를 붙여 `unowned let customer: Customer`를 만들어 준다.
 
 > CreditCard 는 Customer 를 항상 갖고 있어야 한다는 종속성이 있기 때문에 **Strong Reference Cycles** 를 피하기 위해 항상
 > `Unowned References`로 정의한다.
