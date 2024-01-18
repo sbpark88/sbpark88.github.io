@@ -49,8 +49,6 @@ throw VendingMachineError.insufficientFunds(coinsNeeded: 5)
 를 작성하며, 이런 함수를 `Throwing Functions`라 한다. *Throwing Functions* 로 작성하면 발생한 에러를 직접 처리하지 않고 
 `throw` 해서 호출한 코드의 주변 코드가 에러를 처리하도록 할 수 있다.
 
-또한 `Throwing Functions 의 return types`는 항상 `Error protocol 을 따르는 Types 의 값` 또는 `Optional`이다.
-
 __Syntax__
 
 ```swift
@@ -292,24 +290,18 @@ because of invalid selection, out of stock, or not enough money.
 
 #### 3. Converting Errors to Optional Values
 
-`Throwing Functions 의 return types`는 항상 `Error protocol 을 따르는 Types 의 값` 또는 `Optional`이라고 했다. 
-따라서 에러가 발생할 경우 이를 처리하기 위한 `do-catch` statement 가 반드시 필요하다.
-
 [Optional Chaining always returns Optional Types] 을 다시 떠올려보자. `Optional Chaining`은 `?`을 이용해 
-*Instance* 또는 *Value* 가 존재하지 않는 경우에도 별도의 에러 처리 없이 코드를 간결하게 처리했다. *Swift* 가 알아서 
-에러가 발생하는 상황에 실행을 중단하고 `nil`을 반환하기 때문이다.
+*Instance* 또는 *Value* 가 존재하지 않는 경우에도 별도의 에러 처리 없이 코드를 간결하게 처리했다. 결과를 항상 `Optioanl`로
+Wrapping 하고 에러가 발생하면 `nil`을 담아 반환하기 때문이다.
 
-*Optional Chaining* 과 마찬가지로 *Throwing Functions* 역시 `try` 대신 `try?`를 이용하면
-`Throwing Functions 의 return types`이 항상 `Optional Types` 또는 `nil`을 반환하도록 할 수 있다. 
-
-그러면 에러가 발생할 경우 *Swift* 가 알아서 실행을 중단하고 `nil`을 반환하므로 `Optional Chaining`을 할 때와 마찬가지로 
-일반 코드를 작성하듯 처리할 수 있다.
+*Optional Chaining* 과 마찬가지로 *Throwing Functions* 역시 `try` 대신 `try?`를 이용하면 결과를 항상 `Optional`로 
+Wrapping 하도록 한다. 그러면 `Optional Chaining`을 할 때와 마찬가지로 일반 코드를 작성하듯 처리할 수 있다.
 
 [Optional Chaining always returns Optional Types]:/swift/2022/12/20/optional-chaining.html#h-7-chaining-on-methods-with-optional-return-values-
 
 <br>
 
-`try?`를 사용함으로써 얻는 장점은 `모든 에러를 같은 방식으로 처리하는 경우` `do-catch 없이` 짧고 간결한 코드로 작성할 수 있다는 것이고,   
+`try?`를 사용함으로써 얻는 장점은 `모든 에러를 같은 방식으로 처리하는 경우` `do-catch 없이` 짧고 간결한 코드로 작성할 수 있다는 것이고, 
 단점은 *모든 에러를 같은 방식으로 처리*하므로 *cases* 별로 자세한 *에러 처리*를 하는 것이 *불가능*하다는 것이다.
 
 > - `try?` 는 `Optional Chaining`의 `?`와 마찬가지로 항상 Optional Types 를 반환한다.
@@ -353,8 +345,9 @@ print(y as Any)                         // Optional(1)
 
 __2 ) Throwing Functions with `try`__
 
-우선 `Throwing Functions`는 항상 `Error protocol 을 따르는 Types 의 값` 또는 `Optional`을 반환하므로 
-더 이상 *return types* 가 `Int?`일 필요가 없다. *return types* 를 `Int`로 바꾸도록하자. 
+`do-catch`와 `try`를 사용해 에러를 처리할 것이기 때문에 더 이상 *return types* 가 `Int?`일 필요가 없다. 
+*return types* 를 `Int`로 바꾸도록하자. 잠시 후 다시 설명하겠지만, `Optional` Wrapping 이 필요하면 단지 
+`try?` keyword 를 사용하기만 하면 된다.
 
 ```swift
 func someThrowingFunction(_ input: Int) throws -> Int {
@@ -385,16 +378,25 @@ do {
     w = nil
 }
 print(w as Any)                         // Optional(1)
+
+let x: Int
+do {
+    x = try someThrowingFunction(2)
+} catch {
+    x = -1
+}
+print(x)                                // 2 (Not Optional!!)
 ```
 
 `LBYL` 방식과 달리 예상치 못한 에러도 모두 `catch` clause 를 통해 처리할 수 있으므로 `Runtime Error` 발생을 막을 수 있게되었다.   
-하지만 특별하게 에러를 구분해 처리할 필요가 없을 경우 위 방식은 코드의 흐름이 분리되어 가독성이 좋지 못한 문제가 존재한다.
+하지만 <span style="color: red;">특별하게 에러를 구분해 처리할 필요가 없을 경우 위 방식은 코드의 흐름이 분리되어 가독성이 좋지 못한 
+문제</span>가 존재한다.
 
 <br>
 
 __3 ) Throwing Functions with `try?`__
 
-`try?` keyword 를 사용하면 `EAFP` 방식으로 코드를 작성하면서 위 가독성 문제도 해결할 수 있다.
+`try?` keyword 를 사용하면 에러를 `Optional`로 Wrapping 해 `EAFP` 방식으로 코드를 작성하면서 위 가독성 문제도 해결할 수 있다.
 
 ```swift
 let p = try? someThrowingFunction(0)
@@ -405,7 +407,7 @@ print(q as Any)                         // Optional(1)
 
 <br>
 
-따라서 `fetch`와 같은 함수는 `try?`를 이용해 다음과 같이 간결하게 작성할 수 있다.
+예를 들어 `fetch`와 같은 함수는 `try?`를 이용해 다음과 같이 간결하게 작성할 수 있다.
 
 ```swift
 func fetchData() -> Data? {

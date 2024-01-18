@@ -4523,7 +4523,6 @@ do {
 
 `catch is` 대신 연관된 에러를 필요한 만큼 `,` 를 이용해 나열해 처리할 수 있다.
 
-
 ```swift
 func buySnack(with item: String) throws {
     do {
@@ -4547,30 +4546,12 @@ do {
 
 ### Converting Errors to Optional Values
 
-`Throwing Functions 의 return types`는 항상 `Error protocol 을 따르는 Types 의 값` 또는 `Optional`이라고 했다.
-따라서 에러가 발생할 경우 이를 처리하기 위한 `do-catch` statement 가 반드시 필요하다.
-
 [Optional Chaining always returns Optional Types] 을 다시 떠올려보자. `Optional Chaining`은 `?`을 이용해
-*Instance* 또는 *Value* 가 존재하지 않는 경우에도 별도의 에러 처리 없이 코드를 간결하게 처리했다. *Swift* 가 알아서
-에러가 발생하는 상황에 실행을 중단하고 `nil`을 반환하기 때문이다.
+*Instance* 또는 *Value* 가 존재하지 않는 경우에도 별도의 에러 처리 없이 코드를 간결하게 처리했다. 결과를 항상 `Optioanl`로
+Wrapping 하고 에러가 발생하면 `nil`을 담아 반환하기 때문이다.
 
-*Optional Chaining* 과 마찬가지로 *Throwing Functions* 역시 `try` 대신 `try?`를 이용하면
-`Throwing Functions 의 return types`이 항상 `Optional Types` 또는 `nil`을 반환하도록 할 수 있다.
-
-그러면 에러가 발생할 경우 *Swift* 가 알아서 실행을 중단하고 `nil`을 반환하므로 `Optional Chaining`을 할 때와 마찬가지로
-일반 코드를 작성하듯 처리할 수 있다.
-
-<br>
-
-`try?`를 사용함으로써 얻는 장점은 `모든 에러를 같은 방식으로 처리하는 경우` `do-catch 없이` 짧고 간결한 코드로 작성할 수 있다는 것이고,   
-단점은 *모든 에러를 같은 방식으로 처리*하므로 *cases* 별로 자세한 *에러 처리*를 하는 것이 *불가능*하다는 것이다.
-
-> - `try?` 는 `Optional Chaining`의 `?`와 마찬가지로 항상 Optional Types 를 반환한다.
-> - `try!` 는 `Optional Chaining`의 `!`와 마찬가지로 항상 반환값을 Forced Unwrapping 한다.
-
-<br>
-
-`try?` keyword 를 사용하면 `EAFP` 방식으로 코드를 작성하면서 위 가독성 문제도 해결할 수 있다.
+*Optional Chaining* 과 마찬가지로 *Throwing Functions* 역시 `try` 대신 `try?`를 이용하면 결과를 항상 `Optional`로
+Wrapping 하도록 한다. 그러면 `Optional Chaining`을 할 때와 마찬가지로 일반 코드를 작성하듯 처리할 수 있다.
 
 ```swift
 let p = try? someThrowingFunction(0)
@@ -4581,7 +4562,10 @@ print(q as Any)                         // Optional(1)
 
 <br>
 
-따라서 `fetch`와 같은 함수는 `try?`를 이용해 다음과 같이 간결하게 작성할 수 있다.
+`try?`를 사용함으로써 얻는 장점은 `모든 에러를 같은 방식으로 처리하는 경우` `do-catch 없이` 짧고 간결한 코드로 작성할 수 있다는 것이고,   
+단점은 *모든 에러를 같은 방식으로 처리*하므로 *cases* 별로 자세한 *에러 처리*를 하는 것이 *불가능*하다는 것이다.
+
+예를 들어 `fetch`와 같은 함수는 `try?`를 이용해 다음과 같이 간결하게 작성할 수 있다.
 
 ```swift
 func fetchData() -> Data? {
@@ -4590,6 +4574,9 @@ func fetchData() -> Data? {
     return nil
 }
 ```
+
+> - `try?` 는 `Optional Chaining`의 `?`와 마찬가지로 항상 Optional Types 를 반환한다.
+> - `try!` 는 `Optional Chaining`의 `!`와 마찬가지로 항상 반환값을 Forced Unwrapping 한다.
 
 ### Disabling Error Propagation
 
