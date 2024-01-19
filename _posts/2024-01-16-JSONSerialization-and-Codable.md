@@ -6,7 +6,7 @@ categories: swift
 tags: [swift http, json serialization, codable, codingkeys, computed properties]
 ---
 
-### 1. JSONSerialization 👩‍💻
+### 1. JSON Serialization 👩‍💻
 
 `Codable`이 나오기 이전 방식으로 직접 *Serialization* 을 해야한다.
 
@@ -145,9 +145,358 @@ struct CoinManager {
 > 참고로 위 코드는 **Decodable** 프로토콜을 채택한 `CoinData DTO`를 그대로 `Entity`로 사용하고 있다. 
 > 만약, `DTO`와 `Entity`를 나누어 사용할 경우, **Codable** 은 `DTO`만 채택하면 된다.
 
+---
+
+### 3. Libraries that does not support Codable 👩‍💻
+
+*Firebase* 의 `Realtime Database`, `Firestore`와 같은 라이브러리는 *Codable* 을 지원하지 않기 때문에 
+직접 *Serialization* 을 해줘야한다. 하지만 위 [JSONSerialization](#h-1-jsonserialization) 에서와 같이 
+*Swift Data* 객체로 바꾸기 위해 일일히 코딩을 하는 것은 불필요한 *boilerplate code* 를 생성한다.
+
+따라서, `JSONSerialization`을 `JSONEncoder`, `JSONDecoder`과 함께 사용하면 *Codable* 을 지원하지 않는 
+라이브러리에도 적용할 수 있다.
+
+#### 1. JSON Serialization Methods
+
+- `jsonObject(with:options:)`: Returns a Foundation object from given JSON data.
+- `data(withJSONObject:options:)`: Returns JSON data from a Foundation object.
+
+여기서 `Foundation object`는 *NSArray*, *NSDictionary*, *NSNumber*, *NSDate*, *NSString*, *NSNull* 을 
+의미한다. 그리고 데이터 통신을 할 때 가장 바깥 컨테이너는 항상 *Key-Value* 형태를 하고 있으므로, 가장 바깥 형태는 
+`[NSString: id]` 타입의 **NSDictionay** 라 볼 수 있다. 그리고 *Objective-C Foundation* 의 **NSDictionay** 는 
+*Swift* 의 **Dictionay**와 브릿지되므로, `[String: Any]` 타입의 
+<span style="color: red;">***Dictionary*** 와 ***JSON*** 사이의 형변환</span>이라 볼 수 있다.
+
+따라서 다시 정리하면 다음과 같다.
+
+- `jsonObject(with:options:)`: `JSON` -> `Dictionay`
+- `data(withJSONObject:options:)`: `Dictionary` -> `JSON`
+
+#### 2. JSON Encoder and Decoder Methods
+
+__JSONEncoder__
+
+`Encodable` 프로토콜을 준수하는 `Structure`를 `JSON`으로 변환한다.
+
+__JSONDecoder__
+
+`JSON`을 `Decodable` 프로토콜을 준수하는 `Structure`로 변환한다. 
+
+> 이를 정리하면 다음과 같다.
+> 
+> - `JSONSerialization.jsonObject(with:options:)`: `JSON` -> `Dictionary`
+> - `JSONSerialization.data(withJSONObject:options:)`: `Dictionary` -> `JSON`
+> - `JSONEncoder().encode(_:)`: `Structure: Encodable` -> `JSON`
+> - `JSONDecoder().decode(_:from:)`: `JSON` -> `Structure: Decodable`
+
+#### 3. Casting between Dictionaries, JSON, and Structures
+
+*Codable* 을 지원하지 않는 *Firebase* 의 *Realtime Database*, *Firestore* 라이브러리의 경우 직접 
+`JSONSerialization`를 해야한다. 이들은 `[String: Any]` 타입의 `Dictionay`를 사용해 통신하는데, 쿼리 결과 
+*Response* 의 데이터는 `Any` 또는 `[String: Any]` 타입을 갖는다. 따라서 직접적으로 *Codable* 을 사용할 수 없기 
+때문에 다음과 같은 변환 과정을 생각해볼 수 있다.
+
+__Encoding__
+
+`Structure` -> `JSON` -> `NSDictionary`
+
+__Decoding__
+
+`Dictionay` -> `JSON` -> `Structure` (or `Any` -> `NSDictionay` -> `JSON` -> `Structure`)
+
+<br>
+
+위 변환 과정에 필요한 메서드는 다음과 같다.
+
+__Encoding__
+
+`Structure` -> `JSON`: `JSONEncoder().encode(_:)`  
+`JSON` -> `NSDictionary`: `JSONSerialization.jsonObject(with:options:)`
+
+__Decoding__
+
+`Dictionay` -> `JSON`: `JSONSerialization.data(withJSONObject:options:)`  
+`JSON` -> `Structure`: `JSONDecoder().decode(_:from:)`
+
+#### 4. Custom Encoding Methods for Firebase
+
+앱을 개발하는데 있어 매번 인코딩/디코딩 코드를 작성하는 것은 매우 비효율적이다. 해당 앱에 잘 맞도록 별도의 유틸을 만들어 사용하는 
+것이 좋다.
+
+```swift
+func encode<T>(_ value: T) throws -> Data where T : Encodable
+```
+
+```swift
+class func jsonObject(
+    with data: Data,
+    options opt: JSONSerialization.ReadingOptions = []
+) throws -> Any
+```
+
+메서드를 사용하므로 `T: Encodable`을 받아 `Any`를 반환하면 된다. 이때 함수는 다양한 방식으로 만들 수 있다.
+
+실제 코드를 사용할 때 별도의 에러 처리를 직접 하기를 원하지 않는다면 아래와 같이 에러를 `throws` 하지 않고 적절한 로그를 남기거나 
+특정 알림창을 띄우는 등의 공통된 로직을 추가하고 `Optional`을 반환하도록 작성할 수 있다.
+
+```swift
+func toJSON<T: Encodable>(_ data: T?) -> Data? {
+    guard let data else { return nil }
+
+    let encoder = JSONEncoder()
+    encoder.outputFormatting = .prettyPrinted
+
+    do {
+        return try encoder.encode(data)
+    } catch let error as EncodingError {
+        // Common error handling here...
+        return nil
+    } catch {
+        // Common error handling here...
+        return nil
+    }
+}
+```
+
+```swift
+struct GroceryProduct: Codable {
+    var name: String
+    var points: Int
+    var description: String?
+}
+
+let pear = GroceryProduct(name: "Pear", points: 250, description: "A ripe pear.")
+
+let jsonData = try? toJSON(pear)
+if let jsonData, let jsonData = String(data: jsonData, encoding: .utf8) {
+    print(jsonData)
+}
+```
+
+<br>
+
+또는 다음과 같이 사용하는 곳에서 `do-catch`에 `try`를 사용해 에러에 대해 직접 처리하거나, `try?`를 사용해 에러를 무시하고 
+중단할지를 직접 선택하도록 함수를 작성할 수도 있다([Converting Errors to Optional Values] 를 참고).
+
+```swift
+enum CastingError: Error {
+    case inputIsNil
+}
+
+func toJSON<T: Encodable>(_ data: T?) throws -> Data {
+    guard let data else { CastingError.inputIsNil }
+    
+    let encoder = JSONEncoder()
+    encoder.outputFormatting = .prettyPrinted
+    
+    do {
+        return try encoder.encode(data)
+    } catch {
+        throw error
+    }
+}
+```
+
+```swift
+struct GroceryProduct: Codable {
+    var name: String
+    var points: Int
+    var description: String?
+}
+
+let pear = GroceryProduct(name: "Pear", points: 250, description: "A ripe pear.")
+
+// 에러를 직접 처리
+do {
+    let jsonData = try toJSON(pear)
+    print(String(data: jsonData, encoding: .utf8)!)
+} catch {
+    print(error)
+}
+
+// try? 로 에러를 Optional 처리
+let jsonData = try? toJSON(pear)
+if let jsonData, let jsonData = String(data: jsonData, encoding: .utf8) {
+    print(jsonData)
+}
+```
+
+<br>
+
+여기서는 두 번째 방법과 같이 *Input Parameters* 는 `Optional`이고, `throws`를 던질 수 있으며, *Return Types* 는 
+`Non-Optional`이 되도록 유틸 함수를 작성할 것이다.
+
+```swift
+enum CastingError: Error {
+    case inputIsNil
+}
+
+func toJSON<T: Encodable>(_ data: T?) throws -> Data {
+    guard let data else { throw CastingError.inputIsNil }
+
+    let encoder = JSONEncoder()
+    encoder.outputFormatting = .prettyPrinted
+
+    return try encoder.encode(data)
+}
 
 
+func toDictionary<T: Encodable>(_ data: T?) throws -> Any {
+    guard let data else { throw CastingError.inputIsNil }
 
+    do {
+        let data = try toJSON(data)
+        return try JSONSerialization.jsonObject(with: data,
+                                                options: .fragmentsAllowed)
+    } catch {
+        throw error
+    }
+}
+```
+
+#### 5. Custom Decoding Methods for Firebase
+
+```swift
+class func data(
+    withJSONObject obj: Any,
+    options opt: JSONSerialization.WritingOptions = []
+) throws -> Data
+```
+
+```swift
+func decode<T>(
+    _ type: T.Type,
+    from data: Data
+) throws -> T where T : Decodable
+```
+
+메서드를 사용하므로 `Any`를 받아 `T: Decodable`을 반환하면 된다.
+
+```swift
+enum CastingError: Error {
+    case inputIsNil
+}
+
+func fromJSON<T: Decodable>(_ type: T.Type, from data: Data?) throws -> T {
+    guard let data else { throw CastingError.inputIsNil }
+
+    let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .iso8601 // .millisecondsSince1970 or .secondsSince1970
+
+    return try decoder.decode(type, from: data)
+}
+
+func fromDictionary<T: Decodable>(_ type: T.Type, withJSONObject obj: Any?) throws -> T {
+    guard let obj else { throw CastingError.inputIsNil }
+
+    do {
+        let data = try JSONSerialization.data(withJSONObject: obj,
+                                              options: .fragmentsAllowed)
+
+        return try fromJSON(type, from: data)
+    } catch {
+        throw error
+    }
+}
+```
+
+#### 6. Examples
+
+```swift
+struct DataUtil {
+
+    enum CastingError: Error {
+        case inputIsNil
+    }
+
+    func toJSON<T: Encodable>(_ data: T?) throws -> Data {
+        guard let data else { throw CastingError.inputIsNil }
+
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+
+        return try encoder.encode(data)
+    }
+
+    func toDictionary<T: Encodable>(_ data: T?) throws -> Any {
+        guard let data else { throw CastingError.inputIsNil }
+
+        do {
+            let data = try toJSON(data)
+            return try JSONSerialization.jsonObject(with: data,
+                                                    options: .fragmentsAllowed)
+        } catch {
+            throw error
+        }
+    }
+
+    func fromJSON<T: Decodable>(_ type: T.Type, from data: Data?) throws -> T {
+        guard let data else { throw CastingError.inputIsNil }
+
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601 // .millisecondsSince1970 or .secondsSince1970
+
+        return try decoder.decode(type, from: data)
+    }
+
+    func fromDictionary<T: Decodable>(_ type: T.Type, withJSONObject obj: Any?) throws -> T {
+        guard let obj else { throw CastingError.inputIsNil }
+
+        do {
+            let data = try JSONSerialization.data(withJSONObject: obj,
+                                                  options: .fragmentsAllowed)
+
+            return try fromJSON(type, from: data)
+        } catch {
+            throw error
+        }
+    }
+
+}
+```
+
+```swift
+class CardListTableViewController: UITableViewController {
+
+    // Firestore
+    var db: Firestore!
+
+    var creditCards: [CreditCard] = []
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Database
+        db = Firestore.firestore()
+        // MARK: Firebase Firestore GET
+        db.collection("creditCardList").addSnapshotListener { querySnapshot, error in
+            guard let documents = querySnapshot?.documents else {
+                print("ERROR: Fetching documents \(error!.localizedDescription)")
+                return
+            }
+            self.creditCards = documents.compactMap {
+                        let document: [String: Any] = $0.data()
+                        guard let cardData = try? DataUtil().fromDictionary(CreditCard.self, withJSONObject: document) else { return nil }
+                        return cardData
+                    }.sorted { $0.rank < $1.rank }
+
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
+
+    private func uploadCard(cardData: CreditCard) {
+        guard let cardData = try? DataUtil().toDictionary(cardData) else { return }
+        let encoder = JSONEncoder()
+        guard let data = try? encoder.encode(data) else { return }
+        guard let data = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else { return }
+        db.collection("creditCardList").document("Item1").setData(data)
+    }
+}
+```
+
+이런식으로 반복되는 *Decoding* 은 물론, *Encoding* 처리 작업을 분리시킬 수 있다.
 
 
 <br><br>
@@ -160,3 +509,4 @@ Reference
 
 [Codable]:https://developer.apple.com/documentation/swift/codable
 [JSONSerialization]:https://developer.apple.com/documentation/foundation/jsonserialization
+[Converting Errors to Optional Values]:/swift/2022/12/22/error-handling.html#h-3-converting-errors-to-optional-values
