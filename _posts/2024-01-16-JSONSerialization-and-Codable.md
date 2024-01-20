@@ -498,6 +498,131 @@ class CardListTableViewController: UITableViewController {
 
 이런식으로 반복되는 *Decoding* 은 물론, *Encoding* 처리 작업을 분리시킬 수 있다.
 
+---
+
+### 4. CodingKeys vs. Computed 👩‍💻
+
+API 통신을 할 때 앱에서 사용하는 객체와 API가 사용하는 객체가 동일하다는 보장이 없다. 그렇다고 API 통신을 받거나 보낼 때 매번 
+객체를 *Converting* 하는 것은 매우 소모적인 일이다. 이러한 문제를 Swift 에서는 두 가지 방법으로 해결할 수 있다. 
+
+#### 1. CodingKeys
+
+```swift
+struct CoinData: Codable {
+    
+    let time: String
+    let coin: String
+    let currency: String
+    let rate: Double
+    
+    enum CodingKeys: String, CodingKey {
+        case time
+        case coin = "asset_id_base"
+        case currency = "asset_id_quote"
+        case rate
+    }
+    
+}
+```
+
+가장 보편적인 방법으로 Swift 가 제공하는 `CodingKeys` Enumerations 를 사용하는 것이다. 위와 같이 작성하면 
+인코딩, 디코딩 시 자동으로 **Key** 가 매칭된다.
+
+#### 2. Computed
+
+```swift
+struct CoinData: Codable {
+    
+    let time: String
+    private var asset_id_base: String
+    var coin: String {
+        get { asset_id_base }
+        set { asset_id_base = newValue }
+    }
+    private var asset_id_quote: String
+    var currency: String {
+        get { asset_id_quote }
+        set { asset_id_quote = newValue }
+    }
+    let rate: Double
+    
+    init(time: String, coin: String, currency: String, rate: Double) {
+        self.time = time
+        self.asset_id_base = coin
+        self.asset_id_quote = currency
+        self.rate = rate
+    }
+
+}
+```
+
+또 다른 방법으로는 `Computed Properties`를 사용하는 것이다. 단, 이 경우 *Computed Properties* 를 사용했기 
+때문에 [Memberwise Initializers][Memberwise Initializers for Structure Types] 가 생성되지 않기 때문에 
+직접 *Initializers* 를 만들어야한다.
+
+위 *CodingKeys* 와 *Computed Properties* 는 다음 코드를 통해 테스트 가능하다. 
+
+```swift
+// Create a CoinData structure
+let coinData = CoinData(time: "2024-01-23T12:34:56Z",
+                        coin: "BTC",
+                        currency: "USD",
+                        rate: 40000.50)
+
+// 1. toJSON(_:) test
+do {
+    let jsonData = try DataUtil().toJSON(coinData)
+    let jsonString = String(data: jsonData, encoding: .utf8)
+    print("CoinData as JSON:\n\(jsonString ?? "Unable to convert to JSON")")
+} catch {
+    print("Error converting CoinData to JSON: \(error)")
+}
+
+// 2. toDictionary(_:) test
+do {
+    let dataUtil = DataUtil()
+    let jsonDictionary = try dataUtil.toDictionary(coinData)
+    print("CoinData as Dictionary:\n\(jsonDictionary)")
+} catch {
+    print("Error converting CoinData to Dictionary: \(error)")
+}
+
+// Create a JSON String
+let jsonData = """
+{
+    "time": "2024-01-23T12:34:56Z",
+    "asset_id_base": "BTC",
+    "asset_id_quote": "USD",
+    "rate": 40000.50
+}
+""".data(using: .utf8)
+
+// 3. fromJSON(_:from:) test
+do {
+    let coinDataFromJSON = try DataUtil().fromJSON(CoinData.self, from: jsonData)
+    print("CoinData from JSON:\n\(coinDataFromJSON)")
+} catch {
+    print("Error converting JSON to CoinData: \(error)")
+}
+
+// Create a dictionary
+let jsonDictionary: [String: Any] = [
+    "time": "2024-01-23T12:34:56Z",
+    "asset_id_base": "BTC",
+    "asset_id_quote": "USD",
+    "rate": 40000.50
+]
+
+// 4. fromDictionary(_:withJSONObject:) test
+do {
+    let coinDataFromDict = try DataUtil().fromDictionary(CoinData.self, withJSONObject: jsonDictionary)
+    print("CoinData from Dictionary:\n\(coinDataFromDict)")
+} catch {
+    print("Error converting Dictionary to CoinData: \(error)")
+}
+
+```
+
 
 <br><br>
 
@@ -510,3 +635,4 @@ Reference
 [Codable]:https://developer.apple.com/documentation/swift/codable
 [JSONSerialization]:https://developer.apple.com/documentation/foundation/jsonserialization
 [Converting Errors to Optional Values]:/swift/2022/12/22/error-handling.html#h-3-converting-errors-to-optional-values
+[Memberwise Initializers for Structure Types]:/swift/2022/12/01/initialization.html#h-2-memberwise-initializers-for-structure-types
