@@ -1,7 +1,7 @@
 ---
 layout: post
-title: Functional Programing & Monad
-subtitle: Deep Dive into Functional Programing
+title: Functional Programming & Monad
+subtitle: Deep Dive into Functional Programming
 categories: [cs, swift, typescript, javascript]
 tags: [cs, typescript, swift, pure function, referential transparency, idempotent, unary, unitary, type class, functor, applicative functor, monad, composition, lambda, pipe, currying, mutating, immutable]
 ---
@@ -61,21 +61,21 @@ f(𝑥) = a
 
 #### 1. Injection
 
-![Injection](/assets/images/posts/2023-05-01-functional-programing/injection.png){: width="300"}
+![Injection](/assets/images/posts/2023-05-01-functional-programming/injection.png){: width="300"}
 
 ***One-to-One Function*** 이라고 불리며 `공역(Codomain)`에서 화살을 받는 것 중 두 개 이상의 화살을 한꺼번에 받는 원소가 없음을
 의미한다.
 
 #### 2. Surjection
 
-![Surjection](/assets/images/posts/2023-05-01-functional-programing/surjection.png){: width="300"}
+![Surjection](/assets/images/posts/2023-05-01-functional-programming/surjection.png){: width="300"}
 
 ***Onto Function*** 이라고 불리며 공역에서 화살을 안 받는 원소가 없음을 의미한다. 즉, `공역(Codomain) = 치역(Range)` 이 성립됨을 
 의미한다.
 
 #### 3. Bijection
 
-![Bijection](/assets/images/posts/2023-05-01-functional-programing/bijection.png){: width="300"}
+![Bijection](/assets/images/posts/2023-05-01-functional-programming/bijection.png){: width="300"}
 
 Injection & Surjection 이 성립됨을 의미한다. 즉, `정의역(Domain)`의 모든 화살이 `공역(Codomain)`의 모든 원소에 1:1로 대응함을 
 의미한다. 즉, 정의역과 공역의 원소의 개수가 같으며 공역 = 치역이 성립됨을 의미한다.
@@ -84,7 +84,7 @@ Injection & Surjection 이 성립됨을 의미한다. 즉, `정의역(Domain)`�
 
 함수의 공역이 다른 함수의 정의역과 일치하는 경우, 두 함수를 이어 하나의 함수로 만드는 연산을 할 수 있다.
 
-![Function Composition](/assets/images/posts/2023-05-01-functional-programing/function-composition.png){: width="600"}
+![Function Composition](/assets/images/posts/2023-05-01-functional-programming/function-composition.png){: width="600"}
 
 임의의 집합 A, B, C 및 두 함수
 
@@ -129,7 +129,7 @@ g: Y ~> Z
 
 에서 `g ◦ f` 가 *Bijection* 일 때 각각의 함수 f 와 g 역시 *Bijection* 이 성립할까?
 
-![Disassemble of Composition](/assets/images/posts/2023-05-01-functional-programing/disassembe-of-composition.png){: width="600"}
+![Disassemble of Composition](/assets/images/posts/2023-05-01-functional-programming/disassembe-of-composition.png){: width="600"}
 
 `g ◦ f` 를 보면 g 의 공역 = 치역이 성립되며 바나나와 당근은 f 의 정의역으로부터 `원숭이 ~> 바나나`, `토끼 ~> 당근` 이 1:1 대응하므로 
 Bijection 이다.
@@ -264,11 +264,11 @@ Monad 를 이해하기 위해서는 어떤 이론에서 Monad 라는 개념이 �
 
 위에서 살펴본 [함수의 합성](#h-3-function-composition-함수의-합성-) 이 바로 이 Category Theory 를 기반으로 하는 것이다.
 
-![Category Theory](/assets/images/posts/2023-05-01-functional-programing/category-theory.png){: width="300"}
+![Category Theory](/assets/images/posts/2023-05-01-functional-programming/category-theory.png){: width="300"}
 
 Category Theory 에서는 X, Y, Z 를 `Set`, 그리고 f, g 를 `Morphism`이라 부른다.
 
-![Functor and Applicative Functor and Monad](/assets/images/posts/2023-05-01-functional-programing/functor-applicative-functor-monad.webp)
+![Functor and Applicative Functor and Monad](/assets/images/posts/2023-05-01-functional-programming/functor-applicative-functor-monad.webp)
 
 그리고 Category Theory 를 일반화 시키기 위해 추상화 하는 단계에서 `Functor`, `Applicative Functor`, `Monad` 와 같은 것들을 
 이해해야한다.
@@ -277,11 +277,11 @@ Category Theory 에서는 X, Y, Z 를 `Set`, 그리고 f, g 를 `Morphism`이라
 
 <span id="functorLiftSystemAtoB"></span>
 
-![Functor 1](/assets/images/posts/2023-05-01-functional-programing/functor-1.jpg){: width="400"}
+![Functor 1](/assets/images/posts/2023-05-01-functional-programming/functor-1.jpg){: width="400"}
 
 C 시스템을 D 시스템으로 옮길 수 있으며 모든 관계가 유지된다. 그리고 이것은 다시 원래대로 되돌아갈 수 있으며 Functor 를 걸기 이전과 동일해야한다.
 
-![Functor 2](/assets/images/posts/2023-05-01-functional-programing/functor-2.png){: width="400"}
+![Functor 2](/assets/images/posts/2023-05-01-functional-programming/functor-2.png){: width="400"}
 
 또한 Functor 는 Functor 를 걸고 Morphism 을 적용한 것과 Morphism 을 적용한 것에 Functor 를 건 것이 동일해야한다.
 
@@ -1361,7 +1361,7 @@ console.log(todayTunaPrice(3))    // 참치 3 캔 = 8190원
 
 <br>
 
-- Curry Function
+__Curry Function__
 
 사용자가 직접 Currying 을 적용한 함수를 만들 수도 있지만, 기존의 함수를 Curry Function 을 적용해 자동으로 Currying 이 적용된 새 
 함수를 만들도록 Factory Function 을 정의할 수 있다.
@@ -1433,7 +1433,7 @@ console.log(todayTunaPrice(3))    // 참치 3 캔 = 8190원
 
 <br>
 
-- Curry Function
+__Curry Function__
 
 ```typescript
 type Primitive = number | string | boolean | undefined | null
@@ -1520,10 +1520,362 @@ print(todayTunaPrice(3)) // 참치 3 캔 = 8190원
 
 <br>
 
-- Curry Function
+__Curry Function__
 
-아쉽게도 Swift 는 TypeScript 의 `Function` 과 같은 Types 가 존재하지 않기 때문에 기존 함수를 자동으로 Currying 을 적용해 새 
-함수를 만들어주는 함수를 정의하는 것이 불가능하므로 함수를 정의할 때 커링을 고려해 정의해야한다.
+아쉽게도 Swift 는 TypeScript 의 `Function` 과 같은 모든 타입의 함수 또는 클로저를 나타낼 수 있는 Types 가 존재하지 않기 때문에
+<span style="color: red;">모든 타입의 함수에 작동되는 Currying 함수를 정의할 수 없다</span>.
+
+또한, First-Class Citizens 이므로 함수의 파라미터로 함수나 클로저를 전달할 수는 있지만, <span style="color: red;">Generic 을 
+사용한 함수나 클로저를 파라미터로 전달할 때 반드시 타입을 명시해야하기 때문에 타입 추론이 제한</span>된다. 따라서 *함수의 파라미터로 
+Generic 을 사용한 함수나 클로저를 전달*하거나, *Currying 중간 결과를 변수에 저장*하는 것이 제한된다. 다음 챕터 
+[Restriction in Defining a Curry Function in Swift](#h-10-restriction-in-defining-a-curry-function-in-swift-)
+에서 *Swift 에서 Curry Function 을 정의하는 것이 왜 어려운지* 직접 살펴보도록 한다.
+
+---
+
+### 10. Restriction in Defining a Curry Function in Swift 👩‍💻
+
+#### 1. Simple Curry Function in Swift
+
+Swift 는 타입에 매우 엄격하기 때문에 `Curry Function`을 작성하는 것이 쉽지 않다. 다음은 매우 기본적인 형태의 *Curry Function* 이다.
+
+```swift
+func curry<T, U, V>(_ function: @escaping (T, U) -> V) -> (T) -> (U) -> V {
+    { (first: T) in
+        { (second: U) in
+            function(first, second)
+        }
+    }
+}
+```
+
+위 `curry(_:)` 함수는 세 번의 파라미터 입력을 받아 최종적으로 실행된다.
+
+- 첫 번째 파라미터: `T`타입과 `U`타입의 두 파라미터를 받아서 `V` 타입의 리턴을 갖는 함수
+- 두 번째 파라미터: `T`타입
+- 세 번째 파라미터: `U`타입
+
+```swift
+func add(_ lhs: Int, _ rhs: Int) -> Int {
+    lhs + rhs
+}
+
+let curriedAdd = curry(add)
+
+let addTwo = curriedAdd(2)
+let addTen = curriedAdd(10)
+
+print((1...5).map(addTwo))  // [3, 4, 5, 6, 7]
+print((1...5).map(addTen))  // [11, 12, 13, 14, 15]
+```
+
+얼핏 보면 `Curry Function`이 잘 작동하는 것처럼 보이지만 바로 이 함수가 문제다. Swift 에는 TypeScript 의 `Function`과 
+같은 타입이 존재하지 않아 파리미터의 개수가 달라지면 오버로딩을 이용해 파라미터가 2개, 3개, 4개, ... 일 때의 `Curry Function`을 
+추가로 만들어야 한다.
+
+실제로 TypeScript 의 라이브러리 중에서도 `Function`과 같은 너무 넓은 범위를 포함해 JavaScript 와 같은 동작을 하지 않도록 
+타입 체크를 강화하기 위해 파라미터가 2개, 3개, ..., 9개일 때에 작동되는 `Curry Function`을 미리 만들어 놓은 라이브러리가 존재한다.  
+즉, Swift 역시 이런 방법을 택해야만 기존 함수를 *Currying* 시킬 수 있다. 그리고, 만약 `Function`과 같은 타입이 생겨난다 하더라도, 
+[Variadic Parameters] 는 존재하지만, TypeScript 의 `Spread Operator`와 같이 코드 라인에서 사용할 수 있는 것은 아니기 때문에 
+결국 재귀함수는 더욱 복잡해지게 된다.
+
+일반 함수를 작성 후 *Curry Function* 을 사용해 함수를 Currying 시키는 게 아니라, 바로 전 
+[Curry Function in Swift](#h-4-curry-function-in-swift) 에서 살펴본 것처럼 함수를 작성할 때 *Currying* 이 되도록 작성해야한다.
+
+```swift
+func howMuch(goods: String, unit: String) -> (Int) -> (Int) -> String {
+    { price in { count in "\(goods) \(count) \(unit) = \(price * count)원" }}
+}
+```
+
+```swift
+let howMuch = { (goods: String, unit: String) in { (price: Int) in { (count: Int) in
+    "\(goods) \(count) \(unit) = \(price * count)원"
+}}}
+```
+
+하지만 이 방법 역시 `Generic`과 함께 사용하기는 어렵다.
+
+#### 2. Generic Makes Type Inference to Hard in Currying
+
+__1 ) Sample Function with Generic__
+
+Generic 을 사용하면 왜 *Currying* 을 적용하기 어려운지 알아보자. 다음은 숫자를 받아 2배로 만들어 반환하는 함수의 *Int* 와 
+*Double* 타입 버전이다.
+
+```swift
+func productTwo(_ number: Int) -> Int {
+    number * 2
+}
+
+func productTwo(_ number: Double) -> Double {
+    number * 2
+}
+```
+
+```swift
+let alpha = productTwo(3)   // 6
+let beta = productTwo(4.7)  // 9.4
+```
+
+[Generic Functions] 에서 정의했던 `swap(_:_:)` 함수 처럼 Generic 을 사용해 모든 숫자 타입에서 작동되도록 만들어보자.
+
+```swift
+func productTwo<T: Numeric>(_ number: T) -> T {
+    number * 2
+}
+```
+
+```swift
+let alpha = productTwo(3)   // 6
+let beta = productTwo(4.7)  // 9.4
+```
+
+<br>
+
+__2 ) Make a Parameter of the Sample Function to Optional__
+
+외부 API 와 통신하는 경우 많은 값들이 존재하지 않을 수 있기 때문에 Optional 형태의 데이터 타입을 많이 사용한다. 따라서 함수를 
+호출하기 전 많은 경우는 `Type Guard`를 작성해야한다. 우리가 만든 `productTwo(_:)` 함수가 이런 상황에서 자주 사용된다고 해보자.
+
+```swift
+_ = {
+    let foo: Int? = 3
+    let bar: Double? = 4.7
+
+    guard let foo, let bar else { return }
+    let alpha = productTwo(foo)
+    let beta = productTwo(bar)
+
+    print(alpha, beta)  // 6 9.4
+}()
+```
+
+<br>
+
+따라서 함수 `productTwo(_:)`가 *Parameters* 를 `Optioanl`로 받도록 변경해보자.
+
+```swift
+enum ArgumentError: Error {
+    case argumentIsNil
+}
+
+func productTwo<T: Numeric>(_ number: T?) throws -> T {
+    guard let number else { throw ArgumentError.argumentIsNil }
+    return number * 2
+}
+```
+
+```swift
+_ = {
+    let foo: Int? = 3
+    let bar: Double? = 4.7
+
+    guard let alpha = try? productTwo(foo),
+          let beta = try? productTwo(bar) else { return }
+
+    print(alpha, beta)  // 6 9.4
+}()
+```
+
+<br>
+
+__3 ) Reusable Function for Type Guard__
+
+그런데 이런 함수가 매우 많다면? 모든 함수를 이런식으로 바꾼다면 노가다일 뿐 아니라 수많은 중복 코드가 생겨나는 것이다. 
+우리는 중복 코드 대신 Generic 을 적용한 `checkNil(_:)` 함수를 만들어 재사용 할 수 있다.
+
+```swift
+enum CastingError: Error {
+    case inputIsNil
+}
+
+func checkNil<T>(_ data: T?) throws -> T {
+    guard let unwrappedData = data else { throw CastingError.inputIsNil }
+    return unwrappedData
+}
+
+func productTwo<T: Numeric>(_ number: T?) throws -> T {
+    let unwrappedValue = try checkNil(number)
+    return unwrappedValue * 2
+}
+```
+
+<br>
+
+__4 ) Wrap Type Guard and Feature Functions using Currying__
+
+하지만 처음부터 함수의 Parameter 에 Optional 을 허용하는 것은 함수를 순수하지 않게 만든다. 위에서 Swift 는 
+TypeScript 와 달리 모든 함수 타입에 동작하는 *Curry Function* 을 작성하는 것이 어렵다고 했다.
+
+그렇다면 함수 `checkNil(_:)` + `(T) -> T` 두 함수를 받아 `(T?) throws -> T` 함수를 만들어주는 
+**Wrapping Function** 을 *Currying* 을 사용해 만드는 것은 가능하지 않을까? 
+
+
+```swift
+typealias UnwrappingFn<T> = (T?) throws -> T
+typealias NumericFn<T: Numeric> = (T) -> T
+typealias WrappedNumericFn<T: Numeric> = (T?) throws -> T
+```
+
+필요한 타입은 위 3개가 될 것이다. 여기에 맞게 코드를 작성해보자.
+
+```swift
+enum ArgumentError: Error {
+    case argumentIsNil
+}
+
+func checkNil<T>(_ data: T?) throws -> T {
+    guard let unwrappedData = data else { throw ArgumentError.argumentIsNil }
+    return unwrappedData
+}
+
+func wrapFunction<T, U: Numeric>(unwrappingFn: @escaping UnwrappingFn<T>) -> (@escaping NumericFn<U>) -> WrappedNumericFn<U> {
+    { numericFn in
+        { data in
+            let unwrappedData = try checkNil(data)
+            return numericFn(unwrappedData)
+        }
+    }
+}
+```
+
+자, 이제 첫 번째 호출로 `checkNil(_:)`을 넣고, 그 다음 `productTwo(_:T)`를 넣으면 될 것 같다.
+
+```swift
+let createWrappedNumericFn = wrapFunction(unwrappingFn: checkNil)
+// Error, Generic parameter 'T' could not be inferred
+```
+
+타입 추론이 작동하지 않는다고 에러를 띄운다.
+
+```swift
+let createWrappedNumericFn: (@escaping NumericFn<T>) -> WrappedNumericFn = wrapFunction(unwrappingFn: checkNil)
+// Error, Cannot find type 'T' in scope
+```
+
+타입을 선언해줘도 여전히 에러가 발생한다. 여기서 중요하게 봐야할 것이 Generic 은 *Function Definition* 에서만 사용이 가능해 
+<span style="color: red;">**Type Declaration** 에서는 Generic 을 사용할 수 없다</span>는 것이다.
+
+> 이것이 무슨 말인지 알기 쉽게 `checkNil(_:)` 함수 하나만 따로 살펴보자.
+> 
+> ```swift
+> func checkNil<T>(_ data: T?) throws -> T {
+>     guard let unwrappedData = data else { throw ArgumentError.argumentIsNil }
+>     return unwrappedData
+> }
+> ```
+> 
+> 이 함수의 모양은 다음과 같다.
+> 
+> ```swift
+> func checkNil<T>(_ data: T?) throws -> T
+> ```
+> 
+> `checkNil(_:)` 함수를 다른 변수에 할당해보자.
+> 
+> ```swift
+> let anotherCheckNil: UnwrappingFn<T> = checkNil // Error, Cannot find type 'T' in scope
+> ```
+> 
+> 바로 위에서 발생한 것과 같은 에러다. 상수 `anotherCheckNil`의 타입을 `UnwrappingFn<T>`로 선언하는 과정에서 에러가 발생한 것이다. 
+> <span style="color: red;">Generic 은 변수가 가질 수 있는 타입을 선언할 때는 사용할 수 없기 때문</span>이다.
+> 
+> > `typealias`는 실제로 타입을 선언하는 것이 아니라, 타입의 모양에 대한 정의로부터 `alias`를 하는 것이다.
+> 
+> ```swift
+> let checkNilAny: UnwrappingFn<Any> = checkNil
+> let checkNilInt: UnwrappingFn<Int> = checkNil
+> let checkNilString: UnwrappingFn<String> = checkNil
+> ```
+> 
+> 이렇게 <span style="color: Green;">Generic 대신 명확한 타입을 지정</span>해줘야한다. 여기서 `checkNilAny`는 타입에 
+> 아무런 제약이 존재하지 않으므로, `checkNil(_:)` 함수와 동일하다. `checkNilInt`는 Int 타입으로 제약되었으므로, 
+> `func checkNil<T>(_ data: T?) throws -> T where T : SignedInteger`와 같다. 
+
+다시 `wrapFunction(unwrappingFn:)`으로 돌아가보자.
+
+```swift
+let createWrappedNumericFn: (@escaping NumericFn<Numeric>) -> WrappedNumericFn = wrapFunction(unwrappingFn: checkNil)
+// Error, Type 'any Numeric' cannot conform to 'Numeric'
+```
+
+Generic `T` 대신 `Numeric`을 명시적으로 주면 해결될 것 같았으나, `Numeric`이 아닌 `any Numeric`으로 타입이 선언되며, 
+`T: Numeric`을 저장하는 것이 불가능하다고 에러가 발생한다.
+
+처음 `func curry<T, U, V>(_ function: @escaping (T, U) -> V) -> (T) -> (U) -> V` 예제 처럼 Generic 이 
+단순히 입력 받은 파라미터 타입 자신을 지칭함으로써 타입을 쉽게 명시할 수 있는 `Int`, `String` 같은 추론 정도에는 잘 작동하지만, 
+이 Generic 이 `<T: Numeric>`, `<T: Hashable>`과 같이 [Generic Where Clauses] 를 포함하는 타입 추론에는 사용이 어렵다.
+
+이것은 <span style="color: red;">Swift 는 타입에 대해 매우 엄격해 *Generic* 이 **Invariant**</span>하기 때문이다.
+
+<br>
+
+__5 ) Alternatives__
+
+그렇다면 아예 방법이 없는 것일까? 아쉽게도 Swift 는 엄격한 타입 덕에 `compile-time checking`을 가능케 하는 대신 *Generic* 
+의 `Invariant`한 특성 때문에 TypeScript 와 비교하면 순수 함수형 코딩을 하는데 제약이 따른다. Swift 와 TypeScript 모두 `OOP`와 
+`Functional Programming`이 가능하지만, Swift 는 좀 더 `OOP`에 가깝고, TypeScript 는 좀 더 `Functional Programming`에 
+가깝다. 이것은 언어적 특징으로, 해당 언어에 어울리는 코드를 작성하는 것이 좋다.
+
+<br>
+
+- 기존 방식대로 `Type Guard`를 한다.
+
+```swift
+_ = {
+    let foo: Int? = 3
+    let bar: Double? = 4.7
+
+    guard let foo, let bar else { return }
+    let alpha = productTwo(foo)
+    let beta = productTwo(bar)
+
+    print(alpha, beta)  // 6 9.4
+}()
+```
+
+- Swift 가 제공하는 `Optional` Monad 를 사용한다.
+
+```swift
+_ = {
+    let foo: Int? = 3
+    let bar: Double? = 4.7
+    
+    guard let alpha = Optional(foo)?.map(productTwo(_:)),
+          let beta = Optional(bar)?.map(productTwo(_:)) else { return }
+    
+    print(alpha, beta)  // 6 9.4
+}()
+```
+
+- 함수를 *Overloading* 한다.
+
+```swift
+enum ArgumentError: Error {
+    case argumentIsNil
+}
+
+func checkNil<T>(_ data: T?) throws -> T {
+    guard let unwrappedData = data else { throw ArgumentError.argumentIsNil }
+    return unwrappedData
+}
+
+func productTwo<T: Numeric>(_ number: T) -> T {
+    number * 2
+}
+
+func productTwo<T: Numeric>(_ number: T?) throws -> T {
+    let number = try checkNil(number)
+    return productTwo(number)
+}
+```
+
+대신 *Currying* 이 아니기 때문에 `checkNil(_:)` 함수가 반드시 존재해야하며, 이에 대한 책임이 사용자에게 주어진다. 
+
+이 외에도 각 상황에 맞게 [Simple Curry Function in Swift](#h-1-simple-curry-function-in-swift) 에서와 같이 
+간단한 함수면 *Currying* 을 할 수도 있으며, Classes 나 Structures, Enumerations 등을 사용해 구현하거나, 필요에 따라 
+상황에 맞는 Monad 를 직접 구현해서 사용할 수도 있다.
 
 <br><br>
 
@@ -1540,3 +1892,6 @@ Reference
 8. "Pipe Operator." Elixir School. Jun. 15, 2023, [Elixir Pipe Operator].
 
 [Elixir Pipe Operator]:https://elixirschool.com/en/lessons/basics/pipe_operator
+[Variadic Parameters]:/swift/2022/10/19/functions.html#h-2-variadic-parameters
+[Generic Functions]:/swift/2023/02/23/generics.html#h-1-generic-functions
+[Generic Where Clauses]:/swift/2023/02/23/generics.html#h-6-generic-where-clauses-

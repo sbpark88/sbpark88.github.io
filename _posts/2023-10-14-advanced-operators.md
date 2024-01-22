@@ -958,5 +958,5 @@ Reference
 [Operator Declarations]:https://developer.apple.com/documentation/swift/operator-declarations
 [Adopting a Protocol Using a Synthesized Implementation]:/swift/2023/02/20/protocols.html#h-6-adopting-a-protocol-using-a-synthesized-implementation-
 [Autoclosure Type Parameters]:/swift/2022/10/24/closures.html#h-2-autoclosure-type-parameters
-[Monad]:/cs/swift/typescript/javascript/2023/05/01/functional-programing.html#h-6-monad-
+[Monad]:/cs/swift/typescript/javascript/2023/05/01/functional-programming.html#h-6-monad-
 [Swift Docs Language Reference - Attributes/Result Builder]:https://docs.swift.org/swift-book/documentation/the-swift-programming-language/attributes#resultBuilder

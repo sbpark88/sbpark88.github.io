@@ -918,7 +918,7 @@ print(twelve)                       // 12
 ```
 
 `Opaque Return Types`를 사용하면 *Any* 를 사용하지 않고 
-<span style="color: red;">Associated Types 를 갖는 Protocol 을 return 할 떼의 문제를 해결</span>할 수 있다.
+<span style="color: red;">Associated Types 를 갖는 Protocol 을 return 할 때의 문제를 해결</span>할 수 있다.
 
 
 <br><br>

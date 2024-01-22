@@ -1506,6 +1506,7 @@ print(customersInLine)  // ["Alex", "Ewa", "Barry", "Daniella"]
 ```swift
 var customersInLine = ["Chris", "Alex", "Ewa", "Barry", "Daniella"]
 
+
 func serve(customer customerProvider: () -> String) {
     print("Now serving \(customerProvider())!")
 }
@@ -10131,7 +10132,7 @@ print(twelve)                       // 12
 ```
 
 `Opaque Return Types`를 사용하면 *Any* 를 사용하지 않고
-<span style="color: red;">Associated Types 를 갖는 Protocol 을 return 할 떼의 문제를 해결</span>할 수 있다.
+<span style="color: red;">Associated Types 를 갖는 Protocol 을 return 할 때의 문제를 해결</span>할 수 있다.
 
 ---
 
@@ -13072,5 +13073,5 @@ struct ArrayBuilder {
 [Thread Sanitizer]:https://developer.apple.com/documentation/xcode/diagnosing-memory-thread-and-crash-issues-early
 [stdatomic.3]:https://opensource.apple.com/source/libplatform/libplatform-161.50.1/man/stdatomic.3.auto.html
 [Operator Declarations]:https://developer.apple.com/documentation/swift/operator-declarations
-[Monad]:/cs/swift/typescript/javascript/2023/05/01/functional-programing.html#h-6-monad-
+[Monad]:/cs/swift/typescript/javascript/2023/05/01/functional-programming.html#h-6-monad-
 [Swift Docs Language Reference - Attributes/Result Builder]:https://docs.swift.org/swift-book/documentation/the-swift-programming-language/attributes#resultBuilder
