@@ -340,17 +340,11 @@ func toJSON<T: Encodable>(_ data: T?) throws -> Data {
     return try encoder.encode(data)
 }
 
-
 func toDictionary<T: Encodable>(_ data: T?) throws -> Any {
     guard let data else { throw CastingError.inputIsNil }
 
-    do {
-        let data = try toJSON(data)
-        return try JSONSerialization.jsonObject(with: data,
-                                                options: .fragmentsAllowed)
-    } catch {
-        throw error
-    }
+    let jsonData = try toJSON(data)
+    return try JSONSerialization.jsonObject(with: jsonData, options: .fragmentsAllowed)
 }
 ```
 
@@ -381,7 +375,7 @@ func fromJSON<T: Decodable>(_ type: T.Type, from data: Data?) throws -> T {
     guard let data else { throw CastingError.inputIsNil }
 
     let decoder = JSONDecoder()
-    decoder.dateDecodingStrategy = .iso8601 // .millisecondsSince1970 or .secondsSince1970
+    decoder.dateDecodingStrategy = .iso8601
 
     return try decoder.decode(type, from: data)
 }
@@ -389,14 +383,8 @@ func fromJSON<T: Decodable>(_ type: T.Type, from data: Data?) throws -> T {
 func fromDictionary<T: Decodable>(_ type: T.Type, withJSONObject obj: Any?) throws -> T {
     guard let obj else { throw CastingError.inputIsNil }
 
-    do {
-        let data = try JSONSerialization.data(withJSONObject: obj,
-                                              options: .fragmentsAllowed)
-
-        return try fromJSON(type, from: data)
-    } catch {
-        throw error
-    }
+    let data = try JSONSerialization.data(withJSONObject: obj, options: .fragmentsAllowed)
+    return try fromJSON(type, from: data)
 }
 ```
 
@@ -421,20 +409,15 @@ struct DataUtil {
     func toDictionary<T: Encodable>(_ data: T?) throws -> Any {
         guard let data else { throw CastingError.inputIsNil }
 
-        do {
-            let data = try toJSON(data)
-            return try JSONSerialization.jsonObject(with: data,
-                                                    options: .fragmentsAllowed)
-        } catch {
-            throw error
-        }
+        let jsonData = try toJSON(data)
+        return try JSONSerialization.jsonObject(with: jsonData, options: .fragmentsAllowed)
     }
 
     func fromJSON<T: Decodable>(_ type: T.Type, from data: Data?) throws -> T {
         guard let data else { throw CastingError.inputIsNil }
 
         let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601 // .millisecondsSince1970 or .secondsSince1970
+        decoder.dateDecodingStrategy = .iso8601
 
         return try decoder.decode(type, from: data)
     }
@@ -442,14 +425,18 @@ struct DataUtil {
     func fromDictionary<T: Decodable>(_ type: T.Type, withJSONObject obj: Any?) throws -> T {
         guard let obj else { throw CastingError.inputIsNil }
 
-        do {
-            let data = try JSONSerialization.data(withJSONObject: obj,
-                                                  options: .fragmentsAllowed)
+        let data = try JSONSerialization.data(withJSONObject: obj, options: .fragmentsAllowed)
+        return try fromJSON(type, from: data)
+    }
 
-            return try fromJSON(type, from: data)
-        } catch {
-            throw error
-        }
+    func toUserDefaults<T: Encodable>(_ value: T, forkey: String) throws {
+        let encodedValue = try PropertyListEncoder().encode(value)
+        UserDefaults.standard.setValue(encodedValue, forKey: forkey)
+    }
+
+    func fromUserDefaults<T: Decodable>(_ type: T.Type, forkey: String) throws -> T? {
+        guard let data = UserDefaults.standard.object(forKey: forkey) as? Data else { return nil }
+        return try PropertyListDecoder().decode(type, from: data)
     }
 
 }
