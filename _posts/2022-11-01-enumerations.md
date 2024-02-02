@@ -2,7 +2,7 @@
 layout: post
 title: Swift Enumerations
 subtitle: Enumerations - Associated Values, Raw Values
-categories: swift
+categories: [swift]
 tags: [swift docs, enumeration, associated value, raw value, recursive enumeration, indirect]
 ---
 

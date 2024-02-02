@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Basic CSS - root, font, background, css initialize, float, clear, object-fit, shadow, gradient, animation, svg
-subtitle: Basic CSS Style - Part 1
-categories: css
-tags: [css, font, basic ccss, float, position relative, position absolute, object-fit, z-index, opacity, shadow, radius, gradient, filter, animation, svg, stroke-dasharray, stroke-dashoffset]
+title: Basic CSS Style 1
+subtitle: root, font, background, css initialize, float, clear, object-fit, shadow, gradient, animation, svg
+categories: [css]
+tags: [css, font, basic css, float, position relative, position absolute, object-fit, z-index, opacity, shadow, radius, gradient, filter, animation, svg, stroke-dasharray, stroke-dashoffset]
 ---
 
 <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>

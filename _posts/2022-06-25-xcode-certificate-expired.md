@@ -2,7 +2,7 @@
 layout: post
 title: Xcode 인증서 충돌로 인한 만료 해결
 subtitle: Xcode certificate errors
-categories: swift
+categories: [swift]
 tags: [xcode, certificate]
 ---
 

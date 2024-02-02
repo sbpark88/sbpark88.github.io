@@ -2,7 +2,7 @@
 layout: post
 title: Swift Optional Chaining
 subtitle: Optional Chaining as an Alternative to Forced Unwrapping
-categories: swift
+categories: [swift]
 tags: [swift docs, optional chaining, forced unwrapping, accessing subscripts, linking multiple levels of chaining]
 ---
 

@@ -2,7 +2,7 @@
 layout: post
 title: if, guard 의 사용법과 차이점
 subtitle: 조건 검사와 optional binding(unwrap)에서 사용되는 if, guard 의 차이점
-categories: swift
+categories: [swift]
 tags: [if, guard, if let, guard let, optional, optional binding, unwrap]
 ---
 

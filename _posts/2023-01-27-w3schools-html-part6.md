@@ -1,8 +1,8 @@
 ---
 layout: post
-title: HTML Basic - Entities, Symbols, Emojis, Charset, URL Encode, XHTML
-subtitle: HTML Basic - Part 6
-categories: html
+title: HTML Basic 6
+subtitle: Entities, Symbols, Emojis, Charset, URL Encode, XHTML
+categories: [html]
 tags: [w3school, entity, symbol, emoji, charset, url encode, xhtml]
 ---
 

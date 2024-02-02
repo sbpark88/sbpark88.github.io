@@ -2,7 +2,7 @@
 layout: post
 title: 깃허브 블로그 업데이트가 안 될 때
 subtitle: 깃허브 블로그 업데이트 미반영 단계별로 해결하기
-categories: git
+categories: [git]
 tags: [git, git blog, blog, timezone, jekyll]
 ---
 
@@ -23,7 +23,7 @@ tags: [git, git blog, blog, timezone, jekyll]
 layout: post
 title: 깃허브 블로그 업데이트가 안 될 때
 subtitle: 깃허브 블로그 업데이트 미반영 단계별로 해결하기
-categories: git
+categories: [git]
 tags: [git, gitblog, blog, timezone, jekyll]
 ---
 ```

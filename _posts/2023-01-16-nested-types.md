@@ -2,7 +2,7 @@
 layout: post
 title: Swift Nested Types
 subtitle: Nested Types create hierarchies and encapsulate Classes or Structures or Enumerations.
-categories: swift
+categories: [swift]
 tags: [swift docs, nested types, class encapsulate, structure encapsulate, nested classes, nested structures, nested enumerations]
 ---
 

@@ -2,7 +2,7 @@
 layout: post
 title: Swift Basic Concept
 subtitle: IBOutlet, IBAction, Naming Conventions, and Range Operator etc...
-categories: swift
+categories: [swift]
 tags: [swift]
 ---
 

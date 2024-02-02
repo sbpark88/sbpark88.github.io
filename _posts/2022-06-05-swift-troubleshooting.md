@@ -2,7 +2,7 @@
 layout: post
 title: Swift troubleshooting
 subtitle: Note my troubleshooting
-categories: swift
+categories: [swift]
 tags: [swift, error]
 ---
 

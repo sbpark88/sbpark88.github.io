@@ -2,7 +2,7 @@
 layout: post
 title: Swift Inheritance
 subtitle: Inheritance - Bass Class, Subclassing, Overriding, Overriding Properties, Overriding Property Observers, Prevent Overrides
-categories: swift
+categories: [swift]
 tags: [swift docs, inheritance, base class, superclass, subclass, overriding, overriding property observer, prevent override]
 ---
 

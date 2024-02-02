@@ -2,7 +2,7 @@
 layout: post
 title: Vue.js Starter - Component
 subtitle: Vue.js 프로젝트 투입 일주일 전 - Part 4
-categories: javascript
+categories: [javascript]
 tags: [javascript, vue, vue js, vue.js, props, parent component, child component, slot, $emit, $refs, provide, inject]
 ---
 

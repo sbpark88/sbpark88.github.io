@@ -2,7 +2,7 @@
 layout: post
 title: On-Premise and Cloud Services 
 subtitle: On-Premise, IaaS, PaaS, Serverless, SaaS - What is The Difference?
-categories: cloud
+categories: [cloud]
 tags: [on-premise, data-center, iaas, paas, saas, serverless, faas, baas, cloud, aws, gcp, azure]
 ---
 

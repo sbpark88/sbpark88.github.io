@@ -2,7 +2,7 @@
 layout: post
 title: Swift Structures and Classes
 subtitle: Choosing Between Structures and Classes
-categories: swift
+categories: [swift]
 tags: [swift docs, structure, class, value type, reference type, memberwise initializers, identity operators, pointer]
 ---
 

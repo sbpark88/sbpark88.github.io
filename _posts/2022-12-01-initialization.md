@@ -2,7 +2,7 @@
 layout: post
 title: Swift Initialization
 subtitle: Initialization - Initializers, Default Property Values, Default Initializers, Failable Initializers, Required Initializers
-categories: swift
+categories: [swift]
 tags: [swift docs, initializer, default property value, default value, default initializer, failable initializer, required initializer]
 ---
 

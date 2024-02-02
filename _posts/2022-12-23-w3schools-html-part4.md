@@ -1,8 +1,8 @@
 ---
 layout: post
-title: HTML Basic - Classes, Id, Iframes, File Paths
-subtitle: HTML Basic - Part 4
-categories: html
+title: HTML Basic 4
+subtitle: Classes, Id, Iframes, File Paths
+categories: [html]
 tags: [w3school, class, id, iframe, file path]
 ---
 

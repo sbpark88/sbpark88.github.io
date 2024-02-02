@@ -2,7 +2,7 @@
 layout: post
 title: Vue.js Starter - Axios
 subtitle: Vue.js 프로젝트 투입 일주일 전 - Part 3
-categories: javascript
+categories: [javascript]
 tags: [javascript, vue, vue js, vue.js, promise, axios, mixins]
 ---
 

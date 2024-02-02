@@ -2,7 +2,7 @@
 layout: post
 title: Memory Layout - Stack / Heap
 subtitle: Deep dive into memory layout 
-categories: cs
+categories: [cs]
 tags: [cs, memory, kernel space, user space, stack, heap, bss, data, text, fragmentation state, stack overflow, heap overflow]
 ---
 

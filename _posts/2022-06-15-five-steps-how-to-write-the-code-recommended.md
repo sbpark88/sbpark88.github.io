@@ -2,7 +2,7 @@
 layout: post
 title: 추천하는 Code 작성 방법 5단계
 subtitle: StackOverflow 와 공식 API Documentation 을 어떻게 활용할 것인가?
-categories: swift
+categories: [swift]
 tags: [stackoverflow, api, documents, docs]
 ---
 

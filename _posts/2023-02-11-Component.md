@@ -2,7 +2,7 @@
 layout: post
 title: About the '@Component' annotation
 subtitle: Component, Controller, RestController, Service, Repository
-categories: spring
+categories: [spring]
 tags: [java, spring, component, controller, restcontroller, service, repository]
 ---
 

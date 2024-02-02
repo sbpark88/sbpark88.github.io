@@ -2,7 +2,7 @@
 layout: post
 title: Web Security 
 subtitle: XSS, XSRF(CSRF), SQL Injection and OWASP/WebGoat
-categories: security
+categories: [security]
 tags: [web security, xsrf, csrf, csrf token, sql injection, ddos, webgoat, xss, v-html, sop, cors]
 ---
 

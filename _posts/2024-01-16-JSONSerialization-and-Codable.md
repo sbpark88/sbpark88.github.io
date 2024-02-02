@@ -2,7 +2,7 @@
 layout: post
 title: Swift HTTP JSON Communication
 subtitle: HTTP JSON Data Communication and Serialization in Swift
-categories: swift
+categories: [swift]
 tags: [swift http, json serialization, codable, codingkeys, computed properties]
 ---
 

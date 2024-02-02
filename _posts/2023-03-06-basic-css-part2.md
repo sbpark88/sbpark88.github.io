@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Basic CSS - media query, responsive, flex, justify, align, order
-subtitle: Basic CSS Style - Part 2
-categories: css
+title: Basic CSS Style 2
+subtitle: media query, responsive, flex, justify, align, order
+categories: [css]
 tags: [css, media query, responsive, flex, justify, align, order]
 ---
 

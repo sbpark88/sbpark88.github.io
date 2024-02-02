@@ -2,7 +2,7 @@
 layout: post
 title: Swift Control Flow
 subtitle: Control Flow - For-In Loops, While Loops, Conditional Statements
-categories: swift
+categories: [swift]
 tags: [swift docs, control flow, loop, for, while, if, switch, condition, conditional statement, control transfer statement]
 ---
 

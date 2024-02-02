@@ -2,7 +2,7 @@
 layout: post
 title: Swift Opaque Types
 subtitle: Hide implementation details about a value’s type. 
-categories: swift
+categories: [swift]
 tags: [swift docs, opaque type, some type, opaque type vs. protocol type]
 ---
 

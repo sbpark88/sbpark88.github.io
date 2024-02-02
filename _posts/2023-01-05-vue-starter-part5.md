@@ -2,7 +2,7 @@
 layout: post
 title: Vue.js Starter - Composition, Directives, Plugins
 subtitle: Vue.js 프로젝트 투입 일주일 전 - Part 5
-categories: javascript
+categories: [javascript]
 tags: [javascript, vue, vue js, vue.js, composition api, options api, mixins, plugins]
 ---
 

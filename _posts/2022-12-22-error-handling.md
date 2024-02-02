@@ -2,7 +2,7 @@
 layout: post
 title: Swift Error Handling
 subtitle: Error handling in Swift interoperates with error handling patterns that use the NSError class in Cocoa and Objective-C.
-categories: swift
+categories: [swift]
 tags: [swift docs, error handling, do catch, do-catch, throw, throwing function, throwing initializer, propagating, try, cleanup action, defer]
 ---
 
