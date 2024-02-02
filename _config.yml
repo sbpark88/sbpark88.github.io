@@ -33,7 +33,7 @@ description: >- # this means to ignore newlines until "baseurl:"
 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://sbpark88.github.io" # the base hostname & protocol for your site, e.g. http://example.com
-favicon: "/assets/images/favicon/greendreamtree.png" # the favicon for your site
+favicon: "/assets/images/favicon/favicon.ico" # the favicon for your site
 
 # Yat date format
 # refer to https://shopify.github.io/liquid/filters/date/ if you want to customize this
@@ -47,7 +47,7 @@ yat:
 # header_transparent: true
 
 # Google analytics
-google_analytics: GTM-P37M4P6D
+google_analytics: G-8M9JT4JF5Z
 
 # If you want to generate website sitemap, you can set true
 # sitemap: false
