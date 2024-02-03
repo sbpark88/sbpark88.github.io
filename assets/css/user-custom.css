@@ -2,6 +2,10 @@
 .post .post-content h3 { color: orange; }
 .post .post-content h4 { color: rgba(166, 42, 254, 1); }
 p.center { text-align: center; }
+div.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+}
 
 /* Rouge syntax highlighter theme: molokai */
 .highlight table td { padding: 5px; }
