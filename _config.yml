@@ -142,12 +142,6 @@ paginate: 5
 #   redirect_uri: "Your redirect url"   # If you use a custom domain name
 
 # Build settings
-# highlighter: none
-markdown: kramdown
-kmarkdown:
-  input: GFM
-  syntax_highlighter: rouge
-
 plugins:
   - jekyll-feed
   - jekyll-seo-tag

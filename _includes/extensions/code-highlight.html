@@ -1,9 +1,6 @@
-<!--<link rel="stylesheet"-->
-<!--      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">-->
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<link rel="stylesheet" href="/assets/css/atom-one-dark-reasonable.min.css">
+<script src="/assets/js/highlight.min.js"></script>
 <!-- and it's easy to individually load additional languages -->
-<script charset="UTF-8"
-        src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"></script>
 
 {%- assign name = 'code_badge.enabled' -%}
 {%- include functions.html func='get_value' default='true' -%}
@@ -24,13 +21,13 @@
 <script>
 // Init highlight js
 document.addEventListener('DOMContentLoaded', function(event) {
-  var els = document.querySelectorAll('pre code')
+  const els = document.querySelectorAll('pre code')
 
   function addLangData(block) {
-    var outer = block.parentElement.parentElement.parentElement;
-    var lang = block.getAttribute('data-lang');
-    for (var i = 0; i < outer.classList.length; i++) {
-      var cls = outer.classList[i];
+    const outer = block.parentElement.parentElement.parentElement;
+    let lang = block.getAttribute('data-lang');
+    for (let i = 0; i < outer.classList.length; i++) {
+      let cls = outer.classList[i];
       if (cls.startsWith('language-')) {
         lang = cls;
         break;
@@ -41,16 +38,16 @@ document.addEventListener('DOMContentLoaded', function(event) {
       lang = cls ? cls.replace('hljs ', '') : '';
     }
     if (lang.startsWith('language-')) {
-      lang = lang.substr(9);
+      lang = lang.slice(9);
     }
     block.setAttribute('class', 'hljs ' + lang);
     block.parentNode.setAttribute('data-lang', lang);
   }
 
   function addBadge(block) {
-    var enabled = ('{{ badge_enabled }}' || 'true').toLowerCase();
-    if (enabled == 'true') {
-      var pre = block.parentElement;
+    let enabled = ('{{ badge_enabled }}' || 'true').toLowerCase();
+    if (enabled === 'true') {
+      let pre = block.parentElement;
       pre.classList.add('badge');
     }
   }
@@ -61,8 +58,8 @@ document.addEventListener('DOMContentLoaded', function(event) {
     hljs.highlightBlock(block);
   }
 
-  for (var i = 0; i < els.length; i++) {
-    var el = els[i];
+  for (let i = 0; i < els.length; i++) {
+    let el = els[i];
     handle(el);
   }
 });
