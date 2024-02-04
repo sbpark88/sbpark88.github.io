@@ -421,6 +421,101 @@ input[disabled] {
 위와 같이 <span style="color: red;">어떤 엘리먼트 중 특정 속성을 선택하기 위해 사용</span>하거나 `[data-fruits-apple]`와 
 같이 <span style="color: red;">기본 속성이 아닌 특정 속성을 선택하기 위해 사용</span>한다.
 
+---
+
+### 3. CSS Inheritances 👩‍
+
+#### 1. Auto Inheritance
+
+CSS 스타일 속성 중 글자/문자와 관련된 대부분의 속성(`color`, `font-style`, `font-weight`, `font-size`, `line-height`, 
+`font-family`, `text-align`, ...)은 컨테이너 내 자식에게 상속된다(모든 글자/문자 속성이 상속되는 것은 아님).
+
+#### 2. Force Inheritance
+
+```html
+<div class="parent">
+  <div class="child">
+    <div class="descendent"></div>
+  </div>
+</div>
+```
+
+```css
+.parent {
+  position: relative;
+  width: 500px;
+  height: 200px;
+  background-color: red;
+}
+
+.child {
+  width: 450px;
+  height: 100%;
+  margin: 0 auto;
+  background-color: lightgreen;
+}
+
+.descendent {
+  width: 400px;
+  height: inherit;
+  margin: inherit;
+  background-color: blueviolet;
+}
+```
+
+![CSS Inheritance 1](/assets/images/posts/2024-02-03-css-selectors/css-inheritance-1.png){: width="600"}
+
+너비나 높이같은 경우 대부분 부모의 값을 상속 받아 사용하는 게 유리할 경우 `100%`라는 값을 주어 사용할 수 있다. 하지만 `background-color`, 
+`margin`, `padding`과 같은 속성은 이러한 값을 선택할 수 없다. 이런 속성 역시 값으로 `inherit`을 주면 강제 상속을 지정할 수 있다.
+
+#### 3. CSS Specificity
+
+동일 CSS 가 여러 개 선언된 경우, 적용 우선순위에 따라 실제 적용되는 속성값이 정해진다.
+
+1. 우선 순위가 높은 선언이 적용된다.
+2. 동일 우선순위 내에서는 마지막에 해석된 선언이 적용된다.
+
+> `Inheritance` > Universal(`*`) > Type(`div`) > `Class` > `ID` > `Inline` > `!important` 순서로 적용된다. 
+
+다음과 같은 경우 CSS 우선 순위 계산에 유의해야한다.
+
+```css
+.hello {
+  color: red;
+}
+
+.hello {
+  color: green;
+}
+```
+
+동일 우선순위가 선언되었고, 녹색이 나중에 해석되므로 글자는 녹색이 된다.
+
+```css
+div.hello {
+  color: red;
+}
+
+.hello {
+  color: green;
+}
+```
+
+같은 `Class` 레벨의 CSS 지만 `div.hello`라는 더 *specific* 한 선택자가 존재하기 때문에 글자는 빨간색이 된다.
+
+```css
+div .hello {
+  color: red;
+}
+
+.hello {
+  color: green;
+}
+```
+
+> `div` 이면서 `.hello`여야 하는 `div.hello`와 달리 `div` 하위에 `.hello`는 같은 레벨에 존재하는 `.hello`와 
+> 우선 순위가 같다. 따라서 동일 우선순위 중 녹색이 나중에 해석되므로 글자는 녹색이 된다. 
+
 
 
 
