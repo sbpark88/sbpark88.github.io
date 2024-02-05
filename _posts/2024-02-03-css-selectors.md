@@ -890,6 +890,8 @@ content + padding + border 를 합한 영역의 크기가 100px 이므로
 
 #### 12. background
 
+HTML 은 [Box Model](#h-1-box-model)을 채택하고 있으며, 엘리먼트의 배경 정보를 지정하는 속성.
+
 - background-color
 > - `transparent`: default, 투명함.
 > - 색상값: CSS 색상값을 사용한다.
@@ -920,6 +922,147 @@ content + padding + border 를 합한 영역의 크기가 100px 이므로
 > - `fixed`: 이미지가 viewport 에 고정. 스크롤 되지 않는다(position fixed 와 유사하다).
 > - ~~`local`~~: 엘리먼트 내 스크롤 시 이미지가 같이 된다.
 
+---
+
+### 5. CSS Layout Attributes 👩‍
+
+[background](#h-12-background) 속성에서의 `background-position`은 엘리먼트 내 위치를 지정하는 속성이었다. 
+이것은 <span style="color: #F19F05;">엘리먼트 내부라는 기준이 정해져 있기 때문에</span> 따로 기준을 설정할 필요 없이 
+<span style="color: #1794E6;">위치만 지정</span>하면 됐다.
+
+**하지만 HTML 엘리먼트들의 위치를 지정할 때는 반드시 <span style="color: #F19F05;">① 위치의 기준을 지정</span>하고,
+<span style="color: #1794E6;">② 위치를 지정</span>해야한다**.
+
+#### 1. position
+
+엘리먼트의 <span style="color: #F19F05;">① 위치의 기준을 지정</span>하는 속성.
+<span style="color: #F19F05;"></span>
+
+> - `static`: default, 기준 없음.
+> - `relative`: 엘리먼트 자신을 기준점으로 지정(<span style="color: red;">relative 에 의해 이동한 것은 
+>               [Flex - Order] 처럼 시각적으로만 이동된 것일 뿐 처럼 실제 배치가 이동한 것은 아니기 때문에 
+>               형제 엘리먼트의 배치에 영향을 주지 않는다</span>).
+> - `absolute`: 기준점이 존재하는 부모 엘리먼트를 기준(relative 와 같이 기준점이 지정된 부모를 찾아 올라간다. 
+>               위치 기준점이 없다면 root 인 HTML 로 올라간다).
+> - `fixed`: viewport(브라우저)를 기준.
+> - `sticky`: 스크롤 영역 기준.
+
+> `position`과 함께 사용하는 CSS 속성은 `top`, `bottom`, `left`, `right`, `z-index` 등이 있으며, 음수값이 가능하다.
+> - `auto`: default, 브라우저가 계산.
+> - 단위값: px, em, rem 등 단위를 지정한다.
+
+> `position`의 속성값으로 <span style="color: red;">**absolute, fixed**</span>가 지정된 엘리먼트는 
+> <span style="color: red;">display 속성이 **block** 으로 변경</span>된다.
+
+```html
+<div class="container">
+  <div class="item">1</div>
+  <div class="item">2</div>
+  <div class="item">3</div>
+</div>
+```
+
+```css
+.container {
+  width: 300px;
+  background-color: royalblue;
+}
+
+.container .item {
+  border: 4px dashed red;
+  background-color: orange;
+  
+  &:nth-child(1) {
+    width: 100px;
+    height: 100px;
+  }
+  
+  &:nth-child(2) {
+    width: 140px;
+    height: 70px;
+  }
+  
+  &:nth-child(3) {
+    width: 70px;
+    height: 120px;
+  }
+}
+```
+
+![Position Relative 1](/assets/images/posts/2024-02-03-css-selectors/position-relative-1.png){: width="300"}
+
+위와 같이 블럭 엘리먼트 `div`가 차례대로 쌓여 있다. 여기서 2번 상자를 relative 를 이용해 이동시켜보자.
+
+```css
+&:nth-child(2) {
+  width: 140px;
+  height: 70px;
+  position: relative;
+  top: 30px;
+  left: 120px;
+}
+```
+
+![Position Relative 2](/assets/images/posts/2024-02-03-css-selectors/position-relative-2.png){: width="300"}
+
+2번 상자의 공간이 비었지만, [Flex - Order] 처럼 시각적으로만 이동된 것일 뿐 처럼 실제 배치가 이동한 것은 아니기 때문에
+3번 상자의 배치에 영향을 주지 않는다.
+
+`relative`는 [Position - Relative]와 같이 자신의 위치를 상대값으로 적용하기 위해서도 사용하지만 이런식의 배치는 시각적으로 
+빈 공간을 만들어내고, 사용자에게 무언가 누락된 느낌을 줄 수 있기 때문에 거의 사용되지 않는다. 주로 자식의 `absolute`에 적용될 
+<span style="color: #F19F05;">① 위치를 기준을 지정</span>하기 위해 사용된다.
+
+```css
+.container {
+  width: 300px;
+  background-color: royalblue;
+  position: relative;
+}
+
+.container .item {
+  border: 4px dashed red;
+  background-color: orange;
+  
+  &:nth-child(1) {
+    width: 100px;
+    height: 100px;
+  }
+  
+  &:nth-child(2) {
+    width: 140px;
+    height: 70px;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+  }
+  
+  &:nth-child(3) {
+    width: 70px;
+    height: 120px;
+  }
+}
+```
+
+![Position Relative 3](/assets/images/posts/2024-02-03-css-selectors/position-relative-3.png){: width="300"}
+
+#### 2. Stack Order
+
+1. 엘리먼트에 **position 속성의 값이 있는 경우 더 위에 쌓인다**
+   (<span style="color: red;">default 값 인 static 은 제외</span>).
+2. 1번 조건이 동일한 경우, `z-index`**값이 높을 수록 위에 쌓인다**.
+3. 2번까지 조건이 동일한 경우, **HTML 이 나중에 작성될 수록 위에 쌓인다**.
+
+#### 3. z-index
+
+엘리먼트의 Z축 높이를 지정하는 속성.
+
+> - `auto, 0`: default.
+> - `양수`: 숫자가 높을 수록 위에 쌓임.
+> - `음수`: 음수가 가능하나, 일반적으로 `-1` 외 더 작은 음수값은 사용되지 않는다. 복잡하고 중첩된 z-index 구조가 필요하면 양수 사용.
+
+> `z-index`를 관리할 때, `999`와 같은 값은 사용하지 않는 것이 좋다. 추후 더 위에 쌓여야 한다면 이것보다 더 큰 값이 필요하게되고, 
+> 관리가 힘들어진다. 가급적 1부터 순차적으로 사용해 나아가도록 한다.
+
 
 <br><br>
 
@@ -929,3 +1072,6 @@ Reference
 1. 박영웅, "프론트엔드 웹 개발의 모든 것 초격차 패키지 Online." fastcampus.co.kr. last modified unknown, [Fast Campus](https://fastcampus.co.kr/)
 
 [Interactive Content]:https://developer.mozilla.org/en-US/docs/Web/HTML/Content_categories#interactive_content
+[Flex - Order]:/css/2023/03/06/basic-css-part2.html#h-4-order
+[Position - Relative]:/css/2023/03/01/basic-css-part1.html#h-2-position---relative
+[Position - Absolute]:/css/2023/03/01/basic-css-part1.html#h-3-position---absolute
