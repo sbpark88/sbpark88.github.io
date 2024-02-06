@@ -3,7 +3,7 @@ layout: post
 title: CSS Selectors
 subtitle: Everything about the CSS Selectors.
 categories: [css]
-tags: [w3c, web standards, css, combinators, pseudo-classes, pseudo-elements]
+tags: [w3c, web standards, css, combinators, pseudo-classes, pseudo-elements, css inheritances, flex, grid, transition, transform, easing function, cubic-bezier, gasp]
 ---
 
 ### 1. CSS Declarations 👩‍
@@ -1406,6 +1406,165 @@ section article:nth-of-type(3) {
 때문이다. 이것은 [flex-grow](#h-6-flex-grow--flex-basisitem) 에서 본 것처럼 주로 flex-grow 의 늘어나는 비율이 시각적으로 
 아이템 비율과 일치하도록 content 크기를 `0`으로 고정 후 계산하기 위해 사용된다.
 
+---
+
+### 7. CSS Transition 👩‍
+
+엘리먼트의 전환(시작과 끝) 효과를 지정하는 단축 속성.
+
+> transition: property <span style="color: red;">duration</span> timing-function delay
+> 와 같이 작성하며, 단축 속성으로 정의시 <span style="color: red;">지속시간</span>은 반드시 반드시 작성해야한다.
+
+#### 1. transition-property
+
+전환 효과를 사용할 속성 이름을 지정.
+
+> - `all`: default, 모든 속성에 적용.
+> - 속성명: 전환 효과를 사용할 속성 이름 명시.
+
+#### 2. transition-duration
+
+전환 효과의 지속시간을 지정하는 속성.
+
+> - `0`: default, 전환 효과 없음.
+> - 시간: 지속시간을 `1s`와 같이 초 단위로 지정.
+
+```css
+div {
+  width: 100px;
+  height: 100px;
+  background-color: orange;
+  transition: 1s;
+}
+
+div:active {
+  width: 300px;
+  background-color: royalblue;
+}
+```
+
+<div style="width: 100px; height: 100px; background-color: orange; transition: 1s;" onmousedown="this.style.width='300px'; this.style.backgroundColor='royalblue';" onmouseup="this.style.width='100px'; this.style.backgroundColor='orange';"></div>
+
+width, background-color 모두에 전환 효과 duration `1s`가 적용되었다.
+
+<br>
+
+```css
+div {
+  width: 100px;
+  height: 100px;
+  background-color: orange;
+  transition: width 1s;
+}
+
+div:active {
+  width: 300px;
+  background-color: royalblue;
+}
+```
+
+<div style="width: 100px; height: 100px; background-color: orange; transition: width 1s;" onmousedown="this.style.width='300px'; this.style.backgroundColor='royalblue';" onmouseup="this.style.width='100px'; this.style.backgroundColor='orange';"></div>
+
+width 에만 전환 효과 duration `1s`가 적용되었다.
+
+<br>
+
+```css
+div {
+  width: 100px;
+  height: 100px;
+  background-color: orange;
+  transition:
+      background-color 1s,
+      width 2s;
+}
+
+div:active {
+  width: 300px;
+  background-color: royalblue;
+}
+```
+
+<div style="width: 100px; height: 100px; background-color: orange; transition: background-color 1s, width 2s;" onmousedown="this.style.width='300px'; this.style.backgroundColor='royalblue';" onmouseup="this.style.width='100px'; this.style.backgroundColor='orange';"></div>
+
+background-color 에는 전환 효과 duration `1s`가, width 에는 전환 효과 duration `2s`가 적용되었다. 
+
+#### 3. transition-timing-function
+
+전환 효과의 타이밍(Easing) 함수를 지정하는 속성.
+
+> - `ease`: default, **느리게 - 빠르게 - 느리게** = `cubic-bezier(0.25, 0.1, 0.25, 1)`
+> - `linear`: **일정하게** = `cubic-bezier(0, 0, 1, 1)`
+> - `ease-in`: **느리게 - 빠르게** = `cubic-bezier(0.42, 0.1, 1)`
+> - `ease-out`: **빠르게 - 느리게** = `cubic-bezier(0, 0, 0.58, 1)`
+> - `ease-in-out`: **느리게 - 빠르게 - 느리게** = `cubic-bezier(0.42, 0, 0.58, 1)`
+> - `steps(n)`: n 번 분할된 애니메이션.
+
+```css
+div {
+  width: 100px;
+  height: 100px;
+  background-color: orange;
+  transition: 1s steps(10);
+}
+
+div:active {
+  width: 300px;
+  background-color: royalblue;
+}
+```
+
+<div style="width: 100px; height: 100px; background-color: orange; transition: 1s steps(10);" onmousedown="this.style.width='300px'; this.style.backgroundColor='royalblue';" onmouseup="this.style.width='100px'; this.style.backgroundColor='orange';"></div>
+
+전환 효과 easing 함수 `steps(10)`가 적용도어 10단계로 나뉘어 전환된다.
+
+> `cubic-bezier(n, n, n, n)`을 직접 정의할 수도 있는데, 이때 n 에 들어갈 숫자값은 직접 계산할 필요는 없고 [easings.net] 에 
+> 방문에 사전에 정의된 다양한 함수를 가져다 사용하거나, [cubic-bezier.com] 사이트에 접속해 그래프를 이용해 함수를 얻을 수 있다.
+
+> Easing Functions 에 대해서는 [GSAP - Easing] 와 [MDN - easing-function] 에서 자세한 정보를 얻을 수 있다.
+
+#### 4. transition-delay
+
+전환 효과가 몇 초 뒤에 시작할지 대기시간을 지정하는 속성.
+
+> - `0`: default, 대기 시간 없음.
+> - 시간: 대기시간을 `1s`와 같이 초 단위로 지정. 
+
+```css
+div {
+  width: 100px;
+  height: 100px;
+  background-color: orange;
+  transition: 1s;
+}
+
+div:hover {
+  width: 300px;
+  background-color: royalblue;
+  transition: 1s .5s;
+}
+```
+
+<style>
+div.my-hover {
+  width: 100px;
+  height: 100px;
+  background-color: orange;
+  transition: 1s;
+}
+
+div.my-hover:hover {
+  width: 300px;
+  background-color: royalblue;
+  transition: 1s .5s;
+}
+</style>
+
+<div class="my-hover"></div>
+
+hover 가 적용될 때는 delay `0.5s`에 duration `1s`가 적용되고, 해제될 때는 딜레이 없이 duration `1s`만 적용되어 전환된다.
+
+
 <br><br>
 
 ---
@@ -1417,3 +1576,7 @@ Reference
 [Flex - Order]:/css/2023/03/06/basic-css-part2.html#h-4-order
 [Position - Relative]:/css/2023/03/01/basic-css-part1.html#h-2-position---relative
 [Position - Absolute]:/css/2023/03/01/basic-css-part1.html#h-3-position---absolute
+[easings.net]:https://easings.net
+[cubic-bezier.com]:https://cubic-bezier.com/
+[GSAP - Easing]:https://gsap.com/docs/v3/Eases
+[MDN - easing-function]:https://developer.mozilla.org/en-US/docs/Web/CSS/easing-function
