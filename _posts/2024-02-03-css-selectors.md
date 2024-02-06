@@ -874,7 +874,7 @@ content + padding + border 를 합한 영역의 크기가 100px 이므로
 > - `left`: default, 왼쪽 정렬.
 > - `right`: 오른쪽 정렬.
 > - `center`: 가운데 정렬.
-> - ~~`justify`~~: 양쪽 정렬.
+> - ~~`justify`~~: 양쪽 정렬. 사실상 왼쪽 정렬과 같다.
 
 - text-decoration
 > - `none`: default, 장식 없음.
@@ -1063,6 +1063,348 @@ HTML 은 [Box Model](#h-1-box-model)을 채택하고 있으며, 엘리먼트의 
 > `z-index`를 관리할 때, `999`와 같은 값은 사용하지 않는 것이 좋다. 추후 더 위에 쌓여야 한다면 이것보다 더 큰 값이 필요하게되고, 
 > 관리가 힘들어진다. 가급적 1부터 순차적으로 사용해 나아가도록 한다.
 
+---
+
+### 6. CSS Flex Layout 👩‍
+
+`Flex`는 container 에 지정하는 속성과 `Item`에 지정하는 속성으로 나뉜다.
+
+#### 1. flex direction and wrap(container)
+
+- display
+> - `flex`: 블럭 엘리먼트 속성을 갖는 flex 컨테이너를 정의한다.
+> - `inline-flex`: 인라인 엘리먼트 속성을 갖는 flex 컨테이너를 정의한다.
+
+- flex-direction: main-axis 의 방향을 지정하는 속성. 단순히 row, column 만 지정하는 게 아니라 축과 
+  <span style="color: red;">방향</span>을 지정하는 것임을 기억해야한다.
+> - `row`: default, left -> right
+> - `row-reverse`: right -> left
+> - `column`: top -> bottom
+> - `column-reverse`: bottom -> top
+
+- flex-wrap: 컨테이너에 지정하는 속성으로, 아이템의 줄바꿈 여부를 지정하는 속성.
+> - `nowrap`: 줄바꿈 없음.
+> - `wrap`: 여러 줄을 하나의 컨테이너로 wrapping. 줄바꿈 있음.
+> - `wrap-reverse`: wrap 의 반대 방향으로 wrapping.
+
+> 만약 **bottom-right** 에서 시작해서 **top-left** 로 완전 역순으로 쌓고자 한다면, `flex-flow: row-reverse wrap-reverse;` 
+> 또는 `flex-flow: column-reverse wrap-reverse;`를 사용해 완전한 역순을 만들어 낼 수 있다.
+
+#### 2. justify-content(container)
+
+**main-axis** 의 정렬 방법을 지정하는 속성.
+
+> - `flex-start`: 시작점 정렬.
+> - `flex-end`: 끝점 정렬.
+> - `center`: 가운데 정렬.
+> - `space-around`: 양 끝이 붙지 않는다. 이름과 같이 <span style="color: red;">아이템 주변으로 공간</span>이 생긴다. 
+>   이것은 각 아이템에 동일한 <span style="color: red;">**padding**</span> 을 준 것과 같다(padding 은 collapsing 이 없으므로, 
+>   `아이템-아이템`의 간격은 `아이템-시작점/끝점` 간격의 2배가 된다).
+>   ![Space-Around](/assets/images/posts/2024-02-03-css-selectors/flex-justify-content-space-around.png){: width="500"}
+> - `space-evenly`: 양 끝이 붙지 않는다. 이름과 같이 <span style="color: red;">모든 공간이 동일한 크기</span>를 갖는다. 이것은 각 
+>   아이템에 동일한 <span style="color: red;">**margin**</span> 을 준 것과 같다(margin-collapsing 이 발생하듯 `아이템-아이템` 
+>   간격이 2배가 아닌 1배로 상쇄된다).
+>   ![Space-Evenly](/assets/images/posts/2024-02-03-css-selectors/flex-justify-content-space-evenly.png){: width="500"}
+> - `space-between`: <span style="color: red;">양 끝이 시작점과 끝점에 붙는다</span>. 이름과 같이 아이템 
+>   <span style="color: red;">사이에</span> 배치된다. 2개까지는 양 끝점으로 배치되고, 3개째부터 두 아이템 사이에 내부 여백을 균등하게 
+>   갖도록 배치된다.
+>   ![Space-Between](/assets/images/posts/2024-02-03-css-selectors/flex-justify-content-space-between.png){: width="500"}
+
+#### 3. align-content, align-items(container)
+
+- align-content: cross-axis 의 정렬 방법을 지정하는 속성. stretch 를 제외하면 `justify-content`와 완전히 동일한 배치 특성을 가지며, 
+  일반적으로 wrapping 되어 **2줄 이상일 때 사용**된다.
+> - `stretch`: default, 아이템의 높이가 지정되지 않았을 경우, 아이템의 height 는 `auto`가 되어 **컨테이너 높이 만큼 공간을 채운다**. 
+>   반면, 아이템 높이가 지정되었을 경우 사실상 `flex-start`와 같다. 
+> - 그 외 `flex-start`, `flex-end`, `center`, `space-around`, `space-evenly`, `space-between`은 justify-content 와 같다.
+
+- align-items: cross-axis 의 정렬 방법을 지정하는 속성. `align-content: stretch;`라는 가정 하에 적용되는 속성으로,
+  <span style="color: red;">align-content</span> 가 stretch 가 아닌 다른 값을 가지면 
+  <span style="color: red;">align-items 의 `!important` 보다도 높은 우선순위</span>를 가져 align-items 는 무시된다. 
+  일반적으로, **1줄일 때 사용**된다.
+> - `stretch`: default, 아이템의 높이가 지정되지 않았을 경우, 아이템을 height 는 `auto`가 되어 **컨테이너 높이 만큼 공간을 채운다**. 
+>   반면, 아이템 높이가 지정되었을 경우 사실상 `flex-start`와 같다.
+> - `flex-start`, `flex-end`, `center`는 align-content 가 1줄일 때 적용한 것과 동일한 효과를 갖는다.
+> - align-content 와 달리 `space-around`, `space-evenly`, `space-between`이 존재하지 않는다.
+
+<br>
+
+__align-content, align-items 어떤걸 사용할까?__
+
+- 일반적으로 1줄이면 align-items, 2줄 이상이면 align-content 를 사용한다. 하지만 1줄이라고 align-content 를 사용하지 못하는 것은 아니다.
+- 1줄일 때 align-items 와 align-content 의 `stretch`, `flex-start`, `flex-end`, `center`는 동일한 효과를 갖는다.
+- 2줄일 때 align-items 와 align-content 의 `stretch`는 동일하지만 `flex-start`, `flex-end`, `center`는 다른 효과를 갖는다
+  (<span style="color: red;">2줄일 때 align-items 적용이 불가능함이 아님에 유의</span>).
+- <span style="color: red;">align-items</span> 는 2줄 이상일 때만 적용 가능한 `space-around`, `space-evenly`, 
+  `space-between`이 <span style="color: red;">존재하지 않는다</span>. 이 효과를 사용하려면 align-content 를 사용해야한다.
+- <span style="color: red;">align-content</span> 가 stretch 가 아닌 다른 값을 가지면, <span style="color: red;">
+  align-items 의 `!importnat` 보다도 높은 우선순위</span>를 갖는다.
+
+![align-items flex-start](/assets/images/posts/2024-02-03-css-selectors/align-items-flex-start.png){: width="500"}
+
+<p class="center">- align-items: flex-start -</p>
+
+![align-content flex-start](/assets/images/posts/2024-02-03-css-selectors/align-content-flex-start.png){: width="500"}
+
+<p class="center">- align-content: flex-start -</p>
+
+<br>
+
+![align-items center](/assets/images/posts/2024-02-03-css-selectors/align-items-center.png){: width="500"}
+
+<p class="center">- align-items: center -</p>
+
+![align-content center](/assets/images/posts/2024-02-03-css-selectors/align-content-center.png){: width="500"}
+
+<p class="center">- align-content: center -</p>
+
+많은 경우 다음과 같은 CSS 를 적용해 
+
+> `justify-content`, `align-content`와 같이 **content** 를 정렬한다는 것은, main-axis 가 되었든 cross-axis 가 되었든 
+> <span style="color: red;">각 축의 아이템들이 어떤 분포로 배치되는지를 지정</span>하는 것이다. 반면, `align-items`는 
+> `align-content`와 마찬가지로 cross-axis 에 대한 정렬을 지정하지만, **wrap** 상태이든, **nowrap** 상태이든 
+> <span style="color: red;">아이템들의 묶음이 컨테이너 라인에서 어느 위치에 분포할지를 지정</span>하는 것이다. 즉, cross-axis 축의 
+> 아이템의 분포가 아닌 main-axis 의 축 자체를 cross-axis 방향의 어디에 위치할건지 평행이동 시키는 개념에 근접한다.
+
+#### 4. align-self(item)
+
+아이템을 개별적으로 cross-axis 의 정렬 방법을 지정하는 속성. 컨테이너가 아닌 아이템에 지정하는 속성이다.
+
+```css
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-color: royalblue;
+  display: flex;
+  flex-wrap: wrap;
+
+  .item {
+    width: 100px;
+    height: 100px;
+    border: 4px dashed red;
+    background-color: orange;
+
+    &:nth-child(1) {
+      align-self: center;
+    }
+
+    &:nth-child(even) {
+      align-self: flex-end;
+    }
+  }
+}
+```
+
+![align-self 1](/assets/images/posts/2024-02-03-css-selectors/align-self-1.png){: width="500"}
+
+```css
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-color: royalblue;
+  display: flex;
+  flex-wrap: wrap;
+
+  .item {
+    width: 100px;
+    height: 100px;
+    border: 4px dashed red;
+    background-color: orange;
+
+    &:nth-child(even) {
+      align-self: flex-end;
+    }
+  }
+}
+```
+
+![align-self 2](/assets/images/posts/2024-02-03-css-selectors/align-self-2.png){: width="500"}
+
+#### 5. order(item)
+
+아이템의 정렬 순서를 지정하는 속성.
+
+> - `0`: default, 순서 없음.
+> - 숫자: 숫자가 작을수록 시작점에, 클 수록 끝점에 위치한다(양수, 음수 모두 사용 가능).
+
+HTML 의 수정 없이 아이템 정렬 순서를 바꿀 수 있다.
+
+```css
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-color: royalblue;
+  display: flex;
+  flex-wrap: wrap;
+
+  .item {
+    width: 100px;
+    height: 100px;
+    border: 4px dashed red;
+    background-color: orange;
+
+    &:nth-child(1) {
+      order: 2;
+    }
+    
+    &:nth-child(3) {
+      order: 1;
+    }
+    
+    &:nth-child(5) {
+      order: -1;
+    }
+  }
+}
+```
+
+![flex order](/assets/images/posts/2024-02-03-css-selectors/flex-order.png){: width="500"}
+
+#### 6. flex-grow & flex-basis(item)
+
+아이템의 너비가 증가되는 비율을 지정하는 속성.
+
+flex 를 사용할 때 컨테이너의 너비를 아이템의 너비가 정확히 정수배로 일치해 빈 공간 없이 가득 채우지 않는 한 항상 빈 공간이 
+남게 된다. 컨테이너의 크기가 고정되어 있다면 아이템이 지정된 자신의 크기보다 더 커지도록 늘어나야한다.
+
+> - `0`: default, 증가 비율 없음.
+> - 숫자: 증가 비율 지정.
+
+- 아이템 전체를 균일하게 늘리기
+
+```css
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-color: royalblue;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+
+  .item {
+    width: 100px;
+    height: 100px;
+    border: 4px dashed red;
+    background-color: orange;
+    flex-grow: 1;
+  }
+}
+```
+
+![flex-grow 1](/assets/images/posts/2024-02-03-css-selectors/flex-grow-1.png){: width="500"}
+
+아이템 전체에 flex-grow 를 0이 아닌 다른 값을 주면 같은 비율로 늘어난다.
+
+- 서로 다른 비율로 늘리기(<span style="color: red;">반드시 `flex-basis: 0;` 속성</span>을 줘야 한다)
+
+```css
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-color: royalblue;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+
+  .item {
+    width: 100px;
+    height: 100px;
+    border: 4px dashed red;
+    background-color: orange;
+    flex-grow: 1;
+    flex-basis: 0;
+
+    &:nth-child(3) {
+      flex-grow: 2;
+    }
+  }
+}
+```
+
+![flex-grow 2](/assets/images/posts/2024-02-03-css-selectors/flex-grow-2.png){: width="500"}
+
+모든 아이템에 동일한 1의 비율을 준 다음 3번째 아이템만 2가 덮어 썼기 때문에 `1:1:2`로 늘어난다.
+
+> 기본적으로 flex-grow 와 flex-shrink 이 늘어나고 줄어드는 비율은 아이템의 크기 비율을 지정하는 것이 아닌, 
+> <span style="color: red;">아이템의 content 를 제외한 여백이 늘어나거나 줄어드는 비율</span>을 설정하는 것이다. 
+> 따라서 내부 content 에 영향을 받기 때문에 시각적으로 아이템의 크기 자체의 비율로 계산되도록 하기 위해 
+> <span style="color: red;">content 를 `0`으로 고정시키는 속성값이 `flex-basis: 0;`이다</span>.
+
+<br>
+
+- flex-basis: 0 을 설정하지 않았을 때 content 를 제외한 여백의 비율대로 늘어나는 모습
+
+```css
+section article:nth-of-type(1) {
+  flex-grow: 1;
+}
+section article:nth-of-type(2) {
+  flex-grow: 2;
+}
+section article:nth-of-type(3) {
+  flex-grow: 3;
+}
+```
+
+![Flew Grow 3](/assets/images/posts/2023-03-06-basic-css-part2/flex-grow-3.png){: width="600"}
+
+아이템이 아닌 content 를 제외한 여백이 `1:2:3` 비율로 늘어난다.
+
+#### 7. flex-shrink(item)
+
+아이템의 너비가 감소되는 비율을 지정하는 속성.
+
+flex-grow 는 컨테이너를 채우기 위해 아이템이 지정된 자신의 크기보다 더 커지도록 늘어났다. 이번엔 반대로 컨테이너가 아이템이 
+크기를 유지하기 위해 필요한 공간보다 작을 때 컨테이너 내부에 존재할 수 있도록 하려면 ① wrapping 시켜 줄이 나뉘더라도 
+하나의 컨테이너로 묶이도록 여러 줄을 만들거나, ② <span style="color: red;">아이템이 줄어든 컨테이너에 맞게 함께 줄어야</span>한다.
+
+> - `1`: default, 너비에 따라 감소 비율 적용.
+> - 숫자: 감소 비율 지정.
+> - `0`: <span style="color: red;">감소 너비 없음</span>.
+
+- flex-shrink 가 0 이면 컨테이너가 아이템이 차지하는 공간보다 줄어들면 아이템이 컨테이너 밖으로 나가게 된다.
+
+![flex-shrink](/assets/images/posts/2024-02-03-css-selectors/flex-shrink.png){: width="500"}
+
+일반적이지는 않지만 때로는 flex-wrap 대신 아이템이 크기를 유지하도록 하기 위해 flex-shrink 에 `0`을 주기도 한다.
+
+> flex-grow 와 마찬가지로 아이템의 크기 비율이 아닌 아이템의 content 를 제외한 여백이 줄어드는 비율을 설정하는 것이다. 
+> 단, flex-grow 와 다르게 flex-basis 를 `0`으로 주게 되면 최소한의 content 영역이 보장되지 않기 때문에 실제 content 
+> 공간을 제외한 모든 여백이 완전히 줄어들게 된다. 즉, 항상 아이템 너비값이 `auto`인 것과 같아져버린다. 따라서 flex-shrink 는 
+> flex-grow 와 달리 아이템의 비율을 시각적으로 맞추기가 어렵다.
+
+<br>
+
+- 일반적으로 flex-shrink 가 줄어드는 방식
+
+```css
+section article:nth-of-type(1) {
+  flex: 3;
+}
+section article:nth-of-type(2) {
+  flex: 2;
+}
+section article:nth-of-type(3) {
+  flex: 1;
+}
+```
+
+![Flex Shrink 3](/assets/images/posts/2023-03-06-basic-css-part2/flex-shrink-3.png){: height="45"}
+
+아이템이 아닌 content 를 제외한 여백이 `1/3 : 1/2 : 1`의 비율로 줄어든다.
+
+#### 8. flex-basis(item)
+
+아이템 공간 배분 전 기본 너비
+
+> - `auto`: 엘리먼트의 content 너비.
+> - 단위값: px, em, rem 등 단위를 지정한다.
+
+일반적으로 content 의 크기를 CSS 로 정의할 일이 거의 없다. 정의한다 하더라도 실제 HTML 에 존재하는 content 의 크기가 우선 되기 
+때문이다. 이것은 [flex-grow](#h-6-flex-grow--flex-basisitem) 에서 본 것처럼 주로 flex-grow 의 늘어나는 비율이 시각적으로 
+아이템 비율과 일치하도록 content 크기를 `0`으로 고정 후 계산하기 위해 사용된다.
 
 <br><br>
 
