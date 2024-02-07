@@ -1408,7 +1408,7 @@ section article:nth-of-type(3) {
 
 ---
 
-### 7. CSS Transition 👩‍
+### 7. Animation - Transition 👩‍
 
 엘리먼트의 전환(시작과 끝) 효과를 지정하는 단축 속성.
 
@@ -1563,6 +1563,133 @@ div.my-hover:hover {
 <div class="my-hover"></div>
 
 hover 가 적용될 때는 delay `0.5s`에 duration `1s`가 적용되고, 해제될 때는 딜레이 없이 duration `1s`만 적용되어 전환된다.
+
+---
+
+### 8. Animation - Transform 👩‍
+
+#### 1. Transform 2D
+
+2D 애니메이션을 지정하는 속성으로 주로 사용되는 함수는 다음과 같다.
+
+> - translate(x, y): 이동(X축, Y축)
+> - translateX(x): 이동(X축)
+> - translateY(y): 이동(Y축)
+> - scale(x, y): 크기(X축, Y축)
+
+> - rotate(degree): 회전(각도), 회전축은 정 중앙이며, `transform-origin`을 사용해 변환할 수 있다.
+> - skewX(x): 기울임(X축)
+> - skewY(y)): 기울임(Y축)
+
+위 함수들은 모두 `matrix(n, n, n, n, n, n)`이라는 함수로 변환되어 실행된다. 직접 matrix 함수를 작성해 사용하는 것이 어렵다보니 
+나온 함수들이다.
+
+#### 2. Transform 3D
+
+3D 애니메이션을 지정하는 속성으로 주로 사용되는 함수는 다음과 같다.
+
+> - perspective(n): 원근법(거리)
+> - rotateX(x): 회전(X축)
+> - rotateY(y): 회전(Y축)
+
+> 단축 속성으로 정의시 반드시 `transform: perspective(500px) rotateX(45deg)`와 같이 perspective 함수가 첫 번째로 와야 한다.
+
+2D 애니메이션에서 자주 사용되던 함수들의 Z축 버전 `translateZ(z)`, `translate3d(x, y, z)`, `scaleZ(z)`, 
+`scale3d(x, y, z)`, `rotateZ(z)`, `rotate3d(x, y, z, a)`가 존재한다. 하지만 실제로 Z축을 컨트롤을 잘 사용하진 않는다. 
+<span style="color: red;">perspective(n)</span> 으로 원근법을 주며 X축과 Y축을 회전시키는 정도로 사용된다.
+
+마찬가지로 위 함수들은 모두 `matrix3d` 함수로 변환되어 실행되는데, 2D에서는 6개였던 파라미터가 3D에서는 16개로 늘어난다. 따라서 직접 
+matrix 함수를 작성해 사용할 일은 없다고 봐도 된다.
+
+#### 3. Perspective Attributes and Functions
+
+perspective 는 속성과 함수 두 가지가 존재한다. 둘은 단순히 단축 속성의 관계가 아니라 관측 지점이 다르기 때문에 실제 결과물 자체가 다르다.
+속성으로 사용시 transform 을 적용하려는 대상의 부모에 속성값을 주어야하고, 함수로 사용시 transform 을 적용하려는 대상에게 주어야한다.
+
+| Type                   | Syntax                        | Apply Target | Change Observing Point |
+|------------------------|-------------------------------|--------------|------------------------|
+| Perspective Attributes | perspective: 600px            | Parent       | perspective-origin     |
+| Perspective Functions  | transform: perspective(600px) | Self         | transform-origin       |
+
+- Perspective Attributes
+
+```html
+<section>
+  <div></div>
+  <div></div>
+  <div></div>
+  <div></div>
+</section>
+```
+
+```css
+section {
+  width: 400px;
+  height: 100px;
+  border: 1px solid #000;
+  background-color: #90acfa;
+  perspective: 200px;
+  display: flex;
+
+  div {
+    box-sizing: border-box;
+    width: 100px;
+    height: 100px;
+
+    &:nth-of-type(1) {
+      background-color: #ffa500cc;
+      transform: rotateY(45deg);
+    }
+
+    &:not(:nth-of-type(1)) {
+      border: 1px dashed red;
+    }
+  }
+}
+
+```
+
+![Perspective Attributes](/assets/images/posts/2024-02-03-css-selectors/perspective-attributes.png){: width="500"}
+
+부모(파란색 컨테이너)의 중심이 origin(관측 지점) 이고, 이 지점에서 200px 떨어진 지점에서 관찰한다.
+
+- Perspective Functions
+
+```css
+section {
+  width: 400px;
+  height: 100px;
+  border: 1px solid #000;
+  background-color: #90acfa;
+  display: flex;
+
+  div {
+    box-sizing: border-box;
+    width: 100px;
+    height: 100px;
+
+    &:nth-of-type(1) {
+      background-color: #ffa500cc;
+      transform: perspective(200px) rotateY(45deg);
+    }
+
+    &:not(:nth-of-type(1)) {
+      border: 1px dashed red;
+    }
+  }
+}
+```
+
+![Perspective Functions](/assets/images/posts/2024-02-03-css-selectors/perspective-functions.png){: width="500"}
+
+엘리먼트(노란색 면)의 중심이 origin(관측 지점) 이고, 이 지점에서 200px 떨어진 지점에서 관찰한다.
+
+#### 4. backface-visibility
+
+3D 변환으로 회전된 엘리먼트의 뒷면 숨김 여부를 지정하는 속성.
+
+> - `visible`: default, 뒷면 보임.
+> - `hidden`: 뒷면 숨김(0~360도를 기준으로 보면, `0...<90: 보임`, `90...270: 숨김`, `271...360: 보임`의 패턴이 연속된다).
 
 
 <br><br>
