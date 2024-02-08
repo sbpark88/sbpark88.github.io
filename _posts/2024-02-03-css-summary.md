@@ -1,7 +1,7 @@
 ---
 layout: post
-title: CSS Selectors
-subtitle: Everything about the CSS Selectors.
+title: CSS Summary
+subtitle: Short Book about the grammar of the CSS Styles
 categories: [css]
 tags: [w3c, web standards, css, combinators, pseudo-classes, pseudo-elements, css inheritances, flex, grid, transition, transform, easing function, cubic-bezier, gasp]
 ---
