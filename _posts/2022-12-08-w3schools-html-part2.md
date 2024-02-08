@@ -1,6 +1,6 @@
 ---
 layout: post
-title: HTML Basic 2 - 
+title: HTML Basic 2 
 subtitle: Styles, Formatting, Quotations, Comments, Color, CSS
 categories: [html]
 tags: [w3school, style, formatting, quotation, comment, color, css]
