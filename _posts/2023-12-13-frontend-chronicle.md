@@ -782,7 +782,7 @@ store.dispatch(addTodo('Use Redux'));
 ```
 
 다양한 Middleware 예시는 [Redux Middleware Examples] 에서 확인할 수 있다. 
-또한 [Redux Middleware 에 대한 Github 설명][Redux - applyMiddleware]을 보면 미들웨어는 잠재적으로 비동기적이기 때문에
+또한 [Redux Middleware 에 대한 GitHub 설명][Redux - applyMiddleware]을 보면 미들웨어는 잠재적으로 비동기적이기 때문에
 *Store* 에 기능을 추가하기 위해 *Composition Chain* 을 구성할 때 항상 앞에 위치해야한다(*First Store Enhancer*)는 
 규칙을 갖는다.
 
@@ -801,7 +801,7 @@ Reference
 
 1. 강훈, "한 번에 끝내는 React의 모든 것 초격차 패키지, Part 5. 트러블슈팅" fastcampus.co.kr. last modified unknown, [Fast Campus](https://fastcampus.co.kr/)
 2. "미들웨어." Redux Docs. accessed Dec. 19, 2023, [Redux - 미들웨어](https://lunit.gitbook.io/redux-in-korean/advanced/middleware#5)
-3. "reduxjs/redux.", Redux Github. accessed Dec. 19, 2023, [Redux - applyMiddleware]
+3. "reduxjs/redux.", Redux GitHub. accessed Dec. 19, 2023, [Redux - applyMiddleware]
 
 [JavaScript 'this']:/javascript/2023/05/24/javascript-this.html
 [Redux Middleware Examples]:https://lunit.gitbook.io/redux-in-korean/advanced/middleware#undefined-6
