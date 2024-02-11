@@ -2,6 +2,7 @@
 layout: post
 title: HTML Basic 1
 subtitle: Elements, Attributes, Headings, Paragraphs
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [html]
 tags: [w3school, element, attribute, heading, paragraph]
 ---

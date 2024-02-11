@@ -2,6 +2,7 @@
 layout: post
 title: Remove if-else repetition
 subtitle: Clean Code - Part 1
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [cs, swift, typescript, javascript]
 tags: [cs, swift, typescript, clean code, switch, enum-switch]
 ---

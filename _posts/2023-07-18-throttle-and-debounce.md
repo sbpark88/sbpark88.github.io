@@ -2,6 +2,7 @@
 layout: post
 title: Throttle and Debounce
 subtitle: Use 'throttle' and 'debounce' to improve performance.
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [javascript, ux/ui]
 tags: [javascript, throttle, debounce, performance]
 ---

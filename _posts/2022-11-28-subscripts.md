@@ -2,6 +2,7 @@
 layout: post
 title: Swift Subscripts
 subtitle: Subscripts, Type Subscripts
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift docs, subscript, subscript option, type subscript]
 ---

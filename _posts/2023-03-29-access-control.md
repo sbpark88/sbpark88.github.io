@@ -2,6 +2,7 @@
 layout: post
 title: Swift Access Control
 subtitle: Manage the visibility of code by declaration, file, and module. 
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift docs, access control, access level, modules, source files, open, public, internal, fileprivate, private]
 ---

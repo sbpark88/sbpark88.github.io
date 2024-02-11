@@ -2,6 +2,7 @@
 layout: post
 title: Swift Advanced Operators
 subtitle: Define custom operators, perform bitwise operations, and use builder syntax.
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift docs, advanced operators, bitwise, overflow, precedence, associativity, prefix, postfix, compound, equivalence, custom operators, infix, result builders]
 ---

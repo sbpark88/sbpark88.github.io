@@ -2,6 +2,7 @@
 layout: post
 title: Swift Deinitialization
 subtitle: Deinitialization - Automatic Reference Counting, Deinitializers in Action
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift docs, deinitializer, ARC, automatic reference counting, deinitializers]
 ---

@@ -2,6 +2,7 @@
 layout: post
 title: Swift Strings and Characters
 subtitle: Strings, Characters
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift docs, string, character, multiline string literal, string indent, unicode, unicode scalar value, extended grapheme cluster, closed range, half open range, one sided range, substring, prefix, suffix]
 ---

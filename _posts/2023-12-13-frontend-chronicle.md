@@ -2,6 +2,7 @@
 layout: post
 title: The History of Frontend Development and React Troubleshooting
 subtitle: How did React come into existence, and how is it evolving?
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [javascript]
 tags: [vanilla js, jquery, backbone, react, angular, vue, svelte, class component, functional component, react hooks, render optimization, middleware]
 ---

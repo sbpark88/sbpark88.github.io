@@ -2,6 +2,7 @@
 layout: post
 title: HTML Basic 3
 subtitle: Links, Images, Favicon, Tables, Lists, Block, Inline
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [html]
 tags: [w3school, image, favicon, table, list, block, inline]
 ---

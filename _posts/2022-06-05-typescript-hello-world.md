@@ -2,6 +2,7 @@
 layout: post
 title: TypeScript 시작하기 (with Node.js)
 subtitle: Hello world! TypeScript!!
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [javascript]
 tags: [javascript, typescript, npm, yarn]
 ---

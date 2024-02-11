@@ -2,6 +2,7 @@
 layout: post
 title: HTML Basic 2 
 subtitle: Styles, Formatting, Quotations, Comments, Color, CSS
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [html]
 tags: [w3school, style, formatting, quotation, comment, color, css]
 ---

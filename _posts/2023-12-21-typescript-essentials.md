@@ -2,6 +2,7 @@
 layout: post
 title: TypeScript Essentials
 subtitle:
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [typescript, javascript]
 tags: [typescript]
 ---

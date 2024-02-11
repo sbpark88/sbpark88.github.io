@@ -2,6 +2,7 @@
 layout: post
 title: Xcode, AppCode 에 SwiftLint 를 적용하자
 subtitle: 코드 작성을 도와주는 친구와 같은 정적분석 도구
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [xcode, appcode, swiftlint, sonarlint]
 ---

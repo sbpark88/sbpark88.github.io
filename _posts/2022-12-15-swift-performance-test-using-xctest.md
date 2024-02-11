@@ -2,6 +2,7 @@
 layout: post
 title: Swift Performance Test Using XCTest
 subtitle: Swift Unit Test
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift unit test, swift code execution time, unit test, performance, xctest]
 ---

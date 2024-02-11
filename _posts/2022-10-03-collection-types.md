@@ -2,6 +2,7 @@
 layout: post
 title: Swift Collection Types
 subtitle: Collections - Arrays, Sets, Dictionaries
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift docs, collection, array, set, dictionary, array literal, subscript syntax, hashable, initializer syntax, shorthand syntax, unique]
 ---

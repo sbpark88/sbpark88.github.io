@@ -17,6 +17,7 @@ body {
   font-family: $base-font-family;
   font-weight: $base-font-weight;
   font-size: #{$base-font-size};
+  font-display: swap;
   line-height: #{$base-line-height};
   color: $text-color;
   background-color: $background-color;
@@ -29,6 +30,7 @@ body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  transition-duration: $base-transition-duration;
 }
 
 
@@ -144,7 +146,7 @@ blockquote {
 pre,
 code {
   @include relative-font-size(0.9375);
-  //color: $text-color;
+  color: $text-color;
 }
 
 *:not(pre) > code {
@@ -289,3 +291,26 @@ table {
   overflow: hidden;
 }
 
+/**
+ * Text Selection
+ */
+::selection {
+  color: $selection-color;
+  background-color: $selection-background-color;
+}
+::-moz-selection { /* Code for Firefox */
+  color: $selection-color;
+  background-color: $selection-background-color;
+}
+::-ms-selection {
+  color: $selection-color;
+  background-color: $selection-background-color;
+}
+::-o-selection {
+  color: $selection-color;
+  background-color: $selection-background-color;
+}
+::-webkit-selection {
+  color: $selection-color;
+  background-color: $selection-background-color;
+}

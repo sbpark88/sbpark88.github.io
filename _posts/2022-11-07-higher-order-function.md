@@ -2,6 +2,7 @@
 layout: post
 title: Swift Higher-order Functions
 subtitle: map, reduce, filter, flatMap, compactMap, forEach, contains, removeAll, sorted, split
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [higher order function, hof, first class citizen, functional programming, lambda calculus, map, reduce, filter, flatMap, compactMap]
 ---

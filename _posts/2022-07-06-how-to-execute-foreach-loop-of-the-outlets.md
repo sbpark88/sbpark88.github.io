@@ -2,6 +2,7 @@
 layout: post
 title: IBOutlet 은 어떻게 forEach 를 돌릴 수 있을까?
 subtitle: IBOutlet 과 collection, 그리고 instance member 와 property initializer
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [foreach, IBOutlet, instance member, property initializer]
 ---

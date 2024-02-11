@@ -2,6 +2,7 @@
 layout: post
 title: Reference and Bibliography
 subtitle: Make my reference style based on 'Chicago Citation Guide'
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [markdown]
 tags: [reference, bibliography]
 ---

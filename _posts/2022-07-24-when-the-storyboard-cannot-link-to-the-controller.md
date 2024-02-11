@@ -2,6 +2,7 @@
 layout: post
 title: 스토리보드가 Assistant 로 Controller 를 연결하지 못할 때
 subtitle: Assign the exact controller manually.
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [storyboard]
 ---

@@ -2,6 +2,7 @@
 layout: post
 title: Deployment Web App using GitHub Actions
 subtitle: Deployment VanillaJS Project with Webpack using GitHub Actions on GitHub Pages
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [cloud]
 tags: [github actions, gh-pages, webpack, vanilla.js]
 ---
@@ -150,6 +151,7 @@ jobs:
 React 없이 Node 환경에서 띄우는 게 목적이었기 때문에 [Static Site Generators with Node.js] 템플릿을 사용했고, 
 기본 yaml 파일은 다음과 같다([React and Next] 또는 [Vue and Nuxt] 을 사용한 환경 템플릿도 존재한다).
 
+{% raw %}
 ```yaml
 name: GitHub Pages
 
@@ -192,6 +194,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
 ```
+{% endraw %}
 
 `Cache dependencies` 부분을 보면 지속적인 CI/CD 를 빠르게 하기 위해 실행 운영체제 와 `package-lock.json`이 
 변경되었는지 여부에 따라 캐시를 사용하도록 되어있다. 
@@ -336,6 +339,7 @@ module.exports = {
 여기서 중요한 것은 Workflows yaml 파일의 `publish_dir`이 `webpack.config.js`의 `output.path`와 같아야 한다는거다.  
 따라서 `build.yml`파일은 다음과 같이 작성하면 된다.
 
+{% raw %}
 ```yaml
 name: Deploy
 
@@ -374,8 +378,8 @@ jobs:
         with:
           github_token: ${{ secrets.GH_ACTION_TOKEN }}
           publish_dir: ./dist
-
 ```
+{% endraw %}
 
 수정한 부분을 보자.
 

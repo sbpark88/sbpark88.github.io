@@ -2,6 +2,7 @@
 layout: post
 title: Swift Extensions
 subtitle: Extensions add new functionality to an existing class, structure, enumeration, or protocol type.
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift docs, extension, category]
 ---

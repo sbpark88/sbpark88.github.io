@@ -2,6 +2,7 @@
 layout: post
 title: Swift Basic Operators
 subtitle: Basic Operators
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift docs, swift operators, swift 연산자]
 ---

@@ -2,6 +2,7 @@
 layout: post
 title: Swift Memory Safety
 subtitle: Structure your code to avoid conflicts when accessing memory. 
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift docs, memory safety, compile-time error, runtime error, conflict, multiple accesses, exclusive access, read access, write access, overlap, overlapping access]
 ---

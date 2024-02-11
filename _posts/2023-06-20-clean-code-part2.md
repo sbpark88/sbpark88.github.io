@@ -2,6 +2,7 @@
 layout: post
 title: Destructuring
 subtitle: Clean Code - Part 2
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [cs, swift, typescript, javascript]
 tags: [cs, swift, typescript, clean code, destructuring]
 ---

@@ -2,6 +2,7 @@
 layout: post
 title: HTML Basic 6
 subtitle: Entities, Symbols, Emojis, Charset, URL Encode, XHTML
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [html]
 tags: [w3school, entity, symbol, emoji, charset, url encode, xhtml]
 ---

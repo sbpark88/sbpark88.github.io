@@ -2,6 +2,7 @@
 layout: post
 title: Basic CSS Style 1
 subtitle: root, font, background, css initialize, float, clear, object-fit
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [css]
 tags: [css, font, basic css, float, position relative, position absolute, object-fit, z-index, opacity]
 ---

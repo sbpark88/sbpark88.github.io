@@ -1,5 +1,5 @@
-$dark-background-color:       #0e0e0e !default;
-$dark-text-color: #bbb !default;
+$dark-background-color: #0e0e0e !default;
+$dark-text-color: #b0b0b0 !default;
 
 html[data-theme="dark"]  {
   &[data-scroll-status='top'] {
@@ -89,7 +89,7 @@ html[data-theme="dark"]  {
   }
 
   .left-vsplit:before {
-    background-color: #9a9a9a;
+    background-color: #505050;
   }
 
   .page-banner {
@@ -102,17 +102,11 @@ html[data-theme="dark"]  {
 
   .pagination {
     .post-link {
-      color: $dark-text-color;
+      color: #bbb;
     }
 
-    .post-title {
-      a:visited:after {
-        background-color: $dark-background-color;
-      }
-
-      a:after {
-        color: $dark-background-color;
-      }
+    .post-excerpt {
+      color: $grey-color;
     }
 
     .post-list {
@@ -131,38 +125,32 @@ html[data-theme="dark"]  {
       a {
         color: #ddd;
       }
-
-      a:visited:after {
-        background-color: $dark-background-color;
-      }
-
-      a:after {
-        color: $dark-background-color;
-      }
     }
   }
 
-  .post .post-content {
-    img:not([raw]) {
-      background-color: #ffffff33;
-    }
-  }
-
-  .post-related {
-    & > *:first-child {
-      color: #d7d7d7;
+  .post {
+    .post-header {
+      border-bottom: 1px solid #555;
     }
 
-    a:visited:after {
-      background-color: $dark-background-color;
+    .post-content {
+      img:not(.emoji):not([raw]) {
+        background-color: #ffffff33;
+      }
+
+      hr {
+        background-color: #555;
+      }
     }
 
-    a:after {
-      color: $dark-background-color;
-    }
+    .post-related {
+      & > *:first-child {
+        color: #d7d7d7;
+      }
 
-    a:hover {
-      color: #aaa;
+      a:hover {
+        color: #aaa;
+      }
     }
   }
 
@@ -207,6 +195,15 @@ html[data-theme="dark"]  {
         }
       }
     }
+  }
+
+  a .post-badges .post-badge {
+    color: $dark-background-color !important;
+  }
+
+  a:visited .post-badges .post-badge.badge-new {
+    display: none;
+    background-color: $dark-background-color;
   }
 }
 

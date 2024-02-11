@@ -2,6 +2,7 @@
 layout: post
 title: Kakao OAuth 2.0 
 subtitle: Get authorization, token, and access information.
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [javascript]
 tags: [javascript, vue, kakao oauth, kakao token]
 ---

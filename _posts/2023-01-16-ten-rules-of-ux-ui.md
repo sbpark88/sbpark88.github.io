@@ -2,6 +2,7 @@
 layout: post
 title: UX/UI의 10가지 심리학 법칙
 subtitle: 사용자의 마음을 읽는 인간 중심 제품과 서비스 디자인
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [ux/ui]
 tags: [ux, ui, jakob, fitts, hick, miller, postel, peak end, aesthetic usability, von restorff, tesler, doherty threshold]
 ---

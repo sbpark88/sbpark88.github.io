@@ -2,6 +2,7 @@
 layout: post
 title: Swift Properties
 subtitle: Properties - Stored Properties, Computed Properties, Property Observers, Property Wrappers, Type Properties
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift docs, property, stored property, lazy stored property, computed property, property observer, property wrapper, type property, projecting]
 ---

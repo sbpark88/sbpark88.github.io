@@ -2,6 +2,7 @@
 layout: post
 title: Swift troubleshooting
 subtitle: Note my troubleshooting
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift, error]
 ---

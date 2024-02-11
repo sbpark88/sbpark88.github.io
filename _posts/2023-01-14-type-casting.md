@@ -2,6 +2,7 @@
 layout: post
 title: Swift Type Casting
 subtitle: Swift Type casting is a way to check the type of an instance, or to treat that instance as a different superclass or subclass from somewhere else in its own class hierarchy.
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift docs, checking type, type check operator, is, downcasting, type cast operator, as, type casting for Any]
 ---

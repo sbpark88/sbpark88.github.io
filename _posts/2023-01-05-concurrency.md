@@ -2,6 +2,7 @@
 layout: post
 title: Swift Concurrency
 subtitle: Swift asynchronous and parallel code
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift docs, asynchronous, parallel, threads, asynchronous functions, asynchronous sequences, for-await-in, async-let, async, await, yield, main, mainActor, task, task groups, cancel, actor, sendable types, concurrency domains]
 ---

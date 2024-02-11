@@ -2,6 +2,7 @@
 layout: post
 title: JavaScript 'this'
 subtitle: JavaScript's 'this' are different from other languages.
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [javascript]
 tags: [javascript, this, context, bind, call, apply, arrow function, _this, that]
 ---

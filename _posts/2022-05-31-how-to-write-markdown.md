@@ -2,6 +2,7 @@
 layout: post
 title: 마크 다운 테이블, 링크 작성법
 subtitle: 깃 블로그 포스팅을 자유롭게 해보자
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [markdown]
 tags: [markdown]
 ---

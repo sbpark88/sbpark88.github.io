@@ -2,6 +2,7 @@
 layout: post
 title: Swift Functions
 subtitle: Functions, Nested Functions, First-Class Citizens
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift docs, function, nested function, typealias, first class citizen, multiple return values, implicit return, argument label, default parameter value, variadic parameter, inout parameter]
 ---

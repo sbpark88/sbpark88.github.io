@@ -2,6 +2,7 @@
 layout: post
 title: Swift Automatic Reference Counting
 subtitle: Model the lifetime of objects and their relationships. 
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift docs, arc, automatic reference counting, strong reference cycle, zero strong references, memory leak, weak reference, unowned reference, capture list]
 ---

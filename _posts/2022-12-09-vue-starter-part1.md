@@ -2,6 +2,7 @@
 layout: post
 title: Vue.js Starter - Vue CLI
 subtitle: Vue.js 프로젝트 투입 일주일 전 - Part 1
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [javascript]
 tags: [javascript, vue, vue js, vue.js, vue cli, vue/cli]
 ---

@@ -2,6 +2,7 @@
 layout: post
 title: Swift Life Cycle - View Controller Lifecycle, App Lifecycle
 subtitle: Understanding about iOS API Lifecycle, View Controller Lifecycle and App Lifecycle 
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift docs, view controller lifecycle, app lifecycle, viewDidLoad, ]
 ---

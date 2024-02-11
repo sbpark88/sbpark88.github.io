@@ -2,6 +2,7 @@
 layout: post
 title: HTML Basic 4
 subtitle: Classes, Id, Iframes, File Paths
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [html]
 tags: [w3school, class, id, iframe, file path]
 ---

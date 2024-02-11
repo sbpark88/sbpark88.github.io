@@ -2,6 +2,7 @@
 layout: post
 title: Immutability and mutating methods in structures and enumerations
 subtitle: 왜 struct, enum 에서는 mutating 키워드가 필요한가?
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift, struct, structure, enumerations, enum, immutability, mutating, self]
 ---

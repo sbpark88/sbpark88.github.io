@@ -2,6 +2,7 @@
 layout: post
 title: 유닉스계 쉘 스크립트 명령 연결하기
 subtitle: 쉘 명령에 & | 같은 연산자를 사용해보자
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [shell]
 tags: [shell]
 ---

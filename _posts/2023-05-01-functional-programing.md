@@ -2,6 +2,7 @@
 layout: post
 title: Functional Programming & Monad
 subtitle: Deep Dive into Functional Programming
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [cs, swift, typescript, javascript]
 tags: [cs, typescript, swift, pure function, referential transparency, idempotent, unary, unitary, type class, functor, applicative functor, monad, composition, lambda, pipe, currying, mutating, immutable]
 ---

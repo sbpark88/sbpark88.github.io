@@ -2,6 +2,7 @@
 layout: post
 title: W3C Web Standards
 subtitle: Web Standards and Web Images
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [html]
 tags: [w3c, web standards, rec, html, block, inline, global attributes, data-*]
 ---

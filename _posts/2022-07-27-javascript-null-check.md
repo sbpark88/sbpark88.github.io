@@ -2,6 +2,7 @@
 layout: post
 title: 자바스크립트 null, empty value 체크의 모든 것
 subtitle: I don't know what you want, so I prepared everything!
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [javascript]
 tags: [javascript null check, null coalescing operator]
 ---

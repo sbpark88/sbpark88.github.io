@@ -27,12 +27,26 @@
 title: Hogwarts
 email: saebyulpark88@gmail.com
 author: sbpark88
-copyright: Copyright © 2022-2024
+
+# Copyright setting
+# You can use any html code, currently below placeholders are available:
+# * current year: {currentYear}
+# * author: {author} (Value is the same as site.author)
+# * copyright: (c) - ©
+# * copyleft: (cleft)
+# * sound recording copyright: (p) - ℗
+#
+# For example:
+#   "Copyright (c) 2017-{currentYear} <a href="https://example.com">{author}</a>"
+#   "Copyright © 2017-2021 Foobar"
+#
+copyright: "Copyright ©  2017-{currentYear} {author}"
+
 description: >- # this means to ignore newlines until "baseurl:"
-  Welcome to saebyul's github blog.
+  Welcome to sbpark88's github blog.
 
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://sbpark88.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://sbpark88.github.io" # the base hostname & protocol for your site, e.g. https://example.com
 favicon: "/assets/images/favicon/favicon.ico" # the favicon for your site
 
 # Yat date format
@@ -46,14 +60,45 @@ yat:
 # If you don't want transparent header, you can set false
 # header_transparent: true
 
-# Google analytics
+# If you want to change the content width, you can set to another value
+content_width: "1200px"
+
+# Google analytics - GA4
 google_analytics: G-8M9JT4JF5Z
+enableDNT: "ture"
 
 # If you want to generate website sitemap, you can set true
-# sitemap: false
+sitemap: true
 
 # If you want to change site language, you can set lang option
-lang: "ko"  # default lang is en
+lang: "ko" # default lang is en
+
+# Translate languges
+# langs refer to https://cloud.google.com/translate/docs/languages
+# translate_langs:
+#   - lang: en
+#     img: https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png
+#     text: English
+#
+#   - lang: fr
+#     img: https://cdn.countryflags.com/thumbs/france/flag-400.png
+#     text: French
+#
+#   - lang: zh-CN
+#     img: https://cdn.countryflags.com/thumbs/china/flag-400.png
+#     text: Chinese(Simple)
+#
+#   - lang: ja
+#     img: https://cdn.countryflags.com/thumbs/japan/flag-400.png
+#     text: Japanese
+#
+#   - lang: ko
+#     img: https://cdn.countryflags.com/thumbs/south-korea/flag-400.png
+#     text: Korean
+#
+#   - lang: ru
+#     img: https://cdn.countryflags.com/thumbs/russia/flag-400.png
+#     text: Russian
 
 # You can choose a theme color
 # Default theme colors as below:
@@ -76,6 +121,11 @@ lang: "ko"  # default lang is en
 #
 # Custom color as below:
 # brand_color: "#1a8e42"
+
+# You can custom selection style
+# selection:
+#   color: "#ff00ff"
+#   background_color: "yellow"
 
 # Night/Dark mode
 # Default mode is "auto", "auto" is for auto nightshift
@@ -107,6 +157,13 @@ night_mode: "on"
 #   - tags.html
 #   - about.md
 
+# Page default value
+# defaults:
+#   home:
+#     heading: "Your awesome heading"
+#     subheading: "Your awesome subheading"
+#     banner: "Your image url"
+
 # Banner default settings
 # These banner settings are for global banner default, but you can also
 # config it by the front matter for one specific post
@@ -119,15 +176,41 @@ night_mode: "on"
 #   opacity: 1.0            # Banner opacity (100% is 1.0)
 #   background: "rgba(0, 0, 0, 0.8)"  # Banner background (Could be a image)
 #   height: "640px"         # Banner default height
-#   min_height: null        # Banner minium height
+#   min_height: null        # Banner minimum height
 #   heading_style: null     # Custom heading style (e.g. "font-weight: bold; text-decoration: underline")
 #   subheading_style: null  # Custom subheading style (e.g. color: gold)
 
-# Excerpt size setting
-# excerpt_size: 350
+# Excerpt settings
+# excerpt:
+#   default_image: /assets/images/default-image.jpeg  # Default image when the image style is not none
+#   image_style: z          # Image layout style (It's value could be none, left, right, top, z, z-reverse)
+#   image_width: 38.2%      # Image default width
+#   image_height: 160px     # Image default height
+#   text_size: 350          # Words default size
 
 # Pagination setting
 paginate: 5
+
+# Photo previewer settings (PhotoSwipe 5)
+# the options please refer to: https://photoswipe.com/options/
+# photo_previewer:
+#  gallery: "section.main"
+#  children: "a.photo-swipe"
+#  bgOpacity: 0.8
+#  padding:
+#    top: 20
+#    bottom: 40
+#    left: 100
+#    right: 100
+
+# Click to top settings
+# click_to_top:
+#   light:
+#     background_color: "white"
+#     color: "#454545"
+#   dark:
+#     background_color: "#34323d"
+#     color: "#bbb"
 
 # Disqus comments
 # disqus:
@@ -141,7 +224,23 @@ paginate: 5
 #   client_secret: "Your client secret"
 #   redirect_uri: "Your redirect url"   # If you use a custom domain name
 
+# Utterances comments
+# See https://utteranc.es/
+# set follow_site_theme true to make utterances' theme follow the site's
+
+# utterances:
+#   repo: "owner/repo"
+#   issue_term: "title"
+#   label: "utterances comment"
+#   theme: "github-light"
+#   follow_site_theme: true
+
 # Build settings
+# highlighter: none
+markdown: kramdown
+kramdown:
+  input: GFM
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
@@ -151,5 +250,4 @@ plugins:
 
 
 # future: true
-
 timezone: Asia/Seoul

@@ -2,6 +2,7 @@
 layout: post
 title: Covariance, Contravariance, Invariance
 subtitle: What is Covariance, Contravariance and Invariance?
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift, typescript]
 tags: [covariance, contravariance, Invariance, subtyping]
 ---

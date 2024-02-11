@@ -2,6 +2,7 @@
 layout: post
 title: Swift - Overriding Stored Properties
 subtitle: Inheritance - Overriding Stored Properties
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [swift]
 tags: [swift docs, overriding stored property]
 ---

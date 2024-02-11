@@ -2,6 +2,7 @@
 layout: post
 title: Vue.js Starter - Data Binding
 subtitle: Vue.js 프로젝트 투입 일주일 전 - Part 2
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [javascript]
 tags: [javascript, vue, vue js, vue.js, router, vue router, component, vue component, v-for, v-if, v-show, v-on, computed, watch]
 ---

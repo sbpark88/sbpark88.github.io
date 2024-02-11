@@ -2,6 +2,7 @@
 layout: post
 title: Basic CSS Style 2
 subtitle: shadow, gradient, animation, svg, media query, responsive, flex, justify, align, order
+excerpt_image: NO_EXCERPT_IMAGE
 categories: [css]
 tags: [css, shadow, radius, gradient, filter, animation, svg, stroke-dasharray, stroke-dashoffset, media query, responsive, flex, justify, align, order]
 ---
