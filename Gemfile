@@ -17,3 +17,5 @@ gem "jekyll-theme-yat"
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.12"
 end
+
+gem "rake", "~> 13.1"
