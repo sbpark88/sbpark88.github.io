@@ -403,8 +403,7 @@ __2 ) `@extend`__
 
 <br>
 
-style red 도?
-<span class="center">어떤 것을 써야 할까?</span>
+<p class="center">어떤 것을 써야 할까?</p>
 
 __1 ) `@mixin` and `@include`__
 
