@@ -872,6 +872,28 @@ content + padding + border 를 합한 영역의 크기가 100px 이므로
 > 
 > ![Font-Family](/assets/images/posts/2024-02-03-css-selectors/font-family.png){: width="700"}
 
+<br>
+
+위 속성들은 다음과 같이 따로 사용하기도 하지만, 여러 속성을 모두 선언할 경우 단축 속성으로 정의하기도 한다.
+
+```css
+.nanum-gothic-regular {
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1.5;
+  font-family: "Nanum Gothic", sans-serif;
+}
+```
+
+```css
+.nanum-gothic-regular {
+  font: 400 normal 16px/1.5 "Nanum Gothic", sans-serif;
+}
+```
+
+<br>
+
 - text-align
 > - `left`: default, 왼쪽 정렬.
 > - `right`: 오른쪽 정렬.
