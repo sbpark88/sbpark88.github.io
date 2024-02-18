@@ -691,7 +691,8 @@ max-width 가 제한됨에 따라 너비가 200으로 제한된다.
 > - `auto`: 브라우저가 여백을 계산(<span style="color: red;">블럭 엘리먼트 & 가로 너비가 있는 엘리먼트의 
 >   가운데 정렬에 활용</span>)(세로 정렬은 안 됨).
 > - 단위값: px, em, vw 등 단위를 지정한다(<span style="color: red;">음수</span>값 사용 가능).
-> - ~~%~~: 부모 엘리먼트의 **가로 너비**에 대한 비율로 지정하지만 실제 사용되는 방식은 아니다.
+> - ~~%~~: <span style="color: red;">부모 엘리먼트의 **가로 너비**에 대한 비율</span>로 지정하지만 
+>          실제 사용되는 방식은 아니다.
 
 > `margin-collapsing`이 발생된다.
 
@@ -701,9 +702,54 @@ max-width 가 제한됨에 따라 너비가 200으로 제한된다.
 
 > - `0`: default, 내부 여백 없음.
 > - 단위값: px, em, vw 등 단위를 지정한다.
-> - %: 부모 엘리먼트의 **가로 너비**에 대한 비율로 지정한다.
+> - %: <span style="color: red;">부모 엘리먼트의 **가로 너비**에 대한 비율</span>로 지정한다.
 
 > 엘리먼트의 크기가 커진다.
+
+<br>
+
+> **Margin** 과 **Padding** 모두 `%`를 사용하면 부모 엘리먼트의 **가로 너비**에 대한 비율로 지정한다고 했다. 
+> 이 부분에서 <span style="color: red;">주의</span>해야 할 것이 `left`와 `right`는 부모 엘리먼트의 `width`에 
+> 영향을 받고, `top`과 `bottom`은 부모 엘리먼트의 `height`에 영향을 받을 것 같지만, 부모 엘리먼트의 `height`가 0으로 
+> 존재하지 않든, 매우 큰 값을 가지든 상관 없이 <span style="color: red;">**top, right, bottom, left**</span> 
+> 모두 <span style="color: red;">부모 엘리먼트의 **가로 너비**에 대한 비율</span>을 참조한다는 것이다.
+> 
+> 예를 들어
+> 
+> ```html
+> <div class="container">
+>   <div class="item"></div>
+> </div>
+> ```
+> 
+> 와 같은 구조를 정의하고, 다음과 같이 CSS 를 정의하면, 높이를 지정하지 않아도 항상 16:9 비율의 공간이 생겨난다.
+> 
+> ```css
+> .container {
+>   width: 800px;
+>   background-color: grey;
+>   
+>   .item {
+>     padding-top: 56.25%;  /* 16:9 */
+>   }
+> }
+> ```
+> 
+> 그리고 위와 같이 디자인을 위해 불필요한 **item** 이라는 구조를 추가로 생성하지 않고 [Pseudo-element](#h-4-pseudo-element) 
+> `before` 또는 `after`를 사용해 다음과 같이 영역을 설정하는 데 사용할 수 있다.
+> 
+> ```scss
+> .container {
+>   width: 800px;
+>   background-color: grey;
+>   
+>   &::before {
+>     content: "";
+>     display: block;
+>     padding-top: 56.25%;  /* 16:9 */
+>   }
+> }
+> ```
 
 #### 5. border
 
@@ -976,7 +1022,10 @@ HTML 은 [Box Model](#h-1-box-model)을 채택하고 있으며, 엘리먼트의 
 > - 단위값: px, em, rem 등 단위를 지정한다.
 
 > `position`의 속성값으로 <span style="color: red;">**absolute, fixed**</span>가 지정된 엘리먼트는 
-> <span style="color: red;">display 속성이 **block** 으로 변경</span>된다.
+> <span style="color: red;">display 속성이 **block** 으로 변경</span>된다. 하지만 주의해야 할 것이 기본적으로 
+> **block** 엘리먼트는 부모 엘리먼트의 크기만큼 **width** 가 늘어나지만, **absolute, fixed** 가 지정되면 **inline** 
+> 엘리먼트와 같이 <span style="color: red;">**width** 가 content 크기 만큼 줄어</span>든다. 따라서, `header`와 같은 
+> 엘리먼트에 `fixed`를 지정하면서 너비를 다 사용하기를 원한다면 `width: 100%;`를 명시적으로 지정해야한다.
 
 ```html
 <div class="container">
@@ -1069,7 +1118,7 @@ HTML 은 [Box Model](#h-1-box-model)을 채택하고 있으며, 엘리먼트의 
 
 ![Position Relative 3](/assets/images/posts/2024-02-03-css-selectors/position-relative-3.png){: width="300"}
 
-#### 2. Stack Order
+#### 2. Stack Order ⭐️
 
 1. 엘리먼트에 **position 속성의 값이 있는 경우 더 위에 쌓인다**
    (<span style="color: red;">default 값 인 static 은 제외</span>).
@@ -1156,6 +1205,8 @@ HTML 은 [Box Model](#h-1-box-model)을 채택하고 있으며, 엘리먼트의 
 __align-content, align-items 어떤걸 사용할까?__
 
 - 일반적으로 1줄이면 align-items, 2줄 이상이면 align-content 를 사용한다. 하지만 1줄이라고 align-content 를 사용하지 못하는 것은 아니다.
+  align-items 는 wrap, no-wrap 모두에 사용 가능하고, <span style="color: red;">align-content 는 wrap 일 경우만 사용 가능</span>
+  한 것이 중요한 차이점이다. wrap 이면서 실제로 그려지는 엘리먼트가 2줄이 되었을 때의 정렬 모양이 다르므로 용도에 맞게 사용하면 된다.  
 - 1줄일 때 align-items 와 align-content 의 `stretch`, `flex-start`, `flex-end`, `center`는 동일한 효과를 갖는다.
 - 2줄일 때 align-items 와 align-content 의 `stretch`는 동일하지만 `flex-start`, `flex-end`, `center`는 다른 효과를 갖는다
   (<span style="color: red;">2줄일 때 align-items 적용이 불가능함이 아님에 유의</span>).
