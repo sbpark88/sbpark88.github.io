@@ -20,8 +20,8 @@ tags: [w3c, web standards, css, combinators, pseudo-classes, pseudo-elements, cs
 4. @import 방식 : `@import "reset.css"` 또는 `@import url("reset.css")`와 같이 사용한다.
 
 > `링크`방식은 HTML 이 해석되며 `async`로 작동해 여러 개를 동시에 요청하고, 수신 하는 대로 해석한다. 반면 `@import`방식은
-> 먼저 요청한 CSS 의 수신이 끝나고 해석을 하는 과정에 `@import`를 보고 요청을 한다. **include** 되는 방식이 아니고
-> **lay load** 되는 방식이라 일부러 연결을 지연시키는 목적으로 사용될 수 있으나, 제어할 수 없기 때문에 일반적으로 사용되는
+> 먼저 요청한 CSS 의 수신이 끝나고 해석을 하는 과정에 `@import`를 보고 요청을 한다. **including** 되는 방식이 아니고
+> **lazy loading** 되는 방식이라 일부러 연결을 지연시키는 목적으로 사용될 수 있으나, 제어할 수 없기 때문에 일반적으로 사용되는
 > 방법은 아니다. 별도의 번들링이나 빌드 도구를 사용해 **include** 시키고 지연 실행이 필요하면 **JavaScript** 로 제어를 해야 한다.
 
 ---
