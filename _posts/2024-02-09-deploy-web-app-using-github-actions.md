@@ -153,6 +153,7 @@ React 없이 Node 환경에서 띄우는 게 목적이었기 때문에 [Static S
 
 {% raw %}
 ```yaml
+# peaceiris/actions-gh-pages 에서 제공하는 템플릿이다. 실제 적용할 yaml 파일은 아래 작성된 yaml 을 확인할 것.
 name: GitHub Pages
 
 on:
@@ -253,8 +254,17 @@ Actions 를 사용하려는 repository 에 secret 에 들어가 깃허브 토큰
 
 - SCSS 전처리기를 위한 라이브러리: `sass`, `sass-loader`, `style-loader`, `css-loader`
 - HTML 전처리기를 위한 라이브러리: `html-loader`, `html-webpack-plugin`
-- Assets 전처리기를 위한 라이브러리: `file-loader`
+- Assets 전처리기를 위한 라이브러리: `file-loader` (`url-loader`를 사용해도 작동한다. [Module-script](#type-module) 
+  를 사용할 경우, <span style="color: red;">webpack 5 에서 deprecated</span> 되었으므로 설치하지 않는다.)
 - GitHub Pages 를 위한 라이브러리: `gh-pages`
+
+```shell
+npm i -D webpack webpack-cli webpack-dev-server \
+sass sass-loader style-loader css-loader \
+html-loader html-webpack-plugin \
+file-loader url-loader
+gh-pages
+```
 
 <br>
 
@@ -314,8 +324,11 @@ module.exports = {
       {
         // file loader
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        use: {
+          loader: "file-loader",
+        },
         generator: {
-          filename: "assets/images/[hash][ext][query]", // 이미지가 번들될 위치를 변경
+          filename: "[path][hash][ext][query]", // 이미지가 번들될 위치를 변경
         },
       },
       {
@@ -326,6 +339,68 @@ module.exports = {
         },
       },
     ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "index.html", // 루트 디렉토리에 있는 index.html을 템플릿으로 사용
+      filename: "index.html", // 생성될 HTML 파일 이름
+    }),
+  ],
+};
+```
+
+> 이미지와 같은 리소스를 정상적으로 로드하기 위해서는 webpack 이 관리할 수 있도록 해야한다. 즉, 이미지의 `src` 경로를 
+> javascript 에서 단순 문자열로 사용하면 안 되고, webpack 이 일고 번들링 할 수 있도록 html 문서를 통해 src 를 작성하거나, 
+> javascript 로 경로를 입력할 때는 import 를 사용해 파일을 불러와 사용해야한다.
+
+<br>
+<span id="type-module"></span>
+
+`package.json type="module"`을 사용할 경우 다음과 같이 일부 수정이 필요하다
+([Asset Modules] 에 의하면 <span style="color: red;">webpack 5 에서 deprecated</span> 된 
+`raw-loader`, `url-loader`, `file-loader`의 사용을 권장하지 않는다. module script 사용할 경우 이 부분도 함께
+바꿔주며, 더이상 위 loader 라이브러리는 설치할 필요가 없다).
+
+```javascript
+import * as path from "path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+
+const __dirname = path.resolve();
+
+export default {
+  entry: "./src/index.js",
+  output: {
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist"),
+    assetModuleFilename: "images/[hash][ext][query]",
+  },
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        use: ["style-loader", "css-loader", "sass-loader"],
+      },
+      {
+        // file loader
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+      },
+      {
+        // html loader
+        test: /\.html$/,
+        use: {
+          loader: "html-loader",
+        },
+      },
+    ],
+    parser: {
+      javascript: {
+        commonjsMagicComments: true,
+        dynamicImportMode: "lazy",
+        dynamicImportPreload: true,
+        dynamicImportPrefetch: true,
+      },
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -415,9 +490,11 @@ Reference
 
 1. peaceiris, "actions-gh-pages." GitHub. Mar. 31, 2023, [https://github.com/realm/SwiftLint].
 2. "제발 깃허브 액션🔥 모르는 개발자 없게해 주세요 🙏." Youtube. Jun. 28, 2022, [제발 깃허브 액션🔥 모르는 개발자 없게해 주세요 🙏](https://youtu.be/iLqGzEkusIw?si=PuIUQq8JV5qVsmm2).
+3. "Asset Modules." Webpack Docs. Feb. 27, 2024, [https://webpack.js.org/guides/asset-modules/][Asset Modules]
 
 
 [peaceiris/actions-gh-pages]:https://github.com/peaceiris/actions-gh-pages
 [Static Site Generators with Node.js]:https://github.com/peaceiris/actions-gh-pages?tab=readme-ov-file#%EF%B8%8F-static-site-generators-with-nodejs
 [React and Next]:https://github.com/peaceiris/actions-gh-pages?tab=readme-ov-file#%EF%B8%8F-react-and-next
 [Vue and Nuxt]:https://github.com/peaceiris/actions-gh-pages?tab=readme-ov-file#%EF%B8%8F-vue-and-nuxt
+[Asset Modules]:https://webpack.js.org/guides/asset-modules/
