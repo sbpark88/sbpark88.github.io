@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Deployment Web App using GitHub Actions
+title: Deployment Web App using GitHub Actions & Netlify
 subtitle: Deployment VanillaJS Project with Webpack using GitHub Actions on GitHub Pages
 excerpt_image: NO_EXCERPT_IMAGE
 categories: [cloud]
@@ -224,8 +224,8 @@ Actions 를 사용하려는 repository 에 secret 에 들어가 깃허브 토큰
   "description": "Project Description",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve --mode development --open",
-    "build": "webpack --mode production"
+    "start": "NODE_ENV=development webpack serve --open",
+    "build": "NODE_ENV=production webpack"
   },
   "keywords": [],
   "author": "Project Author",
@@ -266,54 +266,20 @@ file-loader url-loader
 gh-pages
 ```
 
-<br>
-
-프로젝트의 디렉토리는 다음과 같다고 하자.
-
-```
-project/
-├── .github/
-│   ├── workflows/
-│   │   └── build.yml
-├── assets
-│   └── images/
-│           ├── logo.png
-│           └── banner.jpg
-├── src/
-│   ├── index.js
-│   ├── components/
-│   │   ├── header.js
-│   │   └── footer.js
-│   └── styles/
-│       ├── main.scss
-│       └── variables.scss
-│
-├── dist/
-│   ├── index.html
-│   ├── bundle.js
-│   └── assets/
-│       └── images/
-│           ├── file-name-hashed-logo.png
-│           └── file-name-hashed-banner.jpg
-│
-├── LICENSE
-├── webpack.config.js
-├── package.json
-├── package-lock.json
-└── README.md
-```
-
-위 디렉토리 구조에 맞는 `webpack.config.js`를 작성하면 다음과 같다.
-
 ```javascript
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: {
+    index: "./src/pages/main/index.js",
+    signIn: "./src/pages/sign-in/index.js",
+  },
   output: {
-    filename: "bundle.js",
+    filename: "[name].[contenthash].bundle.js",
     path: path.resolve(__dirname, "dist"),
+    publicPath: process.env.NODE_ENV === "development" ? "/" : "/project-base-url/",
+    assetModuleFilename: "images/[hash][ext][query]",
   },
   module: {
     rules: [
@@ -342,8 +308,14 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "index.html", // 루트 디렉토리에 있는 index.html을 템플릿으로 사용
-      filename: "index.html", // 생성될 HTML 파일 이름
+      template: "./src/pages/main/index.html",
+      filename: "index.html",
+      chunks: ["index"], // entry 의 JavaScript 이름과 동일하게 지정. 해당 JavaScript 를 불러온다.
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/pages/sign-in/index.html",
+      filename: "sign-in/index.html", // directory 가 routing 기능을 하도록 "라우팅 경로/index.html" 로 설정한다.
+      chunks: ["signIn"],
     }),
   ],
 };
@@ -368,10 +340,14 @@ import HtmlWebpackPlugin from "html-webpack-plugin";
 const __dirname = path.resolve();
 
 export default {
-  entry: "./src/index.js",
+  entry: {
+    index: "./src/pages/main/index.js",
+    signIn: "./src/pages/sign-in/index.js",
+  },
   output: {
-    filename: "bundle.js",
+    filename: "[name].[contenthash].bundle.js",
     path: path.resolve(__dirname, "dist"),
+    publicPath: process.env.NODE_ENV === "development" ? "/" : "/project-base-url/",
     assetModuleFilename: "images/[hash][ext][query]",
   },
   module: {
@@ -381,7 +357,6 @@ export default {
         use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
-        // file loader
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: "asset/resource",
       },
@@ -404,15 +379,18 @@ export default {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "index.html", // 루트 디렉토리에 있는 index.html을 템플릿으로 사용
-      filename: "index.html", // 생성될 HTML 파일 이름
+      template: "./src/pages/main/index.html",
+      filename: "index.html",
+      chunks: ["index"], // entry 의 JavaScript 이름과 동일하게 지정. 해당 JavaScript 를 불러온다.
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/pages/sign-in/index.html",
+      filename: "sign-in/index.html", // directory 가 routing 기능을 하도록 "라우팅 경로/index.html" 로 설정한다.
+      chunks: ["signIn"],
     }),
   ],
 };
 ```
-
-여기서 중요한 것은 Workflows yaml 파일의 `publish_dir`이 `webpack.config.js`의 `output.path`와 같아야 한다는거다.  
-따라서 `build.yml`파일은 다음과 같이 작성하면 된다.
 
 {% raw %}
 ```yaml
@@ -460,7 +438,7 @@ jobs:
 
 - node-version: 기본 템플릿에는 node 14로 되어있는데 해당 버전을 사용하면 최신으로 설치된 라이브러리 일부를 찾지 
   못하는 문제가 발생한다. 따라서 버전을 개발 환경과 동일한 버전으로 올려줘야한다.
-- publish_dir: 위에서도 설명했듯이, `webpack.config.js` 파일의 `output.path`과 일치하도록 수정해줘야한다.
+- publish_dir: 위에서도 설명했듯이, `webpack.config.js` 파일의 `output.path`와 일치하도록 수정해줘야한다.
   따라서 `./dist`로 수정되었다.
 
 #### 3. Configure GitHub Repository Setting
@@ -481,6 +459,103 @@ Jekyll 에서 `main`을 deploy 하도록 되어 있어서 신경 쓰지 않았�
 확인해야한다!!
 
 <p class="center">정상적으로 깃허브 페이지 호스팅이 되었다!!</p>
+
+---
+
+### 3. Netlify 👩‍
+
+Netlify 에 직접 호스팅 하는 것이 아닌, GitHub 에 push 를 하면 특정 브랜치로부터 자동으로 배포되도록 연동하는 것에 
+대해 설명한다. Netlify 로 배포할 경우 위 GitHub Actions 는 설정하지 않아도 된다.
+
+GitHub Pages 로 배포할 경우 기본 경로 설정을 하지 않으면 **root** 가 repository 이름을 제외한 경로로 설정되서 
+`publicPath`를 설정해주었다. Netlify 를 사용할 경우 각각 배포가 가능하므로 `webpack.config.json`에서
+`output.publicPath: process.env.NODE_ENV === "development" ? "/" : "/project-base-url/"`를 삭제한다.
+
+![GitHub with Netlify 1](/assets/images/posts/2024-02-09-deploy-web-app-using-github-actions/netilify-configurations-1.png)
+
+- Base directory: 해당 레포지토리에서 배포하려는 앱의 기본 경로다. 하나의 레포지토리에 디렉토리별로 여러 개의 앱을 배포할 경우, 
+                  해당하는 경로를 입력하면 되고, 레포지토리 하나에 하나의 앱일 경우 **root** 경로이므로 비워둔다
+                  (경로가 입력될 경우, 'Package directory', 'Publish directory', 'Functions directory' 앞에 
+                  `base dir/`은 자동으로 입력된다).
+- Build command: `npm ci`는 Netlify 가 알아서 진행하니 `npm run build`만 작성하면 된다.
+- Publish directory: **webpack** 의 `output.path`를 입력하면 된다.
+
+![GitHub with Netlify 2](/assets/images/posts/2024-02-09-deploy-web-app-using-github-actions/netilify-configurations-2.png)
+
+![GitHub with Netlify 3](/assets/images/posts/2024-02-09-deploy-web-app-using-github-actions/netilify-configurations-3.png)
+
+![GitHub with Netlify 4](/assets/images/posts/2024-02-09-deploy-web-app-using-github-actions/netilify-configurations-4.png)
+
+<br>
+
+만약, 양쪽에 모두 배포를 원할 경우 다음과 같이 설정을 나눌 수 있다.
+
+__1 ) script 명령에 변수를 사용해 분리하는 방법__
+
+```json
+{
+  "scripts": {
+    "start": "NODE_ENV=development webpack serve --open",
+    "build-github": "NODE_ENV=production BASE_URL=project-base-url webpack",
+    "build-netlify": "NODE_ENV=production webpack"
+  }
+}
+```
+
+```javascript
+export default {
+  output: {
+    publicPath: process.env.BASE_URL === undefined ? "/" : process.env.BASE_URL,
+  },
+};
+```
+
+__2 ) webpack configuration 파일로 분리하는 방법__
+
+```json
+{
+  "scripts": {
+    "start": "NODE_ENV=development webpack --config webpack.development.config.js serve --open",
+    "build-github": "NODE_ENV=production --config webpack.prod-github.config.js webpack",
+    "build-netlify": "NODE_ENV=production --config webpack.prod-netlify.config.js webpack"
+  }
+}
+```
+
+```javascript
+export default {
+  output: {
+    publicPath: process.env.NODE_ENV === "development" ? "/" : "/project-base-url/",
+  },
+};
+```
+
+__3 ) 호스팅 서버의 환경변수로 분리하는 방법__
+
+`BASE_URL`을 GitHub Pages 나 Netlify 에 환경변수를 설정하고, 이를 가져다 사용하도록 할 수 있다.
+
+```json
+{
+  "scripts": {
+    "start": "NODE_ENV=development webpack serve --open",
+    "build": "NODE_ENV=production --config webpack"
+  }
+}
+```
+
+```javascript
+export default {
+  output: {
+    publicPath: process.env.NODE_ENV === "development" ? "/" : "/project-base-url/",
+  },
+};
+```
+
+> 위 세 가지 중 어떤 방법을 사용하든, `output.publicPath`는 HTML, JavaScript, Images 와 같은 Network 요청을 
+> 보낼 때 기본 URL 을 추가해준다. 하지만 `<a href="/sign-in">`과 같은 경로는 수정되지 않는다. 즉, 코드를 작성할 때 
+> <span style="color: red;">BASE_URL 을 환경변수로부터 가져오도록</span> 코딩을 해야한다. 따라서 2페이지 이상일 
+> 경우, Github Pages 로 배포하는 것은 그냥 Webpack 없이 HTML, JavaScript 를 직접 배포하거나, React 로 
+> 배포해야한다. Vanilla JS 프로젝트가 2페이지 이상일 경우 배포는 Netlify 로 하는 것이 더 좋다.
 
 
 <br><br>
