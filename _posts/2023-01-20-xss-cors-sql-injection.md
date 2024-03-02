@@ -405,8 +405,7 @@ __3 ) Filter 또는 Library 를 사용한다__
 
 __4 ) CSP 사용__
 
-최신 브라우저는 일반적으로 `SOP`(Same-Origin Policy)를 적용한다. 하지만 경우에 따라 `CORS`(Cross-Origin Resource Sharing)를 
-거 필요하기도 하며, SOP 를 적용한다 하더라도 이를 우회하는 공격법이 존재하므로 SOP 라고 안심하는 것이 불가능하다. 
+최신 브라우저는 일반적으로 `SOP`(Same-Origin Policy)를 적용한다. 하지만 경우에 따라 `CORS`(Cross-Origin Resource Sharing)를 필요하기도 하며, SOP 를 적용한다 하더라도 이를 우회하는 공격법이 존재하므로 SOP 라고 안심하는 것이 불가능하다. 
 
 따라서 Content Security Policy 를 사용해 스크립트 실행에 대한 출처 조건을 화이트리스트로 제한하도록 추가적인 보안 조치가 필요하다.
 
