@@ -517,6 +517,7 @@ __2 ) percentage & margin calc__
 
 <br>
 
+<span id="do-not-need-size-1"></span>
 __3 ) percentage & translate__
 
 ```css
@@ -551,3 +552,327 @@ __3 ) percentage & translate__
 > <span style="color: red;">**absolute**</span> 를 사용한 <span style="color: red;">가운데 정렬</span>
 > 중 유일하게 <span style="color: red;">**width 와 height 가 필요 없는**</span> 정렬 방법이다.
 
+---
+
+## 3. display: flex 👩‍
+
+`flex`를 이용한 정렬은 <span style="color: red;">**width**, **height** 가 지정되지 않은 경우 또는, 
+inline 속성에도 모두 적용할 수 있는 정렬</span>방법이다. 물론, <span style="color: red;">cross-axis</span> 
+정렬을 명시하지 않을 경우, **width**, **height** 가 지정되지 않는 엘리먼트는 그것이 block 속성이든, inline 속성이든 
+*cross-axis 방향으로 늘어나기 때문에* 실제로 이런식으로 사용하진 않겠지만 flex 를 이용한 정렬 자체는 **width**, 
+**height** 가 필요 없는 정렬이라는 것이 중요하다.
+
+### 1. Horizontal Alignment
+
+#### 1. left: default
+
+다음과 같이 강제로 지정할 수 있지만 기본적으로 왼쪽에 정렬되기 때문에, 전역에서 중앙 또는 우측에 정렬되게 작성된 속성이 존재해
+더 높은 우선순위로써 덮어 써야 하는 경우가 아니라면 별도의 정렬이 필요하지 않다.
+
+```html
+<div class="outer">
+  <img src="coral-box.png" alt="coral box" class="inner">
+</div>
+```
+
+```css
+.outer {
+  display: flex;
+  justify-content: flex-start;
+}
+```
+
+<div class="green-box">
+  <img src="/assets/images/posts/2024-03-01-css-alignment/coral-box.png" 
+       alt="coral box"
+       class="green-box__coral-box"
+       style="vertical-align: center; margin: 0;">
+</div>
+<br>
+
+> `display: flex`, `justify-content: flex-start`
+
+#### 2. right
+
+```html
+<div class="outer">
+  <img src="coral-box.png" alt="coral box" class="inner">
+</div>
+```
+
+```css
+.outer {
+  display: flex;
+  justify-content: flex-end;
+}
+```
+
+<div class="green-box"
+     style="display: flex; justify-content: flex-end;">
+  <img src="/assets/images/posts/2024-03-01-css-alignment/coral-box.png" 
+       alt="coral box"
+       class="green-box__coral-box"
+       style="vertical-align: center; margin: 0;">
+</div>
+<br>
+
+> `display: flex`, `justify-content: flex-end`
+
+#### 3. center
+
+```html
+<div class="outer">
+  <img src="coral-box.png" alt="coral box" class="inner">
+</div>
+```
+
+```css
+.outer {
+  display: flex;
+  justify-content: center;
+}
+```
+
+<div class="green-box"
+     style="display: flex; justify-content: center;">
+  <img src="/assets/images/posts/2024-03-01-css-alignment/coral-box.png" 
+       alt="coral box"
+       class="green-box__coral-box"
+       style="vertical-align: center; margin: 0;">
+</div>
+<br>
+
+> `display: flex`, `justify-content: flex-end`
+
+### 2. Vertical Alignment
+
+#### 1. top: default
+
+다음과 같이 강제로 지정할 수 있지만 기본적으로 상단에 정렬되기 때문에, 전역에서 중앙 또는 하단에 정렬되게 작성된 속성이 존재해
+더 높은 우선순위로써 덮어 써야 하는 경우가 아니라면 별도의 정렬이 필요하지 않다. 단, 자식 엘리먼트가 *cross-axis* 방향의 
+크기를 지정하지 않으면 엘리먼트가 늘어나기 때문에, 이 경우 직접 정렬이 필요할 수 있다(물론, 가능하면 크기를 지정해주는 것이 
+더 좋은 방법이다).
+
+```html
+<div class="outer">
+  <img src="coral-box.png" alt="coral box" class="inner">
+</div>
+```
+<br>
+
+__1 ) align-items__
+
+```css
+.outer {
+  display: flex;
+  align-items: flex-start
+}
+```
+
+<div class="green-box"
+     style="display: flex; align-items: flex-start;">
+  <img src="/assets/images/posts/2024-03-01-css-alignment/coral-box.png" 
+       alt="coral box"
+       class="green-box__coral-box"
+       style="vertical-align: center; margin: 0;">
+</div>
+<br>
+
+> `display: flex`, `align-items: flex-start`
+
+<br>
+
+__2 ) wrap & align-content__
+
+```css
+.outer {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+```
+
+<div class="green-box"
+     style="display: flex; flex-wrap: wrap; align-content: flex-start">
+  <img src="/assets/images/posts/2024-03-01-css-alignment/coral-box.png" 
+       alt="coral box"
+       class="green-box__coral-box"
+       style="vertical-align: center; margin: 0;">
+</div>
+<br>
+
+> `display: flex`, `flex-wrap: wrap`, `align-content: flex-start`
+
+#### 2. bottom
+
+```html
+<div class="outer">
+  <img src="coral-box.png" alt="coral box" class="inner">
+</div>
+```
+<br>
+
+__1 ) align-items__
+
+```css
+.outer {
+  display: flex;
+  align-items: flex-end;
+}
+```
+
+<div class="green-box"
+     style="display: flex; align-items: flex-end;">
+  <img src="/assets/images/posts/2024-03-01-css-alignment/coral-box.png" 
+       alt="coral box"
+       class="green-box__coral-box"
+       style="vertical-align: center; margin: 0;">
+</div>
+<br>
+
+> `display: flex`, `align-items: flex-end`
+
+<br>
+
+__2 ) wrap & align-content__
+
+```css
+.outer {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-end;
+}
+```
+
+<div class="green-box"
+     style="display: flex; flex-wrap: wrap; align-content: flex-end;">
+  <img src="/assets/images/posts/2024-03-01-css-alignment/coral-box.png" 
+       alt="coral box"
+       class="green-box__coral-box"
+       style="vertical-align: center; margin: 0;">
+</div>
+<br>
+
+> `display: flex`, `flex-wrap: wrap`, `align-content: flex-end`
+
+#### 3. center
+
+```html
+<div class="outer">
+  <img src="coral-box.png" alt="coral box" class="inner">
+</div>
+```
+<br>
+
+__1 ) align-items__
+
+```css
+.outer {
+  display: flex;
+  align-items: center;
+}
+```
+
+<div class="green-box"
+     style="display: flex; align-items: center;">
+  <img src="/assets/images/posts/2024-03-01-css-alignment/coral-box.png" 
+       alt="coral box"
+       class="green-box__coral-box"
+       style="vertical-align: center; margin: 0;">
+</div>
+<br>
+
+> `display: flex`, `align-items: center`
+
+<br>
+
+__2 ) wrap & align-content__
+
+```css
+.outer {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+}
+```
+
+<div class="green-box"
+     style="display: flex; flex-wrap: wrap; align-content: center;">
+  <img src="/assets/images/posts/2024-03-01-css-alignment/coral-box.png" 
+       alt="coral box"
+       class="green-box__coral-box"
+       style="vertical-align: center; margin: 0;">
+</div>
+<br>
+
+> `display: flex`, `flex-wrap: wrap`, `align-content: center`
+
+### 3. Center Alignment
+
+```html
+<div class="outer">
+  <img src="coral-box.png" alt="coral box" class="inner">
+</div>
+```
+<br>
+
+__1 ) justify-content & align-items__
+
+```css
+.outer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+```
+
+<div class="green-box"
+     style="display: flex; justify-content: center; align-items: center;">
+  <img src="/assets/images/posts/2024-03-01-css-alignment/coral-box.png" 
+       alt="coral box"
+       class="green-box__coral-box"
+       style="vertical-align: center; margin: 0;">
+</div>
+<br>
+
+> `display: flex`, `justify-content: center`, `align-items: center`
+
+<br>
+
+__2 ) justify-content & wrap & align-content__
+
+```css
+.outer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+}
+```
+
+<div class="green-box"
+     style="display: flex; flex-wrap: wrap; justify-content: center; align-content: center;">
+  <img src="/assets/images/posts/2024-03-01-css-alignment/coral-box.png" 
+       alt="coral box"
+       class="green-box__coral-box"
+       style="vertical-align: center; margin: 0;">
+</div>
+<br>
+
+> `display: flex`, `flex-wrap: wrap`, `justify-content: center`, `align-content: center`
+
+<br><br>
+
+> 엘리먼트의 정확한 크기를 지정할 수 없는 경우, **width** 또는 **height** 의 값이 없어도 적용할 수 있는 정렬 방법이 필요한데, 
+> <span style="color: red;">가운데 정렬이 필요할 때</span> 사용할 수 있는 방법은 두 가지가 있다.
+> 
+> 1. <span style="color: red;">absolute</span> 와 <span style="color: red;">translate</span> 를 
+>    사용한 방법 (e.g. 가로, 세로 모두 가운데 정렬을 예로 들면
+>    [position: absolute 를 사용한 가운데 정렬](#do-not-need-size-1) 을 이야기한다).
+> 2. <span style="color: red;">flex</span> 를 사용한 방법 (e.g. 가로, 세로 모두 가운데 정렬을 예로 들면 
+>    [display: flex 를 사용한 가운데 정렬](#h-3-center-alignment-1) 을 이야기한다).
+> 
+> 차이점은, <span style="color: red;">**absolute**</span> 와 <span style="color: red;">**translate**</span> 
+> 를 사용한 첫 번째 방법은 <span style="color: red;">엘리먼트에 적용하는 속성</span>인 반면, 
+> <span style="color: red;">**flex**</span> 를 사용한 두 번째 방법은 
+> <span style="color: red;">부모에게 적용하는 속성</span>이다. 
