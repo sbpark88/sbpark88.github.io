@@ -225,7 +225,7 @@ Actions 를 사용하려는 repository 에 secret 에 들어가 깃허브 토큰
   "main": "index.js",
   "scripts": {
     "serve": "webpack serve --mode=development --node-env=development --open",
-    "watch": "webpack serve --mode=development --node-env=development --open --watch",
+    "watch": "webpack --watch --mode=development --node-env=development",
     "build": "webpack --mode=production --node-env=production"
   },
   "keywords": [],
@@ -507,7 +507,7 @@ __1 ) script 명령에 변수를 사용해 분리하는 방법__
 {
   "scripts": {
     "serve": "webpack serve --mode=development --node-env=development --open",
-    "watch": "webpack serve --mode=development --node-env=development --open --watch",
+    "watch": "webpack --watch --mode=development --node-env=development",
     "build-github": "webpack --mode=production --node-env=production --base-url=project-base-url",
     "build-netlify": "webpack --mode=production --node-env=production"
   }
@@ -533,7 +533,7 @@ __2 ) webpack configuration 파일로 분리하는 방법__
 {
   "scripts": {
     "serve": "webpack serve --mode=development --config webpack.development.config.js --node-env=development --open",
-    "watch": "webpack serve --mode=development --config webpack.development.config.js --node-env=development --open --watch",
+    "watch": "webpack --watch --mode=development --config webpack.development.config.js --node-env=development",
     "build-github": "webpack --mode=production --config webpack.prod-github.config.js --node-env=production",
     "build-netlify": "webpack --mode=production --config webpack.prod-netlify.config.js --node-env=production"
   }
@@ -580,7 +580,7 @@ __3 ) 호스팅 서버의 환경변수로 분리하는 방법__
 {
   "scripts": {
     "serve": "webpack serve --mode=development --node-env=development --open",
-    "watch": "webpack serve --mode=development --node-env=development --open --watch",
+    "watch": "webpack --watch --mode=development --node-env=development",
     "build": "webpack --mode=production --node-env=production"
   }
 }
