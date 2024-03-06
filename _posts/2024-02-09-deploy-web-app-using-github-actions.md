@@ -224,8 +224,9 @@ Actions 를 사용하려는 repository 에 secret 에 들어가 깃허브 토큰
   "description": "Project Description",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development webpack serve --open",
-    "build": "NODE_ENV=production webpack"
+    "serve": "webpack serve --mode=development --node-env=development --open",
+    "watch": "webpack serve --mode=development --node-env=development --open --watch",
+    "build": "webpack --mode=production --node-env=production"
   },
   "keywords": [],
   "author": "Project Author",
@@ -266,14 +267,23 @@ file-loader url-loader
 gh-pages
 ```
 
+> <span style="color: red;">다른 방법으로는 `npx webpack init` 명령을 사용해 webpack 프로젝트를 생성</span>한다.
+> 
+> ```shell
+> npm i -D webpack webpack-cli @webpack-cli/generators
+> ```
+> ```shell
+> npx webpack init
+> ```
+
 ```javascript
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: {
-    index: "./src/pages/main/index.js",
-    signIn: "./src/pages/sign-in/index.js",
+    index: "./src/html/main/index.js",
+    signIn: "./src/html/sign-in/index.js",
   },
   output: {
     filename: "[name].[contenthash].bundle.js",
@@ -308,12 +318,12 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./src/pages/main/index.html",
+      template: "./src/html/main/index.html",
       filename: "index.html",
       chunks: ["index"], // entry 의 JavaScript 이름과 동일하게 지정. 해당 JavaScript 를 불러온다.
     }),
     new HtmlWebpackPlugin({
-      template: "./src/pages/sign-in/index.html",
+      template: "./src/html/sign-in/index.html",
       filename: "sign-in/index.html", // directory 가 routing 기능을 하도록 "라우팅 경로/index.html" 로 설정한다.
       chunks: ["signIn"],
     }),
@@ -341,8 +351,8 @@ const __dirname = path.resolve();
 
 export default {
   entry: {
-    index: "./src/pages/main/index.js",
-    signIn: "./src/pages/sign-in/index.js",
+    index: "./src/html/main/index.js",
+    signIn: "./src/html/sign-in/index.js",
   },
   output: {
     filename: "[name].[contenthash].bundle.js",
@@ -357,6 +367,7 @@ export default {
         use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
+        // file loader
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: "asset/resource",
       },
@@ -379,12 +390,12 @@ export default {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./src/pages/main/index.html",
+      template: "./src/html/main/index.html",
       filename: "index.html",
       chunks: ["index"], // entry 의 JavaScript 이름과 동일하게 지정. 해당 JavaScript 를 불러온다.
     }),
     new HtmlWebpackPlugin({
-      template: "./src/pages/sign-in/index.html",
+      template: "./src/html/sign-in/index.html",
       filename: "sign-in/index.html", // directory 가 routing 기능을 하도록 "라우팅 경로/index.html" 로 설정한다.
       chunks: ["signIn"],
     }),
@@ -495,9 +506,10 @@ __1 ) script 명령에 변수를 사용해 분리하는 방법__
 ```json
 {
   "scripts": {
-    "start": "NODE_ENV=development webpack serve --open",
-    "build-github": "NODE_ENV=production BASE_URL=project-base-url webpack",
-    "build-netlify": "NODE_ENV=production webpack"
+    "serve": "webpack serve --mode=development --node-env=development --open",
+    "watch": "webpack serve --mode=development --node-env=development --open --watch",
+    "build-github": "webpack --mode=production --node-env=production --base-url=project-base-url",
+    "build-netlify": "webpack --mode=production --node-env=production"
   }
 }
 ```
@@ -505,30 +517,60 @@ __1 ) script 명령에 변수를 사용해 분리하는 방법__
 ```javascript
 export default {
   output: {
+    filename: "[name].[contenthash].bundle.js",
+    path: path.resolve(__dirname, "dist"),
     publicPath: process.env.BASE_URL === undefined ? "/" : process.env.BASE_URL,
+    assetModuleFilename: "images/[hash][ext][query]",
   },
 };
 ```
+
+> project-base-url 은 `/github-name/repository-name/` 형태로 작성한다.
 
 __2 ) webpack configuration 파일로 분리하는 방법__
 
 ```json
 {
   "scripts": {
-    "start": "NODE_ENV=development webpack --config webpack.development.config.js serve --open",
-    "build-github": "NODE_ENV=production --config webpack.prod-github.config.js webpack",
-    "build-netlify": "NODE_ENV=production --config webpack.prod-netlify.config.js webpack"
+    "serve": "webpack serve --mode=development --config webpack.development.config.js --node-env=development --open",
+    "watch": "webpack serve --mode=development --config webpack.development.config.js --node-env=development --open --watch",
+    "build-github": "webpack --mode=production --config webpack.prod-github.config.js --node-env=production",
+    "build-netlify": "webpack --mode=production --config webpack.prod-netlify.config.js --node-env=production"
   }
 }
 ```
 
 ```javascript
+// webpack.development.config.js
 export default {
   output: {
-    publicPath: process.env.NODE_ENV === "development" ? "/" : "/project-base-url/",
+    filename: "[name].[contenthash].bundle.js",
+    path: path.resolve(__dirname, "dist"),
+    assetModuleFilename: "images/[hash][ext][query]",
+  },
+};
+
+// webpack.prod-github.config.js
+export default {
+  output: {
+    filename: "[name].[contenthash].bundle.js",
+    path: path.resolve(__dirname, "dist"),
+    publicPath: "project-base-url",
+    assetModuleFilename: "images/[hash][ext][query]",
+  },
+};
+
+// webpack.prod-netlify.config.js
+export default {
+  output: {
+    filename: "[name].[contenthash].bundle.js",
+    path: path.resolve(__dirname, "dist"),
+    assetModuleFilename: "images/[hash][ext][query]",
   },
 };
 ```
+
+> project-base-url 은 `/github-name/repository-name/` 형태로 작성한다.
 
 __3 ) 호스팅 서버의 환경변수로 분리하는 방법__
 
@@ -537,8 +579,9 @@ __3 ) 호스팅 서버의 환경변수로 분리하는 방법__
 ```json
 {
   "scripts": {
-    "start": "NODE_ENV=development webpack serve --open",
-    "build": "NODE_ENV=production --config webpack"
+    "serve": "webpack serve --mode=development --node-env=development --open",
+    "watch": "webpack serve --mode=development --node-env=development --open --watch",
+    "build": "webpack --mode=production --node-env=production"
   }
 }
 ```
@@ -550,6 +593,9 @@ export default {
   },
 };
 ```
+
+> GitHub Pages 의 project-base-url 은 `/github-name/repository-name/` 형태로 작성하고, 
+> Netlify 는 `/`로 작성한다.
 
 > 위 세 가지 중 어떤 방법을 사용하든, `output.publicPath`는 HTML, JavaScript, Images 와 같은 Network 요청을 
 > 보낼 때 기본 URL 을 추가해준다. 하지만 `<a href="/sign-in">`과 같은 경로는 수정되지 않는다. 즉, 코드를 작성할 때 
