@@ -536,7 +536,14 @@ __2 ) width, height__
 기본값 `auto`일 때
 - 박스 엘리먼트: *width* 는 부모 엘리먼트의 크기만큼 늘어나고, *height* 는 content 크기 만큼 줄어든다.  
 - 인라인 엘리먼트: *width* 와 *height* 는 content 크기 만큼 줄어든다. 
-<br>
+
+> 엘리먼트가 <span style="color: red;">명시적인 **width**, **height** 값</span>을 가지려면
+> 
+> - [display](#h-9-display): block, inline-block
+> - [position](#h-1-position): absolute, fixed
+> - [flex-items](#h-6-css-flex-layout-)
+> 
+> 가 되어야 한다.
 
 __3 ) max-✱__
 
