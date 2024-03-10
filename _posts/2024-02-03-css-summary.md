@@ -963,6 +963,11 @@ content + padding + border 를 합한 영역의 크기가 100px 이므로
 - `0`: default, 들여쓰기/내어쓰기 없음.
 - `양수`: 들여쓰기.
 - `음수`: 내어쓰기.
+- `-9999px`: `img` 엘리먼트는 `alt` 속성이 있다. 하지만 `img`엘리먼트가 아닌 다른 엘리먼트에 `background-image`를
+             사용해 이미지를 제공하고, **alternative text** 를 제공하기 위해 `text-indent`로 텍스트를 충분히 내어쓰기 해 
+             화면에 보이지 않도록 할 수 있는데, 이때 <span style="color: red;">**-9999px**</span> 을 사용한다(자식에게 
+             상속되므로, 부모에게 적용해 하위 모든 엘리먼트의 텍스트를 **alternative text** 로 사용하고 전부 
+             `background-image`로 대체할 수 있다).
 - ~~%~~: 엘리먼트의 *가로 너비**에 대한 비율로 지정하지만 실제 사용되는 방식은 아니다.
 
 #### 12. background
