@@ -386,7 +386,7 @@ document.querySelector('.box').childNodes[0]  // foo content
 }
 ```
 
-![Pseudo element after](/assets/images/posts/2024-02-03-css-selectors/css-pseudo-element-after.png)
+![Pseudo element after](/assets/images/posts/2024-02-03-css-summary/css-pseudo-element-after.png)
 
 - 첫 번째 box 의 after 가상 엘리먼트는 인라인 엘리먼트에 width, height 를 주었기 때문에 아무런 효과도 적용되지 않는다.
 - 두 번째 box 의 after 가상 엘리먼트 역시 인라인 엘리먼트이므로 width, height 는 무시되나, 입력된 content 영역 만큼 
@@ -464,7 +464,7 @@ CSS 스타일 속성 중 글자/문자와 관련된 대부분의 속성(`color`,
 }
 ```
 
-![CSS Inheritance 1](/assets/images/posts/2024-02-03-css-selectors/css-inheritance-1.png){: width="600"}
+![CSS Inheritance 1](/assets/images/posts/2024-02-03-css-summary/css-inheritance-1.png){: width="600"}
 
 너비나 높이같은 경우 대부분 부모의 값을 상속 받아 사용하는 게 유리할 경우 `100%`라는 값을 주어 사용할 수 있다. 하지만 `background-color`, 
 `margin`, `padding`과 같은 속성은 이러한 값을 선택할 수 없다. 이런 속성 역시 값으로 `inherit`을 주면 강제 상속을 지정할 수 있다.
@@ -584,7 +584,7 @@ min-height, min-width 는 <span style="color: red;">width, height 의 `!importan
 
 기본값으로 min-width 는 `0`, max-width 는 `none`, width 는 `auto`를 갖는다. 블럭 엘리먼트이므로 부모의 크기 만큼 늘어난다.
 
-![CSS width 1](/assets/images/posts/2024-02-03-css-selectors/css-width-1.png){: width="400"}
+![CSS width 1](/assets/images/posts/2024-02-03-css-summary/css-width-1.png){: width="400"}
 
 <br>
 
@@ -598,7 +598,7 @@ min-height, min-width 는 <span style="color: red;">width, height 의 `!importan
 
 max-width 가 제한됨에 따라 너비가 200으로 제한된다.
 
-![CSS width 2](/assets/images/posts/2024-02-03-css-selectors/css-width-2.png){: width="400"}
+![CSS width 2](/assets/images/posts/2024-02-03-css-summary/css-width-2.png){: width="400"}
 
 <br>
 
@@ -620,7 +620,7 @@ max-width 가 제한됨에 따라 너비가 200으로 제한된다.
 }
 ```
 
-![CSS width 2](/assets/images/posts/2024-02-03-css-selectors/css-width-2.png){: width="400"}
+![CSS width 2](/assets/images/posts/2024-02-03-css-summary/css-width-2.png){: width="400"}
 
 위 두 케이스는 모두 너비가 200이 된다. width 에 `!important`를 주더라도 `max-width`, `min-width`의 우선 순위가 더 높기 때문이다.
 
@@ -653,7 +653,7 @@ max-width 가 제한됨에 따라 너비가 200으로 제한된다.
 별도의 font-size 설정을 하지 않았으므로, 기본 font-size 는 `16px`이고, `.child`의 `1em`은 `16px`이다. 그런데 `20em`을 주었으므로, 
 너비는 `320px`이 된다.
 
-![CSS unit 1](/assets/images/posts/2024-02-03-css-selectors/css-unit-1.png){: width="400"}
+![CSS unit 1](/assets/images/posts/2024-02-03-css-summary/css-unit-1.png){: width="400"}
 
 <br>
 
@@ -668,7 +668,7 @@ max-width 가 제한됨에 따라 너비가 200으로 제한된다.
 
 만약, 부모의 font-size 를 `10px`로 주면 상속되어 `.child`의 `1em`은 `10px`이 되고, `20em`은 `200px`이 된다.
 
-![CSS unit 2](/assets/images/posts/2024-02-03-css-selectors/css-unit-2.png){: width="400"}
+![CSS unit 2](/assets/images/posts/2024-02-03-css-summary/css-unit-2.png){: width="400"}
 
 <br>
 
@@ -680,7 +680,7 @@ max-width 가 제한됨에 따라 너비가 200으로 제한된다.
 }
 ```
 
-![CSS unit 1](/assets/images/posts/2024-02-03-css-selectors/css-unit-1.png){: width="400"}
+![CSS unit 1](/assets/images/posts/2024-02-03-css-summary/css-unit-1.png){: width="400"}
 
 `em`은 부모 또는 조상의 font-size 가 달라지면, 상속에 의해 크기가 변할 수 있기 때문에 
 <span style="color: red;">혼란스러운 단위가 될 수 있어 관리가 필요</span>하다.
@@ -821,7 +821,7 @@ max-width 가 제한됨에 따라 너비가 200으로 제한된다.
 }
 ```
 
-![Box-Sizing Content-Box](/assets/images/posts/2024-02-03-css-selectors/box-sizing-content-box.png){: width="300"}
+![Box-Sizing Content-Box](/assets/images/posts/2024-02-03-css-summary/box-sizing-content-box.png){: width="300"}
 
 content 에 padding, border 를 합한 영역의 크기는 
 `100px(content) + 2 * 10px(padding) + 2 * 4px(border) = 128px`이 된다.
@@ -838,7 +838,7 @@ content 에 padding, border 를 합한 영역의 크기는
 }
 ```
 
-![Box-Sizing Border-Box](/assets/images/posts/2024-02-03-css-selectors/box-sizing-border-box.png){: width="300"}
+![Box-Sizing Border-Box](/assets/images/posts/2024-02-03-css-summary/box-sizing-border-box.png){: width="300"}
 
 content + padding + border 를 합한 영역의 크기가 100px 이므로 
 `100px = 2 * 10px(padding) + 2 * 4px(border) + ?(content)`에서 content 의 크기는 `72px`이 된다.
@@ -916,14 +916,14 @@ content + padding + border 를 합한 영역의 크기가 100px 이므로
 > - 단위값: px, em, vw 등 단위를 지정한다.
 > - ~~%~~: 엘리먼트 글꼴 크기의 비율로 지정(숫자만으로 표현 가능).
 > 
-> ![Line-Height](/assets/images/posts/2024-02-03-css-selectors/line-height.png){: width="700"}
+> ![Line-Height](/assets/images/posts/2024-02-03-css-summary/line-height.png){: width="700"}
 
 - font-family
 > - Font, `font-family: Arial, "Helvetica Neue", sans-serif;` 와 같이 작성한다.
 > - 폰트는 일반적으로 대문자로 작성하고, 공백이나 특수문자가 포함되면 반드시 `" "`로 묶어준다(실제로 대소문자를 구분하는 것은 아님).
 > - 마지막으로 <span style="color: red;">폰트 계열(serif, sans-serif, monospace, cursive, fantasy)를 반드시 작성</span>한다.
 > 
-> ![Font-Family](/assets/images/posts/2024-02-03-css-selectors/font-family.png){: width="700"}
+> ![Font-Family](/assets/images/posts/2024-02-03-css-summary/font-family.png){: width="700"}
 
 <br>
 
@@ -998,6 +998,69 @@ HTML 은 [Box Model](#h-1-box-model)을 채택하고 있으며, 엘리먼트의 
 > - `0% 0%`: (X축, Y축)의 백분율.
 > - 방향: `top`, `bottom`, `left`, `right`, `center`는 물론이고, `top right`와 같이 복합으로 사용 가능하다.
 > - 단위값: (X축, Y축)의 px, em, rem 등 단위를 지정한다.
+
+이미지의 좌측 상단 모서리를 원점으로 하는 XY축 2차원 평면에 올려두고,
+<span style="color: red;">**배경 이미지를 얼마나 X축, Y축으로 평행이동**</span>시키냐에 따라 이미지 위치가 결정된다.
+
+![Background Position 1](/assets/images/posts/2024-02-03-css-summary/background-position.png){: width="400"}
+
+위 이미지는 `400px, 400px`의 크기를 가지고 있다. `100px, 100px`로 제한하면 하나의 사각형(1번)만 보일 것이다.
+
+```html
+<div class="bg-item"></div>
+```
+
+```css
+.bg-item {
+  width: 100px;
+  height: 100px;
+  background-image: url("/assets/images/posts/2024-02-03-css-summary/background-position.png");
+}
+```
+
+<div style="width: 200px; height: 200px;
+     background-image: url('/assets/images/posts/2024-02-03-css-summary/background-position.png');
+     transform: scale(0.5); margin: -50px;"></div>
+
+<br>
+
+`background-position`은 배경 이미지를 평행이동시킨다고 했다. 즉, 7번을 보이게 하고 싶다면, <span style="color: red;">
+X축으로 **-200px**, Y축으로 **-100px** 만큼 이동</span>시켜야 한다. 즉, `div`라는 영역은 고정된 위치에 `100px, 100px`만큼의 
+영역을 가지고 있고, 그 뒤에 배경 이미지가 `-200px, -100px`만큼 이동해 7번이 보이게 되는 것이다.
+
+```css
+.bg-item {
+  width: 100px;
+  height: 100px;
+  background-image: url("/assets/images/posts/2024-02-03-css-summary/background-position.png");
+  background-position: -200px -100px;
+}
+```
+
+<div style="width: 200px; height: 200px;
+     background-image: url('/assets/images/posts/2024-02-03-css-summary/background-position.png');
+     transform: scale(0.5); margin: -50px;
+     background-position: -400px -200px;"></div>
+
+<br>
+
+마찬가지로, 현재 `div`의 **width** 와 **height** 가 각각 `100%`이므로, `-200%, -100%`와 같이 백분율을 사용해 표현할 수 있다.
+
+```css
+.bg-item {
+  width: 100px;
+  height: 100px;
+  background-image: url("/assets/images/posts/2024-02-03-css-summary/background-position.png");
+  background-position: -200% -100%;
+}
+```
+
+<div style="width: 200px; height: 200px;
+     background-image: url('/assets/images/posts/2024-02-03-css-summary/background-position.png');
+     transform: scale(0.5); margin: -50px;
+     background-position: -200% -100%;"></div>
+
+<br>
 
 - background-attachment
 > - `scroll`: 이미지가 엘리먼트를 따라서 같이 스크롤 된다.
@@ -1074,7 +1137,7 @@ HTML 은 [Box Model](#h-1-box-model)을 채택하고 있으며, 엘리먼트의 
 }
 ```
 
-![Position Relative 1](/assets/images/posts/2024-02-03-css-selectors/position-relative-1.png){: width="300"}
+![Position Relative 1](/assets/images/posts/2024-02-03-css-summary/position-relative-1.png){: width="300"}
 
 위와 같이 블럭 엘리먼트 `div`가 차례대로 쌓여 있다. 여기서 2번 상자를 relative 를 이용해 이동시켜보자.
 
@@ -1088,7 +1151,7 @@ HTML 은 [Box Model](#h-1-box-model)을 채택하고 있으며, 엘리먼트의 
 }
 ```
 
-![Position Relative 2](/assets/images/posts/2024-02-03-css-selectors/position-relative-2.png){: width="300"}
+![Position Relative 2](/assets/images/posts/2024-02-03-css-summary/position-relative-2.png){: width="300"}
 
 2번 상자의 공간이 비었지만, [Flex - Order] 처럼 시각적으로만 이동된 것일 뿐 처럼 실제 배치가 이동한 것은 아니기 때문에
 3번 상자의 배치에 영향을 주지 않는다.
@@ -1128,7 +1191,7 @@ HTML 은 [Box Model](#h-1-box-model)을 채택하고 있으며, 엘리먼트의 
 }
 ```
 
-![Position Relative 3](/assets/images/posts/2024-02-03-css-selectors/position-relative-3.png){: width="300"}
+![Position Relative 3](/assets/images/posts/2024-02-03-css-summary/position-relative-3.png){: width="300"}
 
 #### 2. Stack Order ⭐️
 
@@ -1185,15 +1248,15 @@ HTML 은 [Box Model](#h-1-box-model)을 채택하고 있으며, 엘리먼트의 
 > - `space-around`: 양 끝이 붙지 않는다. 이름과 같이 <span style="color: red;">아이템 주변으로 공간</span>이 생긴다. 
 >   이것은 각 아이템에 동일한 <span style="color: red;">**padding**</span> 을 준 것과 같다(padding 은 collapsing 이 없으므로, 
 >   `아이템-아이템`의 간격은 `아이템-시작점/끝점` 간격의 2배가 된다).
->   ![Space-Around](/assets/images/posts/2024-02-03-css-selectors/flex-justify-content-space-around.png){: width="500"}
+>   ![Space-Around](/assets/images/posts/2024-02-03-css-summary/flex-justify-content-space-around.png){: width="500"}
 > - `space-evenly`: 양 끝이 붙지 않는다. 이름과 같이 <span style="color: red;">모든 공간이 동일한 크기</span>를 갖는다. 이것은 각 
 >   아이템에 동일한 <span style="color: red;">**margin**</span> 을 준 것과 같다(margin-collapsing 이 발생하듯 `아이템-아이템` 
 >   간격이 2배가 아닌 1배로 상쇄된다).
->   ![Space-Evenly](/assets/images/posts/2024-02-03-css-selectors/flex-justify-content-space-evenly.png){: width="500"}
+>   ![Space-Evenly](/assets/images/posts/2024-02-03-css-summary/flex-justify-content-space-evenly.png){: width="500"}
 > - `space-between`: <span style="color: red;">양 끝이 시작점과 끝점에 붙는다</span>. 이름과 같이 아이템 
 >   <span style="color: red;">사이에</span> 배치된다. 2개까지는 양 끝점으로 배치되고, 3개째부터 두 아이템 사이에 내부 여백을 균등하게 
 >   갖도록 배치된다.
->   ![Space-Between](/assets/images/posts/2024-02-03-css-selectors/flex-justify-content-space-between.png){: width="500"}
+>   ![Space-Between](/assets/images/posts/2024-02-03-css-summary/flex-justify-content-space-between.png){: width="500"}
 
 #### 3. align-content, align-items(container)
 
@@ -1227,21 +1290,21 @@ __align-content, align-items 어떤걸 사용할까?__
 - <span style="color: red;">align-content</span> 가 stretch 가 아닌 다른 값을 가지면, <span style="color: red;">
   align-items 의 `!importnat` 보다도 높은 우선순위</span>를 갖는다.
 
-![align-items flex-start](/assets/images/posts/2024-02-03-css-selectors/align-items-flex-start.png){: width="500"}
+![align-items flex-start](/assets/images/posts/2024-02-03-css-summary/align-items-flex-start.png){: width="500"}
 
 <p class="center">- align-items: flex-start -</p>
 
-![align-content flex-start](/assets/images/posts/2024-02-03-css-selectors/align-content-flex-start.png){: width="500"}
+![align-content flex-start](/assets/images/posts/2024-02-03-css-summary/align-content-flex-start.png){: width="500"}
 
 <p class="center">- align-content: flex-start -</p>
 
 <br>
 
-![align-items center](/assets/images/posts/2024-02-03-css-selectors/align-items-center.png){: width="500"}
+![align-items center](/assets/images/posts/2024-02-03-css-summary/align-items-center.png){: width="500"}
 
 <p class="center">- align-items: center -</p>
 
-![align-content center](/assets/images/posts/2024-02-03-css-selectors/align-content-center.png){: width="500"}
+![align-content center](/assets/images/posts/2024-02-03-css-summary/align-content-center.png){: width="500"}
 
 <p class="center">- align-content: center -</p>
 
@@ -1282,7 +1345,7 @@ __align-content, align-items 어떤걸 사용할까?__
 }
 ```
 
-![align-self 1](/assets/images/posts/2024-02-03-css-selectors/align-self-1.png){: width="500"}
+![align-self 1](/assets/images/posts/2024-02-03-css-summary/align-self-1.png){: width="500"}
 
 ```css
 .container {
@@ -1305,7 +1368,7 @@ __align-content, align-items 어떤걸 사용할까?__
 }
 ```
 
-![align-self 2](/assets/images/posts/2024-02-03-css-selectors/align-self-2.png){: width="500"}
+![align-self 2](/assets/images/posts/2024-02-03-css-summary/align-self-2.png){: width="500"}
 
 #### 5. order(item)
 
@@ -1345,7 +1408,7 @@ HTML 의 수정 없이 아이템 정렬 순서를 바꿀 수 있다.
 }
 ```
 
-![flex order](/assets/images/posts/2024-02-03-css-selectors/flex-order.png){: width="500"}
+![flex order](/assets/images/posts/2024-02-03-css-summary/flex-order.png){: width="500"}
 
 #### 6. flex-grow & flex-basis(item)
 
@@ -1379,7 +1442,7 @@ flex 를 사용할 때 컨테이너의 너비를 아이템의 너비가 정확�
 }
 ```
 
-![flex-grow 1](/assets/images/posts/2024-02-03-css-selectors/flex-grow-1.png){: width="500"}
+![flex-grow 1](/assets/images/posts/2024-02-03-css-summary/flex-grow-1.png){: width="500"}
 
 아이템 전체에 flex-grow 를 0이 아닌 다른 값을 주면 같은 비율로 늘어난다.
 
@@ -1410,7 +1473,7 @@ flex 를 사용할 때 컨테이너의 너비를 아이템의 너비가 정확�
 }
 ```
 
-![flex-grow 2](/assets/images/posts/2024-02-03-css-selectors/flex-grow-2.png){: width="500"}
+![flex-grow 2](/assets/images/posts/2024-02-03-css-summary/flex-grow-2.png){: width="500"}
 
 모든 아이템에 동일한 1의 비율을 준 다음 3번째 아이템만 2가 덮어 썼기 때문에 `1:1:2`로 늘어난다.
 
@@ -1453,7 +1516,7 @@ flex-grow 는 컨테이너를 채우기 위해 아이템이 지정된 자신의 
 
 - flex-shrink 가 0 이면 컨테이너가 아이템이 차지하는 공간보다 줄어들면 아이템이 컨테이너 밖으로 나가게 된다.
 
-![flex-shrink](/assets/images/posts/2024-02-03-css-selectors/flex-shrink.png){: width="500"}
+![flex-shrink](/assets/images/posts/2024-02-03-css-summary/flex-shrink.png){: width="500"}
 
 일반적이지는 않지만 때로는 flex-wrap 대신 아이템이 크기를 유지하도록 하기 위해 flex-shrink 에 `0`을 주기도 한다.
 
@@ -1736,7 +1799,7 @@ section {
 
 ```
 
-![Perspective Attributes](/assets/images/posts/2024-02-03-css-selectors/perspective-attributes.png){: width="500"}
+![Perspective Attributes](/assets/images/posts/2024-02-03-css-summary/perspective-attributes.png){: width="500"}
 
 부모(파란색 컨테이너)의 중심이 origin(관측 지점) 이고, 이 지점에서 200px 떨어진 지점에서 관찰한다.
 
@@ -1767,7 +1830,7 @@ section {
 }
 ```
 
-![Perspective Functions](/assets/images/posts/2024-02-03-css-selectors/perspective-functions.png){: width="500"}
+![Perspective Functions](/assets/images/posts/2024-02-03-css-summary/perspective-functions.png){: width="500"}
 
 엘리먼트(노란색 면)의 중심이 origin(관측 지점) 이고, 이 지점에서 200px 떨어진 지점에서 관찰한다.
 

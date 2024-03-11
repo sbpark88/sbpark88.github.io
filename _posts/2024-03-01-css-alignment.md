@@ -7,7 +7,6 @@ categories: [css]
 tags: [margin auto, absolute, flex, translate]
 ---
 
-<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
 <style>
 .green-box {
   width: 500px;
