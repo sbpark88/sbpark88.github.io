@@ -875,3 +875,120 @@ __2 ) justify-content & wrap & align-content__
 > 를 사용한 첫 번째 방법은 <span style="color: red;">엘리먼트에 적용하는 속성</span>인 반면, 
 > <span style="color: red;">**flex**</span> 를 사용한 두 번째 방법은 
 > <span style="color: red;">부모에게 적용하는 속성</span>이다. 
+
+---
+
+## 4. Various Cases 👩‍
+
+#### 1. Target in Small Container
+
+웹 페이지의 가로 영역을 제한하기 위해 `.inner`와 같은 클래스를 사용하는데, 이러한 컨테이너의 폭 제한으로 인해 정렬할 수 있는 방법에 
+제약이 생기는 경우에 대해 알아보자.
+
+```html
+<div class="inner">
+  <section>
+    <h1>iPad의 능력일 키워주는<br>액세서리</h1>
+    <p>케이스, 커버, Apple Pencil, AirPods 등 다양한 액세서리를 만나보세요.</p>
+    <a href="javascript:void(0)">
+      iPad 액세서리 쇼핑하기 >
+    </a>
+    <img src="image-url" alt="다양한 액세서리 이미지">
+  </section>
+</div>
+```
+
+```scss
+body {
+  background-color: #ccc;
+}
+.inner {
+  position: relative;
+  max-width: 800px;
+  background-color: #9ee;
+  margin: 10px auto;
+  padding: 0 20px;
+  line-height: 1.6;
+}
+section {
+  text-align: center;
+}
+h1 {
+  font-size: 24px;
+  font-weight: 700;
+}
+a {
+  text-decoration: none;
+  display: block;
+}
+```
+
+![Target in Small Container 1](/assets/images/posts/2024-03-01-css-alignment/target-in-small-container-1.png)
+
+일반적으로 `.inner` 안에 들어가도록 콘텐츠를 구성하고 다음과 같은 방법으로 가운데 정렬을 한다.
+
+- `img`가 `inline` 속성임을 이용해 부모에 `text-align: center`를 사용한다.
+- 부모의 **text-align** 을 수정할 수 없다면, `img`를 `display: block`으로 바꾸고 `margin: 0 auto`를 사용한다.
+
+<br>
+
+![Target in Small Container 2](/assets/images/posts/2024-03-01-css-alignment/target-in-small-container-2.png)
+
+하지만 경우에 따라 위와 같이 의도적으로 `body`영역을 최대한 활용해 `.inner`보다 큰 이미지를 표현해야 할 때가 있다. 이 경우는 
+이미지의 크기가 부모가 가질 수 있는 영역의 크기보다 크기 때문에 `text-align`이나 `margin`으로 정렬을 할 수가 없다.
+
+이러한 경우 [absolute 와 transform 을 사용한 정렬](#h-3-center) 또는 [flex 를 사용한 정렬](#h-3-center-2)을 사용할 수 있다. 
+
+- [absolute 와 transform 을 사용한 정렬](#h-3-center)
+
+```scss
+section {
+  text-align: center;
+}
+img {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+```
+
+- [flex 를 사용한 정렬](#h-3-center-2)
+
+```scss
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+```
+
+![Target in Small Container 3](/assets/images/posts/2024-03-01-css-alignment/target-in-small-container-3.png)
+
+<br>
+
+만약 다른 엘리먼트는 그대로 두고, 이미지만 가운데 정렬을 원할 경우 다음과 같이 `text-align`을 제거하거나, `align-self`를 사용할 수 있다.
+
+- [absolute 와 transform 을 사용한 정렬](#h-3-center)
+
+```scss
+img {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+```
+
+- [flex 를 사용한 정렬](#h-3-center-2)
+
+```scss
+section {
+  display: flex;
+  flex-direction: column;
+}
+img {
+  align-self: center;
+}
+```
+
+![Target in Small Container 4](/assets/images/posts/2024-03-01-css-alignment/target-in-small-container-4.png)
+
