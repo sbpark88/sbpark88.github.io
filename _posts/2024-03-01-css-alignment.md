@@ -880,7 +880,7 @@ __2 ) justify-content & wrap & align-content__
 
 ## 4. Various Cases 👩‍
 
-#### 1. Target in Small Container
+### 1. Target in Small Container
 
 웹 페이지의 가로 영역을 제한하기 위해 `.inner`와 같은 클래스를 사용하는데, 이러한 컨테이너의 폭 제한으로 인해 정렬할 수 있는 방법에 
 제약이 생기는 경우에 대해 알아보자.
@@ -992,3 +992,160 @@ img {
 
 ![Target in Small Container 4](/assets/images/posts/2024-03-01-css-alignment/target-in-small-container-4.png)
 
+### 2. Media Query Responsive Design
+
+일반적으로 웹페이지는 앱과 다르게 세로축은 별도의 제한이 없이 스크롤이 이루어지며, 가로축은 좌측 또는 우측에 Sidebar 를 두거나 양 옆에 
+여백을 주고 가운데로 정렬한다.
+
+이때 일반적으로 많이 사용하는 것이 `inner`라는 클래스를 만들어 컨테이너가 필요한 모든 엘리먼트 내에 wrapper 를 추가하는 것이다.
+
+```scss
+.inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+}
+```
+
+```html
+<body>
+  <div class="app">
+    <header>
+      <div class="inner"></div>
+    </header>
+    <main>
+      <section>
+        <div class="inner"></div>
+      </section>
+      <section>
+        <div class="inner"></div>
+      </section>
+    </main>
+    <footer>
+      <div class="inner"></div>
+    </footer>
+  </div>
+</body>
+```
+
+와 같은 식으로 사용해 전체 틀을 가운데 정렬하고, 부모 엘리먼트에 `inner`를 추가하는 것 만으로 `position: relative`를 줄 수 있는 
+장점을 갖는다.
+
+하지만 `margin: 0 auto`를 사용하기 때문에 반응형 디자인을 할 때 유의해야 할 점이 있다. 다으 `mixin`을 사용해 반응형 디자인을 
+작업중이라고 가정해보자.
+
+```scss
+/* BREAK POINT */
+$breakpoint-tablet: 1000px;
+$breakpoint-mobile: 740px;
+
+@mixin tablet {
+  @media screen and (max-width: $breakpoint-tablet) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media screen and (max-width: $breakpoint-mobile) {
+    @content;
+  }
+}
+```
+
+일반적으로 이미지를 배치할 때 `vw`와 같은 단위는 사용하지 않고 `px`단위를 사용한다. 반응형으로 디자인 할 때 특정 컴포넌트로 구현한 
+컨테이너의 이미지를 `tablet`에서는 **0.8 배**로 조정하고, `mobile`에서는 **0.4**배로 조정한다고 해보자.
+
+이 케이스를 처리하기 위한 처리 방법은 크게 두 가지로 나눌 수 있다.
+
+#### 1. Set ratio on Component
+
+```scss
+img {
+  @include tablet {
+    scale: 0.7;
+    transform-origin: top left;
+  }
+
+  @include mobile {
+    scale: 0.4;
+    transform-origin: top left;
+  }
+}
+```
+
+`transform: scale`을 사용하면 개별적으로 적용한 스타일에 의해 덮어 씌워질 수가 있으니 `scale`을 사용했고, 뿌듯하게 마무리를 한다.
+이제 특정 컴포넌트에 존재하는 모든 `img`는 위와 같이 `scale`이 적용되어 태블릿과 모바일 사이즈에 맞게 이미지가 줄어들기를 기대한다.
+
+이미지는 줄어드는데 정렬이 깨지는 문제가 발생한다. 바로 `inner`가 정렬을 위해 `margin: 0 auto`를 사용하는 데 태블릿, 모바일 사이즈로
+변경되며 <span style="color: red;">**inner** 의 **max-width** 가 화면의 폭보다 작아져</span> 사실상 `margin: 0 auto`가 
+작동하기 위해 필요한 `width`가 존재하지 않는 셈이 되어버리는 것이다.
+
+결과적으로 `scale`은 작동했으나 정렬이 깨져버리는 문제가 발생한다.
+
+```scss
+.inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+
+  @include tablet {
+    max-width: 692px;
+  }
+
+  @include mobile {
+    max-width: 300px;
+  }
+}
+```
+
+위와 같이 mobile, tablet 사이즈에 맞도록 미디어쿼리를 사용해 `max-width`를 변경해주는 것이다. 만약 이미지 배치를 위해 
+`transform: translate`를 사용했다면, 각 페이지마다 위치 조정은 다시 해주어야한다. 이렇게 하면 별도의 `flex` 디자인을 하지 않아도 
+데스크탑, 태블릿, 모바일 사이즈 모두에 
+
+#### 2. Calculate size for tablet, mobile
+
+ratio 를 사용할 때 문제점은 일괄적으로 줄어들게 할 수 있으나 태블릿이나 모바일 화면을 수정해 재배치 해야할 경우 관리하기가 힘들다는 
+문제가 존재한다. 따라서 각 모드별로 사이즈를 계산해주는 것이 처음에 할 건 많아도 추후 수정이나 유지보수를 더 쉽게 해준다.
+
+```scss
+.inner {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+
+  @include tablet {
+    max-width: 692px;
+  }
+}
+```
+
+이때도 마찬가지로 전체 레이아웃 정렬을 위해 `inner`는 지정해주어야 한다. 하지만 사실 `mobile`은 워낙 화면이 작기 때문에 
+좌우에 고정 여백을 포함하는 `inner`는 썩 좋은 레이아웃이 아니다. 따라서 `inner`를 사용한 정렬은 `tablet` 화면까지만 사용하고, 
+`mobile`은 `flex`를 사용한 정렬로 처리하는 방법이 더 좋다.  
+
+```scss
+$resize-to-tablet: 0.7;
+$resize-to-mobile: 0.4;
+
+img {
+  $width: 724px;
+  $height: 502px;
+  
+  width: $width;
+  height: $height;
+  
+  @include tablet {
+    width: $width * $resize-to-tablet;
+    height: $height * $resize-to-tablet;
+  }
+  @include mobile {
+    width: $width * $resize-to-mobile;
+    height: $height * $resize-to-mobile;
+  }
+}
+```
+
+각 모드별로 사이즈를 계산하고 `img`를 포함한 부모 엘리먼트를 `flex`를 적용해 가운데 정렬 해주도록 한다.
