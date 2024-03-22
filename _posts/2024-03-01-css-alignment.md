@@ -1051,6 +1051,12 @@ $breakpoint-mobile: 740px;
     @content;
   }
 }
+
+@mixin only-tablet {
+  @media screen and (min-width: $breakpoint-mobile + 1) and (max-width: $breakpoint-tablet) {
+    @content;
+  }
+}
 ```
 
 일반적으로 이미지를 배치할 때 `vw`와 같은 단위는 사용하지 않고 `px`단위를 사용한다. 반응형으로 디자인 할 때 특정 컴포넌트로 구현한 
