@@ -2523,7 +2523,7 @@ struct AudioChannel {
 }
 ```
 
-- thresholdLevel : 오디오가 가질 수 있는 볼륨 최대값을 정의 (상수 10)
+- thresholdLevel : 오디오가 가질 수 있는 볼륨 최댓값을 정의 (상수 10)
 - maxInputLevelForAllChannels : *AudioChannel Instance* 가 받은 최대 입력값을 추적(0에서 시작)
 - currentLevel : 현재의 오디오 볼륨을 계산을 통해 정의
 

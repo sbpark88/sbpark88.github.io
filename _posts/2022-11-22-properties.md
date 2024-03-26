@@ -960,7 +960,7 @@ print(rectangle)
 //           _width: __lldb_expr_53.LengthOfSide(maximum: 10, length: 0))
 ```
 
-`init()`을 이용해 초기화되어 사각형의 최대값은 10, 초기값은 0으로 설정되었다.
+`init()`을 이용해 초기화되어 사각형의 최댓값은 10, 초기값은 0으로 설정되었다.
 
 ```swift
 print("height: \(rectangle.height), width: \(rectangle.width)") // height: 0, width: 0
@@ -971,7 +971,7 @@ print("height: \(rectangle.height), width: \(rectangle.width)") // height: 10, w
 ```
 
 사각형의 높이와 너비는 초기값에 의해 0이었고, 높이를 12, 너비를 5로 설정했다. 하지만 *Property Wrappers* 에 의해 
-높이는 10으로 최대값을 넘지 않게 수정되었다.
+높이는 10으로 최댓값을 넘지 않게 수정되었다.
 
 <br>
 
@@ -1393,7 +1393,7 @@ struct AudioChannel {
 }
 ```
 
-- thresholdLevel : 오디오가 가질 수 있는 볼륨 최대값을 정의 (상수 10)
+- thresholdLevel : 오디오가 가질 수 있는 볼륨 최댓값을 정의 (상수 10)
 - maxInputLevelForAllChannels : *AudioChannel Instance* 가 받은 최대 입력값을 추적(0에서 시작)
 - currentLevel : 현재의 오디오 볼륨을 계산을 통해 정의
 
