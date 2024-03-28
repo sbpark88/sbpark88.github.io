@@ -611,7 +611,7 @@ Reference
 
 1. peaceiris, "actions-gh-pages." GitHub. Mar. 31, 2023, [https://github.com/realm/SwiftLint].
 2. "제발 깃허브 액션🔥 모르는 개발자 없게해 주세요 🙏." Youtube. Jun. 28, 2022, [제발 깃허브 액션🔥 모르는 개발자 없게해 주세요 🙏](https://youtu.be/iLqGzEkusIw?si=PuIUQq8JV5qVsmm2).
-3. "Asset Modules." Webpack Docs. Feb. 27, 2024, [https://webpack.js.org/guides/asset-modules/][Asset Modules]
+3. "Asset Modules." Webpack Docs. Feb. 27, 2024, [https://webpack.js.org/guides/asset-modules/][Asset Modules].
 
 
 [peaceiris/actions-gh-pages]:https://github.com/peaceiris/actions-gh-pages

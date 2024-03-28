@@ -3,8 +3,8 @@ layout: post
 title: Remove if-else repetition
 subtitle: Clean Code - Part 1
 excerpt_image: NO_EXCERPT_IMAGE
-categories: [cs, swift, typescript, javascript]
-tags: [cs, swift, typescript, clean code, switch, enum-switch]
+categories: [clean code, swift, typescript, javascript]
+tags: [clean code, switch, enum-switch]
 ---
 
 ### 1. If-Else Repetition 👩‍💻
@@ -458,6 +458,6 @@ console.log(directionToHead("East"))  // Where the sun rises
 ---
 Reference
 
-1. "JavaScript language overview." MDN, May. 04, 2023, [JavaScript language overview]
+1. "JavaScript language overview." MDN, May. 04, 2023, [JavaScript language overview].
 
 [JavaScript language overview]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Language_overview#control_structures
