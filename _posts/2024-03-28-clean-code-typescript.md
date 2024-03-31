@@ -1467,64 +1467,276 @@ class Square implements Shape {
 - Bad
 
 ```typescript
+class Dashboard {
+  getLanguage(): string { /* ... */ }
+  setLanguage(language: string): void { /* ... */ }
+  showProgress(): void { /* ... */ }
+  hideProgress(): void { /* ... */ }
+  isDirty(): boolean { /* ... */ }
+  disable(): void { /* ... */ }
+  enable(): void { /* ... */ }
+  addSubscription(subscription: Subscription): void { /* ... */ }
+  removeSubscription(subscription: Subscription): void { /* ... */ }
+  addUser(user: User): void { /* ... */ }
+  removeUser(user: User): void { /* ... */ }
+  goToHomePage(): void { /* ... */ }
+  updateProfile(details: UserDetails): void { /* ... */ }
+  getVersion(): string { /* ... */ }
+  // ...
+}
 
 ```
 
 - Good
 
 ```typescript
+class Dashboard {
+  disable(): void { /* ... */ }
+  enable(): void { /* ... */ }
+  getVersion(): string { /* ... */ }
+}
 
+// split the responsibilities by moving the remaining methods to other classes
+// ...
 ```
 
-
+Classes 의 크기는 책임(responsibility)에 의해 측정되며, [SRP](#h-1-single-responsibility-principle-srp) 에 
+따르면 Classes 는 작아야 한다.
 
 #### 2. High cohesion and low coupling
 
 - Bad
 
 ```typescript
+class UserManager {
+  // Bad: each private variable is used by one or another group of methods.
+  // It makes clear evidence that the class is holding more than a single responsibility.
+  // If I need only to create the service to get the transactions for a user,
+  // I'm still forced to pass and instance of `emailSender`.
+  constructor(
+    private readonly db: Database,
+    private readonly emailSender: EmailSender) {
+  }
 
+  async getUser(id: number): Promise<User> {
+    return await db.users.findOne({ id });
+  }
+
+  async getTransactions(userId: number): Promise<Transaction[]> {
+    return await db.transactions.find({ userId });
+  }
+
+  async sendGreeting(): Promise<void> {
+    await emailSender.send('Welcome!');
+  }
+
+  async sendNotification(text: string): Promise<void> {
+    await emailSender.send(text);
+  }
+
+  async sendNewsletter(): Promise<void> {
+    // ...
+  }
+}
 ```
+
+`private` properties `db`와 `emailSender`가 동시에 사용되지 않는데 굳이 하나의 Class 에 함께 있을 필요가 
+있을까? 두 개의 Classes 로 분리하자!
 
 - Good
 
 ```typescript
+class UserService {
+  constructor(private readonly db: Database) {
+  }
 
+  async getUser(id: number): Promise<User> {
+    return await this.db.users.findOne({ id });
+  }
+
+  async getTransactions(userId: number): Promise<Transaction[]> {
+    return await this.db.transactions.find({ userId });
+  }
+}
+
+class UserNotifier {
+  constructor(private readonly emailSender: EmailSender) {
+  }
+
+  async sendGreeting(): Promise<void> {
+    await this.emailSender.send('Welcome!');
+  }
+
+  async sendNotification(text: string): Promise<void> {
+    await this.emailSender.send(text);
+  }
+
+  async sendNewsletter(): Promise<void> {
+    // ...
+  }
+}
 ```
 
+- 응집도(cohesion): Classes 의 `properties`가 서로에게 연관되어 있는 정도.
+- 결합도(coupling): 두 Classes 가 서로에게 관련되어있거나 종속적인 정도.
 
+응집도는 높이고, 결합도는 낮춰라!
 
 #### 3. Prefer composition over inheritance
 
 - Bad
 
 ```typescript
+class Employee {
+  constructor(
+    private readonly name: string,
+    private readonly email: string) {
+  }
 
+  // ...
+}
+
+// Bad because Employees "have" tax data. EmployeeTaxData is not a type of Employee
+class EmployeeTaxData extends Employee {
+  constructor(
+    name: string,
+    email: string,
+    private readonly ssn: string,
+    private readonly salary: number) {
+    super(name, email);
+  }
+
+  // ...
+}
 ```
+
+직원의 세금 데이터는 직원이 아니다!
 
 - Good
 
 ```typescript
+class Employee {
+  private taxData: EmployeeTaxData;
 
+  constructor(
+    private readonly name: string,
+    private readonly email: string) {
+  }
+
+  setTaxData(ssn: string, salary: number): Employee {
+    this.taxData = new EmployeeTaxData(ssn, salary);
+    return this;
+  }
+
+  // ...
+}
+
+class EmployeeTaxData {
+  constructor(
+    public readonly ssn: string,
+    public readonly salary: number) {
+  }
+
+  // ...
+}
 ```
 
+직원의 세금 데이터는 합성을 통해 직원 클래스를 의존성 주입 받는다. 직원의 세금 데이터는 자신에게 필요한 직원 정보에 
+접근할 수 있지만 더이상 직원이 아니다.
 
+<br>
+
+`Gang of Four`의 디자인 패턴에 의하면 대부분의 경우 `Inheritance`보다 `Compoisition`를 선호해야한다. 
+그래야 응집도는 높이고, 결합도를 낮출 수 있기 때문이다.
+
+> Inheritance 가 더 유용한 예는 다음과 같다.
+> 
+> - `has-a` 관계가 아닌 `is-a`관계일 때(i.e. Human -> Animal).
+> - `Base Class`의 코드를 재사용 할 수 있을 경우(i.e. Animal 에 구현된 `eat`은 Human 이 재사용 할 수 있다).
+> - `Base Class`를 변경해 파생된 클래스(derived classes)를 모두에 적용하려는 경우.
 
 #### 4. Use method chaining
 
 - Bad
 
 ```typescript
+class QueryBuilder {
+  private collection: string;
+  private pageNumber: number = 1;
+  private itemsPerPage: number = 100;
+  private orderByFields: string[] = [];
 
+  from(collection: string): void {
+    this.collection = collection;
+  }
+
+  page(number: number, itemsPerPage: number = 100): void {
+    this.pageNumber = number;
+    this.itemsPerPage = itemsPerPage;
+  }
+
+  orderBy(...fields: string[]): void {
+    this.orderByFields = fields;
+  }
+
+  build(): Query {
+    // ...
+  }
+}
+
+// ...
+
+const queryBuilder = new QueryBuilder();
+queryBuilder.from('users');
+queryBuilder.page(1, 100);
+queryBuilder.orderBy('firstName', 'lastName');
+
+const query = queryBuilder.build();
 ```
 
 - Good
 
 ```typescript
+class QueryBuilder {
+  private collection: string;
+  private pageNumber: number = 1;
+  private itemsPerPage: number = 100;
+  private orderByFields: string[] = [];
 
+  from(collection: string): this {
+    this.collection = collection;
+    return this;
+  }
+
+  page(number: number, itemsPerPage: number = 100): this {
+    this.pageNumber = number;
+    this.itemsPerPage = itemsPerPage;
+    return this;
+  }
+
+  orderBy(...fields: string[]): this {
+    this.orderByFields = fields;
+    return this;
+  }
+
+  build(): Query {
+    // ...
+  }
+}
+
+// ...
+
+const query = new QueryBuilder()
+  .from('users')
+  .page(1, 100)
+  .orderBy('firstName', 'lastName')
+  .build();
 ```
 
-
+Array 에 `map`, `filter`, `toSorted`, `reduce` 와 같은 `Method Channing`을 써보면 매우 좋다는 것을 
+느낄 수 있다. Custom Classes 에 Method Channing 을 제공하는 것은 별로 어려운 일이 아니다. 단순히 
+Method Channing 을 제공하는 것은 `Monad`와 달리 lift 시킬 필요가 없어 Functor, Applicative Functor, 
+Monad 를 구현할 필요가 없다. 단지 `return this;`를 하는 것 만으로 충분하다!
 
 ---
 
