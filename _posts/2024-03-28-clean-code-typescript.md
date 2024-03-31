@@ -1181,64 +1181,282 @@ printFibonacci(10);
 - Bad
 
 ```typescript
+type BankAccount = {
+  balance: number;
+  // ...
+}
 
+const value = 100;
+const account: BankAccount = {
+  balance: 0,
+  // ...
+};
+
+if (value < 0) {
+  throw new Error('Cannot set negative balance.');
+}
+
+account.balance = value;
 ```
 
 - Good
 
 ```typescript
+class BankAccount {
+  private accountBalance: number = 0;
 
+  get balance(): number {
+    return this.accountBalance;
+  }
+
+  set balance(value: number) {
+    if (value < 0) {
+      throw new Error('Cannot set negative balance.');
+    }
+
+    this.accountBalance = value;
+  }
+
+  // ...
+}
+
+// Now `BankAccount` encapsulates the validation logic.
+// If one day the specifications change, and we need extra validation rule,
+// we would have to alter only the `setter` implementation,
+// leaving all dependent code unchanged.
+const account = new BankAccount();
+account.balance = 100;
 ```
 
+[ES6 Class Getter/Setter] 에서도 한 번 설명했듯이 ES6 부터 `getter`, `setter`를 사용할 수 있게 되었으며, Swift 의
+[Computed Properties] 와 유사하다.
 
+`Lazy Stored Properties`, `Property Observers`, `Property Wrappers`와 같은 좀 더 다양한 기능이 제공되지 않는 것은 
+조금 아쉽지만 Java 처럼 `getter`, `setter`를 메서드를 구현해 사용해야 하는 것에 비하면 매우 편리하다. TypeScript 에서 
+`getter`, `setter`를 사용해 얻을 수 있는 이익은 다음과 같다.
+
+- `setter`에 validation check 추가하기.
+- 내부 API 를 캡슐화.
+- Log 남기기.
+- 에러 처리.
+- lazy loading
+
+물론, 위 기능은 모두 메서드를 사용해 구현할 수 있다. 하지만 `getter`, `setter`가 존재한다는 것은 메서드는 비즈니스 로직을 처리하고, 
+`getter`, `setter`는 그냥 properties 에 접근하듯이 사용하면서 전처리기/후처리기를 캡슐화 해 제공할 수 있다는 데 있다. 따라서 
+일반적인 비즈니스 로직과 시각적으로 분리가 되기 때문에 가독성 높은 코드를 제공함은 물론이고, 메서드에 집중할 수 있게 해준다.
 
 #### 2. Make objects have private/protected members
 
 - Bad
 
 ```typescript
+class Circle {
+  radius: number;
+  
+  constructor(radius: number) {
+    this.radius = radius;
+  }
 
+  perimeter() {
+    return 2 * Math.PI * this.radius;
+  }
+
+  surface() {
+    return Math.PI * this.radius * this.radius;
+  }
+}
 ```
 
 - Good
 
 ```typescript
+class Circle {
+  constructor(private readonly radius: number) {}
 
+  perimeter() {
+    return 2 * Math.PI * this.radius;
+  }
+
+  surface() {
+    return Math.PI * this.radius * this.radius;
+  }
+}
 ```
 
-
+JavaScript 에서 ES5 까지는 private 을 표현하기 위해 암묵적으로 `_` 를 붙이곤 했다. 그러다 ES6 에서 공식적으로 `private`을 위해 
+`#`이 제공되었다. 그런데 TypeScript 에서는 더 나아가 Access Control 을 위한 `protected`, `private`을 제공한다.
 
 #### 3. Prefer immutability
+
+꼭 함수형 프로그래밍을 하지 않더라도, 모던 프로그래밍에서 `Immutable`은 매우 중요한 개념이다. CPU 나 메모리가 충분해진 시점에서 
+극도로 아끼는 것 보다는 자원을 조금 더 사용하는 대신 안전한 프로그래밍을 하는 것이 훨씬 큰 장점을 갖기 때문이다. 꼭 필요한 경우가 
+아니라면 `Immutable`을 선호하도록 하며, 크게 3가지 방법을 제공한다.
+
+<br>
+
+__1 ) `readonly` modifier__
 
 - Bad
 
 ```typescript
-
+interface Config {
+  host: string;
+  port: string;
+  db: string;
+}
 ```
 
 - Good
 
 ```typescript
-
+interface Config {
+  readonly host: string;
+  readonly port: string;
+  readonly db: string;
+}
 ```
 
+TypeScript 는 `Interfaces`와 `Classes`의 개별 **properties** 에 `readonly`를 제공해 `Immutable`을 제공할 수 있다. 
 
+<br>
+
+__2 ) Built-in Types support `readonly` that takes a type `T`__
+
+- Bad
+
+```typescript
+const array: number[] = [ 1, 3, 5 ];
+array = []; // error
+array.push(100); // array will be updated
+```
+
+- Good
+
+```typescript
+const array: ReadonlyArray<number> = [ 1, 3, 5 ];
+array = []; // error
+array.push(100); // error
+```
+
+`Types` 자체가 `readonly`로 작동하는 내장 타입(`ReadonlyArray`, `ReadonlyMap`, `ReadonlySet`)을 
+사용해 `Immutable`을 제공할 수 있다.
+
+<br>
+
+__3 ) Prefer `const assertions` for literal values__
+
+- Bad
+
+```typescript
+const config = {
+  hello: 'world'
+};
+config.hello = 'world'; // value is changed
+
+const array  = [ 1, 3, 5 ];
+array[0] = 10; // value is changed
+
+// writable objects is returned
+function readonlyData(value: number) {
+  return { value };
+}
+
+const result = readonlyData(100);
+result.value = 200; // value is changed
+```
+
+- Good
+
+```typescript
+// read-only object
+const config = {
+  hello: 'world'
+} as const;
+config.hello = 'world'; // error
+
+// read-only array
+const array  = [ 1, 3, 5 ] as const;
+array[0] = 10; // error
+
+// You can return read-only objects
+function readonlyData(value: number) {
+  return { value } as const;
+}
+
+const result = readonlyData(100);
+result.value = 200; // error
+```
+
+`as const`는 대부분의 타입을 `Immutable`로 만들 수 있는 매우 강력한 도구다.
+
+위에서 설명한 `ReadonlyArray<T>`와 `as const` 모두 `Immutable`을 제공할 수 있으며, 
+두 케이스의 타입은 다음과 같다.
+
+```typescript
+const array1: ReadonlyArray<number> = [1, 3, 5]; // `interface ReadonlyArray<T>` 타입
+const array2 = [1, 3, 5] as const;               // `readonly [1, 3, 5]` 타입
+```
 
 #### 4. type vs. interface
 
 - Bad
 
 ```typescript
+interface EmailConfig {
+  // ...
+}
 
+interface DbConfig {
+  // ...
+}
+
+interface Config {
+  // ...
+}
+
+//...
+
+type Shape = {
+  // ...
+}
 ```
 
 - Good
 
 ```typescript
+type EmailConfig = {
+  // ...
+}
 
+type DbConfig = {
+  // ...
+}
+
+type Config  = EmailConfig | DbConfig;
+
+// ...
+
+interface Shape {
+  // ...
+}
+
+class Circle implements Shape {
+  // ...
+}
+
+class Square implements Shape {
+  // ...
+}
 ```
 
+`Uion` 또는 `Intersection`이 필요할 때는 `type`을, `extends` 또는 `implements`가 필요할 때는 `interface`를 
+사용하라고 말한다.
 
+단독으로 사용될 때는 어떤걸 사용하든 무관하다. 다만 기능에 차이가 있기 때문에 단독 사용이 아닐 경우 확장성을 고려해 사용하면 된다.
+
+[Stackoverflow - Interfaces vs Types in TypeScript] 의 답변을 추가한다.
+
+![Interfaces vs Types in TypeScript](/assets/images/posts/2024-03-28-clean-code-typescript/interfaces-vs-types-in-typescript.png)
 
 ---
 
@@ -1729,8 +1947,12 @@ Reference
 2. "코드리뷰에서 칭찬받는 코드의 비밀 😎." Youtube. Nov. 27, 2022, [코드리뷰에서 칭찬받는 코드의 비밀 😎](https://www.youtube.com/watch?v=BfpTtsWTWEM&t=3s).
 3. "Enums." TypeScript Docs. accessed Mar. 30, 2024, [TypeScript Docs - Enums].
 4. Amon Keishima. "TypeScript enum을 사용하지 않는 게 좋은 이유를 Tree-shaking 관점에서 소개합니다." Line Engineering. 
-   last modified Sep. 10, 2020, [Line Engineering - TypeScript enum]
+   last modified Sep. 10, 2020, [Line Engineering - TypeScript enum].
+5. "Interfaces vs Types in TypeScript.", stackoverflow. Nov. 24, 2021, [Stackoverflow Question and Answer](https://stackoverflow.com/questions/37233735/interfaces-vs-types-in-typescript/54101543#54101543).
 
 [TypeScript Docs - Enums]:https://www.typescriptlang.org/ko/docs/handbook/enums.html
 [Line Engineering - TypeScript enum]:https://engineering.linecorp.com/ko/blog/typescript-enum-tree-shaking
 [Choosing Between Structures and Classes]:/swift/2022/11/21/structures-and-classes.html#h-3-choosing-between-structures-and-classes
+[ES6 Class Getter/Setter]:/javascript/2023/04/14/prototype.html#h-1-es6-class-gettersetter
+[Computed Properties]:/swift/2022/11/22/properties.html#h-2-computed-properties-
+[Stackoverflow - Interfaces vs Types in TypeScript]:(https://stackoverflow.com/questions/37233735/interfaces-vs-types-in-typescript/54101543#54101543)
