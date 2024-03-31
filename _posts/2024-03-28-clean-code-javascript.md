@@ -15,20 +15,6 @@ tags: [clean code]
 - Bad
 
 ```typescript
-
-```
-
-- Good
-
-```typescript
-
-```
-
-
-
-- Bad
-
-```typescript
 function between<T>(a1: T, a2: T, a3: T): boolean {
   return a2 <= a1 && a1 <= a3;
 }
@@ -43,20 +29,6 @@ function between<T>(value: T, left: T, right: T): boolean {
 ```
 
 #### 2. Use pronounceable variable names
-
-- Bad
-
-```typescript
-
-```
-
-- Good
-
-```typescript
-
-```
-
-
 
 - Bad
 
@@ -82,20 +54,6 @@ type Customer = {
 그렇지 않을 경우 팀을 설득해 읽을 수 있는 변수명을 사용하도록 하자.
 
 #### 3. Use the same vocabulary for the same type of variable
-
-- Bad
-
-```typescript
-
-```
-
-- Good
-
-```typescript
-
-```
-
-
 
 - Bad
 
@@ -350,288 +308,869 @@ run(ODirection.Right);
 - Bad
 
 ```typescript
+function createMenu(title: string, body: string, buttonText: string, cancellable: boolean) {
+  // ...
+}
 
+createMenu('Foo', 'Bar', 'Baz', true);
 ```
 
 - Good
 
 ```typescript
+function createMenu(options: { title: string, body: string, buttonText: string, cancellable: boolean }) {
+  // ...
+}
 
+createMenu({
+  title: 'Foo',
+  body: 'Bar',
+  buttonText: 'Baz',
+  cancellable: true
+});
 ```
 
+또는
 
+```typescript
+type MenuOptions = { title: string, body: string, buttonText: string, cancellable: boolean };
+
+function createMenu(options: MenuOptions) {
+  // ...
+}
+
+createMenu({
+  title: 'Foo',
+  body: 'Bar',
+  buttonText: 'Baz',
+  cancellable: true
+});
+```
+
+함수의 parameters 는 2개 이하가 이상적이다. parameters 가 3개 이상이 되면 테스트 해야할 경우의 수가 급격히 늘어나기 
+때문이다. 만약, 테스트 해야 할 경우의 수가 많아질 경우 함수를 2개 이상으로 나누도록 하고, 테스트 해야할 경우의 수에 영향을 
+주지는 않지만 많은 값이 필요할 경우, 이 값들이 하나의 객체로 합쳐질 수 있다면 Object Literal 을 사용하도록 한다.
 
 #### 2. Functions should do one thing
 
 - Bad
 
 ```typescript
-
+function emailClients(clients: Client[]) {
+  clients.forEach((client) => {
+    const clientRecord = database.lookup(client);
+    if (clientRecord.isActive()) {
+      email(client);
+    }
+  });
+}
 ```
 
 - Good
 
 ```typescript
+function emailClients(clients: Client[]) {
+  clients.filter(isActiveClient).forEach(email);
+}
 
+function isActiveClient(client: Client) {
+  const clientRecord = database.lookup(client);
+  return clientRecord.isActive();
+}
 ```
 
-
+함수가 하나의 역할만 수행하도록 한다. 이것은 함수형 프로그래밍에서 중요한 원칙 중 하나일 뿐 아니라 Clean Code 
+관점에서도 중요하다. 함수가 여러 역할을 수행하면 함수를 테스트하고 추론하는 것이 어려워진다. 이는 추후 리팩토링을 
+할 때도 영향을 미친다.
 
 #### 3. Function names should say what they do
 
 - Bad
 
 ```typescript
+function addToDate(date: Date, month: number): Date {
+  // ...
+}
 
+const date = new Date();
+
+// It's hard to tell from the function name what is added
+addToDate(date, 1);
 ```
 
 - Good
 
 ```typescript
+function addMonthToDate(date: Date, month: number): Date {
+  // ...
+}
 
+const date = new Date();
+addMonthToDate(date, 1);
 ```
 
+*parameter names* 를 보지 않고 함수의 이름만 보고 무엇을 하는지 알 수 있도록 하라고 말한다. 물론, 대부분의 함수명을 
+지을 때는 맞는 말이다.
 
+하지만 제공되는 예제를 보면 이 부분은 조금 ❔다. 
+[Use the same vocabulary for the same type of variable](#h-3-use-the-same-vocabulary-for-the-same-type-of-variable) 
+에 위배되지 않나 생각된다. JavaScript 도 아니고 TypeScript 는 Overloading 이 가능한데 굳이
+`addDayToDate(date:day:)`, `addMonthToDate(date:month:)`, `addYearToDate(date:year:)`과 같이 
+만드는 것이 좋은것인가에 대한 의문이다.
+
+그냥 `addToDate(date:day:)`, `addToDate(date:month:)`, `addToDate(date:year:)` 이게 더 낫지 않을까?
 
 #### 4. Functions should only be one level of abstraction
 
 - Bad
 
 ```typescript
+function parseCode(code: string) {
+  const REGEXES = [ /* ... */ ];
+  const statements = code.split(' ');
+  const tokens = [];
 
+  REGEXES.forEach((regex) => {
+    statements.forEach((statement) => {
+      // ...
+    });
+  });
+
+  const ast = [];
+  tokens.forEach((token) => {
+    // lex...
+  });
+
+  ast.forEach((node) => {
+    // parse...
+  });
+}
 ```
 
 - Good
 
 ```typescript
+const REGEXES = [ /* ... */ ];
 
+function parseCode(code: string) {
+  const tokens = tokenize(code);
+  const syntaxTree = parse(tokens);
+
+  syntaxTree.forEach((node) => {
+    // parse...
+  });
+}
+
+function tokenize(code: string): Token[] {
+  const statements = code.split(' ');
+  const tokens: Token[] = [];
+
+  REGEXES.forEach((regex) => {
+    statements.forEach((statement) => {
+      tokens.push( /* ... */ );
+    });
+  });
+
+  return tokens;
+}
+
+function parse(tokens: Token[]): SyntaxTree {
+  const syntaxTree: SyntaxTree[] = [];
+  tokens.forEach((token) => {
+    syntaxTree.push( /* ... */ );
+  });
+
+  return syntaxTree;
+}
 ```
 
+함수는 단일 행동을 추상화하도록 해야한다. 함수가 한 가지 이상을 추상화 할 경우 위와 같이 재사용성과 테스트를 고려해 함수를 
+쪼개도록 한다.
 
+사실 위와 같은 코드는 개인적으로 극혐하는 코드라... 단 한 번도 저렇게 작성해 본 적이 없다. 물론, 함수 하나에 500줄 짜리를 
+도대체 뭔 소린지... 🥵🥵 테스트도 힘들고 해서 리팩토링 하며 쪼갠적은 많다.
 
 #### 5. Remove duplicate code
 
 - Bad
 
 ```typescript
+function showDeveloperList(developers: Developer[]) {
+  developers.forEach((developer) => {
+    const expectedSalary = developer.calculateExpectedSalary();
+    const experience = developer.getExperience();
+    const githubLink = developer.getGithubLink();
 
+    const data = {
+      expectedSalary,
+      experience,
+      githubLink
+    };
+
+    render(data);
+  });
+}
+
+function showManagerList(managers: Manager[]) {
+  managers.forEach((manager) => {
+    const expectedSalary = manager.calculateExpectedSalary();
+    const experience = manager.getExperience();
+    const portfolio = manager.getMBAProjects();
+
+    const data = {
+      expectedSalary,
+      experience,
+      portfolio
+    };
+
+    render(data);
+  });
+}
 ```
 
 - Good
 
 ```typescript
+class Developer {
+  // ...
+  getExtraDetails() {
+    return {
+      githubLink: this.githubLink,
+    }
+  }
+}
 
+class Manager {
+  // ...
+  getExtraDetails() {
+    return {
+      portfolio: this.portfolio,
+    }
+  }
+}
+
+function showEmployeeList(employee: Developer | Manager) {
+  employee.forEach((employee) => {
+    const expectedSalary = employee.calculateExpectedSalary();
+    const experience = employee.getExperience();
+    const extra = employee.getExtraDetails();
+
+    const data = {
+      expectedSalary,
+      experience,
+      extra,
+    };
+
+    render(data);
+  });
+}
 ```
 
+때로는 비슷한 두 코드에서 `공통된 부분을 추출하는 것` 보다 <span style="color: red;">SOLID 원칙을 따르는 
+올바른 추상화</span>가 더 좋다. 물론, 올바른 추상화가 가능할 때 하라는 것이다. 
+<span style="color: red;">잘못된 추상화는 중복 코드보다 나쁘니</span> 조심해야한다. 
 
+*Computed Properties* 가 없어서 고민했는데, 예제를 보니 그냥 `getter`를 사용하거나 위 예제와 같이 
+`methods`를 사용해도 될 것 같다.
 
 #### 6. Set default objects with Object.assign or destructuring
 
 - Bad
 
 ```typescript
+type MenuConfig = { title?: string, body?: string, buttonText?: string, cancellable?: boolean };
 
+function createMenu(config: MenuConfig) {
+  config.title = config.title || 'Foo';
+  config.body = config.body || 'Bar';
+  config.buttonText = config.buttonText || 'Baz';
+  config.cancellable = config.cancellable !== undefined ? config.cancellable : true;
+
+  // ...
+}
+
+createMenu({ body: 'Bar' });
 ```
 
 - Good
 
 ```typescript
+type MenuConfig = { title?: string, body?: string, buttonText?: string, cancellable?: boolean };
 
+function createMenu(config: MenuConfig) {
+  const menuConfig = Object.assign({
+    title: 'Foo',
+    body: 'Bar',
+    buttonText: 'Baz',
+    cancellable: true
+  }, config);
+
+  // ...
+}
+
+createMenu({ body: 'Bar' });
 ```
 
+또는
 
+```typescript
+function createMenu(config: MenuConfig) {
+  const menuConfig = {
+    title: 'Foo',
+    body: 'Bar',
+    buttonText: 'Baz',
+    cancellable: true,
+    ...config,
+  };
+
+  // ...
+}
+```
+
+또는
+
+```typescript
+type MenuConfig = { title?: string, body?: string, buttonText?: string, cancellable?: boolean };
+
+function createMenu({ title = 'Foo', body = 'Bar', buttonText = 'Baz', cancellable = true }: MenuConfig) {
+  // ...
+}
+
+createMenu({ body: 'Bar' });
+```
+
+알고는 있지만 코드를 작성하면 간과하기 좋은 실수 같다. 마지막 방법을 주로 쓰곤 하는데, 처음 작성하는 코드가 아니고 리팩토링을 하는데 
+이미 많은 곳에서 사용중인 코드일 경우 개인 코드면 몰라도 협업하는 코드라면 수정하기가 쉽지 않을 수 있다. 당연히 아무 문제 없을거라고 
+생각하고 수정했는 데 어디선가 예상하지 못한 에러가 발생하면 그 에러 제공자는 내가 되는거니까... 😔
+
+첫 번째와 두 번째 코드와 같이 함수의 body 에서 `default objects`를 제공하는 것은 매우 좋은 방법인 것 같다. `useState`에서 
+값 일부를 업데이트 할 때 많이 사용하면서도 기본값으로 사용할 생각은 왜 안 했던걸까? 🥲꼭 기억해두어야겠다.
 
 #### 7. Don't use flags as function parameters
 
 - Bad
 
 ```typescript
-
+function createFile(name: string, temp: boolean) {
+  if (temp) {
+    fs.create(`./temp/${name}`);
+  } else {
+    fs.create(name);
+  }
+}
 ```
 
 - Good
 
 ```typescript
+function createTempFile(name: string) {
+  createFile(`./temp/${name}`);
+}
 
+function createFile(name: string) {
+  fs.create(name);
+}
 ```
 
-
+함수의 parameters 로 `flags`를 사용한다는 것은 함수가 둘 이상의 일을 한다는 것을 의미한다. 함수는 한 가지 일만 해야한다. 
 
 #### 8. Avoid Side Effects (part 1)
 
 - Bad
 
 ```typescript
+// Global variable referenced by following function.
+let name = 'Robert C. Martin';
 
+function toBase64() {
+  name = btoa(name);
+}
+
+toBase64();
+// If we had another function that used this name, now it'd be a Base64 value
+
+console.log(name); // expected to print 'Robert C. Martin' but instead 'Um9iZXJ0IEMuIE1hcnRpbg=='
 ```
 
 - Good
 
 ```typescript
+const name = 'Robert C. Martin';
 
+function toBase64(text: string): string {
+  return btoa(text);
+}
+
+const encodedName = toBase64(name);
+console.log(name);
 ```
 
-
+어... `swap` 함수도 아니고 설마 저렇게 코드를 작성하는 사람이 정말 있단 말인가 😂😂 그래도 누군가는 저렇게 작성하니까 
+Clean Code 에서도 저렇게 작성하지 말라고 하는거겠지... 🫠
 
 #### 9. Avoid Side Effects (part 2)
 
 - Bad
 
 ```typescript
-
+function addItemToCart(cart: CartItem[], item: Item): void {
+  cart.push({ item, date: Date.now() });
+};
 ```
+
+예를 들어 `purchase` 함수와 `addItemToCart` 함수가 있다고 해보자. `purchase` 함수가 실행돼 결제 화면을 띄워놓은 
+상태에서 `addItemToCart` 함수가 호출되었다고 해보자. Original Reference 를 그대로 사용하면 서버에는 결제창에 
+보이지 않는 아이템까지 요청이 들어갈 것이다!
 
 - Good
 
 ```typescript
-
+function addItemToCart(cart: CartItem[], item: Item): CartItem[] {
+  return [...cart, { item, date: Date.now() }];
+};
 ```
 
+커다란 Reference Types 를 복제하는 것은 Reference Types 를 재사용 하는 것에 비해 많은 비용이 소모된다. 하지만 
+전역에서 최신 상태를 공유해야하는 경우가 아니라면 이것이 `Immutable`이 갖는 장점보다 크다고 자신 있게 말할 수 있을까?
 
+[Swift 에서 Structures, Classes 어떤걸 선택할까?][Choosing Between Structures and Classes] 에 대한 의문에 
+Apple 은 Objective-C 를 제외하면 기본적으로 Structures 를 사용하고, 앱 전체에서 데이터의 *identity* 를 제어해야 
+한다면 Classes 를 사용하라고 설명한다. 이는 지난 WWDC 에서도 우리의 기존 생각과 달리 Value Types 를 사용하는 것이 
+오히려 Reference Types 가 강한 참조를 유지하기 위해 ARC 를 적용하는 것보다 효율적이라고 설명한다.
+
+TypeScript 에는 이러한 Value Types 객체는 존재하지 않는다. Object 는 물론이고, Map 역시 Reference Types 다. 
+사실 사실 JavaScript 로 트랜스파일 되어야 하는 언어이기 때문에 JavaScript 에 해당 타입 먼저 존재해야한다. 방금 전 설명은 
+Apple 에서 Structures 를 소개하며 설명한 내용을 이야기 했지만, 많은 프로그래밍 언어들은 사실 비슷한 부분이 많다. 특히 
+Java 와 같이 언어 레벨에서 First Class Citizen 이 불가능한 언어면 몰라도 Modern Language 에서는 상당히 많은 개념이 
+다른 언어에서도 같거나 유사하게 적용이 되곤 한다.
+
+마찬가지로 Clean Code 에서도 위 예제를 사용해 `Side Effects`를 막기 위해 `Immutable`을 사용하라고 이야기한다. 
+즉, 독립되어야 하는 경우라면 Reference Types 를 복제해서 사용하라는 말이다. 비용이 들더라도 `Immutable`이 갖는 장점이 
+`Side Effects`보다 낫다는 판단이다. 그리고 추가적으로 이야기한다. 객체가 크면 복제 비용도 커지는데, 그것이 부담된다면 
+[immutable-js](https://github.com/immutable-js/immutable-js) 와 같은 같은 훌륭한 라이브러리가 있으므로 
+걱정하지 말라고 말이다!
 
 #### 10. Don't write to global functions
 
 - Bad
 
 ```typescript
+declare global {
+  interface Array<T> {
+    diff(other: T[]): Array<T>;
+  }
+}
 
+if (!Array.prototype.diff) {
+  Array.prototype.diff = function <T>(other: T[]): T[] {
+    const hash = new Set(other);
+    return this.filter(elem => !hash.has(elem));
+  };
+}
 ```
+
+앱 내에서 매우 빈번히 사용될 경우 종종 기본 Types 에 기능을 추가하는 것을 사용해본적이 있다. Code Squad 에서
+크롱님이 지적해주셨던 부분이었다. 위 코드가 갖는 문제점은 다음과 같다.
+
+- 만약 내가 정의한 기능이 Official 로 추가된다면 내 코드는 전부 수정되어야한다.
+- 누군가 이 코드를 보고 Official 로 제공되는 내장 메서드로 오해할 수 있다.
+
+<br>
 
 - Good
 
-```typescript
+그렇기 때문에 Base Types 에 `prototype`으로 메서드를 추가하는 것은 매우 신중히 해야한다고 말이다. 만약 정말로 필요하다면
+내장 메서드와 구분을 하기 위해
 
+```typescript
+declare global {
+  interface Array<T> {
+    $diff(other: T[]): Array<T>;
+  }
+}
+
+if (!Array.prototype.diff) {
+  Array.prototype.$diff = function <T>(other: T[]): T[] {
+    const hash = new Set(other);
+    return this.filter(elem => !hash.has(elem));
+  };
+}
 ```
 
+`Array.prototype.$diff`와 같이 내장 메서드와 구분될 수 있는 네이밍 규칙을 사용하거나
 
+```typescript
+class MyArray<T> extends Array<T> {
+  diff(other: T[]): T[] {
+    const hash = new Set(other);
+    return this.filter(elem => !hash.has(elem));
+  };
+}
+```
+
+`Custom Types`를 만든 후 기능을 추가해 사용하도록 해야한다.
+
+여기서 가장 좋은 방법은 `Custom Types`를 사용하는 것이고, `Array.prototype.$diff` 역시 사용하고자 할 경우 협업하는 
+사람들과 합의가 되어있어야한다.
 
 #### 11. Favor functional programming over imperative programming
+
+```typescript
+const contributions = [
+  {
+    name: 'Uncle Bobby',
+    linesOfCode: 500
+  },
+  {
+    name: 'Suzie Q',
+    linesOfCode: 1500
+  },
+  {
+    name: 'Jimmy Gosling',
+    linesOfCode: 150
+  },
+  {
+    name: 'Gracie Hopper',
+    linesOfCode: 1000
+  }
+];
+```
+
+<br>
 
 - Bad
 
 ```typescript
+let totalOutput = 0;
 
+for (let i = 0; i < contributions.length; i++) {
+  totalOutput += contributions[i].linesOfCode;
+}
 ```
 
 - Good
 
 ```typescript
-
+const totalOutput = contributions
+    .reduce((totalLines, output) => totalLines + output.linesOfCode, 0);
 ```
 
+명령형 프로그래밍(imperative programming)보다 함수형 프로그래밍(functional programming)을 선호하라고 한다. 
+참고로 테스트를 위해서는 `reduce`에 전달될 함수 역시 아래와 같이 분리시킬 수 있다.
 
+```typescript
+type Contribution = {
+  name: string;
+  linesOfCode: number;
+};
+
+const mergeLinesOfCode = (totalLines: number, contribution: Contribution) =>
+    totalLines + contribution.linesOfCode;
+
+const totalOutput = contributions.reduce(mergeLinesOfCode, 0);
+```
 
 #### 12. Encapsulate conditionals
 
 - Bad
 
 ```typescript
-
+if (subscription.isTrial || account.balance > 0) {
+  // ...
+}
 ```
 
 - Good
 
 ```typescript
+function canActivateService(subscription: Subscription, account: Account) {
+  return subscription.isTrial || account.balance > 0;
+}
 
+if (canActivateService(subscription, account)) {
+  // ...
+}
 ```
 
-
+조건이 복잡할 경우 별도 함수로 분리시키긴 하지만 조건이 위와 같이 간단하면 그냥 inline 으로 작성하곤 했다. 간단한 조건을 
+굳이 분리시켜 함수를 만들어야 할까? 라고 생각했기 때문이다. 하지만 Clean Code 관점에서 보면 
+[Use pronounceable variable names](#h-2-use-pronounceable-variable-names) 와 마찬가지로 *읽을 수 있는가?* 
+라는 관점에서 보면 분리시키는 것이 맞다는 생각이 든다. 게다가 `map`이나 `pipe`를 사용해 함수형으로 코드를 작성할 때는 
+더욱 더 분리하는 것이 좋은 코드라는 생각이 든다.
 
 #### 13. Avoid negative conditionals
 
 - Bad
 
 ```typescript
+function isEmailNotUsed(email: string): boolean {
+  // ...
+}
 
+if (isEmailNotUsed(email)) {
+  // ...
+}
 ```
 
 - Good
 
 ```typescript
+function isEmailUsed(email: string): boolean {
+  // ...
+}
 
+if (!isEmailUsed(email)) {
+  // ...
+}
 ```
 
-
+굳이 조건을 구하고 다시 `!`를 사용해 반전시켜야 할까? 라는 생각에 종종 위와 같이 *negative* 조건을 검사한 적이 있다. 
+하지만 Clean Code 관점에서 보면 좋지 못한 선택이다. `Positive Condition`을 선호하라!
 
 #### 14. Avoid conditionals
 
 - Bad
 
 ```typescript
+class Airplane {
+  private type: string;
+  // ...
 
+  getCruisingAltitude() {
+    switch (this.type) {
+      case '777':
+        return this.getMaxAltitude() - this.getPassengerCount();
+      case 'Air Force One':
+        return this.getMaxAltitude();
+      case 'Cessna':
+        return this.getMaxAltitude() - this.getFuelExpenditure();
+      default:
+        throw new Error('Unknown airplane type.');
+    }
+  }
+
+  private getMaxAltitude(): number {
+    // ...
+  }
+}
 ```
 
 - Good
 
 ```typescript
+abstract class Airplane {
+  protected getMaxAltitude(): number {
+    // shared logic with subclasses ...
+  }
 
+  // ...
+}
+
+class Boeing777 extends Airplane {
+  // ...
+  getCruisingAltitude() {
+    return this.getMaxAltitude() - this.getPassengerCount();
+  }
+}
+
+class AirForceOne extends Airplane {
+  // ...
+  getCruisingAltitude() {
+    return this.getMaxAltitude();
+  }
+}
+
+class Cessna extends Airplane {
+  // ...
+  getCruisingAltitude() {
+    return this.getMaxAltitude() - this.getFuelExpenditure();
+  }
+}
 ```
 
+조건문을 피하라는 말이 이상하게 들릴 수 있으나 불필요한 조건문을 피하라는 것이다. 이것은 위에서 본 
+[Functions should do one thing](#h-2-functions-should-do-one-thing) 와
+[Don’t use flags as function parameters](#h-7-dont-use-flags-as-function-parameters) 의 연장이라고 
+볼 수 있다.
 
+이는 비록 메서드가 파라미터로 `conditions`를 받은 것은 아니지만, `conditions`에 따라 메서드가 둘 이상의 일을 하고 
+있다는 말이다. 단순 함수라면 *함수를 분리시킴*으로써 해결할 수 있다. 메서드의 경우는 어떻게 해야할까? 올바른 추상화를 통해 
+`Polymorphism`을 사용하는 것이다.
 
 #### 15. Avoid type checking
 
 - Bad
 
 ```typescript
-
+function travelToTexas(vehicle: Bicycle | Car) {
+  if (vehicle instanceof Bicycle) {
+    vehicle.pedal(currentLocation, new Location('texas'));
+  } else if (vehicle instanceof Car) {
+    vehicle.drive(currentLocation, new Location('texas'));
+  }
+}
 ```
 
 - Good
 
 ```typescript
+type Vehicle = Bicycle | Car;
 
+function travelToTexas(vehicle: Vehicle) {
+  vehicle.move(currentLocation, new Location('texas'));
+}
 ```
 
-
+TypeScript 에서는 더이상 JavaScript 스러운 코드를 사용할 필요가 없다. 언어 자체가 `Static Type Hhecking`을 
+지원한다. 그냥 다른 언어에서 하던 것처럼 기본적인 타입 체크는 언어 레벨에서 하도록 맡겨두자. 
 
 #### 16. Don't over-optimize
 
 - Bad
 
 ```typescript
-
+// On old browsers, each iteration with uncached `list.length` would be costly
+// because of `list.length` recomputation. In modern browsers, this is optimized.
+for (let i = 0, len = list.length; i < len; i++) {
+  // ...
+}
 ```
 
 - Good
 
 ```typescript
-
+for (let i = 0; i < list.length; i++) {
+  // ...
+}
 ```
 
-
+JavaScript 가 Compile Language 가 아니라서 과도한 최적화를 하려는 경향이 있다. 물론, 예전에는 위와 같은 최적화를 
+개발자가 해줘야했다. Python 과 마찬가지로 Interpreter Language 이므로 모든 최적화를 개발자가 해줘야 할 것 같지만, 
+최신 브라우저는 Interpreter 대신 V8 Engine 과 같은 `JIT Compiler`를 사용한다. 따라서 기존의 Compile Language 에서 
+컴파일러가 해주던 최적화를 최신 브라우저를 사용함으로써 적용할 수 있게 되었다. 이제 과도한 최적화는 오히려 코드의 가독성만 나쁘게 만든다.
 
 #### 17. Remove dead code
 
 - Bad
 
 ```typescript
+function oldRequestModule(url: string) {
+  // ...
+}
 
+function requestModule(url: string) {
+  // ...
+}
+
+const req = requestModule;
+inventoryTracker('apples', req, 'www.inventory-awesome.io');
 ```
 
 - Good
 
 ```typescript
+function requestModule(url: string) {
+  // ...
+}
 
+const req = requestModule;
+inventoryTracker('apples', req, 'www.inventory-awesome.io');
 ```
 
-
+회사에서 일할때 생각보다 저런 코드가 많았다. 😩😩😩 Git 을 사용함에도 불구하고 과거에 머물러 있는 개발자들이 저런 코드를 
+양산하는 것을 많이 목격했다. 제발... 옛날 코드를 보고 싶으면 Git 에게 맡기자. 죽은 코드가 혼재하면 가독성도 해치고, Git 의 
+`diff` 역시 작동하지 않는다.
 
 #### 18. Use iterators and generators
 
 - Bad
 
 ```typescript
+function fibonacci(n: number): number[] {
+  if (n === 1) return [1];
+
+  const items: number[] = [1, 1];
+  while (items.length < n) {
+    items.push(items[items.length - 2] + items[items.length - 1]);
+  }
+
+  return items;
+}
+
+function printFibonacci(n: number): void {
+  fibonacci(n).forEach((fib) => console.log(fib));
+}
+
+printFibonacci(10);
 
 ```
+
+```console
+1
+1
+2
+3
+5
+8
+13
+21
+34
+55
+```
+
+위 `fibonacci` 함수는 피보나치 수를 배열로 반환한다. 따라서 100 이라는 숫자가 입력되면 100 개의 피보나치 수를 배열로 
+반환한다.
 
 - Good
 
 ```typescript
+// Generates an infinite stream of Fibonacci numbers.
+// The generator doesn't keep the array of all numbers.
+function* fibonacci(): IterableIterator<number> {
+  let [a, b] = [1, 1];
 
+  while (true) {
+    yield a;
+    [a, b] = [b, a + b];
+  }
+}
+
+function printFibonacci(n: number) {
+  let i = 0;
+  for (const fib of fibonacci()) {
+    if (i++ === n) break;
+    console.log(fib);
+  }
+}
+
+printFibonacci(10);
 ```
 
+(CLI 는 `tsconfig`를 참고하지 않기 때문에 트랜스파일이 되지 않을 경우 타겟을 옵션으로 준다. `tsc -t es6 main.ts`)
 
+`Iterators`와 `Generators`를 사용하면, 모든 피보나치 수를 저장하는 배열을 끌고 다닐 필요가 없다. 모든 피보나치 수를 
+반환 받아 계속 사용해야하는 경우가 아니라면 `console.log` 한 번 출력할 때는 하나의 수만 알면 된다. 그리고 이 하나의 
+수를 계산하기 위해서는 마지막 숫자 2개만 알면 된다.
+
+그런데 개인적으로는 그냥 Closures 를 사용하는 게 낫지 않나? 생각된다.
+
+```typescript
+const fibonacci = (() => {
+  let [a, b] = [0, 1];
+  return () => {
+    [a, b] = [b, a + b];
+    return a;
+  };
+})();
+
+function printFibonacci(n: number) {
+  for (let i = 0; i < n; i++) {
+    console.log(fibonacci());
+  }
+}
+
+printFibonacci(10);
+```
 
 ---
 
@@ -1194,3 +1733,4 @@ Reference
 
 [TypeScript Docs - Enums]:https://www.typescriptlang.org/ko/docs/handbook/enums.html
 [Line Engineering - TypeScript enum]:https://engineering.linecorp.com/ko/blog/typescript-enum-tree-shaking
+[Choosing Between Structures and Classes]:/swift/2022/11/21/structures-and-classes.html#h-3-choosing-between-structures-and-classes

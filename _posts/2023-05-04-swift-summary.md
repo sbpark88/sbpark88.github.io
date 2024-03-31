@@ -1862,7 +1862,7 @@ let someClass = SomeClass()
 이는 전통적으로 프로그래밍 언어에서 `Class`의 `instance`는 `Object`인 반면, *Swift* 의 `Structures`와
 `Classes`는 다른 언어와 비교해 `Functionality`에 가깝다.
 
-#### Commonalities Between Structures and Classes
+#### Commons of Structures and Classes
 
 - Define **properties** : 값을 저장
 - Define **methods** : 기능을 제공
