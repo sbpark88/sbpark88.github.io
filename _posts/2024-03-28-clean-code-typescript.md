@@ -1747,80 +1747,369 @@ Monad 를 구현할 필요가 없다. 단지 `return this;`를 하는 것 만으
 - Bad
 
 ```typescript
+class UserSettings {
+  constructor(private readonly user: User) {
+  }
 
+  changeSettings(settings: UserSettings) {
+    if (this.verifyCredentials()) {
+      // ...
+    }
+  }
+
+  verifyCredentials() {
+    // ...
+  }
+}
 ```
 
 - Good
 
 ```typescript
+class UserAuth {
+  constructor(private readonly user: User) {
+  }
 
+  verifyCredentials() {
+    // ...
+  }
+}
+
+
+class UserSettings {
+  private readonly auth: UserAuth;
+
+  constructor(private readonly user: User) {
+    this.auth = new UserAuth(user);
+  }
+
+  changeSettings(settings: UserSettings) {
+    if (this.auth.verifyCredentials()) {
+      // ...
+    }
+  }
+}
 ```
 
+[Prefer composition over inheritance](#h-3-prefer-composition-over-inheritance) 에서 Inheritance 대신 
+Composition 을 사용해 의존성을 주입하는 방법으로 클래스의 책임을 나누었다. 마찬가지로 상속이 아닌 단일 클래스 역시 서로 다른 
+책임을 하나의 클래스가 갖고 있다면 Composition 을 사용한 의존성 주입을 통해 책임을 나눌 수 있다.
 
+> - 함수가 하나의 역할만 수행하는 것과 마찬가지로 클래스 역시 하나의 책임을 가지고 있어야 한다.
+> - 클래스가 비대해지면 명확한 책임을 정의하고, 그 외 것들은 별도 클래스로 분리한다.
+> - 응집도 있는 클래스를 만들어라.
 
 #### 2. Open/Closed Principle (OCP)
 
 - Bad
 
 ```typescript
+class AjaxAdapter extends Adapter {
+  constructor() {
+    super();
+  }
 
+  // ...
+}
+
+class NodeAdapter extends Adapter {
+  constructor() {
+    super();
+  }
+
+  // ...
+}
+
+class HttpRequester {
+  constructor(private readonly adapter: Adapter) {
+  }
+
+  async fetch<T>(url: string): Promise<T> {
+    if (this.adapter instanceof AjaxAdapter) {
+      const response = await makeAjaxCall<T>(url);
+      // transform response and return
+    } else if (this.adapter instanceof NodeAdapter) {
+      const response = await makeHttpCall<T>(url);
+      // transform response and return
+    }
+  }
+}
+
+function makeAjaxCall<T>(url: string): Promise<T> {
+  // request and return promise
+}
+
+function makeHttpCall<T>(url: string): Promise<T> {
+  // request and return promise
+}
 ```
 
 - Good
 
 ```typescript
+abstract class Adapter {
+  abstract async request<T>(url: string): Promise<T>;
 
+  // code shared to subclasses ...
+}
+
+class AjaxAdapter extends Adapter {
+  constructor() {
+    super();
+  }
+
+  async request<T>(url: string): Promise<T>{
+    // request and return promise
+  }
+
+  // ...
+}
+
+class NodeAdapter extends Adapter {
+  constructor() {
+    super();
+  }
+
+  async request<T>(url: string): Promise<T>{
+    // request and return promise
+  }
+
+  // ...
+}
+
+class HttpRequester {
+  constructor(private readonly adapter: Adapter) {
+  }
+
+  async fetch<T>(url: string): Promise<T> {
+    const response = await this.adapter.request<T>(url);
+    // transform response and return
+  }
+}
 ```
 
+`Software Entities`(classes, modules, functions, etc.) 는 확장에는 열려있고, 수정에는 닫혀있어야한다는 
+원칙으로, 위 코드는 `fetch` 메서드가 두 개의 역할을 하고 있으며, 비슷한 기능인데도 불구하고 주입된 Adapter 에 따라 
+`makeAjaxCall`와 `makeHttpCall`를 호출하도록 기능이 수정되고 있다. 공통 기능을 Base 로 두고 상속을 통해 확장시켜 
+`fetch` 메서드가 어댑터의 `request`를 호출하도록 해 하나의 역할만 하도록 수정되었다.
 
+> - 클래스, 모듈, 함수는 확장을 위해 열려있어야하고, 수정에는 닫혀있어야한다(=수정은 상속을 통해 이루어져야한다).
+> - 즉, 쉽게 확장 가능해야하고, 수정에 영향을 안 받아야한다.
+> - 상위 레벨의 클래스가 하위 레벨의 클래스 수정에 영향을 받으면 곤란하다.
 
 #### 3. Liskov Substitution Principle (LSP)
+
+근본적으로 이 문제가 발생하는 원인은 Classes 가 갖는 강력한 기능 때문인데, 어떤 Types 의 Instance 인지를 확인하는 것은 물론, 
+`Upcasting`, `Downcasting`을 명시적으로든 암시적으로든 사용함으로써 코드의 유연성을 높이고 재사용 가능하도록 만든다.
+
+문제는 이 강력한 기능은 올바른 상속 설계가 되었을 때 강력한 것이지, 잘못된 설계는 논리적 오류를 범하게 되는 문제가 있고, `LSP`는 
+이에 대한 문제를 지적하고 주의를 주는 것이다. 대표적인 예시인 `Rectangle`과 `Square`을 보자.
 
 - Bad
 
 ```typescript
+class Rectangle {
+  constructor(protected width: number = 0, protected height: number = 0) {}
 
+  get area(): number {
+    return this.width * this.height;
+  }
+
+  setWidth(width: number): this {
+    this.width = width;
+    return this;
+  }
+
+  setHeight(height: number): this {
+    this.height = height;
+    return this;
+  }
+}
+
+class Square extends Rectangle {
+  setWidth(width: number): this {
+    this.width = width;
+    this.height = width;
+    return this;
+  }
+
+  setHeight(height: number): this {
+    this.width = height;
+    this.height = height;
+    return this;
+  }
+}
 ```
+
+```typescript
+const square: Square = new Square(7, 5);
+console.log(square.area); // 35
+// 응? 정사각형인데 width 와 height 가 다르게 생성된다.
+// 정사각형의 인스턴스가 직사각형이 되었다.
+
+const rect: Rectangle = new Square().setWidth(4).setHeight(8);
+console.log(rect.area); // 64
+// 응? 정사각형의 인스턴스가 직사각형이 되는 것도 모자라 넓이가 이상하다?
+```
+
+OOP 는 현실 세계를 투영하는 것에서 출발해 만들어졌다. 대표적인 예제로 자판기의 여러 기능을 클래스로 설명하는 코드를 흔히 
+볼 수 있다. 문제는 우리나 현실에서 논리적으로 옳다고 생각되는 것들이 <span style="color: red;">반드시 프로그래밍 
+세계에서도 적용되는 것이 아니라는 것</span>이다.
+
+수학적으로 사각형이라는 최상위 집합 안에는 사다리꼴도 있고, 마름모도 있고, 직사각형도 있고, 정사각형도 있다. 그리고 
+정사각형은 직사각형의 집합 내에 존재한다. 수학에서 보면 `사각형 ⊃ 직사각형 ⊃ 정사각형`이며, 논리적으로 타당하다. 그래서 
+이 개념을 사용해 `정사각형 -> 직사각형`으로 상속 관계를 정의했다. <span style="color: red;">바로 이것이 문제다!</span>
 
 - Good
 
 ```typescript
+interface Shape {
+  get area(): number;
+}
 
+class Rectangle implements Shape {
+  constructor(protected width: number = 0, protected height: number = 0) {}
+
+  get area(): number {
+    return this.width * this.height;
+  }
+
+  setWidth(width: number): this {
+    this.width = width;
+    return this;
+  }
+
+  setHeight(height: number): this {
+    this.height = height;
+    return this;
+  }
+}
+
+class Square implements Shape {
+  constructor(protected length: number = 0) {}
+
+  get area(): number {
+    return this.length * this.length;
+  }
+
+  setLength(length: number): this {
+    this.length = length;
+    return this;
+  }
+}
 ```
 
+```typescript
+const shape: Shape = new Rectangle(7, 5);
+console.log(shape.area); // 35
+```
 
+```typescript
+const shape: Shape = new Square().setLength(6);
+console.log(shape.area); // 36
+```
+
+잘못된 상속 구조를 제거해 정상적으로 넓이를 구할 수 있게 되었다.
+
+> - 상속에는 원칙이 존재해야한다. 잘못된 상속 관계를 만들지 말라.
+> - 잘못된 상속의 예는 위 `Rectangle`, `Square`의 상속 관계와 같다.
+>   - OOP 가 현실을 투영해 만들어졌지만, 현실 세계에서의 관계를 그대로 프로그래밍에 적용하면 위와 같은 문제가 발생한다.
+>   - 프로그래밍 코드의 흐름 상 올바른 상속 관계인지를 생각해야한다.
 
 #### 4. Interface Segregation Principle (ISP)
 
 - Bad
 
 ```typescript
+interface SmartPrinter {
+  print();
+  fax();
+  scan();
+}
 
+class AllInOnePrinter implements SmartPrinter {
+  print() {
+    // ...
+  }  
+  
+  fax() {
+    // ...
+  }
+
+  scan() {
+    // ...
+  }
+}
+
+class EconomicPrinter implements SmartPrinter {
+  print() {
+    // ...
+  }  
+  
+  fax() {
+    throw new Error('Fax not supported.');
+  }
+
+  scan() {
+    throw new Error('Scan not supported.');
+  }
+}
 ```
 
 - Good
 
 ```typescript
+interface Printer {
+  print();
+}
 
+interface Fax {
+  fax();
+}
+
+interface Scanner {
+  scan();
+}
+
+class AllInOnePrinter implements Printer, Fax, Scanner {
+  print() {
+    // ...
+  }  
+  
+  fax() {
+    // ...
+  }
+
+  scan() {
+    // ...
+  }
+}
+
+class EconomicPrinter implements Printer {
+  print() {
+    // ...
+  }
+}
 ```
 
+[Classes should be small](#h-1-classes-should-be-small), [SIP](#h-1-single-responsibility-principle-srp) 
+와 많은 관련이 있다. 인터페이스 역시 책임을 분산시키고 크기를 줄여야한다. 
 
+> - 단일 책임 원치고가 많은 관련이 있다.
+> - 불필요한 구현을 강제하지 않도록 해야 한다. 이는 불필요한 노출로 이어진다.
+> - 인터페이스 역시 하나의 책임을 갖도록 분리하라.
 
 #### 5. Dependency Inversion Principle (DIP)
 
-- Bad
+과거에는 상위 레벨이 하위 레벨에 의존했다. 시스템 규모가 작을 때는 문제가 되지 않는데 시스템이 커지고, 협업을 하면서 이러한 구조는 
+너무 코드의 수정을 어렵게 만들었다. 그래서 이 문제를 해결하고자 상위 레벨은 하위 레벨에 대해 몰라야하며, 하위 레벨이 상위 레벨에 
+의존하도록 관계를 역전시켰다. 상위 레벨이 하위 레벨에 의존하지 않는다는 것은 곧 세부사항을 위해서는 상위 레벨이 아닌 하위 레벨로 
+확장을 통해 구현해야한다는 것을 의미한다. 즉, [OCP](#h-2-openclosed-principle-ocp) 와 연관된다고 볼 수 있다.
 
-```typescript
-
-```
-
-- Good
-
-```typescript
-
-```
-
-
+> - 상위 레벨 모듈은 하위 레벨 모듈에 의존하지 않는다.
+> - 과거에는 상위 레벨 모듈이 하위 레벨에 의존하고 있었고, 요즘은 이런 의존 관계가 역전(Inversion) 되었다.
+> - Dependency Injection 을 잘 활용한다.
+> - Facade 패턴을 활용한다.
 
 ---
 
