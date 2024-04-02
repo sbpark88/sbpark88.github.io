@@ -2092,7 +2092,7 @@ class EconomicPrinter implements Printer {
 }
 ```
 
-[Classes should be small](#h-1-classes-should-be-small), [SIP](#h-1-single-responsibility-principle-srp) 
+[Classes should be small](#h-1-classes-should-be-small), [SRP](#h-1-single-responsibility-principle-srp) 
 와 많은 관련이 있다. 인터페이스 역시 책임을 분산시키고 크기를 줄여야한다. 
 
 > - 단일 책임 원치고가 많은 관련이 있다.
@@ -2117,67 +2117,99 @@ class EconomicPrinter implements Printer {
 
 #### 1. The three laws of TDD
 
-- Bad
-
-```typescript
-
-```
-
-- Good
-
-```typescript
-
-```
-
-
+1. `fail` 단위 테스트가 통과될 때 까지 `production code`를 작성하지 마라.
+2. 컴파일 실패는 그냥 실패다. 코드의 실행이 실패할 정도로만 `fail` 단위 테스트를 작성하라.
+3. `fail` 단위 테스트를 통과하기에 충분한 것 이상의 `production code`를 작성하지 마라.
 
 #### 2. F.I.R.S.T. rules
 
-- Bad
-
-```typescript
-
-```
-
-- Good
-
-```typescript
-
-```
-
-
+- `Fast`: 테스트는 자주 실행되므로 빨라야 한다.
+- `Independent`: 테스트는 서로 종속적이지 않아야한다. 독립적으로 실행하든, 순서를 바꾸어 실행하든 동일한 결과가 나와야한다.
+- `Repeatable`: 테스트는 어떤 환경에서든 반복될 수 있으며, 이것이 테스트 실패에 이유가 되어서는 안 된다.
+- `Self-Validating`: 테스트 결과는 `Passed`, `Failed`로만 나와야한다. 테스트가 성공이라면 로그 파일을 비교할 필요가 없다.
+- `Timely`: `Unit Tests -> Production Code`순으로 작성해라. 반대가 되어서는 안 된다.
 
 #### 3. Single concept per test
 
 - Bad
 
 ```typescript
+import { assert } from 'chai';
 
+describe('AwesomeDate', () => {
+  it('handles date boundaries', () => {
+    let date: AwesomeDate;
+
+    date = new AwesomeDate('1/1/2015');
+    assert.equal('1/31/2015', date.addDays(30));
+
+    date = new AwesomeDate('2/1/2016');
+    assert.equal('2/29/2016', date.addDays(28));
+
+    date = new AwesomeDate('2/1/2015');
+    assert.equal('3/1/2015', date.addDays(28));
+  });
+});
 ```
 
 - Good
 
 ```typescript
+import { assert } from 'chai';
 
+describe('AwesomeDate', () => {
+  it('handles 30-day months', () => {
+    const date = new AwesomeDate('1/1/2015');
+    assert.equal('1/31/2015', date.addDays(30));
+  });
+
+  it('handles leap year', () => {
+    const date = new AwesomeDate('2/1/2016');
+    assert.equal('2/29/2016', date.addDays(28));
+  });
+
+  it('handles non-leap year', () => {
+    const date = new AwesomeDate('2/1/2015');
+    assert.equal('3/1/2015', date.addDays(28));
+  });
+});
 ```
 
-
+테스트 역시 [SRP](#h-1-single-responsibility-principle-srp) 를 따라야한다. 단위 테스트 하나 당 하나의 `assert`를 
+작성하라.
 
 #### 4. The name of the test should reveal its intention
 
 - Bad
 
 ```typescript
+describe('Calendar', () => {
+  it('2/29/2020', () => {
+    // ...
+  });
 
+  it('throws', () => {
+    // ...
+  });
+});
 ```
 
 - Good
 
 ```typescript
+describe('Calendar', () => {
+  it('should handle leap year', () => {
+    // ...
+  });
 
+  it('should throw when format is invalid', () => {
+    // ...
+  });
+});
 ```
 
-
+[Function names should say what they do](#h-3-function-names-should-say-what-they-do) 와 마찬가지로, 
+테스트가 실패했을 때 이름을 보고 어떤 테스트가 실패한 것인지 알 수 있어야 한다.
 
 ---
 
