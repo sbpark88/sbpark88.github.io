@@ -2334,48 +2334,126 @@ async/await 은 Promise 코드를 일반 절차 지향적인 Synchronous 코드�
 - Bad
 
 ```typescript
+function calculateTotal(items: Item[]): number {
+  throw 'Not implemented.';
+}
 
+function get(): Promise<Item[]> {
+  return Promise.reject('Not implemented.');
+}
 ```
 
 - Good
 
 ```typescript
+function calculateTotal(items: Item[]): number {
+  throw new Error('Not implemented.');
+}
 
+function get(): Promise<Item[]> {
+  return Promise.reject(new Error('Not implemented.'));
+}
+
+// 또는 아래와 동일합니다:
+
+async function get(): Promise<Item[]> {
+  throw new Error('Not implemented.');
+}
 ```
 
+JavaScript 는 에러 타입 없이 단순 문자열을 에러로 던질 수 있다. 이것은 좋은 방법이 아니다. 에러는 항상 `Error` 객체로 
+반환하자. 그래야 `catch`를 제대로 쓸 수 있다.
 
+다른 대안으로는 `throw`와 `catch`를 사용하는 대신 `Custom Objects`를 반환하는 것이다.
+
+```typescript
+type Result<R> = { isError: false, value: R };
+type Failure<E> = { isError: true, error: E };
+type Failable<R, E> = Result<R> | Failure<E>;
+
+function calculateTotal(items: Item[]): Failable<number, 'empty'> {
+  if (items.length === 0) {
+    return { isError: true, error: 'empty' };
+  }
+
+  // ...
+  return { isError: false, value: 42 };
+}
+```
 
 #### 2. Don't ignore caught errors
 
 - Bad
 
 ```typescript
+try {
+  functionThatMightThrow();
+} catch (error) {
+  console.log(error);
+}
 
+// or even worse
+
+try {
+  functionThatMightThrow();
+} catch (error) {
+  // ignore error
+}
 ```
 
 - Good
 
 ```typescript
+import { logger } from './logging'
 
+try {
+  functionThatMightThrow();
+} catch (error) {
+  logger.log(error);
+}
 ```
 
-
+`catch`의 에러 처리를 비워두지 말자. 에러가 발생해도 발생한 줄도 모르고 코드가 잘 돌아가고 있다고 착각하게 된다.
 
 #### 3. Don't ignore rejected promises
 
 - Bad
 
 ```typescript
-
+getUser()
+  .then((user: User) => {
+    return sendEmail(user.email, 'Welcome!');
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 ```
 
 - Good
 
 ```typescript
+import { logger } from './logging'
 
+getUser()
+  .then((user: User) => {
+    return sendEmail(user.email, 'Welcome!');
+  })
+  .catch((error) => {
+    logger.log(error);
+  });
+
+// or using the async/await syntax:
+
+try {
+  const user = await getUser();
+  await sendEmail(user.email, 'Welcome!');
+} catch (error) {
+  logger.log(error);
+}
 ```
 
-
+[Don’t ignore caught errors](#h-2-dont-ignore-caught-errors) 와 같은 말이다. 비동기로 작동하는 Promise 의 
+`reject` 역시 무시하지 말아라.
 
 ---
 
