@@ -2220,32 +2220,110 @@ describe('Calendar', () => {
 - Bad
 
 ```typescript
+import { get } from 'request';
+import { writeFile } from 'fs';
 
+function downloadPage(url: string, saveTo: string, callback: (error: Error, content?: string) => void) {
+  get(url, (error, response) => {
+    if (error) {
+      callback(error);
+    } else {
+      writeFile(saveTo, response.body, (error) => {
+        if (error) {
+          callback(error);
+        } else {
+          callback(null, response.body);
+        }
+      });
+    }
+  });
+}
+
+downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html', (error, content) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log(content);
+  }
+});
 ```
 
 - Good
 
 ```typescript
+import { get } from 'request';
+import { writeFile } from 'fs';
+import { promisify } from 'util';
 
+const write = promisify(writeFile);
+
+function downloadPage(url: string, saveTo: string): Promise<string> {
+  return get(url)
+    .then(response => write(saveTo, response));
+}
+
+downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html')
+  .then(content => console.log(content))
+  .catch(error => console.error(error));  
 ```
 
+비동기로 작동하는 코드의 순서를 보장하기 위한 콜백 지옥(callback hell)에서 탈출하자. Promise 를 사용하면, callback 을 
+중첩하지 않더라도 `then, then, then, catch...` 와 같이 순서를 보장할 수 있다.
 
+| Pattern                  | Description                         |
+|--------------------------|-------------------------------------|
+| `Promise.resolve(value)` | Promise 로 wrapping 된 success 응답을 반환 |
+| `Promise.reject(error)`  | Promise 로 wrapping 된 fail 응답을 반환    |
+| `Promise.all(promises)`  | Promise 를 배열로 병렬 처리해 응답을 반환         |
+| `Promise.race(promises)` | Promise 를 배열로 요청해 가장 먼저 온 응답을 반환    |
+
+`Promise.race`는 timeout 을 쉽게 구현할 수 있게 해준다.
 
 #### 2. Async/Await are even cleaner than Promises
 
 - Bad
 
 ```typescript
+import { get } from 'request';
+import { writeFile } from 'fs';
+import { promisify } from 'util';
 
+const write = util.promisify(writeFile);
+
+function downloadPage(url: string, saveTo: string): Promise<string> {
+  return get(url).then(response => write(saveTo, response));
+}
+
+downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin', 'article.html')
+  .then(content => console.log(content))
+  .catch(error => console.error(error));  
 ```
 
 - Good
 
 ```typescript
+import { get } from 'request';
+import { writeFile } from 'fs';
+import { promisify } from 'util';
 
+const write = promisify(writeFile);
+
+async function downloadPage(url: string): Promise<string> {
+  const response = await get(url);
+  return response;
+}
+
+// somewhere in an async function
+try {
+  const content = await downloadPage('https://en.wikipedia.org/wiki/Robert_Cecil_Martin');
+  await write('article.html', content);
+  console.log(content);
+} catch (error) {
+  console.error(error);
+}
 ```
 
-
+async/await 은 Promise 코드를 일반 절차 지향적인 Synchronous 코드로 보이도록 만들어준다.
 
 ---
 
