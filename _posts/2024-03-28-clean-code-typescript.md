@@ -2461,83 +2461,208 @@ try {
 
 #### 1. Migrating from TSLint to ESLint
 
-- Bad
-
-```typescript
-
-```
-
-- Good
-
-```typescript
-
-```
-
-
+많은 프로그래밍 언어는 `Lint`를 제공한다. 다양한 언어를 제공하는 `SonarLint`와 같은 것들도 있지만, JavaScript/TypeScript 
+에서 가장 많이 사용되는 것으 `ESLint`다. 만약 아직 `TSLint`를 사용중이라면 deprecated 되었으므로 `ESLint`로 교체하자.
 
 #### 2. Use consistent capitalization
 
 - Bad
 
 ```typescript
+const DAYS_IN_WEEK = 7;
+const daysInMonth = 30;
 
+const songs = ['Back In Black', 'Stairway to Heaven', 'Hey Jude'];
+const Artists = ['ACDC', 'Led Zeppelin', 'The Beatles'];
+
+function eraseDatabase() {}
+function restore_database() {}
+
+type animal = { /* ... */ }
+type Container = { /* ... */ }
 ```
 
 - Good
 
 ```typescript
+const DAYS_IN_WEEK = 7;
+const DAYS_IN_MONTH = 30;
 
+const SONGS = ['Back In Black', 'Stairway to Heaven', 'Hey Jude'];
+const ARTISTS = ['ACDC', 'Led Zeppelin', 'The Beatles'];
+
+const discography = getArtistDiscography('ACDC');
+const beatlesSongs = SONGS.filter((song) => isBeatlesSong(song));
+
+function eraseDatabase() {}
+function restoreDatabase() {}
+
+type Animal = { /* ... */ }
+type Container = { /* ... */ }
 ```
 
-
+한 마디로, 일관적이게 작성하라는 말이다. Coding Convention 을 만들고 적용해라. 일반적으로 Classes, Interfaces, 
+Types, Namespaces 는 `PascalCase`를 사용하고, Variables, Functions, Properties 와 같은 것들은 
+`camelCase`를 사용하며, Constants 는 `SNAME_CASE`를 사용한다.
 
 #### 3. Function callers and callees should be close
 
 - Bad
 
 ```typescript
+class PerformanceReview {
+  constructor(private readonly employee: Employee) {
+  }
 
+  private lookupPeers() {
+    return db.lookup(this.employee.id, 'peers');
+  }
+
+  private lookupManager() {
+    return db.lookup(this.employee, 'manager');
+  }
+
+  private getPeerReviews() {
+    const peers = this.lookupPeers();
+    // ...
+  }
+
+  review() {
+    this.getPeerReviews();
+    this.getManagerReview();
+    this.getSelfReview();
+
+    // ...
+  }
+
+  private getManagerReview() {
+    const manager = this.lookupManager();
+  }
+
+  private getSelfReview() {
+    // ...
+  }
+}
+
+const review = new PerformanceReview(employee);
+review.review();
 ```
 
 - Good
 
 ```typescript
+class PerformanceReview {
+  constructor(private readonly employee: Employee) {
+  }
 
+  review() {
+    this.getPeerReviews();
+    this.getManagerReview();
+    this.getSelfReview();
+
+    // ...
+  }
+
+  private getPeerReviews() {
+    const peers = this.lookupPeers();
+    // ...
+  }
+
+  private lookupPeers() {
+    return db.lookup(this.employee.id, 'peers');
+  }
+
+  private getManagerReview() {
+    const manager = this.lookupManager();
+  }
+
+  private lookupManager() {
+    return db.lookup(this.employee, 'manager');
+  }
+
+  private getSelfReview() {
+    // ...
+  }
+}
+
+const review = new PerformanceReview(employee);
+review.review();
 ```
 
-
+호출 하는 함수 아래 호출 당하는 함수를 위치시키는 것이 가장 이상적이다. 우리는 위에서 아래로 읽어 내려가기 때문이다.
 
 #### 4. Organize imports
 
 - Bad
 
 ```typescript
-
+import { TypeDefinition } from '../types/typeDefinition';
+import { AttributeTypes } from '../model/attribute';
+import { Customer, Credentials } from '../model/types';
+import { ApiCredentials, Adapters } from './common/api/authorization';
+import fs from 'fs';
+import { ConfigPlugin } from './plugins/config/configPlugin';
+import { BindingScopeEnum, Container } from 'inversify';
+import 'reflect-metadata';
 ```
 
 - Good
 
 ```typescript
+import 'reflect-metadata';
 
+import fs from 'fs';
+import { BindingScopeEnum, Container } from 'inversify';
+
+import { AttributeTypes } from '../model/attribute';
+import { TypeDefinition } from '../types/typeDefinition';
+import type { Customer, Credentials } from '../model/types';
+
+import { ApiCredentials, Adapters } from './common/api/authorization';
+import { ConfigPlugin } from './plugins/config/configPlugin';
 ```
 
+의존성을 빠르게 확인하기 위해 그룹화 하고, 알파벳 순으로 배치하도록 한다.
 
+1. Grouping 처리하기. Grouping 순서는 아래와 같다.
+    1. Polyfills: `import 'reflect-metadata'`
+    2. Node builtin modules: `import fs from 'fs'`
+    3. external modules: `import { query } from 'itiriri'`
+    4. internal modules: `import { UserService } from 'src/services/userService'`
+    5. modules from a parent directory: `import foo from '../foo'; import qux from '../../foo/qux'`
+    6. modules from the same or a sibling's directory: `import bar from './bar'; import baz from './bar/baz'`
+2. 그룹 내에서는 알파벳 순으로 정리한다.
+    1. from 이하 모듈의 이름을 알파벳으로 정렬한다.
+    2. 불러올 대상 `{  }`의 이름 역시 알파벳으로 정렬한다.
 
 #### 5. Use typescript aliases
 
 - Bad
 
 ```typescript
-
+import { UserService } from '../../../services/UserService';
 ```
 
 - Good
 
-```typescript
-
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@services": [
+        "services/*"
+      ]
+    }
+  }
+}
 ```
 
+```typescript
+import { UserService } from '@services/UserService';
+```
 
+컴파일 옵션을 사용하자. 간편할 뿐 아니라 가독성도 좋아진다.
 
 ---
 
