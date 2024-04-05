@@ -2673,80 +2673,160 @@ import { UserService } from '@services/UserService';
 - Bad
 
 ```typescript
-
+// Check if subscription is active.
+if (subscription.endDate > Date.now) {  }
 ```
 
 - Good
 
 ```typescript
-
+const isSubscriptionActive = subscription.endDate > Date.now;
+if (isSubscriptionActive) { /* ... */ }
 ```
 
-
+나쁜 코드에 주석을 달지 마라. 새로 짜라.  
+코드만이 유일한 진실이다.
 
 #### 2. Don't leave commented out code in your codebase
 
 - Bad
 
 ```typescript
-
+type User = {
+  name: string;
+  email: string;
+  // age: number;
+  // jobPosition: string;
+}
 ```
 
 - Good
 
 ```typescript
-
+type User = {
+  name: string;
+  email: string;
+}
 ```
 
-
+[Remove dead code](#h-17-remove-dead-code) 와 같은 말이다. 죽은 코드는 제발 지우자. 
+옛날 코드는 Git 에게 맡기면 된다.
 
 #### 3. Don't have journal comments
 
 - Bad
 
 ```typescript
-
+/**
+ * 2016-12-20: Removed monads, didn't understand them (RM)
+ * 2016-10-01: Improved using special monads (JP)
+ * 2016-02-03: Added type-checking (LI)
+ * 2015-03-14: Implemented combine (JR)
+ */
+function combine(a: number, b: number): number {
+  return a + b;
+}
 ```
 
 - Good
 
 ```typescript
-
+function combine(a: number, b: number): number {
+  return a + b;
+}
 ```
 
-
+위에서 한 말과 같다. 우리에겐 Git 이 있다.
 
 #### 4. Avoid positional markers
 
 - Bad
 
 ```typescript
+////////////////////////////////////////////////////////////////////////////////
+// Client class
+////////////////////////////////////////////////////////////////////////////////
+class Client {
+  id: number;
+  name: string;
+  address: Address;
+  contact: Contact;
 
+  ////////////////////////////////////////////////////////////////////////////////
+  // public methods
+  ////////////////////////////////////////////////////////////////////////////////
+  public describe(): string {
+    // ...
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////
+  // private methods
+  ////////////////////////////////////////////////////////////////////////////////
+  private describeAddress(): string {
+    // ...
+  }
+
+  private describeContact(): string {
+    // ...
+  }
+};
 ```
 
 - Good
 
 ```typescript
+class Client {
+  id: number;
+  name: string;
+  address: Address;
+  contact: Contact;
 
+  public describe(): string {
+    // ...
+  }
+
+  private describeAddress(): string {
+    // ...
+  }
+
+  private describeContact(): string {
+    // ...
+  }
+};
 ```
 
+TypeScript 에는 Swift 의 [Extensions][Swift Extensions] 와 같은 기능이 없어 Classes 가 조금 커지면 
+저런 식으로 주석을 활용하곤 했었다. 그런데 이게 나쁜 습관이었다니... Clean Code 를 포스팅 하면서 깨달은 것은, 
+Classes 의 크기가 커 주석으로 구분하고자 했을 때 왜 응집도를 높이기 위해 더 작게 나눌 수 있지 않을까에 대한 고민을 
+깊게 해보지 않았을까? 응집도를 최대한 높이고도 코드가 길어서 보기 힘들 때 역시 메모장이 아닌 IDE 에 코딩하고 있음을 
+기억하자.
 
+IDE 에 코드 블럭을 접고 펼 수 있는 `collapse/expand` 기능이 있다. 코드의 위치를 표기하기 위한 불필요한 주석을 
+작성하지 말아라.
 
 #### 5. TODO comments
 
 - Bad
 
 ```typescript
-
+function getActiveSubscriptions(): Promise<Subscription[]> {
+  // ensure `dueDate` is indexed.
+  return db.subscriptions.find({ dueDate: { $lte: new Date() } });
+}
 ```
 
 - Good
 
 ```typescript
-
+function getActiveSubscriptions(): Promise<Subscription[]> {
+  // TODO: ensure `dueDate` is indexed.
+  return db.subscriptions.find({ dueDate: { $lte: new Date() } });
+}
 ```
 
-
+개인적으로 정말 많이 사용했던 기능이다. `TODO`, `FIXME`로 시작하는 주석은 IDE 가 따로 모아서 보여줄 뿐 아니라 
+다른 작성 또는 수정되어야 하는 코드의 내용을 명시적으로 적어둠으로써 나중에 코드를 보거나 다른 사람이 볼 때 도움을 
+줄 수 있다.
 
 ---
 
@@ -2770,3 +2850,4 @@ Reference
 [ES6 Class Getter/Setter]:/javascript/2023/04/14/prototype.html#h-1-es6-class-gettersetter
 [Computed Properties]:/swift/2022/11/22/properties.html#h-2-computed-properties-
 [Stackoverflow - Interfaces vs Types in TypeScript]:(https://stackoverflow.com/questions/37233735/interfaces-vs-types-in-typescript/54101543#54101543)
+[Swift Extensions]:/swift/2023/01/17/extensions.html
