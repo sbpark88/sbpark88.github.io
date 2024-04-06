@@ -2832,6 +2832,216 @@ function getActiveSubscriptions(): Promise<Subscription[]> {
 
 ### 11. Let's reduce the indentation of the Functions 👩‍💻 
 
+크롱님 유튜브를 보다 내가 생각하던 것 이상으로 코드 블럭 들여쓰기를 해체하는 것은 물론 깔끔한 결과물을 
+보며 👍🏻했다.
+
+__1 ) 시작 코드__
+
+```html
+<h1>커피 가게</h1>
+<button>make coffee</button>
+<div id="log"></div>
+```
+
+```javascript
+function orderCoffee(el, orderList) {
+  if (el) {
+    if (Array.isArray(orderList)) {
+      el.addEventListener('click', function () {
+        setTimeout(function () {
+          for (let i = 0; i < orderList.length; i++) {
+            document.querySelector('#log').innerHTML += `${orderList[i]}가 완료됐습니다<br />`;
+          }
+        }, 2000);
+      });
+    }
+  }
+}
+
+orderCoffee(document.querySelector('button'), ['americano', 'cafeLatte']);
+```
+
+코드 블럭 들여쓰기가 무려 6번이다.
+
+__2 ) if문 줄이기__
+
+```javascript
+function orderCoffee(el, orderList) {
+  if (el && Array.isArray(orderList)) {
+    el.addEventListener('click', function () {
+      setTimeout(function () {
+        for (let i = 0; i < orderList.length; i++) {
+          document.querySelector('#log').innerHTML += `${orderList[i]}가 완료됐습니다<br />`;
+        }
+      }, 2000);
+    });
+  }
+}
+
+orderCoffee(document.querySelector('button'), ['americano', 'cafeLatte']);
+```
+
+코드 블럭 들여쓰기가 5번으로 줄었다.
+
+__3 ) guard 처리__
+
+```javascript
+function orderCoffee(el, orderList) {
+  if (!el || !Array.isArray(orderList)) return;
+
+  el.addEventListener('click', function () {
+    setTimeout(function () {
+      for (let i = 0; i < orderList.length; i++) {
+        document.querySelector('#log').innerHTML += `${orderList[i]}가 완료됐습니다<br />`;
+      }
+    }, 2000);
+  });
+}
+
+orderCoffee(document.querySelector('button'), ['americano', 'cafeLatte']);
+```
+
+이제 코드 블럭 들여쓰기는 4번만 존재한다.
+
+__4 ) addEventListener 의 콜백 함수 분리__
+
+```javascript
+function orderCoffee(el, orderList) {
+  if (!el || !Array.isArray(orderList)) return;
+
+  function buttonClickHandler() {
+    setTimeout(function () {
+      for (let i = 0; i < orderList.length; i++) {
+        document.querySelector('#log').innerHTML += `${orderList[i]}가 완료됐습니다<br />`;
+      }
+    }, 2000);
+  }
+
+  el.addEventListener('click', buttonClickHandler);
+}
+
+orderCoffee(document.querySelector('button'), ['americano', 'cafeLatte']);
+```
+
+들여쓰기는 그대로 4번이지만, addEventListener 와 setTimeout 에 의해 2번의 콜백함수가 중첩되어 발생하는 
+가독성 문제를 해결했다.
+
+사실 이정도는 매우 쉽다. 추가한다면 setTimeout 역시 콜백 함수를 분리시키고, orderCoffee 함수에 반드시 있을 필요가 
+없는 코드를 함수 밖으로 분리시키고, magic number 2000 을 변수로 바꿔주는 등 자잘한 처리만 해주면 된다고 생각했다. 
+
+__5 ) setTimout 을 Promise 패턴 적용__
+
+```javascript
+function orderCoffee(el, orderList) {
+  if (!el || !Array.isArray(orderList)) return;
+  
+  const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), time));
+
+  async function buttonClickHandler() {
+    await delay(2000);
+    for (let i = 0; i < orderList.length; i++) {
+      document.querySelector('#log').innerHTML += `${orderList[i]}가 완료됐습니다<br />`;
+    }
+  }
+
+  el.addEventListener('click', buttonClickHandler);
+}
+
+orderCoffee(document.querySelector('button'), ['americano', 'cafeLatte']);
+```
+
+놀라운 것은 바로 이 부분이었다! `setTimeout`을 `Promise`와 `async/await`을 사용해 이렇게 바꿀 수 있다니!!  
+단순히 setTimout 의 콜백 함수를 분리할 생각만 했는데 정말 놀랍 아름답다. 🙏🏻
+
+이 다음 코드는 역시 매우 쉽고 기본적인 방법들이다.
+
+__6 ) querySelector 분리__
+
+```javascript
+function orderCoffee(el, orderList) {
+  if (!el || !Array.isArray(orderList)) return;
+
+  const logEl = document.querySelector('#log');
+  const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), time));
+
+  async function buttonClickHandler() {
+    await delay(2000);
+    for (let i = 0; i < orderList.length; i++) {
+      logEl.innerHTML += `${orderList[i]}가 완료됐습니다<br />`;
+    }
+  }
+
+  el.addEventListener('click', buttonClickHandler);
+}
+
+orderCoffee(document.querySelector('button'), ['americano', 'cafeLatte']);
+```
+
+__7 ) for-i 를 Higher-order Functions 로 바꾸기__
+
+```javascript
+function orderCoffee(el, orderList) {
+  if (!el || !Array.isArray(orderList)) return;
+  
+  const logEl = document.querySelector('#log');
+  const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), time));
+
+  async function buttonClickHandler() {
+    await delay(2000);
+    orderList.forEach(
+      (order) => (logEl.innerHTML += `${order}가 완료됐습니다<br />`)
+    );
+  }
+
+  el.addEventListener('click', buttonClickHandler);
+}
+
+orderCoffee(document.querySelector('button'), ['americano', 'cafeLatte']);
+```
+
+__8 ) Higher-order Functions 의 콜백 함수 분리__
+
+```javascript
+function orderCoffee(el, orderList) {
+  if (!el || !Array.isArray(orderList)) return;
+  
+  const logEl = document.querySelector('#log');
+  const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), time));
+  const insertMsg = (order) => (logEl.innerHTML += `${order}가 완료됐습니다<br />`);
+
+  async function buttonClickHandler() {
+    await delay(2000);
+    orderList.forEach(insertMsg);
+  }
+  
+  el.addEventListener('click', buttonClickHandler);
+}
+
+orderCoffee(document.querySelector('button'), ['americano', 'cafeLatte']);
+```
+
+__9 ) orderCoffee 내부에 불필요함 함수를 밖으로 빼내고 매직 넘버 제거하기__
+
+```javascript
+const logEl = document.querySelector('#log');
+const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), time));
+const insertMsg = (order) => (logEl.innerHTML += `${order}가 완료됐습니다<br />`);
+  
+async function buttonClickHandler(orderList) {
+  const delayMilliseconds = 2000;
+  await delay(delayMilliseconds);
+  orderList.forEach(insertMsg);
+}
+
+function orderCoffee(el, orderList) {
+  if (!el || !Array.isArray(orderList)) return;
+  el.addEventListener('click', () => buttonClickHandler(orderList));
+}
+
+orderCoffee(document.querySelector('button'), ['americano', 'cafeLatte']);
+```
+
+
 <br><br>
 
 ---
