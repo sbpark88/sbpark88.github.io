@@ -266,5 +266,5 @@ instructor.hasOwnProperty('firstName')  // O(1)
 ---
 Reference
 
-1. Colt Steele, "JavaScript 알고리즘 & 자료구조 마스터클래스" Udemy.com. last modified Aug. 2023, [https://www.udemy.com/course/best-javascript-data-structures](https://www.udemy.com/course/best-javascript-data-structures)
+1. Colt Steele, "JavaScript 알고리즘 & 자료구조 마스터클래스" Udemy.com. last modified Aug. 2023, [https://www.udemy.com/course/best-javascript-data-structures](https://www.udemy.com/course/best-javascript-data-structures).
 

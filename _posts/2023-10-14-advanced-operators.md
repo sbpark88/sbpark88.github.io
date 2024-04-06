@@ -952,9 +952,9 @@ struct ArrayBuilder {
 Reference
 
 1. "Advanced Operators." The Swift Programming Language Swift 5.9. accessed Oct. 14, 2023, [Swift Docs Chapter 27 - Advanced Operators](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/advancedoperators).
-2. "Operator Declarations." Apple Developer Documentation. accessed Oct. 17, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Operator Declarations][Operator Declarations]
-3. "Lexical Structure." The Swift Programming Language Swift 5.9. accessed Oct. 23, 2023, [Swift Lexical Structure](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/lexicalstructure)
-4. "Attributes." The Swift Programming Language Swift 5.9. accessed Oct. 24, 2023, [Swift Docs Language Reference - Attributes/Result Builder](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/attributes#resultBuilder)
+2. "Operator Declarations." Apple Developer Documentation. accessed Oct. 17, 2023, [Apple Developer Documentation - Swift/Swift Standard Library/Operator Declarations][Operator Declarations].
+3. "Lexical Structure." The Swift Programming Language Swift 5.9. accessed Oct. 23, 2023, [Swift Lexical Structure](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/lexicalstructure).
+4. "Attributes." The Swift Programming Language Swift 5.9. accessed Oct. 24, 2023, [Swift Docs Language Reference - Attributes/Result Builder](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/attributes#resultBuilder).
 
 [Operator Declarations]:https://developer.apple.com/documentation/swift/operator-declarations
 [Adopting a Protocol Using a Synthesized Implementation]:/swift/2023/02/20/protocols.html#h-6-adopting-a-protocol-using-a-synthesized-implementation-

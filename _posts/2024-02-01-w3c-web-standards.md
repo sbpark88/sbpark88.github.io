@@ -173,8 +173,8 @@ console.log(obj)          // {id: '1234567890', user: 'carinaanand'}
 ---
 Reference
 
-1. 박영웅, "프론트엔드 웹 개발의 모든 것 초격차 패키지 Online." fastcampus.co.kr. last modified unknown, [Fast Campus](https://fastcampus.co.kr/)
-2. "HTMLElement: dataset property." MDN Web Docs. Sep. 08, 2023, accessed Feb. 02, 2024, [MDN - dataset][dataset] 
+1. 박영웅, "프론트엔드 웹 개발의 모든 것 초격차 패키지 Online." fastcampus.co.kr. last modified unknown, [Fast Campus](https://fastcampus.co.kr/).
+2. "HTMLElement: dataset property." MDN Web Docs. Sep. 08, 2023, accessed Feb. 02, 2024, [MDN - dataset][dataset] .
 
 [Modify SVG Images]:/css/2023/03/01/basic-css-part1.html#h-2-modify-svg-images
 [dataset]:https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/dataset

@@ -3,8 +3,8 @@ layout: post
 title: Destructuring
 subtitle: Clean Code - Part 2
 excerpt_image: NO_EXCERPT_IMAGE
-categories: [cs, swift, typescript, javascript]
-tags: [cs, swift, typescript, clean code, destructuring]
+categories: [clean code, swift, typescript, javascript]
+tags: [clean code, destructuring]
 ---
 
 ### 1. TypeScript - Tuple & Array 👩‍💻

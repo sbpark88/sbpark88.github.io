@@ -800,9 +800,9 @@ Redux 는 동기 작업만 처리할 수 있다. 하지만 웹은 통신으로 �
 ---
 Reference
 
-1. 강훈, "한 번에 끝내는 React의 모든 것 초격차 패키지, Part 5. 트러블슈팅" fastcampus.co.kr. last modified unknown, [Fast Campus](https://fastcampus.co.kr/)
-2. "미들웨어." Redux Docs. accessed Dec. 19, 2023, [Redux - 미들웨어](https://lunit.gitbook.io/redux-in-korean/advanced/middleware#5)
-3. "reduxjs/redux.", Redux GitHub. accessed Dec. 19, 2023, [Redux - applyMiddleware]
+1. 강훈, "한 번에 끝내는 React의 모든 것 초격차 패키지, Part 5. 트러블슈팅" fastcampus.co.kr. last modified unknown, [Fast Campus](https://fastcampus.co.kr/).
+2. "미들웨어." Redux Docs. accessed Dec. 19, 2023, [Redux - 미들웨어](https://lunit.gitbook.io/redux-in-korean/advanced/middleware#5).
+3. "reduxjs/redux.", Redux GitHub. accessed Dec. 19, 2023, [Redux - applyMiddleware].
 
 [JavaScript 'this']:/javascript/2023/05/24/javascript-this.html
 [Redux Middleware Examples]:https://lunit.gitbook.io/redux-in-korean/advanced/middleware#undefined-6

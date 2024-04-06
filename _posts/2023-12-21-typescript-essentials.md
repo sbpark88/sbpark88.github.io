@@ -2038,11 +2038,11 @@ function setProp<T, K extends keyof T>(obj: T, key: K, value: T[K]): void {
 ---
 Reference
 
-1. 이웅재, "한 번에 끝내는 React의 모든 것 초격차 패키지, Part 6. TypeScript Essentials" fastcampus.co.kr. last modified unknown, [Fast Campus](https://fastcampus.co.kr/)
-2. "Conditional Types." typescriptlang.org. accessed Dec. 23, 2023, [TypeScript - Conditional Types]
-3. "Intro to the TSConfig Reference." typescriptlang.org. accessed Dec. 24, 2023, [TypeScript - TSConfig Reference][TSConfig Reference]
-4. "Compile on save." GitHub. Dec. 24, 2023, [https://github.com/TypeStrong/atom-typescript#compile-on-save][Compile on save]
-5. "tsconfig.json." TypeScript. access Dec. 24, 2023, [[TypeScript - tsconfig]]
+1. 이웅재, "한 번에 끝내는 React의 모든 것 초격차 패키지, Part 6. TypeScript Essentials" fastcampus.co.kr. last modified unknown, [Fast Campus](https://fastcampus.co.kr/).
+2. "Conditional Types." typescriptlang.org. accessed Dec. 23, 2023, [TypeScript - Conditional Types].
+3. "Intro to the TSConfig Reference." typescriptlang.org. accessed Dec. 24, 2023, [TypeScript - TSConfig Reference][TSConfig Reference].
+4. "Compile on save." GitHub. Dec. 24, 2023, [https://github.com/TypeStrong/atom-typescript#compile-on-save][Compile on save].
+5. "tsconfig.json." TypeScript. access Dec. 24, 2023, [[TypeScript - tsconfig]].
 
 [Swift Upcasting 'as']:/swift/2023/01/14/type-casting.html#h-1-any
 [TypeScript - Conditional Types]:https://www.typescriptlang.org/docs/handbook/2/conditional-types.html

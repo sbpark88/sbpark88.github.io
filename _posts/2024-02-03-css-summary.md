@@ -1847,7 +1847,7 @@ section {
 ---
 Reference
 
-1. 박영웅, "프론트엔드 웹 개발의 모든 것 초격차 패키지 Online." fastcampus.co.kr. last modified unknown, [Fast Campus](https://fastcampus.co.kr/)
+1. 박영웅, "프론트엔드 웹 개발의 모든 것 초격차 패키지 Online." fastcampus.co.kr. last modified unknown, [Fast Campus](https://fastcampus.co.kr/).
 
 [Interactive Content]:https://developer.mozilla.org/en-US/docs/Web/HTML/Content_categories#interactive_content
 [Flex - Order]:/css/2023/03/06/basic-css-part2.html#h-4-order

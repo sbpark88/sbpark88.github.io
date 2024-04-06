@@ -340,7 +340,7 @@ Reference
 
 
 
-1. "IntersectionObserver." MDN Web Docs. Feb. 28, 2023, accessed Mar. 24, 2024, [MDN - IntersectionObserver]
+1. "IntersectionObserver." MDN Web Docs. Feb. 28, 2023, accessed Mar. 24, 2024, [MDN - IntersectionObserver].
 
 [MDN - IntersectionObserver]:https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver
 [My VanillaJS Utils on Project]:https://github.com/sbpark88/apple-ipad-responsive/tree/main/src/js/utils

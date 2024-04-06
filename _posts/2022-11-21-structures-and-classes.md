@@ -16,7 +16,7 @@ tags: [swift docs, structure, class, value type, reference type, memberwise init
 이는 전통적으로 프로그래밍 언어에서 `Class`의 `instance`는 `Object`인 반면, *Swift* 의 `Structures`와
 `Classes`는 다른 언어와 비교해 `Functionality`에 가깝다.
 
-#### 1. Structure 와 Class 의 공통점
+#### 1. Commons Structures and Classes
 
 - Define **properties** : 값을 저장
 - Define **methods** : 기능을 제공
@@ -25,7 +25,7 @@ tags: [swift docs, structure, class, value type, reference type, memberwise init
 - Be **extended** : 기본 구현 이상으로 확장
 - Conform to **protocols** : 특정 종류의 표준 기능을 제공
 
-#### 2. Class 만 갖고 있는 추가적인 기능
+#### 2. Class Only Features
 
 - **inheritance** : 다른 *Class*의 특성을 *inherit*
   (*Structure* 와 *Protocol* 은 다른 *Protocol* 을 *adopt* 하는 것만 가능하다.)
@@ -39,7 +39,7 @@ tags: [swift docs, structure, class, value type, reference type, memberwise init
 > 일반적으로 추론하기 쉬운 `Structure`를 선호해야한다고 말한다. 이는 우리가 만드는 대부분의 *Custom Data Types* 는
 > *Structure* 또는 *Enumeration* 으로 되어야 함을 의미한다.
 
-#### 3. Structure 와 Class 무엇을 선택할까?
+#### 3. Choosing Between Structures and Classes
 
 이에 대해 애플은 아래 글을 통해 다음과 같이 이야기한다.
 
