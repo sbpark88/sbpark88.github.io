@@ -201,7 +201,7 @@ ES6 에서 Arrow Functions 가 소개된 이후로 기존의 Functions 문법을
 > 1. Lambda Expression 기반으로 가독성이 뛰어나다.
 > 2. 함수가 호출될 때 동적으로 this 가 binding 되는 일반 함수와 달리 선언할 때 상위 Scope 의 this 를 기억한다.
 >    이를 `Lexical Scope`라 한다.
-> 3. 자기 자신의 `this`를 갖고 있지 않다.
+> 3. 자기 자신의 `this`를 갖고 있지 않다(= 자기 자신을 감싼 <span style="color: red;">부모 함수</span>의 `this`를 사용한다).
 
 `let`과 `const`가 `var`의 **context** 문제를 해결했듯이, `Arrow Functions`가 `Normal Functions`의 
 **context** 문제를 해결하기 위해 나온 것이다. 차이점이 존재한다면, `let`과 `const`는 `var`를 완전히 *대체하는 문법*이지만, 
