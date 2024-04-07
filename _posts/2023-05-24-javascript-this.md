@@ -199,9 +199,10 @@ ES6 에서 Arrow Functions 가 소개된 이후로 기존의 Functions 문법을
 특징은 다음과 같다.
 
 > 1. Lambda Expression 기반으로 가독성이 뛰어나다.
-> 2. 함수가 호출될 때 동적으로 this 가 binding 되는 일반 함수와 달리 선언할 때 상위 Scope 의 this 를 기억한다.
+> 2. 함수가 호출될 때 동적으로 this 가 binding 되는 일반 함수와 달리 선언할 때 상위 Scope 의 this
+>    (= 자기 자신을 감싼 <span style="color: red;">부모 함수</span>의 `this`)를 기억한다. 
 >    이를 `Lexical Scope`라 한다.
-> 3. 자기 자신의 `this`를 갖고 있지 않다(= 자기 자신을 감싼 <span style="color: red;">부모 함수</span>의 `this`를 사용한다).
+> 3. 자기 자신의 `this`를 갖고 있지 않다.
 
 `let`과 `const`가 `var`의 **context** 문제를 해결했듯이, `Arrow Functions`가 `Normal Functions`의 
 **context** 문제를 해결하기 위해 나온 것이다. 차이점이 존재한다면, `let`과 `const`는 `var`를 완전히 *대체하는 문법*이지만, 
@@ -409,7 +410,7 @@ Banana.printThis(); // {name: 'Banana', color: 'Yellow', printThis: f}
 Arrow Functions 를 사용할 때 주의해야하는 경우 한 가지를 더 알아보자. 바로 Prototype 에 메서드를 
 등록할 때다. 일반적으로 Prototype 에 메서드를 등록하는 방법은 두 가지가 존재한다.
 
-- ES5 Constructor Function
+- 방법 1: ES5 Constructor Function
 
 ```javascript
 function Person(name, age) {
@@ -442,7 +443,7 @@ const person = {
 person.greet(); // Hello, my name is 홍길동 and I'm 25 years old.
 ```
 
-- ES6 Class Syntax
+- 방법 2: ES6 Class Syntax
 
 ```typescript
 class Person {
@@ -485,7 +486,11 @@ const person = new Person('홍길동', 25)
 person.greet()  // Hello, my name is 홍길동 and I'm 25 years old. 
 ```
 
-생성자 함수를 사용할 때는 `Arrow Functions`를 사용해도 `this`가 객체 자신을 가리킨다! 선언할 때 상위 Scope 를 기억하기 때문이다.
+Person 의 prototype 에 메서드를 등록하는 코드를 Person 생성자 함수 안에 작성하면, `Arrow Functions`를 사용함에도 `this`가 
+객체 자기 자신을 가리킨다.  
+[Which one Choose?](#h-4-which-one-choose-) 에서 설명했듯이, Arrow Functions 는 `Lexical Scope`로 자기 자신을 감싼 
+<span style="color: red;">부모 함수</span>의 `this`를 사용하기 때문에, 부모 함수인 `Person` 생성자 함수의 `this`를 
+사용한다. 따라서 `Object Literal` 방식과 달리 `this`가 객체 자신을 가리키게 된다. 
 
 - ES6 Class Syntax
 
@@ -508,11 +513,11 @@ const person = new Person('홍길동', 25)
 person.greet()  // Hello, my name is 홍길동 and I'm 25 years old.
 ```
 
-다른 프로그래밍 언어를 생각해보면 위 `greet`는 `Person` Class 의 메서드다. 우리는 위에서 객체의 메서드에 `Arrow Functions`를 
-사용하면 `this`가 객체 자신을 가리키지 않는다고 했지만 위 코드에서는 정상적으로 자기 자신을 가리키고있다!!
+결과를 보면 `this`가 정상적으로 객체 자신을 가리킨다. 즉, ES6 의 Class Syntax 는 바로 위 코드와 동일하게
+prototype 을 통한 메서드 등록 코드가 생성자 함수 내부에 존재하도록 정의되는 Synthetic Sugar 라고 볼 수 있다.
 
-ES6 의 Class Syntax 는 생성자 함수와 Prototype 을 통한 메서드 등록을 내부적으로 처리해주는 Synthetic Sugar 에 가깝기 때문에 
-이런 현상이 발생하는 것이다.
+그렇기 때문에 단순히 Synthetic Sugar 에 가까운 문법이라고 하더라도, JavaScript 의 Classes 는 다른 언어의 Classes 와 
+유사한 경험을 제공해줄 수 있다.
 
 <br>
 
