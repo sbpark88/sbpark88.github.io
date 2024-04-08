@@ -3041,6 +3041,136 @@ function orderCoffee(el, orderList) {
 orderCoffee(document.querySelector('button'), ['americano', 'cafeLatte']);
 ```
 
+---
+
+### 12. Preprocessing and Postprocessing 👩‍💻
+
+```javascript
+function sayHello() {
+  console.log('Hello, World!');
+}
+
+sayHello(); // Hello, World!
+```
+
+이것이 전형적인 함수의 작동 방식이다. 하지만 JavaScript 는 함수 역시 Function Objects 라는 `객체`다.
+
+```javascript
+console.log(sayHello instanceof Function);  // true
+```
+ 
+따라서 다른 언어에서는 불가능한 다음과 같은 행위가 가능하다.
+
+```javascript
+function sayHello() {
+  console.log('Hello, World!');
+}
+
+sayHello.getMsg = () => 'message';
+
+console.log(sayHello.getMsg()); // message
+```
+
+<br>
+
+즉, 함수는 Function Objects 의 인스턴스이므로 prototype 메서드를 사용할 수 있다는 말이 된다. 이를 이용해 함수를 
+실행하면 자동으로 `render` 메서드가 실행되도록 해보자.
+
+```javascript
+Function.prototype.render = function () {
+  return () => console.log(`render ${this()}`);
+};
+```
+
+Function 의 prototype 에 등록되 `render` 메서드는 함수를 실행하면 렌더링("render ~ " 를 출력)까지 자동으로 하는 
+함수를 반환한다.
+
+```javascript
+let foo = () => 'foo';
+foo = foo.render();
+
+foo();  // render foo
+```
+
+이제 `foo`를 실행하면 original `foo` 함수를 실행한 다음 렌더링까지 처리한다. 이런식으로 
+<span style="color: red;">원본 객체의 수정 없이 기능을 확장(addon)</span>하는 방법이 바로 `Decorator Pattern`이다.
+
+> 참고로 위 [Don’t write to global functions](#h-10-dont-write-to-global-functions) 에서도 설명했듯이
+> 기본 Types 의 prototype 에 메서드를 추가하는 것은 내장 메서드로 오해할 수 있어 안티 패턴이다.
+
+<br>
+
+이번에는 함수가 실행되기 전 후로 로그를 남기는 메서드를 추가해보자. 그리고 내장 메서드와의 구분을 위해 이름은 `log`가 아닌 `$log`로 
+만들어보자.
+
+```javascript
+Function.prototype.$log = function () {
+  return (str) => {
+    console.info(`"${this.name}" function is started`);
+    const result = this();
+    console.info(`"${this.name}" function is ended`);
+    return result;
+  };
+};
+```
+
+```javascript
+let foo = () => 'Hogwarts';
+foo = foo.$log();
+const fooResult = foo();
+console.log(fooResult);
+```
+
+```console
+"foo" function is started
+"foo" function is ended
+Hogwarts
+```
+
+```javascript
+let bar = () => 'Tree';
+const barResult = bar.$log()();
+console.log(barResult);
+```
+
+```console
+"bar" function is started
+"bar" function is ended
+Tree
+```
+
+단지 이렇게 뒤에 붙여서 호출하는 것 만으로 모든 함수에 전처리기/후처리기를 `addon`시켜 구현할 수 있다. 이름을 `$log`로 
+바꾸긴 했지만 역시 가장 좋은 방법은 기본 Types 를 건드리지 않는 것이다. 위 prototype 메서드를 데코레이터 함수로 만들어보자.
+
+```javascript
+const logDecorator = (fn) => (str) => {
+  console.info(`"${fn.name}" function is started`);
+  const result = fn();
+  console.info(`"${fn.name}" function is ended`);
+  return result;
+};
+```
+
+```javascript
+let foo = () => 'Hogwarts';
+foo = logDecorator(foo);
+const fooResult = foo();
+console.log(fooResult);
+```
+
+우리는 이런식으로 Decorator Pattern 을 적용하는 함수를 사용해 전처리기/후처리기를 `addon` 시킬 수 있다.
+
+마지막으로 이러한 전처리기/후처리기는 `pipe`함수를 사용하면 더 쉽게 처리할 수 있다.
+
+```javascript
+const pipe = (...fns) => initValue => fns.reduce((acc, fn) => fn(acc), initValue)
+
+let foo = () => 'Hogwarts';
+foo = pipe(logDecorator)(foo);
+const fooResult = foo();
+console.log(fooResult);
+```
+
 
 <br><br>
 
