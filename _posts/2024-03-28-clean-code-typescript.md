@@ -4,9 +4,8 @@ title: Clean Code - JavaScript/TypeScript
 subtitle: Clean-Code that looks good is also good for maintenance.
 excerpt_image: NO_EXCERPT_IMAGE
 categories: [clean code, typescript, javascript]
-tags: [clean code]
+tags: [clean code, reduce the indentation, pre-processing, post-processing]
 ---
-
 
 ### 1. Variables 👩‍💻
 
