@@ -383,4 +383,4 @@ Optional(9) : an integer value of 9
 ---
 Reference
 
-1. "Type Casting." The Swift Programming Language Swift 5.7. accessed Jan. 14, 2023, [Swift Docs Chapter 18 - Type Casting](https://docs.swift.org/swift-book/LanguageGuide/TypeCasting.html)
+1. "Type Casting." The Swift Programming Language Swift 5.7. accessed Jan. 14, 2023, [Swift Docs Chapter 18 - Type Casting](https://docs.swift.org/swift-book/LanguageGuide/TypeCasting.html).

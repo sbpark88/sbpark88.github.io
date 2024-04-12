@@ -66,4 +66,4 @@ StackOverflow 코드를 복사해와 프로젝트에 붙여넣고, 변수명 등
 ---
 Reference
 
-1. Angela Yu, "Using and Understanding Apple Documentation, Section 7." Udemy.com. last modified Nov. 2021, [https://www.udemy.com/course/ios-13-app-development-bootcamp/](https://www.udemy.com/course/ios-13-app-development-bootcamp/)
+1. Angela Yu, "Using and Understanding Apple Documentation, Section 7." Udemy.com. last modified Nov. 2021, [https://www.udemy.com/course/ios-13-app-development-bootcamp/](https://www.udemy.com/course/ios-13-app-development-bootcamp/).

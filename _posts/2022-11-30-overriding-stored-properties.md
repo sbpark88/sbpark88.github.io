@@ -149,5 +149,5 @@ Awesome!! 😆😆
 ---
 Reference
 
-1. "Inheritance." The Swift Programming Language Swift 5.7. accessed Nov. 30, 2022, [Swift Docs Chapter 12 - Inheritance](https://docs.swift.org/swift-book/LanguageGuide/Inheritance.html)
-2. "Initialization." The Swift Programming Language Swift 5.7. accessed Dec. 1, 2022, [Swift Docs Chapter 13 - Initialization](https://docs.swift.org/swift-book/LanguageGuide/Initialization.html)
+1. "Inheritance." The Swift Programming Language Swift 5.7. accessed Nov. 30, 2022, [Swift Docs Chapter 12 - Inheritance](https://docs.swift.org/swift-book/LanguageGuide/Inheritance.html).
+2. "Initialization." The Swift Programming Language Swift 5.7. accessed Dec. 1, 2022, [Swift Docs Chapter 13 - Initialization](https://docs.swift.org/swift-book/LanguageGuide/Initialization.html).

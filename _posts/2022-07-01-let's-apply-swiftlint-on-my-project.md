@@ -355,7 +355,7 @@ custom_rules:
 ---
 Reference
 
-1. "realm/SwiftLint." GitHub. Jun. 30, 2022, [https://github.com/realm/SwiftLint](https://github.com/realm/SwiftLint)
-2. "baelex/SwiftLintAppCode." GitHub. Jun. 6, 2022, [https://github.com/bealex/SwiftLintAppCode](https://github.com/bealex/SwiftLintAppCode)
-3. "Rule Directory", SwiftLintFramework Reference, accessed Jul. 1, 2022, [https://realm.github.io/SwiftLint/rule-directory.html](https://realm.github.io/SwiftLint/rule-directory.html)
+1. "realm/SwiftLint." GitHub. Jun. 30, 2022, [https://github.com/realm/SwiftLint](https://github.com/realm/SwiftLint).
+2. "baelex/SwiftLintAppCode." GitHub. Jun. 6, 2022, [https://github.com/bealex/SwiftLintAppCode](https://github.com/bealex/SwiftLintAppCode).
+3. "Rule Directory", SwiftLintFramework Reference, accessed Jul. 1, 2022, [https://realm.github.io/SwiftLint/rule-directory.html](https://realm.github.io/SwiftLint/rule-directory.html).
 4. jake-kim. "SwiftLint 적용 방법." 김종권의 iOS 앱 개발 알아가기. last modified Aug. 8, 2021, [SwiftLint 적용 방법](https://ios-development.tistory.com/664).

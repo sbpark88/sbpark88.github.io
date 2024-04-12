@@ -456,7 +456,7 @@ printIntegerKinds(1, 3, 0, -7, 9, 2, 0, -3) // + + 0 - + + 0 -
 ---
 Reference
 
-1. "Extensions." The Swift Programming Language Swift 5.7. accessed Jan. 17, 2023, [Swift Docs Chapter 20 - Nested Types](https://docs.swift.org/swift-book/LanguageGuide/Extensions.html)
+1. "Extensions." The Swift Programming Language Swift 5.7. accessed Jan. 17, 2023, [Swift Docs Chapter 20 - Nested Types](https://docs.swift.org/swift-book/LanguageGuide/Extensions.html).
 
 
 [Computed Instance Properties]:/swift/2022/11/22/properties.html#h-2-computed-properties-
