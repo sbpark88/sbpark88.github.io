@@ -1041,6 +1041,191 @@ formEl_3_6.addEventListener('reset', (event) => {
 });
 </script>
 
+---
+
+### 4. Dispatch and Custom Event 👩‍💻
+
+<style>
+.parent-4 {
+  width: 300px;
+  height: 200px;
+  padding: 20px;
+  border: 10px solid darkgray;
+  background-color: red;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.child-4 {
+  height: 70px;
+  border: 10px solid darkgray;
+  background-color: orange;
+  color: black;
+  font-size: 40px;
+  text-align: center;
+  align-content: center;
+  user-select: none;
+  --webkit-user-select: none;
+}
+</style>
+
+<script>
+const debounce = (fn, delay = 500) => {
+  let timer;
+
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn(...args);
+      timer = undefined;
+    }, delay);
+  };
+};
+</script>
+
+#### 1. Dispatch
+
+```javascript
+const [child1, child2] = document.querySelectorAll('.child');
+
+child1.addEventListener('click', (event) => {
+  child2.dispatchEvent(new Event('click'));
+  child2.dispatchEvent(new Event('wheel'));
+  child2.dispatchEvent(new Event('keydown'));
+});
+
+child2.addEventListener('click', () => console.log('Child2 Click'));
+child2.addEventListener('wheel', () => console.log('Child2 Wheel'));
+child2.addEventListener('keydown', () => console.log('Child2 Keydown'));
+```
+
+`el.dispatchEvent()`에 `Event` 인스턴스를 argument 로 호출하면 JavaScript 코드로 이벤트를 발생시킬 수 있다.
+
+<div style="display: flex;">
+  <div class="parent-4 parent-4-1">
+    <div class="child-4 child-4-1">1</div>
+    <div class="child-4 child-4-1">2</div>
+  </div>
+  <div class="screen-log screen-4-1">
+  </div>
+</div>
+
+<script>
+const [child_4_1_1, child_4_1_2] = document.querySelectorAll('.child-4-1');
+const screenEl_4_1 = document.querySelector('.screen-4-1');
+
+const clearScreenEl_4_1 = debounce(() => screenEl_4_1.textContent = '', 1500);
+
+child_4_1_1.addEventListener('click', (event) => {
+  child_4_1_2.dispatchEvent(new Event('click'));
+  child_4_1_2.dispatchEvent(new Event('wheel'));
+  child_4_1_2.dispatchEvent(new Event('keydown'));
+  clearScreenEl_4_1();
+});
+
+child_4_1_2.addEventListener('click', () => {
+  screenEl_4_1.textContent = 'Child2 Click';
+  clearScreenEl_4_1();
+});
+child_4_1_2.addEventListener('wheel', () => screenEl_4_1.innerText = screenEl_4_1.innerText + '\nChild2 Wheel');
+child_4_1_2.addEventListener('keydown', () => screenEl_4_1.innerText = screenEl_4_1.innerText + '\nChild2 Keydown');
+</script>
+
+#### 2. Custom Event
+
+```javascript
+const [child1, child2] = document.querySelectorAll('.child');
+
+child1.addEventListener('click', (event) => {
+  child2.dispatchEvent(new Event('hogwarts'));
+});
+
+child2.addEventListener('hogwarts', () => console.log('Child2 Hogwarts'));
+child2.addEventListener('click', () => console.log('Child2 Click'));
+```
+
+`dispatchEvent`를 사용하면 API 에 존재하지 않는 **Custom Event** 를 호출할 수 있다.
+
+<div style="display: flex;">
+  <div class="parent-4 parent-4-2">
+    <div class="child-4 child-4-2">1</div>
+    <div class="child-4 child-4-2">2</div>
+  </div>
+  <div class="screen-log screen-4-2">
+  </div>
+</div>
+
+<script>
+const [child_4_2_1, child_4_2_2] = document.querySelectorAll('.child-4-2');
+const screenEl_4_2 = document.querySelector('.screen-4-2');
+
+const clearScreenEl_4_2 = debounce(() => screenEl_4_2.textContent = '', 1500);
+
+child_4_2_1.addEventListener('click', (event) => {
+  child_4_2_2.dispatchEvent(new Event('hogwarts'));
+  clearScreenEl_4_2();
+});
+
+child_4_2_2.addEventListener('hogwarts', () => screenEl_4_2.textContent = 'Child2 Hogwarts');
+child_4_2_2.addEventListener('click', () => {
+  screenEl_4_2.textContent = 'Child2 Click';
+  clearScreenEl_4_2();
+});
+</script>
+
+<br>
+
+`Event` 객체를 사용해 **Custom Event** 를 호출할 수 있지만, 이것은 단지 호출만 할 수 있을 뿐이다. 하지만 
+`CustomEvent` 객체를 사용하면 `option`을 줄 수 있는데, 이때 `option`에 `detail`이라는 property 를 통해 
+JavaScript Data 를 전달할 수 있다.
+
+```javascript
+const [child1, child2] = document.querySelectorAll('.child');
+
+child1.addEventListener('click', (event) => {
+  const detail = { name: '사과', price: 10_000, quantity: 24, sale: false };
+  child2.dispatchEvent(new CustomEvent('hogwarts', { detail: detail }));
+});
+
+child2.addEventListener('hogwarts', (event) => {
+  console.log('Child2 Hogwarts');
+  console.log(event.detail);
+});
+child2.addEventListener('click', () => console.log('Child2 Click'));
+```
+
+<div style="display: flex;">
+  <div class="parent-4 parent-4-3">
+    <div class="child-4 child-4-3">1</div>
+    <div class="child-4 child-4-3">2</div>
+  </div>
+  <div class="screen-log screen-4-3" style="font-size:20px;">
+  </div>
+</div>
+
+<script>
+const [child_4_3_1, child_4_3_2] = document.querySelectorAll('.child-4-3');
+const screenEl_4_3 = document.querySelector('.screen-4-3');
+
+const clearScreenEl_4_3 = debounce(() => screenEl_4_3.textContent = '', 3000);
+
+child_4_3_1.addEventListener('click', (event) => {
+  const detail = { name: '사과', price: 10_000, quantity: 24, sale: false };
+  child_4_3_2.dispatchEvent(new CustomEvent('hogwarts', { detail: detail }));
+  clearScreenEl_4_3();
+});
+
+child_4_3_2.addEventListener('hogwarts', (event) => {
+  screenEl_4_3.innerText = `
+  Child2 Hogwarts
+  ${JSON.stringify(event.detail)}
+  `;
+});
+child_4_3_2.addEventListener('click', () => {
+  screenEl_4_3.textContent = 'Child2 Click';
+  clearScreenEl_4_3();
+});
+</script>
 
 <br><br>
 
