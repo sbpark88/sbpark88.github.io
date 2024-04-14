@@ -571,6 +571,475 @@ inputEl_2_3_2.addEventListener('keydown', (event) => {
 });
 </script>
 
+---
+
+### 3. Form and Focus Event 👩‍💻
+
+<style>
+.form-and-focus {
+  max-width: 200px;
+  padding: 10px;
+  background-color: darkgreen;
+  border: 4px solid transparent;
+  box-sizing: border-box;
+}
+.form-and-focus div {
+  box-sizing: border-box;
+  border: 4px solid transparent;
+  padding: 5px;
+}
+.form-and-focus div.active {
+  border-color: orange;
+}
+.form-and-focus input {
+  outline: none;
+  margin-bottom: 8px;
+}
+</style>
+
+<script>
+const prepareForm = (formEl) => {
+  formEl[0].value = 'John';
+  formEl[1].value = '123*';
+  formEl[3].checked = true;
+  formEl[4].checked = true;
+  formEl[5].checked = true;
+};
+const getSex = (formEl) => {
+  if (formEl[2].checked) return formEl[2].value;
+  if (formEl[3].checked) return formEl[3].value;
+  return '';
+};
+const getContacts = (formEl) => ({
+  SMS: formEl[4].checked,
+  Email: formEl[5].checked,
+});
+</script>
+
+#### 1. Input
+
+```html
+<form>
+  <div>
+    <input type="text" />
+    <input type="password" />
+  </div>
+  <div>
+    <input type="radio" id="male" name="sex" value="M" />
+    <label for="male">Male</label>
+    <input type="radio" id="female" name="sex" value="F" />
+    <label for="female">Female</label>
+  </div>
+  <div>
+    <input type="checkbox" id="sms" name="sms" value="SMS" />
+    <label for="sms">SMS</label>
+    <input type="checkbox" id="email" name="email" value="Email" />
+    <label for="email">Email</label>
+  </div>
+  <button type="submit">제출</button>
+  <button type="reset">초기화</button>
+</form>
+```
+
+```css
+form {
+  max-width: 200px;
+  padding: 10px;
+  background-color: darkgreen;
+  border: 4px solid transparent;
+  box-sizing: border-box;
+}
+form div {
+  box-sizing: border-box;
+  border: 4px solid transparent;
+  padding: 5px;
+}
+form input {
+  outline: none;
+  margin-bottom: 8px;
+}
+```
+
+```javascript
+const formEl = document.querySelector('form');
+
+formEl.addEventListener('input', (event) => {
+  console.log(event.target.value);
+});
+```
+
+`input`에서는 [keydown](#h-1-key-down), [keyup](#h-2-key-up) 이벤트 외에도 `input` 이벤트를 사용할 수 있다. 
+이것은 `input`에서 매우 유용한 이벤트인데, `input`에 `change` 이벤트를 사용하면, `input:radio`나 `input:checkbox`는 
+변경 즉시 이벤트 트리거가 되지만, `input:text`는 입력을 마치고 다른 곳으로 이동해 `focus`를 잃어야 값이 변경되므로 타이핑 
+도중에는 트리거가 발생하지 않는다.
+
+따라서, `input:text`나 `input:password` 등은 `keydown`이나 `keyup` 이벤트를 사용하고, `input:radio`나 
+`input:checkbox`는 `change` 이벤트를 사용해 이원화 시켜야한다.
+
+하지만! <span style="color: red;">**input** 이벤트는 모든 **input** 이벤트에 대해 즉시 트리거를 발생</span>시킨다.
+
+<div style="display: flex;">
+  <form class="form-and-focus form-3-1">
+    <div>
+      <input type="text" />
+      <input type="password" />
+    </div>
+    <div>
+      <input type="radio" id="male-1" name="sex" value="M" />
+      <label for="male-1">Male</label>
+      <input type="radio" id="female-1" name="sex" value="F" />
+      <label for="female-1">Female</label>
+    </div>
+    <div>
+      <input type="checkbox" id="sms-1" name="sms" value="SMS" />
+      <label for="sms-1">SMS</label>
+      <input type="checkbox" id="email-1" name="email" value="Email" />
+      <label for="email-1">Email</label>
+    </div>
+    <button type="submit">제출</button>
+    <button type="reset">초기화</button>
+  </form>
+  <div class="screen-log screen-3-1"></div>
+</div>
+
+<script>
+const formEl_3_1 = document.querySelector('.form-3-1');
+const screenEl_3_1 = document.querySelector('.screen-3-1');
+const screenEl_3_1_colors = ['red', 'orange', 'green', 'brown', 'blue', 'purple'];
+const screenEl_3_1_colorCount = screenEl_3_1_colors.length;
+let screenEl_3_1_index = 0;
+
+formEl_3_1.addEventListener('input', (event) => {
+  screenEl_3_1.textContent = event.target.value;
+  screenEl_3_1.style.color = screenEl_3_1_colors[screenEl_3_1_index++ % screenEl_3_1_colorCount];
+});
+</script>
+
+#### 2. Focus & Blur
+
+```css
+form div.active {
+  border-color: orange;
+}
+```
+
+```javascript
+const inputEls = document.querySelectorAll('input');
+
+inputEls.forEach((el) => {
+  el.addEventListener('focus', () => {
+    el.closest('div').classList.add('active');
+  });
+  el.addEventListener('blur', () => {
+    el.closest('div').classList.remove('active');
+  });
+});
+```
+
+`input`에 `focus`가 발생되면, 상위 엘리먼트 `div` 컨테이너의 border 를 주황색으로 바꾼다.
+
+<div style="display: flex;">
+  <form class="form-and-focus form-3-2">
+    <div>
+      <input type="text" />
+      <input type="password" />
+    </div>
+    <div>
+      <input type="radio" id="male-2" name="sex" value="M" />
+      <label for="male-2">Male</label>
+      <input type="radio" id="female-2" name="sex" value="F" />
+      <label for="female-2">Female</label>
+    </div>
+    <div>
+      <input type="checkbox" id="sms-2" name="sms" value="SMS" />
+      <label for="sms-2">SMS</label>
+      <input type="checkbox" id="email-2" name="email" value="Email" />
+      <label for="email-2">Email</label>
+    </div>
+    <button type="submit">제출</button>
+    <button type="reset">초기화</button>
+  </form>
+</div>
+
+<script>
+const inputEls_3_2 = document.querySelectorAll('.form-3-2 input');
+
+inputEls_3_2.forEach((el) => {
+  el.addEventListener('focus', () => {
+    el.closest('div').classList.add('active');
+  });
+  el.addEventListener('blur', () => {
+    el.closest('div').classList.remove('active');
+  });
+});
+</script>
+
+<br>
+
+그런데 위와 같은 코드는 불필요하게 많은 이벤트를 등록한다.
+
+```javascript
+const formEl = document.querySelector('form');
+
+formEl.addEventListener('focus', (event) =>
+  event.target.closest('div').classList.add('active')
+);
+formEl.addEventListener('blur', (event) =>
+  event.target.closest('div').classList.remove('active')
+);
+```
+
+<div style="display: flex;">
+  <form class="form-and-focus form-3-3">
+    <div>
+      <input type="text" />
+      <input type="password" />
+    </div>
+    <div>
+      <input type="radio" id="male-3" name="sex" value="M" />
+      <label for="male-3">Male</label>
+      <input type="radio" id="female-3" name="sex" value="F" />
+      <label for="female-3">Female</label>
+    </div>
+    <div>
+      <input type="checkbox" id="sms-3" name="sms" value="SMS" />
+      <label for="sms-3">SMS</label>
+      <input type="checkbox" id="email-3" name="email" value="Email" />
+      <label for="email-3">Email</label>
+    </div>
+    <button type="submit">제출</button>
+    <button type="reset">초기화</button>
+  </form>
+</div>
+
+<script>
+const formEl_3_3 = document.querySelector('.form-3-3');
+
+formEl_3_3.addEventListener('focus', (event) =>
+  event.target.closest('div').classList.add('active')
+);
+formEl_3_3.addEventListener('blur', (event) =>
+  event.target.closest('div').classList.remove('active')
+);
+</script>
+
+<br>
+
+이벤트를 등록했지만 작동이 되지 않는다. `focus`와 `blur`는 <span style="color: red;">Event Propagation
+에 의해 트리거가 작동하지 않기 때문</span>이다. 전파된 이벤트가 아닌 오직 *엘리먼트 자기 자신에게 발생한 이벤트에 대해서만 
+트리러가 작동*한다.
+
+#### 3. Focus In & Focus Out
+
+```javascript
+const formEl = document.querySelector('form');
+
+formEl.addEventListener('focusin', (event) =>
+  event.target.closest('div').classList.add('active')
+);
+formEl.addEventListener('focusout', (event) =>
+  event.target.closest('div').classList.remove('active')
+);
+```
+
+이번에는 `focus`, `blur` 이벤트를 `focusin`, `focusout` 이벤트로 바꿔보자.
+
+<div style="display: flex;">
+  <form class="form-and-focus form-3-4">
+    <div>
+      <input type="text" />
+      <input type="password" />
+    </div>
+    <div>
+      <input type="radio" id="male-4" name="sex" value="M" />
+      <label for="male-4">Male</label>
+      <input type="radio" id="female-4" name="sex" value="F" />
+      <label for="female-4">Female</label>
+    </div>
+    <div>
+      <input type="checkbox" id="sms-4" name="sms" value="SMS" />
+      <label for="sms-4">SMS</label>
+      <input type="checkbox" id="email-4" name="email" value="Email" />
+      <label for="email-4">Email</label>
+    </div>
+    <button type="submit">제출</button>
+    <button type="reset">초기화</button>
+  </form>
+</div>
+
+<script>
+const formEl_3_4 = document.querySelector('.form-3-4');
+
+formEl_3_4.addEventListener('focusin', (event) =>
+  event.target.closest('div').classList.add('active')
+);
+formEl_3_4.addEventListener('focusout', (event) =>
+  event.target.closest('div').classList.remove('active')
+);
+</script>
+
+<br>
+
+이제 정상적으로 작동한다. `focus`, `blur`에서는 사용할 수 없었던 <span style="color: red;">Bubbling 에 의해 
+이벤트 트리거가 작동</span>하는 것이다.
+
+<br>
+
+__`focus`는 `focusin` + `if(event.target === event.currentTarget)`와 같다__
+
+```javascript
+el.addEventListener('focus', (event) => {
+  // closure's body goes here
+})
+```
+
+```javascript
+el.addEventListener('focusin', (event) => {
+  (event.target === event.currentTarget) &&
+  // closure's body goes here
+})
+```
+
+__`blur`는 `focusout` + `if(event.target === event.currentTarget)`와 같다__
+
+```javascript
+el.addEventListener('blur', (event) => {
+  // closure's body goes here
+})
+```
+
+```javascript
+el.addEventListener('focusout', (event) => {
+  (event.target === event.currentTarget) &&
+  // closure's body goes here
+})
+```
+
+<br>
+
+> 정리하면 다음과 같다.
+> 
+> - Event Propagation 을 이용하려면 `focusin`, `focusout` 이벤트를 사용해라.
+> - 엘리먼트 자기 자신에게 발생한 이벤트만 이용하려면 `focus`, `blur` 이벤트를 사용해라. 이것은 `focusin`, 
+>   `focusout` 이벤트가 자기 자신에게서 발생했을 때만 작동하도록 `if (event.target === event.currentTarget)` 
+>   조건을 추가한 것과 같다.
+
+#### 4. Submit & Reset
+
+```javascript
+formEl.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const data = {
+    id: event.target[0].value,
+    pw: event.target[1].value,
+    sex: getSex(event.currentTarget),
+    contact: getContacts(event.currentTarget),
+  };
+  console.log('제출', data);
+});
+```
+
+`button:submit`에 `click` 이벤트를 붙이는 게 아니라 `form`에 `submit` 이벤트를 붙여 사용한다.
+
+<div style="display: flex;">
+  <form class="form-and-focus form-3-5">
+    <div>
+      <input type="text" />
+      <input type="password" />
+    </div>
+    <div>
+      <input type="radio" id="male-5" name="sex" value="M" />
+      <label for="male-5">Male</label>
+      <input type="radio" id="female-5" name="sex" value="F" />
+      <label for="female-5">Female</label>
+    </div>
+    <div>
+      <input type="checkbox" id="sms-5" name="sms" value="SMS" />
+      <label for="sms-5">SMS</label>
+      <input type="checkbox" id="email-5" name="email" value="Email" />
+      <label for="email-5">Email</label>
+    </div>
+    <button type="submit">제출</button>
+    <button type="reset">초기화</button>
+  </form>
+  <div class="screen-log screen-3-5"></div>
+</div>
+
+<script>
+const formEl_3_5 = document.querySelector('.form-3-5');
+const screenEl_3_5 = document.querySelector('.screen-3-5');
+const screenEl_3_5_colors = ['red', 'orange', 'green', 'brown', 'blue', 'purple'];
+const screenEl_3_5_colorCount = screenEl_3_5_colors.length;
+let screenEl_3_5_index = 0;
+
+prepareForm(formEl_3_5);
+
+formEl_3_5.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const data = {
+    id: event.target[0].value,
+    pw: event.target[1].value,
+    sex: getSex(event.currentTarget),
+    contact: getContacts(event.currentTarget),
+  };
+  screenEl_3_5.textContent = JSON.stringify(data);
+  screenEl_3_5.style.color = screenEl_3_5_colors[screenEl_3_5_index++ % screenEl_3_5_colorCount];
+});
+</script>
+
+<br>
+
+```javascript
+formEl.addEventListener('reset', () => {
+  console.log('리셋');
+});
+```
+
+마찬가지로 `button:reset`에 `click` 이벤트를 붙이는 게 아니라 `form`에 `reset` 이벤트를 붙여 사용한다. 
+별도의 비즈니스 로직이 필요하지 않다면, `reset` 버튼은 기본 작동에 의해 `form`의 모든 `input`을 초기화 시킨다
+(HTML 상 `input:text`의 `value`값이 미리 지정되어 있거나, `input:radio`의 `checked`가 미리 지정되어 있을 경우 
+HTML 코드상 초기 상태로 돌리는 것으로 값 자체를 지우는 것이 아닌 초기화 개념이다).
+
+<div style="display: flex;">
+  <form class="form-and-focus form-3-6">
+    <div>
+      <input type="text" />
+      <input type="password" />
+    </div>
+    <div>
+      <input type="radio" id="male-6" name="sex" value="M" />
+      <label for="male-6">Male</label>
+      <input type="radio" id="female-6" name="sex" value="F" />
+      <label for="female-6">Female</label>
+    </div>
+    <div>
+      <input type="checkbox" id="sms-6" name="sms" value="SMS" />
+      <label for="sms-6">SMS</label>
+      <input type="checkbox" id="email-6" name="email" value="Email" />
+      <label for="email-6">Email</label>
+    </div>
+    <button type="submit">제출</button>
+    <button type="reset">초기화</button>
+  </form>
+  <div class="screen-log screen-3-6"></div>
+</div>
+
+<script>
+const formEl_3_6 = document.querySelector('.form-3-6');
+const screenEl_3_6 = document.querySelector('.screen-3-6');
+const screenEl_3_6_colors = ['red', 'orange', 'green', 'brown', 'blue', 'purple'];
+const screenEl_3_6_colorCount = screenEl_3_6_colors.length;
+let screenEl_3_6_index = 0;
+
+prepareForm(formEl_3_6);
+
+formEl_3_6.addEventListener('reset', (event) => {
+  screenEl_3_6.textContent = '리셋!';
+  screenEl_3_6.style.color = screenEl_3_6_colors[screenEl_3_6_index++ % screenEl_3_6_colorCount];
+});
+</script>
 
 
 <br><br>
