@@ -77,8 +77,7 @@ childEl.addEventListener('click', (event) => {
   <div class="parent-1 parent-1-1">
     <div class="child-1 child-1-1"></div>
   </div>
-  <div class="screen-log screen-1-1">
-  </div>
+  <div class="screen-log screen-1-1"></div>
 </div>
 
 <script>
@@ -173,8 +172,7 @@ childEl.addEventListener('mouseleave', () => {
   <div class="parent-1 parent-1-4">
     <div class="child-1 child-1-4"></div>
   </div>
-  <div class="screen-log screen-1-4">
-  </div>
+  <div class="screen-log screen-1-4"></div>
 </div>
 
 <script>
@@ -212,8 +210,7 @@ childEl.addEventListener('mousemove', (event) => {
   <div class="parent-1 parent-1-5">
     <div class="child-1 child-1-5"></div>
   </div>
-  <div class="screen-log screen-1-5">
-  </div>
+  <div class="screen-log screen-1-5"></div>
 </div>
 
 <script>
@@ -241,8 +238,7 @@ childEl.addEventListener('contextmenu', (event) => {
   <div class="parent-1 parent-1-6">
     <div class="child-1 child-1-6"></div>
   </div>
-  <div class="screen-log screen-1-6">
-  </div>
+  <div class="screen-log screen-1-6"></div>
 </div>
 
 <script>
@@ -281,8 +277,7 @@ childEl.addEventListener('wheel', (event) => {
   <div class="parent-1 parent-1-7">
     <div class="child-1 child-1-7" style="height:1000px;"></div>
   </div>
-  <div class="screen-log screen-1-7">
-  </div>
+  <div class="screen-log screen-1-7"></div>
 </div>
 
 <script>
@@ -337,8 +332,7 @@ inputEl.addEventListener('keydown', (event) => {
 <div style="display:flex;align-items:center;height:60px;">
   <labe class="input-keyboard-label">입력하세요:</labe>
   <input type="text" class="input-keyboard input-2-1" />
-  <div class="screen-log screen-2-1" style="height:100%;">
-  </div>
+  <div class="screen-log screen-2-1" style="height:100%;"></div>
 </div>
 
 <script>
@@ -389,8 +383,7 @@ inputEl.addEventListener('keyup', (event) => {
 <div style="display:flex;align-items:center;height:60px;">
   <labe class="input-keyboard-label">입력하세요:</labe>
   <input type="text" class="input-keyboard input-2-2" />
-  <div class="screen-log screen-2-2" style="height:100%;">
-  </div>
+  <div class="screen-log screen-2-2" style="height:100%;"></div>
 </div>
 
 <script>
@@ -514,8 +507,7 @@ inputEl.addEventListener('keydown', (event) => {
 <div style="display:flex;align-items:center;height:60px;">
   <labe class="input-keyboard-label">입력하세요:</labe>
   <input type="text" class="input-keyboard input-2-3-1" />
-  <div class="screen-log screen-2-3-1" style="height:100%;">
-  </div>
+  <div class="screen-log screen-2-3-1" style="height:100%;"></div>
 </div>
 
 <script>
@@ -552,8 +544,7 @@ inputEl.addEventListener('keydown', (event) => {
 <div style="display:flex;align-items:center;height:60px;">
   <labe class="input-keyboard-label">입력하세요:</labe>
   <input type="text" class="input-keyboard input-2-3-2" />
-  <div class="screen-log screen-2-3-2" style="height:100%;">
-  </div>
+  <div class="screen-log screen-2-3-2" style="height:100%;"></div>
 </div>
 
 <script>
@@ -578,9 +569,8 @@ inputEl_2_3_2.addEventListener('keydown', (event) => {
 <style>
 .form-and-focus {
   max-width: 200px;
-  padding: 10px;
+  padding: 14px;
   background-color: darkgreen;
-  border: 4px solid transparent;
   box-sizing: border-box;
 }
 .form-and-focus div {
@@ -594,6 +584,9 @@ inputEl_2_3_2.addEventListener('keydown', (event) => {
 .form-and-focus input {
   outline: none;
   margin-bottom: 8px;
+}
+.form-and-focus button[type="submit"] {
+  margin-left: 9px;
 }
 </style>
 
@@ -1066,6 +1059,7 @@ formEl_3_6.addEventListener('reset', (event) => {
   align-content: center;
   user-select: none;
   --webkit-user-select: none;
+  cursor: pointer;
 }
 </style>
 
@@ -1084,6 +1078,13 @@ const debounce = (fn, delay = 500) => {
 </script>
 
 #### 1. Dispatch
+
+```html
+<div class="parent">
+  <div class="child">1</div>
+  <div class="child">2</div>
+</div>
+```
 
 ```javascript
 const [child1, child2] = document.querySelectorAll('.child');
@@ -1226,6 +1227,147 @@ child_4_3_2.addEventListener('click', () => {
   clearScreenEl_4_3();
 });
 </script>
+
+---
+
+### 5. Remove Event 👩‍💻
+
+<style>
+.remove-increase {
+  min-width: 100px;
+  height: 100%;
+  padding: 10px;
+  background-color: lightcoral;
+  font: 700 17px/1 bold sans-serif;
+  box-sizing: border-box;
+  align-content: center;
+  color: forestgreen;
+  cursor: pointer;
+  user-select: none;
+  --webkit-user-select: none;
+}
+</style>
+
+#### 1. removeEventListener
+
+```html
+<div class="increase">Increase !</div>
+<div class="log">0</div>
+```
+
+```javascript
+const increaseBtn = document.querySelector('.increase');
+const log = document.querySelector('.log');
+
+const handler = increase(log);
+
+increaseBtn.addEventListener('click', handler);
+
+function increase(el) {
+  let num;
+
+  const incraseToFive = (event) => {
+    if (num === undefined) num = parseInt(el.textContent);
+    el.textContent = ++num;
+
+    if (num >= 5) event.target.removeEventListener('click', incraseToFive);
+  };
+
+  return incraseToFive;
+}
+```
+
+<div style="display:flex;align-items:center;height:60px;">
+  <div class="remove-increase increase-1">Increase !</div>
+  <div class="screen-log screen-5-1" style="height:100%;">0</div>
+</div>
+
+<script>
+const increase_1 = document.querySelector('.increase-1');
+const screenEl_5_1 = document.querySelector('.screen-5-1');
+
+const handler = increase(screenEl_5_1);
+increase_1.addEventListener('click', handler);
+
+function increase(el) {
+  let num;
+
+  const incraseToFive = (event) => {
+    if (num === undefined) num = parseInt(el.textContent);
+    el.textContent = ++num;
+
+    if (num >= 5) event.target.removeEventListener('click', incraseToFive);
+  };
+
+  return incraseToFive;
+}
+</script>
+
+<br>
+
+등록한 이벤트를 제거하는 첫 번째 방법은 `removeEventListener`를 사용하는 것이다. 이벤트 제거를 위해서는 다음 3가지가 
+일치해야한다.
+
+- Event Type
+- Event Callback Function's Reference
+- Capture Type(Bubbling or Capturing)
+
+#### 2. AbortController
+
+```javascript
+const controller = new AbortController();
+const increaseBtn = document.querySelector('.increase');
+const log = document.querySelector('.log');
+
+increaseBtn.addEventListener('click', increase(log, controller), {
+  signal: controller.signal,
+});
+
+function increase(el, controller) {
+  let num;
+
+  return () => {
+    if (num === undefined) num = parseInt(el.textContent);
+    el.textContent = ++num;
+
+    if (num >= 5) controller.abort();
+  };
+}
+
+```
+
+`AbortController`를 사용하면 비동기를 컨트롤 할 수 있다. `fetch`나 `stream` 같은 것 외에도 Event Listener 
+역시 **Macrotask Queue** 에 등록되는 비동기 함수이므로 컨트롤이 가능하다.
+
+<div style="display:flex;align-items:center;height:60px;">
+  <div class="remove-increase increase-2">Increase !</div>
+  <div class="screen-log screen-5-2" style="height:100%;">0</div>
+</div>
+
+<script>
+const controller = new AbortController();
+const increase_2 = document.querySelector('.increase-2');
+const screenEl_5_2 = document.querySelector('.screen-5-2');
+
+increase_2.addEventListener('click', increase(screenEl_5_2, controller), { signal: controller.signal });
+
+function increase(el, controller) {
+  let num;
+
+  return () => {
+    if (num === undefined) num = parseInt(el.textContent);
+    el.textContent = ++num;
+
+    if (num >= 5) controller.abort();
+  };
+}
+</script>
+
+<br>
+
+`AbortController`를 사용하면, `addEventListener`를 등록할 때 AbortController 의 인스턴스 공간에 
+Callback Function 을 등록하기 때문에 컨트롤러의 `abort` 메서드를 호출하기만 하면 이벤트를 제거할 수 있다. 
+
 
 <br><br>
 
