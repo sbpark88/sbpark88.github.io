@@ -39,7 +39,7 @@ console.log(`Time Elapsed: ${(t2 - t1) / 1000} seconds.`)
 존재할텐데 너무 빠르게 실행되는 경우 편차로 인해 정확한 결과를 얻기 힘들다. 때로는 너무 오래 걸리는 알고리즘이어서 실제 결과를 확인하는 
 데 너무 많은 시간이 소모될 수 있다. 또한 이 방법은 컴퓨터의 성능에 영향을 받는다.
 
-직접 시간을 측정하는 것 보다 좋은 방법은 <span style="color: red;">컴퓨터가 처리해야하는 연산 갯수를 세는 것</span>이다. 
+직접 시간을 측정하는 것 보다 좋은 방법은 <span style="color: red;">컴퓨터가 처리해야하는 연산 개수를 세는 것</span>이다. 
 
 ![addUpTo 1](/assets/images/posts/2024-02-13-algorithm-big-o-notation/add-up-to-1.png){: width="400"}
 
@@ -160,7 +160,7 @@ JavaScript 에서 *Space Complexity* 를 이야기 할 때 규칙이 있다.
 
 - 대부분의 boolean, number, undefined, null 은 `constant space`다.
 - String 은 문자열의 길이만큼 `O(n)`의 공간을 차지한다.
-- Reference Types(array, object)는 배열의 길이, key 의 갯수만큼 `O(n)`의 공간을 차지한다.
+- Reference Types(array, object)는 배열의 길이, key 의 개수만큼 `O(n)`의 공간을 차지한다.
 
 <br>
 

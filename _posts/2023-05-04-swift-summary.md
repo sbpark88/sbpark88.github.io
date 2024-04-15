@@ -12807,7 +12807,7 @@ struct AllCaps: Drawable {
   *Drawable* 이 자신의 `draw()`를 호출해 그림을 그리도록 한 뒤 `joined(separator:)` 메서드를 이용해 문자열 결과를
   단일 String 으로 만든다.
 - `Text` structure 는 문자열을 하나의 그리기로 wrapping 시키고, `Space` structure 는 하나의 공백을 그리고,
-  `Stars` structure 는 주어진 갯수 만큼 별을 그린다.
+  `Stars` structure 는 주어진 개수 만큼 별을 그린다.
 - `AllCaps` structure 는 다른 *Drawable* 을 대문자로 변경하는 역할을 한다.
 
 <br>
