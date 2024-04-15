@@ -2934,7 +2934,7 @@ __5 ) setTimout 을 Promise 패턴 적용__
 function orderCoffee(el, orderList) {
   if (!el || !Array.isArray(orderList)) return;
   
-  const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), time));
+  const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
   async function buttonClickHandler() {
     await delay(2000);
@@ -2961,7 +2961,7 @@ function orderCoffee(el, orderList) {
   if (!el || !Array.isArray(orderList)) return;
 
   const logEl = document.querySelector('#log');
-  const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), time));
+  const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
   async function buttonClickHandler() {
     await delay(2000);
@@ -2983,7 +2983,7 @@ function orderCoffee(el, orderList) {
   if (!el || !Array.isArray(orderList)) return;
   
   const logEl = document.querySelector('#log');
-  const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), time));
+  const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
   async function buttonClickHandler() {
     await delay(2000);
@@ -3005,7 +3005,7 @@ function orderCoffee(el, orderList) {
   if (!el || !Array.isArray(orderList)) return;
   
   const logEl = document.querySelector('#log');
-  const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), time));
+  const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
   const insertMsg = (order) => (logEl.innerHTML += `${order}가 완료됐습니다<br />`);
 
   async function buttonClickHandler() {
@@ -3023,7 +3023,7 @@ __9 ) orderCoffee 내부에 불필요함 함수를 밖으로 빼내고 매직 �
 
 ```javascript
 const logEl = document.querySelector('#log');
-const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), time));
+const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
 const insertMsg = (order) => (logEl.innerHTML += `${order}가 완료됐습니다<br />`);
   
 async function buttonClickHandler(orderList) {
