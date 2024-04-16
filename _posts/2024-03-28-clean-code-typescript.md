@@ -3162,7 +3162,13 @@ console.log(fooResult);
 마지막으로 이러한 전처리기/후처리기는 `pipe`함수를 사용하면 더 쉽게 처리할 수 있다.
 
 ```javascript
-const pipe = (...fns) => initValue => fns.reduce((acc, fn) => fn(acc), initValue)
+const pipe =
+    (...fns) =>
+    (initValue) =>
+        fns.reduce(
+            (acc, fn) => (acc instanceof Promise ? acc.then(fn) : fn(acc)),
+            initValue,
+        );
 
 let foo = () => 'Hogwarts';
 foo = pipe(logDecorator)(foo);
