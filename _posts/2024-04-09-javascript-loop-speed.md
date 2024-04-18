@@ -298,7 +298,7 @@ let t2 = performance.now();
 console.log(`Time Elapsed: ${(t2 - t1) / 1000} seconds.`);
 ```
 
-<span style="color: red;">97.4734s</span> 이건 뭐 추가로 확인해보 필요도 없을 정도로 느리다. 
+<span style="color: red;">97.4734s</span> 이건 뭐 추가로 확인해볼 필요도 없을 정도로 느리다. 
 그렇다면 `Object.entries`가 아닌 `Object.keys` 또는 `Object.values`로 접근해보면 어떨까?
 
 - Object.keys
