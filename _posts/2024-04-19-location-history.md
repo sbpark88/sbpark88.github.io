@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Cookie, Session, and Local Storage
+title: Location and History
 subtitle: 
 excerpt_image: NO_EXCERPT_IMAGE
 categories: [javascript]
