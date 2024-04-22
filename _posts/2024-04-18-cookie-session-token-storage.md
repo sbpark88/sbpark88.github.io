@@ -4,8 +4,8 @@ title: Cookie, Session, Token, and Web Storage API
 subtitle: 
 excerpt_image: NO_EXCERPT_IMAGE
 categories: [javascript]
-tags: [cookie, session, token, public key, private key, local storage, session storage, msa, 
-       load balancer, redis, memcached, encryption, decryption, jwt, oauth]
+tags: [cookie, session, token, public key, private key, local storage, session storage, indexed db, 
+       msa, load balancer, redis, memcached, encryption, decryption, jwt, oauth]
 ---
 
 ### 1. Cookie 👩‍💻
@@ -26,8 +26,8 @@ HTTP protocol 자체는 `stateless`인데 쿠키가 정보를 저장하고 있�
 과거에는 클라이언트에 무언가 저장할 필요가 있을 때 모든 것을 쿠키에 저장했다. 쿠키가 클라이언트에 저장할 수 있는 유일한 방법이었기 때문이다. 
 하지만 오늘날은 클라이언트에 정보 저장 목적으로 쿠키를 사용하는 것은 권장되지 않는다. 
 <span style="color: red;">모든 요청마다 쿠키가 함께 전송되기 때문</span>이다. 특히 이것은 모바일에서 성능이 떨어지는 원인이 될 
-수 있다. 따라서 일반적인 정보 저장이 목적이라면 Modern APIs 인 Web Storage API(localStorage, sessionStorage) 또는 
-IndexedDB 를 사용하는 것이 권장된다.
+수 있다. 따라서 일반적인 정보 저장이 목적이라면 Modern APIs 인 [Web Storage API](#h-1-web-storage-api)
+(localStorage, sessionStorage) 또는 [IndexedDB API](#h-2-indexed-db-api) 를 사용하는 것이 권장된다.
 
 #### 2. JavaScript Access
 
@@ -122,21 +122,21 @@ function daysLaterMidnight(days) {
 특정 쿠키의 값을 가져오거나 삭제하기 위해서는 다음과 같이 함수를 만들어 사용하면 편리하다.
 
 ```javascript
-const getCookie = (name) => {
+export const getCookie = (name) => {
   const cookie = document.cookie
     .split('; ')
     .find((str) => str.split('=')[0] === name);
   return cookie ? cookie.split('=')[1] : null;
 };
 
-const getCookies = (...names) => names.map(getCookie);
+export const getCookies = (...names) => names.map(getCookie);
 ```
 
 ```javascript
-const removeCookie = (name) =>
+export const removeCookie = (name) =>
   (document.cookie = `${name}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC`);
 
-const removeCookies = (...names) => names.forEach(removeCookie);
+export const removeCookies = (...names) => names.forEach(removeCookie);
 ```
 
 #### 3. HTTP Only & Secure
@@ -415,8 +415,649 @@ server-to-server 통신은 토큰을 사용하면 통신 비용을 크게 줄일
 네트워크 환경이 좋지 못하며 모바일 기기인 경우 토큰이 세션보다 용량이 커 성능에 영향을 미칠 수 있는 매우 특수한 상황만 
 아니라면 토큰이 갖는 장점이 크기 때문에 많은 서버가 토큰을 도입하는 것이다.
 
+---
 
+### 5. Web Storage 👩‍💻
 
+#### 1. Web Storage API
+
+브라우저가 데이터를 저장하는 방법은 크게 Web Storage API 와 IndexedDB API 둘로 나뉜다. Web Storage API 는 브라우저에
+저장되며 브라우저에 의해 관리되며 다음과 같은 특징을 갖는다.
+
+- 도메인 단위로 저장(쿠키와 동일)
+- 브라우저마다 다르지만 5~10MB 를 저장한다(쿠키와 달리 사이트별 개별 용량이 아닌 브라우저 전체의 용량이다)
+- <span style="color: red;">영구 저장 가능</span>(session 단위 또는 영구 저장)
+
+쿠키와 비교하면 엄청나게 큰 용량을 저장할 수 있지만 사이트별로 주어지는 용량은 아닌데다 넉넉한 용량도 아니다. 하지만 쿠키에 비해서는 
+꽤 넉넉한 용량을 사용할 수 있을 뿐 아니라 쿠키는 모든 네트워크 요청에 포함되기 때문에 통신에 불필요한 데이터는 `Local Storage` 또는 
+`Session Storage` 에 저장하는 것이 권장된다.
+
+Local Storage 와 Session Storage 의 사용법은 동일하다. 단지 Session Storage 는 세션이 만료되면 자동으로 삭제되는 반면, 
+Local Storage 는 별도로 제거하지 않는 한 영구 저장이 가능하다.
+
+사용 가능한 주요 메서드는 다음과 같다.
+
+- `getItem(key:)`: 데이터 조회
+- `setItem(key:value:)`: 데이터 추가
+- `removeItem(key:)`: 데이터 제거
+- `clear()`: 스토리지 초기화
+
+그리고 Web Storage 에 데이터를 저장할 때 모든 데이터는 JSON 문자열로 변환해 저장하도록 해야한다. 그렇지 않으면 저장된 데이터를 
+가져올 때, 원본 데이터가 객체였는지도 구분해 다시 JavaScript 객채로 파싱하거나 에러가 발생할 때마다 처리하도록 예외처리를 해야하기 
+때문이다.
+
+```javascript
+const setStorage = (storage) => (key, value) => storage.setItem(key, JSON.stringify(value));
+
+export const setLocalStorage = setStorage(localStorage);
+export const setSessionStorage = setStorage(sessionStorage);
+
+const getStorage = (storage) => (key) => storage.getItem(key);
+
+export const getLocalStorage = getStorage(localStorage);
+export const getSessionStorage = getStorage(sessionStorage);
+
+const removeStorage = (storage) => (key) => storage.removeItem(key);
+
+export const removeLocalStorage = removeStorage(localStorage);
+export const removeSessionStorage = removeStorage(sessionStorage);
+
+const clearStorage = (storage) => () => storage.clear();
+
+export const clearLocalStorage = clearStorage(localStorage);
+export const clearSessionStorage = clearStorage(sessionStorage);
+```
+
+#### 2. IndexedDB API
+
+IndexedDB API 는 MSW(Mock Service Worker) 처럼 Web Worker 를 사용해 데이터를 저장하는 API 로 비동기 처리되어 성능에 
+영향을 미치지 않는 **Low Level Local Storage** 다. 이것은 아이폰으로 치면 CoreData, SwiftData, Realm 이런 것과 같은데 
+RDBMS 도 아닌데다 NoSQL 도 아니지만 그래도 NoSQL 쪽에 조금 더 가깝다. Firebase Storage 또는 Realm, MongoDB 를 다루듯 
+스토리지를 다룬다. 
+
+IndexedDB API 는 다음과 같은 특징을 갖는다.
+
+- 도메인 단위로 저장
+- 브라우저마다 다르지만 1TB 디스크 기준으로 600GB 까지 확장 가능
+- <span style="color: red;">영구 저장 가능</span>(persistent 설정 가능)
+
+기본적으로 세션 단위로 저장되지는 않아 세션이 끊겨도 데이터는 유효하다. 디스크가 부족할 경우 브라우저나 운영체제에 의해 정리될 수 있으나 
+`persistent`를 지정하면 브라우저마다 다르지만 1GB 가량 영구 저장이 가능하다.
+
+#### 3. IndexedDB Examples
+
+```html
+<form id="customerInputForm">
+  <label for="userId">아이디:</label>
+  <input type="text" id="userId" name="userId" />
+  <label for="name">이름:</label>
+  <input type="text" id="name" name="name" />
+  <button type="submit" class="btn--green">저장</button>
+  <button type="reset">새로고침</button>
+</form>
+<ul id="customerList"></ul>
+```
+
+```css
+input {
+  outline: none;
+  border: none;
+  padding: 1px 0;
+}
+
+#customerInputForm,
+#customerList {
+  margin: 10px 0;
+  padding: 0;
+  color: black;
+  font-weight: 700;
+}
+
+#customerInputForm,
+#customerList li {
+  height: 40px;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #8aadc1;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+}
+
+#customerList li span {
+  width: 70px;
+}
+
+#customerInputForm input,
+#customerList input {
+  width: 150px;
+  margin: 0 10px 0 5px;
+  user-select: none;
+}
+
+#customerList li input {
+  background-color: #bcbcbc;
+}
+
+#customerList li.edit input {
+  background-color: #fff;
+}
+
+#customerInputForm button,
+#customerList button {
+  margin-right: 5px;
+  padding: 3px 15px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+#customerList.edit button {
+  display: none;
+}
+#customerList li.edit button {
+  display: block;
+}
+#customerList li button.hidden {
+  display: none;
+}
+button.btn--red {
+  background-color: #ff3b3b;
+}
+button.btn--green {
+  background-color: #20e62a;
+}
+```
+
+```javascript
+const customerForm = document.querySelector('#customerInputForm');
+const customerList = document.querySelector('#customerList');
+
+const DATABASE_NAME = 'customer-database';
+const TABLE_NAME = 'customer';
+
+let db;
+const actions = createActions();
+
+const DBOpenRequest = indexedDB.open(DATABASE_NAME);
+
+DBOpenRequest.onerror = (event) => {
+  customerList.innerHTML = `<li>Error loading database.</li>`;
+  console.error(event.target.error);
+};
+
+// 버전 업그레이드가 필요하거나 최초 생성시 수행되는 코드로 테이블, 컬럼과 같은 데이터베이스 구조를 정의한다.
+DBOpenRequest.onupgradeneeded = (event) => {
+  db = event.target.result;
+
+  // 스토어 생성(테이블 생성에 해당)
+  // index 를 생성해서 검색으로 사용할 수는 없다. 즉, autoIncrement 를 사용해 검색은 할 수 없고,
+  // 스토어를 관리하기 위한 primaryKey 또는 key로 openCursor 에서 검색 결과에 나오는
+  // primaryKey 또는 key 의 값이 value 에 등록된 값과 동일하다.
+  const objectStore = db.createObjectStore(TABLE_NAME, {
+    keyPath: 'id',
+    autoIncrement: true,
+  });
+
+  // 인덱스 생성(컬럼 생성에 해당)
+  objectStore.createIndex('userId', 'userId', { unique: true });
+  objectStore.createIndex('name', 'name', { unique: false });
+  customerList.innerHTML += '<li>Object store created.</li>';
+};
+
+DBOpenRequest.onsuccess = (event) => {
+  customerList.innerHTML += '<li>Database initialised.</li>';
+  db = DBOpenRequest.result; // equal to 'event.target.result'
+  actions.load();
+};
+
+function createActions() {
+  let [prevUserId, prevUserName] = [null, null];
+
+  function idValidation(userId) {
+    if (userId.trim().length < 5) {
+      alert('아이디는 5자 이상 입력해주세요');
+      return false;
+    }
+    return true;
+  }
+
+  function addCustomer() {
+    const customer = {
+      userId: customerForm[0].value,
+      name: customerForm[1].value,
+    };
+    if (!idValidation(customer.userId)) return;
+    // 트랜잭션을 열 스토어 이름 배열, 트랜잭션 모드를 지정
+    const transaction = db.transaction([TABLE_NAME], 'readwrite');
+    // 트랜잭션에 열린 스토어 배열 중 단일 스토어 접근
+    const objectStore = transaction.objectStore(TABLE_NAME);
+    // 요청 처리
+    objectStoreRequest = objectStore.add(customer);
+    objectStoreRequest.onsuccess = (event) => {
+      customerForm.reset();
+    };
+
+    objectStoreRequest.onerror = (event) => {
+      debugger;
+      let message =
+          event.target.error.code === 0
+              ? '아이디는 중복될 수 없습니다'
+              : '저장을 실패했습니다';
+      alert(message);
+
+      console.error({
+        Code: event.target.error.code,
+        name: event.target.error.name,
+        Message: event.target.error.message,
+      });
+    };
+  }
+
+  function loadCustomers() {
+    customerList.innerHTML = '';
+
+    const objectStore = db.transaction(TABLE_NAME).objectStore(TABLE_NAME);
+    const request = objectStore.openCursor();
+    request.onsuccess = (event) => {
+      const cursor = event.target.result;
+      if (cursor === null) return;
+      // 스토어에 'Key'가 하나이므로 cursor.primaryKey, cursor.key, value.id 3개는 모두 동일한 값이다.
+      const { id, userId, name } = cursor.value;
+      customerList.innerHTML += `
+      <li>
+        <span data-id="${id}">ID: ${id}</span>
+        아이디: <input type="text" value="${userId}" readonly />
+        이름: <input type="text" value="${name}" readonly />
+        <button type="button" data-type="editMode">수정</button>
+        <button type="button" data-type="delete" class="btn--red">삭제</button>
+        <button type="button" data-type="cancel" class="hidden">취소</button>
+        <button type="button" data-type="edit" class="btn--green hidden">저장</button>
+      </li>
+      `;
+
+      // Move on to the next cursor item
+      cursor.continue();
+    };
+
+    request.onerror = (event) => {
+      customerList.innerHTML = '<li>Store access error</li>';
+      console.error(event.target.error);
+    };
+  }
+
+  function toggleEditMode({ parentEl }) {
+    const [, userId, name, editModeBtn, deleteBtn, cancelBtn, editBtn] = [
+      ...parentEl.children,
+    ];
+    [customerList, parentEl].forEach((el) => el.classList.toggle('edit'));
+    userId.readOnly = !userId.readOnly;
+    name.readOnly = !name.readOnly;
+    [editModeBtn, deleteBtn, cancelBtn, editBtn].forEach((el) =>
+        el.classList.toggle('hidden')
+    );
+  }
+
+  function openEditMode({ parentEl }) {
+    const [, userId, name] = [...parentEl.children];
+    prevUserId = userId.value;
+    prevUserName = name.value ?? null;
+    toggleEditMode({ parentEl });
+  }
+
+  function cancelEditMode({ parentEl }) {
+    const [, userId, name] = [...parentEl.children];
+    userId.value = prevUserId && prevUserId;
+    name.value = prevUserName && prevUserName;
+    [prevUserId, prevUserName] = [null, null];
+    toggleEditMode({ parentEl });
+  }
+
+  function editCustomer({ id, userId, name }) {
+    if (!idValidation(userId)) return;
+    const objectStore = db
+        .transaction(TABLE_NAME, 'readwrite')
+        .objectStore(TABLE_NAME);
+    const updateRequest = objectStore.put({ id, userId, name });
+    updateRequest.onsuccess = (event) => {
+      loadCustomers();
+      customerList.classList.toggle('edit');
+    };
+  }
+
+  function deleteCustomer({ id }) {
+    const objectStore = db
+        .transaction(TABLE_NAME, 'readwrite')
+        .objectStore(TABLE_NAME);
+    const deleteRequest = objectStore.delete(id); // primaryKey 로 삭제
+    deleteRequest.onsuccess = (event) => loadCustomers();
+
+    // 아이템 특정 값으로 삭제하고 싶을 경우 스토어로부터 index 를 생성하고 값을 검색해
+    // 검색된 아이템으로부터 primaryKey 를 가져와 삭제.
+    /*
+    const nameRequest = objectStore.index('name').openCursor(name);
+    nameRequest.onsuccess = (event) => {
+      const cursor = event.target.result;
+      if (cursor ===null) return;
+      objectStore.delete(cursor.primaryKey)
+      // cursor.continue();  // 복수 삭제일 경우
+    };
+    */
+  }
+
+  return {
+    add: addCustomer,
+    load: loadCustomers,
+    editMode: ({ parentEl }) => openEditMode({ parentEl }),
+    edit: ({ id, userId, name }) => editCustomer({ id, userId, name }),
+    cancel: ({ parentEl }) => cancelEditMode({ parentEl }),
+    delete: ({ id }) => deleteCustomer({ id }),
+  };
+}
+
+customerForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  actions.add();
+});
+customerForm.addEventListener('reset', actions.load);
+
+customerList.addEventListener('click', (event) => {
+  event.stopPropagation();
+  if (event.target.tagName !== 'BUTTON') return;
+  const li = event.target.parentElement;
+  const [id, userId, name, parentEl] = [
+    parseInt(li.firstElementChild.dataset.id),
+    li.children[1].value,
+    li.children[2].value,
+    li,
+  ];
+  const type = event.target.dataset.type;
+  actions[type]({ id, userId, name, parentEl });
+});
+```
+
+`transaction` 메서드는 string 으로 단일 테이블 또는 배열로 여러 테이블을 한 번에 트랙잭션으로 열 수 있으나, 
+`objectStore` 메서드는 열린 트랙잭션 중에서 단일 테이블을 열어서 작업한다.
+
+스토어를 연 후 CRUD 에 사용하는 메서드는 다음과 같다.
+
+- C: `add` 메서드
+- R: `cursor` 또는 `index` 메서드로 인덱스를 생성 후 `get`이나 `getAll` 메서드 접근
+- U: `put` 메서드
+- D: `delete` 메서드
+
+`store`를 생성할 때 반드시 `key`를 하나 지정해야하고 이것이 하나이면 기본적으로 `primaryKey`로 사용된다. 하지만 
+이 Key 는 데이터의 Update, Delete 와 같은 작업을 할 때 필요한 값으로, autoIncrement 로 설정한 경우 직접 
+컬럼에 해당하는 `index`를 생성한 것이 아니기 때문에 `index`메서드를 사용할 수 없음에 주의한다. 
+
+<style>
+input {
+  outline: none;
+  border: none;
+  padding: 1px 0;
+}
+
+#customerInputForm,
+#customerList {
+  margin: 10px 0;
+  padding: 0;
+  color: black;
+  font-weight: 700;
+}
+
+#customerInputForm,
+#customerList li {
+  height: 40px;
+  padding: 10px;
+  margin: 10px 0;
+  background-color: #8aadc1;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+}
+
+#customerList li span {
+  width: 70px;
+}
+
+#customerInputForm input,
+#customerList input {
+  width: 150px;
+  margin: 0 10px 0 5px;
+  user-select: none;
+}
+
+#customerList li input {
+  background-color: #bcbcbc;
+}
+
+#customerList li.edit input {
+  background-color: #fff;
+}
+
+#customerInputForm button,
+#customerList button {
+  margin-right: 5px;
+  padding: 3px 15px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+#customerList.edit button {
+  display: none;
+}
+#customerList li.edit button {
+  display: block;
+}
+#customerList li button.hidden {
+  display: none;
+}
+button.btn--red {
+  background-color: #ff3b3b;
+}
+button.btn--green {
+  background-color: #20e62a;
+}
+</style>
+
+<form id="customerInputForm">
+  <label for="userId">아이디:</label>
+  <input type="text" id="userId" name="userId" />
+  <label for="name">이름:</label>
+  <input type="text" id="name" name="name" />
+  <button type="submit" class="btn--green">저장</button>
+  <button type="reset">새로고침</button>
+</form>
+<ul id="customerList"></ul>
+
+<script>
+const customerForm = document.querySelector('#customerInputForm');
+const customerList = document.querySelector('#customerList');
+
+const DATABASE_NAME = 'customer-database';
+const TABLE_NAME = 'customer';
+
+let db;
+const actions = createActions();
+
+const DBOpenRequest = indexedDB.open(DATABASE_NAME);
+
+DBOpenRequest.onerror = (event) => {
+  customerList.innerHTML = `<li>Error loading database.</li>`;
+  console.error(event.target.error);
+};
+
+DBOpenRequest.onupgradeneeded = (event) => {
+  db = event.target.result;
+
+  const objectStore = db.createObjectStore(TABLE_NAME, {
+    keyPath: 'id',
+    autoIncrement: true,
+  });
+
+  objectStore.createIndex('userId', 'userId', { unique: true });
+  objectStore.createIndex('name', 'name', { unique: false });
+  customerList.innerHTML += '<li>Object store created.</li>';
+};
+
+DBOpenRequest.onsuccess = (event) => {
+  customerList.innerHTML += '<li>Database initialised.</li>';
+  db = DBOpenRequest.result;
+  actions.load();
+};
+
+function createActions() {
+  let [prevUserId, prevUserName] = [null, null];
+
+  function idValidation(userId) {
+    if (userId.trim().length < 5) {
+      alert('아이디는 5자 이상 입력해주세요');
+      return false;
+    }
+    return true;
+  }
+
+  function addCustomer() {
+    const customer = {
+      userId: customerForm[0].value,
+      name: customerForm[1].value,
+    };
+    if (!idValidation(customer.userId)) return;
+    const transaction = db.transaction([TABLE_NAME], 'readwrite');
+    const objectStore = transaction.objectStore(TABLE_NAME);
+    objectStoreRequest = objectStore.add(customer);
+    objectStoreRequest.onsuccess = (event) => {
+      customerForm.reset();
+    };
+
+    objectStoreRequest.onerror = (event) => {
+      debugger;
+      let message =
+        event.target.error.code === 0
+          ? '아이디는 중복될 수 없습니다'
+          : '저장을 실패했습니다';
+      alert(message);
+
+      console.error({
+        Code: event.target.error.code,
+        name: event.target.error.name,
+        Message: event.target.error.message,
+      });
+    };
+  }
+
+  function loadCustomers() {
+    customerList.innerHTML = '';
+
+    const objectStore = db.transaction(TABLE_NAME).objectStore(TABLE_NAME);
+    const request = objectStore.openCursor();
+    request.onsuccess = (event) => {
+      const cursor = event.target.result;
+      if (cursor === null) return;
+      const { id, userId, name } = cursor.value;
+      customerList.innerHTML += `
+      <li>
+        <span data-id="${id}">ID: ${id}</span>
+        아이디: <input type="text" value="${userId}" readonly />
+        이름: <input type="text" value="${name}" readonly />
+        <button type="button" data-type="editMode">수정</button>
+        <button type="button" data-type="delete" class="btn--red">삭제</button>
+        <button type="button" data-type="cancel" class="hidden">취소</button>
+        <button type="button" data-type="edit" class="btn--green hidden">저장</button>
+      </li>
+      `;
+
+      cursor.continue();
+    };
+
+    request.onerror = (event) => {
+      customerList.innerHTML = '<li>Store access error</li>';
+      console.error(event.target.error);
+    };
+  }
+
+  function toggleEditMode({ parentEl }) {
+    const [, userId, name, editModeBtn, deleteBtn, cancelBtn, editBtn] = [
+      ...parentEl.children,
+    ];
+    [customerList, parentEl].forEach((el) => el.classList.toggle('edit'));
+    userId.readOnly = !userId.readOnly;
+    name.readOnly = !name.readOnly;
+    [editModeBtn, deleteBtn, cancelBtn, editBtn].forEach((el) =>
+      el.classList.toggle('hidden')
+    );
+  }
+
+  function openEditMode({ parentEl }) {
+    const [, userId, name] = [...parentEl.children];
+    prevUserId = userId.value;
+    prevUserName = name.value ?? null;
+    toggleEditMode({ parentEl });
+  }
+
+  function cancelEditMode({ parentEl }) {
+    const [, userId, name] = [...parentEl.children];
+    userId.value = prevUserId && prevUserId;
+    name.value = prevUserName && prevUserName;
+    [prevUserId, prevUserName] = [null, null];
+    toggleEditMode({ parentEl });
+  }
+
+  function editCustomer({ id, userId, name }) {
+    if (!idValidation(userId)) return;
+    const objectStore = db
+      .transaction(TABLE_NAME, 'readwrite')
+      .objectStore(TABLE_NAME);
+    const updateRequest = objectStore.put({ id, userId, name });
+    updateRequest.onsuccess = (event) => {
+      loadCustomers();
+      customerList.classList.toggle('edit');
+    };
+  }
+
+  function deleteCustomer({ id }) {
+    const objectStore = db
+      .transaction(TABLE_NAME, 'readwrite')
+      .objectStore(TABLE_NAME);
+    const deleteRequest = objectStore.delete(id);
+    deleteRequest.onsuccess = (event) => loadCustomers();
+  }
+
+  return {
+    add: addCustomer,
+    load: loadCustomers,
+    editMode: ({ parentEl }) => openEditMode({ parentEl }),
+    edit: ({ id, userId, name }) => editCustomer({ id, userId, name }),
+    cancel: ({ parentEl }) => cancelEditMode({ parentEl }),
+    delete: ({ id }) => deleteCustomer({ id }),
+  };
+}
+
+customerForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  actions.add();
+});
+customerForm.addEventListener('reset', actions.load);
+
+customerList.addEventListener('click', (event) => {
+  event.stopPropagation();
+  if (event.target.tagName !== 'BUTTON') return;
+  const li = event.target.parentElement;
+  const [id, userId, name, parentEl] = [
+    parseInt(li.firstElementChild.dataset.id),
+    li.children[1].value,
+    li.children[2].value,
+    li,
+  ];
+  const type = event.target.dataset.type;
+  actions[type]({ id, userId, name, parentEl });
+});
+</script>
 
 
 <br><br>
