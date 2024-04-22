@@ -751,9 +751,3 @@ Reference
 1. "Learn Git Branching." Learn Git Branching. accessed Apr. 21, 2023, [Learn Git Branching](https://learngitbranching.js.org/?locale=ko).
 
 
-
-
-
-
-
-

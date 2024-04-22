@@ -4,9 +4,8 @@ title: Clean Code - JavaScript/TypeScript
 subtitle: Clean-Code that looks good is also good for maintenance.
 excerpt_image: NO_EXCERPT_IMAGE
 categories: [clean code, typescript, javascript]
-tags: [clean code]
+tags: [clean code, reduce the indentation, pre-processing, post-processing]
 ---
-
 
 ### 1. Variables 👩‍💻
 
@@ -2935,7 +2934,7 @@ __5 ) setTimout 을 Promise 패턴 적용__
 function orderCoffee(el, orderList) {
   if (!el || !Array.isArray(orderList)) return;
   
-  const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), time));
+  const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
   async function buttonClickHandler() {
     await delay(2000);
@@ -2962,7 +2961,7 @@ function orderCoffee(el, orderList) {
   if (!el || !Array.isArray(orderList)) return;
 
   const logEl = document.querySelector('#log');
-  const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), time));
+  const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
   async function buttonClickHandler() {
     await delay(2000);
@@ -2984,7 +2983,7 @@ function orderCoffee(el, orderList) {
   if (!el || !Array.isArray(orderList)) return;
   
   const logEl = document.querySelector('#log');
-  const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), time));
+  const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
 
   async function buttonClickHandler() {
     await delay(2000);
@@ -3006,7 +3005,7 @@ function orderCoffee(el, orderList) {
   if (!el || !Array.isArray(orderList)) return;
   
   const logEl = document.querySelector('#log');
-  const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), time));
+  const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
   const insertMsg = (order) => (logEl.innerHTML += `${order}가 완료됐습니다<br />`);
 
   async function buttonClickHandler() {
@@ -3024,7 +3023,7 @@ __9 ) orderCoffee 내부에 불필요함 함수를 밖으로 빼내고 매직 �
 
 ```javascript
 const logEl = document.querySelector('#log');
-const delay = (time) => new Promise((resolve) => setTimeout(() => resolve(), time));
+const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
 const insertMsg = (order) => (logEl.innerHTML += `${order}가 완료됐습니다<br />`);
   
 async function buttonClickHandler(orderList) {
@@ -3163,7 +3162,13 @@ console.log(fooResult);
 마지막으로 이러한 전처리기/후처리기는 `pipe`함수를 사용하면 더 쉽게 처리할 수 있다.
 
 ```javascript
-const pipe = (...fns) => initValue => fns.reduce((acc, fn) => fn(acc), initValue)
+const pipe =
+    (...fns) =>
+    (initValue) =>
+        fns.reduce(
+            (acc, fn) => (acc instanceof Promise ? acc.then(fn) : fn(acc)),
+            initValue,
+        );
 
 let foo = () => 'Hogwarts';
 foo = pipe(logDecorator)(foo);

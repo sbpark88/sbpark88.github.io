@@ -479,4 +479,4 @@ John's building identifier doesn't begin with "The".
 ---
 Reference
 
-1. "Optional Chaining." The Swift Programming Language Swift 5.7. accessed Dec. 20, 2022, [Swift Docs Chapter 15 - Optional Chaining](https://docs.swift.org/swift-book/LanguageGuide/OptionalChaining.html)
+1. "Optional Chaining." The Swift Programming Language Swift 5.7. accessed Dec. 20, 2022, [Swift Docs Chapter 15 - Optional Chaining](https://docs.swift.org/swift-book/LanguageGuide/OptionalChaining.html).

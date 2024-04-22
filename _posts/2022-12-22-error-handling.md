@@ -580,4 +580,4 @@ func processFile(filename: String) throws {
 ---
 Reference
 
-1. "Error Handling." The Swift Programming Language Swift 5.7. accessed Dec. 22, 2022, [Swift Docs Chapter 16 - Error Handling](https://docs.swift.org/swift-book/LanguageGuide/ErrorHandling.html)
+1. "Error Handling." The Swift Programming Language Swift 5.7. accessed Dec. 22, 2022, [Swift Docs Chapter 16 - Error Handling](https://docs.swift.org/swift-book/LanguageGuide/ErrorHandling.html).

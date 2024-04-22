@@ -1066,8 +1066,20 @@ h(x): Z ~> W = x - 6
 해당 섹션은 `compose`와 `pipe`를 모두 적용해 차이를 알아본다. JavaScript 를 사용해 **compose** 와 **pipe** 를 구현하면 다음과 같다.
 
 ```javascript
-const compose = (...fns) => initValue => fns.reduceRight((acc, fn) => fn(acc), initValue)
-const pipe = (...fns) => initValue => fns.reduce((acc, fn) => fn(acc), initValue)
+const compose =
+    (...fns) =>
+     (initValue) =>
+         fns.reduceRight(
+             (acc, fn) => (acc instanceof Promise ? acc.then(fn) : fn(acc)),
+             initValue,
+         );
+const pipe =
+    (...fns) =>
+    (initValue) =>
+        fns.reduce(
+            (acc, fn) => (acc instanceof Promise ? acc.then(fn) : fn(acc)),
+            initValue,
+        );
 ```
 
 > 참고로 비동기 함수에 대해서도 `pipe`를 적용하고자 할 경우 `async pipe`를 만들어야한다.
@@ -1107,10 +1119,10 @@ console.log(functionComposition(7))   // "42"
 
 ```javascript
 const functionComposition = compose(
+    toString,
     subtract6,
     multiply4,
-    add5,
-    toString
+    add5
 )
 
 console.log(functionComposition(7))   // "42"
@@ -1140,8 +1152,20 @@ console.log(newArray) // [18, 34, 42, 66, 106, 162]
 
 ```typescript
 type Primitive = number | string | boolean | undefined | null
-const compose = (...fns: Function[]) => (initValue: Primitive) => fns.reduceRight((acc, fn) => fn(acc), initValue)
-const pipe = (...fns: Function[]) => (initValue: Primitive) => fns.reduce((acc, fn) => fn(acc), initValue)
+const compose =
+    (...fns: Function[]) =>
+    (initValue: Primitive) =>
+        fns.reduceRight(
+            (acc, fn) => (acc instanceof Promise ? acc.then(fn) : fn(acc)),
+            initValue,
+        );
+const pipe =
+    (...fns: Function[]) =>
+    (initValue: Primitive) =>
+        fns.reduce(
+            (acc, fn) => (acc instanceof Promise ? acc.then(fn) : fn(acc)),
+            initValue,
+        );
 ```
 
 다른 방법으로는 TypeScript 에서 함수형 코딩을 가능하도록 돕는 라이브러리르 사용하는 것이다. 지원하는 라이브러리는 다음과 같다.
@@ -1185,10 +1209,10 @@ console.log(functionComposition(7))   // "42"
 
 ```javascript
 const functionComposition = compose(
+    toString,
     subtract6,
     multiply4,
-    add5,
-    toString
+    add5
 )
 
 console.log(functionComposition(7))   // "42"

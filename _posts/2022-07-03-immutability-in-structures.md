@@ -141,5 +141,5 @@ mutating 을 허용하게되면 `메서드가 종료될 때 해당 Properties �
 ---
 Reference
 
-1. "Language Guide." Welcome to Swift.org. accessed Jul. 3, 2022, [https://docs.swift.org/swift-book/LanguageGuide/Methods.html#](https://docs.swift.org/swift-book/LanguageGuide/Methods.html#)
-2. "What does the Swift 'mutating' keyword mean?." stackoverflow. Jul. 2 2018, [https://stackoverflow.com/questions/51128666/what-does-the-swift-mutating-keyword-mean](https://stackoverflow.com/questions/51128666/what-does-the-swift-mutating-keyword-mean)
+1. "Language Guide." Welcome to Swift.org. accessed Jul. 3, 2022, [https://docs.swift.org/swift-book/LanguageGuide/Methods.html#](https://docs.swift.org/swift-book/LanguageGuide/Methods.html#).
+2. "What does the Swift 'mutating' keyword mean?." stackoverflow. Jul. 2 2018, [https://stackoverflow.com/questions/51128666/what-does-the-swift-mutating-keyword-mean](https://stackoverflow.com/questions/51128666/what-does-the-swift-mutating-keyword-mean).

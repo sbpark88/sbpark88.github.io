@@ -413,5 +413,5 @@ func testPerformnace_GetValueFromClosures() throws {
 ---
 Reference
 
-1. Aaina, jain. "Functions vs Computed property — What to use?." Medium, last modified Nov. 22, 2018, [Functions vs Computed property](https://medium.com/swift-india/functions-vs-computed-property-what-to-use-64bbe2df3916)
-2. "Uni testing best practices." Microsoft Learn .NET, Nov. 4, 2022, [Uni testing best practices](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices)
+1. Aaina, jain. "Functions vs Computed property — What to use?." Medium, last modified Nov. 22, 2018, [Functions vs Computed property](https://medium.com/swift-india/functions-vs-computed-property-what-to-use-64bbe2df3916).
+2. "Uni testing best practices." Microsoft Learn .NET, Nov. 4, 2022, [Uni testing best practices](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices).
