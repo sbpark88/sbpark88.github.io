@@ -27,14 +27,6 @@ tags: [event listener, focus, focusin, focusout, blur, cjk, isComposing, dispatc
 .child-1.active {
   background-color: yellowgreen;
 }
-.screen-log {
-  flex-grow: 1;
-  background-color: white;
-  color: black;
-  font: 30px/1.6 sans-serif;
-  padding-left: 30px;
-  align-content: center;
-}
 </style>
 
 #### 1. Click
@@ -73,11 +65,11 @@ childEl.addEventListener('click', (event) => {
 
 `Alt(Option)`키 또는 `Ctrl(Control)`키를 함께 눌렀는지 알 수 있다.
 
-<div style="display: flex;">
+<div style="display: flex;" class="flex-container">
   <div class="parent-1 parent-1-1">
     <div class="child-1 child-1-1"></div>
   </div>
-  <div class="screen-log screen-1-1"></div>
+  <div class="screen-log screen-1-1" style="line-height: 1;"></div>
 </div>
 
 <script>
@@ -168,7 +160,7 @@ childEl.addEventListener('mouseleave', () => {
 마찬가지로, `mouseenter` 이벤트와 `mouseleave` 이벤트를 나눠 등록하면 마우스가 들어가 있을 때와 나올 때를 나눠 
 처리할 수 있다.
 
-<div style="display: flex;">
+<div style="display: flex;" class="flex-container">
   <div class="parent-1 parent-1-4">
     <div class="child-1 child-1-4"></div>
   </div>
@@ -206,7 +198,7 @@ childEl.addEventListener('mousemove', (event) => {
 });
 ```
 
-<div style="display: flex;">
+<div style="display: flex;" class="flex-container">
   <div class="parent-1 parent-1-5">
     <div class="child-1 child-1-5"></div>
   </div>
@@ -234,7 +226,7 @@ childEl.addEventListener('contextmenu', (event) => {
 
 마우스 우클릭을 감시한다.
 
-<div style="display: flex;">
+<div style="display: flex;" class="flex-container">
   <div class="parent-1 parent-1-6">
     <div class="child-1 child-1-6"></div>
   </div>
@@ -273,7 +265,7 @@ childEl.addEventListener('wheel', (event) => {
 `deltaY`를 사용해 휠의 방향을 알 수 있고, `parentEl.scrollTop`을 사용해 `부모의 컨테이너 안에서 자신의 Y축의 Top 위치`를 
 알 수 있다.
 
-<div style="display: flex;">
+<div style="display: flex;" class="flex-container">
   <div class="parent-1 parent-1-7">
     <div class="child-1 child-1-7" style="height:1000px;"></div>
   </div>
@@ -706,6 +698,7 @@ formEl_3_1.addEventListener('input', (event) => {
   screenEl_3_1.textContent = event.target.value;
   screenEl_3_1.style.color = screenEl_3_1_colors[screenEl_3_1_index++ % screenEl_3_1_colorCount];
 });
+formEl_3_1.addEventListener('submit', (event) => event.preventDefault());
 </script>
 
 #### 2. Focus & Blur
@@ -755,6 +748,7 @@ inputEls.forEach((el) => {
 </div>
 
 <script>
+const formEl_3_2 = document.querySelector('.form-3-2');
 const inputEls_3_2 = document.querySelectorAll('.form-3-2 input');
 
 inputEls_3_2.forEach((el) => {
@@ -765,6 +759,7 @@ inputEls_3_2.forEach((el) => {
     el.closest('div').classList.remove('active');
   });
 });
+formEl_3_2.addEventListener('submit', (event) => event.preventDefault());
 </script>
 
 <br>
@@ -814,6 +809,7 @@ formEl_3_3.addEventListener('focus', (event) =>
 formEl_3_3.addEventListener('blur', (event) =>
   event.target.closest('div').classList.remove('active')
 );
+formEl_3_3.addEventListener('submit', (event) => event.preventDefault());
 </script>
 
 <br>
@@ -869,6 +865,7 @@ formEl_3_4.addEventListener('focusin', (event) =>
 formEl_3_4.addEventListener('focusout', (event) =>
   event.target.closest('div').classList.remove('active')
 );
+formEl_3_4.addEventListener('submit', (event) => event.preventDefault());
 </script>
 
 <br>
@@ -977,7 +974,7 @@ formEl_3_5.addEventListener('submit', (event) => {
     sex: getSex(event.currentTarget),
     contact: getContacts(event.currentTarget),
   };
-  screenEl_3_5.textContent = JSON.stringify(data);
+  screenEl_3_5.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
   screenEl_3_5.style.color = screenEl_3_5_colors[screenEl_3_5_index++ % screenEl_3_5_colorCount];
 });
 </script>
@@ -1032,6 +1029,7 @@ formEl_3_6.addEventListener('reset', (event) => {
   screenEl_3_6.textContent = '리셋!';
   screenEl_3_6.style.color = screenEl_3_6_colors[screenEl_3_6_index++ % screenEl_3_6_colorCount];
 });
+formEl_3_6.addEventListener('submit', (event) => event.preventDefault());
 </script>
 
 ---
@@ -1063,20 +1061,6 @@ formEl_3_6.addEventListener('reset', (event) => {
 }
 </style>
 
-<script>
-const debounce = (fn, delay = 500) => {
-  let timer;
-
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      fn(...args);
-      timer = undefined;
-    }, delay);
-  };
-};
-</script>
-
 #### 1. Dispatch
 
 ```html
@@ -1102,7 +1086,7 @@ child2.addEventListener('keydown', () => console.log('Child2 Keydown'));
 
 `el.dispatchEvent()`에 `Event` 인스턴스를 argument 로 호출하면 JavaScript 코드로 이벤트를 발생시킬 수 있다.
 
-<div style="display: flex;">
+<div style="display: flex;" class="flex-container">
   <div class="parent-4 parent-4-1">
     <div class="child-4 child-4-1">1</div>
     <div class="child-4 child-4-1">2</div>
@@ -1111,7 +1095,9 @@ child2.addEventListener('keydown', () => console.log('Child2 Keydown'));
   </div>
 </div>
 
-<script>
+<script type="module">
+import {debounce} from '/assets/js/utils/performance.js';
+
 const [child_4_1_1, child_4_1_2] = document.querySelectorAll('.child-4-1');
 const screenEl_4_1 = document.querySelector('.screen-4-1');
 
@@ -1147,7 +1133,7 @@ child2.addEventListener('click', () => console.log('Child2 Click'));
 
 `dispatchEvent`를 사용하면 API 에 존재하지 않는 **Custom Event** 를 호출할 수 있다.
 
-<div style="display: flex;">
+<div style="display: flex;" class="flex-container">
   <div class="parent-4 parent-4-2">
     <div class="child-4 child-4-2">1</div>
     <div class="child-4 child-4-2">2</div>
@@ -1156,7 +1142,9 @@ child2.addEventListener('click', () => console.log('Child2 Click'));
   </div>
 </div>
 
-<script>
+<script type="module">
+import {debounce} from '/assets/js/utils/performance.js';
+
 const [child_4_2_1, child_4_2_2] = document.querySelectorAll('.child-4-2');
 const screenEl_4_2 = document.querySelector('.screen-4-2');
 
@@ -1195,7 +1183,7 @@ child2.addEventListener('hogwarts', (event) => {
 child2.addEventListener('click', () => console.log('Child2 Click'));
 ```
 
-<div style="display: flex;">
+<div style="display: flex;" class="flex-container">
   <div class="parent-4 parent-4-3">
     <div class="child-4 child-4-3">1</div>
     <div class="child-4 child-4-3">2</div>
@@ -1204,7 +1192,9 @@ child2.addEventListener('click', () => console.log('Child2 Click'));
   </div>
 </div>
 
-<script>
+<script type="module">
+import {debounce} from '/assets/js/utils/performance.js';
+
 const [child_4_3_1, child_4_3_2] = document.querySelectorAll('.child-4-3');
 const screenEl_4_3 = document.querySelector('.screen-4-3');
 
@@ -1217,9 +1207,9 @@ child_4_3_1.addEventListener('click', (event) => {
 });
 
 child_4_3_2.addEventListener('hogwarts', (event) => {
-  screenEl_4_3.innerText = `
+  screenEl_4_3.innerHTML = `
   Child2 Hogwarts
-  ${JSON.stringify(event.detail)}
+  <pre>${JSON.stringify(event.detail, null, 2)}</pre>
   `;
 });
 child_4_3_2.addEventListener('click', () => {
@@ -1379,3 +1369,41 @@ Reference
 
 
 [MDN - Abort Controller]:https://developer.mozilla.org/en-US/docs/Web/API/AbortController
+
+
+<style>
+.screen-log {
+  flex-grow: 1;
+  background-color: white;
+  color: black;
+  font: 30px/1.6 sans-serif;
+  padding-left: 30px;
+  align-content: center;
+}
+
+@media screen and (max-width:999px) {
+  .flex-container {
+    flex-direction: column;
+  }
+  .parent-1,
+  .parent-4 {
+    width: 100%;
+    height: 260px;
+    box-sizing: border-box;
+  }
+  .screen-1-4,
+  .screen-1-5,
+  .screen-1-6,
+  .screen-1-7 {
+    height: 100px;
+  }
+  .screen-1-1,
+  .screen-4-1,
+  .screen-4-2 {
+    height: 200px;
+  }
+  .screen-4-3 {
+    height: 260px;
+  }
+}
+</style>
