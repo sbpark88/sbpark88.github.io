@@ -1,7 +1,7 @@
 // @ts-check
 
 /* Intersection Observer */
-import {debounce} from "./performance";
+import {debounce} from "./performance.js";
 
 const createIObserver = (callback, options = {threshold: 0.2}) =>
     new IntersectionObserver(callback, options);
