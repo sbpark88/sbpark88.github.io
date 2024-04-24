@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Cookie, Session, Token, and Web Storage API
-subtitle: 
+subtitle: Why should not the session ID be stored in sessionStorage?
 excerpt_image: NO_EXCERPT_IMAGE
 categories: [javascript]
 tags: [cookie, session, token, public key, private key, local storage, session storage, indexed db, 
@@ -650,7 +650,7 @@ function createActions() {
 
       console.error({
         Code: event.target.error.code,
-        name: event.target.error.name,
+        Name: event.target.error.name,
         Message: event.target.error.message,
       });
     };
@@ -945,7 +945,7 @@ function createActions() {
 
       console.error({
         Code: event.target.error.code,
-        name: event.target.error.name,
+        Name: event.target.error.name,
         Message: event.target.error.message,
       });
     };

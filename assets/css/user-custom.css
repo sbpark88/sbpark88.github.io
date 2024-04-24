@@ -6,3 +6,6 @@ div.post-tags {
   display: flex;
   flex-wrap: wrap;
 }
+img.max-height--none {
+  max-height: none !important;
+}

@@ -244,6 +244,137 @@ const debouncedBar = debounce(bar, 2000)
 
 ### 4. Examples 👩‍💻
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);border-radius:2px;" width="800" height="700" 
- src="https://codesandbox.io/p/sandbox/throttle-and-debounce-forked-dj9q56?file=%2Fsrc%2Findex.ts%3A1%2C1&embed=1" 
- allowfullscreen></iframe>
+__Throttle__
+
+<div style="display: flex">
+  <div id="throttle" class="progress">
+    <div class="progress-bar"></div>
+  </div>
+  <div class="screen-log screen-throttle">0</div>
+</div>
+<br />
+
+__Debounce__
+
+<div style="display: flex">
+  <div id="debounce" class="progress">
+    <div class="progress-bar"></div>
+  </div>
+  <div class="screen-log screen-debounce">0</div>
+</div>
+
+<style>
+.progress {
+  width: 80%;
+  height: 50px;
+  border: 4px solid red;
+  border-radius: 25px;
+  overflow: hidden;
+  background-color: #fed;
+}
+
+.screen-log {
+  flex-grow: 1;
+  background-color: white;
+  color: black;
+  font: 30px/1.6 sans-serif;
+  text-align: center;
+  padding-left: 30px;
+  margin-left: -25px;
+  align-content: center;
+  z-index: -1;
+}
+
+#throttle .progress-bar {
+  width: 100%;
+  height: 100%;
+  background-color: #31e51f;
+}
+
+#debounce .progress-bar {
+  background-color: #9c5858;
+  width: 0;
+  height: 100%;
+}
+</style>
+
+<script type="module">
+import { $ } from '/assets/js/utils/render.js';
+import { debounce, throttle } from '/assets/js/utils/performance.js';
+import ColorAddon from '/assets/js/utils/ColorAddon.js';
+import Animation from '/assets/js/utils/Animation.js';
+
+const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
+
+const timerSeconds = 3;
+const colorRed = '#9c5858';
+const colorGreen = '#31e51f';
+
+// throttle
+const throttleContainer = $('#throttle');
+const throttelProgess = $('#throttle .progress-bar');
+const throttelScreen = $('.screen-throttle');
+const throttleAnimation = new Animation(throttelProgess, { ColorAddon });
+
+const addThrottleNumber = () =>
+  (throttelScreen.textContent = parseInt(throttelScreen.textContent) + 1);
+const throtteldAddNumber = throttle(addThrottleNumber, timerSeconds * 1000);
+const throttleReset = () => {
+  throttelProgess.style.width = '100%';
+  throttelProgess.style.backgroundColor = colorGreen;
+};
+const throttleClick = async () => {
+  throtteldAddNumber();
+  await throttleAnimation
+    .from({
+      width: '100%',
+    })
+    .to({
+      width: '0%',
+      backgroundColor: colorRed,
+    })
+    .run(timerSeconds);
+  throttleReset();
+};
+
+throttleContainer.addEventListener('click', throttleClick);
+
+
+// debounce
+const debounceContainer = $('#debounce');
+const debounceProgess = $('#debounce .progress-bar');
+const debounceScreen = $('.screen-debounce');
+
+const addDebounceNumber = () =>
+  (debounceScreen.textContent = parseInt(debounceScreen.textContent) + 1);
+const debouncedAddNumber = debounce(addDebounceNumber, timerSeconds * 1000);
+const debounceReset = () => {
+  debounceProgess.style.width = '0%';
+  debounceProgess.style.backgroundColor = colorRed;
+};
+const debounceClick = async () => {
+  debouncedAddNumber();
+  const debounceAnimation = new Animation(debounceProgess, { ColorAddon });
+  debounceContainer.addEventListener(
+    'click',
+    () => {
+      debounceAnimation.stop();
+      debounceReset();
+    },
+    { once: true }
+  );
+
+  await debounceAnimation
+    .from({
+      width: '0%',
+    })
+    .to({
+      width: '100%',
+      backgroundColor: colorGreen,
+    })
+    .run(timerSeconds);
+
+  debounceReset();
+};
+debounceContainer.addEventListener('click', debounceClick);
+</script>
