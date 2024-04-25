@@ -235,8 +235,8 @@ inputEl.addEventListener("keydown", (event) => {
 pagePush(1); // initial page
 ```
 
-위에 사용된 `$`는 jQuery 가 아니고 `querySelectorAll`, `querySelector`를 하나로 합친 함수고, `render`는 첫 번째 
-호출의 입력값은 element 를, 두 번째 호출의 입력값은 html 문자열 또는 html 문자열 배열을 받는 함수다.
+위에 사용된 `$`는 jQuery 가 아니고 `querySelectorAll`, `querySelector`를 하나로 합쳐 만든 함수로
+[render.js](/assets/js/utils/render.js) 에서 확인할 수 있다.
 
 <p class="codepen" data-height="300" data-default-tab="html,result" data-slug-hash="abxPjRP" data-user="sbpark88" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
   <span>See the Pen <a href="https://codepen.io/sbpark88/pen/abxPjRP">

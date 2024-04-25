@@ -106,8 +106,482 @@ Macrotask Queue 라 Microtask Queue 등 다른 작업이 스택에 끼어들 경
 
 그렇기 때문에 이 두 방식은 더 뛰어난 애니메이션을 제공할 수 있는 것이다.
 
+#### 1. CSS - animation
+
+__1 ) Animation Properties__
+
+CSS 의 `animation`이 제공하는 properties 는 다음과 같다.
+
+- `animation-name`: `@keyframes` 이름을 지정하며 <span style="color: red;">필수값</span>이다.
+- `animation-duration`: ms, s 단위로 지정하며 <span style="color: red;">필수값</span>이다.
+- `animation-timing-function`: 애니메이션 타이밍 함수를 지정한다. 기본값은 `ease`다.
+- `animation-delay`: ms, s 단위로 애니메이션 시작 딜레이를 지정한다.
+- `animation-iteration-count`: 기본값은 `1`이며 `infinite`을 주면 무한 재생이 가능하다.
+- `animation-direction`: 기본값은 `normal`이며, `reverse`는 역방향, `alternate`는 정방향 바운스, 
+                         `alternate-reverse`는 역방향 바운스를 지정한다.
+- `animation-fill-mode`: 애니메이션 적용 행동값으로 기본값은 `normal`이다.  
+                        - normal: 대기 -> 시작 -> 종료 -> 대기  
+                        - forwards: 대기 -> 시작 -> 종료  
+                        - backwards: 시작 -> 종료 -> 대기  
+                        - both: 시작 -> 종료
+- `animation-play-state`: 기본값은 `running`이며 `paused`를 주어 <span style="color: red;">일시정지</span>
+                         시킬 수 있다.
+
+참고로 setInterval 은 `clearInterval` 로 반복을 중단할 수 있듯이 requestAnimationFrame 은 `cancelAnimationFrame`
+로 애니메이션 중단이 가능다. 하지만 이것은 반복을 중단시키는 것일 뿐 <span style="color: red;">재개할 수 있는 기능은 존재하지 
+않는다</span>. 따라서 재개를 위해서는 다시 시작할 떼 남은 시간과 변화량만 애니메이션을 진행하도록 계산을 직접 해주어야한다. 
+반면 animation 의 `animation-play-state`는 값을 바꾸는 것 만으로 일시정지 및 재개를 할 수 있다.
+
+그리고 위 properties 단축 속성으로 `animation`을 사용하면 모든 설정값을 한 번에 지정할 수 있다.
+
+```css
+animation: name duration timing-function delay iteration-count direction fill-mode play-state;
+```
+
+<br>
+
+__2 ) @keyframes__
+
+위 properties 는 애니메이션 적용 스타일을 지정하는 부분은 존재하지 않는다. 즉, 애니메이션 설정값을 지정하는 옵션으로, 실제 스타일은 
+`@keyframes`를 사용해 지정한다. 따라서 `animation`은 반드시 `@keyframes`를 작성해야함을 의미하는 것이다.
+
+`@keyframes`에서 사용할 수 있는 properties 는 다음과 같다.
+
+- `from`: 시작 스타일을 지정.
+- `to`: 종료 스타일을 지정.
+
+참고로 여기서 시작과 종료는 애니메이션이 실행되는 시점에 시작과 종료를 의미한다. 애니메이션이 시작되기 전 **대기** 상태를 의미하는 
+것이 아님에 유의하도록 한다.
+
+- `%`: `from`, `to`는 0% 와 100% 를 사용한 것과 같다. 만약 더 다양한 구간으로 나누고 싶다면 `%`를 사용해 여러 단계별 
+       애니메이션 지정이 가능하다.
 
 
+#### 2. JavaScript - requestAnimationFrame
+
+```javascript
+const element = document.getElementById("some-element-you-want-to-animate");
+let start, previousTimeStamp;
+let done = false;
+
+function step(timeStamp) {
+  if (start === undefined) {
+    start = timeStamp;
+  }
+  const elapsed = timeStamp - start;
+
+  if (previousTimeStamp !== timeStamp) {
+    // Math.min() is used here to make sure the element stops at exactly 200px
+    const count = Math.min(0.1 * elapsed, 200);
+    element.style.transform = `translateX(${count}px)`;
+    if (count === 200) done = true;
+  }
+
+  if (elapsed < 2000) {
+    // Stop the animation after 2 seconds
+    previousTimeStamp = timeStamp;
+    if (!done) {
+      window.requestAnimationFrame(step);
+    }
+  }
+}
+
+window.requestAnimationFrame(step);
+```
+
+CSS `animation`는 상관 없지만 JavaScript `requestAnimationFrame`은 애니메이션을 위해 JavaScript 콜백 함수를 
+작성해야한다. 그리고 이 콜백함수가 <span style="color: red;">16.6ms 를 초과하는 무거운 함수일 경우 프레임 손실</span>이 
+발생할 수 있음에 유의해야한다.
+
+참고로 setInterval 은 `clearInterval` 로 반복을 중단할 수 있듯이 requestAnimationFrame 은 `cancelAnimationFrame` 
+로 애니메이션 중단이 가능하다.
+
+<span style="color: red;">Timing Function</span> 을 적용해야 할 경우 CSS 의 `animation`을 사용하거나,
+JavaScript 를 사용할 경우 `GSAP`, `Framer-motion`과 같은 라이브러리를 사용해야하지만 linear 한 기본적인 애니메이션은 
+별도의 라이브러리 설치 없이 `requestAnimationFrame`을 직접 구현해 가볍게 사용할 수 있다는 것이 가장 큰 장점이다.
+
+그리고 위 코드를 보면 콜백함수가 디스플레이 주파수만큼 실행되기 때문에 얼핏 보면 너무 많은 스택이 쌓여 `Stack Overflow`가 
+발생할 것 같지만 안전하다는 것이다! `requestAnimationFrame`에 사용되는 콜백함수는 컴파일러에 의한 꼬리 재귀(Tail Recursion) 
+최적화와 마찬가지로 브라우저가 디스플레이 주사율과 동기화 되어 반복문을 수행하듯이 작동하기 때문에 과도한 콜백 함수로 인한 
+`Stack Overflow` 문제를 일으키지 않는다. 
+
+---
+
+### 4. Examples - Progress Bar 👩‍💻
+
+<style>
+.container {
+  width: 100%;
+  height: 20px;
+  background-color: #fed;
+  margin-bottom: 20px;
+}
+
+.progress {
+  height: 100%;
+  width: 0;
+  background-color: #31e51f;
+}
+
+.controller button {
+  padding: 5px 15px;
+  margin: 12px 5px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  background-color: #ffe4c4;
+  font-weight: 700;
+}
+</style>
+
+#### 1. setInterval
+
+```javascript
+import { $ } from '/assets/js/utils/render.js';
+import { delay } from '/assets/js/utils/fp.js';
+
+
+const HERTZ = 60;
+const TWO_SECONDS = 2;
+const FRAME_INTERVAL = 1000 / HERTZ; // 16.6ms
+
+const progress = $('.progress');
+
+let runner;
+
+const start = () => {
+  const changeQuantity = 100;
+  const totalFrames = HERTZ * TWO_SECONDS;
+  const oneFrameChangeQuantity = changeQuantity / totalFrames;
+  let frame = 0;
+
+  runner = setInterval(() => {
+    progress.style.width = `${oneFrameChangeQuantity * ++frame}%`;
+    if (frame === totalFrames) stop();
+  }, FRAME_INTERVAL);
+};
+const stop = () => {
+  clearInterval(runner);
+  attachStartEvent();
+};
+const task = async (event) => {
+  event.target.style.backgroundColor = '#a9a9a9';
+  let sum = 0;
+  await delay(10);
+  while (true) {
+    sum += 1;
+    if (sum > 3_000_000_000) break;
+  }
+  event.target.style.backgroundColor = '#ffe4c4';
+};
+
+const attachStartEvent = () => {
+  $('#start').addEventListener('click', start, { once: true });
+};
+attachStartEvent();
+$('#stop').addEventListener('click', stop);
+$('#task').addEventListener('click', task);
+```
+
+위에 사용된 `$`는 jQuery 가 아니고 `querySelectorAll`, `querySelector`를 하나로 합쳐 만든 함수로
+[render.js](/assets/js/utils/render.js) 에서 확인할 수 있다.
+
+<div class="controller controller-4-1">
+  <button type="button" id="start">실행</button>
+  <button type="button" id="stop">중단</button>
+  <button type="button" id="task">무거운 작업</button>
+</div>
+
+<div class="container">
+  <div class="progress progress-4-1"></div>
+</div>
+
+<script type="module">
+import { $ } from '/assets/js/utils/render.js';
+import { delay } from '/assets/js/utils/fp.js';
+
+const HERTZ = 60;
+const TWO_SECONDS = 2;
+const FRAME_INTERVAL = 1000 / HERTZ; // 16.6ms
+
+const progress = $('.progress-4-1');
+
+let runner;
+
+const start = () => {
+  const changeQuantity = 100;
+  const totalFrames = HERTZ * TWO_SECONDS;
+  const oneFrameChangeQuantity = changeQuantity / totalFrames;
+  let frame = 0;
+
+  runner = setInterval(() => {
+    progress.style.width = `${oneFrameChangeQuantity * ++frame}%`;
+    if (frame === totalFrames) stop();
+  }, FRAME_INTERVAL);
+};
+const stop = () => {
+  clearInterval(runner);
+  attachStartEvent();
+};
+const task = async (event) => {
+  event.target.style.backgroundColor = '#a9a9a9';
+  let sum = 0;
+  await delay(10);
+  while (true) {
+    sum += 1;
+    if (sum > 3_000_000_000) break;
+  }
+  event.target.style.backgroundColor = '#ffe4c4';
+};
+
+const attachStartEvent = () => {
+  $('.controller-4-1 #start').addEventListener('click', start, { once: true });
+};
+attachStartEvent();
+$('.controller-4-1 #stop').addEventListener('click', stop);
+$('.controller-4-1 #task').addEventListener('click', task);
+</script>
+
+'실행'을 눌러보면 막대기가 한 번씩 프레임이 어긋나 부드럽지 않게 올라가는 것을 볼 수 있다. 또한 막대기가 증가하는 도중 
+'무거운 작업'을 누르면 일시정지 되었다 무거운 작업이 종료되고 스택이 비게 되면 다시 나머지 애니메이션이 진행된다.
+
+#### 2. animation
+
+```css
+.progress {
+  height: 100%;
+  width: 0;
+  background-color: #31e51f;
+
+  animation-name: makeFull;
+  animation-duration: 2s;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+  animation-play-state: paused;
+}
+
+@keyframes makeFull {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+```
+
+<div class="controller controller-4-2">
+  <button type="button" id="start">실행</button>
+  <button type="button" id="stop">중단</button>
+  <button type="button" id="task">무거운 작업</button>
+</div>
+
+<div style="display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0 20px;">
+  <fieldset class="timing-function" style="width: 155px">
+    <legend style="color: #fff; background-color: #555; font-weight: 700; padding: 3px 20px;">
+      timing-function
+    </legend>
+    <div>
+      <input type="radio" name="timing-function" id="ease" value="ease" checked />
+      <label for="ease">ease</label>
+    </div>
+    <div>
+      <input type="radio" name="timing-function" id="linear" value="linear" />
+      <label for="linear">linear</label>
+    </div>
+  </fieldset>
+  <fieldset class="direction" style="width: 245px">
+    <legend style="color: #fff; background-color: #555; font-weight: 700; padding: 3px 20px;">
+      direction
+    </legend>
+    <div>
+      <input type="radio" name="direction" id="normal" value="normal" checked />
+      <label for="normal">normal</label>
+    </div>
+    <div>
+      <input type="radio" name="direction" id="reverse" value="reverse" />
+      <label for="reverse">reverse</label>
+    </div>
+    <div>
+      <input type="radio" name="direction" id="alternate" value="alternate" />
+      <label for="alternate">alternate</label>
+    </div>
+  </fieldset>
+</div>
+
+<div class="container">
+  <div class="progress progress-4-2"></div>
+</div>
+
+<style>
+.progress-4-2 {
+  height: 100%;
+  width: 0;
+  background-color: #31e51f;
+
+  animation-name: makeFull;
+  animation-duration: 2s;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+  animation-play-state: paused;
+}
+
+@keyframes makeFull {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+</style>
+
+<script type="module">
+import { $ } from '/assets/js/utils/render.js';
+import { delay } from '/assets/js/utils/fp.js';
+
+const progress = $('.progress-4-2');
+
+const start = () => {
+  progress.style.animationPlayState = 'running';
+};
+const stop = () => {
+  progress.style.animationPlayState = 'paused';
+  attachStartEvent();
+};
+const task = async (event) => {
+  event.target.style.backgroundColor = '#a9a9a9';
+  let sum = 0;
+  await delay(10);
+  while (true) {
+    sum += 1;
+    if (sum > 3_000_000_000) break;
+  }
+  event.target.style.backgroundColor = '#ffe4c4';
+};
+
+const attachStartEvent = () => {
+  $('.controller-4-2 #start').addEventListener('click', start, { once: true });
+};
+attachStartEvent();
+$('.controller-4-2 #stop').addEventListener('click', stop);
+$('.controller-4-2 #task').addEventListener('click', task);
+$('.timing-function').addEventListener('input', (event) => {
+  progress.style.animationTimingFunction = event.target.value;
+});
+$('.direction').addEventListener('input', (event) => {
+  progress.style.animationDirection = event.target.value;
+});
+</script>
+
+우선 가장 눈에 띄는 것은 프레임 손실 없이 매우 부드러운 애니메이션이 적용된다는 것이다. '중단'을 눌렀다 '실행'을 눌러보면 애니메이션이 
+<span style="color: red;">일시정지</span> 되었다 <span style="color: red;">재개</span>되는 것을 볼 수 있다.
+
+그리고 '무거운 작업'을 누르면 애니메이션이 정지된다. 브라우저의 리렌더링(Reflow, Repaint)이 메인스레드에서 정지되기 때문이다. 
+하지만 위 setInterval 과는 중요한 차이점이 있는데, <span style="color: red;">브라우저의 리렌더링만 정지될 뿐 CSS 
+애니메이션은 중단되지 않는다</span>는 것이다.  
+그렇기 때문에 무거운 작업이 종료되고 리렌더링이 될 때 CSS 애니메이션은 독립적으로 처리하던 프레임에서 리렌더링이 시작된다.
+
+즉, <span style="color: red;">시각적으로 리렌더링은 되지 않지만 애니메이션 프레임 자체는 JavaScript 에 전혀 
+영향을 받지 않는다</span>.
+
+#### 3. requestAnimationFrame
+
+```javascript
+import { $ } from '/assets/js/utils/render.js';
+import { delay } from '/assets/js/utils/fp.js';
+import Animation from '/assets/js/utils/Animation.js';
+
+const TWO_SECONDS = 2;
+
+const animation = new Animation($('.progress'));
+
+const start = async () => {
+  await animation.from({ width: '0%' }).to({ width: '100%' }).run(TWO_SECONDS);
+  attachStartEvent();
+};
+const stop = () => {
+  animation.stop();
+  attachStartEvent();
+};
+const task = async (event) => {
+  event.target.style.backgroundColor = '#a9a9a9';
+  let sum = 0;
+  await delay(10);
+  while (true) {
+    sum += 1;
+    if (sum > 3_000_000_000) break;
+  }
+  event.target.style.backgroundColor = '#ffe4c4';
+};
+
+const attachStartEvent = () => {
+  $('#start').addEventListener('click', start, { once: true });
+};
+attachStartEvent();
+$('#stop').addEventListener('click', stop);
+$('#task').addEventListener('click', task);
+```
+
+<div class="controller controller-4-3">
+  <button type="button" id="start">실행</button>
+  <button type="button" id="stop">중단</button>
+  <button type="button" id="task">무거운 작업</button>
+</div>
+
+<div class="container">
+  <div class="progress progress-4-3"></div>
+</div>
+
+<script type="module">
+import { $ } from '/assets/js/utils/render.js';
+import { delay } from '/assets/js/utils/fp.js';
+import Animation from '/assets/js/utils/Animation.js';
+
+const TWO_SECONDS = 2;
+
+const animation = new Animation($('.progress-4-3'));
+
+const start = async () => {
+  await animation.from({ width: '0%' }).to({ width: '100%' }).run(TWO_SECONDS);
+  attachStartEvent();
+};
+const stop = () => {
+  animation.stop();
+  attachStartEvent();
+};
+const task = async (event) => {
+  event.target.style.backgroundColor = '#a9a9a9';
+  let sum = 0;
+  await delay(10);
+  while (true) {
+    sum += 1;
+    if (sum > 3_000_000_000) break;
+  }
+  event.target.style.backgroundColor = '#ffe4c4';
+};
+
+const attachStartEvent = () => {
+  $('.controller-4-3 #start').addEventListener('click', start, { once: true });
+};
+attachStartEvent();
+$('.controller-4-3 #stop').addEventListener('click', stop);
+$('.controller-4-3 #task').addEventListener('click', task);
+</script>
+
+`animation`과 마찬가로 프레임 손실 없이 매우 부드러운 애니메이션이 적용되는 것을 확인할 수 있다.
+
+그리고 '무거운 작업'을 눌러보면 [animation](#h-2-animation) 과 마찬가지로 <span style="color: red;">브라우저의 
+리렌더링만 정지될 뿐 CSS 애니메이션은 중단되지 않는다</span>는 것을 알 수 있다. 애니메이션이 진행되는 도중 다른 무거운 작업이 
+메인스레드를 차지해 리렌더링 자체가 멈추는 것은 막을 수 없지만 애니메이션 자체는 정확한 애니메이션 실행을 보장받을 수 있음을 
+의미한다.
+
+단, 주의해야 할 것은 앞에서도 말했듯이 `requestAnimationFrame`의 콜백 함수가 16.6ms 를 초과해 돌아가면 안 된다. 
+애니메이션 실행은 보장할 수 있지만 디스플레이 주사율에 리렌더링을 할 수 없어 일부 프레임이 손실되며 그려지기 때문이다.
 
 
 
@@ -118,7 +592,5 @@ Macrotask Queue 라 Microtask Queue 등 다른 작업이 스택에 끼어들 경
 Reference
 
 1. "Window: requestAnimationFrame() method." MDN Web Docs. Jan. 19, 2024, accessed Apr. 24, 2024, [MDN - rAF].
-
-포스팅 목록 메인 이미지 출처 <a href="https://kr.freepik.com/free-vector/hand-drawn-animation-frames-element-collection_33591464.htm#query=animation%20frames&position=0&from_view=keyword&track=ais&uuid=3bfc2ea5-e05a-4656-8ea9-9a469c1424ad">Freepik</a>
 
 [MDN - rAF]:https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
