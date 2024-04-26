@@ -6,14 +6,6 @@
  * @returns {Function}
  */
 export const pipe = (...fns) => (initValue) =>
-    fns.reduce(async (acc, fn) => fn(await acc), initValue);
-
-/**
- * Pipe function make functions stream.
- * @param {Function} fns
- * @returns {Function}
- */
-export const pipe = (...fns) => (initValue) =>
     fns.reduce((acc, fn) => (acc instanceof Promise ? acc.then(fn) : fn(acc)), initValue,);
 
 /**
@@ -32,3 +24,11 @@ export const curry = (fn) => {
     }
   };
 };
+
+/**
+ * Insert delay in async function
+ * @param {number} milliseconds
+ * @returns {Promise<null>}
+ */
+export const delay = (milliseconds) =>
+    new Promise((resolve) => setTimeout(resolve, milliseconds));

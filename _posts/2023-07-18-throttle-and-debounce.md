@@ -304,8 +304,6 @@ import { debounce, throttle } from '/assets/js/utils/performance.js';
 import ColorAddon from '/assets/js/utils/ColorAddon.js';
 import Animation from '/assets/js/utils/Animation.js';
 
-const delay = (time) => new Promise((resolve) => setTimeout(resolve, time));
-
 const timerSeconds = 3;
 const colorRed = '#9c5858';
 const colorGreen = '#31e51f';

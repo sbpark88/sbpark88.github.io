@@ -64,7 +64,7 @@ export default class Animation {
     self.#run = true;
 
     const properties = Object.keys(self.#to);
-    self.#ommitedAddonCheck(properties);
+    self.#omitedAddonCheck(properties);
     const from = self.#mergeComputedAndFrom.bind(self, properties)();
     const to = self.#to;
 
@@ -114,9 +114,10 @@ export default class Animation {
 
   stop() {
     cancelAnimationFrame(this.#reqId);
+    this.#run = false;
   }
 
-  #ommitedAddonCheck(properties) {
+  #omitedAddonCheck(properties) {
     const colorAddonCheck = (properties) => {
       const hasColorProperty =
           properties.find(this.#isColorProperty) !== undefined;
