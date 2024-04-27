@@ -629,15 +629,15 @@ print(department as Any)   // nil
 
 ```swift
 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-    printCourse("intro", intro!)
+    printCourse("intro", intro!)    // error
 }
 ```
 
-```console
+```swift
 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
     print("1")
     print(intro!.name)
-    print(intro!.department)
+    print(intro!.department)    // error
     print("2")
 }
 ```
