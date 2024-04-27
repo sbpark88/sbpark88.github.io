@@ -90,7 +90,7 @@ setInterval 이 정확히 주기마다 실행된다면 아무런 문제 없이 �
 
 우선 첫 번째 문제는 모든 디스플레이가 60Hz 를 사용하지 않는다. 사용자가 임의로 주사율을 변경했을 수도 있고, 50Hz 라던가 75Hz, 그 외 
 고주사율로 90Hz, 120Hz, 144Hz 와 같이 디스플레이마다 다양한 주사율을 갖는다. 두 번째 문제는 `setInterval`이
-Macrotask Queue 라 Microtask Queue 등 다른 작업이 스택에 끼어들 경우 디스플레이 주사율과 setInterval 의 주기가 달라진다는 것이다.
+[Macrotask Queue] 라 [Microtask Queue] 등 다른 작업이 스택에 끼어들 경우 디스플레이 주사율과 setInterval 의 주기가 달라진다는 것이다.
 
 ---
 
@@ -933,3 +933,5 @@ Reference
 1. "Window: requestAnimationFrame() method." MDN Web Docs. Jan. 19, 2024, accessed Apr. 24, 2024, [MDN - rAF].
 
 [MDN - rAF]:https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
+[Macrotask Queue]:/javascript/2024/04/27/task-queue.html#h-2-macrotask-queue
+[Microtask Queue]:/javascript/2024/04/27/task-queue.html#h-3-microtask-queue
