@@ -2,7 +2,7 @@
 layout: post
 title: Microtask Queue
 subtitle: Do not use setInterval for animation!
-excerpt_image: /assets/images/posts/2024-04-24-request-animation-frame/excerpt-image.gif
+excerpt_image: /assets/images/posts/2024-04-27-task-queue/excerpt-image.png
 categories: [javascript]
 tags: [macro task queue, micro task queue]
 ---
@@ -15,7 +15,7 @@ tags: [macro task queue, micro task queue]
 하지만 JavaScript 의 이벤트 루프는 조금 다르다. 비동기를 효율적으로 처리하기 위함은 맞지만, 가장 결정적인 이유는 싱글스레드 
 환경으로 인한 코드 블로킹을 막기 위해 반드시 필요하다. JavaScript 에서는 이벤트 루프가 없으면 코드의 실행이 멈춰버린다! 
 
-![Event Loop](/assets/images/posts/2024-04-27-task-queue/excerpt-image.png)
+![Event Loop](/assets/images/posts/2024-04-27-task-queue/event-loop.png)
 
 그리고 이 이벤트 루프에서 비동기 이벤트를 보관하는 Task Queue 는 우선순위에 따라 Macrotask Queue 와 Microtask Queue 로 
 나뉜다.
