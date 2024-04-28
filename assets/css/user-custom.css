@@ -1,3 +1,20 @@
+/*
+@mixin media-query($device) {
+  @media screen and (max-width: $device) {
+    @content;
+  }
+}
+
+max-width:
+~800px: 모바일
+~1024px: 태블릿
+*/
+
+@media screen and (max-width: 1024px) {
+  body {
+    overscroll-behavior: none;
+  }
+}
 .post .post-content h2 { color: mediumseagreen; }
 .post .post-content h3 { color: orange; }
 .post .post-content h4 { color: rgba(166, 42, 254, 1); }
