@@ -1,0 +1,38 @@
+<search class="search-container">
+  <input type="text" class="search-container-input" placeholder="Search blog posts..">
+  <section class="search-container-result">
+    <ul></ul>
+  </section>
+</search>
+<i id="open-search" class="fa fa-search" aria-hidden="true" style="font-size: 20px"></i>
+
+<script src="https://unpkg.com/simple-jekyll-search@latest/dest/simple-jekyll-search.min.js"></script>
+<script type="module">
+  import { delay } from '/assets/js/utils/fp.js';
+
+  const sjs = SimpleJekyllSearch({
+    searchInput: document.querySelector('.search-container-input'),
+    resultsContainer: document.querySelector('.search-container-result ul'),
+    json: '/search.json',
+    searchResultTemplate: '<li><a href="{{ site.url }}{url}">{title}</a></li>',
+    limit: 20
+  })
+  const {openSearch, closeSearch} = {
+    openSearch: async () => {
+      document.querySelector('.search-container').classList.add('searching')
+      await delay(500);
+      document.querySelector('.search-container-input').focus()
+    },
+    closeSearch: () => {
+      document.querySelector('.search-container').classList.remove('searching');
+      document.querySelector('.search-container-input').value = '';
+    }
+  }
+  document.getElementById('open-search').addEventListener('click', openSearch);
+  document.body.addEventListener('click', event => {
+    const isSearchContainer = event.target.closest('search.search-container');
+    const isOpenSearchIcon = event.target === document.getElementById('open-search');
+    if (!(isOpenSearchIcon || isSearchContainer)) closeSearch();
+  });
+  document.addEventListener('keydown', event => event.key === 'Escape' && closeSearch());
+</script>
