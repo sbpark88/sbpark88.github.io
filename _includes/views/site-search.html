@@ -9,30 +9,105 @@
 <script src="https://unpkg.com/simple-jekyll-search@latest/dest/simple-jekyll-search.min.js"></script>
 <script type="module">
   import { delay } from '/assets/js/utils/fp.js';
+  import { observerMutations, mutationConfig } from "/assets/js/utils/observer.js";
+
+  let shiftPressed = false;
+  let result = [];
+  let controller;
+
+  const searchIconEl = document.getElementById('open-search');
+  const searchContainerEl = document.querySelector('.search-container');
+  const searchInputEl = searchContainerEl.querySelector('input')
+  const resultsContainerEl = document.querySelector('.search-container-result ul')
 
   const sjs = SimpleJekyllSearch({
-    searchInput: document.querySelector('.search-container-input'),
-    resultsContainer: document.querySelector('.search-container-result ul'),
+    searchInput: searchInputEl,
+    resultsContainer: resultsContainerEl,
     json: '/search.json',
     searchResultTemplate: '<li><a href="{{ site.url }}{url}">{title}</a></li>',
-    limit: 20
+    limit: 20,
   })
+
+  const isResultEmpty = () => result.length === 0;
+  const getCurrentSelected = () => result.find(el => el.classList.contains('search-container-selected'));
+  const arrowDownHandler = event => {
+    event.preventDefault();
+    const currentSelected = getCurrentSelected();
+    if (isResultEmpty()) return;
+    if (currentSelected === undefined) return result[0].classList.add('search-container-selected');
+    if (currentSelected.nextElementSibling === null) return;
+    currentSelected.classList.remove('search-container-selected');
+    currentSelected.nextElementSibling.classList.add('search-container-selected');
+  };
+  const arrowUpHandler = event => {
+    event.preventDefault();
+    if (isResultEmpty()) return;
+    const currentSelected = getCurrentSelected();
+    if ((currentSelected === undefined) || (currentSelected.previousElementSibling === null)) return;
+    currentSelected.classList.remove('search-container-selected');
+    currentSelected.previousElementSibling.classList.add('search-container-selected');
+  }
+  const enterHandler = event => {
+    event.preventDefault();
+    const currentSelected = getCurrentSelected();
+    if (currentSelected === undefined) return;
+    currentSelected.querySelector('a')?.click()
+  }
+  const searchContainerKeydownHandler = {
+    'ArrowUp': arrowUpHandler,
+    'ArrowDown': arrowDownHandler,
+    'Enter': enterHandler
+  };
+
   const {openSearch, closeSearch} = {
     openSearch: async () => {
-      document.querySelector('.search-container').classList.add('searching')
+      searchContainerEl.classList.add('searching')
       await delay(500);
-      document.querySelector('.search-container-input').focus()
+      searchInputEl.focus()
+      if (controller?.signal.aborted === false) return;
+      controller = new AbortController()
+      document.addEventListener('keydown', event => {
+        searchContainerKeydownHandler[event.key] && searchContainerKeydownHandler[event.key](event)
+      }, { signal: controller.signal })
     },
     closeSearch: () => {
-      document.querySelector('.search-container').classList.remove('searching');
-      document.querySelector('.search-container-input').value = '';
+      searchContainerEl.classList.remove('searching');
+      searchInputEl.value = '';
+      searchInputEl.dispatchEvent(new Event('input'))
+      controller.abort()
     }
   }
-  document.getElementById('open-search').addEventListener('click', openSearch);
-  document.body.addEventListener('click', event => {
-    const isSearchContainer = event.target.closest('search.search-container');
-    const isOpenSearchIcon = event.target === document.getElementById('open-search');
-    if (!(isOpenSearchIcon || isSearchContainer)) closeSearch();
-  });
+
+  // 결과 정보 업데이트
+  const updateResult = mutationList => result = [...resultsContainerEl.children]
+  const observer = observerMutations(updateResult, 100)
+  observer.observe(resultsContainerEl, mutationConfig)
+
+  // double shift 검색 시작
+  document.addEventListener('keydown', async event => {
+    if (event.key !== 'Shift') {
+      shiftPressed = false;
+      return null;
+    }
+    if (shiftPressed) {
+      await openSearch()
+      shiftPressed = false;
+    } else {
+      shiftPressed = true;
+      await delay(500)
+      shiftPressed = false;
+    }
+  })
+  // 돋보기 클릭시 검색 시작 및 body 클릭시 검색 종료
+  document.addEventListener('click', event => {
+    const searchIconClicked = event.target === searchIconEl;
+    if(searchIconClicked) return openSearch()
+
+    const isSearchingNow = searchContainerEl.classList.contains('searching')
+    const insideSearchContainer = event.target.closest('search.search-container');
+    if(!isSearchingNow || insideSearchContainer) return;
+    closeSearch()
+  })
+  // ESC 입력시 검색 종료
   document.addEventListener('keydown', event => event.key === 'Escape' && closeSearch());
 </script>

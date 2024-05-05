@@ -40,8 +40,8 @@ const observerUpward = createIObserver(upwardCallback);
 /* Mutation Observer */
 const createMObserver = (callback) => new MutationObserver(callback);
 
-const observerMutations = (callback) => {
-  const debouncedCallback = debounce(callback);
+const observerMutations = (callback, delay) => {
+  const debouncedCallback = debounce(callback, delay);
 
   return createMObserver((mutations) => {
     mutations.forEach((mutation) => {
