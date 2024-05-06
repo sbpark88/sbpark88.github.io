@@ -1406,6 +1406,17 @@ console.log(
 > `Iterable` 타입을 정의하기 위한 것이라 보면 된다. 마찬가지로 **Index Signatures** 가 **string** 이라는
 > 것은 `bar['baz']`와 같이 사용하기 위한 것으로 **Object** 와 같은 `Key-Value` 타입을 정의하기 위한 것이라 보면 된다.
 
+만약 JavaScript 의 Object, Java 의 Map, Swift 의 Dictionary 에 `[String: Any]`와 같은 방식으로 모든 데이터를 
+저장할 수 있는 `Key-Value` Types 로 사용하고자 한다면 `unknown`을 사용해 모든 타입을 Dynamic 으로 받을 수 있다.
+
+```typescript
+interface VolunteerRecruit {
+  [index: string]: unknown;
+  volunteers: number;
+  programName: string;
+}
+```
+
 <br>
 
 __Symbol Index Signatures__
