@@ -1,13 +1,13 @@
 ---
 layout: post
 title: TypeScript Essentials
-subtitle:
-excerpt_image: NO_EXCERPT_IMAGE
+subtitle: Short book about the TypeScript and tsconfig.json
+excerpt_image: /assets/images/posts/2023-12-21-typescript-essentials/excerpt_image.png
 categories: [typescript, javascript]
-tags: [typescript]
+tags: [typescript, tsconfig.json]
 ---
 
-### 1. TSC Transpiler 👩‍💻
+## 1. TSC Transpiler 👩‍💻
 
 *JavaScript* 는 *Interpreter Language* 이다. 그리고 이것을 확장한 *TypeScript* 는 웹 브라우저가
 *JavaScript* 만 이해할 수 있기 때문에 변환을 해야하는데 이 과정을 *Transpile* 이라 한다.
@@ -48,9 +48,9 @@ npx tsc
 
 ---
 
-### 2. Basic Types 👩‍💻
+## 2. Basic Types 👩‍💻
 
-#### 1. Types
+### 1. Types
 
 __ECMAScript Types__
 
@@ -68,7 +68,7 @@ __TypeScript Types__
 - Enum
 - Tuple (실제로는 Object)
 
-#### 2. Primitive Types
+### 2. Primitive Types
 
 *Object* 와 *Reference* 형태가 아닌 `실제 값`을 저장하는 자료형을 말한다.
 
@@ -112,7 +112,7 @@ undefined
 > 다른 언어에서 String 과 같은 타입을 나타낼 때 대문자로 표현하는 것과 달리 TypeScript 는 Object Types 와
 > 구분하기 위해 **Primitive Types** 를 모두 `Lower-case`로 표현한다.
 
-#### 3. boolean
+### 3. boolean
 
 ```typescript
 let isDone: boolean = false;
@@ -121,7 +121,7 @@ isDone = true;
 console.log(typeof isDone); // 'boolean'
 ```
 
-#### 4. number
+### 4. number
 
 *JavaScript* 와 마찬가지로 *TypeScript* 의 모든 숫자는 부동 소수점(Floating Point) 값이다.
 
@@ -135,7 +135,7 @@ let notANumber: number = NaN;
 let underscoreNum: number = 1_000_000;
 ```
 
-#### 5. string
+### 5. string
 
 *JavaScript* 와 마찬가지로 *Template String* 을 지원한다.
 
@@ -156,7 +156,7 @@ Hello, My name is Harry Potter.
 I'll be 18 years old next month.
 ```
 
-#### 6. symbol
+### 6. symbol
 
 - ECMAScript2015 의 Symbol 로 `new Symbol`로 사용할 수 없다. Symbol 을 함수로 사용해서
   `symbol` Type 을 만들어 낼 수 있다.
@@ -178,7 +178,7 @@ const obj = {
 console.log(obj[sym]);
 ```
 
-#### 7. null & undefined
+### 7. null & undefined
 
 `tsconfig` 설정을 하지 않으면 `null`과 `undefined`는 다른 모든 타입의 `subtypes`로 존재한다.
 
@@ -232,7 +232,7 @@ console.log(u);  // undefined
 console.log(typeof u); // undefined
 ```
 
-#### 8. object
+### 8. object
 
 *TypeScript* 의 `object`는 우리가 *객체*라 부르는 것과는 조금 다르게 사용된다. *TypeScript* 에서 `object`는
 <span style="color: red;">**Primitive Types** 가 아닌 것</span>을 나타내고 싶을 때 사용하는 타입이다.
@@ -258,7 +258,7 @@ const person2 = Object.create({
 > 즉, `Object.create`는 Parameters 로 `object` 또는 `null`을 받을 수 있다. 또한 JavaScript 에서
 > Array 는 Object 의 일종이기 때문에 Array 역시 넣을 수 있다.
 
-#### 9. Array
+### 9. Array
 
 - 같은 타입의 *elements* 를 모아 놓은 자료형을 의미한다.
 - 다른 언어와 달리 `any`타입을 사용하지 않고도 `union`타입을 사용해 서로 다른 타입의 *elements* 를 모아
@@ -274,7 +274,7 @@ let list3: (number | string)[] = [1, '2', 3, '4', 5];
 let list4: Array<number | string> = [1, '2', 3, '4', 5];
 ```
 
-#### 10. Tuple
+### 10. Tuple
 
 JavaScript 에 `tuple`이 존재하지 않기 때문에 *Array* 를 사용해 구현한다.
 
@@ -285,7 +285,7 @@ let person2: Array<string | number> = ['Mark', 25];
 const [name, age] = ['Mark', 25];
 ```
 
-#### 11. any
+### 11. any
 
 - 타입이 정해지지 않아 불가능하다는 것이 아닌 어떤 타입이어도 상관 없는 타입으로 `any.toString()`같은 것을 해도
   에러로 인식하지 않는다.
@@ -349,7 +349,7 @@ something.indexOf('0');  // error, Property 'indexOf' does not exist on type 'nu
 `indexOf`를 가지고 있지 않기 때문에 컴파일러는 에러를 감지한다. 즉, `any` 누수를 막은 것이다. 하지만 이와 같은
 방식으로 `any` 누수를 막는 것은 좋은 방법이 아니다. *Type Guard* 를 사용해 `unknown`을 사용하는 것이 좋은 방법이다.
 
-#### 12. unknown
+### 12. unknown
 
 앱을 만들다 보면 동적 콘텐츠와 같이 의도적으로 모든 값을 수락하기를 원하거나 작성할 때 모르는 변수의 타입을 묘사해야 할 수도
 있다. 이 경우 `any`를 사용해 ***Any Leaking*** 위험을 감수하는 대신 *Compiler* 와 다른 사람에게 이를
@@ -404,7 +404,7 @@ func testAnyTypes(_ things: [Any]) {
 }
 ```
 
-#### 13. never
+### 13. never
 
 보통 `return`에 사용된다.
 
@@ -526,7 +526,7 @@ type ArrOfStrOrNum = ToArrayNonDist<string | number>;
 // type ArrOfStrOrNum = (string | number)[];
 ```
 
-#### 14. void
+### 14. void
 
 값을 반환하지 않는 함수의 `Return Type`으로 사용한다. 다른 언어와 문법적인 통일성을 위해 추가된 타입으로 *JavaScript* 에
 이미 존재하는 `undefined`라는 타입과 동일하다. 함수의 *Return Type 으로 사용되는 undefined* 정도로 보면 된다.
@@ -551,9 +551,9 @@ console.log(r); // undefined
 
 ---
 
-### 3. Type System 👩‍💻
+## 3. Type System 👩‍💻
 
-#### 1. Make TypeScript more Strictly
+### 1. Make TypeScript more Strictly
 
 *TypeScript* 는 직접 실행할 수 있는 언어가 아니고 최종적으로 *JavaScript* 로 변환되어야 하는 언어이기 때문에 갖는
 몇 가지 한계가 있다. 어떤 한계가 있는지, 그리고 어떻게 하면 이 문제를 *compile-error* 를 발생시켜 미리 예방할 수
@@ -602,7 +602,7 @@ function foo(a: number): number {
 }
 ```
 
-#### 2. Structural Type System & Nominal Type System
+### 2. Structural Type System & Nominal Type System
 
 - Structural Type System: 구조가 같으면 같은 타입.
 - Nominal Type System: 구조가 같아도 이름이 다르면 다른 타입.
@@ -654,7 +654,7 @@ getPersonById('id-327364');  // error TS2345
 
 위와 같은 방법으로 같은 형태지만 다른 고유한 타입으로 만들 수 있다.
 
-#### 3. Type Compatibility
+### 3. Type Compatibility
 
 ```typescript
 // sub1 타입은 sup1 타입의 `Sub-Type`이다.
@@ -701,7 +701,7 @@ tellMe((j: JuniorDeveloper): Developer => new Developer())  // Sub-Type 이 Supe
 > `strictFunctionTypes` 이 4개의 옵션은 안전한 코드 작성을 위해 활성화 해주도록 한다.
 > 이 옵션들은 TypeScript 를 타입에 대해 엄격한 다른 언어들과 유사한 환경을 만들어준다.
 
-#### 4. Type Alias
+### 4. Type Alias
 
 `interface`와 비슷하지만 다른 언어와 마찬가지로 만들어진 타입을 `refer`로 사용하는 것이지 직접 타입을 만드는 것은 아니다.
 `interface`를 `Type Alias`로 대체하는 것이 가능한 이유는 *TypeScript* 가 `Object Literal` 그 자체를 타입으로
@@ -719,31 +719,54 @@ tellMe((j: JuniorDeveloper): Developer => new Developer())  // Sub-Type 이 Supe
 
 ---
 
-### 4. TypeScript Compiler 👩‍💻
+## 4. TypeScript Compiler 👩‍💻
 
-#### 1. Compilation Context
+### 1. Compilation Context
 
 *TypeScript* 코드를 어떻게 *JavaScript* 코드로 변환할건지를 정의하는 방법으로 `tsconfig.json`을 사용하는
-것이 권장된다.
+것이 권장되며, tsconfig 의 최상위 프로퍼티는 크게 3가지는 다음과 같다.
 
-#### 2. tsconfig schema
+- `compilerOptions`: TypeScript 를 JavaScript 로 변환하기 위해 필요한 세부 설정을 정의
+- `include`: JavaScript 로 Transpile 할 파일의 경로 목록을 배열로 작성
+- `exclude`: Transpile 에서 제외할 파일의 경로 목록읇 배열로 작성
 
-*TypeScript* 의 버전이 올라가며 새로운 기능이 생기거나 세분화 되며 이 스키마의 크기 역시 증가하고있다.
-그 중 중요한 최상위 프로퍼티 일부를 소개하면 다음과 같다.
+```json
+{
+  "compilerOptions": {
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+```
 
+물론 이 3개 외에도 더 많은 최상위 프로퍼티가 존재하는 데 위 3개가 가장 핵심이라고 할 수 있다.
+
+### 2. tsconfig schema
+
+위에서 소개한 `compilerOptions`, `include`, `exclude` 외에도 *TypeScript* 의 버전이 올라가며 새로운 기능이 
+생기거나 세분화 되며 이 스키마의 크기 역시 증가하고있다. 그 중 중요한 최상위 프로퍼티를 좀 더 자세히 알아보자.
+
+- compilerOptions
 - compileOnSave
 - extends
-- compileOptions
-- files
-- include
-- exclude
+- files / include / exclude
 - references
 
-`npx tsc --init`은 많이 사용되는 일부만 작성해주는 것이지 모든 것을 작성해주지는 않는다. 모든 옵션과 설명을 보려면
-[TSConfig Reference] 를 통해 확인하도록 한다. 그리고 레퍼런스 페이지에 부족한 보총 설명은
-[TypeScript - tsconfig] 에 잘 정리되어 있으니 함께 참고한다.
+`npx tsc --init`은 많이 사용되는 일부만 작성해주는 것이지 모든 것을 작성해주지는 않는다. 모든 옵션과 설명을 보려면 
+[TSConfig Reference] 를 통해 확인하도록 한다. 그리고 레퍼런스 페이지에 부족한 보총 설명은 [TypeScript - tsconfig] 
+에 잘 정리되어 있으니 함께 참고한다.
 
-#### 3. compileOnSave
+#### 1. compileOnSave
 
 ```json
 {
@@ -755,9 +778,9 @@ tellMe((j: JuniorDeveloper): Developer => new Developer())  // Sub-Type 이 Supe
 사용할 수 있는 옵션으로 [Compile on save] 를 참고한다. 자동으로 컴파일과 저장을 수행해 문법적 에러를 발견하기 쉽도록
 해준다.
 
-JetBrains 계열의 IDE 를 사용할 경우 IDE 설정에서 기본으로 지원한다.
+만약 JetBrains 계열의 IDE 를 사용할 경우 위 프로퍼티 설정 없이 IDE 가 기본으로 지원한다.
 
-#### 4. extends
+#### 2. extends
 
 *TypeScript* 자체 *Config* 옵션이지만 기본값은 아니라 필요할 경우 작성해서 사용해야한다. 이것은 JSON 파일을 여러
 개로 나누어 확장을 통해 관리할 수 있도록 해주는 옵션이다.
@@ -782,7 +805,7 @@ JetBrains 계열의 IDE 를 사용할 경우 IDE 설정에서 기본으로 지�
 {
   "extends": "./base",
   "compilerOptions": {
-    
+    // ...
   }
 }
 ```
@@ -801,7 +824,7 @@ yarn add --dev @tsconfig/create-react-app
 }
 ```
 
-#### 5. files, include, exclude
+#### 3. files, include, exclude
 
 __files__
 
@@ -835,7 +858,7 @@ __include & exclude__
 ```json
 {
   "include": [
-      "src/**/*"
+      "src/**/*.ts"
   ],
   "exclude": [
       "node_modules",
@@ -859,67 +882,29 @@ __우선순위__
 4. 우선순위는 `files` > `exclude` > `include` 이다. `files`에 존재하면, `exclude`에 포함되어 있더라도
    컴파일되며, `include`에 포함되어 있더라도 `exclude`에 포함되면 컴파일에서 제외된다.
 
-#### 6. compileOptions - typeRoots, types
-
-__typeRoots__
-
-*React* 라이브러리를 예로 들어보자.
-
-```shell
-npm i react
-npm i -D @types/react
-```
-
-*build* 를 위해 *React* 라이브러리와, 개발 환경에서의 *TypeScript* 지원을 위한 *React 의 TypeScript* 버전을
-설치해 사용한다. 이렇듯 대부분의 라이브러리는 `@types/`를 붙여 *TypeScript* 를 지원한다.
-
-즉, `./node_modules/@types/` 디렉토리는 특별한 경로이며, `typeRoots`를 미지정시 기본값으로 사용되는 경로다. 만약,
-이 `@types/`의 *root* 경로를 변경하고 싶다면 다음과 같이 `typeRoots` 옵션을 이용해 지정할 수 있다.
+#### 4. references
 
 ```json
 {
-  "compilerOptions": {
-    "typeRoots": ["./typings", "./vendor/types"]
-  }
+  "references": [
+    { "path": "./path/to/project1" },
+    { "path": "./path/to/project2" }
+  ]
 }
 ```
 
-이제 `./typings`와 `./vendor/types` 하위 디렉토리가 모두 *TypeScript* 라이브러리의 *root* 경로가 된다.
-값을 지정했으니 이제 `./node_modules/@types`는 더이상 *TypeScript* 라이브러리의 *root* 경로가 아니다.
+`package.json`이 외부 패키지의 의존성을 설정하는 데 사용된다면, `tsconfig.json`은 TypeScript 프로젝트 간 의존성과 
+빌드 순서를 설정하는 데 사용된다. 여러 프로젝트를 모아 하나의 프로젝트로 구현할 경우 이 설정을 지정하면 컴파일러가 변경된 
+프로젝트만 재컴파일 해 빌드 시간을 최적화 할 수 있다.
 
-이것은 `@types/` 규칙을 따르지 않는 라이브러리 또는 직접 만든 *TypeScript* 라이브러리를 지원할 때 유용하다.
+#### 5. compilerOptions
 
-```json
-{
-  "compilerOptions": {
-    "typeRoots": ["./node_modules/@types", "./typings", "./vendor/types"]
-  }
-}
-```
+compilerOptions 는 TypeScript 컴파일에 관련된 설정을 다루기 때문에 가장 많은 프로퍼티가 존재한다. 따라서 바로 아래 
+[compilerOptions](#h-3-tsconfig-schema---compileroptions) 에서 별도로 다루도록 한다.
 
-와 같이 설정하면 기본값 경로에 추가적으로 타입 시스템을 사용할 경로를 지정할 수 있다.
+### 3. tsconfig schema - compilerOptions
 
-<br>
-
-__types__
-
-`types` 옵션은 기본값이든, 명시된 값이든 `typeRoots`의 라이브러리 중 *TypeScript* 시스템을 사용할 라이브러의
-이름을 직접 명시적으로 지정하는 옵션이다.
-
-```json
-{
-   "compilerOptions": {
-       "types" : ["node", "lodash", "express"]
-   }
-}
-```
-
-이렇게 정의하면, `./node_modules/@types`에 있는 라이브러리 중 `node`, `lodash`, `express` 세 라이브러리만
-타입 시스템을 사용하고 그 외 라이브러리는 디렉토리에 존재하더라도 이 시스템에 포함되지 않는다.
-
-만약, `[]`와 같이 빈 배열로 정의할 경우, 이 시스템을 이용하지 않겠다는 의미가 된다.
-
-#### 7. compileOptions - target, lib
+#### 1. target / lib
 
 __target__
 
@@ -944,57 +929,297 @@ __target__
 - ESNext
 
 를 설정할 수 있으며, `ESNext`는 *latest*, *last* 와 같은 의미로 사용된다. 항상 최신 버전을 타겟으로 한다.
-보통 *Node* 서버에서는 필요에 따라 버전을 올리지만 프론트엔드는 브라우저 호환성 문제로 버전을 낮추어 사용한다.
+보통 *Node* 서버에서는 필요에 따라 버전을 올리지만 프론트엔드는 브라우저 호환성 문제로 "ES2015"(=ES6)를 표준으로 사용한다.
 
 <br>
 
 __lib__
 
-대부분 `target`에 따라 *default* 로 설정되는 `lib`가 있기 때문에 직접 설정할 필요는 없다.
+```json
+{
+  "compilerOptions": {
+    "lib": ["ESNext", "DOM"]
+  }
+}
+```
+
+컴파일러가 사용할 라이브러리를 지정하는 것으로 대부분 `target`에 따라 *default* 로 설정되는 `lib`가 있기 때문에 직접 
+설정할 필요는 거의 없다.
 
 - ES3: `lib.d.ts`
 - ES5: `dom`, `es5`, `scripthost`
 - ES6: `dom`, `es6`, `dom.iterable`, `scripthost`
 
-를 기본으로 사용한다. 만약, 이걸 직접 설정하려면 배열에 `lib`를 적절히 선택해 입력해야한다.
+를 기본으로 사용한다. 직접 설정시 프론트엔드에서는 절대 `DOM`이 누락되어서는 안 된다.
 
-#### 8. compileOptions - outDir, outFile, rootDir
-
-__outFile__
-
-`module`이 `AMD` 또는 `System` 같은 형태일 때 모든 *JavaScript* 코드를 단일 파일로 컴파일할 수 있도록 하는
-옵션으로 일반적으로 `CommonJS`, `ES6` 같은 형태로 사용할 때는 사용이 불가능하다.
-
-<br>
-
-__outDir__
-
-특정 디렉토리에 디렉토리 구조를 맞춰 빌드 결과물이 생성된다. 일반적으로 `dist`, `out`과 같은 이름을 붙여 사용한다.
-
-<br>
-
-__rootDir__
+#### 2. module
 
 ```json
 {
   "compilerOptions": {
-    "target": "ES5",
-    "module": "CommonJS",
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "module": "ESNext"
+  }
+}
+```
+
+모듈 시스템을 지정한다. "CommonJS", "AMD", "ES5", "ESNext", "Node", "NodeNext", "System" 등을 지정할 수 
+있으며 프론트엔드는 보통 `ESNext`를 사용한다.
+
+#### 3. moduleResolution
+
+```json
+{
+  "compilerOptions": {
+    "moduleResolution": "Node"
+  }
+}
+```
+
+모듈 해석 방식을 지정한다. 일반적으로 "Node" 와 "Classic" 중에서 선택을 하게 되는데, "Classic" 을 선택하면 파일 경로에서 
+`.ts`까지 전부 입력해주어야한다. `Node`를 설정해야 `index.ts` 와 `.ts`를 생략할 수 있다.
+
+#### 4. esModuleInterop
+
+```json
+{
+  "compilerOptions": {
+    "esModuleInterop": true
+  }
+}
+```
+
+ESM 모듈 방식 호환성을 활성화한다. `CommonJS` 방식의 export 에는 default 내보내기가 없다. `CommonJS` 와 `ESM` 방식의 
+`import`, `export` Syntax 가 조금씩 다른데, 이를 구분하지 않고 사용할 수 있도록 호환성을 보장해주는 설정이다.
+
+#### 5. isolateModules
+
+```json
+{
+  "compilerOptions": {
+    "isolatedModules": true
+  }
+}
+```
+
+모든 파일을 모듈로 컴파일한다. 이 설정을 `true`로 할 경우 모든 파일은 `import` 또는 `export`를 하나 이상 포함해 모듈이 
+되도록 강제된다. 만약 이 설정을 활성화 했을 경우 import/export 가 필요하지 않다면 `export {}`를 적어주어야 모듈로 인식해 
+컴파일 에러가 발생하지 않는다.
+
+#### 6. baseUrl / paths
+
+__baseUrl__
+
+모듈 해석에 사용할 기준 경로를 지정한다. 쉽게 말하면 `import`에 사용할 기본 경로를 지정하는 것이다.
+
+다음 예제는 `/src/pages/members/Vip.ts` 파일에서 외부 모듈을 가져온다.
+
+![Project src](/assets/images/posts/2023-12-21-typescript-essentials/project-src.png){: width="300"}
+
+```typescript
+import styled from 'styled-components';
+import Input from '../../components/Input';
+import Button from '../../components/Button';
+import Info from '../../components/user/Info';
+import { isAdult } from '../../utils/calendar';
+```
+
+`node_modules`는 별도의 경로를 작성하지 않아도 되지만 사용자가 생성한 모듈은 위와 같이 상세한 경로를 작성해야한다. 
+이때 프로젝트가 커지고 경로가 복잡해지면 상당히 혼란스러워진다. 이때 `tsconfig.json`을 기준으로 사용하고자 하는 기본 디렉토리 위치를 `baseUrl`에 작성하면 `import` 시 모듈의 상대경로 뿐 아니라 절대경로를 사용할 수 있다(물론, 상대경로도 사용 가능하다).
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "src"
+  }
+}
+```
+
+```typescript
+import styled from 'styled-components';
+import Input from 'components/Input';
+import Button from 'components/Button';
+import Info from 'components/user/Info';
+import { isAdult } from 'utils/calendar';
+```
+
+<br>
+
+__paths__
+
+쉽게 말해 `alias`다. `baseUrl`이 모듈 해석에 사용할 기준 경로만 지정한다면, `paths`는 좀 더 세분화 시키기 위해 사용한다. 
+**path** 는 기본적으로 **baseUrl** 에 영향을 받으므로, **baseUrl** 을 설정했을 경우, 해당 경로를 생략하고 시작할 수 있다. 
+위 경우 `src/components` 대신 `components`만 작성해도 된다는 말이다.
+
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@components/*": ["components/*", "components/user/*"],
+      "@utils/*": ["utils/*"]
+    },
+  }
+}
+```
+
+```typescript
+import styled from 'styled-components';
+import Input from '@components/Input';
+import Button from '@components/Button';
+import Info from '@components/Info';
+import { isAdult } from '@utils/calendar';
+```
+
+또는 depth 1 의 경로만 자동으로 등록시키려면 다음과 같이 사용할 수 있다.
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@*": ["*"]
+    },
+  }
+}
+```
+
+```typescript
+import styled from 'styled-components';
+import Input from '@components/Input';
+import Button from '@components/Button';
+import Info from '@components/user/Info';
+import { isAdult } from '@utils/calendar';
+```
+
+단, 이 경우 `import Info from '@components/user/Info';`는 `import Info from '@components/Info';`로 
+축약할 수 없음에 유의한다.
+
+#### 7. rootDir / outDir / outFile
+
+`rootDir`, `outDir`, `outFile`은 모두 [files, include, exclude](#h-3-files-include-exclude) 와 마찬가지로 
+`baseUrl`에 영향을 받지 않는다. 이것들은 모두 컴파일할 대상을 설정하는 프로퍼티로 `tsconfig.json`을 기준으로 지정한다.
+
+__rootDir / outDir__
+
+```json
+{
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist"
+  }
+}
+```
+
+컴파일 할 root 디렉토리와 그것을 출력할 목표 디렉토리를 지정한다. `outDir`은 일반적으로 "dist", "public", "out"과 같은 
+경로를 사용한다.
+
+`rootDir`은 [files, include, exclude](#h-3-files-include-exclude) 의 영향을 받는다. 따라서
+
+```json
+{
+  "include": [
+      "src/**/*.ts"
+  ],
+  "exclude": [
+      "node_modules",
+      "**/*.spec.ts"
+  ]
+}
+```
+
+는 `include`, `exclude`와 함께 사용할 경우 다음과 같이 작성할 수 있다.
+
+```json
+{
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": [
+      "**/*.ts"
+  ],
+  "exclude": [
+      "node_modules",
+      "**/*.spec.ts"
+  ]
+}
+```
+
+`rootDir`로 컴파일을 할 root 디렉토리가 `src`로 지정되었기 때문에 `include`의 패턴은 `src` 경로를 포함할 필요가 없다.
+
+<br>
+
+__outFile__
+
+```json
+{
+  "compilerOptions": {
+    "outFile": "dist/main.js"
+  }
+}
+```
+
+`module`이 `AMD` 또는 `System` 같은 형태일 때 모든 *JavaScript* 코드를 단일 파일로 컴파일할 수 있도록 하는
+옵션으로 일반적으로 `CommonJS`, `ES6` 같은 형태로 사용할 때는 사용이 불가능하다.
+
+#### 8. typeRoots / types
+
+__typeRoots__
+
+```json
+{
+  "compilerOptions": {
+    "typeRoots": [
+      "node_modules/@types",
+      "utils/types",
+      "vendor/types"
+    ]
+  }
+}
+```
+
+JavaScript 로 작성된 모듈에 대해 컴파일러가 참조할 타입 선언 `d.ts` 경로를 지정한다. `node_modules/@types` 디렉토리는 
+특별한 경로로 미지정시 기본값으로 사용된다. 하지만 이 규칙을 따르지 않는 JavaScript 기반 라이브러리나 유틸을 위해 `d.ts` 파일을 
+제공해야 할 경우 이 프로퍼티에 배열로 지정한다. 이때 주의해야 할 것이 `node_modules/@types`를 제외하고 배열을 작성하면 
+`typeRoots` 값이 제공되었기 때문에 기본값이 사용되지 않으므로 포함시켜주어야한다.
+
+<br>
+
+__types__
+
+JavaScript 모듈을 사용할 때 `typeRoots`에서 `d.ts`를 검색할 라이브러리를 개별로 지정한다. 미지정시 모든 JavaScript 
+라이브러리에 대해 `d.ts`를 검색한다.
+
+```json
+{
+  "compilerOptions": {
+    "types": [
+      "node", 
+      "lodash", 
+      "express"
+    ]
+  }
+}
+```
+
+위와 같이 지정할 경우 `node`, `lodash`, `express` 3개의 라이브러리에 대해서만 `d.ts`를 검색한다. 만약 `types`를 
+미지정하지 않고 `"types": []`와 같이 빈 배열로 지정할 경우 `d.ts`를 검색하는 타입 시스템을 이용하지 않겠다는 의미가 된다.
+
+특별한 경우가 아니라면 이 프로퍼티는 미지정 상태로 두는 것이 좋다.
+
+#### 9. strict
+
+```json
+{
+  "compilerOptions": {
     "strict": true
   }
 }
 ```
 
-일반적으로 이런식으로 사용한다. `src` 디렉토리 하위의 모든 파일을 `dist` 하위에 구조를 그대로 만들어 컴파일한다.
-만약, `include`와 `exclude` 옵션이 활성화 되어있다면 이에 따라 컴파일 대상이 영향을 받는다.
-
-#### 9. compileOptions - strict
-
-`strict`는 반드시 `true`로 설정하는 것을 기본으로 한다. 이것을 활성화 하면 컴파일 된 *JavaScript* 파일
-상단에 `"use strict";`가 포함될 것이다. 이 옵션은 위 [Type System](#h-3-type-system-) 에서 살펴보았던,
-*TypeScript* 가 좀 더 *Type-Safe* 한 코드를 작성하도록 돕는 모든 옵션을 켜는 것을 의미한다.
+`strict`는 반드시 `true`로 설정하는 것을 기본으로 한다. 이것을 활성화 하면 컴파일 된 *JavaScript* 파일 상단에 
+`"use strict";`가 포함될 것이다. 이 옵션은 위 [Type System](#h-3-type-system-) 에서 살펴보았던, 
 
 - noImplicitAny
 - noImplicitThis
@@ -1004,11 +1229,11 @@ __rootDir__
 - strictBindCallApply
 - alwaysStrict
 
-이 모든 것을 다 활성화 하는 것이다.
+*TypeScript* 가 좀 더 *Type-Safe* 한 코드를 작성하도록 돕는 대부분의 옵션을 켜는 것을 의미한다(일부 활성화 되지 않는 예외 존재).
 
 <br>
 
-__noImplicitAny__
+__1 ) noImplicitAny__
 
 ```typescript
 function noImplicitAny(x) {
@@ -1016,7 +1241,8 @@ function noImplicitAny(x) {
 }
 ```
 
-명시적인 `any`는 허용되지만, 타입 추론에 의한 `any`는 허용하지 않는다.
+명시적인 `any`는 허용되지만, 타입 추론에 의한 `any`는 허용하지 않는다(그렇다고 사용하라는 것은 아니다 필요시 
+[unknown](#h-12-unknown) 을 사용할 것).
 
 ```typescript
 function noImplicitAny(x: any) {
@@ -1026,14 +1252,11 @@ function noImplicitAny(x: any) {
 
 <br>
 
-__noImplicitThis__
+__2 ) noImplicitThis__
 
 ```typescript
-function noImplicitThis(x: string, y: string) {
-  this.x = x;
-  this.y = y;
-
-  return this;
+function greet(age: number) {
+  console.log(`Hello, ${this.name}! I'm ${age} years old`);
 }
 ```
 
@@ -1044,11 +1267,8 @@ function noImplicitThis(x: string, y: string) {
 포함해야한다.
 
 ```typescript
-function noImplicitThis(this: { x: string; y: string }, x: string, y: string) {
-  this.x = x;
-  this.y = y;
-
-  return this;
+function greet(this: { name: string }, age: number) {
+  console.log(`Hello, ${this.name}! I'm ${age} years old`);
 }
 ```
 
@@ -1079,13 +1299,7 @@ function Person(this: IPerson, name: string, age: number) {
 
 ```typescript
 class Person {
-  private name: string;
-  private age: number;
-
-  constructor(name: string, age: number) {
-    this.name = name;
-    this.age = age;
-  }
+  constructor(private name: string, private age: number) {}
 
   greet() {
     console.log(
@@ -1114,7 +1328,7 @@ function Person(name: string, age: number) {
 
 <br>
 
-__strictNullChecks__
+__3 ) strictNullChecks__
 
 위 [Make TypeScript more Strictly](#h-1-make-typescript-more-strictly) 에서 이미 한 번 살펴보았듯이
 *TypeScript* 의 모든 타입이 기본적으로 `null`과 `undefined`를 포함하기 때문에 이것을 제외시켜주는 옵션이다.
@@ -1125,12 +1339,18 @@ __strictNullChecks__
 
 <br>
 
-__strictFunctionTypes__
+__4 ) strictFunctionTypes__
 
 [Type Compatibility](#h-3-type-compatibility) 에서 살펴본 것처럼 *TypeScript* 는 다른 언어와 달리
 기본적으로 *Sub-Type* 이 *Super-Type* 을 상위 호환하는 것이 가능한 문제를 제거하는 옵션이다.
 
-__strictPropertyInitialization__
+함수의 arguments 에 대한 타입 검사를 강화해 다른 언어와 마찬가지로 *Super-Type* 이 *Sub-Type* 을 하위 호환 
+하는 것만 허용하도록 한다(단순히 <span style="color: red;">parameter 와 argument 타입을 검사하는 것은 해당 옵션 활성화와 
+무관하게 기능</span>한다. 이것은 *Super-Type* 과 *Sub-Type* 의 올바른 관계를 검사하기 위한 설정이다).
+
+<br>
+
+__5 ) strictPropertyInitialization__
 
 ```typescript
 class Person {
@@ -1154,13 +1374,7 @@ class Person {
 
 ```typescript
 class Person {
-  private name: string;
-  private age: number;
-
-  constructor(name: string, age: number) {
-    this.name = name;
-    this.age = age;
-  }
+  constructor(private name: string, private age: number) {}
 
   greet() {
     console.log(
@@ -1192,14 +1406,13 @@ class Person {
 *Classes* 의 초기화는 에러에 의해 실패할 수도 있지만, 의도적으로 지연시켜야 할 필요가 있는 경우도 있다. 초기화를 하는
 동안 값을 설정할 수 없어 [Optional Property Types] 를 필요로 하는 경우다. *TypeScript* 역시 이를 지원하며,
 `?` 또는 `!`를 적절히 사용해 *Classes* 를 생성하며, *Properties* 의 초기화를 지연시킬 수 있다. 물론, 이에 대한
-책임이 개발자에게 주어진다.
+책임이 개발자에게 주어진다(`?`는 constructor 에 단축형으로 작성할 수 있지만 `!`는 constructor 를 통해 작성할 수 없다).
 
 ```typescript
 class Person {
   private name!: string;
-  private age?: number;
 
-  constructor() {}
+  constructor(name: string, private age?: number) {}
 
   async init(name: string, age?: number) {
     this.name = name;
@@ -1216,54 +1429,43 @@ class Person {
 
 <br>
 
-__strictBindCallApply__
+__6 ) strictBindCallApply__
 
-`Function`의 내장 함수인 `bind`, `call`, `apply`를 사용할 때 `this`를 좀 더 엄격하게 체크하도록 하는 옵션이다.
+`Function`의 내장 함수인 `bind`, `call`, `apply`를 사용할 때 함수 호출과 달리 타입 체크를 하지 않는다. 
+이 설정을 활성화 시켜야지만 엄격한 체크를 한다.
 
 ```typescript
-class Person {
-  private name: string;
-  private age: number;
-
-  constructor(name: string, age: number) {
-    this.name = name;
-    this.age = age;
-  }
-
-  greet() {
-    console.log(
-      `Hello, my name is ${this.name} and I'm ${this.age} years old.`
-    );
-  }
+function sum(a: number, b: number): number {
+  return a + b;
 }
 
-const jane = new Person('Jane', 30);
-const peterGreet = jane.greet.bind({ name: 'Peter', age: 36 });
-jane.greet.call({ name: 'Mike', age: 27 });
-peterGreet();
+sum('1', '2');   // error
+sum.call(null, '1', '2');  // OK!
 ```
 
-```console
-Hello, my name is Mike and I'm 27 years old.
-Hello, my name is Peter and I'm 36 years old.
+이 프로퍼티를 활성화 시키면 이제 `bind`, `call`, `apply`에도 엄격한 타입 검사가 추가된다.
+
+```typescript
+sum('1', '2');   // error
+sum.call(null, '1', '2');  // error
 ```
 
-근데 사실 이건 뭐가 더 엄격해지는건지 잘 모르겠다.
+<br>
 
-__alwaysStrict__
+__7 ) alwaysStrict__
 
 컴파일되는 모든 *JavaScript* 파일 상단에 `"use strict"`를 포함시켜 런타임 엔진이 코드를 `strict` 모드로 분석하도록
 하는 옵션이다.
 
 ---
 
-### 5. Interfaces 👩‍💻
+## 5. Interfaces 👩‍💻
 
 *TypeScript* 의 *Interfaces* 는 *JavaScript* 에 존재하지 않기 때문에 다른 언어와 달리 *Runtime* 이 아닌 오직
 *Compile-time* 에만 사용된다. 즉, 컴파일 과정에서 제거되어 실제 배포되는 코드에는 남지 않게 되는 것이다. 기본적으로 하고자
 하는 역할이나 목적이 다른 프로그래밍 언어처럼 사용하기 위함이기 때문에 크게 다르지 않지만 *TypeScript* 만의 특징은 알아둬야한다.
 
-#### 1. Optional Properties
+### 1. Optional Properties
 
 흔히 접하기 쉬운 방법은 다른 언어와 동일하게 Properties 자체를 `Optional`로 설정하는 것이다.
 
@@ -1289,7 +1491,7 @@ interface Person {
 생긴 것과 이름을 보면 [Swift Subscripts] 와 유사할 것 같지만 다르다. 일단 이것은 `interface`임을 명심하자.
 즉, 구현체가 아니라는 의미이다.
 
-#### 2. Index Signatures
+### 2. Index Signatures
 
 우선, `Index Signature`는 `number`, `string`, `symbol`을 타입으로 *Index Type* 으로 가질 수 있다.
 
@@ -1441,7 +1643,7 @@ const member: Member = {
 console.log(member[gildongId]); // 홍길동
 ```
 
-#### 3. Type Alias & Interface
+### 3. Type Alias & Interface
 
 *TypeScript* 에서 `interface`와 `type`은 많은 곳에서 혼용되며 서로 바꾸어 사용해도 대부분 호환이 가능하다.
 
@@ -1598,9 +1800,9 @@ const something: MergingInterface = {
 
 ---
 
-### 6. Classes 👩‍💻
+## 6. Classes 👩‍💻
 
-#### 1. Initialization
+### 1. Initialization
 
 **Classes** 용도나 문법, 기능은 다른 언어와 유사하다. *TypeScript* 의 문법적 특징을 위주로 살펴보자.
 
@@ -1624,7 +1826,7 @@ class Person {
 }
 ```
 
-#### 2. Getters & Setters
+### 2. Getters & Setters
 
 ```typescript
 class Person {
@@ -1708,7 +1910,7 @@ someClass.setId('A');
 console.log(someClass.id);  // A
 ```
 
-#### 3. Index Signatures in Classes
+### 3. Index Signatures in Classes
 
 일반적으로 프로그래밍 언어가 *Dynamic Types* 를 사용하는 *Dictionaries* 와 같은 타입을 갖고 있지만 *Classes*
 와 같은 타입을 정의하고 사용할 때, 이러한 타입들은 자신의 *properties* 에 대한 동적 타입을 허용하지 않는다. 만약,
@@ -1779,7 +1981,7 @@ class2['김지은'] = 'female';
 class2['송명호'] = 'male';
 ```
 
-#### 4. Inheritance
+### 4. Inheritance
 
 *TypeScript* 의 상속 역시 *Override* 를 통해 메서드를 수정함은 물론, *properties* 의 *Access Levels* 를
 변경하는 것 역시 가능하다. 또한, 부모에 접근할 때 `super` 키워드를 사용하는 것 역시 동일하다.
@@ -1822,7 +2024,7 @@ myCar.currentSpeed = 10;  // 상속을 통해 접근 가능하도록 Access Leve
 console.log(myCar.description); // "traveling at 10 miles per hour in gear 5"
 ```
 
-#### 5. Abstract Classes
+### 5. Abstract Classes
 
 *Swift* 에서는 *Protocols* 에 [Default Implementations] 를 제공할 수 있다. 또한 *Java* 역시
 Java 8 부터 *Interfaces* 에 *Default Methods* 를 구현하는 것이 가능하다.
@@ -1851,9 +2053,9 @@ interface IPerson {
 
 ---
 
-### 7. Generics 👩‍💻
+## 7. Generics 👩‍💻
 
-#### 1. Syntax
+### 1. Syntax
 
 다른 언어와 마찬가지로 *Generic Types* 를 사용한 함수 선언은 다음과 같이 한다.
 
@@ -1895,7 +2097,7 @@ hello<string>('Hello World!');
 hello<number>(123);
 ```
 
-#### 2. Generics Array & Tuple
+### 2. Generics Array & Tuple
 
 __Array__
 
@@ -1942,7 +2144,7 @@ hellotuple(['a', 1]);
 
 타입으로 정확히 추론된다.
 
-#### 3. Generic Function Type Alias & Interface
+### 3. Generic Function Type Alias & Interface
 
 [위에서](#h-1-syntax) *Generic Functions* 를 함수 *Function Declaration* 과 
 *Function Expressions* 으로 사용하는 방법을 보았다. *TypeScript* 이므로 함수가 어떤 모습을 취해야하는지를 
@@ -1958,7 +2160,7 @@ interface HellloFunctionGeneric {
 }
 ```
 
-#### 4. keyof
+### 4. keyof
 
 `keyof`를 사용하면 객체의 `keys`를 추출할 수 있다.
 
