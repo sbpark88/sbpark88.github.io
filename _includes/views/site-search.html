@@ -74,7 +74,7 @@
       searchContainerEl.classList.remove('searching');
       searchInputEl.value = '';
       searchInputEl.dispatchEvent(new Event('input'))
-      controller.abort()
+      controller && controller.abort()
     }
   }
 

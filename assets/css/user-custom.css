@@ -94,9 +94,10 @@ img.max-height--none {
   ul {
     margin: 0 0 10px;
     list-style: none;
+    text-indent: 40px;
   }
   ul li {
-    padding: 5px 40px;
+    padding: 5px 0;
 
     a {
       color: #74a4d2;
