@@ -1106,18 +1106,23 @@ import Input from '@components/Input';
 이 3가지 방법 중 어떤 것을 사용해도 작동하지만, `*`로 path 를 지정하는 경우 `@`을 사용한 접근 외 첫 번째 상대 경로나 두 번째 절대경로를 
 통한 접근은 에러가 발생한다.
 
+또한 tsconfig 위치로부터 다른 디렉토리로 분류되는 경우 다른 모듈로 분리하는 것으로 보인다.  
+`/api/...`와 `/src/...` 두 디렉토리가 있을 때 `"baseUrl": "."`, `"paths": { "@utils/*": ["src/utils/*"] }`를 
+설정했음에도 `/api/...` 하위 모듈에서는 `@utils/calendar`는 에러가 발생한다. 상대경로로 `../src/utils/calendar`로 수정해야 
+정상적으로 작동한다. 이 부분에 대해서는 다음 [commit log](https://github.com/sbpark88/omdb-movie/commit/a83d57308d8b0e5ead7de37206924b42756d5643)
+를 참고하도록 한다.
 
-#### 7. rootDir / outDir / outFile
+#### 7. rootDirs / outDir / outFile
 
-`rootDir`, `outDir`, `outFile`은 모두 [files, include, exclude](#h-3-files-include-exclude) 와 마찬가지로 
+`rootDirs`, `outDir`, `outFile`은 모두 [files, include, exclude](#h-3-files-include-exclude) 와 마찬가지로 
 `baseUrl`에 영향을 받지 않는다. 이것들은 모두 컴파일할 대상을 설정하는 프로퍼티로 `tsconfig.json`을 기준으로 지정한다.
 
-__rootDir / outDir__
+__rootDirs / outDir__
 
 ```json
 {
   "compilerOptions": {
-    "rootDir": "src",
+    "rootDirs": ["src"],
     "outDir": "dist"
   }
 }
@@ -1126,7 +1131,7 @@ __rootDir / outDir__
 컴파일 할 root 디렉토리와 그것을 출력할 목표 디렉토리를 지정한다. `outDir`은 일반적으로 "dist", "public", "out"과 같은 
 경로를 사용한다.
 
-`rootDir`은 [files, include, exclude](#h-3-files-include-exclude) 의 영향을 받는다. 따라서
+`rootDirs`은 [files, include, exclude](#h-3-files-include-exclude) 의 영향을 받는다. 따라서
 
 ```json
 {
@@ -1145,7 +1150,7 @@ __rootDir / outDir__
 ```json
 {
   "compilerOptions": {
-    "rootDir": "src",
+    "rootDirs": ["src"],
     "outDir": "dist"
   },
   "include": [
@@ -1158,7 +1163,7 @@ __rootDir / outDir__
 }
 ```
 
-`rootDir`로 컴파일을 할 root 디렉토리가 `src`로 지정되었기 때문에 `include`의 패턴은 `src` 경로를 포함할 필요가 없다.
+`rootDirs`로 컴파일을 할 root 디렉토리가 `src`로 지정되었기 때문에 `include`의 패턴은 `src` 경로를 포함할 필요가 없다.
 
 <br>
 
