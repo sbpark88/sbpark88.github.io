@@ -1092,8 +1092,20 @@ import Info from '@components/user/Info';
 import { isAdult } from '@utils/calendar';
 ```
 
-단, 이 경우 `import Info from '@components/user/Info';`는 `import Info from '@components/Info';`로 
-축약할 수 없음에 유의한다.
+이 경우 `import Info from '@components/user/Info';`는 `import Info from '@components/Info';`로 
+축약할 수 없음에 유의한다. 그리고 <span style="color: red;">개인적으로 이 방법은 권장하지 않는다</span>. `*`를 사용하다보니 
+path 의 root 에 있는 파일을 가져올 경우 간혹 제대로 매핑이 되지 않기도 하고 style 같은 디렉토리는 계속 에러 매핑이 되는 경우가 
+간혹 발생한다. 또한 개별 등록할 경우
+
+```typescript
+import Input from '../../components/Input';
+import Input from 'components/Input';
+import Input from '@components/Input';
+```
+
+이 3가지 방법 중 어떤 것을 사용해도 작동하지만, `*`로 path 를 지정하는 경우 `@`을 사용한 접근 외 첫 번째 상대 경로나 두 번째 절대경로를 
+통한 접근은 에러가 발생한다.
+
 
 #### 7. rootDir / outDir / outFile
 
