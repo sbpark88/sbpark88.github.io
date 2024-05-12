@@ -3,7 +3,7 @@ layout: post
 title: Vercel Serverless Functions
 subtitle: Short book about the Vercel Functions
 excerpt_image: /assets/images/posts/2024-05-04-vercel-serverless-functions/edge-middleware.webp
-categories: [javascript]
+categories: [javascript, typescript]
 tags: [vercel, serverless functions, vercel functions, edge middleware, edge network]
 ---
 
@@ -59,7 +59,8 @@ npm i -D vercel@latest
 yarn add vercel@latest
 ```
 
-자세한 설정 환경은 [Vercel Functions Quickstart] 페이지를 참고한다.
+자세한 설정 환경은 [Vercel Functions Quickstart] 페이지를 참고한다. Vercel 은 직접 TypeScript 를 지원하기 때문에
+`d.ts`를 설치할 필요가 없고 로컬에서 실행을 위해 Vercel CLI 만 설치하면 된다. 
 
 - package.json
 
@@ -71,7 +72,7 @@ yarn add vercel@latest
 }
 ```
 
-그리고 root 경로에 `vercel.json`파일을 생성한다.
+그리고 root 경로에 `vercel.json` 파일을 생성한다.
 
 ```json
 {
@@ -86,14 +87,20 @@ yarn add vercel@latest
 
 root 경로에 `api`라는 디렉토리를 생성하고, 함수를 작성해야하는데 함수는 `MSW`와 유사하게 작성하면 된다.
 
-- /api/user.js
+- /api/user.ts
 
-```javascript
-export default function handler(request, response) {
-  user[request.method](request, response);
+```typescript
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+
+const ALLOWED_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"];
+
+export default function handler(request: VercelRequest, response: VercelResponse) {
+  const method = ALLOWED_METHODS.find((method) => method === request.method);
+  if (method === undefined) return;
+  user[method](request, response);
 }
 
-const user = {
+const user: Record<string, Function> = {
   GET: getUser,
   POST: postUser,
   PUT: putUser,
@@ -101,7 +108,7 @@ const user = {
   DELETE: deleteUser,
 };
 
-function getUser(request, response) {
+function getUser(request: VercelRequest, response: VercelResponse): VercelResponse {
   return response.status(200).json({
     name: "Hogwarts",
     age: 32,
@@ -109,22 +116,21 @@ function getUser(request, response) {
   });
 }
 
-function postUser(request, response) {
+function postUser(request: VercelRequest, response: VercelResponse): VercelResponse {
   return response.status(200).json({});
 }
 
-function putUser(request, response) {
+function putUser(request: VercelRequest, response: VercelResponse): VercelResponse {
   return response.status(200).json({});
 }
 
-function patchUser(request, response) {
+function patchUser(request: VercelRequest, response: VercelResponse): VercelResponse {
   return response.status(200).json({});
 }
 
-function deleteUser(request, response) {
+function deleteUser(request: VercelRequest, response: VercelResponse): VercelResponse {
   return response.status(200).json({});
 }
-
 ```
 
 `npm run vercel`명령을 입력하면 위에 작성한 Vercel 명령어가 실행된다. Vercel 에 로그인 후 프로젝트 설정이 나올 때 설명을 읽고 
@@ -228,19 +234,31 @@ router.get("/promotion", (req, res) => {
 
 Next.js 와 마찬가지로 동적 라우팅이 가능하다.
 
-![dynamic routes](/assets/images/posts/2024-05-04-vercel-serverless-functions/dynamic-routes.png)
+![dynamic routes 1](/assets/images/posts/2024-05-04-vercel-serverless-functions/dynamic-routes-1.png)
+
+또는
+
+![dynamic routes 2](/assets/images/posts/2024-05-04-vercel-serverless-functions/dynamic-routes-2.png)
 
 와 같은 구조로 디렉토리와 파일을 생성하면 
 
 `/api/user`와 `/api/user/uuid005435`를 구분할 수 있다. `uuid005435`를 URL Parameters 로 사용하는 시스템이 되는 것이다. 
 이때 전달된 URL 파라미터는 `request.query`로부터 꺼낼 수 있는데, `[id]`가 파라미터 이름이 되어 `{id: value}` 형태로 담겨있다.
 
-```javascript
-export default function handler(request, response) {
-  user[request.method](request, response);
+- /api/user/[id].ts
+
+```typescript
+import type { VercelRequest, VercelResponse } from "@vercel/node";
+
+const ALLOWED_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"];
+
+export default function handler(request: VercelRequest, response: VercelResponse) {
+  const method = ALLOWED_METHODS.find((method) => method === request.method);
+  if (method === undefined) return;
+  user[method](request, response);
 }
 
-const user = {
+const user: Record<string, Function> = {
   GET: getUser,
   POST: postUser,
   PUT: putUser,
@@ -248,14 +266,14 @@ const user = {
   DELETE: deleteUser,
 };
 
-function getUser(request, response) {
+function getUser(request: VercelRequest, response: VercelResponse) {
   const { id } = request.query;
   return response.status(200).json({
     message: `${id} 사용자 정보에 대한 요청`,
   });
 }
 
-//...
+// ...
 ```
 
 따라서 API 요청은 다음과 같이 URL Parameters 를 구분할 수 있게 된다.
