@@ -234,11 +234,11 @@ router.get("/promotion", (req, res) => {
 
 Next.js 와 마찬가지로 동적 라우팅이 가능하다.
 
-![dynamic routes 1](/assets/images/posts/2024-05-04-vercel-serverless-functions/dynamic-routes-1.png)
+![dynamic Routes 1](/assets/images/posts/2024-05-04-vercel-serverless-functions/dynamic-routes-1.png)
 
 또는
 
-![dynamic routes 2](/assets/images/posts/2024-05-04-vercel-serverless-functions/dynamic-routes-2.png)
+![dynamic Routes 2](/assets/images/posts/2024-05-04-vercel-serverless-functions/dynamic-routes-2.png)
 
 와 같은 구조로 디렉토리와 파일을 생성하면 
 
