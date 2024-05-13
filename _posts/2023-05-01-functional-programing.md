@@ -1151,21 +1151,16 @@ console.log(newArray) // [18, 34, 42, 66, 106, 162]
 #### 3. Pipe in TypeScript
 
 ```typescript
-type Primitive = number | string | boolean | undefined | null
-const compose =
-    (...fns: Function[]) =>
-    (initValue: Primitive) =>
-        fns.reduceRight(
-            (acc, fn) => (acc instanceof Promise ? acc.then(fn) : fn(acc)),
-            initValue,
-        );
-const pipe =
-    (...fns: Function[]) =>
-    (initValue: Primitive) =>
-        fns.reduce(
-            (acc, fn) => (acc instanceof Promise ? acc.then(fn) : fn(acc)),
-            initValue,
-        );
+type AnyFunction = (value: any) => any;
+
+export const compose =
+    (...fns: AnyFunction[]) =>
+        <T>(initValue: T) =>
+            fns.reduceRight((acc, fn) => (acc instanceof Promise ? acc.then(fn) : fn(acc)), initValue);
+export const pipe =
+    (...fns: AnyFunction[]) =>
+        <T>(initValue: T) =>
+            fns.reduce((acc, fn) => (acc instanceof Promise ? acc.then(fn) : fn(acc)), initValue);
 ```
 
 다른 방법으로는 TypeScript 에서 함수형 코딩을 가능하도록 돕는 라이브러리르 사용하는 것이다. 지원하는 라이브러리는 다음과 같다.
@@ -1461,19 +1456,17 @@ console.log(todayTunaPrice(3))    // 참치 3 캔 = 8190원
 __Curry Function__
 
 ```typescript
-type Primitive = number | string | boolean | undefined | null
-
 const curry = (fn: Function) => {
-  return function curryFn(...args1: Primitive[]) {
+  return function curryFn<T>(...args1: T[]) {
     if (args1.length >= fn.length) {
       return fn(...args1);
     } else {
-      return (...args2: Primitive[]) => {
+      return (...args2: T[]) => {
         return curryFn(...args1, ...args2);
-      }
+      };
     }
-  }
-}
+  };
+};
 ```
 
 Curry Function 을 적용해보자.
