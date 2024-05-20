@@ -4,7 +4,7 @@ title: Throttle and Debounce
 subtitle: Use 'throttle' and 'debounce' to improve performance.
 excerpt_image: NO_EXCERPT_IMAGE
 categories: [javascript, ux/ui]
-tags: [javascript, throttle, debounce, performance]
+tags: [javascript, throttle, debounce, useDebounce, useThrottle, useDebounceFn, useThrottleFn, performance]
 ---
 
 ### 1. Why are they necessary? 👩‍💻
@@ -67,9 +67,8 @@ export const throttle = (fn, delay = 500) => {
     if (available) {
       available = false;
       fn.apply(this, arguments);
-      const timer = setTimeout(() => {
+      setTimeout(() => {
         available = true;
-        clearTimeout(timer);
       }, delay);
     }
   };
@@ -86,9 +85,8 @@ export const throttle = (fn, delay = 500) => {
     if (available) {
       available = false;
       fn(...args);
-      const timer = setTimeout(() => {
+      setTimeout(() => {
         available = true;
-        clearTimeout(timer);
       }, delay);
     }
   };
@@ -107,9 +105,8 @@ export const throttle = (fn: Function, delay = 500) => {
     if (available) {
       available = false;
       fn.apply($fn, arguments);
-      const timer = setTimeout(() => {
+      setTimeout(() => {
         available = true;
-        clearTimeout(timer);
       }, delay);
     }
   };
@@ -127,13 +124,12 @@ export const throttle = (fn: Function, delay = 500) => {
 export const throttle = (fn: Function, delay = 500) => {
   let available = true;
 
-  return (...args: any[]) => {
+  return (...args: unknown[]) => {
     if (available) {
       available = false;
       fn(...args);
-      const timer = setTimeout(() => {
+      setTimeout(() => {
         available = true;
-        clearTimeout(timer);
       }, delay);
     }
   };
@@ -168,7 +164,6 @@ export const debounce = (fn, delay = 500) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
       fn.apply(this, arguments);
-      timer = undefined;
     }, delay);
   };
 };
@@ -184,7 +179,6 @@ export const debounce = (fn, delay = 500) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
       fn(...args);
-      timer = undefined;
     }, delay);
   };
 };
@@ -198,13 +192,12 @@ export const debounce = (fn, delay = 500) => {
 
 ```typescript
 export const debounce = (fn: Function, delay = 500) => {
-  let timer: number | undefined;
+  let timer: ReturnType<typeof setTimeout>;
 
   return function $fn() {
     clearTimeout(timer);
     timer = setTimeout(() => {
       fn.apply($fn, arguments);
-      timer = undefined;
     }, delay);
   };
 };
@@ -219,13 +212,12 @@ export const debounce = (fn: Function, delay = 500) => {
 
 ```typescript
 export const debounce = (fn: Function, delay = 500) => {
-  let timer: number | undefined;
+  let timer: ReturnType<typeof setTimeout>;
 
-  return (...args: any[]) => {
+  return (...args: unknown[]) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
       fn(...args);
-      timer = undefined;
     }, delay);
   };
 };
@@ -376,3 +368,119 @@ const debounceClick = async () => {
 };
 debounceContainer.addEventListener('click', debounceClick);
 </script>
+
+---
+
+### 5. React - Hooks 👩‍💻
+
+#### 1. useThrottle, useDebounce
+
+React 에서는 컴포넌트의 Life Cycle 과 렌더링으로 인해 순수 함수로 사용하는 것 보다 `useState`와 `useEffect`를 사용해 
+Custom Hooks 로 구현하는 것이 좋다.
+
+그 중 useThrottle 과 useDebounce 는 `useState`의 value 를 받아서 **Debounce**, **Throttle** 효과를 추가하기 위해 
+사용된다.
+
+- useThrottle.ts
+
+```typescript
+import { useEffect, useRef, useState } from "react";
+
+const useThrottle = <T>(value: T, delay = 500): T => {
+  const [throttledValue, setThrottledValue] = useState(value);
+  const available = useRef(true);
+
+  useEffect(() => {
+    if (available.current) {
+      console.log(value, available.current);
+      available.current = false;
+      setThrottledValue(value);
+      setTimeout(() => (available.current = true), delay);
+    }
+  }, [value, delay]);
+
+  return throttledValue;
+};
+
+export default useThrottle;
+```
+
+- useDebounce.ts
+
+```typescript
+import { useEffect, useState } from "react";
+
+const useDebounce = <T>(value: T, delay = 500): T => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedValue(value), delay);
+
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+
+  return debouncedValue;
+};
+
+export default useDebounce;
+```
+
+<br>
+
+`useThrottle` 훅은 스크롤 이벤트나 윈도우 리사이즈 이벤트와 같은 것에 스로틀을 거는 데 사용할 수 있다.
+
+```typescript
+const [scrollPosition, setScrollPosition] = useState<number>(window.scrollY);
+const throttledScrollPosition = useThrottle<number>(scrollPosition, 500);
+```
+
+`useDebounce` 훅은 값의 입력에 따른 API 요청 지연, 렌더링 지연과 같은 것에 사용할 수 있다.
+
+```typescript
+const [searchTerm, setSearchTerm] = useState<string>('');
+const debouncedSearchTerm = useDebounce<string>(searchTerm, 500);
+```
+
+#### 2. useThrottleFn, useDebounceFn
+
+- useThrottleFn.ts
+
+```typescript
+import { useRef } from "react";
+
+const useDebounceFn = (fn: Function, delay = 500) => {
+  const timer = useRef<ReturnType<typeof setTimeout>>();
+
+  return (...args: unknown[]) => {
+    clearTimeout(timer.current);
+
+    timer.current = setTimeout(() => {
+      fn(...args);
+    }, delay);
+  };
+};
+```
+
+- useDebounceFn.ts
+
+```typescript
+import { useRef } from "react";
+
+const useThrottleFn = (fn: Function, delay = 500) => {
+  const available = useRef(true);
+
+  return (...args: unknown[]) => {
+    if (available.current) {
+      available.current = false;
+      fn(...args);
+      setTimeout(() => {
+        available.current = true;
+      }, delay);
+    }
+  };
+};
+```
+
+사실 함수에 스로틀이나 디바운스를 적용하는 것은 Closures 에 의해 격리된 메모리 공간에 변수가 안전하게 저장되기 때문에 굳이 
+`useThrottleFn`, `useDebounceFn`을 사용할 필요는 없다. 그냥 위에서 작성한 `throttle`와 `debounce`의 TypeScript 
+버전을 사용해도 된다.
