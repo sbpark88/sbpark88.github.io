@@ -392,7 +392,6 @@ const useThrottle = <T>(value: T, delay = 500): T => {
 
   useEffect(() => {
     if (available.current) {
-      console.log(value, available.current);
       available.current = false;
       setThrottledValue(value);
       setTimeout(() => (available.current = true), delay);
@@ -448,24 +447,6 @@ const debouncedSearchTerm = useDebounce<string>(searchTerm, 500);
 ```typescript
 import { useRef } from "react";
 
-const useDebounceFn = (fn: Function, delay = 500) => {
-  const timer = useRef<ReturnType<typeof setTimeout>>();
-
-  return (...args: unknown[]) => {
-    clearTimeout(timer.current);
-
-    timer.current = setTimeout(() => {
-      fn(...args);
-    }, delay);
-  };
-};
-```
-
-- useDebounceFn.ts
-
-```typescript
-import { useRef } from "react";
-
 const useThrottleFn = (fn: Function, delay = 500) => {
   const available = useRef(true);
 
@@ -479,6 +460,28 @@ const useThrottleFn = (fn: Function, delay = 500) => {
     }
   };
 };
+
+export default useThrottleFn;
+```
+
+- useDebounceFn.ts
+
+```typescript
+import { useRef } from "react";
+
+const useDebounceFn = (fn: Function, delay = 500) => {
+  const timer = useRef<ReturnType<typeof setTimeout>>();
+
+  return (...args: unknown[]) => {
+    clearTimeout(timer.current);
+
+    timer.current = setTimeout(() => {
+      fn(...args);
+    }, delay);
+  };
+};
+
+export default useDebounceFn;
 ```
 
 사실 함수에 스로틀이나 디바운스를 적용하는 것은 Closures 에 의해 격리된 메모리 공간에 변수가 안전하게 저장되기 때문에 굳이 
