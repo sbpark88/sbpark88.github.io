@@ -1151,16 +1151,16 @@ console.log(newArray) // [18, 34, 42, 66, 106, 162]
 #### 3. Pipe in TypeScript
 
 ```typescript
-type AnyFunction = (value: any) => any;
+type AnyFunction = (value: unknown) => any;
 
 export const compose =
     (...fns: AnyFunction[]) =>
-        <T>(initValue?: T) =>
+        (initValue?: unknown) =>
             fns.reduceRight((acc, fn) => (acc instanceof Promise ? acc.then(fn) : fn(acc)), initValue);
 
 export const pipe =
     (...fns: AnyFunction[]) =>
-        <T>(initValue?: T) =>
+        (initValue?: unknown) =>
             fns.reduce((acc, fn) => (acc instanceof Promise ? acc.then(fn) : fn(acc)), initValue);
 ```
 
